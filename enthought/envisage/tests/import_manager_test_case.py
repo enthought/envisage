@@ -70,7 +70,7 @@ class ImportManagerTestCase(unittest.TestCase):
         """ import dotted modulel """
 
         symbol = self.import_manager.import_symbol(
-            'enthought.envisage3.api:ImportManager'
+            'enthought.envisage.api:ImportManager'
         )
         self.assertEqual(symbol, ImportManager)
 

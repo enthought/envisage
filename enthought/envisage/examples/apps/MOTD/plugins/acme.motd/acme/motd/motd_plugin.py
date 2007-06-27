@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage3.api import Plugin
+from enthought.envisage.api import Plugin
 
 # Local imports.
 from acme.motd.api import ExtensibleMOTD

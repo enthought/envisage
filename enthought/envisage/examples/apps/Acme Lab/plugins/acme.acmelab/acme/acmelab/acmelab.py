@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage3.ui.workbench.api import WorkbenchApplication
+from enthought.envisage.ui.workbench.api import WorkbenchApplication
 
 
 class Acmelab(WorkbenchApplication):

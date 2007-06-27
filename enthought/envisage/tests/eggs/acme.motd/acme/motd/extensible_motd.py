@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage3.api import ExtensionPoint
+from enthought.envisage.api import ExtensionPoint
 from enthought.traits.api import List
 
 # Local imports.

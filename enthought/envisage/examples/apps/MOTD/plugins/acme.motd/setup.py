@@ -12,11 +12,11 @@ setup(
     include_package_data = True,
 
     namespace_packages   = ['acme'],
-    install_requires     = ['enthought.envisage3.core'],
+    install_requires     = ['enthought.envisage.core'],
 
     entry_points = """
 
-    [enthought.envisage3.plugins]
+    [enthought.envisage.plugins]
     motd = acme.motd.motd_plugin:MOTDPlugin
     
     """

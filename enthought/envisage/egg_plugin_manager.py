@@ -20,7 +20,7 @@ class EggPluginManager(PluginManager):
     """ A plugin manager that gets its plugins from Eggs. """
 
     # Extension point Id.
-    PLUGINS = 'enthought.envisage3.plugins'
+    PLUGINS = 'enthought.envisage.plugins'
 
     #### 'EggPluginManager' interface #########################################
 

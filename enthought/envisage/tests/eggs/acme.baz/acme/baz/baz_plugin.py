@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage3.api import Plugin
+from enthought.envisage.api import Plugin
 from enthought.traits.api import Bool
 
 

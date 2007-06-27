@@ -16,7 +16,7 @@ setup(
 
     entry_points = """
 
-    [enthought.envisage3.plugins]
+    [enthought.envisage.plugins]
     baz = acme.baz.baz_plugin:BazPlugin
     
     """

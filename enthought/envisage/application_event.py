@@ -9,6 +9,6 @@ class ApplicationEvent(Vetoable):
     """ An application event. """
 
     # The application that the event is for.
-    application = Instance('enthought.envisage3.api.IApplication')
+    application = Instance('enthought.envisage.api.IApplication')
 
 #### EOF ######################################################################

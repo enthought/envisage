@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name                 = "enthought.envisage3",
+    name                 = "enthought.envisage",
     version              = "3.0a1",
     description          = "Envisage - An Extensible Application Framework",
     url                  = "http://code.enthought.com/enstaller",
@@ -17,6 +17,6 @@ setup(
     
     namespace_packages = [
         "enthought",
-        "enthought.envisage3",
+        "enthought.envisage",
     ],
 )

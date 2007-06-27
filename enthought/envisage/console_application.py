@@ -4,8 +4,8 @@
 # Standard library imports.
 import logging
 
-# Enthought library imports.
-from enthought.envisage3.api import Application
+# Local imports.
+from application import Application
 
 
 # Logging.
