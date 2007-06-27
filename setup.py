@@ -12,11 +12,6 @@ setup(
     ext_modules          = [],
     include_package_data = True,
 
-    install_requires     = [
-    ],
-    
-    namespace_packages = [
-        "enthought",
-        "enthought.envisage",
-    ],
+    namespace_packages   = ["enthought", "enthought.envisage"],
+    install_requires     = []
 )

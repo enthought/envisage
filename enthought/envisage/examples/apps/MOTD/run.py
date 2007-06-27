@@ -22,7 +22,7 @@ def main():
     """ The function that starts your application. """
 
     # Create and run the application.
-    from enthought.envisage3.api import ConsoleApplication
+    from enthought.envisage.api import ConsoleApplication
 
     return ConsoleApplication(id='martin.motd').run()
 
