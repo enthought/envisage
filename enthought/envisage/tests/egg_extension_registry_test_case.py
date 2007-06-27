@@ -1,0 +1,107 @@
+""" Tests for the Egg extension registry. """
+
+
+# Standard library imports.
+import pkg_resources
+from os.path import dirname, join
+from pkg_resources import Distribution, Environment, find_distributions
+
+# Enthought library imports.
+from enthought.envisage.api import EggExtensionRegistry, ExtensionPoint
+
+# Local imports.
+from egg_based_test_case import EggBasedTestCase
+
+
+class EggExtensionRegistryTestCase(EggBasedTestCase):
+    """ Tests for the Egg extension registry. """
+
+    ###########################################################################
+    # 'TestCase' interface.
+    ###########################################################################
+
+    def setUp(self):
+        """ Prepares the test fixture before each test method is called. """
+
+        EggBasedTestCase.setUp(self)
+
+        # Create a new extension registry.
+        ExtensionPoint.extension_registry = EggExtensionRegistry()
+        
+        return
+
+    def tearDown(self):
+        """ Called immediately after each test method has been called. """
+        
+        return
+    
+    ###########################################################################
+    # Tests.
+    ###########################################################################
+
+##     def test_no_extensions(self):
+##         """ no extensions """
+
+        
+##         self._add_egg('acme.motd-0.1a1-py2.4.egg', self.working_set)
+
+##         # Acme library imports.
+##         from acme.motd.api import Message, ExtensibleMOTD
+
+##         # Get the message of the day...
+##         motd    = ExtensibleMOTD()
+##         message = motd.motd()
+
+##         # ... and print it.
+##         print '\n"%s"\n\n- %s' % (message.text, message.author)
+
+##         # Make sure it was one of the contributed ones!
+##         self.assertEqual(motd.DEFAULT_MESSAGE, message)
+
+##         return
+
+    def test_egg_extension_registry(self):
+        """ egg extension registry """
+
+        self._add_egg('acme.motd-0.1a1-py2.4.egg')
+        self._add_egg('acme.motd.software_quotes-0.1a1-py2.4.egg')
+
+        # Acme library imports.
+        from acme.motd.api import Message, ExtensibleMOTD
+        from acme.motd.software_quotes import messages
+
+        # Get the message of the day...
+        motd    = ExtensibleMOTD()
+        message = motd.motd()
+
+        # ... and print it.
+        print '\n"%s"\n\n- %s' % (message.text, message.author)
+
+        # Make sure it was one of the contributed ones!
+        self.assertNotEqual(None, message)
+        self.assertEqual(Message, type(message))
+        self.assertNotEqual(None, self._find_object(message, messages))
+
+        return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _find_object(self, obj, namespace):
+        """ Look for an object in a namespace.
+
+        Return None if no such object exists.
+
+        """
+
+        for name, value in namespace.__dict__.items():
+            if obj is value:
+                break
+
+        else:
+            obj = None
+
+        return obj
+
+#### EOF ######################################################################
