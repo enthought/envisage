@@ -24,7 +24,7 @@ logger.setLevel(logging.DEBUG)
 # A list of the directories that contain the application's eggs (any directory
 # not specified as an absolute path is treated as being relative to the current
 # working directory).
-EGG_PATH = ['plugins']
+EGG_PATH = ['eggs']
 
 
 def main():
