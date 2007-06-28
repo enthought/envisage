@@ -29,11 +29,7 @@ class ImportManager(HasTraits):
     ###########################################################################
 
     def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path.
-
-        See the documentation for 'IImportManager' for more details.
-
-        """
+        """ Import the symbol defined by the specified symbol path. """
 
         if ':' in symbol_path:
             module_name, symbol_name = symbol_path.split(':')
