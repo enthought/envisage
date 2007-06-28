@@ -1,9 +1,6 @@
 """ Tests for applications. """
 
 
-## # Standard library imports.
-## import unittest
-
 # Enthought library imports.
 from enthought.envisage.api import Application
 

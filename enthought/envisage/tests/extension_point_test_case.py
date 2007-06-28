@@ -19,7 +19,7 @@ class ExtensionPointTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.registry = ExtensionPoint.extension_registry = MutableExtensionRegistry()
+        ExtensionPoint.extension_registry = MutableExtensionRegistry()
         
         return
 
@@ -35,8 +35,10 @@ class ExtensionPointTestCase(unittest.TestCase):
     def test_untyped_extension_point(self):
         """ untyped extension point """
 
+        registry = ExtensionPoint.extension_registry
+
         # Add an extension.
-        self.registry.add_extension('my.extension.point', 42)
+        registry.add_extension('my.extension.point', 42)
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
@@ -52,7 +54,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(42, g.x[0])
 
         # Add another extension.
-        self.registry.add_extension('my.extension.point', 'a string')
+        registry.add_extension('my.extension.point', 'a string')
 
         # Make sure that the existing instances of the class pick up the new
         # extension.
@@ -69,8 +71,10 @@ class ExtensionPointTestCase(unittest.TestCase):
     def test_typed_extension_point(self):
         """ typed extension point """
 
+        registry = ExtensionPoint.extension_registry
+
         # Add an extension.
-        self.registry.add_extension('my.extension.point', 42)
+        registry.add_extension('my.extension.point', 42)
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
@@ -86,7 +90,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(42, g.x[0])
 
         # Add another extension.
-        self.registry.add_extension('my.extension.point', 43)
+        registry.add_extension('my.extension.point', 43)
 
         # Make sure that the existing instances of the class pick up the new
         # extension.
@@ -103,8 +107,10 @@ class ExtensionPointTestCase(unittest.TestCase):
     def test_invalid_extension_point(self):
         """ invalid extension point """
 
+        registry = ExtensionPoint.extension_registry
+
         # Add an extension.
-        self.registry.add_extension('my.extension.point', 'xxx')
+        registry.add_extension('my.extension.point', 'xxx')
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):

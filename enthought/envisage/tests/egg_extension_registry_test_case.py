@@ -1,11 +1,6 @@
 """ Tests for the Egg extension registry. """
 
 
-# Standard library imports.
-import pkg_resources
-from os.path import dirname, join
-from pkg_resources import Distribution, Environment, find_distributions
-
 # Enthought library imports.
 from enthought.envisage.api import EggExtensionRegistry, ExtensionPoint
 
@@ -38,27 +33,6 @@ class EggExtensionRegistryTestCase(EggBasedTestCase):
     ###########################################################################
     # Tests.
     ###########################################################################
-
-##     def test_no_extensions(self):
-##         """ no extensions """
-
-        
-##         self._add_egg('acme.motd-0.1a1-py2.4.egg', self.working_set)
-
-##         # Acme library imports.
-##         from acme.motd.api import Message, ExtensibleMOTD
-
-##         # Get the message of the day...
-##         motd    = ExtensibleMOTD()
-##         message = motd.motd()
-
-##         # ... and print it.
-##         print '\n"%s"\n\n- %s' % (message.text, message.author)
-
-##         # Make sure it was one of the contributed ones!
-##         self.assertEqual(motd.DEFAULT_MESSAGE, message)
-
-##         return
 
     def test_egg_extension_registry(self):
         """ egg extension registry """

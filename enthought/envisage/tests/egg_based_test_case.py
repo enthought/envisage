@@ -4,8 +4,9 @@
 # Standard library imports.
 import unittest
 import pkg_resources
+
 from os.path import dirname, join
-from pkg_resources import Distribution, Environment, find_distributions
+from pkg_resources import Environment, find_distributions
 
 
 class EggBasedTestCase(unittest.TestCase):
@@ -35,15 +36,13 @@ class EggBasedTestCase(unittest.TestCase):
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
 
-        working_set = working_set or pkg_resources.working_set
+        if working_set is None:
+            working_set = pkg_resources.working_set
 
         # The eggs must be in our egg directory!
         filename = join(dirname(__file__), 'eggs', filename)
         
-        # fixme: This way doesn't work - why not?!?
-        #
-        # distribution = Distribution.from_filename(filename)
-        # working_set.add(distribution)
+        # Create a distribution for the egg.
         distributions = find_distributions(filename)
 
         # Add the distributions to the working set (this makes any Python
@@ -55,15 +54,16 @@ class EggBasedTestCase(unittest.TestCase):
     def _add_eggs_on_path(self, path, working_set=None):
         """ Add all eggs found on the path to a working set. """
 
-        working_set = working_set or pkg_resources.working_set
+        if working_set is None:
+            working_set = pkg_resources.working_set
 
         environment = Environment(path)
         
         # 'find_plugins' identifies those distributions that *could* be added
         # to the working set without version conflicts or missing requirements.
         distributions, errors = working_set.find_plugins(environment)
-
-        # fixme: Log the errors...
+        if len(errors) > 0:
+            raise SystemError('Cannot find eggs %s' % errors)
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).
