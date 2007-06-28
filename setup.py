@@ -12,6 +12,13 @@ setup(
     ext_modules          = [],
     include_package_data = True,
 
-    namespace_packages   = ["enthought", "enthought.envisage"],
-    install_requires     = []
+    namespace_packages   = [
+        "enthought",
+        "enthought.envisage"
+    ],
+
+    install_requires     = [
+        "enthought.traits[ui]>=3.0",
+        "enthought.util"
+    ]
 )
