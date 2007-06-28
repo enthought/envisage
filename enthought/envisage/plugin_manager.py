@@ -78,17 +78,13 @@ class PluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(id)
         if plugin is not None:
-            try:
-                logger.debug('plugin %s starting', plugin.id)
+            logger.debug('plugin %s starting', plugin.id)
 
-                self.plugin_starting = PluginEvent(plugin=plugin)
-                plugin.start(self.application)
-                self.plugin_started = PluginEvent(plugin=plugin)
+            self.plugin_starting = PluginEvent(plugin=plugin)
+            plugin.start(self.application)
+            self.plugin_started = PluginEvent(plugin=plugin)
 
-                logger.debug('plugin %s started', plugin.id)
-                
-            except:
-                logger.exception('error starting plugin %s', plugin.id)
+            logger.debug('plugin %s started', plugin.id)
 
         else:
             raise SystemError('no such plugin %s' % id)
@@ -115,17 +111,13 @@ class PluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(id)
         if plugin is not None:
-            try:
-                logger.debug('plugin %s stopping', plugin.id)
+            logger.debug('plugin %s stopping', plugin.id)
 
-                self.plugin_stopping = PluginEvent(plugin=plugin)
-                plugin.stop(self.application)
-                self.plugin_stopped = PluginEvent(plugin=plugin)
+            self.plugin_stopping = PluginEvent(plugin=plugin)
+            plugin.stop(self.application)
+            self.plugin_stopped = PluginEvent(plugin=plugin)
 
-                logger.debug('plugin %s stopped', plugin.id)
-                
-            except:
-                logger.exception('error stopping plugin %s', plugin.id)
+            logger.debug('plugin %s stopped', plugin.id)
 
         else:
             raise SystemError('no such plugin %s' % id)
