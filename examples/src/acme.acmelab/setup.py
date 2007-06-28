@@ -10,5 +10,13 @@ setup(
     zip_safe             = True,
     packages             = find_packages(),
     include_package_data = True,
-    namespace_packages   = ['acme', 'acme.acmelab'],
+
+    namespace_packages   = [
+        'acme',
+        'acme.acmelab'
+    ],
+
+    install_requires     = [
+        'enthought.envisage.ui.workbench>=3.0a1'
+    ],
 )

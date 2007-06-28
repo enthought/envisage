@@ -18,7 +18,7 @@ setup(
     ],
 
     install_requires     = [
-        "enthought.traits[ui]>=3.0",
+##        "enthought.traits[ui]>=3.0",
         "enthought.util"
     ]
 )

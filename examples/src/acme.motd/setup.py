@@ -11,8 +11,14 @@ setup(
     packages             = find_packages(),
     include_package_data = True,
 
-    namespace_packages   = ['acme'],
-    install_requires     = ['enthought.envisage.core'],
+    namespace_packages   = [
+        'acme',
+        'acme.motd'
+    ],
+
+    install_requires     = [
+        'enthought.envisage.core>=3.0a1',
+    ],
 
     entry_points = """
 
