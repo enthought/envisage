@@ -7,7 +7,12 @@ from enthought.pyface.workbench.api import View
 
 
 class ColorView(View):
-    """ A view containing a colored panel! """
+    """ A view containing a colored panel!
+
+    This view is written so that it works with *both* wx and Qt4. Your own
+    views obviously do not have to do this!
+
+    """
 
     ###########################################################################
     # 'IView' interface.
@@ -20,28 +25,40 @@ class ColorView(View):
 
         """
 
+        method = getattr(self, '_%s_create_control' % ETSConfig.toolkit, None)
+        if method is None:
+            raise SystemError('Unknown toolkit %s', ETSConfig.toolkit)
+
         color = self.name.lower()
-        tk = ETSConfig.toolkit
 
-        if tk == 'wx':
-            import wx
+        return method(parent, color)
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _wx_create_control(self, parent, color):
+        """ Create a wx version of the control. """
+
+        import wx
         
-            panel = wx.Panel(parent, -1)
-            panel.SetBackgroundColour(color)
-
-        elif tk == 'qt4':
-            from PyQt4 import QtGui
-        
-            panel = QtGui.QWidget(parent)
-
-            palette = panel.palette()
-            palette.setColor(QtGui.QPalette.Window, QtGui.QColor(color))
-            panel.setPalette(palette)
-            panel.setAutoFillBackground(True)
-
-        else:
-            panel = None
+        panel = wx.Panel(parent, -1)
+        panel.SetBackgroundColour(color)
 
         return panel
 
+    def _qt4_create_control(self, parent, color):
+        """ Create a Qt4 version of the control. """
+
+        from PyQt4 import QtGui
+        
+        widget = QtGui.QWidget(parent)
+
+        palette = widget.palette()
+        palette.setColor(QtGui.QPalette.Window, QtGui.QColor(color))
+        widget.setPalette(palette)
+        widget.setAutoFillBackground(True)
+
+        return widget
+    
 #### EOF ######################################################################
