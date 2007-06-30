@@ -5,16 +5,20 @@
 from random import choice
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, List
+from enthought.traits.api import HasTraits, List, implements
 
 # Local imports.
 from i_message import IMessage
+from i_motd import IMOTD
 from message import Message
 
 
 class MOTD(HasTraits):
     """ The 'Message of the Day' implementation! """
 
+    implements(IMOTD)
+
+    # The default message is used if when there are no other messages!
     DEFAULT_MESSAGE = Message(
         author='Anon', text='Work hard and be good to your Mother'
     )

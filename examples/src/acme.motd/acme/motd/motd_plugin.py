@@ -5,19 +5,11 @@
 from enthought.envisage.api import Plugin
 
 # Local imports.
-from acme.motd.api import ExtensibleMOTD
+from acme.motd.api import IMOTD, ExtensibleMOTD
 
 
 class MOTDPlugin(Plugin):
     """ The 'Message of the Day' plugin """
-
-    #### 'IPlugin' interface ##################################################
-
-    # fixme: We can't do this yet since there is a bug in traits that a
-    # default initializer in a base class 'trumps' a specific value in a
-    # derived class!
-##     # The plugin's unique identifier.
-##     id = 'acme.motd.plugin'
             
     ###########################################################################
     # 'IPlugin' interface.
@@ -25,7 +17,6 @@ class MOTDPlugin(Plugin):
 
     #### Initializers #########################################################
 
-    # fixme: See the trait comment.
     def _id_default(self):
         """ Initializer. """
 
@@ -36,8 +27,13 @@ class MOTDPlugin(Plugin):
     def start(self, application):
         """ Start the plugin. """
 
-        # fixme: Lookup the service?
-        motd = ExtensibleMOTD()
+        # This is a bit of overkill here, but this shows how we can register
+        # the MOTD object as a service so that other plugins can use it if
+        # they so wish.
+        application.register_service(IMOTD, ExtensibleMOTD())
+        
+        # And this is how we could look the service up!
+        motd = application.get_service(IMOTD)
 
         # Get the message of the day...
         message = motd.motd()

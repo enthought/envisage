@@ -5,9 +5,9 @@ Usually, all you have to do in here is:-
 1) Initialise the logging package as you see fit (or not at all ;^)!
 
 2) Set the 'EGG_PATH' variable to be a list of the directories that contain
-   the application's eggs.
+   your application's eggs.
 
-3) Edit the 'main' function to do whatever you need to do to start the
+3) Edit the 'main' function to do whatever you need to do to start your
    application.
    
 """
