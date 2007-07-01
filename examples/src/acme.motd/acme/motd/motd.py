@@ -18,7 +18,7 @@ class MOTD(HasTraits):
 
     implements(IMOTD)
 
-    # The default message is used if when there are no other messages!
+    # The default message is used when there are no other messages!
     DEFAULT_MESSAGE = Message(
         author='Anon', text='Work hard and be good to your Mother'
     )
