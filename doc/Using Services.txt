@@ -1,0 +1,175 @@
+Using Services
+==============
+
+An Envisage application can be thought of as a collection of cooperating
+objects (known as *services*). Services often represent the functional
+subsystems of an application, although they are simply objects that we consider
+sufficiently useful to want to share them.
+
+In Envisage, services are published and looked up using the *service registry*.
+The *service registry* provides a 'yellow pages' style mechanism (i.e. it is a
+bit like looking up a telephone number in the yellow pages!) in that services
+are published and looked up by *type*.
+
+Using services provides a clean way for different implementations of a
+particular service to be substituted by simply switching out the plugins that
+offer them. Users of a service don't care *where* a service came from, they
+just care that one exists that does the required job.
+
+The service mechanism also allows for multiple services to be registered for a
+particular interface, and for users to select the actual service that they want
+to use based on a well-known query language (actually, Python ;^).
+This is handy, for example if you have a set of remote computation servers.
+A service representing each of the computation servers can be registered, each
+one mainting some attribute that represents the current CPU usage. When another
+part of the application wants to submit a job, it can query for the service
+with the lowest CPU usage.
+
+The *service registry* is accessed through the following methods on the
+IApplication_ interface.
+
+::
+    def get_service(self, interface, query=None):
+        """ Return at most one service that matches the specified query.
+
+        """
+
+    def get_service_properties(self, service_id):
+        """ Return the dicitonary of properties associated with a service.
+
+        """
+        
+    def get_services(self, interface, query=None):
+        """ Return all services that match the specified query.
+
+        """
+
+    def register_service(self, interface, obj, properties=None):
+        """ Register a service.
+
+        """
+
+    def unregister_service(self, service_id):
+        """ Unregister a service.
+
+        """
+
+Queries
+-------
+
+The *get_service* and *get_services* methods both allow an optional query
+to allow more control over the selection of an appropriate service. As
+mentioned previously, Python itself is used as the query language and the
+methods work by finding all services that implement the requested interface but
+only returning those services for which the query evaluates to True.
+
+The namespace that the query is evaluated in is constructred as follows:-
+
+The service's attributes are added to the namespace follwed by any properties
+that were specified when the service was registered (i.e. the properties take
+precedence over the attributes, although often, we don't bother with the
+properties at all!).
+
+Lets look at some examples:-
+
+Examples
+--------
+
+In all of the following examples, lets say we have a system that represents
+plumbers - yep, plumbers, the people that fix dripping taps (or "faucets" to
+y'all).
+
+We may have a simple interface that desribes what our plumbers can do
+as follows:-
+
+::
+    class IPlumber(Interface):
+        """ What plumbers do! """
+
+	# The plumber's name.
+	name = Str
+
+	# The price per hour.
+	price = Int
+
+	def fix_dripping_tap(self, tap):
+	    """ Fix a dripping tap! """
+
+Now lets assume the existence of an actual implementation of this interface:-
+
+::
+    class Plumber(HasTraits):
+        """ An actual plumber implementation! """
+
+	implements(IPlumber)
+
+	# The plumber's name.
+	name = Str
+
+	# The price per hour.
+	price = Int
+
+	def fix_dripping_tap(self, tap):
+	    """ Fix a dripping tap! """
+	    
+	    ... code that actually fixes it! ...
+
+Now lets add some plumbers to the service registry:-
+
+::
+    # Create some plumbers.
+    fred  = Plumber(name='fred', price=50)
+    wilma = Plumber(name='wilma', price=65)
+
+    # Register them as services.
+    application.register_service(IPlumber, fred)
+
+    # Here we override *wilma*'s price when we make the registration.
+    application.register_service(IPlumber, wilma, {price : 100})
+
+Now, we can look them up in a number of different ways:-
+
+::
+    plumber = application.get_service(IPlumber)
+
+This method returns *at most* one service that matches the interface. In this
+example that means that this call would return *either* the 'fred' or 'wilma'
+plumber instances. We have no way of knowing which one.
+
+We can also ask the application for *all* plumbers by using the plural version
+of the API:-
+
+::
+    plumbers = application.get_services(IPlumber)
+
+In this example, this would return a list containing both *fred* and *wilma*,
+but again in arbitrary order.
+
+We can make sure we get a specific plumber by specifiying a name as part of the
+query:-
+
+::
+    plumber = application.get_service(IPlumber, 'name == "fred"')
+
+Which would obviously, return a reference to *fred*!
+
+We can lookup all plumbers who are cheaper than 100 (currency units!) per
+hour.
+
+::
+    plumber = application.get_service(IPlumber, 'price < 100')
+
+Because we overrode *wilma*s price when we made the service registration, this
+again, would return a refernce to *fred*.
+
+There are two useful functions added to the namespace for query evaluations
+that allow us to maximize or minimize a particular attribute or property of
+a set of services. For example, to look up the cheapest plumber we can say:-
+
+::
+    cheapest = application.get_service(IPlumber, 'minimize("price")')
+
+Which once again, gives the job to *fred*!
+
+
+
