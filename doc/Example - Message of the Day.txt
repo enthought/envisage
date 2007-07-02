@@ -1,0 +1,106 @@
+The "Message of the Day" (MOTD) Example
+=======================================
+
+Only marginally more complicated than the traditional "Hello World" example,
+this application simply prints a random "message of the day". Obviously, if we
+actually had to write this application, we might not choose to use a framework
+like Envisage (it is one of the rare applications that are so simple that why
+would you bother), but it does serve to illustrate all of the fundemental
+aspects of building Envisage applications.
+
+Before we dive right in to building our glorious extensible application, let's
+take a small, but important, step back. Envisage is designed to be an
+integration platform - a place where you can bring along your existing
+code and with a (hopefully) minimal amount of effort, make it work with the
+rest of the application. Because of this, we will start the MOTD example by
+designing the application without any knowledge of Envisage whatsoever. This
+is obviously a good idea in general, as it allows our code to be reused outside
+of Envisage applications.
+
+Plain Ol' MOTD
+--------------
+
+So lets take a look at our non-Envisage MOTD application.
+
+
+So our non-extensible, non-Envisage MOTD class might be MOTD_
+
+As you can see, the class simply contains a list of messages and when its
+'motd' is called, simply returns a random choice from the list.
+
+As an side, the list is actually a list of objects that implement the IMessage_
+interface. Using interfaces may seem to be a little bit of overkill here, but
+it illustrates how it might look in a 'real' application. A default
+implementation of the IMessage_ interface is provided by the Message_
+class.
+
+An example of using our MOTD_ class at the Python prompt might be:-
+
+>>> from acme.motd.api import Message, MOTD
+>>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
+>>> message = motd.motd()
+>>> print '"%s" - %s' % (message.text, message.author)
+"Hello World!" - Anon
+>>> 
+
+Well, we had to get "Hello World" in there somewhere!
+
+Now, to create an actual application we might just use code similar to that
+above with a hard-coded list of all of the possible messages, or we might
+even put the messages in a file and read them from there, or any number of
+other ways of allowing other developers to contribute new messages. Since we
+are using Envisage, we will use an Extension Point.
+
+We will leave our original MOTD_ class as is, and provide a new subclass,
+ExtensibleMOTD_ that contains an extension point at the list of messages.
+
+As you can see, all we have done is change the definition of the 'messages'
+trait from:-
+
+::
+  messages = List(IMessage)
+
+to
+
+::
+  messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
+
+This tells Envisage that when the 'messages' trait is accessed to go and
+get all contributions to the 'acme.motd.messages' extension point (extension
+point identifiers should use the familiar reverse domain name syntax as they
+are intended to be *globally* unique).
+
+So lets try out our new extensible class:-
+
+>>> from acme.motd.api import ExtensibleMOTD
+>>> motd = ExtensibleMOTD()
+>>> message = motd.motd()
+>>> print '"%s" - %s' % (message.text, message.author)
+"Work hard and be good to your Mother" - Anon
+>>> 
+
+Looking at the code we can see that the "Work hard..." message is the one that
+gets returned if the list of messages is empty, which in this case is correct
+since we haven't yet made any contributions to the 'acme.motd.messages'
+extension point.
+
+To see how we do that, let's first introduce 
+
+
+Note that this says nothing about how the application actually gets hold
+of the contributions to this extension point (i.e. the actual messages), and in
+fact this is up to the application writer. Envisage however provides 
+The next question is, "So how to I make a contribution to the extension point?"
+
+
+
+
+.. _`IMOTD`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/src/acme.motd/acme/motd/i_motd.py
+
+.. _`MOTD`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/src/acme.motd/acme/motd/motd.py
+
+.. _`ExtensibleMOTD`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/src/acme.motd/acme/motd/extensible_motd.py
+
+.. _`IMessage`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/src/acme.motd/acme/motd/i_message.py
+
+.. _`Message`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/src/acme.motd/acme/motd/message.py
