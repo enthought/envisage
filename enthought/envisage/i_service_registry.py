@@ -8,7 +8,7 @@ from enthought.traits.api import Interface
 class IServiceRegistry(Interface):
     """ The service registry interface. """
 
-    def get_service(self, interface, query=None):
+    def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
         Return None if no such service is found.
@@ -31,7 +31,7 @@ class IServiceRegistry(Interface):
         
         """
 
-    def get_services(self, interface, query=None):
+    def get_services(self, interface, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
         If no services match the query, then an empty list is returned.

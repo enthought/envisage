@@ -42,7 +42,7 @@ class IApplication(Interface):
 
         """
 
-    def get_service(self, interface, query=None):
+    def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
         """
@@ -52,7 +52,7 @@ class IApplication(Interface):
 
         """
         
-    def get_services(self, interface, query=None):
+    def get_services(self, interface, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
         """

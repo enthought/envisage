@@ -303,4 +303,35 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         return
 
+    def test_minimize_and_maximize(self):
+        """ minimize and maximize """
+
+        class IFoo(Interface):
+            price = Int
+
+        class Foo(HasTraits):
+            implements(IFoo)
+
+        # Register some object with various prices.
+        x = Foo(price=10)
+        y = Foo(price=5)
+        z = Foo(price=100)
+
+        for foo in [x, y, z]:
+            self.service_registry.register_service(IFoo, foo)
+        
+        # Find the service with the lowest price.
+        service = self.service_registry.get_service(IFoo, minimize='price')
+        self.assertNotEqual(None, service)
+        self.assertEqual(Foo, type(service))
+        self.assertEqual(y, service)
+
+        # Find the service with the highest price.
+        service = self.service_registry.get_service(IFoo, maximize='price')
+        self.assertNotEqual(None, service)
+        self.assertEqual(Foo, type(service))
+        self.assertEqual(z, service)
+
+        return
+
 #### EOF ######################################################################

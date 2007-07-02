@@ -128,12 +128,16 @@ class Application(HasTraits):
 
         return self.plugin_manager.get_plugin(id)
 
-    def get_service(self, interface, query=None):
+    def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
         """
 
-        return self.service_registry.get_service(interface, query)
+        service = self.service_registry.get_service(
+            interface, query, minimize, maximize
+        )
+
+        return service
 
     def get_service_properties(self, service_id):
         """ Return the dicitonary of properties associated with a service.
@@ -142,12 +146,16 @@ class Application(HasTraits):
 
         return self.service_registry.get_service_properties(service_id)
     
-    def get_services(self, interface, query=None):
+    def get_services(self, interface, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
         """
 
-        return self.service_registry.get_services(interface, query)
+        services = self.service_registry.get_services(
+            interface, query, minimize, maximize
+        )
+
+        return services
 
     def import_symbol(self, symbol_path):
         """ Import the symbol defined by the specified symbol path.

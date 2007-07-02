@@ -2,9 +2,9 @@ Using Services
 ==============
 
 An Envisage application can be thought of as a collection of cooperating
-objects (known as *services*). Services often represent the functional
-subsystems of an application, although they are simply objects that we consider
-sufficiently useful to want to share them.
+objects known as *services*. Services often represent the functional
+subsystems of an application, although they are simply any objects that we
+consider sufficiently useful to want to share them.
 
 In Envisage, services are published and looked up using the *service registry*.
 The *service registry* provides a 'yellow pages' style mechanism (i.e. it is a
@@ -60,10 +60,10 @@ Queries
 The *get_service* and *get_services* methods both allow an optional query
 to allow more control over the selection of an appropriate service. As
 mentioned previously, Python itself is used as the query language and the
-methods work by finding all services that implement the requested interface but
-only returning those services for which the query evaluates to True.
+methods work by finding all services that implement the requested interface and
+then filtering that list by evaluating the query for each one.
 
-The namespace that the query is evaluated in is constructred as follows:-
+The namespace that the query is evaluated in is constructed as follows:-
 
 The service's attributes are added to the namespace follwed by any properties
 that were specified when the service was registered (i.e. the properties take

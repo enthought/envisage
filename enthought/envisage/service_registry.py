@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging, random
+import logging
 
 # Enthought library imports.
 from enthought.traits.api import Dict, HasTraits, Int, implements
@@ -35,20 +35,17 @@ class ServiceRegistry(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
     
-    def get_service(self, interface, query=None):
+    def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
 
-        services = self.get_services(interface, query)
+        services = self.get_services(interface, query, minimize, maximize)
 
-        # We use a random choice here (as opposed to just returning the first
-        # appropriate service) to make sure that people don't rely on the
-        # ordering of services in the registry.
         if len(services) > 0:
-            service = random.choice(services)
+            service = services[0]
 
         else:
             service = None
-
+            
         return service
 
     def get_service_properties(self, service_id):
@@ -62,7 +59,7 @@ class ServiceRegistry(HasTraits):
 
         return properties
         
-    def get_services(self, interface, query=None):
+    def get_services(self, interface, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
         services = []
@@ -83,9 +80,29 @@ class ServiceRegistry(HasTraits):
                     # The resulting service object is cached.
                     self._services[service_id] = (i, obj, properties)
                     
-                if query is None or self._eval_query(obj, properties, query):
+                if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
 
+
+        # Are we minimizing or maximising anything?
+        if minimize != '':
+            def factory(trait_name):
+                def sorter(x, y):
+                    return cmp(getattr(x, trait_name), getattr(y, trait_name))
+
+                return sorter
+
+            services.sort(factory(minimize))
+            
+        elif maximize != '':
+            def factory(trait_name):
+                def sorter(x, y):
+                    return cmp(getattr(y, trait_name), getattr(x, trait_name))
+
+                return sorter
+
+            services.sort(factory(maximize))
+            
         return services
 
     def register_service(self, interface, obj, properties=None):
