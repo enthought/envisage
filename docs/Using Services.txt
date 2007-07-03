@@ -202,7 +202,7 @@ to find the cheapest plumber in my area:-
 ::
 
 	cheap_and_local = application.get_service(
-            IPlumber, location='BH6', maximize='price'
+            IPlumber, location='BH6', minimize='price'
 	)
 
 Which would finally give some work to *wilma*!
@@ -250,3 +250,5 @@ dynamically keeping track of the state of an object via some property (an
 example might be CPU usage etc) then all you have to do is update the
 dictionary. However, in practise, it is more common to use the actual
 attributes of a service for this purpose.
+
+.. _IApplication: ../../enthought/envisage/i_application.py
