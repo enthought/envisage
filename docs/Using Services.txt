@@ -92,7 +92,8 @@ following interface and implementation:-
 	    ... code that actually fixes it! ...
 
 
-1) Registering a service with *register_service*
+1) Registering a service
+------------------------
 
 To register a service, all we have to do is create an object and call the
 *register_service* method, passing it the interface/type that we want to
@@ -115,7 +116,8 @@ mechanism as shown in example 4).
     wilma = Plumber(name='wilma', location='BH6')
     application.register_service(IPlumber, wilma, {'price' : 125})
 
-2) Looking up a service with *get_service*
+2) Looking up a service
+-----------------------
 
 Looking up a service is just as easy, we simply call *get_service* with the
 interface/type of service that we require:-
@@ -129,7 +131,8 @@ then we have know way of knowing which of those would be returned here. It
 does *not* necessarily reflect on the order in which they were added, so don't
 depend on it!
 
-3) Looking up a list of services with *get_services*
+3) Looking up a list of services
+--------------------------------
 
 We can also lookup *all* services of a particular interface/type:-
 
@@ -141,6 +144,7 @@ Assuming the registrations in example 1), this would return a list containing
 both *fred* and *wilma*, again in arbitrary order.
 
 4) Using queries
+----------------
 
 The *get_service* and *get_services* methods both take optional arguments
 that allow more control over the selection of an appropriate service. The first
@@ -181,6 +185,7 @@ in which case only one of the services that matches the query is returned:-
 Which would return *either*, *fred* or *wilma*.	
 
 5) Using *minimize* or *maximize*
+---------------------------------
 
 The minimize and maximize arguments to the *get_service* and *get_services*
 methods allow the services returned to be sorted by an attribute or property
@@ -205,7 +210,8 @@ to find the cheapest plumber in my area:-
 
 Which would finally give some work to *wilma*!
 
-6) Unregistering a service with *unregister_service*
+6) Unregistering a service
+--------------------------
 
 When we register a service, Envisage gives us back a value that uniquely
 identifies the service within the current process (i.e. it is not suitable for
@@ -222,7 +228,8 @@ appropriate Id:-
 
     application.unregister_service(fred_id)
 
-7) Getting the properties associated with a service
+7) Getting the additional properties of a service
+-------------------------------------------------
 
 If we associated an arbitrary dictionary of properties with an object when
 we registered it. We can retreive those properties by calling the
