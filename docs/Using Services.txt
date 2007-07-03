@@ -2,13 +2,13 @@ Using Services
 ==============
 
 Services are a fundemental part of Envisage applications as they are the
-objects that do the actual work! However, One of the first problems we run into
-in such service-based systems is actually finding them! This is where the
-*service registry* comes in.
+objects that do the actual work! However, one of the first problems we
+encounter in service-based systems like this is actually finding them!
+This is where the *service registry* comes in.
 
-The *service registry* provides a "yellow pages" style mechanism in that
+The *service registry* provides a "Yellow Pages" style mechanism in that
 services are published and looked up by *interface*, or *type*. It is called
-a "yellow pages" mechanism because it is just like looking up a telephone
+a "Yellow Pages" mechanism because it is just like looking up a telephone
 number in the "Yellow Pages" phone book. You use the "Yellow Pages" instead
 of the "White Pages" when you don't know the name of the person you want to
 call but you do know what *kind* of service you require. For example, if you
@@ -18,8 +18,8 @@ based on price, location, certification etc. The *service registry* does
 exactly the same thing as the "Yellow Pages", only with objects, and it even
 allows you to publish your own for free (unlike the "real" one)!
 
-Services are managed through the following methods on the IApplication_
-interface.
+In an Envisage application, the *service registry* is accessed through the
+following methods on the IApplication_ interface.
 
 ::
 
@@ -96,7 +96,7 @@ following interface and implementation:-
 ------------------------
 
 To register a service, all we have to do is create an object and call the
-*register_service* method, passing it the interface/type that we want to
+``register_service`` method, passing it the interface/type that we want to
 publish the object under (think "Yellow Pages" section), and the object that
 we want to publish. Note that the object that we publish does *not* have to
 inherit from any particular base class - any arbitrary Python object will do:-
@@ -119,7 +119,7 @@ mechanism as shown in example 4).
 2) Looking up a service
 -----------------------
 
-Looking up a service is just as easy, we simply call *get_service* with the
+Looking up a service is just as easy, we simply call ``get_service`` with the
 interface/type of service that we require:-
 
 ::
@@ -146,7 +146,7 @@ both *fred* and *wilma*, again in arbitrary order.
 4) Using queries
 ----------------
 
-The *get_service* and *get_services* methods both take optional arguments
+The ``get_service`` and ``get_services`` methods both take optional arguments
 that allow more control over the selection of an appropriate service. The first
 of these is the *query* argument which is a string containing an arbitrary
 Python expression that is evaluated once per service, with the service only
@@ -175,7 +175,7 @@ Find plumbers named *fred*:-
 
 Which, again (and unsurprisingly) would return a list containing just *fred*.
 
-Queries can be used with the singular form of the method (*get_service*) too,
+Queries can be used with the singular form of the method (``get_service``) too,
 in which case only one of the services that matches the query is returned:-
 
 ::
@@ -187,7 +187,7 @@ Which would return *either*, *fred* or *wilma*.
 5) Using *minimize* or *maximize*
 ---------------------------------
 
-The minimize and maximize arguments to the *get_service* and *get_services*
+The minimize and maximize arguments to the ``get_service`` and ``get_services``
 methods allow the services returned to be sorted by an attribute or property
 in either ascending or descending order respectively.
 
@@ -216,7 +216,7 @@ Which would finally give some work to *wilma*!
 When we register a service, Envisage gives us back a value that uniquely
 identifies the service within the current process (i.e. it is not suitable for
 persisting to use next time the application is run). To unregister a service
-all we have to do is call the *unregister_service* method, passing in the
+all we have to do is call the ``unregister_service`` method, passing in the
 appropriate Id:-
 
 ::
@@ -233,7 +233,7 @@ appropriate Id:-
 
 If we associated an arbitrary dictionary of properties with an object when
 we registered it. We can retreive those properties by calling the
-*get_service_properties* method with the appropriate service Id:-
+``get_service_properties`` method with the appropriate service Id:-
 
 ::
 
