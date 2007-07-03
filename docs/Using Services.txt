@@ -102,8 +102,8 @@ inherit from any particular base class - any arbitrary Python object will do:-
 
 ::
 
-	fred = Plumber(name='fred', location='BH1', price=90)
-	application.register_service(IPlumber, fred)
+    fred = Plumber(name='fred', location='BH1', price=90)
+    application.register_service(IPlumber, fred)
 
 We can also associate an arbitrary dictionary of properties with an object when
 we register it. These properties (along with the actual attributes of the
@@ -112,8 +112,8 @@ mechanism as shown in example 4).
 
 ::
 
-	wilma = Plumber(name='wilma', location='BH6')
-	application.register_service(IPlumber, wilma, {'price' : 125})
+    wilma = Plumber(name='wilma', location='BH6')
+    application.register_service(IPlumber, wilma, {'price' : 125})
 
 2) Looking up a service with *get_service*
 
@@ -122,7 +122,7 @@ interface/type of service that we require:-
 
 ::
 
-	plumber = application.get_service(IPlumber)
+    plumber = application.get_service(IPlumber)
 
 If we assume that we have registered both *fred* and *wilma* as in example 1)
 then we have know way of knowing which of those would be returned here. It
@@ -135,7 +135,7 @@ We can also lookup *all* services of a particular interface/type:-
 
 ::
 
-	plumbers = application.get_services(IPlumber)
+    plumbers = application.get_services(IPlumber)
 
 Assuming the registrations in example 1), this would return a list containing
 both *fred* and *wilma*, again in arbitrary order.
@@ -143,7 +143,7 @@ both *fred* and *wilma*, again in arbitrary order.
 4) Using queries
 
 The *get_service* and *get_services* methods both take optional arguments
-to allow more control over the selection of an appropriate service. The first
+that allow more control over the selection of an appropriate service. The first
 of these is the *query* argument which is a string containing an arbitrary
 Python expression that is evaluated once per service, with the service only
 being returned if the expression evaluates to True. The namespace that the
@@ -159,7 +159,7 @@ Find all plumbers whose price is less than 100 Krooni/Hour:-
 
 ::
 
-	plumbers = application.get_services(IPlumber, "price < 100")
+    plumbers = application.get_services(IPlumber, "price < 100")
 
 Which would return a list containing one plumber, *fred*.
 
@@ -167,7 +167,7 @@ Find plumbers named *fred*:-
 
 ::
 
-	plumbers = application.get_services(IPlumber, "name == 'fred'")
+    plumbers = application.get_services(IPlumber, "name == 'fred'")
 
 Which, again (and unsurprisingly) would return a list containing just *fred*.
 
@@ -176,7 +176,7 @@ in which case only one of the services that matches the query is returned:-
 
 ::
 
-	plumber = application.get_services(IPlumber, "price < 200")
+    plumber = application.get_service(IPlumber, "price < 200")
 
 Which would return *either*, *fred* or *wilma*.	
 
@@ -190,20 +190,18 @@ To find the cheapest plumber:-
 
 ::
 
-	cheapest = application.get_service(IPlumber, minimize='price')
+    cheapest = application.get_service(IPlumber, minimize='price')
 
 Or, if you believe that you get what you pay for, the most expensive:-
 
-	cheapest = application.get_service(IPlumber, maximize='price')
+    most_expensive = application.get_service(IPlumber, maximize='price')
 
 Minimize and maximize can also be used in conjunction with a query. For example
 to find the cheapest plumber in my area:-
 
 ::
 
-	cheap_and_local = application.get_service(
-            IPlumber, location='BH6', minimize='price'
-	)
+    cheap_and_local = application.get_service(IPlumber, location='BH6', minimize='price')
 
 Which would finally give some work to *wilma*!
 
@@ -217,12 +215,12 @@ appropriate Id:-
 
 ::
 
-	fred = Plumber(name='fred', location='BH1', price=90)
-	fred_id = application.register_service(IPlumber, fred)
+    fred = Plumber(name='fred', location='BH1', price=90)
+    fred_id = application.register_service(IPlumber, fred)
 
-	...
+    ...
 
-	application.unregister_service(fred_id)
+    application.unregister_service(fred_id)
 
 7) Getting the properties associated with a service
 
@@ -232,17 +230,18 @@ we registered it. We can retreive those properties by calling the
 
 ::
 
-	wilma = Plumber(name='wilma', location='BH6')
-	wilma_id = application.register_service(IPlumber, wilma, {'price':125})
-	...
+    wilma = Plumber(name='wilma', location='BH6')
+    wilma_id = application.register_service(IPlumber, wilma, {'price':125})
+	
+    ...
 
-	properties = application.get_service_properties(wilma_id)
+    properties = application.get_service_properties(wilma_id)
 
 Which would return a dictionary containing the following:-
 
 ::
 
-	{'price' : 125}
+    {'price' : 125}
 
 Note that the dictionary that is returned is the actual properties dictionary
 used by the service registry to evaluate queries against, so if you are
