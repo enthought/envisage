@@ -84,24 +84,13 @@ class ServiceRegistry(HasTraits):
                     services.append(obj)
 
 
-        # Are we minimizing or maximising anything?
+        # Are we minimizing or maximising anything? If so then sort the list
+        # of services by the specified attribute/property.
         if minimize != '':
-            def factory(trait_name):
-                def sorter(x, y):
-                    return cmp(getattr(x, trait_name), getattr(y, trait_name))
+            services.sort(None, lambda x: getattr(x, minimize))
 
-                return sorter
-
-            services.sort(factory(minimize))
-            
         elif maximize != '':
-            def factory(trait_name):
-                def sorter(x, y):
-                    return cmp(getattr(y, trait_name), getattr(x, trait_name))
-
-                return sorter
-
-            services.sort(factory(maximize))
+            services.sort(None, lambda x: getattr(x, maximize), reverse=True)
             
         return services
 

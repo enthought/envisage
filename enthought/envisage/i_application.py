@@ -88,6 +88,9 @@ class IApplication(Interface):
     def register_service(self, interface, obj, properties=None):
         """ Register a service.
 
+        Returns a service Id that can be used to retrieve any service
+        properties, and to unregister the service.
+
         """
 
     def start(self):

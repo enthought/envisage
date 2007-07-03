@@ -41,11 +41,11 @@ class Plugin(HasTraits):
     def start(self, plugin_context):
         """ Start the plugin. """
 
-        return
+        pass
 
     def stop(self, plugin_context):
         """ Stop the plugin. """
 
-        return
+        pass
 
 #### EOF ######################################################################
