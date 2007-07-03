@@ -37,7 +37,7 @@ applications need to be extensible, and by providing a standard way for
 developers to advertise the places where extension can occur (known as
 *extension points*), and for other developers to make contributions to them.
 
-In Envisage *extension point* and the contributions made to them are stored
+In Envisage *extension point*s and the contributions made to them are stored
 in the *extension registry*. Envisage is designed such that you can implement
 your own extension registry, but by default, it uses an implementation based
 on the entry points mechanism of Python Eggs [fixme: ref]. More details about
@@ -58,7 +58,7 @@ are published and looked up by *type*. For example, say I have some object that
 provides a plumber service, I can register it using an *IPlumber* interface.
 When some other part of the application springs leak, it can find a plumber by
 looking up all of the services that offer the *IPlumber* interface. More
-details about using the service registry can be found in section [fixme: ref].
+details about using the service registry can be found in section `Using Services`_.
 
 Framework?
 ----------
