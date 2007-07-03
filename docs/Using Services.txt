@@ -2,15 +2,15 @@ Using Services
 ==============
 
 Services are a fundemental part of Envisage applications as they are the
-objects that do the actual work! However, One of the first problems we have in
-such a service-based system is how to find them! This is where the
+objects that do the actual work! However, One of the first problems we run into
+in such service-based systems is actually finding them! This is where the
 *service registry* comes in.
 
 The *service registry* provides a "yellow pages" style mechanism in that
 services are published and looked up by *interface*, or *type*. It is called
 a "yellow pages" mechanism because it is just like looking up a telephone
 number in the "Yellow Pages" phone book. You use the "Yellow Pages" instead
-of the "White Pages" when you don't know the number of the person you want to
+of the "White Pages" when you don't know the name of the person you want to
 call but you do know what *kind* of service you require. For example, if you
 have a leaking pipe, you know you want a plumber, so you pick up your "Yellow
 Pages", go to the "Plumbers" section and choose one that seems to fit the bill
@@ -22,6 +22,7 @@ Services are managed through the following methods on the IApplication_
 interface.
 
 ::
+
     def get_service(self, interface, query='', minimimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
@@ -55,6 +56,7 @@ some examples, and to continue our plumber theme, lets assume we have the
 following interface and implementation:-
 
 ::
+
     class IPlumber(Interface):
         """ What plumbers do! """
 
@@ -99,6 +101,7 @@ we want to publish. Note that the object that we publish does *not* have to
 inherit from any particular base class - any arbitrary Python object will do:-
 
 ::
+
 	fred = Plumber(name='fred', location='BH1', price=90)
 	application.register_service(IPlumber, fred)
 
@@ -108,6 +111,7 @@ service itself) can be used later to lookup the service using the query
 mechanism as shown in example 4).
 
 ::
+
 	wilma = Plumber(name='wilma', location='BH6')
 	application.register_service(IPlumber, wilma, {'price' : 125})
 
@@ -117,6 +121,7 @@ Looking up a service is just as easy, we simply call *get_service* with the
 interface/type of service that we require:-
 
 ::
+
 	plumber = application.get_service(IPlumber)
 
 If we assume that we have registered both *fred* and *wilma* as in example 1)
@@ -129,6 +134,7 @@ depend on it!
 We can also lookup *all* services of a particular interface/type:-
 
 ::
+
 	plumbers = application.get_services(IPlumber)
 
 Assuming the registrations in example 1), this would return a list containing
@@ -152,6 +158,7 @@ about which plumbers we lookup.
 Find all plumbers whose price is less than 100 Krooni/Hour:-
 
 ::
+
 	plumbers = application.get_services(IPlumber, "price < 100")
 
 Which would return a list containing one plumber, *fred*.
@@ -159,6 +166,7 @@ Which would return a list containing one plumber, *fred*.
 Find plumbers named *fred*:-
 
 ::
+
 	plumbers = application.get_services(IPlumber, "name == 'fred'")
 
 Which, again (and unsurprisingly) would return a list containing just *fred*.
@@ -167,6 +175,7 @@ Queries can be used with the singular form of the method (*get_service*) too,
 in which case only one of the services that matches the query is returned:-
 
 ::
+
 	plumber = application.get_services(IPlumber, "price < 200")
 
 Which would return *either*, *fred* or *wilma*.	
@@ -180,6 +189,7 @@ in either ascending or descending order respectively.
 To find the cheapest plumber:-
 
 ::
+
 	cheapest = application.get_service(IPlumber, minimize='price')
 
 Or, if you believe that you get what you pay for, the most expensive:-
@@ -190,6 +200,7 @@ Minimize and maximize can also be used in conjunction with a query. For example
 to find the cheapest plumber in my area:-
 
 ::
+
 	cheap_and_local = application.get_service(
             IPlumber, location='BH6', maximize='price'
 	)
@@ -205,6 +216,7 @@ all we have to do is call the *unregister_service* method, passing in the
 appropriate Id:-
 
 ::
+
 	fred = Plumber(name='fred', location='BH1', price=90)
 	fred_id = application.register_service(IPlumber, fred)
 
@@ -219,8 +231,9 @@ we registered it. We can retreive those properties by calling the
 *get_service_properties* method with the appropriate service Id:-
 
 ::
+
 	wilma = Plumber(name='wilma', location='BH6')
-	wilma_id = application.register_service(IPlumber, wilma, {'price' : 125})
+	wilma_id = application.register_service(IPlumber, wilma, {'price':125})
 	...
 
 	properties = application.get_service_properties(wilma_id)
@@ -228,11 +241,12 @@ we registered it. We can retreive those properties by calling the
 Which would return a dictionary containing the following:-
 
 ::
+
 	{'price' : 125}
 
 Note that the dictionary that is returned is the actual properties dictionary
 used by the service registry to evaluate queries against, so if you are
-dynamically keeping track of an object via some property (an example might
-be CPU usage etc) then all you have to do is update the dictionary. However,
-in practise, it is more common to use the actual attributes of a service for
-this purpose.
+dynamically keeping track of the state of an object via some property (an
+example might be CPU usage etc) then all you have to do is update the
+dictionary. However, in practise, it is more common to use the actual
+attributes of a service for this purpose.
