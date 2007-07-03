@@ -1,0 +1,55 @@
+Using Extension Points
+======================
+
+Whether or not we like to admit it, most (if not all) of the applications we
+write need to change over time. We fix bugs, and we add, modify and remove
+features. In other words, we spend our time either fixing, or extending our
+applications.
+
+Sometimes we extend our applications by changing the actual code, sometimes
+we have other ad hoc extension mechanisms in place - a text file here
+a directory of scripts there. As applications grow they often end up with
+numerous places where they can be extended, but with a different extension
+mechanism at each one. This makes it hard for developers who want to extend
+the application to a) know *where* they can add extensions, and b) know *how*
+to add them.
+
+Envisage attempts to address this problem by admitting up front that our
+applications need to be extensible, and by providing a standard way for
+developers to advertise the places where extension can occur (known as
+*extension points*), and for other developers to make contributions to them.
+
+In Envisage *extension points* and the contributions made to them are stored
+in the *extension registry*. Envisage is designed such that you can implement
+your own extension registry, but by default, it uses an implementation based
+on the entry points mechanism of `Python Eggs`_, and it is this implementation
+that will be used in the examples shown in this document.
+
+In an Envisage application, the *extension registry* is accessed in two ways:-
+
+- Using the following method on the IApplication_ interface.
+
+::
+
+    def get_extensions(self, extension_point):
+        """ Return a list containing all contributions to an extension point.
+
+        Return an empty list if the extension point does not exist.
+
+        """
+
+- Using the ``ExtensionPoint`` trait-type
+
+This is a slightly more convenient way to access the contributions made to
+an extension point and adds the ability to type check the resulting values.
+
+Lets look at some examples (as previously mentioned the examples are written
+using the default Python Egg based implementation):-
+
+1) Defining an Extension Point
+------------------------------
+
+
+
+.. _IApplication: ../../enthought/envisage/i_application.py
+.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
