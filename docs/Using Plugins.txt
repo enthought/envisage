@@ -9,50 +9,90 @@ application. In Envisage, plugins are located and managed by the
 plugin manager, but by default, it uses an implementation based on
 `Python Eggs`_.
 
-As mentioned previosuly, plugins are just the mechanism for delivering new
+As mentioned previously, plugins are just the mechanism for delivering new
 functionality to an application, and they can do 3 simple things:-
 
 1) offer extension points
 2) make contributions to extension points (including its own)
 3) create and publish services
 
-The first two of these (offering extension points and making contributions to
-them) are done via a plugin's *setup.py* file. Creating and publishing
-services is done in the actual plugin implementation (a class that implements
-the IPlugin_ interface, usually a subclass of Plugin_).
+Conceptually, plugins are split into two halves.
 
-1) Declaring a plugin implementation
-------------------------------------
+The *plugin definition*
+-----------------------
 
-Plugin implementations are declared in the *setup.py* file of a plugin eggs,
-using the ``[enthought.envisage.plugins]`` entry point. The following is
-is a snippet from the `acme.motd`_ plugin:-
+The *plugin definition* is responsible for offering extension points and making
+contributions to them. In the egg-based implementation this means that this is
+handled in the *setup.py* file of the plugin's egg.
+
+The *plugin definition* provides the following information about a plugin:-
+
+- a globally unique identifier (e.g. *acme.motd*)
+
+  technically, this identifier only need be unique within your application, but
+  since the intent is for applications to be able to include plugins from
+  all over the world, using the common reverse domain nam notation is probably
+  a good idea!
+
+- a version
+
+  this allows different applications to use different versions of a plugin.
+
+- a list of the plugins that this plugin requires
+
+  this is used to start the plugins in the appropriate order (i.e. if plugin
+  A requires plugin B, then plugin B will be started first).
+
+- the extension points that the plugin offers
+
+- any contributions that the plugin makes to extension points
+
+- a reference to the *plugin implementation* (if any)
+
+Let's take a look at the plugin definition from the *acme.motd* plugin:-
 
 ::
 
     setup(
-        ...
+        name                 = 'acme.motd',
+        version              = '0.1a1',
+	...
+        install_requires     = [
+          'enthought.envisage>=3.0a1',
+        ],
 
         entry_points = """
-
-        ...
 
         [enthought.envisage.plugins]
         motd = acme.motd.motd_plugin:MOTDPlugin
 
-        ...
+        [enthought.envisage.extension_points]
+        acme.motd.messages = acme.motd.api:IMessage
     
         """
     )
 
-Plugin implementations have two important methods, *start* and *stop*! The
-*start* method is a good place to create and register services, and *stop* is
-a good place to unregister them and cleanup.
+The *plugin implementation*
+---------------------------
+
+A *plugin implementation* is required if you want to create and start any
+services, and should be a class that implements the IPlugin_ interface, which
+usually means creating a subclass of Plugin_).
+
+Note that if all your plugin does is contribute to existing extension points
+then the chances are you don't need to write a plugin implementation.
+
+Lets take a look at the plugin implementation from the *acme.motd* plugin:-
 
 ::
 
     class MOTDPlugin(Plugin):
-        """ The MOTD Plugin. """
+    """ The 'Message of the Day' plugin """
+
+        # All contributed messages.
+        messages = ExtensionPoint(List(IMessage), 'acme.motd.messages')
+
+	...
 
         def start(self, application):
             """ Start the plugin. """
@@ -60,10 +100,10 @@ a good place to unregister them and cleanup.
             # Use the contributed messages to populate a MOTD object.
             motd = MOTD(messages=self.messages)
         
-            # This is a bit of overkill here, but this shows how we can register 
+            # This is a bit of overkill here, but this shows how we can register
             # the MOTD object as a service so that other plugins can use it if
             # they so wish.
-            application.register_service(IMOTD, motd)
+            motd_service_id = application.register_service(IMOTD, motd)
         
             # And this is how we could look the service up!
             motd_service = application.get_service(IMOTD)
@@ -75,6 +115,19 @@ a good place to unregister them and cleanup.
             print '\n"%s"\n\n- %s' % (message.text, message.author)
         
             return
+
+        def stop(self, application):
+            """ Stop the plugin. """
+
+            # Unregister the MOTD service.
+            application.unregister_service(motd_service_id)
+        
+	    return
+
+Plugin implementations have two important methods, *start* and *stop*! The
+*start* method is a good place to create and register services, and *stop* is
+a good place to unregister them and cleanup!
+
 
 .. _IPlugin: ../../enthought/envisage/i_plugin.py
 .. _Plugin: ../../enthought/envisage/plugin.py
