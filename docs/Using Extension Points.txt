@@ -11,7 +11,7 @@ we have other ad hoc extension mechanisms in place - a text file here
 a directory of scripts there. As applications grow they often end up with
 numerous places where they can be extended, but with a different extension
 mechanism at each one. This makes it hard for developers who want to extend
-the application to a) know *where* they can add extensions, and b) know *how*
+the application to know a) *where* they can add extensions, and b) *how*
 to add them.
 
 Envisage attempts to address this problem by admitting up front that our
@@ -19,38 +19,110 @@ applications need to be extensible, and by providing a standard way for
 developers to advertise the places where extension can occur (known as
 *extension points*), and for other developers to make contributions to them.
 
-In Envisage, *extension points* and the contributions made to them are stored
-in the *extension registry*. Envisage is designed such that you can implement
-your own extension registry, but by default, it uses an implementation based
-on the entry points mechanism of `Python Eggs`_, and it is this implementation
-that will be used as the basis of the examples shown in this document.
+In Envisage, *extension points* and the contributions made to them (known as
+*extensions*) are stored in the *extension registry*. Envisage is designed such
+that you can implement your own extension registry, but by default, it uses an
+implementation based on the entry points mechanism of `Python Eggs`_.
 
-In an Envisage application, the *extension registry* is accessed in two ways:-
+All of the code shippets in this document are based on the `Python Eggs`_
+extension mechanism, and are taken from the `Message of the Day`_ example:-
 
-- Using the following method on the IApplication_ interface.
+1) Declaring an Extension Point
+-------------------------------
+
+Extension points are declared in the *setup.py* file of a plugin eggs, using
+the ``[enthought.envisage.extension_points]`` entry point. The following is
+is a snippet from the `acme.motd`_ plugin:-
 
 ::
 
-    def get_extensions(self, extension_point):
-        """ Return a list containing all contributions to an extension point.
+    setup(
+        ...
 
-        Return an empty list if the extension point does not exist.
+        entry_points = """
+
+        ...
+
+        [enthought.envisage.extension_points]
+        acme.motd.messages = acme.motd.api:IMessage
+
+        ...
+    
+        """
+    )
+
+This tells us two things:-
+
+1) That this plugin offers an extension point called "acme.motd.messages"
+2) That each contribution to the extension point must implement the
+   IMessage_ interface.
+
+2) Making contributions to an Extension Point
+---------------------------------------------
+
+In this case, we will contribute some pithy quotes about software development,
+and to make our contributions there are just two things that we have to do:-
+
+a) Create some messages!
+
+   In this example, we put the messages in a module messages.py_.
+
+b) Add an entry point to our plugin egg that contains a reference to each
+   message.
+
+The following is a snippet from the `acme.motd.software_quotes`_ plugin:-
+
+::
+
+    setup(
+        entry_points = """
+
+        [acme.motd.messages]
+        meyer       = acme.motd.software_quotes.messages:meyer
+        dijkstra    = acme.motd.software_quotes.messages:dijkstra
+        fuller      = acme.motd.software_quotes.messages:fuller
+        gilb        = acme.motd.software_quotes.messages:gilb
+        norman      = acme.motd.software_quotes.messages:norman
+        einstein    = acme.motd.software_quotes.messages:einstein
+        fowler      = acme.motd.software_quotes.messages:fowler
+        hendrickson = acme.motd.software_quotes.messages:hendrickson
+        jeffries    = acme.motd.software_quotes.messages:jeffries
+        tuft        = acme.motd.software_quotes.messages:tuft
 
         """
+    )
 
-- Using the ``ExtensionPoint`` trait-type
+3) Retrieving the contributions to an Extension Point
+-----------------------------------------------------
 
-  This is a slightly more convenient way to access the contributions made to
-  an extension point and adds the ability to type check the resulting values.
+Ok, so far so good. One plugin (*acme.motd*) has advertised the fact that
+it has an extension point called "acme.motd.messages", and that the
+contributions to the extension point must implement the IMessage_ interface.
+Another plugin (*acme.motd.software_quotes*) has come along and kindly
+offered to contribute some messages about software development.
 
-The easiest way to explain the workings of this API is to take a look at
-some examples. Note that (as mentioned previously) the examples are written
-based on using the default `Python Eggs`_ based implementation:-
+Now, we need to know how to retrieve the contributed messages at runtime. In
+this example, the messages are retrievd by the *acme.motd* plugin found in
+the motd_plugin.py_ module..
 
-1) Defining an Extension Point
-------------------------------
+::
 
+    class MOTDPlugin(Plugin):
+        """ The MOTD Plugin. """
 
+	# The contributed messages.
+        messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
+
+	...
+
+This code declares a *messages* extension point trait, and all that the plugin
+has to do to access the contributed messages is so say ``self.messages``.
 
 .. _IApplication: ../../enthought/envisage/i_application.py
+.. _IMessage: ../../examples/src/acme.motd/acme/motd/i_message.py
+.. _`Message of the Day`: ../../examples/apps/MOTD
+.. _acme.motd: ../../examples/src/acme.motd/setup.py
+.. _acme.motd.software_quotes: ../../examples/src/acme.motd.software_quotes/setup.py
+.. _motd_plugin.py: ../../examples/src/acme.motd/acme/motd/motd_plugin.py
+.. _messages.py: ../../examples/src/acme.motd.software_quotes/acme/motd/software_quotes/messages.py
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
