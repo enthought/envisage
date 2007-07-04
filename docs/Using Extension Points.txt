@@ -115,10 +115,24 @@ the motd_plugin.py_ module..
 
 	...
 
+        def start(self, application):
+            """ Start the plugin. """
+
+            # Use the contributed messages to populate a MOTD object.
+            motd = MOTD(messages=self.messages)
+	
+            ...
+
 This code declares a *messages* extension point trait, and all that the plugin
 has to do to access the contributed messages is so say ``self.messages``.
 
+This example shows a common pattern in Envisage plugin development, in that
+they are often written such that the contributions to extension points are
+used by plugisn to create and initialize services (in this case, an
+instance of the MOTD_ class).
+
 .. _IApplication: ../../enthought/envisage/i_application.py
+.. _MOTD: ../../examples/src/acme.motd/acme/motd/motd.py
 .. _IMessage: ../../examples/src/acme.motd/acme/motd/i_message.py
 .. _`Message of the Day`: ../../examples/apps/MOTD
 .. _acme.motd: ../../examples/src/acme.motd/setup.py

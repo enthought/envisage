@@ -1,0 +1,85 @@
+Using Plugins
+=============
+
+Envisage brings together the notions of *extension points* and *services*
+using the concept of *plugins*. Plugins simply provide a way to deliver
+extension points, contributions to extension points, and services into an
+application. In Envisage, plugins are located and managed by the
+*plugin manager*. Envisage is designed such that you can implement your own
+plugin manager, but by default, it uses an implementation based on
+`Python Eggs`_.
+
+As mentioned previosuly, plugins are just the mechanism for delivering new
+functionality to an application, and they can do 3 simple things:-
+
+1) offer extension points
+2) make contributions to extension points (including its own)
+3) create and publish services
+
+The first two of these (offering extension points and making contributions to
+them) are done via a plugin's *setup.py* file. Creating and publishing
+services is done in the actual plugin implementation (a class that implements
+the IPlugin_ interface, usually a subclass of Plugin_).
+
+1) Declaring a plugin implementation
+------------------------------------
+
+Plugin implementations are declared in the *setup.py* file of a plugin eggs,
+using the ``[enthought.envisage.plugins]`` entry point. The following is
+is a snippet from the `acme.motd`_ plugin:-
+
+::
+
+    setup(
+        ...
+
+        entry_points = """
+
+        ...
+
+        [enthought.envisage.plugins]
+        motd = acme.motd.motd_plugin:MOTDPlugin
+
+        ...
+    
+        """
+    )
+
+Plugin implementations have two important methods, *start* and *stop*! The
+*start* method is a good place to create and register services, and *stop* is
+a good place to unregister them and cleanup.
+
+::
+
+    class MOTDPlugin(Plugin):
+        """ The MOTD Plugin. """
+
+        def start(self, application):
+            """ Start the plugin. """
+
+            # Use the contributed messages to populate a MOTD object.
+            motd = MOTD(messages=self.messages)
+        
+            # This is a bit of overkill here, but this shows how we can register 
+            # the MOTD object as a service so that other plugins can use it if
+            # they so wish.
+            application.register_service(IMOTD, motd)
+        
+            # And this is how we could look the service up!
+            motd_service = application.get_service(IMOTD)
+
+            # Get the message of the day...
+            message = motd_service.motd()
+
+            # ... and print it.
+            print '\n"%s"\n\n- %s' % (message.text, message.author)
+        
+            return
+
+.. _IPlugin: ../../enthought/envisage/i_plugin.py
+.. _Plugin: ../../enthought/envisage/plugin.py
+.. _`Message of the Day`: ../../examples/apps/MOTD
+.. _acme.motd: ../../examples/src/acme.motd/setup.py
+.. _acme.motd.software_quotes: ../../examples/src/acme.motd.software_quotes/setup.py
+
+.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
