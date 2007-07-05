@@ -1,5 +1,5 @@
-Using Extension Points
-======================
+Extension Points
+================
 
 Whether or not we like to admit it, most (if not all) of the applications we
 write need to change over time. We fix bugs, and we add, modify and remove

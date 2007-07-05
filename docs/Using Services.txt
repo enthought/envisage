@@ -1,5 +1,5 @@
-Using Services
-==============
+Services
+========
 
 Services are the real "guts" of an Envisage application - they are the objects
 that do the actual work! To get the job done, services obviously need to

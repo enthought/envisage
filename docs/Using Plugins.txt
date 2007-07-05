@@ -1,20 +1,18 @@
 Using Plugins
 =============
 
-Envisage brings together the notions of *extension points* and *services*
-using the concept of *plugins*. Plugins simply provide a way to deliver
-extension points, contributions to extension points, and services into an
-application. In Envisage, plugins are located and managed by the
-*plugin manager*. Envisage is designed such that you can implement your own
-plugin manager, but by default, it uses an implementation based on
-`Python Eggs`_.
+Plugins are used to "deliver" `Extension Points`_, contributions to extension
+points, and Services_ into an application. In fact plugins can be thought of as
+simply being "delivery trucks" there rarely (if ever) do any *real* work
+themselves. In other words, plugins can do 3 things:-
 
-As mentioned previously, plugins are just the mechanism for delivering new
-functionality to an application, and they can do 3 simple things:-
-
-1) offer extension points
+1) declare extension points
 2) make contributions to extension points (including its own)
 3) create and publish services
+
+
+
+
 
 Conceptually, plugins are split into two halves.
 
