@@ -232,8 +232,8 @@ appropriate identifier:-
 
     application.unregister_service(fred_id)
 
-7) Getting the additional properties of a service
--------------------------------------------------
+7) Getting any additional service properties
+--------------------------------------------
 
 If we associated an arbitrary dictionary of properties with an object when
 we registered it, we can retreive those properties by calling the

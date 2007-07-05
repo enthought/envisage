@@ -49,7 +49,7 @@ class ServiceRegistry(HasTraits):
         return service
 
     def get_service_properties(self, service_id):
-        """ Return the dicitonary of properties associated with a service. """
+        """ Return the dictionary of properties associated with a service. """
 
         try:
             interface, obj, properties = self._services[service_id]

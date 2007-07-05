@@ -48,7 +48,7 @@ class IApplication(Interface):
         """
 
     def get_service_properties(self, service_id):
-        """ Return the dicitonary of properties associated with a service.
+        """ Return the dictionary of properties associated with a service.
 
         """
         
