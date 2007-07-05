@@ -24,8 +24,8 @@ Plugin Definition
 -----------------
 
 The plugin definition is where it declares and makes contributions to
-extension points (2 out the 3 things that plugins can do!). It is also
-provides certain "housekeeping" information:
+extension points (2 out the 3 things that plugins can do!). It also provides
+certain "housekeeping" information:
 
 - a globally unique identifier (e.g., "acme.motd")
 

@@ -91,7 +91,7 @@ a simple module ('messages.py'_) and add our Message_ instances to it::
 
     ...
 
-Now we get the 'setup.py' file for the acme.motd.software_quotes_ egg
+Now we go to the 'setup.py' file for the acme.motd.software_quotes_ egg
 and tell Envisage about the messages that we have just created::
 
     setup(

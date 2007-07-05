@@ -95,9 +95,9 @@ following interface and implementation::
 To register a service, create an object and call the
 register_service() method, passing it the interface or type to
 publish the object under (for "interface/type" think "Yellow Pages" section),
-and the object that to publish. Note that the object that to publish
-does *not* have to inherit from any particular base class -- any arbitrary
-Python object will do::
+and the object that to publish. Note that the object to publish does *not* have
+to inherit from any particular base class -- any arbitrary Python object will
+do::
 
     fred = Plumber(name='fred', location='BH1', price=90)
     fred_id = application.register_service(IPlumber, fred)
@@ -125,8 +125,8 @@ interface or type of service required::
     plumber = application.get_service(IPlumber)
 
 If we assume that we have registered both *fred* and *wilma* as in example 1)
-then we have no way of knowing which of those object would be returned here. It
-does *not* necessarily reflect the order in which they were added, so don't
+then we have no way of knowing which of those objects would be returned here.
+It does *not* necessarily reflect the order in which they were added, so don't
 depend on it.
 
 3) Looking up a list of services
@@ -145,7 +145,7 @@ both *fred* and *wilma*, again in arbitrary order.
 The get_service() and get_services() methods both take optional arguments
 that allow more control over the selection of an appropriate service. The first
 of these is the *query* argument, which is a string containing an arbitrary
-Python expression that is for each service, with the service only
+Python expression that is evaluated for each service, with the service only
 being returned if the expression evaluates to True. The namespace that the
 expression is evaluated in is created by first adding each of the service's
 attributes, followed by any additional properties that were specified when the
