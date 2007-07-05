@@ -35,12 +35,15 @@ class MOTDPlugin(Plugin):
     def start(self, application):
         """ Start the plugin. """
 
-        # Use the contributed messages to populate a MOTD object.
+        # Use the contributed messages to create a MOTD object.
         motd = MOTD(messages=self.messages)
         
+        # Publish the object as a service.
+        #
         # This is a bit of overkill here, but this shows how we can register
-        # the MOTD object as a service so that other plugins can use it if
-        # they so wish.
+        # the MOTD object as a service so that other parts of the application
+        # can use it if they so wish (it just so happens that this application
+        # is so small, that there really aren't #any other parts')!
         application.register_service(IMOTD, motd)
         
         # And this is how we could look the service up!
