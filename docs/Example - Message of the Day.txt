@@ -4,13 +4,13 @@ The "Message of the Day" (MOTD) Example
 Only marginally more complicated than the traditional "Hello World" example,
 this application simply prints a random "message of the day". Obviously, if we
 actually had to write this application, we might not choose to use a framework
-like Envisage (it is one of the rare applications that are so simple that why
-would you bother), but it does serve to illustrate all of the fundemental
+like Envisage (it is one of the rare applications that is so simple that why
+would you bother), but it does serve to illustrate all of the fundamental
 aspects of building Envisage applications.
 
 Before we dive right in to building our extensible application, let's take a
 small, but important, step back. Envisage is designed to be an integration
-platform - a place where you can bring along your existing code and with a
+platform -- a place where you can bring existing code and with a
 (hopefully) minimal amount of effort, make it work with the rest of the
 application. Because of this, we will start the MOTD example by designing the
 application without any knowledge of Envisage whatsoever. This is obviously a
@@ -29,21 +29,21 @@ in the 'api.py' module.
 
 In this case, there are just 2 interfaces, the main interface for the MOTD
 application, IMOTD_, and the interface that must be implemented by the messages
-returned by the *motd* method, IMessage_.
+returned by the motd() method, IMessage_.
 
 The default implementation of the IMOTD_ interface is found in the MOTD_
 class. As you can see, the MOTD_ class simply contains a list of messages and
-when its 'motd' method is called, it simply returns a random choice from the
+when its motd() method is called, it simply returns a random choice from the
 list.
 
-An example of using our MOTD_ class at the Python prompt might be:-
+An example of using our MOTD_ class at the Python prompt might be::
 
->>> from acme.motd.api import Message, MOTD
->>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
->>> message = motd.motd()
->>> print '"%s" - %s' % (message.text, message.author)
-"Hello World!" - Anon
->>> 
+    >>> from acme.motd.api import Message, MOTD
+    >>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
+    >>> message = motd.motd()
+    >>> print '"%s" - %s' % (message.text, message.author)
+    "Hello World!" - Anon
+    >>> 
 
 Well, we had to get "Hello World" in there somewhere!
 
@@ -55,32 +55,31 @@ An Extensible MOTD
 ------------------
 
 Now, this example has one obvious place where we might like extension to
-occur, and that is the list of messages that the MOTD chooses from.
+occur, and that is the list of messages that the MOTD class chooses from.
 
 In Envisage, we can create an extensible version of the MOTD_ class, as
-follows (for the full code see, the ExtensibleMOTD_ class):-
+follows (for the full code see, the ExtensibleMOTD_ class)::
 
-::
   class ExtensibleMOTD(MOTD):
       """ An extensible MOTD class. """
 
       messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
 
-As you can see, we simply inherit from our default implementation, and
-declare that the *messages* trait is an extension point that is identified
+As you can see, this class simply inherit from the default implementation, and
+declares that the **messages** trait is an extension point that is identified
 by the string "acme.motd.messages" (extension point identifiers should use the
 familiar reverse domain name syntax as they are intended to be *globally*
-unique). Now, when the *messages* trait is accessed, Envisage will go to the
+unique). Now, when the **messages** trait is accessed, Envisage will go to the
 extension registry and find all of the contributions to the extension point.
 
 The MOTD plugin
 ---------------
 
-As we know, the way that we deliver new functionality into an Envisage
+As we've said, the way that to deliver new functionality into an Envisage
 application is via plugins. In this case, although it is a bit of overkill,
-we are going to use a plugin to offer an instance of the ExtensibleMOTD_ class
-as a service. The plugin will then immediately look up the service, and call
-its *motd* method to get the message of the day.
+we are using a plugin to offer an instance of the ExtensibleMOTD_ class
+as a service. The plugin then looks up the service, and calls
+its motd() method to get the message of the day.
 
 The plugin code is found in the MOTDPlugin_ class.
 
@@ -99,16 +98,16 @@ As you may have noticed, we have so far avoided the issues of how the MOTD
 plugin gets created and started, how the contributed messages actually
 get into the application, and how the application actually gets started. We
 have avoided these issues for a good reason. Envisage is designed to allow
-the application writer to control all of these aspects themselves while
+the application writer to control all of these aspects, while
 maintaining the reusability of the actual application code. By default, 
 Envisage uses an extension registry and a plugin manager based on Python Eggs
 but as you have seen, nothing in the MOTD example up to this point mentions
 Eggs at all.
 
 So, assuming you are happy to use Python Eggs to deploy your applications,
-lets take a look at what we need to do to create the MOTD application.
+let's take a look at what we need to do to create the MOTD application.
 
-The example is split into two eggs - the "acme.motd" egg and the
+The example is split into two eggs -- the "acme.motd" egg and the
 "acme.motd.software_quotes" egg.
 
 

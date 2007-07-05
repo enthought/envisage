@@ -1,30 +1,30 @@
 Extension Points
 ================
 
-Whether or not we like to admit it, most (if not all) of the applications we
-write need to change over time. We fix bugs, and we add, modify and remove
-features. In other words, we spend our time either fixing, or extending our
-applications.
+Whether or not we as software developers like to admit it, most (if not all) of
+the applications we write need to change over time. We fix bugs, and we add, 
+modify, and remove features. In other words, we spend most of our time either
+fixing or extending applications.
 
 Sometimes we extend our applications by changing the actual code, sometimes
-we have other ad hoc extension mechanisms in place - a text file here
-a directory of scripts there. As applications grow they often end up with
+we have other ad hoc extension mechanisms in place -- a text file here,
+a directory of scripts there. As applications grow, they often end up with
 numerous places where they can be extended, but with a different extension
 mechanism at each one. This makes it hard for developers who want to extend
 the application to know a) *where* they can add extensions, and b) *how*
 to add them.
 
-Envisage attempts to address this problem by admitting up front that our
+Envisage attempts to address this problem by admitting up front that 
 applications need to be extensible, and by providing a standard way for
 developers to advertise the places where extension can occur (known as
-*extension points*), and for other developers to make contributions to them.
+*extension points*), and for other developers to make *contributions* to them.
 
-In Envisage, *extension points* and the contributions made to them (also known
+In Envisage, extension points and the contributions made to them (also known
 as *extensions*) are stored in the *extension registry*. Envisage is designed
-such that you can roll your own extension registry, but by default, it uses
+such that you can implement your own extension registry, but by default, it uses
 an implementation based on then entry point mechanism of `Python Eggs`_.
 
-To see how extension points actually work, lets take a look at the
+To see how extension points actually work, let's take a look at the
 "Message of the Day"_ example included in the Envisage distribution.
 
 This example shows how to build a very simple application that prints a
@@ -34,14 +34,12 @@ random from a list of contributed messages.
 1) Declaring an Extension Point
 -------------------------------
 
-Extension points are declared in egg *setup.py* files, using the
+Extension points are declared in egg 'setup.py' files, using the
 ``[enthought.envisage.extension_points]`` entry point.
 
-In the MOTD example, the acme.motd_ plugin wants to advertise an extension
+In the MOTD example, the acme.motd_ plugin needs to advertise an extension
 point that allows other plugins to contribute new messages, so it declares
-the existence of an extension point as follows:-
-
-::
+the existence of an extension point as follows::
 
     setup(
         ...
@@ -58,7 +56,7 @@ the existence of an extension point as follows:-
         """
     )
 
-This tells us two things:-
+This tells us two things:
 
 1) That the extension point is called "acme.motd.messages"
 2) That every contribution to the extension point must implement the
@@ -67,17 +65,15 @@ This tells us two things:-
 2) Making contributions to an Extension Point
 ---------------------------------------------
 
-In the "Message of the Day"_ example, we have a second plugin,
-acme.motd.software_quotes_ that wants to contribute some pithy quotes about
+The "Message of the Day"_ example has a second plugin,
+acme.motd.software_quotes_ that contributes some pithy quotes about
 software development to the application.
 
-First of all we have to create the messages that we want to add. Remember, that
-when the acme.motd_ plugin advertised the extension point it told us that every
+First of all, we have to create the messages that we want to add. Remember that
+when the acme.motd_ plugin advertised the extension point, it told us that every
 contribution had to implement the IMessage_ interface. Happily, there is a
 class that does just that already defined for us (Message_) and so we create
-a simple module (`messages.py`_) and add our Message_ instances to it:-
-
-::
+a simple module ('messages.py'_) and add our Message_ instances to it::
 
    ...
 
@@ -95,9 +91,8 @@ a simple module (`messages.py`_) and add our Message_ instances to it:-
 
     ...
 
-Now we got the *setup.py* file for the acme.motd.software_quotes_ egg
-and tell Envisage about the messages that we have just created:-
-::
+Now we get the 'setup.py' file for the acme.motd.software_quotes_ egg
+and tell Envisage about the messages that we have just created::
 
     setup(
         entry_points = """
@@ -114,17 +109,15 @@ and tell Envisage about the messages that we have just created:-
 3) Retrieving the contributions to an Extension Point
 -----------------------------------------------------
 
-Ok, so far so good. One plugin (acme.motd_) has advertised the fact that
-it has an extension point called "acme.motd.messages", and that the
+OK, here's where we are so far: One plugin (acme.motd_) has advertised the fact
+that it has an extension point called "acme.motd.messages", and that the
 contributions to the extension point must implement the IMessage_ interface.
-Another plugin (acme.motd.software_quotes_) has come along and kindly
+Another plugin (acme.motd.software_quotes_) has kindly
 offered to contribute some messages about software development. Now we need to
 know how to retrieve the contributed messages at runtime.
 
 In the MOTD example, the messages are retrieved by the acme.motd_ plugin
-implementation (MOTDPlugin_):-
-
-::
+implementation (MOTDPlugin_)::
 
     class MOTDPlugin(Plugin):
         """ The MOTD Plugin. """
@@ -145,7 +138,7 @@ implementation (MOTDPlugin_):-
 
             ...
 
-As you can see, all we have to do is to declare a *messages* trait using the
+As you can see, all we have to do is to declare a **messages** trait using the
 ExtensionPoint_ trait type and then every time we access the trait, the
 list of contributed messages will be returned.
 

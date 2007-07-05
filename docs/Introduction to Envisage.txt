@@ -10,8 +10,8 @@ The following sections attempt to answer some of the questions that often
 arise when the words 'Extensible', 'Application' and 'Framework' appear
 next to each other.
 
-However, before do that, we should point out that the ideas behind Envisage are
-not new. They are not even ours. The project is heavily influenced by the
+However, before doing that, we should point out that the ideas behind Envisage
+are not new. They are not even ours. The project is heavily influenced by the
 fantastic work that has been done in the Java community on application
 frameworks such as OSGi, Eclipe, and NetBeans. Envisage is merely treading
 lightly in their footsteps.
@@ -19,25 +19,25 @@ lightly in their footsteps.
 Extensible?
 -----------
 
-Whether or not we like to admit it, most (if not all) of the applications we
-write need to change over time. We fix bugs, and we add, modify and remove
-features. In other words, we spend our time either fixing, or extending our
-applications.
+Whether or not we as software developers like to admit it, most (if not all) of
+the applications we write need to change over time. We fix bugs, and we add, 
+modify and remove features. In other words, we spend most of our time either
+fixing or extending our applications.
 
-Sometimes we extend our applications by changing the actual code, sometimes
-we have other ad hoc extension mechanisms in place - a text file here
-a directory of scripts there. As applications grow they often end up with
+Sometimes we extend our applications by changing the actual code. Sometimes
+we have other ad hoc extension mechanisms in place -- a text file here,
+a directory of scripts there. As applications grow, they often end up with
 numerous places where they can be extended, but with a different extension
 mechanism at each one. This makes it hard for developers who want to extend
-the application to a) know *where* they can add extensions, and b) know *how*
+the application to know a) *where* they can add extensions, and b) *how*
 to add them.
 
-Envisage attempts to address this problem by admitting up front that our
+Envisage attempts to address this problem by admitting up front that 
 applications need to be extensible, and by providing a standard way for
 developers to advertise the places where extension can occur (known as
-*extension points*), and for other developers to make contributions to them.
+*extension points*), and for other developers to make *contributions* to them.
 
-In Envisage *extension point*s and the contributions made to them are stored
+In Envisage, extension points and the contributions made to them are stored
 in the *extension registry*. Envisage is designed such that you can implement
 your own extension registry, but by default, it uses an implementation based
 on the entry points mechanism of Python Eggs [fixme: ref]. More details about
@@ -48,11 +48,11 @@ Application?
 
 In Envisage terms, an application is simply a collection of cooperating
 objects (known as *services*). Services often represent the functional
-subsystems of an application, although they are simply objects that we consider
-sufficiently useful to want to share them.
+subsystems of an application, although they are simply objects that a developer
+considers sufficiently useful to want to share them.
 
 In Envisage, services are published and looked up using the *service registry*.
-The *service registry* provides a 'yellow pages' style mechanism (i.e. it is a
+The service registry provides a 'yellow pages' style mechanism (i.e. it is a
 bit like looking up a telephone number in the yellow pages!) in that services
 are published and looked up by *type*. For example, say I have some object that
 provides a plumber service, I can register it using an *IPlumber* interface.
@@ -63,9 +63,9 @@ details about using the service registry can be found in section `Using Services
 Framework?
 ----------
 
-The Envisage framework brings together the notions of *extension points*
-and *services* using the concept of *plugins*. Plugins simply provide a way to
-deliver extension points, contributions and services into an application.
+The Envisage framework brings together the notions of extension points
+and services using the concept of *plugins*. Plugins simply provide a way to
+deliver extension points, contributions, and services into an application.
 
 In Envisage, plugins are located and managed by the *plugin manager*. Once
 again, Envisage is designed such that you can implement your own plugin
@@ -75,33 +75,34 @@ details about the plugin manager can be found in section [fixme: ref].
 Terminology
 ===========
 
-Lets recap the Envisage terminology that has been introduced so far:-
+Let's recap the Envisage terminology that has been introduced so far:
 
 Extension Point
   A well defined place where new functionality and/or data can be contributed
   to an application.
 
 Extension (aka Contribution)
-  An *actual* piece of functionality and/or data that is contributed (hence
-  the reason why extensions are often known as contributions). Think of
+  An *actual* piece of functionality or data that is contributed (this is why
+  extensions are often known as contributions). Think of
   'extension points' as the 'where' and 'extensions' as the 'what'.
 
 Extension Registry
-  The place that (by default) where all of the extension points and their 
+  The place where (by default) all of the extension points and their 
   associated extensions are stored.
 
 Service
-  Some people read a bit too much into the word 'service'. In Envisage a
-  service is *any* object that we think is sufficiently useful that we want to
-  share it!
+  In Envisage, a service is *any* object that a developer thinks is sufficiently
+  useful that to want to share it. While this term can have more specialized 
+  meanings in related contexts, don't read too much into the word 'service' 
+  when talking about Envisage.
 
 Service Registry
-  The 'yellow pages' style mechanism that is used to publish and lookup
+  The 'yellow pages' style mechanism that is used to publish and look up
   services.
 
 Plugin
   The mechanism for delivering new functionality to an application. A plugin
-  can do 3 simple things:-
+  can do 3 simple things:
 
   1) offer extension points
   2) make contributions to extension points (including its own)
@@ -110,6 +111,6 @@ Plugin
 Plugin Manager
   Finds, starts, and manages the plugins that make up the application.
 
-And that is it! Once you understand these ideas you understand Envisage - so
+And that is it! Once you understand these ideas you understand Envisage -- so
 lets get started with a simple example that will hopefully make these somewhat
 abstract concepts a little more concrete.
