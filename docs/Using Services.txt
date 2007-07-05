@@ -1,18 +1,18 @@
 Using Services
 ==============
 
-Services are a fundemental part of Envisage applications as they are the
-objects that do the actual work! However, one of the first problems we
-encounter in service-based systems like this is actually finding them!
-This is where the *service registry* comes in.
+Services are the real "guts" of Envisage applications as they are the objects
+that do the actual work! To get the job done, services obviously need to
+interact and so the first thing we need to do is to provide a way for them to
+find each other. This is where the *service registry* comes in.
 
 The *service registry* provides a "Yellow Pages" style mechanism in that
 services are published and looked up by *interface*, or *type*. It is called
 a "Yellow Pages" mechanism because it is just like looking up a telephone
 number in the "Yellow Pages" phone book. You use the "Yellow Pages" instead
-of the "White Pages" when you don't know the name of the person you want to
+of the "White Pages" when you don't know the *name* of the person you want to
 call but you do know what *kind* of service you require. For example, if you
-have a leaking pipe, you know you want a plumber, so you pick up your "Yellow
+have a leaking pipe, you know you need a plumber, so you pick up your "Yellow
 Pages", go to the "Plumbers" section and choose one that seems to fit the bill
 based on price, location, certification etc. The *service registry* does
 exactly the same thing as the "Yellow Pages", only with objects, and it even
@@ -29,7 +29,7 @@ following methods on the IApplication_ interface.
         """
 
     def get_service_properties(self, service_id):
-        """ Return the dicitonary of properties associated with a service.
+        """ Return the dictionary of properties associated with a service.
 
         """
         
@@ -52,7 +52,7 @@ following methods on the IApplication_ interface.
         """
 
 The easiest way to explain the workings of these methods is to take a look at
-some examples, and to continue our plumber theme, lets assume we have the
+some examples, and so to continue our plumber theme, lets assume we have the
 following interface and implementation:-
 
 ::
@@ -91,30 +91,34 @@ following interface and implementation:-
 
 	    ... code that actually fixes it! ...
 
-
 1) Registering a service
 ------------------------
 
 To register a service, all we have to do is create an object and call the
-``register_service`` method, passing it the interface/type that we want to
-publish the object under (think "Yellow Pages" section), and the object that
-we want to publish. Note that the object that we publish does *not* have to
-inherit from any particular base class - any arbitrary Python object will do:-
+``register_service`` method, passing it the interface/type  that we want to
+publish the object under (for "interface/type" think "Yellow Pages" section),
+and the object that we want to publish. Note that the object that we publish
+does *not* have to inherit from any particular base class - any arbitrary
+Python object will do:-
 
 ::
 
     fred = Plumber(name='fred', location='BH1', price=90)
-    application.register_service(IPlumber, fred)
+    fred_id = application.register_service(IPlumber, fred)
+
+Note that each registered service gets assigned an Id that is unique within
+the current process. The mehcan be used later
+to access its properties, or to unregister it etc.
 
 We can also associate an arbitrary dictionary of properties with an object when
-we register it. These properties (along with the actual attributes of the
-service itself) can be used later to lookup the service using the query
+we register it. These properties, along with the actual attributes of the
+service itself, can be used later to lookup the service using the query
 mechanism as shown in example 4).
 
 ::
 
     wilma = Plumber(name='wilma', location='BH6')
-    application.register_service(IPlumber, wilma, {'price' : 125})
+    wilma_id = application.register_service(IPlumber, wilma, {'price' : 125})
 
 2) Looking up a service
 -----------------------
@@ -157,7 +161,7 @@ service was registered (i.e. properties take precedence over attributes).
 
 Once again, assuming that we have registered *fred* and *wilma* as in example
 1), lets look at how we can use the query mechanism to be more selective
-about which plumbers we lookup.
+about which plumber(s) we lookup.
 
 Find all plumbers whose price is less than 100 Krooni/Hour:-
 
@@ -184,12 +188,12 @@ in which case only one of the services that matches the query is returned:-
 
 Which would return *either*, *fred* or *wilma*.	
 
-5) Using *minimize* or *maximize*
----------------------------------
+5) Using *minimize* and *maximize*
+----------------------------------
 
-The minimize and maximize arguments to the ``get_service`` and ``get_services``
-methods allow the services returned to be sorted by an attribute or property
-in either ascending or descending order respectively.
+The minimize and maximize (optional) arguments to the ``get_service`` and
+``get_services`` methods allow the services returned to be sorted by an
+attribute or property in either ascending or descending order respectively.
 
 To find the cheapest plumber:-
 
@@ -206,18 +210,18 @@ to find the cheapest plumber in my area:-
 
 ::
 
-    cheap_and_local = application.get_service(IPlumber, location='BH6', minimize='price')
+    cheap_and_local = application.get_service(IPlumber, "location='BH6'", minimize='price')
 
-Which would finally give some work to *wilma*!
+Which would definitely give the job to *wilma*!
 
 6) Unregistering a service
 --------------------------
 
-When we register a service, Envisage gives us back a value that uniquely
+When we register a service Envisage gives us back a value that uniquely
 identifies the service within the current process (i.e. it is not suitable for
 persisting to use next time the application is run). To unregister a service
 all we have to do is call the ``unregister_service`` method, passing in the
-appropriate Id:-
+appropriate identifier:-
 
 ::
 
@@ -232,8 +236,8 @@ appropriate Id:-
 -------------------------------------------------
 
 If we associated an arbitrary dictionary of properties with an object when
-we registered it. We can retreive those properties by calling the
-``get_service_properties`` method with the appropriate service Id:-
+we registered it, we can retreive those properties by calling the
+``get_service_properties`` method with the appropriate service identifier:-
 
 ::
 
