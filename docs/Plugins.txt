@@ -1,0 +1,161 @@
+Plugins
+=======
+
+*Plugins* are used to "deliver" `Extension Points`_, contributions to extension
+points, and Services_ into an Envisage application. In fact, plugins can be
+thought of as simply being "delivery trucks" -- they rarely (if ever) do any
+*real* work themselves. In other words, plugins can do 3 things:
+
+1) Declare extension points
+2) Make contributions to extension points (including its own)
+3) Create and publish services
+
+Plugins are managed by the *plugin manager*, and, whilst Envisage is designed
+such that you can write your own plugin manager, by default, it uses an
+implementation based on `Python Eggs`_.
+
+Plugin Definition vs Plugin Implementation
+==========================================
+
+Conceptually, a plugin is split into two halves, a *plugin definition* and
+a *plugin implementation*.
+
+Plugin Definition
+-----------------
+
+The plugin definition is where it declares and makes contributions to
+extension points (2 out the 3 things that plugins can do!). It also provides
+certain "housekeeping" information:
+
+- a globally unique identifier (e.g., "acme.motd")
+
+  This obviously allows Envisage to identify a particular plugin in a sea of
+  other plugins. Technically, this identifier only need be unique within your
+  application, but since the intent is for applications to be able to include
+  plugins from (potentially) all over the world, using the common reverse
+  domain name notation is probably a good idea!
+
+- a version
+
+  This allows different Envisage applications to use different versions of a
+  plugin according to their needs.
+
+- a list of the plugins required by this plugin
+
+  Envisage uses this to start the plugins in the appropriate order (i.e., if
+  plugin A requires plugin B, then plugin B will be started first). This is
+  useful for example, if Plugin A requires a service that is started by
+  Plugin B.
+
+- a reference to the plugin implementation (if any)
+
+  If a plugin implementation is required (see the following section for
+  details), then this is a reference to the plugin implementation class.
+
+In the default implementation of the plugin manager, an egg 'setup.py' is
+used as the plugin definition. Here is a snippet from the `acme.motd`_
+plugin that is part of the `Message of the Day`_ example:-
+
+::
+
+    setup(
+        name                 = 'acme.motd',
+        version              = '0.1a1',
+
+	...
+
+        install_requires     = [
+          'enthought.envisage>=3.0a1',
+        ],
+
+        entry_points = """
+
+        [enthought.envisage.plugins]
+        motd = acme.motd.motd_plugin:MOTDPlugin
+
+        [enthought.envisage.extension_points]
+        acme.motd.messages = acme.motd.api:IMessage
+    
+        """
+    )
+
+In this case, the plugin has an implementation class, MOTDPlugin_, and
+it declares a single extension point "acme.motd.messages" (see `Extension
+Points`_ for more details).
+
+Plugin Implementation
+---------------------
+
+If a plugin needs to create and publish any services, then it must provide
+a plugin implementation.
+
+A plugin implementation is defined via any class that implements the
+IPlugin_ interface. Usually, this is done by inheriting from the default
+Plugin_ class provided by Envisage.
+
+There are two key methods on the IPlugin_ interface:
+
+::
+
+    def start(self, application):
+        """ Start the plugin.
+
+        Can be called manually, but is usually called exactly once when the
+        application starts.
+
+        """
+
+    def stop(self, application):
+        """ Stop the plugin.
+
+        Can be called manually, but is usually called exactly once when the
+        application exits.
+
+        """
+
+The start() method is where the implementation creates and registers the 
+services it offers, and stop() is where it unregisters them and performs any
+other necessary cleanup.
+
+Envisage calls the start() method when the application is being started up,
+and as mentioned previously, plugins are started in the order defined by
+their requirements clauses.
+
+In the `Message of the Day`_ example, the acme.motd_ plugin creates a MOTD_
+object and registers it as a service in its start() method:
+
+::
+
+        def start(self, application):
+            """ Start the plugin. """
+
+            # Use the contributed messages to populate a MOTD object.
+            motd = MOTD(messages=self.messages)
+        
+            # Publish the object as a service.
+            self.motd_service_id = application.register_service(IMOTD, motd)
+        
+	    ...
+
+Being a good citizen, it cleans up after itself in the stop() method:
+
+::
+
+        def stop(self, application):
+            """ Stop the plugin. """
+
+            # Unregister the MOTD service.
+            application.unregister_service(self.motd_service_id)
+        
+	    return
+
+.. _acme.motd: ../../examples/MOTD/src/acme.motd/setup.py
+.. _acme.motd.software_quotes: ../../examples/MOTD/src/acme.motd.software_quotes/setup.py
+.. _`Extension Points`: ExtensionPoints.html
+.. _IPlugin: ../../enthought/envisage/i_plugin.py
+.. _`Message of the Day`: ../../examples/MOTD
+.. _MOTD: ../../examples/MOTD/src/acme.motd/acme/motd/motd.py
+.. _MOTDPlugin: ../../examples/MOTD/acme.motd/acme/motd/motd_plugin.py
+.. _Plugin: ../../enthought/envisage/plugin.py
+.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
+.. _Services: Services.html
