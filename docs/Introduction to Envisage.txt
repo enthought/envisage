@@ -1,10 +1,39 @@
-Building Extensible Applications with Envisage
-==============================================
+Introduction
+============
 
 Welcome to Envisage
 -------------------
 
-Welcome to the Envisage Extensible Application Framework!
+Welcome to Envisage - an Extensible Application Framework for Python!
+
+Envisage allows you to build applications that are extensible via the concept
+of plugins. 
+
+Envisage is treading lightly in the footsteps of the fantastic work that has
+been done in the Java community on frameworks such as OSGi_, Eclipse_ (which is
+built on top of OSGi_) and NetBeans_.
+
+Like these other frameworks, Envisage helps you build applications that are
+extensible via the concept of plugins. The plugin model is simple yet
+powerful and allowsPlugins can contribute toThere are 3 simple concepts thatmain con
+
+All of these frameworks have (at least) one thing in common -- and that is the
+idea that applications are extended by plugins.
+
+
+
+
+the idea that applications are  are
+designed to help you build applications that are extended via the concept of
+plugins. 
+
+to help you build applications based on a plugin model.
+
+Envisage applications are built using a plugin model that allows them to be
+easily and rapidly extended with new functionality.applications to be easily
+extended
+
+One of the problems that all of these frameworks face however
 
 The following sections attempt to answer some of the questions that often
 arise when the words 'Extensible', 'Application' and 'Framework' appear
@@ -114,3 +143,8 @@ Plugin Manager
 And that is it! Once you understand these ideas you understand Envisage -- so
 lets get started with a simple example that will hopefully make these somewhat
 abstract concepts a little more concrete.
+
+
+.. _Eclipse: http://www.eclipse.org
+.. _NetBeans: http://www.netbeans.org
+.. _OSGi: http://www.osgi.org

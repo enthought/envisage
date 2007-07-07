@@ -165,7 +165,7 @@ extension point you would use::
 
 ::
 
-    messages = application.get_extensions("acme.motd.messages")
+    messages = application.get_extensions('acme.motd.messages')
 
 Note however, that using the ExtensionPoint_ trait type, adds the ability to
 validate the contributions -- in this case, to make sure that they are all
