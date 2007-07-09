@@ -1,49 +1,108 @@
 Introduction
 ============
 
-Welcome to Envisage
--------------------
+Welcome to the Envisage Project! The goal of Envisage is to provide a framework
+for building extensible, pluggable applications, and in particular (but not
+limited to!), extensible, pluggable applications for scientists and engineers.
 
-Welcome to Envisage - an Extensible Application Framework for Python!
+The project is really divided into 3 sub-projects:-
 
-Envisage allows you to build applications that are extensible via the concept
-of plugins. 
+1) A framework for extensible applications
 
-Envisage is treading lightly in the footsteps of the fantastic work that has
-been done in the Java community on frameworks such as OSGi_, Eclipse_ (which is
-built on top of OSGi_) and NetBeans_.
+   The core of Envisage (the enthought.envisage package) provides the basic
+   notions of extensibility and plugins. All of the other sub-projects are
+   simply collections of plugins that are built using this layer.
 
-Like these other frameworks, Envisage helps you build applications that are
-extensible via the concept of plugins. The plugin model is simple yet
-powerful and allowsPlugins can contribute toThere are 3 simple concepts thatmain con
+2) A framework for (Graphical) User Interface applications
 
-All of these frameworks have (at least) one thing in common -- and that is the
-idea that applications are extended by plugins.
+   This is an ever-expanding set of plugins for building applications with
+   (graphical) User Interfaces (UIs). It is found in the enthought.envisage.ui
+   package (and its subpackages), and aims to provide much of the functionality
+   commonly required in user interfaces (actions, menubars, toolbars, user
+   preferences, wizards etc).
+
+3) A framework for Scientific/Engineering applications
+
+   This is the holy grail, and in truth, we haven't got much here yet, but the
+   goal is to build up a set of plugins targeted towards scientific and
+   engineering applications (data import/export, 2D/3D visualization etc).
+
+Before we go any other futher, we should point out that Envisage is based
+*heavily* on the fantastic work that has been done in the Java community on
+frameworks such as OSGi_, Eclipse_ (which is built on top of OSGi_) and
+NetBeans_. Like these other frameworks, Envisage helps you build applications
+that are extensible via the concept of plugins, however, one of its main goals
+is to provide a simplified system so that applications and plugins can be
+written by scientists and engineers i.e. people whose full-time job is *not*
+necessarily software development. In order to meet this goal, Envisage
+obviously has to make some compromises, and so if you want to build a massively
+scaleable, enterprise application we suggest you start with one of the other
+projects!
+
+Lets take a look at the core project in some more detail (the other projects
+are discussed in their own documentation sections - should they exist ;^).
+
+1) A framework for extensible applications
+------------------------------------------
+
+There are 3 simple concepts to understand before you start building your
+first Envisage application, that are discussed in detail in the following
+sections:
+
+1) `Extension Points`_
+2) Services_
+3) Plugins_
+
+Glossary
+========
+
+Extension Point
+  A well defined place where new functionality and/or data can be contributed
+  to an application.
+
+Extension (aka Contribution)
+  An *actual* piece of functionality or data that is contributed (this is why
+  extensions are often known as contributions). Think of
+  'extension points' as the 'where' and 'extensions' as the 'what'.
+
+Extension Registry
+  The place where (by default) all of the extension points and their 
+  associated extensions are stored.
+
+Service
+  In Envisage, a service is *any* object that a developer thinks is
+  sufficiently useful that to want to share it. While this term can have more
+  specialized meanings in related contexts, don't read too much into the word
+  'service' when talking about Envisage.
+
+Service Registry
+  The 'yellow pages' style mechanism that is used to publish and look up
+  services.
+
+Plugin
+  The mechanism for delivering new functionality to an application. A plugin
+  can do 3 simple things:
+
+  1) offer extension points
+  2) make contributions to extension points (including its own)
+  3) create and publish services
+
+Plugin Manager
+  Finds, starts, and manages the plugins that make up the application.
 
 
+.. _Eclipse: http://www.eclipse.org
+.. _`Extension Points`: ExtensionPoints.html
+.. _NetBeans: http://www.netbeans.org
+.. _OSGi: http://www.osgi.org
+.. _`Plugins`: Plugins.html
+.. _`Services`: Services.html
 
-
-the idea that applications are  are
-designed to help you build applications that are extended via the concept of
-plugins. 
-
-to help you build applications based on a plugin model.
-
-Envisage applications are built using a plugin model that allows them to be
-easily and rapidly extended with new functionality.applications to be easily
-extended
-
-One of the problems that all of these frameworks face however
-
-The following sections attempt to answer some of the questions that often
-arise when the words 'Extensible', 'Application' and 'Framework' appear
-next to each other.
-
-However, before doing that, we should point out that the ideas behind Envisage
-are not new. They are not even ours. The project is heavily influenced by the
-fantastic work that has been done in the Java community on application
-frameworks such as OSGi, Eclipe, and NetBeans. Envisage is merely treading
-lightly in their footsteps.
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Extensible?
 -----------
@@ -120,10 +179,10 @@ Extension Registry
   associated extensions are stored.
 
 Service
-  In Envisage, a service is *any* object that a developer thinks is sufficiently
-  useful that to want to share it. While this term can have more specialized 
-  meanings in related contexts, don't read too much into the word 'service' 
-  when talking about Envisage.
+  In Envisage, a service is *any* object that a developer thinks is
+  sufficiently useful that to want to share it. While this term can have more
+  specialized meanings in related contexts, don't read too much into the word
+  'service' when talking about Envisage.
 
 Service Registry
   The 'yellow pages' style mechanism that is used to publish and look up

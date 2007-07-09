@@ -1,0 +1,69 @@
+Introduction
+============
+
+Welcome to the Envisage Project! The goal of Envisage is to provide a framework
+for building extensible, pluggable applications, and in particular (but not
+limited to!), extensible, pluggable applications for scientists and engineers.
+
+The project is really divided into 3 sub-projects:-
+
+1) A framework for extensible applications
+
+   The core of Envisage (the enthought.envisage package) provides the basic
+   notions of extensibility and plugins. All of the other sub-projects are
+   simply collections of plugins that are built using this layer.
+
+2) A framework for (Graphical) User Interface applications
+
+   This is small (but hopefully expanding) set of plugins for building
+   applications with (graphical) User Interfaces (UIs). It is found in the
+   enthought.envisage.ui package (and its subpackages), and aims to provide
+   (eventually!) much of the functionality commonly required in user
+    interfaces (actions, menubars, toolbars, user preferences, wizards etc).
+
+3) A framework for Scientific/Engineering applications
+
+   This is the holy grail, and in truth, we haven't got much here yet, but the
+   goal is to build up a set of plugins targeted towards scientific and
+   engineering applications (data import/export, 2D/3D visualization etc).
+
+Before we go any other futher, we should point out that Envisage is based
+*heavily* on the excellent work that has been done in the Java community on
+frameworks such as OSGi_, Eclipse_ (which is built on top of OSGi_) and
+NetBeans_. Like these other frameworks, Envisage helps you build applications
+that are extensible via the concept of plugins, however, one of its main goals
+is to provide a simplified system so that applications and plugins can be
+written by scientists and engineers i.e. people whose full-time job is *not*
+necessarily software development. In order to meet this goal, Envisage
+obviously has to make some compromises, and so if you want to build a massively
+scaleable, enterprise application we suggest you start with one of those other
+projects!
+
+Lets take a look at the Envisage core in more detail (the other sub-projects
+are discussed in their own documentation sections - should they exist ;^).
+
+1) A framework for extensible applications
+------------------------------------------
+
+The Envisage core framework provides implementations of 3 simple concepts to
+help you build your extensible applications. Each of these concepts is
+discussed in detail in the following sections:
+
+1) `Extension Points`_
+2) Services_
+3) Plugins_
+
+To help make these somewhat abstract notions a little more concrete, lets take
+a look at a simple example, the `Message of the Day`_ application.
+
+For defininitions of all of the terms introduced in this document, see the
+Glossary_.
+
+.. _Eclipse: http://www.eclipse.org
+.. _`Extension Points`: ExtensionPoints.html
+.. _Glossary: Glossary.html
+.. _`Message of the Day`: MessageOfTheDay.html
+.. _NetBeans: http://www.netbeans.org
+.. _OSGi: http://www.osgi.org
+.. _`Plugins`: Plugins.html
+.. _`Services`: Services.html
