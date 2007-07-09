@@ -9,7 +9,7 @@ import logging
 # fixme: The ordering of these imports is critical. We don't use traits UI in
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
-from enthought.traits.api import Event, HasTraits, Instance, VetoableEvent
+from enthought.traits.api import Event, HasTraits, Instance, Str, VetoableEvent
 from enthought.traits.api import implements, on_trait_change
 
 # fixme: Just importing the package is enought (see above).
@@ -40,6 +40,9 @@ class Application(HasTraits):
     implements(IApplication)
     
     #### 'IApplication' interface #############################################
+
+    # The application's globally unique identifier.
+    id = Str
 
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)

@@ -1,4 +1,19 @@
-Welcome to the "Message of the Day" (MOTD) example. To run the application:-
+Welcome to the "Message of the Day" (MOTD) example.
 
-cd dist
-python run.py
+This directory contains two subdirectories::
+
+dist
+  Which contains the actual runnable application as it might actually be
+  distributed/deployed.
+
+  To run the application::
+
+  ``cd dist``
+  ``python run.py``
+  
+  or equivalent, depending on your operating system and shell.
+  
+src
+  Which contains the source code for the eggs that make up the application.
+  This directory is there to allow easy access to the example code, but would
+  obviously not normally be deployed.

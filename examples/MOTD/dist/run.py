@@ -24,7 +24,7 @@ def main():
     # Create and run the application.
     from enthought.envisage.api import ConsoleApplication
 
-    return ConsoleApplication(id='martin.motd').run()
+    return ConsoleApplication(id='acme.motd').run()
 
 
 ###############################################################################

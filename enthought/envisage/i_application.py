@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface, VetoableEvent
+from enthought.traits.api import Event, Interface, Str, VetoableEvent
 
 # Local imports.
 from application_event import ApplicationEvent
@@ -11,6 +11,9 @@ from application_event import ApplicationEvent
 class IApplication(Interface):
     """ The application interface. """
 
+    # The application's globally unique identifier.
+    id = Str
+    
     # Fired when the application is starting. This is the first thing that
     # happens when the 'start' method is called.
     starting = VetoableEvent(ApplicationEvent)
