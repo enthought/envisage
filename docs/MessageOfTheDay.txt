@@ -10,23 +10,24 @@ serve to illustrate all of the fundamental aspects of building an Envisage
 application.
 
 All of the code for this example can be found in the `examples/MOTD`_ directory
-of the Envisage distribution. This directory contains two subdirectories::
+of the Envisage distribution. This directory contains two subdirectories:
 
 dist
-  Contains the actual runnable application as it might actually be
-  distributed/deployed.
+  This directory contains the actual runnable application as it *might*
+  actually be distributed/deployed (of course, the *actual* deployment is up to
+  you).
 
   To run the application::
 
-  ``cd dist``
-  ``python run.py``
+    cd dist
+    python run.py
   
   (or equivalent, depending on your operating system and shell)
   
 src
-  Contains the source code for the eggs that make up the application. This
-  directory is there to allow easy access to the example code, but would
-  obviously not normally need to be deployed.
+  This directory contains the source code for the eggs that make up the
+  application. This is there to allow easy access to the example code, but
+  would obviously not normally need to be deployed.
 
 Before we dive right in to building our extensible application, let's take a
 small, but important, step back. Envisage is designed to be an integration
@@ -56,7 +57,7 @@ In this case, there are 2 interfaces
   The interface supported by each message returned by the motd() method on
   the IMOTD_ interface.
 
-We also (not coincidentally!) have 2 corresponding implementation classes::
+We also (not coincidentally!) have 2 corresponding implementation classes:
 
 1) MOTD_
 2) Message_
@@ -83,11 +84,11 @@ code (albeit a very simple one).
 Not So Plain Ol' MOTD
 ---------------------
 
-Now lets take this code and look at the steps we have to go through in
-order to turn it into an extensible, pluggable Envisage application.
+Now lets look at the steps that we have to go through to use this code and
+turn it into an extensible, pluggable Envisage application.
 
 1) Create the main Application class
---------------------------------------
+------------------------------------
 
 First of all, we need to create an object that represents the application
 itself. In Envisage, this can be any object that implements the IApplication_
@@ -229,7 +230,7 @@ and tell Envisage about the messages that we have just created::
         """
     )
 
-3) Build the 'acme.motd.software_quotes' egg.
+5) Build the 'acme.motd.software_quotes' egg.
 ---------------------------------------------
 
 To deploy the plugin into an application, we have to build it as an egg::
@@ -249,7 +250,7 @@ We have successfully built our first extensible, pluggable application!
 .. _acme.motd: ../../examples/MOTD/src/acme.motd/acme/motd/api.py
 .. _acme.motd.software_quotes: ../../examples/MOTD/src/acme.motd.software_quotes/setup.py
 .. _Application: ../../enthought/envisage/i_application.py
-.._`examples/MOTD`: ../../examples/MOTD
+.. _`examples/MOTD`: ../../examples/MOTD
 .. _IApplication: ../../enthought/envisage/i_application.py
 .. _IMessage: ../../examples/MOTD/src/acme.motd/acme/motd/i_message.py
 .. _Message: ../../examples/MOTD/src/acme.motd/acme/motd/message.py

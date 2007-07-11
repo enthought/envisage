@@ -15,7 +15,7 @@ such that you can write your own plugin manager, by default, it uses an
 implementation based on `Python Eggs`_.
 
 Plugin Definition vs Plugin Implementation
-==========================================
+------------------------------------------
 
 Conceptually, a plugin is split into two halves, a *plugin definition* and
 a *plugin implementation*.

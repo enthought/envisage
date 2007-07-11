@@ -3,6 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import EggExtensionRegistry, ExtensionPoint
+from enthought.traits.api import Dict
 
 # Local imports.
 from egg_based_test_case import EggBasedTestCase
@@ -46,6 +47,40 @@ class EggExtensionRegistryTestCase(EggBasedTestCase):
 
         # Get the message of the day...
         motd    = ExtensibleMOTD()
+        message = motd.motd()
+
+        # ... and print it.
+        print '\n"%s"\n\n- %s' % (message.text, message.author)
+
+        # Make sure it was one of the contributed ones!
+        self.assertNotEqual(None, message)
+        self.assertEqual(Message, type(message))
+        self.assertNotEqual(None, self._find_object(message, messages))
+
+        return
+
+    def test_dict_extension_point(self):
+        """ dict extension point """
+
+        self._add_egg('acme.motd-0.1a1-py2.4.egg')
+        self._add_egg('acme.motd.software_quotes-0.1a1-py2.4.egg')
+
+        # Acme library imports.
+        from acme.motd.api import Message, MOTD
+        from acme.motd.software_quotes import messages
+
+        class ExtensibleMOTD(MOTD):
+            """ Extensible MOTD using a dictionary extension point. """
+
+            message_map = ExtensionPoint(Dict, id='acme.motd.messages')
+
+            def _messages_default(self):
+                """ Trait initializer. """
+
+                return self.message_map.values()
+            
+        # Get the message of the day...
+        motd = ExtensibleMOTD()
         message = motd.motd()
 
         # ... and print it.

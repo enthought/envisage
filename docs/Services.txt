@@ -21,8 +21,6 @@ allows you to publish your own for free (unlike the "real" one)!
 In an Envisage application, the service registry is accessed through the
 following methods on the IApplication_ interface::
 
-::
-
     def get_service(self, interface, query='', minimimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 

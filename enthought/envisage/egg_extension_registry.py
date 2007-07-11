@@ -39,7 +39,22 @@ class EggExtensionRegistry(HasTraits):
             extensions.append(entry_point.load())
 
         logger.debug('extensions for [%s] %s', extension_point, extensions)
-        
+
         return extensions
+
+    ###########################################################################
+    # 'EggExtensionRegistry' interface.
+    ###########################################################################
+
+    def get_extensions_map(self, extension_point):
+        """ Return all contributions to an extension point. """
+
+        extensions_map = {}
+        for entry_point in self.working_set.iter_entry_points(extension_point):
+            extensions_map[entry_point.name] = entry_point.load()
+
+        logger.debug('extensions for [%s] %s', extension_point, extensions_map)
+
+        return extensions_map
 
 #### EOF ######################################################################

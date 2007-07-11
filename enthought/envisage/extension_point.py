@@ -1,8 +1,11 @@
 """ An extension point. """
 
 
+# Standard library imports.
+import inspect
+
 # Enthought library imports.
-from enthought.traits.api import TraitError, TraitType
+from enthought.traits.api import List, TraitError, TraitType
 
 
 class ExtensionPoint(TraitType):
@@ -23,6 +26,9 @@ class ExtensionPoint(TraitType):
         super(ExtensionPoint, self).__init__(**metadata)
 
         # The trait type that describes the extension point.
+        if inspect.isclass(trait_type):
+            trait_type = trait_type()
+                
         self.trait_type = trait_type
 
         # The Id of the extension point.
@@ -50,10 +56,28 @@ class ExtensionPoint(TraitType):
     ###########################################################################
     # Protected 'ExtensionPoint' interface.
     ###########################################################################
-    
+
     def _get_extensions(self, obj):
         """ Return all contributions to this extension point. """
 
+        if self.trait_type is None or isinstance(self.trait_type, List):
+            extensions = self._get_extensions_as_list(obj)
+
+        else:
+            extensions = self._get_extensions_as_dict(obj)
+
+        return extensions
+    
+    def _get_extensions_as_dict(self, obj):
+        """ Return all contributions to this extension point. """
+
+        extension_registry = ExtensionPoint.extension_registry
+
+        return extension_registry.get_extensions_map(self.id)
+
+    def _get_extensions_as_list(self, obj):
+        """ Return all contributions to this extension point. """
+        
         extension_registry = ExtensionPoint.extension_registry
 
         return extension_registry.get_extensions(self.id)
