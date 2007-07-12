@@ -1,0 +1,23 @@
+Core
+====
+
+The goal of the *Core* project is to provide a set of general-purpose tools
+for building extensible, pluggable applications. Hopefully, these tools are
+useful whether you are building an airline reservation system, a web server or
+a game of tetris!
+
+Generally, when we try to represent an Envisage application visually, we draw
+something like this:
+
+.. image:: ../images/application.png
+
+Which attempts to illustrate the 3 simple concepts used to build *all*
+Envisage applications:
+
+1) `Extension Points`_
+2) Services_
+3) Plugins_
+
+.. _`Extension Points`: ExtensionPoints.html
+.. _`Plugins`: Plugins.html
+.. _`Services`: Services.html

@@ -17,7 +17,7 @@ class MOTDPlugin(Plugin):
     #### 'MOTDPlugin' interface ###############################################
 
     # All contributed messages.
-    messages = ExtensionPoint(List(IMessage), 'acme.motd.messages')
+    messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
     
     ###########################################################################
     # 'IPlugin' interface.
@@ -44,7 +44,7 @@ class MOTDPlugin(Plugin):
         # the MOTD object as a service so that other parts of the application
         # can use it if they so wish (it just so happens that this application
         # is so small, that there really aren't #any other parts')!
-        application.register_service(IMOTD, motd)
+        self._motd_service_id = application.register_service(IMOTD, motd)
         
         # And this is how we could look the service up!
         motd_service = application.get_service(IMOTD)
@@ -54,6 +54,14 @@ class MOTDPlugin(Plugin):
 
         # ... and print it.
         print '\n"%s"\n\n- %s' % (message.text, message.author)
+        
+        return
+
+    def stop(self, application):
+        """ Stop the plugin. """
+
+        # Unregister the MOTD service.
+        application.unregister_service(self._motd_service_id))
         
         return
 

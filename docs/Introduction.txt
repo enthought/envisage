@@ -23,6 +23,10 @@ The project is really divided into 3 sub-projects:-
    functionality commonly required in this type of application including
    actions, menubars, toolbars, user preferences, wizards etc.
 
+   One of the most useful plugins in this project is the Workbench_ plugin
+   that helps you build a style of user interface that is often (but not
+   exclusively) found in integrated development environments (IDEs).
+
 3) Science/Enginneering
 
    This is the holy grail, and in truth, we haven't got much here yet, but the
@@ -67,3 +71,4 @@ documentation and examples first).
 .. _`Message of the Day`: MessageOfTheDay.html
 .. _NetBeans: http://www.netbeans.org
 .. _OSGi: http://www.osgi.org
+.. _Workbench: Workbench.html

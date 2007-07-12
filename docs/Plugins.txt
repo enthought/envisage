@@ -133,7 +133,7 @@ object and registers it as a service in its start() method:
             motd = MOTD(messages=self.messages)
         
             # Publish the object as a service.
-            self.motd_service_id = application.register_service(IMOTD, motd)
+            self._motd_service_id = application.register_service(IMOTD, motd)
         
 	    ...
 
@@ -145,7 +145,7 @@ Being a good citizen, it cleans up after itself in the stop() method:
             """ Stop the plugin. """
 
             # Unregister the MOTD service.
-            application.unregister_service(self.motd_service_id)
+            application.unregister_service(self._motd_service_id)
         
 	    return
 
