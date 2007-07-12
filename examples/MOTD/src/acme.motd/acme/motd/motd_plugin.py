@@ -61,7 +61,7 @@ class MOTDPlugin(Plugin):
         """ Stop the plugin. """
 
         # Unregister the MOTD service.
-        application.unregister_service(self._motd_service_id))
+        application.unregister_service(self._motd_service_id)
         
         return
 
