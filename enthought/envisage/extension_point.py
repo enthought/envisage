@@ -26,6 +26,9 @@ class ExtensionPoint(TraitType):
         super(ExtensionPoint, self).__init__(**metadata)
 
         # The trait type that describes the extension point.
+        #
+        # If we are handed a trait type *class* e.g. List, instead of a trait
+        # type *instance* e.g. List(Int), then we just instantiate it.
         if inspect.isclass(trait_type):
             trait_type = trait_type()
                 
@@ -60,24 +63,6 @@ class ExtensionPoint(TraitType):
     def _get_extensions(self, obj):
         """ Return all contributions to this extension point. """
 
-        if self.trait_type is None or isinstance(self.trait_type, List):
-            extensions = self._get_extensions_as_list(obj)
-
-        else:
-            extensions = self._get_extensions_as_dict(obj)
-
-        return extensions
-    
-    def _get_extensions_as_dict(self, obj):
-        """ Return all contributions to this extension point. """
-
-        extension_registry = ExtensionPoint.extension_registry
-
-        return extension_registry.get_extensions_map(self.id)
-
-    def _get_extensions_as_list(self, obj):
-        """ Return all contributions to this extension point. """
-        
         extension_registry = ExtensionPoint.extension_registry
 
         return extension_registry.get_extensions(self.id)
