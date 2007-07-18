@@ -6,6 +6,9 @@ that do the actual work! To get the job done, services obviously need to
 interact, and so Envisage provides a way for them to
 find each other. This is where the *service registry* comes in.
 
+Service Registry
+================
+
 The service registry provides a "Yellow Pages" style mechanism, in that
 services are published and looked up by *interface*, or *type*. It is called
 a "Yellow Pages" mechanism because it is just like looking up a telephone
@@ -14,9 +17,9 @@ of the "White Pages" when you don't know the *name* of the person you want to
 call but you do know what *kind* of service you require. For example, if you
 have a leaking pipe, you know you need a plumber, so you pick up your "Yellow
 Pages", go to the "Plumbers" section and choose one that seems to fit the bill
-based on price, location, certification etc. The service registry does
+based on price, location, certification, etc. The service registry does
 exactly the same thing as the "Yellow Pages", only with objects, and it even
-allows you to publish your own for free (unlike the "real" one)!
+allows you to publish your own entries for free (unlike the "real" one)!
 
 In an Envisage application, the service registry is accessed through the
 following methods on the IApplication_ interface::
@@ -39,7 +42,7 @@ following methods on the IApplication_ interface::
     def register_service(self, interface, obj, properties=None):
         """ Register a service.
 
-        Returns a service Id that can be used to retrieve any service
+        Returns a service ID that can be used to retrieve any service
         properties, and to unregister the service.
 
         """
@@ -50,7 +53,7 @@ following methods on the IApplication_ interface::
         """
 
 The easiest way to explain the workings of these methods is to take a look at
-some examples, and so to continue our plumber theme, lets assume we have the
+some examples, and so to continue our plumber theme, let's assume we have the
 following interface and implementation::
 
     class IPlumber(Interface):
@@ -93,7 +96,7 @@ following interface and implementation::
 To register a service, create an object and call the
 register_service() method, passing it the interface or type to
 publish the object under (for "interface/type" think "Yellow Pages" section),
-and the object that to publish. Note that the object to publish does *not* have
+and the object to publish. Note that the object to publish does *not* have
 to inherit from any particular base class -- any arbitrary Python object will
 do::
 
@@ -104,10 +107,10 @@ Note that each registered service gets assigned an ID that is unique within
 the current process. This can be used later
 to access its properties, or to unregister it, etc.
 
-We can also associate an arbitrary dictionary of properties with an object when
-we register it. These properties, along with the actual attributes of the
+You can also associate an arbitrary dictionary of properties with an object when
+you register it. These properties, along with the actual attributes of the
 service itself, can be used later to lookup the service using the query
-mechanism as shown in example 4).
+mechanism as shown in Section 4.
 
 ::
 
@@ -122,19 +125,19 @@ interface or type of service required::
 
     plumber = application.get_service(IPlumber)
 
-If we assume that we have registered both *fred* and *wilma* as in example 1)
-then we have no way of knowing which of those objects would be returned here.
-It does *not* necessarily reflect the order in which they were added, so don't
-depend on it.
+Assuming that we have registered both *fred* and *wilma* as in Section 1,
+then there is no way of knowing which of those objects would be returned.
+The choice of the object returned does *not* necessarily reflect the order in
+which they were added, so don't depend on it.
 
 3) Looking up a list of services
 --------------------------------
 
-We can also look up *all* services of a particular interface or type::
+You can also look up *all* services of a particular interface or type::
 
     plumbers = application.get_services(IPlumber)
 
-Assuming the registrations in example 1), this would return a list containing
+Assuming the registrations in Section 1, this returns a list containing
 both *fred* and *wilma*, again in arbitrary order.
 
 4) Using queries
@@ -149,9 +152,9 @@ expression is evaluated in is created by first adding each of the service's
 attributes, followed by any additional properties that were specified when the
 service was registered (i.e., properties take precedence over attributes).
 
-Once again, assuming that we have registered *fred* and *wilma* as in example
-1), lets look at how we can use the query mechanism to be more selective
-about which plumber(s) we look up.
+Once again, assuming that we have registered *fred* and *wilma* as in Section
+1, let's look at how to use the query mechanism to be more selective
+about the plumber(s) we look up.
 
 Find all plumbers whose price is less than 100 Krooni/Hour::
 
@@ -198,7 +201,7 @@ This query would definitely give the job to *wilma*!
 6) Unregistering a service
 --------------------------
 
-When we register a service, Envisage gives us back a value that uniquely
+When you register a service, Envisage returns a value that uniquely
 identifies the service within the current process (i.e., it is not suitable for
 persisting to use next time the application is run). To unregister a service,
 call the unregister_service() method, passing in the appropriate identifier::
@@ -213,8 +216,8 @@ call the unregister_service() method, passing in the appropriate identifier::
 7) Getting any additional service properties
 --------------------------------------------
 
-If we associated an arbitrary dictionary of properties with an object when
-we registered it, we can retreive those properties by calling the
+If you associate an arbitrary dictionary of properties with an object when
+you register it, you can retrieve those properties by calling the
 get_service_properties() method with the appropriate service identifier::
 
     wilma = Plumber(name='wilma', location='BH6')
@@ -236,3 +239,4 @@ dictionary. However, in practise, it is more common to use the actual
 attributes of a service for this purpose.
 
 .. _IApplication: ../../enthought/envisage/i_application.py
+
