@@ -22,7 +22,13 @@ class Action(HasTraits):
     # in multiple locations, e.g., on a menu *and* on the tool bar.
     locations = List#(Location)
 
+    ###########################################################################
+    # 'object' interface
+    ###########################################################################
+    
     def __str__(self):
+        """ Return the 'informal' string representation of the object. """
+
         return 'Action(%s)' % self.class_name
 
     __repr__ = __str__

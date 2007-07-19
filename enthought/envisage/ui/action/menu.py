@@ -29,14 +29,24 @@ class Menu(HasTraits):
     # support the **enthought.pyface.action.MenuManager** interface.
     class_name = Str
 
+    ###########################################################################
+    # 'object' interface
+    ###########################################################################
+    
     def __str__(self):
+        """ Return the 'informal' string representation of the object. """
+
         return 'Menu(%s)' % self.id
 
     __repr__ = __str__
 
+    ###########################################################################
+    # 'Menu' interface
+    ###########################################################################
 
     def _id_default(self):
+        """ Trait initializer. """
+        
         return self.name.strip('&')
-
         
 #### EOF ######################################################################

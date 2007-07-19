@@ -9,6 +9,32 @@ from enthought.envisage.ui.action.api import Action, ActionSet, Group, Location
 from enthought.envisage.ui.action.api import Menu, MenuBuilder
 
 
+class TestMenuBuilder(MenuBuilder):
+    """ A test menu builder that doesn't build real actions! """
+
+    ###########################################################################
+    # Protected 'MenuBuilder' interface.
+    ###########################################################################
+
+    def _create_action(self, action_extension):
+        """ Creates an action implementation from an action extension. """
+
+        from enthought.pyface.action.api import Action
+        return Action(name=action_extension.class_name)
+
+    def _create_group(self, group_extension):
+        """ Creates a group implementation from a group extension. """
+
+        from enthought.pyface.action.api import Group
+        return Group(id=group_extension.id)
+
+    def _create_menu_manager(self, menu_extension):
+        """ Creates a menu manager implementation from a menu extension. """
+
+        from enthought.pyface.action.api import MenuManager
+        return MenuManager(id=menu_extension.id)
+
+    
 class MenuBuilderTestCase(unittest.TestCase):
     """ Tests for the menu builder. """
 
@@ -36,16 +62,16 @@ class MenuBuilderTestCase(unittest.TestCase):
         action_sets = [
             ActionSet(
                 menus = [
-                    Menu(name='&File',  location='MenuBar'),
-                    Menu(name='&Edit',  location='MenuBar'),
+                    Menu(name='&File', location='MenuBar'),
+                    Menu(name='&Edit', location='MenuBar'),
                     Menu(name='&Tools', location='MenuBar'),
-                    Menu(name='&Help',  location='MenuBar')
+                    Menu(name='&Help', location='MenuBar')
                 ],
             )
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = MenuBuilder(action_sets=action_sets)
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -57,10 +83,10 @@ class MenuBuilderTestCase(unittest.TestCase):
         self.assertEqual('additions', menu_manager.groups[0].id)
 
         additions = menu_manager.groups[0]
-        self.assertEqual('File',  additions.items[0].id)
-        self.assertEqual('Edit',  additions.items[1].id)
+        self.assertEqual('File', additions.items[0].id)
+        self.assertEqual('Edit', additions.items[1].id)
         self.assertEqual('Tools', additions.items[2].id)
-        self.assertEqual('Help',  additions.items[3].id)
+        self.assertEqual('Help', additions.items[3].id)
 
         return
 
@@ -70,22 +96,15 @@ class MenuBuilderTestCase(unittest.TestCase):
         action_sets = [
             ActionSet(
                 menus = [
-                    Menu(name='&File',  location='MenuBar'),
-                    Menu(name='&Edit',  location='MenuBar'),
+                    Menu(name='&File', location='MenuBar'),
+                    Menu(name='&Edit', location='MenuBar'),
                     Menu(name='&Tools', location='MenuBar'),
-                    Menu(name='&Help',  location='MenuBar')
+                    Menu(name='&Help', location='MenuBar')
                 ],
             
                 actions = [
-                    Action(
-                        class_name = 'ExitAction',
-                        locations  = ['MenuBar/File']
-                    ),
-                
-                    Action(
-                        class_name = 'AboutAction',
-                        locations  = ['MenuBar/Help']
-                    )
+                    Action(class_name='Exit', locations=['MenuBar/File']),
+                    Action(class_name='About', locations=['MenuBar/Help'])
                 ]
             ),
         
@@ -97,7 +116,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = MenuBuilder(action_sets=action_sets)
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -118,28 +137,21 @@ class MenuBuilderTestCase(unittest.TestCase):
         action_sets = [
             ActionSet(
                 menus = [
-                    Menu(name='&File',  location='MenuBar'),
-                    Menu(name='&Edit',  location='MenuBar'),
+                    Menu(name='&File', location='MenuBar'),
+                    Menu(name='&Edit', location='MenuBar'),
                     Menu(name='&Tools', location='MenuBar'),
-                    Menu(name='&Help',  location='MenuBar')
+                    Menu(name='&Help', location='MenuBar')
                 ],
             
                 actions = [
-                    Action(
-                        class_name = 'ExitAction',
-                        locations  = ['MenuBar/File']
-                    ),
-                
-                    Action(
-                        class_name = 'AboutAction',
-                        locations  = ['MenuBar/Help']
-                    )
+                    Action(class_name='Exit', locations=['MenuBar/File']),
+                    Action(class_name='About', locations=['MenuBar/Help'])
                 ]
             )
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = MenuBuilder(action_sets=action_sets)
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -150,14 +162,14 @@ class MenuBuilderTestCase(unittest.TestCase):
         menu = menu_manager.find_item('File')
         additions = menu.find_group('additions')
 
-        self.assertEqual('ExitAction', additions.items[0].id)
+        self.assertEqual('Exit', additions.items[0].id)
 
         # Make sure the 'AboutAction' action got added to the 'additions' group
         # of the 'File' menu.
         menu = menu_manager.find_item('Help')
         additions = menu.find_group('additions')
 
-        self.assertEqual('AboutAction', additions.items[0].id)
+        self.assertEqual('About', additions.items[0].id)
 
         return
     

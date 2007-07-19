@@ -25,7 +25,13 @@ class Group(HasTraits):
     # support the **enthought.pyface.action.Group** interface.
     class_name = Str
 
+    ###########################################################################
+    # 'object' interface
+    ###########################################################################
+    
     def __str__(self):
+        """ Return the 'informal' string representation of the object. """
+
         return 'Group(%s)' % self.id
 
     __repr__ = __str__
