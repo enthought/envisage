@@ -48,5 +48,17 @@ class Menu(HasTraits):
         """ Trait initializer. """
         
         return self.name.strip('&')
-        
+
+    ###########################################################################
+    # Private interface
+    ###########################################################################
+
+    def _location_changed(self, old, new):
+        """ Static trait change hanler. """
+
+        if not isinstance(new, Location):
+            self.location = Location(path=new)
+
+        return
+
 #### EOF ######################################################################

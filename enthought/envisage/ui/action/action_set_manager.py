@@ -55,6 +55,7 @@ class ActionSetManager(HasTraits):
         actions = []
         for action_set in self.action_sets:
             aliases = action_set.aliases
+            
             for action in action_set.actions:
 
                 for i in range(len(action.locations)):
@@ -63,7 +64,7 @@ class ActionSetManager(HasTraits):
                         
                     
                 for location in action.locations:
-                    if self._get_location_root(location, aliases) == root:
+                    if self._get_root(aliases, location.path) == root:
                         action._action_set_ = action_set
                         actions.append(action)
                         break
@@ -76,9 +77,10 @@ class ActionSetManager(HasTraits):
         groups = []
         for action_set in self.action_sets:
             aliases = action_set.aliases
+            
             for group in action_set.groups:
-                if self._get_location_root(group.location, aliases) == root:
-                    group._action_set_ = action_set
+                if self._get_root(aliases, group.location.path) == root:
+##                     group._action_set_ = action_set
                     groups.append(group)
 
         return groups
@@ -89,14 +91,10 @@ class ActionSetManager(HasTraits):
         menus = []
         for action_set in self.action_sets:
             aliases = action_set.aliases
-            for menu in action_set.menus:
-                from location import Location
-                if not isinstance(menu.location, Location):
-                    menu.location = Location(path=menu.location)
             
-                
-                if self._get_location_root(menu.location, aliases) == root:
-                    menu._action_set_ = action_set
+            for menu in action_set.menus:
+                if self._get_root(aliases, menu.location.path) == root:
+##                     menu._action_set_ = action_set
                     menus.append(menu)
 
         return menus
@@ -105,16 +103,32 @@ class ActionSetManager(HasTraits):
     # 'Private' interface.
     ###########################################################################
 
-    def _get_location_root(self, location, aliases):
-        """ Returns the effective root for a location. """
+    def _get_root(self, aliases, path):
+        """ Returns the effective root for a path.
 
-        components = location.path.split('/')
+        This simply replaces any aliased root components.
+
+        e.g. If the aliases are::
+
+            {'MenuBar' : 'enthought.envisage.ui.workbench.menubar'}
+
+        and the path is::
+
+           'MenuBar/File/New'
+
+        Then the effective root is::
+
+            'enthought.envisage.ui.workbench.menubar'
+
+        """
+
+        components = path.split('/')
         if components[0] in aliases:
-            location_root = aliases[components[0]]
+            root = aliases[components[0]]
 
         else:
-            location_root = components[0]
+            root = components[0]
 
-        return location_root
+        return root
 
 #### EOF ######################################################################
