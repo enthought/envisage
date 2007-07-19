@@ -92,6 +92,9 @@ class MenuBuilderTestCase(unittest.TestCase):
     def test_sub_menus_with_no_groups(self):
         """ sub-menus with no groups """
 
+        # We split the contributions into different action sets just because
+        # that is how it might end up in an actual application... not because
+        # you *have* to split them up this way!
         action_sets = [
             ActionSet(
                 menus = [
@@ -100,11 +103,6 @@ class MenuBuilderTestCase(unittest.TestCase):
                     Menu(name='&Tools', location='MenuBar'),
                     Menu(name='&Help', location='MenuBar')
                 ],
-            
-                actions = [
-                    Action(class_name='Exit', locations=['MenuBar/File']),
-                    Action(class_name='About', locations=['MenuBar/Help'])
-                ]
             ),
         
             ActionSet(
@@ -133,6 +131,9 @@ class MenuBuilderTestCase(unittest.TestCase):
     def test_actions_with_no_groups(self):
         """ actions with no groups """
 
+        # We split the contributions into different action sets just because
+        # that is how it might end up in an actual application... not because
+        # you *have* to split them up this way!
         action_sets = [
             ActionSet(
                 menus = [
@@ -140,8 +141,10 @@ class MenuBuilderTestCase(unittest.TestCase):
                     Menu(name='&Edit', location='MenuBar'),
                     Menu(name='&Tools', location='MenuBar'),
                     Menu(name='&Help', location='MenuBar')
-                ],
-            
+                ]
+            ),
+
+            ActionSet(
                 actions = [
                     Action(class_name='Exit', locations=['MenuBar/File']),
                     Action(class_name='About', locations=['MenuBar/Help'])
