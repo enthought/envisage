@@ -80,9 +80,8 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar.
         self.assertEqual(1, len(menu_manager.groups))
-        self.assertEqual('additions', menu_manager.groups[0].id)
 
-        additions = menu_manager.groups[0]
+        additions = menu_manager.find_group('additions')
         self.assertEqual('File', additions.items[0].id)
         self.assertEqual('Edit', additions.items[1].id)
         self.assertEqual('Tools', additions.items[2].id)
@@ -110,7 +109,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         
             ActionSet(
                 menus = [
-                    Menu(name='&New',  location='MenuBar/File'),
+                    Menu(name='&New', location='MenuBar/File'),
                 ],
             )
         ]
