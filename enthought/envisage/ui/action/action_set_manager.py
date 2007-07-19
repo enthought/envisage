@@ -28,24 +28,24 @@ class ActionSetManager(HasTraits):
     # 'ActionSetManager' interface.
     ###########################################################################
 
-    # fixme: In all of these methods we should organize and cache the
-    # contributions!
-    def get_action(self, id, root):
-        """ Return the action with the specified ID for a root.
+##     # fixme: In all of these methods we should organize and cache the
+##     # contributions!
+##     def get_action(self, id, root):
+##         """ Return the action with the specified ID for a root.
 
-        Return None if no such action exists.
+##         Return None if no such action exists.
 
-        """
+##         """
 
-        actions = self.get_actions(root)
-        for action in actions:
-            if action.id == id:
-                result = action
-                break
-        else:
-            result = None
+##         actions = self.get_actions(root)
+##         for action in actions:
+##             if action.id == id:
+##                 result = action
+##                 break
+##         else:
+##             result = None
 
-        return result
+##         return result
 
     def get_actions(self, root):
         """ Return all action contributions for a root. """
@@ -55,19 +55,11 @@ class ActionSetManager(HasTraits):
         actions = []
         for action_set in self.action_sets:
             aliases = action_set.aliases
-            
-            for action in action_set.actions:
 
-                for i in range(len(action.locations)):
-                    if not isinstance(action.locations[i], Location):
-                        action.locations[i] = Location(path=action.locations[i])
-                        
-                    
-                for location in action.locations:
-                    if self._get_root(aliases, location.path) == root:
-                        action._action_set_ = action_set
-                        actions.append(action)
-                        break
+            for action in action_set.actions:
+                if self._get_root(aliases, action.location.path) == root:
+##                    action._action_set_ = action_set
+                    actions.append(action)
 
         return actions
 

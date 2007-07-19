@@ -104,24 +104,24 @@ class MenuBuilder(HasTraits):
             start = len(actions)
 
             for action in actions[:]:
-                for location in action.locations:
-                    location_root = self._get_location_root(
-                        location, action._action_set_.aliases
-                    )
-                    path = location.path
-                    if location_root == root:
-                        
-                        target = self._find_menu_manager(menu_manager, location.path)
+                path = action.location.path
 
-                        if len(location.group) > 0:
-                            group = target.find_group(location.group)
+                # Resolve the path to find the target menu manager (i.e. the
+                # menu manager that we are about to add a sub-menu or group
+                # to).
+                target = self._find_menu_manager(menu_manager, path)
+                if target is None:
+                    raise ValueError('no such location %s' % path)
+                
+                if len(action.location.group) > 0:
+                    group = target.find_group(action.location.group)
+                    
+                else:
+                    group = target.find_group('additions')
 
-                        else:
-                            group = target.find_group('additions')
-
-                        if group is not None:
-                            if self._add_action(group, action, location):
-                                actions.remove(action)
+                if group is not None:
+                    if self._add_action(action, group):
+                        actions.remove(action)
 
             end = len(actions)
 
@@ -131,6 +131,37 @@ class MenuBuilder(HasTraits):
                 raise ValueError("Could not place %s" % actions)
 
         return
+
+    def _add_action(self, action, group):
+        """ Add an action to a group.
+
+        Return True if the action was added successfully.
+
+        Return False if the action needs to be placed 'before' or 'after' some
+        other action, but the other action has not yet been added to the group.
+
+        """
+
+        if len(action.location.before) > 0:
+            item = group.find(action.location.before)
+            if item is None:
+                return False
+
+            index = group.items.index(item)
+
+        elif len(action.location.after) > 0:
+            item = group.find(action.location.after)
+            if item is None:
+                return False
+
+            index = group.items.index(item) + 1
+
+        else:
+            index = len(group.items)
+
+        group.insert(index, self._create_action(action))
+
+        return True
 
     def _add_menus_and_groups(self, menu_manager, action_set_manager, root):
         """ Add the menu and group structure. """
@@ -179,23 +210,6 @@ class MenuBuilder(HasTraits):
             # must have a problem!
             if start == end:
                 raise ValueError('Could not place %s' % menus_and_groups)
-
-        return
-
-    def _sort_by_path_len(self, menus_and_groups):
-        """ Sort the menus & groups by the number of components in their path.
-
-        """
-
-        def by_path_len(x, y):
-            """ Compare items by the number of components in their path. """
-            
-            len_x = len(x.location.path.split('/'))
-            len_y = len(y.location.path.split('/'))
-
-            return cmp(len_x, len_y)
-
-        menus_and_groups.sort(by_path_len)
 
         return
 
@@ -255,11 +269,6 @@ class MenuBuilder(HasTraits):
 
         return True
 
-    def _is_group(self, item):
-        """ Return True if item is a group *definition*, otherwise False. """
-
-        return not hasattr(item, 'groups')
-
     def _find_menu_manager(self, menu_manager, path):
         """ Returns the menu manager at the specified path.
 
@@ -276,48 +285,26 @@ class MenuBuilder(HasTraits):
 
         return menu_manager
 
+    def _is_group(self, item):
+        """ Return True if item is a group *definition*, otherwise False. """
 
-    def _add_action(self, group, action, location):
-        """ Add an action to a group.
+        return not hasattr(item, 'groups')
 
-        Return True if the action was added successfully.
-
-        Return False if the action needs to be placed 'before' or 'after' some
-        other action, but the other action has not yet been added to the group.
+    def _sort_by_path_len(self, menus_and_groups):
+        """ Sort the menus & groups by the number of components in their path.
 
         """
 
-        if len(location.before) > 0:
-            item = group.find(location.before)
-            if item is None:
-                return False
+        def by_path_len(x, y):
+            """ Compare items by the number of components in their path. """
+            
+            len_x = len(x.location.path.split('/'))
+            len_y = len(y.location.path.split('/'))
 
-            index = group.items.index(item)
+            return cmp(len_x, len_y)
 
-        elif len(location.after) > 0:
-            item = group.find(location.after)
-            if item is None:
-                return False
+        menus_and_groups.sort(by_path_len)
 
-            index = group.items.index(item) + 1
-
-        else:
-            index = len(group.items)
-
-        group.insert(index, self._create_action(action))
-
-        return True
-
-    def _get_location_root(self, location, aliases):
-        """ Returns the effective root for a location. """
-
-        components = location.path.split('/')
-        if components[0] in aliases:
-            location_root = aliases[components[0]]
-
-        else:
-            location_root = components[0]
-
-        return location_root
+        return
 
 #### EOF ######################################################################

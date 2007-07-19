@@ -146,8 +146,8 @@ class MenuBuilderTestCase(unittest.TestCase):
 
             ActionSet(
                 actions = [
-                    Action(class_name='Exit', locations=['MenuBar/File']),
-                    Action(class_name='About', locations=['MenuBar/Help'])
+                    Action(class_name='Exit', location='MenuBar/File'),
+                    Action(class_name='About', location='MenuBar/Help')
                 ]
             )
         ]
