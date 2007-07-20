@@ -8,7 +8,7 @@ from enthought.traits.api import Any, HasTraits, Instance, Str
 from location import Location
 
 
-class Action(HasTraits):
+class Action(Location):
     """ An action in a menu bar, menu, or tool bar. """
 
     #### Action implementation ################################################
@@ -20,7 +20,7 @@ class Action(HasTraits):
 
     # The locations of the action. Unlike groups and menus, actions can appear
     # in multiple locations, e.g., on a menu *and* on the tool bar.
-    location = Any#Instance(Location)
+    #location = Any#Instance(Location)
 
     ###########################################################################
     # 'object' interface
@@ -33,16 +33,16 @@ class Action(HasTraits):
 
     __repr__ = __str__
 
-    ###########################################################################
-    # Private interface
-    ###########################################################################
+##     ###########################################################################
+##     # Private interface
+##     ###########################################################################
 
-    def _location_changed(self, old, new):
-        """ Static trait change hanler. """
+##     def _location_changed(self, old, new):
+##         """ Static trait change hanler. """
 
-        if not isinstance(new, Location):
-            self.location = Location(path=new)
+##         if not isinstance(new, Location):
+##             self.location = Location(path=new)
 
-        return
+##         return
     
 #### EOF ######################################################################

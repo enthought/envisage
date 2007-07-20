@@ -9,7 +9,7 @@ from group import Group
 from location import Location
 
 
-class Menu(HasTraits):
+class Menu(Location):
     """ A menu in a menu bar or menu. """
 
     # The menu's unique identifier (unique within the group that the menu is to
@@ -23,7 +23,7 @@ class Menu(HasTraits):
     groups = List(Group)
 
     # The location of the menu.
-    location = Any#Instance(Location)
+    #location = Any#Instance(Location)
 
     # The optional name of a class that implements the group. The class must
     # support the **enthought.pyface.action.MenuManager** interface.
@@ -49,16 +49,16 @@ class Menu(HasTraits):
         
         return self.name.strip('&')
 
-    ###########################################################################
-    # Private interface
-    ###########################################################################
+##     ###########################################################################
+##     # Private interface
+##     ###########################################################################
 
-    def _location_changed(self, old, new):
-        """ Static trait change hanler. """
+##     def _location_changed(self, old, new):
+##         """ Static trait change hanler. """
 
-        if not isinstance(new, Location):
-            self.location = Location(path=new)
+##         if not isinstance(new, Location):
+##             self.location = Location(path=new)
 
-        return
+##         return
 
 #### EOF ######################################################################

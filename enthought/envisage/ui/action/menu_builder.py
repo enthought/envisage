@@ -2,12 +2,13 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import Action, Group, MenuBarManager
-from enthought.pyface.action.api import MenuManager
-from enthought.traits.api import Any, HasTraits, List
+from enthought.pyface.action.api import MenuBarManager, MenuManager
+from enthought.traits.api import Callable, HasTraits, Instance, List
 
 # Local imports.
+from action_set import ActionSet
 from action_set_manager import ActionSetManager
+
 
 class MenuBuilder(HasTraits):
     """ Builds menus from action, group, and menu extensions. """
@@ -15,16 +16,20 @@ class MenuBuilder(HasTraits):
     #### 'MenuBuilder' interface ##############################################
 
     # A factory that produces action implementations from definitions.
-    action_factory = Any
+    action_factory = Callable
 
     # A factory that produces group implementations from definitions.
-    group_factory = Any
+    group_factory = Callable
 
     # A factory that produces menu manager implementations from definitions.
-    menu_factory = Any
+    menu_factory = Callable
 
     # The action sets used in the menu builder.
-    action_sets = List
+    action_sets = List(ActionSet)
+
+    #### Private interface ####################################################
+
+    _action_set_manager = Instance(ActionSetManager, ())
     
     ###########################################################################
     # 'MenuBuilder' interface.
@@ -33,21 +38,20 @@ class MenuBuilder(HasTraits):
     def create_menu_bar_manager(self, root):
         """ Create a menu bar manager from the builder's action sets. """
 
-        action_set_manager = ActionSetManager(action_sets=self.action_sets)
-
         menu_bar_manager = MenuBarManager(id='MenuBar')
-        self.initialize_menu_manager(menu_bar_manager,action_set_manager,root)
+
+        self.initialize_menu_manager(menu_bar_manager, root)
 
         return menu_bar_manager
         
-    def initialize_menu_manager(self, menu_manager, action_set_manager, root):
-        """ Initializes a menu manager from an action set manager. """
+    def initialize_menu_manager(self, menu_manager, root):
+        """ Initialize a menu manager. """
 
-        # Add all menus and groups.
-        self._add_menus_and_groups(menu_manager, action_set_manager, root)
+        # Add all groups and menus.
+        self._add_groups_and_menus(menu_manager, self._action_set_manager,root)
 
         # Add all of the actions.
-        self._add_actions(menu_manager, action_set_manager, root)
+        self._add_actions(menu_manager, self._action_set_manager, root)
 
         return
 
@@ -55,36 +59,36 @@ class MenuBuilder(HasTraits):
     # Protected 'MenuBuilder' interface.
     ###########################################################################
 
-    def _create_action(self, action_extension):
-        """ Creates an action implementation from an action extension. """
+    def _create_action(self, action_definition):
+        """ Creates an action implementation from an action definition. """
 
         if self.action_factory is not None:
-            action = self.action_factory.create_action(action_extension)
+            action = self.action_factory(action_definition)
 
         else:
             raise NotImplementedError
 
         return action
 
-    def _create_group(self, group_extension):
-        """ Creates a group implementation from a group extension. """
+    def _create_group(self, group_definition):
+        """ Creates a group implementation from a group definition. """
 
 
         if self.group_factory is not None:
-            group = self.group_factory.create_group(group_extension)
+            group = self.group_factory(group_definition)
 
         else:
             raise NotImplementedError
 
         return group
 
-    def _create_menu_manager(self, menu_extension):
-        """ Creates a menu manager implementation from a menu extension. """
+    def _create_menu_manager(self, menu_definition):
+        """ Creates a menu manager implementation from a menu definition. """
 
         if self.menu_factory is not None:
-            menu = self.menu_factory.create_menu(menu_extension)
-            for group_extension in menu_extension.groups:
-                menu.append(self._create_group(group_extension))
+            menu = self.menu_factory(menu_definition)
+            for group_definition in menu_definition.groups:
+                menu.append(self._create_group(group_definition))
 
         else:
             raise NotImplementedError
@@ -95,6 +99,17 @@ class MenuBuilder(HasTraits):
     # Private interface.
     ###########################################################################
 
+    #### Trait change handler #################################################
+
+    def _action_sets_changed(self, old, new):
+        """ Static trait change handler. """
+
+        self._action_set_manager.action_sets = new
+
+        return
+    
+    #### Methods ##############################################################
+    
     def _add_actions(self, menu_manager, action_set_manager, root):
         """ Adds all of the actions to the menu manager. """
 
@@ -104,7 +119,7 @@ class MenuBuilder(HasTraits):
             start = len(actions)
 
             for action in actions[:]:
-                path = action.location.path
+                path = action.path
 
                 # Resolve the path to find the target menu manager (i.e. the
                 # menu manager that we are about to add a sub-menu or group
@@ -113,8 +128,8 @@ class MenuBuilder(HasTraits):
                 if target is None:
                     raise ValueError('no such location %s' % path)
                 
-                if len(action.location.group) > 0:
-                    group = target.find_group(action.location.group)
+                if len(action.group) > 0:
+                    group = target.find_group(action.group)
                     
                 else:
                     group = target.find_group('additions')
@@ -128,7 +143,7 @@ class MenuBuilder(HasTraits):
             # If we didn't succeed in placing *any* actions then we must have a
             # problem!
             if start == end:
-                raise ValueError("Could not place %s" % actions)
+                raise ValueError('Could not place %s' % actions)
 
         return
 
@@ -138,19 +153,19 @@ class MenuBuilder(HasTraits):
         Return True if the action was added successfully.
 
         Return False if the action needs to be placed 'before' or 'after' some
-        other action, but the other action has not yet been added to the group.
+        other action, but the other action has not yet been added.
 
         """
 
-        if len(action.location.before) > 0:
-            item = group.find(action.location.before)
+        if len(action.before) > 0:
+            item = group.find(action.before)
             if item is None:
                 return False
 
             index = group.items.index(item)
 
-        elif len(action.location.after) > 0:
-            item = group.find(action.location.after)
+        elif len(action.after) > 0:
+            item = group.find(action.after)
             if item is None:
                 return False
 
@@ -163,23 +178,28 @@ class MenuBuilder(HasTraits):
 
         return True
 
-    def _add_menus_and_groups(self, menu_manager, action_set_manager, root):
-        """ Add the menu and group structure. """
+    def _add_groups_and_menus(self, menu_manager, action_set_manager, root):
+        """ Add the group and menu structure. """
 
-        # Get all of the menus and groups.
-        menus_and_groups = action_set_manager.get_menus(root)
-        menus_and_groups.extend(action_set_manager.get_groups(root))
+##         # Get all of the menus and groups.
+##         menus_and_groups = action_set_manager.get_menus(root)
+##         menus_and_groups.extend(action_set_manager.get_groups(root))
 
-        # Sort them by the number of components in their path (ie. put peers
-        # next to each other). This reduces the number of times we have to
-        # iterate to place items, and also makes error reporting easier.
-        self._sort_by_path_len(menus_and_groups)
-        
-        while len(menus_and_groups) > 0:
-            start = len(menus_and_groups)
+##         # Sort them by the number of components in their path (ie. put peers
+##         # next to each other). This reduces the number of times we have to
+##         # iterate to place items, and also makes error reporting easier.
+##         self._sort_by_path_len(menus_and_groups)
 
-            for item in menus_and_groups[:]:
-                path = item.location.path
+        groups_and_menus = action_set_manager.get_groups(root)
+        groups_and_menus.extend(action_set_manager.get_menus(root))
+
+        i = 0
+        while len(groups_and_menus) > 0:
+            i += 1
+            start = len(groups_and_menus)
+
+            for item in groups_and_menus[:]:
+                path = item.path
 
                 # Resolve the path to find the target menu manager (i.e. the
                 # menu manager that we are about to add a sub-menu or group
@@ -191,72 +211,92 @@ class MenuBuilder(HasTraits):
                 # Attempt to place a group.
                 if self._is_group(item):
                     if self._add_group(target, item):
-                        menus_and_groups.remove(item)
+                        groups_and_menus.remove(item)
 
                 # Attempt to place a menu.
                 else:
-                    if len(item.location.group) > 0:
-                        group = target.find_group(item.location.group)
-
+                    if len(item.group) > 0:
+                        group = target.find_group(item.group)
+                        
                     else:
                         group = target.find_group('additions')
 
-                    if group is not None and self._add_menu(group, item):
-                        menus_and_groups.remove(item)
+                    if group is None:
+                        msg = 'Error adding "%s" menu - no such group "%s"' % (
+                            item.id, item.group
+                        )
+                        raise ValueError(msg)
+                        
+                    if self._add_menu(group, item):
+                        groups_and_menus.remove(item)
                             
-            end = len(menus_and_groups)
-
+            end = len(groups_and_menus)
+            
             # If we didn't succeed in placing *any* menus or groups then we
             # must have a problem!
             if start == end:
-                raise ValueError('Could not place %s' % menus_and_groups)
+                raise ValueError('Could not place %s' % groups_and_menus)
 
+##         print '-------------- Took', i, 'iterations -----------------'
         return
 
     def _add_group(self, menu_manager, group):
-        """ Adds a group to a menu manager.
+        """ Add a group to a menu manager.
 
-        Returns **True** only if the group could be added.
+        Return True if the group was added successfully.
+
+        Return False if the group needs to be placed 'before' or 'after' some
+        other group, but the other group has not yet been added.
 
         """
 
-        if len(group.location.before) > 0:
-            item = menu_manager.find_group(group.location.before)
+        if len(group.before) > 0:
+            item = menu_manager.find_group(group.before)
             if item is None:
                 return False
 
             index = menu_manager.groups.index(item)
 
-        elif len(group.location.after) > 0:
-            item = menu_manager.find_group(group.location.after)
+        elif len(group.after) > 0:
+            item = menu_manager.find_group(group.after)
             if item is None:
                 return False
 
             index = menu_manager.groups.index(item) + 1
 
         else:
-            index = len(menu_manager.groups)
+            # If the menu manger has an 'additions' group then make sure that
+            # it is always the last one!
+            additions = menu_manager.find_group('additions')
+            if additions is not None:
+                index = menu_manager.groups.index(additions)
+
+            else:
+                index = len(menu_manager.groups)
 
         menu_manager.insert(index, self._create_group(group))
 
         return True
 
     def _add_menu(self, group, menu):
-        """ Adds a menu manager to a group.
+        """ Add a menu manager to a group.
 
-        Returns **True** only if the menu could be added.
+        Return True if the menu was added successfully.
+
+        Return False if the menu needs to be placed 'before' or 'after' some
+        other item, but the other item has not yet been added.
 
         """
 
-        if len(menu.location.before) > 0:
-            item = group.find(menu.location.before)
+        if len(menu.before) > 0:
+            item = group.find(menu.before)
             if item is None:
                 return False
 
             index = group.items.index(item)
 
-        elif len(menu.location.after) > 0:
-            item = group.find(menu.location.after)
+        elif len(menu.after) > 0:
+            item = group.find(menu.after)
             if item is None:
                 return False
 
@@ -270,9 +310,9 @@ class MenuBuilder(HasTraits):
         return True
 
     def _find_menu_manager(self, menu_manager, path):
-        """ Returns the menu manager at the specified path.
+        """ Return the menu manager at the specified path.
 
-        Returns **None** if the menu manager cannot be found.
+        Returns None if the menu manager cannot be found.
 
         """
 
@@ -290,21 +330,21 @@ class MenuBuilder(HasTraits):
 
         return not hasattr(item, 'groups')
 
-    def _sort_by_path_len(self, menus_and_groups):
-        """ Sort the menus & groups by the number of components in their path.
+##     def _sort_by_path_len(self, menus_and_groups):
+##         """ Sort the menus & groups by the number of components in their path.
 
-        """
+##         """
 
-        def by_path_len(x, y):
-            """ Compare items by the number of components in their path. """
+##         def by_path_len(x, y):
+##             """ Compare items by the number of components in their path. """
             
-            len_x = len(x.location.path.split('/'))
-            len_y = len(y.location.path.split('/'))
+##             len_x = len(x.path.split('/'))
+##             len_y = len(y.path.split('/'))
 
-            return cmp(len_x, len_y)
+##             return cmp(len_x, len_y)
 
-        menus_and_groups.sort(by_path_len)
+##         menus_and_groups.sort(by_path_len)
 
-        return
+##         return
 
 #### EOF ######################################################################

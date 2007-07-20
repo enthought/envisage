@@ -8,7 +8,7 @@ from enthought.traits.api import Any, Bool, HasTraits, Instance, Str
 from location import Location
 
 
-class Group(HasTraits):
+class Group(Location):
     """ A group in a tool bar or menu. """
 
     # The group's unique identifier (unique within the tool bar, menu bar or
@@ -19,7 +19,7 @@ class Group(HasTraits):
     separator = Bool(True)
 
     # The location of the group.
-    location = Any#Instance(Location)
+    #location = Any#Instance(Location)
 
     # The optional name of a class that implements the group. The class must
     # support the **enthought.pyface.action.Group** interface.
@@ -36,16 +36,16 @@ class Group(HasTraits):
 
     __repr__ = __str__
 
-    ###########################################################################
-    # Private interface
-    ###########################################################################
+##     ###########################################################################
+##     # Private interface
+##     ###########################################################################
 
-    def _location_changed(self, old, new):
-        """ Static trait change hanler. """
+##     def _location_changed(self, old, new):
+##         """ Static trait change hanler. """
 
-        if not isinstance(new, Location):
-            self.location = Location(path=new)
+##         if not isinstance(new, Location):
+##             self.location = Location(path=new)
 
-        return
+##         return
     
 #### EOF ######################################################################

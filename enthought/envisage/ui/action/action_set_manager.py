@@ -9,7 +9,6 @@ from enthought.traits.api import HasTraits, List
 
 # Local imports.
 from action_set import ActionSet
-from location import Location
 
 
 # Logging.
@@ -28,78 +27,54 @@ class ActionSetManager(HasTraits):
     # 'ActionSetManager' interface.
     ###########################################################################
 
-##     # fixme: In all of these methods we should organize and cache the
-##     # contributions!
-##     def get_action(self, id, root):
-##         """ Return the action with the specified ID for a root.
-
-##         Return None if no such action exists.
-
-##         """
-
-##         actions = self.get_actions(root)
-##         for action in actions:
-##             if action.id == id:
-##                 result = action
-##                 break
-##         else:
-##             result = None
-
-##         return result
-
     def get_actions(self, root):
-        """ Return all action contributions for a root. """
+        """ Return all action definitions for a root. """
 
         logger.debug('%s retrieving actions for %s', self, root)
 
-        actions = []
-        for action_set in self.action_sets:
-            aliases = action_set.aliases
-
-            for action in action_set.actions:
-                if self._get_root(aliases, action.location.path) == root:
-##                    action._action_set_ = action_set
-                    actions.append(action)
-
-        return actions
+        return self._get_items(self.action_sets, 'actions', root)
 
     def get_groups(self, root):
-        """ Returns all group contributions for a root. """
+        """ Returns all group definitions for a root. """
 
-        groups = []
-        for action_set in self.action_sets:
-            aliases = action_set.aliases
-            
-            for group in action_set.groups:
-                if self._get_root(aliases, group.location.path) == root:
-##                     group._action_set_ = action_set
-                    groups.append(group)
+        logger.debug('%s retrieving groups for %s', self, root)
 
-        return groups
+        return self._get_items(self.action_sets, 'groups', root)
 
     def get_menus(self, root):
-        """ Returns all menu contributions for a root. """
+        """ Returns all menu definitions for a root. """
 
-        menus = []
-        for action_set in self.action_sets:
-            aliases = action_set.aliases
-            
-            for menu in action_set.menus:
-                if self._get_root(aliases, menu.location.path) == root:
-##                     menu._action_set_ = action_set
-                    menus.append(menu)
+        logger.debug('%s retrieving menus for %s', self, root)
 
-        return menus
+        return self._get_items(self.action_sets, 'menus', root)
 
     ###########################################################################
     # 'Private' interface.
     ###########################################################################
 
-    def _get_root(self, aliases, path):
-        """ Returns the effective root for a path.
+    def _get_items(self, action_sets, attribute_name, root):
+        """ Return all actions, groups or menus for a particular root.
 
-        This simply replaces any aliased root components.
+        e.g. To get all of the groups::
 
+            self._get_items(action_sets, 'groups', root)
+
+        """
+
+        items = []
+        for action_set in action_sets:
+            for item in getattr(action_set, attribute_name):
+                if self._get_root(item.path, action_set.aliases) == root:
+                    items.append(item)
+
+        return items
+
+    def _get_root(self, path, aliases):
+        """ Return the effective root for a path.
+
+        If the first component of the path matches an alias, then we return
+        the value of the alias.
+        
         e.g. If the aliases are::
 
             {'MenuBar' : 'enthought.envisage.ui.workbench.menubar'}
@@ -112,6 +87,21 @@ class ActionSetManager(HasTraits):
 
             'enthought.envisage.ui.workbench.menubar'
 
+        If the first component of the path does *not* match an alias, then it
+        is returned as is.
+
+        e.g. If the aliases are::
+
+            {'ToolBar' : 'enthought.envisage.ui.workbench.menubar'}
+
+        and the path is::
+
+           'MenuBar/File/New'
+
+        Then the effective root is::
+
+            'MenuBar'
+        
         """
 
         components = path.split('/')
