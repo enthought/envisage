@@ -17,19 +17,19 @@ class TestMenuBuilder(MenuBuilder):
     ###########################################################################
 
     def _create_action(self, action_definition):
-        """ Creates an action implementation from an action definitions. """
+        """ Create an action implementation from an action definition. """
 
         from enthought.pyface.action.api import Action
         return Action(name=action_definition.class_name)
 
     def _create_group(self, group_definition):
-        """ Creates a group implementation from a group definitions. """
+        """ Create a group implementation from a group definition. """
 
         from enthought.pyface.action.api import Group
         return Group(id=group_definition.id)
 
     def _create_menu_manager(self, menu_definition):
-        """ Creates a menu manager implementation from a menu extension. """
+        """ Create a menu manager implementation from a menu definition. """
 
         from enthought.pyface.action.api import Group, MenuManager
         menu_manager = MenuManager(id=menu_definition.id)
@@ -60,8 +60,8 @@ class MenuBuilderTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_top_level_menus_no_groups(self):
-        """ top level menus no groups """
+    def test_top_level_menus_with_no_groups(self):
+        """ top level menus with_no groups """
 
         action_sets = [
             ActionSet(
@@ -79,14 +79,13 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure that all of the menus were added the the 'additions' group
-        # of the menubar.
+        # of the menubar (and in the right order!).
         self.assertEqual(1, len(menu_manager.groups))
 
-        additions = menu_manager.find_group('additions')
-        ids = [item.id for item in additions.items]
+        group = menu_manager.find_group('additions')
+        ids = [item.id for item in group.items]
         self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
 
         return

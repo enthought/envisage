@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, Bool, HasTraits, Instance, Str
+from enthought.traits.api import Bool, Str
 
 # Local imports.
 from location import Location
@@ -18,9 +18,6 @@ class Group(Location):
     # Does this group require a separator?
     separator = Bool(True)
 
-    # The location of the group.
-    #location = Any#Instance(Location)
-
     # The optional name of a class that implements the group. The class must
     # support the **enthought.pyface.action.Group** interface.
     class_name = Str
@@ -35,17 +32,5 @@ class Group(Location):
         return 'Group(%s)' % self.id
 
     __repr__ = __str__
-
-##     ###########################################################################
-##     # Private interface
-##     ###########################################################################
-
-##     def _location_changed(self, old, new):
-##         """ Static trait change hanler. """
-
-##         if not isinstance(new, Location):
-##             self.location = Location(path=new)
-
-##         return
     
 #### EOF ######################################################################

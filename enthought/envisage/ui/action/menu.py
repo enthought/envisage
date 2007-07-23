@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, HasTraits, Instance, List, Str
+from enthought.traits.api import List, Str
 
 # Local imports.
 from group import Group
@@ -20,12 +20,9 @@ class Menu(Location):
     name = Str
 
     # The groups in the menu.
-    groups = List#(Group)
+    groups = List # of Instance(Group) or Str... need trait type!
 
-    # The location of the menu.
-    #location = Any#Instance(Location)
-
-    # The optional name of a class that implements the group. The class must
+    # The optional name of a class that implements the menu. The class must
     # support the **enthought.pyface.action.MenuManager** interface.
     class_name = Str
 
@@ -49,20 +46,13 @@ class Menu(Location):
         
         return self.name.strip('&')
 
-##     ###########################################################################
-##     # Private interface
-##     ###########################################################################
-
-##     def _location_changed(self, old, new):
-##         """ Static trait change hanler. """
-
-##         if not isinstance(new, Location):
-##             self.location = Location(path=new)
-
-##         return
+    ###########################################################################
+    # Private interface
+    ###########################################################################
 
     def _groups_changed(self, trait_name, old, new):
-
+        """ Static trait change handler. """
+        
         for i in range(len(new)):
             if isinstance(new[i], basestring):
                 new[i] = Group(id=new[i])

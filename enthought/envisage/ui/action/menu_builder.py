@@ -50,7 +50,7 @@ class MenuBuilder(HasTraits):
 
         # Add all groups and menus.
         self._add_groups_and_menus(menu_manager, self._action_set_manager,root)
-
+        
         # Add all of the actions.
         self._add_actions(menu_manager, self._action_set_manager, root)
 
@@ -111,52 +111,31 @@ class MenuBuilder(HasTraits):
     
     #### Methods ##############################################################
 
-    def _make_submenus(self, menu_manager, path):
-        """ Retutn the menu manager identified by the path.
-
-        Make any intermediate menu-managers that are missing.
-
-        """
-
-        components = path.split('/')
-
-        # We skip the first component, because if the path is of length 1, then
-        # the target menu manager is the menu manager passed in (and 
-        for component in components[1:]:
-            item = menu_manager.find_item(component)
-            if item is None:
-                item = MenuManager(id=component, name=component)
-                menu_manager.append(item)
-                
-            if not isinstance(item, ActionManager):
-                raise '%s is not a menu in path %s' % (component, path)
-
-            menu_manager = item
-
-        return menu_manager
-        
     def _add_actions(self, menu_manager, action_set_manager, root):
         """ Adds all of the actions to the menu manager. """
 
         actions = action_set_manager.get_actions(root)
 
+        print '**** Actions', actions
+
         while len(actions) > 0:
             start = len(actions)
 
             for action in actions[:]:
-                # Resolve the path to find the target menu manager (i.e. the
-                # menu manager that we are about to add a sub-menu or group
-                # to).
+                # Resolve the path to find the menu manager that we are about
+                # to add the action to.
                 #
                 # If any of the menu in path are missing then this creates them
                 # (think 'mkdirs'!).
                 target = self._make_submenus(menu_manager, action.path)
-                
+
+                # If a specific group is requested then make sure it exists.
                 if len(action.group) > 0:
                     group = target.find_group(action.group)
                     if group is None:
                         raise 'No such group %s for %s' % (group, action)
-                    
+
+                # Otherwise, just put the action in the last group on the menu.
                 else:
                     group = target.find_group('additions')
 
@@ -207,29 +186,23 @@ class MenuBuilder(HasTraits):
     def _add_groups_and_menus(self, menu_manager, action_set_manager, root):
         """ Add the group and menu structure. """
 
-##         # Get all of the menus and groups.
-##         menus_and_groups = action_set_manager.get_menus(root)
-##         menus_and_groups.extend(action_set_manager.get_groups(root))
-
-##         # Sort them by the number of components in their path (ie. put peers
-##         # next to each other). This reduces the number of times we have to
-##         # iterate to place items, and also makes error reporting easier.
-##         self._sort_by_path_len(menus_and_groups)
-
         # Get all of the groups and menus.
         groups_and_menus = action_set_manager.get_groups(root)
         groups_and_menus.extend(action_set_manager.get_menus(root))
 
+        print '**** Groups and menus', groups_and_menus
+        
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
 
             for item in groups_and_menus[:]:
                 path = item.path
 
-                # Resolve the path to find the target menu manager (i.e. the
-                # menu manager that we are about to add a sub-menu or group
-                # to).
-                #target = self._find_menu_manager(menu_manager, path)
+                # Resolve the path to find the menu manager that we are about
+                # to add a sub-menu or group to).
+                #
+                # If any of the menu in path are missing then this creates them
+                # (think 'mkdirs'!).
                 target = self._make_submenus(menu_manager, path)
                 if target is None:
                     raise ValueError('no such location %s' % path)
@@ -313,7 +286,9 @@ class MenuBuilder(HasTraits):
 
         """
 
+        print 'Adding menu', menu, menu.before
         if len(menu.before) > 0:
+            print 'Adding to group', group.id, group.items
             item = group.find(menu.before)
             if item is None:
                 return False
@@ -355,21 +330,28 @@ class MenuBuilder(HasTraits):
 
         return not hasattr(item, 'groups')
 
-##     def _sort_by_path_len(self, menus_and_groups):
-##         """ Sort the menus & groups by the number of components in their path.
+    def _make_submenus(self, menu_manager, path):
+        """ Retutn the menu manager identified by the path.
 
-##         """
+        Make any intermediate menu-managers that are missing.
 
-##         def by_path_len(x, y):
-##             """ Compare items by the number of components in their path. """
-            
-##             len_x = len(x.path.split('/'))
-##             len_y = len(y.path.split('/'))
+        """
 
-##             return cmp(len_x, len_y)
+        components = path.split('/')
 
-##         menus_and_groups.sort(by_path_len)
+        # We skip the first component, because if the path is of length 1, then
+        # the target menu manager is the menu manager passed in (and 
+        for component in components[1:]:
+            item = menu_manager.find_item(component)
+            if item is None:
+                item = MenuManager(id=component, name=component)
+                menu_manager.append(item)
+                
+            if not isinstance(item, ActionManager):
+                raise '%s is not a menu in path %s' % (component, path)
 
-##         return
+            menu_manager = item
 
+        return menu_manager
+        
 #### EOF ######################################################################
