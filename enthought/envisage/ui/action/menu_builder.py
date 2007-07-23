@@ -2,7 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import MenuBarManager, MenuManager
+from enthought.pyface.action.api import ActionManager, MenuBarManager
+from enthought.pyface.action.api import MenuManager
 from enthought.traits.api import Callable, HasTraits, Instance, List
 
 # Local imports.
@@ -109,7 +110,31 @@ class MenuBuilder(HasTraits):
         return
     
     #### Methods ##############################################################
-    
+
+    def _make_submenus(self, menu_manager, path):
+        """ Retutn the menu manager identified by the path.
+
+        Make any intermediate menu-managers that are missing.
+
+        """
+
+        components = path.split('/')
+
+        # We skip the first component, because if the path is of length 1, then
+        # the target menu manager is the menu manager passed in (and 
+        for component in components[1:]:
+            item = menu_manager.find_item(component)
+            if item is None:
+                item = MenuManager(id=component, name=component)
+                menu_manager.append(item)
+                
+            if not isinstance(item, ActionManager):
+                raise '%s is not a menu in path %s' % (component, path)
+
+            menu_manager = item
+
+        return menu_manager
+        
     def _add_actions(self, menu_manager, action_set_manager, root):
         """ Adds all of the actions to the menu manager. """
 
@@ -119,17 +144,18 @@ class MenuBuilder(HasTraits):
             start = len(actions)
 
             for action in actions[:]:
-                path = action.path
-
                 # Resolve the path to find the target menu manager (i.e. the
                 # menu manager that we are about to add a sub-menu or group
                 # to).
-                target = self._find_menu_manager(menu_manager, path)
-                if target is None:
-                    raise ValueError('no such location %s' % path)
+                #
+                # If any of the menu in path are missing then this creates them
+                # (think 'mkdirs'!).
+                target = self._make_submenus(menu_manager, action.path)
                 
                 if len(action.group) > 0:
                     group = target.find_group(action.group)
+                    if group is None:
+                        raise 'No such group %s for %s' % (group, action)
                     
                 else:
                     group = target.find_group('additions')
@@ -190,12 +216,11 @@ class MenuBuilder(HasTraits):
 ##         # iterate to place items, and also makes error reporting easier.
 ##         self._sort_by_path_len(menus_and_groups)
 
+        # Get all of the groups and menus.
         groups_and_menus = action_set_manager.get_groups(root)
         groups_and_menus.extend(action_set_manager.get_menus(root))
 
-        i = 0
         while len(groups_and_menus) > 0:
-            i += 1
             start = len(groups_and_menus)
 
             for item in groups_and_menus[:]:
@@ -204,7 +229,8 @@ class MenuBuilder(HasTraits):
                 # Resolve the path to find the target menu manager (i.e. the
                 # menu manager that we are about to add a sub-menu or group
                 # to).
-                target = self._find_menu_manager(menu_manager, path)
+                #target = self._find_menu_manager(menu_manager, path)
+                target = self._make_submenus(menu_manager, path)
                 if target is None:
                     raise ValueError('no such location %s' % path)
                     
@@ -236,8 +262,7 @@ class MenuBuilder(HasTraits):
             # must have a problem!
             if start == end:
                 raise ValueError('Could not place %s' % groups_and_menus)
-
-##         print '-------------- Took', i, 'iterations -----------------'
+        
         return
 
     def _add_group(self, menu_manager, group):

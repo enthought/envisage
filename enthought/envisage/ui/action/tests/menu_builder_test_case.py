@@ -16,23 +16,27 @@ class TestMenuBuilder(MenuBuilder):
     # Protected 'MenuBuilder' interface.
     ###########################################################################
 
-    def _create_action(self, action_extension):
-        """ Creates an action implementation from an action extension. """
+    def _create_action(self, action_definition):
+        """ Creates an action implementation from an action definitions. """
 
         from enthought.pyface.action.api import Action
-        return Action(name=action_extension.class_name)
+        return Action(name=action_definition.class_name)
 
-    def _create_group(self, group_extension):
-        """ Creates a group implementation from a group extension. """
+    def _create_group(self, group_definition):
+        """ Creates a group implementation from a group definitions. """
 
         from enthought.pyface.action.api import Group
-        return Group(id=group_extension.id)
+        return Group(id=group_definition.id)
 
-    def _create_menu_manager(self, menu_extension):
+    def _create_menu_manager(self, menu_definition):
         """ Creates a menu manager implementation from a menu extension. """
 
-        from enthought.pyface.action.api import MenuManager
-        return MenuManager(id=menu_extension.id)
+        from enthought.pyface.action.api import Group, MenuManager
+        menu_manager = MenuManager(id=menu_definition.id)
+        for group_definition in menu_definition.groups:
+            menu_manager.insert(-1, Group(id=group_definition.id))
+
+        return menu_manager
 
     
 class MenuBuilderTestCase(unittest.TestCase):
@@ -75,17 +79,15 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-        ##menu_manager.dump()
+##         menu_manager.dump()
 
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar.
         self.assertEqual(1, len(menu_manager.groups))
 
         additions = menu_manager.find_group('additions')
-        self.assertEqual('File', additions.items[0].id)
-        self.assertEqual('Edit', additions.items[1].id)
-        self.assertEqual('Tools', additions.items[2].id)
-        self.assertEqual('Help', additions.items[3].id)
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
 
         return
 
@@ -123,17 +125,15 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-        menu_manager.dump()
+##         menu_manager.dump()
 
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar.
         self.assertEqual(1, len(menu_manager.groups))
 
         additions = menu_manager.find_group('additions')
-        self.assertEqual('File', additions.items[0].id)
-        self.assertEqual('Edit', additions.items[1].id)
-        self.assertEqual('Tools', additions.items[2].id)
-        self.assertEqual('Help', additions.items[3].id)
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
 
         return
 
@@ -178,11 +178,14 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-        menu_manager.dump()
+##         menu_manager.dump()
 
         # Make sure that the 'File' menu was added to the 'FileMenuGroup'
         # group of the menubar.
         self.assertEqual(2, len(menu_manager.groups))
+
+        ids = [group.id for group in menu_manager.groups]
+        self.assertEqual(['FileMenuGroup', 'additions'], ids)
 
         group = menu_manager.find_group('FileMenuGroup')
         self.assertEqual('File', group.items[0].id)
@@ -217,7 +220,7 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-        ##menu_manager.dump()
+##         menu_manager.dump()
 
         # Make sure the 'New' sub-menu got added to the 'additions' group
         # of the 'File' menu.
@@ -257,7 +260,7 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-        ##menu_manager.dump()
+##         menu_manager.dump()
 
         # Make sure the 'ExitAction' action got added to the 'additions' group
         # of the 'File' menu.
@@ -272,6 +275,175 @@ class MenuBuilderTestCase(unittest.TestCase):
         additions = menu.find_group('additions')
 
         self.assertEqual('About', additions.items[0].id)
+
+        return
+
+    def test_actions_make_submenus(self):
+        """ actions make submenus """
+
+        action_sets = [
+            ActionSet(
+                actions = [
+                    Action(class_name='Folder', path='MenuBar/File/New'),
+                    Action(class_name='File', path='MenuBar/File/New')
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+##         menu_manager.dump()
+
+        # Make sure the 'File' menu got added to the 'additions' group of the
+        # menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        additions = menu_manager.find_group('additions')
+        self.assertEqual('File', additions.items[0].id)
+
+        # Make sure the 'New' sub-menu got added to the 'additions' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        additions = menu.find_group('additions')
+
+        self.assertEqual('New', additions.items[0].id)
+
+        # Make sure the new 'Folder' and 'File' actions got added to the
+        # 'additions' group of the 'New' menu.
+        menu = menu_manager.find_item('File/New')
+        additions = menu.find_group('additions')
+
+        self.assertEqual('Folder', additions.items[0].id)
+        self.assertEqual('File', additions.items[1].id)
+
+        return
+
+    def test_actions_make_submenus_before_and_after(self):
+        """ actions make submenus before and after """
+
+        action_sets = [
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'File',
+                        path       = 'MenuBar/File/New'
+                    ),
+
+                    Action(
+                        class_name = 'Folder',
+                        path       = 'MenuBar/File/New',
+                        before     = 'File'
+                    ),
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+##         menu_manager.dump()
+
+        # Make sure the 'File' menu got added to the 'additions' group of the
+        # menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        additions = menu_manager.find_group('additions')
+        self.assertEqual('File', additions.items[0].id)
+
+        # Make sure the 'New' sub-menu got added to the 'additions' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        additions = menu.find_group('additions')
+
+        self.assertEqual('New', additions.items[0].id)
+
+        # Make sure the new 'Folder' and 'File' actions got added to the
+        # 'additions' group of the 'New' menu.
+        menu = menu_manager.find_item('File/New')
+        additions = menu.find_group('additions')
+
+        self.assertEqual('Folder', additions.items[0].id)
+        self.assertEqual('File', additions.items[1].id)
+
+        return
+
+    def test_actions_and_menus_in_groups(self):
+        """ actions and menus in groups """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(
+                        name   = '&File',
+                        path   = 'MenuBar',
+                        groups = ['NewGroup', 'ExitGroup']
+                    ),
+
+                    Menu(name='&Edit', path='MenuBar'),
+                    Menu(name='&Tools', path='MenuBar'),
+                    Menu(name='&Help', path='MenuBar')
+                ],
+            ),
+
+            ActionSet(
+                menus = [
+                    Menu(name='&New', path='MenuBar/File', group='NewGroup'),
+                ],
+            ),
+
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'Exit',
+                        path       = 'MenuBar/File',
+                        group      = 'ExitGroup'
+                    ),
+                ]
+            ),
+            
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+##         menu_manager.dump()
+
+        # Make sure that all of the menus were added the the 'additions' group
+        # of the menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        additions = menu_manager.find_group('additions')
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
+
+        # Make sure the 'File' menu has got 3 groups, 'NewGroup', 'ExitGroup'
+        # and 'additions' (and in that order!).
+        menu = menu_manager.find_item('File')
+        self.assertEqual(3, len(menu.groups))
+
+        ids = [group.id for group in menu.groups]
+        self.assertEqual(['NewGroup', 'ExitGroup', 'additions'], ids)
+        
+        # Make sure the 'New' sub-menu got added to the 'NewGroup' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        group = menu.find_group('NewGroup')
+
+        self.assertEqual('New', group.items[0].id)
+
+        # Make sure the 'Exit' action got added to the 'ExitGroup' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        group = menu.find_group('ExitGroup')
+
+        self.assertEqual('Exit', group.items[0].id)
 
         return
     

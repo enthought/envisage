@@ -20,7 +20,7 @@ class Menu(Location):
     name = Str
 
     # The groups in the menu.
-    groups = List(Group)
+    groups = List#(Group)
 
     # The location of the menu.
     #location = Any#Instance(Location)
@@ -61,4 +61,12 @@ class Menu(Location):
 
 ##         return
 
+    def _groups_changed(self, trait_name, old, new):
+
+        for i in range(len(new)):
+            if isinstance(new[i], basestring):
+                new[i] = Group(id=new[i])
+
+        return
+    
 #### EOF ######################################################################
