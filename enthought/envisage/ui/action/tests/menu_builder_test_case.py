@@ -641,5 +641,77 @@ class MenuBuilderTestCase(unittest.TestCase):
         )
 
         return
+
+    def test_group_with_nonexistent_sibling(self):
+        """ group with non-existent sibling """
+
+        action_sets = [
+            ActionSet(
+                groups = [
+                    Group(id='FileMenuGroup', path='MenuBar', before='Bogus')
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+        
+        # Create a menu manager for the 'MenuBar'.
+        self.failUnlessRaises(
+            ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
+        )
+
+        return
+
+    def test_menu_with_nonexistent_sibling(self):
+        """ menu with non-existent sibling """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(name='&File', path='MenuBar', before='Bogus')
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+        
+        # Create a menu manager for the 'MenuBar'.
+        self.failUnlessRaises(
+            ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
+        )
+
+        return
+
+    def test_action_with_path_component_that_is_not_a_menu(self):
+        """ action with path component that is not a menu """
+
+        action_sets = [
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'Exit',
+                        path       = 'MenuBar/File'
+                    ),
+
+                    Action(
+                        class_name = 'Broken',
+                        path       = 'MenuBar/File/Exit',
+                    ),
+                ]
+            ),
+            
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        self.failUnlessRaises(
+            ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
+        )
+
+        return
     
 #### EOF ######################################################################

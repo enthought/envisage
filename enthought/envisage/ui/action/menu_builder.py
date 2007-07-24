@@ -196,34 +196,29 @@ class MenuBuilder(HasTraits):
 
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
-
+            
             for item in groups_and_menus[:]:
                 path = item.path
 
                 # Resolve the path to find the menu manager that we are about
                 # to add the sub-menu or group to.
                 target = self._find_menu_manager(menu_manager, path)
-                if target is None:
-                    continue
-                    
-                # Attempt to place a group.
-                if self._is_group(item):
-                    if self._add_group(target, item):
-                        groups_and_menus.remove(item)
+                if target is not None:
+                    # Attempt to place a group.
+                    if self._is_group(item):
+                        if self._add_group(target, item):
+                            groups_and_menus.remove(item)
 
-                # Attempt to place a menu.
-                else:
-                    if len(item.group) > 0:
-                        group = target.find_group(item.group)
-                        
+                    # Attempt to place a menu.
                     else:
-                        group = target.find_group('additions')
+                        if len(item.group) > 0:
+                            group = target.find_group(item.group)
 
-                    if group is None:
-                        continue
-                        
-                    if self._add_menu(group, item):
-                        groups_and_menus.remove(item)
+                        else:
+                            group = target.find_group('additions')
+
+                        if group is not None and self._add_menu(group, item):
+                            groups_and_menus.remove(item)
                     
             end = len(groups_and_menus)
             
@@ -260,7 +255,9 @@ class MenuBuilder(HasTraits):
 
         else:
             # If the menu manger has an 'additions' group then make sure that
-            # it is always the last one!
+            # it is always the last one! In Pyface, the 'additions' groups is
+            # created by default, so unless someone has explicitly removed it,
+            # it *will* be there! 
             additions = menu_manager.find_group('additions')
             if additions is not None:
                 index = menu_manager.groups.index(additions)
@@ -342,7 +339,8 @@ class MenuBuilder(HasTraits):
                 menu_manager.append(item)
                 
             if not isinstance(item, ActionManager):
-                raise '%s is not a menu in path %s' % (component, path)
+                msg = '%s is not a menu in path %s' % (item, path)
+                raise ValueError(msg)
 
             menu_manager = item
 
