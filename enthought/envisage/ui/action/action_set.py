@@ -63,19 +63,4 @@ class ActionSet(HasTraits):
     #
     aliases = Dict(Str, Str)
 
-    ###########################################################################
-    # 'object' interface
-    ###########################################################################
-    
-    def __str__(self):
-        """ Return the 'informal' string representation of the object. """
-
-        print self.menus
-        print self.groups
-        print self.actions
-        
-        return 'ActionSet(%s)' % self.id
-
-    __repr__ = __str__
-
 #### EOF ######################################################################
