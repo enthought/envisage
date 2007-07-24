@@ -11,19 +11,18 @@ from action_set import ActionSet
 from action_set_manager import ActionSetManager
 
 
-class MenuBuilder(HasTraits):
-    """ Builds menus from action, group, and menu extensions. """
+class AbstractMenuBuilder(HasTraits):
+    """ Builds menus from action, group, and menu extensions.
+
+    This class *must* be subclassed, and the following methods implemented::
+
+      _create_action
+      _create_group
+      _create_menu_manager
+
+    """
 
     #### 'MenuBuilder' interface ##############################################
-
-    # A factory that produces action implementations from definitions.
-    action_factory = Callable
-
-    # A factory that produces group implementations from definitions.
-    group_factory = Callable
-
-    # A factory that produces menu manager implementations from definitions.
-    menu_factory = Callable
 
     # The action sets used in the menu builder.
     action_sets = List(ActionSet)
@@ -60,40 +59,20 @@ class MenuBuilder(HasTraits):
     # Protected 'MenuBuilder' interface.
     ###########################################################################
 
-##     def _create_action(self, action_definition):
-##         """ Creates an action implementation from an action definition. """
+    def _create_action(self, action_definition):
+        """ Creates an action implementation from a definition. """
 
-##         if self.action_factory is not None:
-##             action = self.action_factory(action_definition)
+        raise NotImplementedError
 
-##         else:
-##             raise NotImplementedError
+    def _create_group(self, group_definition):
+        """ Creates a group implementation from a definition. """
 
-##         return action
+        raise NotImplementedError
 
-##     def _create_group(self, group_definition):
-##         """ Creates a group implementation from a group definition. """
+    def _create_menu_manager(self, menu_manager_definition):
+        """ Creates a menu manager implementation from a definition. """
 
-##         if self.group_factory is not None:
-##             group = self.group_factory(group_definition)
-
-##         else:
-##             raise NotImplementedError
-
-##         return group
-
-##     def _create_menu_manager(self, menu_definition):
-##         """ Creates a menu manager implementation from a menu definition. """
-
-##         if self.menu_factory is not None:
-##             menu = self.menu_factory(menu_definition)
-##             for group_definition in menu_definition.groups:
-##                 menu.append(self._create_group(group_definition))
-
-##         else:
-##             raise NotImplementedError
-
-##         return menu
+        raise NotImplementedError
 
     ###########################################################################
     # Private interface.

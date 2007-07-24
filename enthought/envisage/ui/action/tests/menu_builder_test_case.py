@@ -5,38 +5,10 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, ActionSet, Group, Location
-from enthought.envisage.ui.action.api import Menu, MenuBuilder
+from enthought.envisage.ui.action.api import Action, ActionSet, Group, Menu
 
-
-class TestMenuBuilder(MenuBuilder):
-    """ A test menu builder that doesn't build real actions! """
-
-    ###########################################################################
-    # Protected 'MenuBuilder' interface.
-    ###########################################################################
-
-    def _create_action(self, action_definition):
-        """ Create an action implementation from an action definition. """
-
-        from enthought.pyface.action.api import Action
-        return Action(name=action_definition.class_name)
-
-    def _create_group(self, group_definition):
-        """ Create a group implementation from a group definition. """
-
-        from enthought.pyface.action.api import Group
-        return Group(id=group_definition.id)
-
-    def _create_menu_manager(self, menu_definition):
-        """ Create a menu manager implementation from a menu definition. """
-
-        from enthought.pyface.action.api import Group, MenuManager
-        menu_manager = MenuManager(id=menu_definition.id)
-        for group_definition in menu_definition.groups:
-            menu_manager.insert(-1, Group(id=group_definition.id))
-
-        return menu_manager
+# Local imports.
+from test_menu_builder import TestMenuBuilder
 
     
 class MenuBuilderTestCase(unittest.TestCase):
@@ -69,7 +41,7 @@ class MenuBuilderTestCase(unittest.TestCase):
                     Action(
                         class_name = 'Exit',
                         path       = 'MenuBar/File',
-                        group      = 'ExitGroup'
+                        group      = 'Bogus'
                     ),
                 ]
             ),
@@ -79,7 +51,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -105,7 +77,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -126,7 +98,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
         
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -147,7 +119,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
         
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -177,7 +149,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -298,7 +270,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure that all of the menus were added the the 'additions' group
@@ -325,7 +297,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
         )
@@ -350,7 +322,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure that the 'File' menu was added to the 'FileMenuGroup'
@@ -391,7 +363,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure the 'New' sub-menu got added to the 'additions' group
@@ -430,7 +402,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure the 'ExitAction' action got added to the 'additions' group
@@ -464,7 +436,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure the 'File' menu got added to the 'additions' group of the
@@ -520,7 +492,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure the 'File' menu got added to the 'additions' group of the
@@ -603,7 +575,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure that all of the menus were added the the 'additions' group
@@ -679,7 +651,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
+        # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure that all of the menus were added the the 'additions' group
