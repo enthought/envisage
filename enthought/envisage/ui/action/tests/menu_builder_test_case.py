@@ -60,6 +60,58 @@ class MenuBuilderTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_single_top_level_menu_with_no_group(self):
+        """ single top level menu with no group """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(name='&File', path='MenuBar'),
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu bar manager for the 'MenuBar'.
+        menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
+
+        # Make sure that the 'File' menu was added to the 'additions' group
+        # of the menubar.
+        self.assertEqual(1, len(menu_bar_manager.groups))
+
+        group = menu_bar_manager.find_group('additions')
+        ids = [item.id for item in group.items]
+        self.assertEqual(['File'], ids)
+
+        return
+
+    def test_single_top_level_group(self):
+        """ single top level group """
+
+        action_sets = [
+            ActionSet(
+                groups = [
+                    Group(id='FileMenuGroup', path='MenuBar'),
+                ]
+            )
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu bar manager for the 'MenuBar'.
+        menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
+
+        # Make sure that the group was added before the 'additions' group.
+        self.assertEqual(2, len(menu_bar_manager.groups))
+
+        ids = [group.id for group in menu_bar_manager.groups]
+        self.assertEqual(['FileMenuGroup', 'additions'], ids)
+
+        return
+
     def test_top_level_menus_with_no_groups(self):
         """ top level menus with_no groups """
 
@@ -77,14 +129,14 @@ class MenuBuilderTestCase(unittest.TestCase):
         # Create a menu builder containing the action set.
         menu_builder = TestMenuBuilder(action_sets=action_sets)
 
-        # Create a menu manager for the 'MenuBar'.
-        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+        # Create a menu bar manager for the 'MenuBar'.
+        menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
 
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar (and in the right order!).
-        self.assertEqual(1, len(menu_manager.groups))
+        self.assertEqual(1, len(menu_bar_manager.groups))
 
-        group = menu_manager.find_group('additions')
+        group = menu_bar_manager.find_group('additions')
         ids = [item.id for item in group.items]
         self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
 
@@ -124,7 +176,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar.
@@ -177,7 +228,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure that the 'File' menu was added to the 'FileMenuGroup'
         # group of the menubar.
@@ -219,7 +269,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure the 'New' sub-menu got added to the 'additions' group
         # of the 'File' menu.
@@ -259,7 +308,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure the 'ExitAction' action got added to the 'additions' group
         # of the 'File' menu.
@@ -294,7 +342,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure the 'File' menu got added to the 'additions' group of the
         # menubar.
@@ -328,13 +375,19 @@ class MenuBuilderTestCase(unittest.TestCase):
                 actions = [
                     Action(
                         class_name = 'File',
-                        path       = 'MenuBar/File/New'
+                        path       = 'MenuBar/File/New',
+                        after      = 'Folder'
+                    ),
+
+                    Action(
+                        class_name = 'Project',
+                        path       = 'MenuBar/File/New',
+                        before     = 'Folder'
                     ),
 
                     Action(
                         class_name = 'Folder',
                         path       = 'MenuBar/File/New',
-                        before     = 'File'
                     ),
                 ]
             )
@@ -345,7 +398,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure the 'File' menu got added to the 'additions' group of the
         # menubar.
@@ -366,8 +418,101 @@ class MenuBuilderTestCase(unittest.TestCase):
         menu = menu_manager.find_item('File/New')
         additions = menu.find_group('additions')
 
-        self.assertEqual('Folder', additions.items[0].id)
-        self.assertEqual('File', additions.items[1].id)
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['Project', 'Folder', 'File'], ids)
+
+        return
+
+    def test_explicit_groups(self):
+        """ explicit groups """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(name='&File', path='MenuBar'),
+                    Menu(name='&Edit', path='MenuBar'),
+                    Menu(name='&Tools', path='MenuBar'),
+                    Menu(name='&Help', path='MenuBar')
+                ],
+            ),
+
+            ActionSet(
+                menus = [
+                    Menu(name='&New', path='MenuBar/File', group='NewGroup'),
+                ],
+            ),
+
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'Exit',
+                        path       = 'MenuBar/File',
+                        group      = 'ExitGroup'
+                    ),
+                ]
+            ),
+
+            ActionSet(
+                groups = [
+                    Group(
+                        id   = 'ExitGroup',
+                        path = 'MenuBar/File'
+                    ),
+
+                    Group(
+                        id    = 'SaveGroup',
+                        path  = 'MenuBar/File',
+                        after = 'NewGroup'
+                    ),
+
+                    Group(
+                        id     = 'NewGroup',
+                        path   = 'MenuBar/File',
+                        before = 'ExitGroup'
+                    ),
+
+                ]
+            ),
+            
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+
+        # Make sure that all of the menus were added the the 'additions' group
+        # of the menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        additions = menu_manager.find_group('additions')
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
+
+        # Make sure the 'File' menu has got 3 groups, 'NewGroup', 'ExitGroup'
+        # and 'additions' (and in that order!).
+        menu = menu_manager.find_item('File')
+        self.assertEqual(4, len(menu.groups))
+
+        ids = [group.id for group in menu.groups]
+        self.assertEqual(
+            ['NewGroup', 'SaveGroup', 'ExitGroup', 'additions'], ids
+        )
+        
+        # Make sure the 'New' sub-menu got added to the 'NewGroup' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        group = menu.find_group('NewGroup')
+
+        self.assertEqual('New', group.items[0].id)
+
+        # Make sure the 'Exit' action got added to the 'ExitGroup' group
+        # of the 'File' menu.
+        menu = menu_manager.find_item('File')
+        group = menu.find_group('ExitGroup')
+
+        self.assertEqual('Exit', group.items[0].id)
 
         return
 
@@ -412,7 +557,6 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         # Create a menu manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
-##         menu_manager.dump()
 
         # Make sure that all of the menus were added the the 'additions' group
         # of the menubar.
@@ -443,6 +587,58 @@ class MenuBuilderTestCase(unittest.TestCase):
         group = menu.find_group('ExitGroup')
 
         self.assertEqual('Exit', group.items[0].id)
+
+        return
+
+    def test_action_with_nonexistent_group(self):
+        """ action with non-existent group """
+
+        action_sets = [
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'Exit',
+                        path       = 'MenuBar/File',
+                        group      = 'ExitGroup'
+                    ),
+                ]
+            ),
+            
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        self.failUnlessRaises(
+            ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
+        )
+
+        return
+
+    def test_action_with_nonexistent_sibling(self):
+        """ action with non-existent sibling """
+
+        action_sets = [
+            ActionSet(
+                actions = [
+                    Action(
+                        class_name = 'Exit',
+                        path       = 'MenuBar/File',
+                        before     = 'NonExistentAction'
+                    ),
+                ]
+            ),
+            
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = TestMenuBuilder(action_sets=action_sets)
+
+        # Create a menu manager for the 'MenuBar'.
+        self.failUnlessRaises(
+            ValueError, menu_builder.create_menu_bar_manager, 'MenuBar'
+        )
 
         return
     

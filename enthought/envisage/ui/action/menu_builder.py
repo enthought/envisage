@@ -60,41 +60,40 @@ class MenuBuilder(HasTraits):
     # Protected 'MenuBuilder' interface.
     ###########################################################################
 
-    def _create_action(self, action_definition):
-        """ Creates an action implementation from an action definition. """
+##     def _create_action(self, action_definition):
+##         """ Creates an action implementation from an action definition. """
 
-        if self.action_factory is not None:
-            action = self.action_factory(action_definition)
+##         if self.action_factory is not None:
+##             action = self.action_factory(action_definition)
 
-        else:
-            raise NotImplementedError
+##         else:
+##             raise NotImplementedError
 
-        return action
+##         return action
 
-    def _create_group(self, group_definition):
-        """ Creates a group implementation from a group definition. """
+##     def _create_group(self, group_definition):
+##         """ Creates a group implementation from a group definition. """
 
+##         if self.group_factory is not None:
+##             group = self.group_factory(group_definition)
 
-        if self.group_factory is not None:
-            group = self.group_factory(group_definition)
+##         else:
+##             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
+##         return group
 
-        return group
+##     def _create_menu_manager(self, menu_definition):
+##         """ Creates a menu manager implementation from a menu definition. """
 
-    def _create_menu_manager(self, menu_definition):
-        """ Creates a menu manager implementation from a menu definition. """
+##         if self.menu_factory is not None:
+##             menu = self.menu_factory(menu_definition)
+##             for group_definition in menu_definition.groups:
+##                 menu.append(self._create_group(group_definition))
 
-        if self.menu_factory is not None:
-            menu = self.menu_factory(menu_definition)
-            for group_definition in menu_definition.groups:
-                menu.append(self._create_group(group_definition))
+##         else:
+##             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
-
-        return menu
+##         return menu
 
     ###########################################################################
     # Private interface.
@@ -116,8 +115,6 @@ class MenuBuilder(HasTraits):
 
         actions = action_set_manager.get_actions(root)
 
-        print '**** Actions', actions
-
         while len(actions) > 0:
             start = len(actions)
 
@@ -132,16 +129,17 @@ class MenuBuilder(HasTraits):
                 # If a specific group is requested then make sure it exists.
                 if len(action.group) > 0:
                     group = target.find_group(action.group)
-                    if group is None:
-                        raise 'No such group %s for %s' % (group, action)
 
                 # Otherwise, just put the action in the last group on the menu.
                 else:
                     group = target.find_group('additions')
 
-                if group is not None:
-                    if self._add_action(action, group):
-                        actions.remove(action)
+                if group is None:
+                    msg = 'No such group (%s) for %s' % (action.group, action)
+                    raise ValueError(msg)
+
+                elif self._add_action(action, group):
+                    actions.remove(action)
 
             end = len(actions)
 
@@ -187,11 +185,15 @@ class MenuBuilder(HasTraits):
         """ Add the group and menu structure. """
 
         # Get all of the groups and menus.
+        #
+        # The reason we do the groups and menus together is that as we iterate
+        # over the list, we might need to add a group before we can add a menu
+        # and we might need to add a menu before we can add a group! Hence, we
+        # take multiple passes over the list and we only barf if, in any single
+        # iteration, we cannot place anything.
         groups_and_menus = action_set_manager.get_groups(root)
         groups_and_menus.extend(action_set_manager.get_menus(root))
 
-        print '**** Groups and menus', groups_and_menus
-        
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
 
@@ -199,13 +201,10 @@ class MenuBuilder(HasTraits):
                 path = item.path
 
                 # Resolve the path to find the menu manager that we are about
-                # to add a sub-menu or group to).
-                #
-                # If any of the menu in path are missing then this creates them
-                # (think 'mkdirs'!).
-                target = self._make_submenus(menu_manager, path)
+                # to add the sub-menu or group to.
+                target = self._find_menu_manager(menu_manager, path)
                 if target is None:
-                    raise ValueError('no such location %s' % path)
+                    continue
                     
                 # Attempt to place a group.
                 if self._is_group(item):
@@ -221,14 +220,11 @@ class MenuBuilder(HasTraits):
                         group = target.find_group('additions')
 
                     if group is None:
-                        msg = 'Error adding "%s" menu - no such group "%s"' % (
-                            item.id, item.group
-                        )
-                        raise ValueError(msg)
+                        continue
                         
                     if self._add_menu(group, item):
                         groups_and_menus.remove(item)
-                            
+                    
             end = len(groups_and_menus)
             
             # If we didn't succeed in placing *any* menus or groups then we
@@ -286,9 +282,7 @@ class MenuBuilder(HasTraits):
 
         """
 
-        print 'Adding menu', menu, menu.before
         if len(menu.before) > 0:
-            print 'Adding to group', group.id, group.items
             item = group.find(menu.before)
             if item is None:
                 return False
