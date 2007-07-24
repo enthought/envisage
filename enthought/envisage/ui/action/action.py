@@ -1,4 +1,4 @@
-""" An action in a menu bar, menu, or tool bar. """
+""" The *definition* of an action in a menu bar, menu, or tool bar. """
 
 
 # Enthought library imports.
@@ -9,7 +9,7 @@ from location import Location
 
 
 class Action(Location):
-    """ An action in a menu bar, menu, or tool bar. """
+    """ The *definition* of an action in a menu bar, menu, or tool bar. """
 
     #### Action implementation ################################################
 
@@ -26,7 +26,7 @@ class Action(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Action(%s)' % self.class_name
+        return 'Action(%s)' % self.name
 
     __repr__ = __str__
     

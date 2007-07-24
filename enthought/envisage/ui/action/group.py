@@ -1,4 +1,4 @@
-""" A group in a tool bar or menu. """
+""" The *definition* of a group in a tool bar or menu. """
 
 
 # Enthought library imports.
@@ -9,7 +9,7 @@ from location import Location
 
 
 class Group(Location):
-    """ A group in a tool bar or menu. """
+    """ The *definition* of a group in a tool bar or menu. """
 
     # The group's unique identifier (unique within the tool bar, menu bar or
     # menu that the group is to be added to).

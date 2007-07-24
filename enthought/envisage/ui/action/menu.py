@@ -1,4 +1,4 @@
-""" A menu in a menu bar or menu. """
+""" The *definition* of a menu in a menu bar or menu. """
 
 
 # Enthought library imports.
@@ -10,7 +10,7 @@ from location import Location
 
 
 class Menu(Location):
-    """ A menu in a menu bar or menu. """
+    """ The *definition* of a menu in a menu bar or menu. """
 
     # The menu's unique identifier (unique within the group that the menu is to
     # be added to).
@@ -33,7 +33,7 @@ class Menu(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Menu(%s)' % self.id
+        return 'Menu(%s)' % self.name
 
     __repr__ = __str__
 
