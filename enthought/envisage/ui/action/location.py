@@ -10,7 +10,7 @@ class Location(HasTraits):
 
     """
 
-    # A forward-slash--separated path through the action hierarchy, to the menu
+    # A forward-slash-separated path through the action hierarchy to the menu
     # to add the action, group or menu to.
     #
     # Examples
