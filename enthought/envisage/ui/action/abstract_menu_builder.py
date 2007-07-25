@@ -48,11 +48,24 @@ class AbstractMenuBuilder(HasTraits):
     def initialize_menu_manager(self, menu_manager, root):
         """ Initialize a menu manager. """
 
+        # Get all of the groups and menus.
+        #
+        # The reason we do the groups and menus together is that as we iterate
+        # over the list, we might need to add a group before we can add a menu
+        # and we might need to add a menu before we can add a group! Hence, we
+        # take multiple passes over the list and we only barf if, in any single
+        # iteration, we cannot place anything.
+        groups_and_menus = self._action_set_manager.get_groups(root)
+        groups_and_menus.extend(self._action_set_manager.get_menus(root))
+
         # Add all groups and menus.
-        self._add_groups_and_menus(menu_manager, self._action_set_manager,root)
+        self._add_groups_and_menus(menu_manager, groups_and_menus)
+
+        # Get all actions for the specified root.
+        actions = self._action_set_manager.get_actions(root)
         
-        # Add all of the actions.
-        self._add_actions(menu_manager, self._action_set_manager, root)
+        # Add all of the actions ot the menu manager.
+        self._add_actions(menu_manager, actions)
 
         return
 
@@ -90,23 +103,25 @@ class AbstractMenuBuilder(HasTraits):
     
     #### Methods ##############################################################
 
-    def _add_actions(self, menu_manager, action_set_manager, root):
-        """ Adds all of the actions to the menu manager. """
-
-        actions = action_set_manager.get_actions(root)
+    def _add_actions(self, menu_manager, actions):
+        """ Add the specified actions to the menu manager. """
 
         while len(actions) > 0:
             start = len(actions)
 
             for action in actions[:]:
-                # Resolve the path to find the menu manager that we are about
-                # to add the action to.
+                # Resolve the action's path to find the menu manager that it
+                # should be added to.
                 #
-                # If any of the menu in path are missing then this creates them
-                # (think 'mkdirs'!).
+                # If any of the menus in path are missing then this creates
+                # them automatically (think 'mkdirs'!).
                 target = self._make_submenus(menu_manager, action.path)
 
                 # Attempt to place the action.
+                #
+                # If the action needs to be placed 'before' or 'after' some
+                # other action, but the other action has not yet been added
+                # then we will try again later!
                 if self._add_action(target, action):
                     actions.remove(action)
                     
@@ -162,18 +177,8 @@ class AbstractMenuBuilder(HasTraits):
 
         return True
 
-    def _add_groups_and_menus(self, menu_manager, action_set_manager, root):
-        """ Add the group and menu structure. """
-
-        # Get all of the groups and menus.
-        #
-        # The reason we do the groups and menus together is that as we iterate
-        # over the list, we might need to add a group before we can add a menu
-        # and we might need to add a menu before we can add a group! Hence, we
-        # take multiple passes over the list and we only barf if, in any single
-        # iteration, we cannot place anything.
-        groups_and_menus = action_set_manager.get_groups(root)
-        groups_and_menus.extend(action_set_manager.get_menus(root))
+    def _add_groups_and_menus(self, menu_manager, groups_and_menus):
+        """ Add the specified groups and menus to the menu manager. """
 
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
