@@ -4,11 +4,12 @@
 # Enthought library imports.
 from enthought.pyface.action.api import ActionManager, MenuBarManager
 from enthought.pyface.action.api import MenuManager
-from enthought.traits.api import Callable, HasTraits, Instance, List
+from enthought.traits.api import HasTraits, Instance, List
 
 # Local imports.
 from action_set import ActionSet
 from action_set_manager import ActionSetManager
+from group import Group
 
 
 class AbstractMenuBuilder(HasTraits):
@@ -105,21 +106,10 @@ class AbstractMenuBuilder(HasTraits):
                 # (think 'mkdirs'!).
                 target = self._make_submenus(menu_manager, action.path)
 
-                # If a specific group is requested then make sure it exists.
-                if len(action.group) > 0:
-                    group = target.find_group(action.group)
-
-                # Otherwise, just put the action in the last group on the menu.
-                else:
-                    group = target.find_group('additions')
-
-                if group is None:
-                    msg = 'No such group (%s) for %s' % (action.group, action)
-                    raise ValueError(msg)
-
-                elif self._add_action(action, group):
+                # Attempt to place the action.
+                if self._add_action(target, action):
                     actions.remove(action)
-
+                    
             end = len(actions)
 
             # If we didn't succeed in placing *any* actions then we must have a
@@ -129,8 +119,8 @@ class AbstractMenuBuilder(HasTraits):
 
         return
 
-    def _add_action(self, action, group):
-        """ Add an action to a group.
+    def _add_action(self, menu_manager, action):
+        """ Add an action to a menu manager.
 
         Return True if the action was added successfully.
 
@@ -138,6 +128,18 @@ class AbstractMenuBuilder(HasTraits):
         other action, but the other action has not yet been added.
 
         """
+
+        # If a specific group is requested then make sure it exists.
+        if len(action.group) > 0:
+            group = menu_manager.find_group(action.group)
+
+        # Otherwise, just put the action in the last group on the menu.
+        else:
+            group = menu_manager.find_group('additions')
+
+        if group is None:
+            msg = 'No such group (%s) for %s' % (action.group, action)
+            raise ValueError(msg)
 
         if len(action.before) > 0:
             item = group.find(action.before)
@@ -177,27 +179,18 @@ class AbstractMenuBuilder(HasTraits):
             start = len(groups_and_menus)
             
             for item in groups_and_menus[:]:
-                path = item.path
-
                 # Resolve the path to find the menu manager that we are about
                 # to add the sub-menu or group to.
-                target = self._find_menu_manager(menu_manager, path)
+                target = self._find_menu_manager(menu_manager, item.path)
                 if target is not None:
                     # Attempt to place a group.
-                    if self._is_group(item):
+                    if isinstance(item, Group):
                         if self._add_group(target, item):
                             groups_and_menus.remove(item)
 
                     # Attempt to place a menu.
-                    else:
-                        if len(item.group) > 0:
-                            group = target.find_group(item.group)
-
-                        else:
-                            group = target.find_group('additions')
-
-                        if group is not None and self._add_menu(group, item):
-                            groups_and_menus.remove(item)
+                    elif self._add_menu(target, item):
+                        groups_and_menus.remove(item)
                     
             end = len(groups_and_menus)
             
@@ -248,8 +241,8 @@ class AbstractMenuBuilder(HasTraits):
 
         return True
 
-    def _add_menu(self, group, menu):
-        """ Add a menu manager to a group.
+    def _add_menu(self, menu_manager, menu):
+        """ Add a menu manager to a errr, menu manager.
 
         Return True if the menu was added successfully.
 
@@ -257,6 +250,15 @@ class AbstractMenuBuilder(HasTraits):
         other item, but the other item has not yet been added.
 
         """
+
+        if len(menu.group) > 0:
+            group = menu_manager.find_group(menu.group)
+
+        else:
+            group = menu_manager.find_group('additions')
+
+        if group is None:
+            return False
 
         if len(menu.before) > 0:
             item = group.find(menu.before)
@@ -295,11 +297,6 @@ class AbstractMenuBuilder(HasTraits):
 
         return menu_manager
 
-    def _is_group(self, item):
-        """ Return True if item is a group *definition*, otherwise False. """
-
-        return not hasattr(item, 'groups')
-
     def _make_submenus(self, menu_manager, path):
         """ Retutn the menu manager identified by the path.
 
@@ -310,14 +307,19 @@ class AbstractMenuBuilder(HasTraits):
         components = path.split('/')
 
         # We skip the first component, because if the path is of length 1, then
-        # the target menu manager is the menu manager passed in (and 
+        # the target menu manager is the menu manager passed in.
         for component in components[1:]:
             item = menu_manager.find_item(component)
+
+            # If the menu manager does *not* contain an item with this ID then
+            # create a sub-menu automatically.
             if item is None:
                 item = MenuManager(id=component, name=component)
                 menu_manager.append(item)
-                
-            if not isinstance(item, ActionManager):
+
+            # If the menu manager *does* already contain an item with this ID
+            # then make sure it is a menu and not an action!
+            elif not isinstance(item, ActionManager):
                 msg = '%s is not a menu in path %s' % (item, path)
                 raise ValueError(msg)
 
