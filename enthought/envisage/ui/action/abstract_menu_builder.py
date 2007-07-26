@@ -48,13 +48,7 @@ class AbstractMenuBuilder(HasTraits):
     def initialize_menu_manager(self, menu_manager, root):
         """ Initialize a menu manager. """
 
-        # Get all of the groups and menus.
-        #
-        # The reason we do the groups and menus together is that as we iterate
-        # over the list, we might need to add a group before we can add a menu
-        # and we might need to add a menu before we can add a group! Hence, we
-        # take multiple passes over the list and we only barf if, in any single
-        # iteration, we cannot place anything.
+        # Get all of the groups and menus for the specified root.
         groups_and_menus = self._action_set_manager.get_groups(root)
         groups_and_menus.extend(self._action_set_manager.get_menus(root))
 
@@ -144,14 +138,7 @@ class AbstractMenuBuilder(HasTraits):
 
         """
 
-        # If a specific group is requested then make sure it exists.
-        if len(action.group) > 0:
-            group = menu_manager.find_group(action.group)
-
-        # Otherwise, just put the action in the last group on the menu.
-        else:
-            group = menu_manager.find_group('additions')
-
+        group = self._find_group(menu_manager, action)
         if group is None:
             msg = 'No such group (%s) for %s' % (action.group, action)
             raise ValueError(msg)
@@ -180,6 +167,11 @@ class AbstractMenuBuilder(HasTraits):
     def _add_groups_and_menus(self, menu_manager, groups_and_menus):
         """ Add the specified groups and menus to the menu manager. """
 
+        # The reason we put the groups and menus together is that as we iterate
+        # over the list trying to add them, we might need to add a group before
+        # we can add a menu and we might need to add a menu before we can add a
+        # group! Hence, we take multiple passes over the list and we only barf
+        # if, in any single iteration, we cannot place anything.
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
             
@@ -256,12 +248,7 @@ class AbstractMenuBuilder(HasTraits):
 
         """
 
-        if len(menu.group) > 0:
-            group = menu_manager.find_group(menu.group)
-
-        else:
-            group = menu_manager.find_group('additions')
-
+        group = self._find_group(menu_manager, menu)
         if group is None:
             return False
 
@@ -286,6 +273,17 @@ class AbstractMenuBuilder(HasTraits):
 
         return True
 
+    def _find_group(self, menu_manager, item):
+        """ Find the group for the specified action or menu definition. """
+        
+        if len(item.group) > 0:
+            group = menu_manager.find_group(item.group)
+
+        else:
+            group = menu_manager.find_group('additions')
+
+        return group
+    
     def _find_menu_manager(self, menu_manager, path):
         """ Return the menu manager at the specified path.
 
