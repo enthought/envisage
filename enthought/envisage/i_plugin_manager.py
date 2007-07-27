@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, Event, Interface
+from enthought.traits.api import Event, Interface
 
 # Local imports.
 from plugin_event import PluginEvent
@@ -10,9 +10,6 @@ from plugin_event import PluginEvent
 
 class IPluginManager(Interface):
     """ The plugin manager interface. """
-
-    # The context that plugins are started and stopped in.
-    plugin_context = Any
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
@@ -33,14 +30,14 @@ class IPluginManager(Interface):
 
         """
         
-    def start(self):
+    def start(self, plugin_context=None):
         """ Start the plugin manager.
 
         This starts all of the manager's plugins.
         
         """
 
-    def start_plugin(self, plugin=None, id=None):
+    def start_plugin(self, plugin_context=None, plugin=None, id=None):
         """ Start the specified plugin.
 
         If a plugin is specified then start it.
@@ -51,7 +48,7 @@ class IPluginManager(Interface):
 
         """
 
-    def stop(self):
+    def stop(self, plugin_context=None):
         """ Stop the plugin manager.
 
         This stop's all of the plugin manager's plugins (in the reverse order
@@ -59,7 +56,7 @@ class IPluginManager(Interface):
 
         """
 
-    def stop_plugin(self, plugin=None, id=None):
+    def stop_plugin(self, plugin_context=None, plugin=None, id=None):
         """ Stop the specified plugin.
 
         If a plugin is specified then stop it (the Id is ignored).

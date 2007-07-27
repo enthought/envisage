@@ -28,9 +28,6 @@ class IApplication(Interface):
     # Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
 
-    # Fired when a symbol is imported.
-    symbol_imported = Event
-
     def get_extensions(self, extension_point):
         """ Return a list containing all contributions to an extension point.
 

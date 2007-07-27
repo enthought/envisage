@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, HasTraits, implements
+from enthought.traits.api import HasTraits, implements
 
 # Local imports.
 from i_import_manager import IImportManager
@@ -19,11 +19,6 @@ class ImportManager(HasTraits):
 
     implements(IImportManager)
     
-    #### 'IImportManager' interface ###########################################
-
-    # Fired when a symbol is imported.
-    symbol_imported = Event
-
     ###########################################################################
     # 'IImportManager' interface.
     ###########################################################################

@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Any, Event, HasTraits, List, implements
+from enthought.traits.api import Event, HasTraits, List, implements
 
 # Local imports.
 from i_plugin import IPlugin
@@ -23,9 +23,6 @@ class PluginManager(HasTraits):
     implements(IPluginManager)
 
     #### 'IPluginManager' interface ###########################################
-
-    # The context that plugins are started and stopped in.
-    plugin_context = Any
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
@@ -62,16 +59,16 @@ class PluginManager(HasTraits):
 
         return plugin
 
-    def start(self):
+    def start(self, plugin_context=None):
         """ Start the plugin manager.
         
         """
 
-        map(self.start_plugin, self.plugins)
+        map(lambda p: self.start_plugin(plugin_context, p), self.plugins)
         
         return
 
-    def start_plugin(self, plugin=None, id=None):
+    def start_plugin(self, plugin_context=None, plugin=None, id=None):
         """ Start the specified plugin.
 
         """
@@ -81,7 +78,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s starting', plugin.id)
 
             self.plugin_starting = PluginEvent(plugin=plugin)
-            plugin.start(self.plugin_context)
+            plugin.start(plugin_context)
             self.plugin_started = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s started', plugin.id)
@@ -91,7 +88,7 @@ class PluginManager(HasTraits):
         
         return
 
-    def stop(self):
+    def stop(self, plugin_context=None):
         """ Stop the plugin manager.
 
         """
@@ -100,11 +97,11 @@ class PluginManager(HasTraits):
         stop_order = self.plugins[:]
         stop_order.reverse()
         
-        map(self.stop_plugin, stop_order)
+        map(lambda p: self.stop_plugin(plugin_context, p), stop_order)
 
         return
     
-    def stop_plugin(self, plugin=None, id=None):
+    def stop_plugin(self, plugin_context=None, plugin=None, id=None):
         """ Stop the specified plugin.
 
         """
@@ -114,7 +111,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s stopping', plugin.id)
 
             self.plugin_stopping = PluginEvent(plugin=plugin)
-            plugin.stop(self.plugin_context)
+            plugin.stop(plugin_context)
             self.plugin_stopped = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s stopped', plugin.id)

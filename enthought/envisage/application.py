@@ -9,8 +9,8 @@ import logging
 # fixme: The ordering of these imports is critical. We don't use traits UI in
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
-from enthought.traits.api import Delegate, Event, HasTraits, Instance, Str
-from enthought.traits.api import VetoableEvent, implements, on_trait_change
+from enthought.traits.api import Event, HasTraits, Instance, Str, VetoableEvent
+from enthought.traits.api import implements, on_trait_change
 
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
@@ -55,9 +55,6 @@ class Application(HasTraits):
 
     # Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
-
-    # Fired when a symbol is imported.
-    symbol_imported = Delegate('import_manager')
     
     #### 'Application' interface ##############################################
 
@@ -70,7 +67,7 @@ class Application(HasTraits):
     import_manager = Instance(IImportManager, factory=ImportManager)
     
     # The plugin manager (starts and stops plugins etc).
-    plugin_manager = Instance(IPluginManager)
+    plugin_manager = Instance(IPluginManager, factory=EggPluginManager)
 
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
@@ -93,26 +90,6 @@ class Application(HasTraits):
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
-
-    #### Initializers #########################################################
-
-    def _plugin_manager_default(self):
-        """ Initializer. """
-
-        return EggPluginManager(plugin_context=self)
-
-    #### Properties ###########################################################
-
-    #### Handlers #############################################################
-
-    def _plugin_manager_changed(self):
-        """ Static trait change handler. """
-
-        self.plugin_manager.plugin_context = self
-
-        return
-
-    #### Methods ##############################################################
 
     def get_extensions(self, extension_point):
         """ Return a list containing all contributions to an extension point.
@@ -183,7 +160,7 @@ class Application(HasTraits):
         if not event.veto:
             # Start the plugin manager (this starts all of the manager's
             # plugins).
-            self.plugin_manager.start()
+            self.plugin_manager.start(self)
             
             # Lifecycle event.
             self.started = self._create_application_event()
@@ -207,7 +184,7 @@ class Application(HasTraits):
         if not event.veto:
             # Stop the plugin manager (this stops all of the manager's
             # plugins).
-            self.plugin_manager.stop()
+            self.plugin_manager.stop(self)
 
             # Lifecycle event.
             self.stopped = self._create_application_event()
@@ -224,14 +201,14 @@ class Application(HasTraits):
 
         """
 
-        return self.plugin_manager.start_plugin(plugin, id)
+        return self.plugin_manager.start_plugin(self, plugin, id)
 
     def stop_plugin(self, plugin=None, id=None):
         """ Stop the specified plugin.
 
         """
 
-        return self.plugin_manager.stop_plugin(plugin, id)
+        return self.plugin_manager.stop_plugin(self, plugin, id)
 
     def unregister_service(self, service_id):
         """ Unregister a service.

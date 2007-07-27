@@ -2,14 +2,11 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface
+from enthought.traits.api import Interface
 
 
 class IImportManager(Interface):
     """ The interface for import managers. """
-
-    # Fired when a symbol is imported.
-    symbol_imported = Event
 
     def import_symbol(self, symbol_path):
         """ Import the symbol defined by the specified symbol path.
