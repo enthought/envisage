@@ -24,8 +24,8 @@ class PluginManager(HasTraits):
 
     #### 'IPluginManager' interface ###########################################
 
-    # The application that the plugin manager belongs to.
-    application = Any
+    # The context that plugins are started and stopped in.
+    plugin_context = Any
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
@@ -81,7 +81,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s starting', plugin.id)
 
             self.plugin_starting = PluginEvent(plugin=plugin)
-            plugin.start(self.application)
+            plugin.start(self.plugin_context)
             self.plugin_started = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s started', plugin.id)
@@ -114,7 +114,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s stopping', plugin.id)
 
             self.plugin_stopping = PluginEvent(plugin=plugin)
-            plugin.stop(self.application)
+            plugin.stop(self.plugin_context)
             self.plugin_stopped = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s stopped', plugin.id)

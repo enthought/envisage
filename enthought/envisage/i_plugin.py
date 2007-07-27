@@ -10,12 +10,12 @@ class IPlugin(Interface):
 
     # The plugin's unique identifier.
     #
-    # Where 'unique' technically means 'unique within the application', but
-    # since your application may want to include plugins from external sources,
-    # this really means 'globally unique'!.
+    # Where 'unique' technically means 'unique within the plugin manager', but
+    # since you may want to include plugins from external sources, this really
+    # means 'globally unique'!.
     id = Str
     
-    def start(self, application):
+    def start(self, plugin_context):
         """ Start the plugin.
 
         Can be called manually, but is usually called exactly once when the
@@ -23,7 +23,7 @@ class IPlugin(Interface):
 
         """
 
-    def stop(self, application):
+    def stop(self, plugin_context):
         """ Stop the plugin.
 
         Can be called manually, but is usually called exactly once when the

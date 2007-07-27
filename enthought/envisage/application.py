@@ -9,8 +9,8 @@ import logging
 # fixme: The ordering of these imports is critical. We don't use traits UI in
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
-from enthought.traits.api import Event, HasTraits, Instance, Str, VetoableEvent
-from enthought.traits.api import implements, on_trait_change
+from enthought.traits.api import Delegate, Event, HasTraits, Instance, Str
+from enthought.traits.api import VetoableEvent, implements, on_trait_change
 
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
@@ -57,10 +57,7 @@ class Application(HasTraits):
     stopped = Event(ApplicationEvent)
 
     # Fired when a symbol is imported.
-    #
-    # fixme: We would like to use delegation here, but delegation of events
-    # doesn't seem to work in Traits 3.0 8^(
-    symbol_imported = Event
+    symbol_imported = Delegate('import_manager')
     
     #### 'Application' interface ##############################################
 
@@ -102,7 +99,7 @@ class Application(HasTraits):
     def _plugin_manager_default(self):
         """ Initializer. """
 
-        return EggPluginManager(application=self)
+        return EggPluginManager(plugin_context=self)
 
     #### Properties ###########################################################
 
@@ -248,14 +245,6 @@ class Application(HasTraits):
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    @on_trait_change('import_manager.symbol_imported')
-    def _when_import_manager_symbol_imported(self, event):
-        """ Dynamic trait change handler. """
-
-        self.symbol_imported = event
-
-        return
     
     def _create_application_event(self):
         """ Create an application event. """

@@ -83,7 +83,6 @@ class ServiceRegistry(HasTraits):
                 if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
 
-
         # Are we minimizing or maximising anything? If so then sort the list
         # of services by the specified attribute/property.
         if minimize != '':

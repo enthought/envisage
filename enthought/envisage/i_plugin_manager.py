@@ -11,8 +11,8 @@ from plugin_event import PluginEvent
 class IPluginManager(Interface):
     """ The plugin manager interface. """
 
-    # The application that the plugin manager belongs to.
-    application = Any
+    # The context that plugins are started and stopped in.
+    plugin_context = Any
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
