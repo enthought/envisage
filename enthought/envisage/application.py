@@ -108,7 +108,7 @@ class Application(HasTraits):
     def _plugin_manager_changed(self):
         """ Static trait change handler. """
 
-        self.plugin_manager.application = self
+        self.plugin_manager.plugin_context = self
 
         return
 
