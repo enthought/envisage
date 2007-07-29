@@ -26,7 +26,7 @@ it uses an implementation based on then entry point mechanism of
 `Python Eggs`_.
 
 To see how extension points actually work, let's take a look at the
-"Message of the Day"_ example included in the Envisage distribution.
+`Message of the Day`_ example included in the Envisage distribution.
 
 This example shows how to build a very simple application that prints a
 (hopefully witty, educational, or inspiring) "Message of the Day" chosen at
@@ -66,7 +66,7 @@ This tells us two things:
 2) Making contributions to an Extension Point
 ---------------------------------------------
 
-The "Message of the Day"_ example has a second plugin,
+The `Message of the Day`_ example has a second plugin,
 acme.motd.software_quotes_ that contributes some pithy quotes about software
 development to the application.
 
@@ -74,7 +74,7 @@ First of all, we have to create the messages that we want to add. Remember that
 when the acme.motd_ plugin advertised the extension point, it told us that
 every contribution had to implement the IMessage_ interface. Happily, there is
 a class that does just that already defined for us (Message_) and so we create
-a simple module ('messages.py'_) and add our Message_ instances to it::
+a simple module (messages.py_) and add our Message_ instances to it::
 
     ...
 
