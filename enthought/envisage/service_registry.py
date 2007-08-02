@@ -102,7 +102,7 @@ class ServiceRegistry(HasTraits):
         service_id = self._next_service_id()
         self._services[service_id] = (interface, obj, properties)
 
-        logger.debug('service [%d] registered [%s]', service_id, interface)
+        logger.debug('service %d registered %s', service_id, interface)
         
         return service_id
 
@@ -112,10 +112,10 @@ class ServiceRegistry(HasTraits):
         try:
             del self._services[service_id]
 
-            logger.debug('service [%d] unregistered', service_id)
+            logger.debug('service %d unregistered', service_id)
 
         except KeyError:
-            raise ValueError('no service with id [%d]' % service_id)
+            raise ValueError('no service with id %d' % service_id)
 
         return
 

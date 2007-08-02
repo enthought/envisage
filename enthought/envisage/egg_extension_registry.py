@@ -38,7 +38,7 @@ class EggExtensionRegistry(HasTraits):
         for entry_point in self.working_set.iter_entry_points(extension_point):
             extensions.append(entry_point.load())
 
-        logger.debug('extensions for [%s] %s', extension_point, extensions)
+        logger.debug('extensions to %s are %s', extension_point, extensions)
 
         return extensions
 
