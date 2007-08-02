@@ -1,18 +1,11 @@
 """ Manages contributions of action sets. """
 
 
-# Standard library imports.
-import logging
-
 # Enthought library imports.
 from enthought.traits.api import HasTraits, List
 
 # Local imports.
 from action_set import ActionSet
-
-
-# Logging.
-logger = logging.getLogger(__name__)
 
 
 class ActionSetManager(HasTraits):
@@ -30,21 +23,15 @@ class ActionSetManager(HasTraits):
     def get_actions(self, root):
         """ Return all action definitions for a root. """
 
-        logger.debug('%s retrieving actions for %s', self, root)
-
         return self._get_items(self.action_sets, 'actions', root)
 
     def get_groups(self, root):
         """ Returns all group definitions for a root. """
 
-        logger.debug('%s retrieving groups for %s', self, root)
-
         return self._get_items(self.action_sets, 'groups', root)
 
     def get_menus(self, root):
         """ Returns all menu definitions for a root. """
-
-        logger.debug('%s retrieving menus for %s', self, root)
 
         return self._get_items(self.action_sets, 'menus', root)
 

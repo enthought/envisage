@@ -138,7 +138,7 @@ class AbstractMenuBuilder(HasTraits):
 
         """
 
-        group = self._find_group(menu_manager, action)
+        group = self._find_group(menu_manager, action.group)
         if group is None:
             msg = 'No such group (%s) for %s' % (action.group, action)
             raise ValueError(msg)
@@ -248,7 +248,7 @@ class AbstractMenuBuilder(HasTraits):
 
         """
 
-        group = self._find_group(menu_manager, menu)
+        group = self._find_group(menu_manager, menu.group)
         if group is None:
             return False
 
@@ -273,11 +273,11 @@ class AbstractMenuBuilder(HasTraits):
 
         return True
 
-    def _find_group(self, menu_manager, item):
-        """ Find the group for the specified action or menu definition. """
+    def _find_group(self, menu_manager, id):
+        """ Find the group with the specified ID. """
         
-        if len(item.group) > 0:
-            group = menu_manager.find_group(item.group)
+        if len(id) > 0:
+            group = menu_manager.find_group(id)
 
         else:
             group = menu_manager.find_group('additions')
