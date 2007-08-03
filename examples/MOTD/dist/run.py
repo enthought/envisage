@@ -7,7 +7,7 @@ Usually, all you have to do in here is:-
 2) Set the 'EGG_PATH' variable to be a list of the directories that contain
    your application's eggs.
 
-3) Edit the 'main' function to do whatever you need to do to start your
+3) Edit the 'run' function to do whatever you need to do to start your
    application.
    
 """
@@ -18,7 +18,7 @@ Usually, all you have to do in here is:-
 EGG_PATH = ['eggs']
 
 
-def main():
+def run():
     """ The function that starts your application. """
 
     # Create and run the application.
@@ -40,7 +40,7 @@ from pkg_resources import Environment, working_set
 logger = logging.getLogger(__name__)
 
 
-def run():
+def main():
     """ Run the application. """
     
     # Find all additional eggs.
@@ -56,10 +56,10 @@ def run():
     map(working_set.add, distributions)
 
     # Create and run the application.
-    return main()
+    return run()
 
 
 if __name__ == '__main__':
-    run()
+    main()
 
 #### EOF ######################################################################
