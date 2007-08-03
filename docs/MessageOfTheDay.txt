@@ -97,7 +97,7 @@ derived from it.
 
 In the MOTD_ example, we create the class in the run.py_ module as follows::
 
-    def main():
+    def run():
         """ The function that starts your application. """
 
         # Create and run the application.
