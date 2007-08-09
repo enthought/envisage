@@ -19,22 +19,5 @@ setup(
 
     install_requires     = [
         'acme.motd',
-    ],
-
-    entry_points = """
-
-    [acme.motd.messages]
-    meyer       = acme.motd.software_quotes.messages:meyer
-    dijkstra    = acme.motd.software_quotes.messages:dijkstra
-    fuller      = acme.motd.software_quotes.messages:fuller
-    gilb        = acme.motd.software_quotes.messages:gilb
-    norman      = acme.motd.software_quotes.messages:norman
-    einstein    = acme.motd.software_quotes.messages:einstein
-    fowler      = acme.motd.software_quotes.messages:fowler
-    hendrickson = acme.motd.software_quotes.messages:hendrickson
-    jeffries    = acme.motd.software_quotes.messages:jeffries
-    tuft        = acme.motd.software_quotes.messages:tuft
-
-    """
-    
+    ]
 )
