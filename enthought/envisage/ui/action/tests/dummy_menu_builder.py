@@ -9,8 +9,12 @@ from enthought.envisage.ui.action.api import AbstractMenuBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
 
 
-class TestMenuBuilder(AbstractMenuBuilder):
-    """ A menu builder that doesn't build real actions! """
+class DummyMenuBuilder(AbstractMenuBuilder):
+    """ A menu builder that doesn't build real actions!
+
+    This makes it very easy to test!
+
+    """
 
     ###########################################################################
     # Protected 'MenuBuilder' interface.
