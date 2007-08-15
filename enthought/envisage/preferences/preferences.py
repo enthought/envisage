@@ -62,8 +62,7 @@ class Preferences(HasTraits):
             keys = self._keys()
 
         else:
-            #components = path.split('.')
-            node = self.node(path)#'.'.join(components))
+            node = self.node(path)
             keys = node.keys()
 
         return keys
@@ -85,26 +84,6 @@ class Preferences(HasTraits):
             node = node.node('.'.join(components[1:]))
 
         return node
-    
-##     def node(self, path):
-##         """ Return the node at the specified path.
-
-##         Create any intermediate nodes if they do not exist.
-        
-##         """
-
-##         components = path.split('.')
-
-##         node = self
-##         for component in components:
-##             child = node.children.get(component)
-##             if child is None:
-##                 child = type(node)(name=component, parent=node)
-##                 node.children[component] = child
-
-##             node = child
-
-##         return node
 
     def get(self, key, default=None):
         """ Get the value of a preference. """
