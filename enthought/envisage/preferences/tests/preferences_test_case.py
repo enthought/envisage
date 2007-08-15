@@ -33,30 +33,53 @@ class PreferencesTestCase(unittest.TestCase):
     def test_preferences(self):
         """ preferences """
 
-        p = Preferences()
+        r = p = Preferences()
         p.dump()
         
-        #p.node('enthought')
-        #p.dump()
+        p.node('enthought')
+        p.dump()
 
-        #p.node('enthought.envisage.ui.workbench')
-        #p.dump()
+        p.node('enthought.envisage.ui.workbench')
+        p.dump()
 
-        #p.node('airbus.aerocity.ui.workbench')
-        #p.dump()
+        p.node('airbus.aerocity.ui.workbench')
+        p.dump()
 
-        #p.set('enthought.envisage.ui.workbench.bgcolor', 'Blue')
-        #p.dump()
+        p.set('enthought.envisage.ui.workbench.bgcolor', 'Blue')
+        p.dump()
 
-        #print p.get('enthought.envisage.ui.workbench.bgcolor')
-
-
-        #print p.keys('enthought.envisage.ui.workbench')
-        #print p.keys('enthought.envisage.ui.workbench.bgcolor')
+        print p.get('enthought.envisage.ui.workbench.bgcolor')
 
 
+        print p.keys('enthought.envisage.ui.workbench')
+        print p.keys('enthought.envisage.ui.workbench.bgcolor')
+
+        p = Preferences()
         p.load('example.ini')
         p.dump()
+
+
+        
+        print p.get('enthought.envisage.ui.workbench.splash_screen.image')
+        print p.get('enthought.envisage.ui.workbench.splash_screen.text_x')
+        print p.get('enthought.envisage.ui.workbench.splash_screen.text_y')
+        print p.get('enthought.envisage.ui.workbench.splash_screen.text_color')
+
+
+        p = p.node('enthought.envisage.ui.workbench.splash_screen')
+        print 'path', p.path
+        print p.get('image')
+        print p.get('text_x')
+        print p.get('text_y')
+        print p.get('text_color')
+
+#        print p.keys('enthought.envisage.ui.workbench.bgcolor')
+
+
+        p.set('text_color', 'SkyBluePink')
+
+        print 'Save root-------------------------------------'
+        r.save('foo')
         
         return
         

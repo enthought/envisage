@@ -1,8 +1,11 @@
-""" A node in the preferences hierarchy. """
+""" A node in a preferences hierarchy. """
 
+
+# Major package imports.
+from configobj import ConfigObj
 
 # Enthought library imports.
-from enthought.traits.api import Any, Dict, HasTraits, Instance, Str
+from enthought.traits.api import Any, Dict, HasTraits, Instance, Property, Str
 from enthought.traits.api import implements
 
 # Local imports.
@@ -10,12 +13,16 @@ from i_preferences import IPreferences
 
 
 class Preferences(HasTraits):
-    """ A node in the preferences hierarchy. """
+    """ A node in a preferences hierarchy. """
 
     implements(IPreferences)
 
     #### 'IPreferences' interface #############################################
 
+    # The absolute path to this node from the root (the empty string means
+    # this node *is* the root).
+    path = Property(Str)
+    
     # The perent node (None if this is the root node).
     parent = Instance(IPreferences)
 
@@ -34,16 +41,29 @@ class Preferences(HasTraits):
     # 'IPreferences' interface.
     ###########################################################################
 
+    def _get_path(self):
+        """ Property getter. """
+
+        names = []
+
+        node = self
+        while node.parent is not None:
+            names.append(node.name)
+            node = node.parent
+
+        names.reverse()
+        
+        return '.'.join(names)
+    
     def keys(self, path=''):
         """ Return the preference keys of the node at the specified path. """
 
-        components = path.split('.')
-
-        if len(components) == 1:
-            keys = self.preferences.keys()
+        if len(path) == 0:
+            keys = self._keys()
 
         else:
-            node = self.node('.'.join(components))
+            #components = path.split('.')
+            node = self.node(path)#'.'.join(components))
             keys = node.keys()
 
         return keys
@@ -55,18 +75,36 @@ class Preferences(HasTraits):
 
         """
 
+        if len(path) == 0:
+            raise ValueError('empty path')
+        
         components = path.split('.')
 
-        node = self
-        for component in components:
-            child = node.children.get(component)
-            if child is None:
-                child = type(node)(name=component, parent=node)
-                node.children[component] = child
-
-            node = child
+        node = self._node(components[0])
+        if len(components) > 1:
+            node = node.node('.'.join(components[1:]))
 
         return node
+    
+##     def node(self, path):
+##         """ Return the node at the specified path.
+
+##         Create any intermediate nodes if they do not exist.
+        
+##         """
+
+##         components = path.split('.')
+
+##         node = self
+##         for component in components:
+##             child = node.children.get(component)
+##             if child is None:
+##                 child = type(node)(name=component, parent=node)
+##                 node.children[component] = child
+
+##             node = child
+
+##         return node
 
     def get(self, key, default=None):
         """ Get the value of a preference. """
@@ -74,7 +112,7 @@ class Preferences(HasTraits):
         components = key.split('.')
 
         if len(components) == 1:
-            value = self.preferences.get(key, default)
+            value = self._get(key, default)
 
         else:
             node  = self.node('.'.join(components[:-1]))
@@ -88,32 +126,102 @@ class Preferences(HasTraits):
         components = key.split('.')
 
         if len(components) == 1:
-            self.preferences[key] = value
+            self._set(key, value)
 
         else:
-            node  = self.node('.'.join(components[:-1]))
+            node = self.node('.'.join(components[:-1]))
             node.set(components[-1], value)
 
         return
 
     def load(self, filename):
-        """ Load the node contents from a 'ConfigObj' file. """
+        """ Load the node from a 'ConfigObj' file. """
 
-        from configobj import ConfigObj
-        
         config_obj = ConfigObj(filename)
 
         for name, value in config_obj.items():
             if isinstance(value, dict):
-                node = self.node(name)
-                for k, v in value.items():
-                    node.set(k, v)
+                self._add_dictionary_to_node(self.node(name), value)
 
             else:
                 self.set(name, value)
 
         return
+
+    def save(self, filename):
+        """ Save the node to a 'ConfigObj' file. """
+
+        config_obj = ConfigObj(filename)
+        self._save(self, config_obj)
+        config_obj.write()
         
+        return
+
+    ###########################################################################
+    # Protected 'Preferences' interface.
+    ###########################################################################
+
+    def _get(self, key, default=None):
+        """ Get the value of a preference in this node. """
+
+        return self.preferences.get(key, default)
+
+    def _set(self, key, value):
+        """ Set the value of a preference in this node. """
+
+        self.preferences[key] = value
+
+        return
+
+    def _keys(self):
+        """ Return the preference keys of *this* node. """
+
+        return self.preferences.keys()
+
+    def _node(self, name):
+        """ Return the child node with the specified name.
+
+        Create the child node if it does not exist.
+
+        """
+            
+        node = self.children.get(name)
+        if node is None:
+            node = self._create_child(name)
+
+        return node
+
+    def _create_child(self, name):
+        """ Create a child node with the specified name. """
+
+        child = type(self)(name=name, parent=self)
+        self.children[name] = child
+
+        return child
+
+    def _save(self, node, config_obj):
+        """ Save a node to a 'ConfigObj' object. """
+
+        if len(node.preferences) > 0:
+            config_obj[node.path] = node.preferences.copy()
+
+        for child in node.children.values():
+            self._save(child, config_obj)
+
+        return
+        
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _add_dictionary_to_node(self, node, dictionary):
+        """ Add the contents of a dictionary to a node's preferences. """
+
+        for name, value in dictionary.items():
+            node.set(name, value)
+
+        return
+    
     ###########################################################################
     # Debugging interface.
     ###########################################################################
