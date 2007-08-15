@@ -85,33 +85,50 @@ class Preferences(HasTraits):
 
         return node
 
-    def get(self, key, default=None):
-        """ Get the value of a preference. """
+    def get(self, path, default=None):
+        """ Get the value of a preference at the specified path. """
 
-        components = key.split('.')
+        if len(path) == 0:
+            raise ValueError('empty path')
+
+        components = path.split('.')
 
         if len(components) == 1:
-            value = self._get(key, default)
+            value = self._get(path, default)
 
         else:
-            node  = self.node('.'.join(components[:-1]))
-            value = node.get(components[-1], default)
+            node = self
+            for key in components[:-1]:
+                node = node.children.get(key)
+                if node is None:
+                    value = default
+                    break
+
+            else:
+                value = node.get(components[-1])
 
         return value
 
-    def set(self, key, value):
-        """ Set the value of a preference. """
+    def set(self, path, value):
+        """ Set the value of a preference at the specified path. """
 
-        components = key.split('.')
+        if len(path) == 0:
+            raise ValueError('empty path')
+
+        components = path.split('.')
 
         if len(components) == 1:
-            self._set(key, value)
+            self._set(path, value)
 
         else:
             node = self.node('.'.join(components[:-1]))
             node.set(components[-1], value)
 
         return
+
+    ###########################################################################
+    # 'Preferences' interface.
+    ###########################################################################
 
     def load(self, filename):
         """ Load the node from a 'ConfigObj' file. """
