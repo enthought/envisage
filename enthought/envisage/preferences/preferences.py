@@ -135,12 +135,15 @@ class Preferences(HasTraits):
 
         config_obj = ConfigObj(filename)
 
-        for name, value in config_obj.items():
-            if isinstance(value, dict):
-                self._add_dictionary_to_node(self.node(name), value)
+##         for name, value in config_obj.items():
+##             if isinstance(value, dict):
+##                 self._add_dictionary_to_node(self.node(name), value)
 
-            else:
-                self.set(name, value)
+##             else:
+##                 self.set(name, value)
+
+        for name, value in config_obj.items():
+            self._add_dictionary_to_node(self.node(name), value)
 
         return
 
