@@ -1,4 +1,4 @@
-""" Tests for applications. """
+""" Tests for preferences. """
 
 
 # Standard library imports.
@@ -194,6 +194,17 @@ class PreferencesTestCase(unittest.TestCase):
         # Clean up!
         os.remove('tmp.ini')
 
+        return
+
+    def test_has_child(self):
+        """ has child """
+
+        p = Preferences()
+        self.assertEqual(False, p.has_child('acme'))
+
+        p.node('acme')
+        self.assertEqual(True, p.has_child('acme'))
+        
         return
         
 ##     def test_preference_trait_type(self):

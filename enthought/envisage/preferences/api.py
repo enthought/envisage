@@ -1,2 +1,5 @@
 from i_preferences import IPreferences
+from i_preferences_service import IPreferencesService
+
 from preferences import Preferences
+from preferences_service import PreferencesService

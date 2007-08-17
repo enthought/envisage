@@ -15,6 +15,9 @@ from enthought.traits.api import implements, on_trait_change
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
 
+# Relative imports.
+from preferences.api import IPreferencesService, PreferencesService
+
 # Local imports.
 from i_application import IApplication
 from i_extension_registry import IExtensionRegistry
@@ -44,6 +47,9 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
+    # The preferences service.
+    preferences = Instance(IPreferencesService, factory=PreferencesService)
+    
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
@@ -90,6 +96,17 @@ class Application(HasTraits):
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _preferences_default(self):
+        """ Trait initializer. """
+
+        preferences = PreferencesService()
+
+        return preferences
+
+    #### Methods ##############################################################
 
     def get_extensions(self, extension_point):
         """ Return a list containing all contributions to an extension point.
@@ -217,6 +234,29 @@ class Application(HasTraits):
 
         self.service_registry.unregister_service(service_id)
 
+        return
+
+    ###########################################################################
+    # 'Application' interface.
+    ###########################################################################
+
+    def run(self):
+        """ Runs the application.
+
+        This does the following (so you don't have to ;^):-
+
+        1) Starts the application
+        2) Stops the application
+
+        """
+
+        # Start the application.
+        self.start()
+
+        # Stop the application to give all of the plugins a chance to close
+        # down cleanly and to do any housekeeping etc.
+        self.stop()
+        
         return
 
     ###########################################################################
