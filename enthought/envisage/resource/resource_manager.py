@@ -38,7 +38,7 @@ class ResourceManager(HasTraits):
     #### Methods ##############################################################
 
     def file(self, url):
-        """ Return a readable file-object object for the specified url. """
+        """ Return a readable file-like object for the specified url. """
 
         protocol_name, address = url.split('://')
         
