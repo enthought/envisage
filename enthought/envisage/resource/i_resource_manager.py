@@ -5,7 +5,7 @@
 from enthought.traits.api import Instance, Interface
 
 # Local imports.
-from enthought.envisage.resource.i_resource_protocol import IResourceProtocol
+from i_resource_protocol import IResourceProtocol
 
 
 class IResourceManager(Interface):
@@ -21,7 +21,7 @@ class IResourceManager(Interface):
 
         e.g.::
 
-          manager.as_file('pkg_resource://acme.ui.workbench/colors.ini')
+          manager.file('package://acme.ui.workbench/preferences.ini')
 
         """
 

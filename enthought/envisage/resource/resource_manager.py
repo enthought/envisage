@@ -1,13 +1,13 @@
 """ The default resource manager. """
 
 
-
 # Enthought library imports.
 from enthought.traits.api import Dict, HasTraits, Str, implements
 
 # Local imports.
 from i_resource_manager import IResourceManager
 from i_resource_protocol import IResourceProtocol
+
 
 class ResourceManager(HasTraits):
     """ The default resource manager. """
@@ -32,7 +32,7 @@ class ResourceManager(HasTraits):
         # that doesn't use the default protocol(s).
         from package_resource_protocol import PackageResourceProtocol
 
-        # Currently, not such a big set of protocols ;^)
+        # Currently, not such a wide range of protocols ;^)
         return {'package' : PackageResourceProtocol()}
 
     #### Methods ##############################################################

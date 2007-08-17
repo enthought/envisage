@@ -18,11 +18,11 @@ class PackageResourceProtocol(HasTraits):
 
     An address for this protocol is a string in the form::
 
-        'package:resource'
+        'package/resource'
 
     e.g::
     
-        'acme.ui.workbench:preferences.init'
+        'acme.ui.workbench/preferences.ini'
 
         
     """
@@ -36,7 +36,10 @@ class PackageResourceProtocol(HasTraits):
     def file(self, address):
         """ Return a readable file-object object for the specified address. """
 
-        package, resource_name = address.split(':')
+        first_forward_slash = address.index('/')
+        
+        package       = address[:first_forward_slash]
+        resource_name = address[first_forward_slash+1:]
 
         return pkg_resources.resource_stream(package, resource_name)
 

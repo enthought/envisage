@@ -15,7 +15,7 @@ class IResourceProtocol(Interface):
 
         e.g.::
 
-          protocol.as_file('acme.ui.workbench:colors.ini')
+          protocol.file('acme.ui.workbench/preferences.ini')
 
         """
 
