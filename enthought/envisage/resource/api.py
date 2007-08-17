@@ -1,6 +1,5 @@
 from i_resource_protocol import IResourceProtocol
 from i_resource_manager import IResourceManager
 
-from pkg_resource_protocol import PkgResourceProtocol
+from package_resource_protocol import PackageResourceProtocol
 from resource_manager import ResourceManager
-

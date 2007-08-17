@@ -36,7 +36,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a file resources.
-        f = rm.file('pkg_resource://enthought.envisage.resource:api.py')
+        f = rm.file('package://enthought.envisage.resource:api.py')
         self.assertNotEqual(f, None)
 
         contents = f.read()

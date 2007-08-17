@@ -30,10 +30,10 @@ class ResourceManager(HasTraits):
 
         # We do the import(s) here in case somebody wants a resource manager
         # that doesn't use the default protocol(s).
-        from pkg_resource_protocol import PkgResourceProtocol
+        from package_resource_protocol import PackageResourceProtocol
 
         # Currently, not such a big set of protocols ;^)
-        return {'pkg_resource' : PkgResourceProtocol()}
+        return {'package' : PackageResourceProtocol()}
 
     #### Methods ##############################################################
 
@@ -41,7 +41,6 @@ class ResourceManager(HasTraits):
         """ Return a readable file-object object for the specified url. """
 
         protocol_name, address = url.split('://')
-        print protocol_name, address
         
         protocol = self.resource_protocols[protocol_name]
 

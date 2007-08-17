@@ -1,4 +1,4 @@
-""" A resource protocol for resources in eggs. """
+""" A resource protocol for package resources. """
 
 
 # Standard library imports.
@@ -11,8 +11,21 @@ from enthought.traits.api import HasTraits, implements
 from i_resource_protocol import IResourceProtocol
 
 
-class PkgResourceProtocol(HasTraits):
-    """ A resource protocol for resources in eggs. """
+class PackageResourceProtocol(HasTraits):
+    """ A resource protocol for package resources.
+
+    This protocol uses 'pkg_resources' to find and access resources.
+
+    An address for this protocol is a string in the form::
+
+        'package:resource'
+
+    e.g::
+    
+        'acme.ui.workbench:preferences.init'
+
+        
+    """
 
     implements(IResourceProtocol)
     
