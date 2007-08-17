@@ -14,7 +14,7 @@ class IResourceManager(Interface):
     # The protocols used by the manager to resolve resource URLs.
     resource_protocols = Instance(IResourceProtocol)
     
-    def as_file(self, url):
+    def file(self, url):
         """ Return a readable file-like object for the specified url.
 
         Return None if the resource does not exist.

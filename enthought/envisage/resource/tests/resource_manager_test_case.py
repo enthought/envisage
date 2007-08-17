@@ -36,10 +36,17 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a file resources.
-        f = rm.as_file('pkg_resource://enthought.envisage.resource:api.py')
+        f = rm.file('pkg_resource://enthought.envisage.resource:api.py')
         self.assertNotEqual(f, None)
 
-        print f.read()
+        contents = f.read()
+        f.close()
+        
+        # Open the api file via the file system (we open in binary mode because
+        # that is what pkg_resources does).
+        g = file('../api.py', 'rb')
+        self.assertEqual(g.read(), contents)
+        g.close()
         
         return
 

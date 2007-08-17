@@ -28,8 +28,8 @@ class ResourceManager(HasTraits):
     def _resource_protocols_default(self):
         """ Trait initializer. """
 
-        # We do the import here in case somebody wants a resource manager that
-        # doesn't use the default protocols.
+        # We do the import(s) here in case somebody wants a resource manager
+        # that doesn't use the default protocol(s).
         from pkg_resource_protocol import PkgResourceProtocol
 
         # Currently, not such a big set of protocols ;^)
@@ -37,7 +37,7 @@ class ResourceManager(HasTraits):
 
     #### Methods ##############################################################
 
-    def as_file(self, url):
+    def file(self, url):
         """ Return a readable file-object object for the specified url. """
 
         protocol_name, address = url.split('://')
@@ -45,6 +45,6 @@ class ResourceManager(HasTraits):
         
         protocol = self.resource_protocols[protocol_name]
 
-        return protocol.as_file(address)
+        return protocol.file(address)
 
 #### EOF ######################################################################

@@ -8,7 +8,7 @@ from enthought.traits.api import Interface
 class IResourceProtocol(Interface):
     """ The interface for protocols that handle resource URLs. """
 
-    def as_file(self, address):
+    def file(self, address):
         """ Return a readable file-like object for the specified address.
 
         Return None if the resource does not exist.

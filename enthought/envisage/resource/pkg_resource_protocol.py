@@ -20,7 +20,7 @@ class PkgResourceProtocol(HasTraits):
     # 'IResourceProtocol' interface.
     ###########################################################################
 
-    def as_file(self, address):
+    def file(self, address):
         """ Return a readable file-object object for the specified address. """
 
         package, resource_name = address.split(':')
