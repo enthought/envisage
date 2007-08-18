@@ -30,11 +30,17 @@ class ResourceManager(HasTraits):
 
         # We do the import(s) here in case somebody wants a resource manager
         # that doesn't use the default protocol(s).
+        from http_resource_protocol import HTTPResourceProtocol
         from package_resource_protocol import PackageResourceProtocol
 
         # Currently, not such a wide range of protocols ;^)
-        return {'package' : PackageResourceProtocol()}
+        resource_protocols = {
+            'http'    : HTTPResourceProtocol(),
+            'package' : PackageResourceProtocol()
+        }
 
+        return resource_protocols
+    
     #### Methods ##############################################################
 
     def file(self, url):
