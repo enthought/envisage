@@ -2,7 +2,9 @@
 
 
 # Standard library imports.
-import unittest
+from BaseHTTPServer import HTTPServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler
+import os, thread, time, unittest
 
 # Enthought library imports.
 from enthought.envisage.resource.api import ResourceManager
@@ -50,19 +52,49 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_http_resource_manager(self):
-        """ HTTP resource """
+##     def test_http_resource(self):
+##         """ HTTP resource """
 
-        rm = ResourceManager()
+##         rm = ResourceManager()
+
+##         # Open an HTTP document resource.
+##         f = rm.file('http://code.enthought.com')
+##         self.assertNotEqual(f, None)
+##         contents = f.read()
+##         f.close()
+
+##         # I tried to pick a bit of the document that shouldn't change too much!
+##         self.assert_('<title>code.enthought.com - Home</title>' in contents)
+        
+##         return
+
+    def test_http_resource(self):
+        """ http uol """
+
+        # We will publish the current time!
+        t = str(time.time())
+
+        # Write the time to a file.
+        f = file('time.dat', 'w')
+        f.write(t)
+        f.close()
+
+        # Offer the file via http!
+        httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
+        thread.start_new_thread(httpd.serve_forever, ())
 
         # Open an HTTP document resource.
-        f = rm.file('http://code.enthought.com')
+        rm = ResourceManager()
+
+        f = rm.file('http://localhost:1234/time.dat')
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
 
-        # I tried to pick a bit of the document that shouldn't change too much!
-        self.assert_('<title>code.enthought.com - Home</title>' in contents)
+        self.assertEquals(contents, t)
+
+        # Cleanup.
+        os.remove('time.dat')
         
         return
 
