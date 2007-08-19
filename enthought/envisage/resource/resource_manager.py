@@ -30,13 +30,15 @@ class ResourceManager(HasTraits):
 
         # We do the import(s) here in case somebody wants a resource manager
         # that doesn't use the default protocol(s).
+        from file_resource_protocol import FileResourceProtocol
         from http_resource_protocol import HTTPResourceProtocol
         from package_resource_protocol import PackageResourceProtocol
 
         # Currently, not such a wide range of protocols ;^)
         resource_protocols = {
+            'file'    : FileResourceProtocol(),
             'http'    : HTTPResourceProtocol(),
-            'package' : PackageResourceProtocol()
+            'pkgfile' : PackageResourceProtocol()
         }
 
         return resource_protocols
@@ -48,8 +50,10 @@ class ResourceManager(HasTraits):
 
         protocol_name, address = url.split('://')
         
-        protocol = self.resource_protocols[protocol_name]
-
+        protocol = self.resource_protocols.get(protocol_name)
+        if protocol is None:
+            raise ValueError('unknown protocol in URL %s' % url)
+        
         return protocol.file(address)
 
 #### EOF ######################################################################

@@ -32,13 +32,33 @@ class ResourceManagerTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_file_resource(self):
+        """ file resource """
+
+        rm = ResourceManager()
+
+        # Open a file resource.
+        f = rm.file('file://../api.py')
+        self.assertNotEqual(f, None)
+        contents = f.read()
+        f.close()
+        
+        # Open the api file via the file system (we open in binary mode because
+        # that is what we do for file resources, and otherwise the line endings
+        # get converted).
+        g = file('../api.py', 'rb')
+        self.assertEqual(g.read(), contents)
+        g.close()
+
+        return
+
     def test_package_resource(self):
         """ package resource """
 
         rm = ResourceManager()
 
         # Open a package resource.
-        f = rm.file('package://enthought.envisage.resource/api.py')
+        f = rm.file('pkgfile://enthought.envisage.resource/api.py')
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
@@ -53,7 +73,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         return
 
     def test_http_resource(self):
-        """ http uol """
+        """ http resource """
 
         # We will publish the current time!
         t = str(time.time())
@@ -79,6 +99,16 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         # Cleanup.
         os.remove('time.dat')
+        
+        return
+
+    def test_unknown_protocol(self):
+        """ unknown protocol """
+
+        # Open an HTTP document resource.
+        rm = ResourceManager()
+
+        self.failUnlessRaises(ValueError, rm.file, 'bogus://foo/bar/baz')
         
         return
 
