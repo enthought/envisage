@@ -20,7 +20,8 @@ class EggPluginManager(PluginManager):
     """ A plugin manager that gets its plugins from Eggs. """
 
     # Extension point Id.
-    PLUGINS = 'enthought.envisage.plugins'
+    PLUGINS     = 'enthought.envisage.plugins'
+    PREFERENCES = 'enthought.envisage.preferences'
 
     #### 'EggPluginManager' interface #########################################
     
@@ -37,10 +38,21 @@ class EggPluginManager(PluginManager):
         """ Initializer. """
         
         plugins = []
-        for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
+        for ep in get_entry_points_in_egg_order(
+            self.working_set,self.PLUGINS
+        ):
             klass = ep.load()
             plugins.append(klass())
 
+        filenames = []
+        for ep in get_entry_points_in_egg_order(
+            self.working_set,self.PREFERENCES
+        ):
+            filenames.append(ep.name)
+
+        if len(filenames) > 0:
+            print 'Preference files:', filenames
+        
         return plugins
         
 #### EOF ######################################################################
