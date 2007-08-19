@@ -44,8 +44,9 @@ class ResourceManagerTestCase(unittest.TestCase):
         f.close()
         
         # Open the api file via the file system (we open in binary mode because
-        # that is what we do for file resources, and otherwise the line endings
-        # get converted).
+        # that is what we do for file resources and we do it for file resources
+        # because that is what pkg_resources does!, and otherwise the line
+        # endings get converted).
         g = file('../api.py', 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
