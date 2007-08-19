@@ -52,22 +52,6 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         return
 
-##     def test_http_resource(self):
-##         """ HTTP resource """
-
-##         rm = ResourceManager()
-
-##         # Open an HTTP document resource.
-##         f = rm.file('http://code.enthought.com')
-##         self.assertNotEqual(f, None)
-##         contents = f.read()
-##         f.close()
-
-##         # I tried to pick a bit of the document that shouldn't change too much!
-##         self.assert_('<title>code.enthought.com - Home</title>' in contents)
-        
-##         return
-
     def test_http_resource(self):
         """ http uol """
 
