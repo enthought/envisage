@@ -34,7 +34,6 @@ class ResourceManager(HasTraits):
         from http_resource_protocol import HTTPResourceProtocol
         from package_resource_protocol import PackageResourceProtocol
 
-        # Currently, not such a wide range of protocols ;^)
         resource_protocols = {
             'file'    : FileResourceProtocol(),
             'http'    : HTTPResourceProtocol(),
