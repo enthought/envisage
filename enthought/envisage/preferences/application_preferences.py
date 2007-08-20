@@ -34,8 +34,6 @@ class ApplicationPreferences(Preferences):
         # Load the scope at startup.
         self.load(self.filename)
 
-        print 'foogle', self.get('martin.foogle', 'Nah!!!!!!!!!!!!')
-        
         return
     
     ###########################################################################

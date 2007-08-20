@@ -23,23 +23,21 @@ class Preferences(HasTraits):
 
     #### 'IPreferences' interface #############################################
 
-    # The absolute path to this node from the root (the empty string means
-    # this node *is* the root).
+    # The absolute path to this node from the root node (the empty string if
+    # this node *is* the root node).
     path = Property(Str)
     
-    # The perent node (None if this is the root node).
+    # The parent node (None if this node *is* the root node).
     parent = Instance(IPreferences)
 
-    # The name of the node (relative to the parent).
-    name = Str('root')
+    # The name of the node relative to the parent (the empty string if this
+    # node *is* the root node).
+    name = Str
     
     #### 'Preferences' interface ##############################################
 
     # The node's children.
     children = Dict(Str, IPreferences)
-
-##     # The default location for saving the preferences.
-##     location = Str
     
     # The node's actual preferences.
     preferences = Dict(Str, Any)
@@ -48,7 +46,7 @@ class Preferences(HasTraits):
     # 'IPreferences' interface.
     ###########################################################################
 
-    #### Properties ###########################################################
+    #### Trait properties #####################################################
     
     def _get_path(self):
         """ Property getter. """
@@ -65,6 +63,30 @@ class Preferences(HasTraits):
         return '.'.join(names)
     
     #### Methods ##############################################################
+
+    def get(self, path, default=None):
+        """ Get the value of a preference at the specified path. """
+
+        if len(path) == 0:
+            raise ValueError('empty path')
+
+        components = path.split('.')
+
+        if len(components) == 1:
+            value = self._get(path, default)
+
+        else:
+            node = self
+            for key in components[:-1]:
+                node = node.children.get(key)
+                if node is None:
+                    value = default
+                    break
+
+            else:
+                value = node.get(components[-1])
+
+        return value
 
     def keys(self, path=''):
         """ Return the preference keys of the node at the specified path. """
@@ -95,30 +117,6 @@ class Preferences(HasTraits):
             node = node.node('.'.join(components[1:]))
 
         return node
-
-    def get(self, path, default=None):
-        """ Get the value of a preference at the specified path. """
-
-        if len(path) == 0:
-            raise ValueError('empty path')
-
-        components = path.split('.')
-
-        if len(components) == 1:
-            value = self._get(path, default)
-
-        else:
-            node = self
-            for key in components[:-1]:
-                node = node.children.get(key)
-                if node is None:
-                    value = default
-                    break
-
-            else:
-                value = node.get(components[-1])
-
-        return value
 
     def has_child(self, name):
         """ Return True if the node has a child with the specified name. """
