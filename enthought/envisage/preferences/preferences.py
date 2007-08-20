@@ -71,20 +71,16 @@ class Preferences(HasTraits):
             raise ValueError('empty path')
 
         components = path.split('.')
-
         if len(components) == 1:
             value = self._get(path, default)
 
         else:
-            node = self
-            for key in components[:-1]:
-                node = node.children.get(key)
-                if node is None:
-                    value = default
-                    break
+            node = self.children.get(components[0])
+            if node is not None:
+                value = node.get('.'.join(components[1:]), default)
 
             else:
-                value = node.get(components[-1])
+                value = default
 
         return value
 
@@ -145,10 +141,12 @@ class Preferences(HasTraits):
     ###########################################################################
 
     def load(self, file_or_filename):
-        """ Load a 'ConfigObj' file into the node.
+        """ Load preferences from a file.
 
         This is a *merge* operation i.e. the contents of the file are added to
         the node.
+
+        This implementation uses 'ConfigObj'.
 
         """
 
@@ -165,7 +163,11 @@ class Preferences(HasTraits):
         return
 
     def save(self, filename=None):
-        """ Save the node to a 'ConfigObj' file. """
+        """ Save the node's preferences to a file.
+
+        This implementation uses 'ConfigObj'.
+
+        """
 
         # Do the import here so that we don't make 'ConfigObj' a requirement
         # if preferences aren't used.

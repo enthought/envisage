@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.traits.api import HasTraits, Instance, List, Property, Str
-from enthought.traits.api import implements
+from enthought.traits.api import Undefined, implements
 
 # Local imports.
 from i_preferences import IPreferences
@@ -75,8 +75,8 @@ class PreferencesService(HasTraits):
 
         else:
             for node in nodes:
-                value = node.get(path)
-                if value is not None:
+                value = node.get(path, Undefined)
+                if value is not Undefined:
                     break
 
             else:
