@@ -16,7 +16,7 @@ class DefaultPreferences(Preferences):
         """ Save the node to a 'ConfigObj' file. """
 
         # We don't want to save the defaults!
-        return
+        pass
     
 #### EOF ######################################################################
 

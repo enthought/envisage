@@ -2,8 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, Dict, HasTraits, Instance, Property, Str
-from enthought.traits.api import implements, List
+from enthought.traits.api import HasTraits, Instance, List, Property, Str
+from enthought.traits.api import implements
 
 # Local imports.
 from i_preferences import IPreferences
@@ -29,17 +29,17 @@ class PreferencesService(HasTraits):
     # in the scopes in this order (each item in the list is the name of a
     # scope).
     lookup_order = List(Str, DEFAULT_LOOKUP_ORDER)
+    
+    # The root node.
+    #
+    # The root preferences node only contains child nodes - not actual
+    # preferences. Each child node represents a single preference *scope*.
+    root = Instance(RootPreferences, ())
+
+    #### 'PreferencesService' interface #######################################
 
     # The scopes.
     scopes = Property(List(IPreferences))
-    
-    #### 'PreferencesService' interface #######################################
-
-    # The root node.
-    #
-    # This node only contains child nodes (i.e. it does not contain any
-    # preferences). Each child node is a scope ('user', 'system' etc).
-    root = Instance(RootPreferences, ())
 
     ###########################################################################
     # 'object' interface.
@@ -58,17 +58,13 @@ class PreferencesService(HasTraits):
     ###########################################################################
     # 'IPreferencesService' interface.
     ###########################################################################
-
-    def _get_scopes(self):
-        """ Property getter. """
-
-        return self.root.children.values()
     
     def get(self, path, default=None, nodes=[]):
-        """ Get the value of the preferences at the specified path. """
+        """ Get the value of the preference at the specified path. """
 
-        # If no nodes were specified explicitly then try nodes in the lookup
-        # order...
+        # If no nodes were specified explicitly then try the scope nodes in
+        # the lookup order. This is the most common way to get preference
+        # values.
         if len(nodes) == 0:
             nodes = self.scopes
 
@@ -88,24 +84,6 @@ class PreferencesService(HasTraits):
 
         return value
 
-    def node(self, path):
-        """ Return the node at the specified path.
-
-        Create any intermediate nodes if they do not exist.
-
-        """
-
-        if len(path) == 0:
-            raise ValueError('empty path')
-        
-        components = path.split('/')
-
-        node = self._node(components[0])
-        if len(components) > 1:
-            node = node.node('.'.join(components[1:]))
-
-        return node
-
     def save(self):
         """ Make sure all scopes persist their preferences. """
 
@@ -113,23 +91,15 @@ class PreferencesService(HasTraits):
             scope.save()
 
         return
-    
+
     ###########################################################################
-    # 'IPreferencesService' interface.
+    # 'PreferencesService' interface.
     ###########################################################################
 
-##     def _get_nodes(self):
-##         """ Return the set of nodes to search through. """
+    def _get_scopes(self):
+        """ Property getter. """
 
-##         return self.scopes
-    
-##         scopes = [
-##             self.root.node(scope_name) for scope_name in self.lookup_order
-
-##             if self.root.has_child(scope_name)
-##         ]
-
-##         return scopes
+        return self.root.children.values()
 
     ###########################################################################
     # Private interface.
@@ -138,8 +108,8 @@ class PreferencesService(HasTraits):
     def _create_builtin_scopes(self):
         """ Create the built-in preference scopes. """
 
-        self.root.children['applicaton'] = ApplicationPreferences()
-        self.root.children['default']    = DefaultPreferences()
+        self.root.children['application'] = ApplicationPreferences()
+        self.root.children['default']     = DefaultPreferences()
 
         return
 

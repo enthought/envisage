@@ -88,6 +88,11 @@ class Preferences(HasTraits):
 
         return value
 
+    def has_child(self, name):
+        """ Return True if the node has a child with the specified name. """
+
+        return self.children.has_key(name)
+    
     def keys(self, path=''):
         """ Return the preference keys of the node at the specified path. """
 
@@ -118,11 +123,6 @@ class Preferences(HasTraits):
 
         return node
 
-    def has_child(self, name):
-        """ Return True if the node has a child with the specified name. """
-
-        return self.children.has_key(name)
-    
     def set(self, path, value):
         """ Set the value of a preference at the specified path. """
 
