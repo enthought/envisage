@@ -34,6 +34,9 @@ class Preferences(HasTraits):
     # The node's children.
     children = Dict(Str, IPreferences)
 
+    # The default location for saving the preferences.
+    location = Str
+    
     # The node's actual preferences.
     preferences = Dict(Str, Any)
     
@@ -66,7 +69,7 @@ class Preferences(HasTraits):
             keys = node.keys()
 
         return keys
-        
+
     def node(self, path):
         """ Return the node at the specified path.
 
@@ -135,26 +138,29 @@ class Preferences(HasTraits):
     # 'Preferences' interface.
     ###########################################################################
 
-    def load(self, filename):
-        """ Load the node from a 'ConfigObj' file. """
+    def load(self, file_or_filename):
+        """ Load the contents of the specified 'ConfigObj' file.
 
-        config_obj = ConfigObj(filename)
+        This is a merge operation i.e. the contents of the file are added to
+        the node.
 
-##         for name, value in config_obj.items():
-##             if isinstance(value, dict):
-##                 self._add_dictionary_to_node(self.node(name), value)
+        """
 
-##             else:
-##                 self.set(name, value)
+        config_obj = ConfigObj(file_or_filename)
 
         for name, value in config_obj.items():
             self._add_dictionary_to_node(self.node(name), value)
 
         return
 
-    def save(self, filename):
+    def save(self, filename=None):
         """ Save the node to a 'ConfigObj' file. """
 
+        if filename is None:
+            filename = self.location
+
+        logger.debug('saving preferences to %s', filename)
+        
         config_obj = ConfigObj(filename)
         self._save(self, config_obj)
         config_obj.write()

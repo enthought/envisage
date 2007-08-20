@@ -33,26 +33,73 @@ class EggPluginManager(PluginManager):
     ###########################################################################
     # 'PluginManager' interface.
     ###########################################################################
- 
+
+    #### Trait initializers ###################################################
+    
     def _plugins_default(self):
-        """ Initializer. """
+        """ Trait initializer. """
         
         plugins = []
         for ep in get_entry_points_in_egg_order(
-            self.working_set,self.PLUGINS
+            self.working_set, self.PLUGINS
         ):
             klass = ep.load()
             plugins.append(klass())
 
+        return plugins
+
+    #### Methods ##############################################################
+
+    def start(self, plugin_context=None):
+        """ Start the plugin manager. """
+
+        # Load the plugin preferences...
+        self._load_preferences(plugin_context)
+
+        # and the start them.
+        super(EggPluginManager, self).start(plugin_context)
+
+        return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _load_preferences(self, plugin_context):
+        """ Load all plugin preferences. """
+
         filenames = []
         for ep in get_entry_points_in_egg_order(
-            self.working_set,self.PREFERENCES
+            self.working_set, self.PREFERENCES
         ):
             filenames.append(ep.name)
 
         if len(filenames) > 0:
             print 'Preference files:', filenames
+
+        # The preferences service.
+        preferences = plugin_context.preferences
         
-        return plugins
+        # The root node.
+        root = preferences.root
+        print 'root node', root
+
+        # The default scope.
+        default = root.node('default')
+        print 'default scope', default
+
+
+        from enthought.envisage.resource.api import ResourceManager
+        rm = ResourceManager()
         
+        for filename in filenames:
+            f = rm.file(filename)
+            print 'Loading preferences from', filename
+            default.load(f)
+
+
+
+        print '-----', preferences.get('acme.ui.workbench.application_name', 'Nah!')
+        return
+    
 #### EOF ######################################################################

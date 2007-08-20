@@ -18,7 +18,7 @@ class PreferencesService(HasTraits):
     implements(IPreferencesService)
 
     # The default scope lookup order.
-    DEFAULT_LOOKUP_ORDER = ['user', 'system', 'default']
+    DEFAULT_LOOKUP_ORDER = ['application', 'default']
     
     #### 'IPreferencesService' interface ######################################
 
@@ -27,8 +27,8 @@ class PreferencesService(HasTraits):
     # scope).
     lookup_order = List(Str, DEFAULT_LOOKUP_ORDER)
 
-    # The scopes.
-    scopes = List(IPreferences)
+##     # The scopes.
+##     scopes = List(IPreferences)
     
     #### 'PreferencesService' interface #######################################
 
@@ -38,6 +38,20 @@ class PreferencesService(HasTraits):
     # preferences). Each child node is a scope ('user', 'system' etc).
     root = Instance(RootPreferences, ())
 
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, **traits):
+        """ Constructor. """
+
+        super(PreferencesService, self).__init__(**traits)
+
+        # Create the 'built-in' preference scopes.
+        self._create_builtin_scopes()
+
+        return
+    
     ###########################################################################
     # 'IPreferencesService' interface.
     ###########################################################################
@@ -58,7 +72,7 @@ class PreferencesService(HasTraits):
         # If no nodes were specified explicitly then try nodes in the lookup
         # order...
         if len(nodes) == 0:
-            nodes = self.scopes # _get_nodes
+            nodes = self.root.children.values()#scopes # _get_nodes
 
         # Which still maybe empty if the order contains scope names that don't
         # exist (not that that would be a great idea of course!).
@@ -98,10 +112,10 @@ class PreferencesService(HasTraits):
     # 'IPreferencesService' interface.
     ###########################################################################
 
-    def _get_nodes(self):
-        """ Return the set of nodes to search through. """
+##     def _get_nodes(self):
+##         """ Return the set of nodes to search through. """
 
-        return self.scopes
+##         return self.scopes
     
 ##         scopes = [
 ##             self.root.node(scope_name) for scope_name in self.lookup_order
@@ -110,5 +124,17 @@ class PreferencesService(HasTraits):
 ##         ]
 
 ##         return scopes
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _create_builtin_scopes(self):
+        """ Create the built-in preference scopes. """
+        
+        for scope_name in self.DEFAULT_LOOKUP_ORDER:
+            self.root.children[scope_name] = Preferences()
+
+        return
 
 #### EOF ######################################################################
