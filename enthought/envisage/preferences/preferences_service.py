@@ -8,6 +8,8 @@ from enthought.traits.api import implements, List
 # Local imports.
 from i_preferences import IPreferences
 from i_preferences_service import IPreferencesService
+
+from default_preferences import DefaultPreferences
 from preferences import Preferences
 from root_preferences import RootPreferences
 
@@ -27,8 +29,8 @@ class PreferencesService(HasTraits):
     # scope).
     lookup_order = List(Str, DEFAULT_LOOKUP_ORDER)
 
-##     # The scopes.
-##     scopes = List(IPreferences)
+    # The scopes.
+    scopes = Property(List(IPreferences))
     
     #### 'PreferencesService' interface #######################################
 
@@ -56,15 +58,10 @@ class PreferencesService(HasTraits):
     # 'IPreferencesService' interface.
     ###########################################################################
 
-    def _scopes_default(self):
-        """ Trait initializer. """
+    def _get_scopes(self):
+        """ Property getter. """
 
-        scopes = []
-        for scope_name in self.lookup_order:
-            scope = Preferences(name=scope_name)
-            self.root.children[scope_name] = scope
-        
-        return scopes
+        return self.root.children.values()
     
     def get(self, path, default=None, nodes=[]):
         """ Get the value of the preferences at the specified path. """
@@ -72,7 +69,7 @@ class PreferencesService(HasTraits):
         # If no nodes were specified explicitly then try nodes in the lookup
         # order...
         if len(nodes) == 0:
-            nodes = self.root.children.values()#scopes # _get_nodes
+            nodes = self.scopes
 
         # Which still maybe empty if the order contains scope names that don't
         # exist (not that that would be a great idea of course!).
@@ -107,6 +104,14 @@ class PreferencesService(HasTraits):
             node = node.node('.'.join(components[1:]))
 
         return node
+
+    def save(self):
+        """ Make sure all scopes persist their preferences. """
+
+        for scope in self.scopes:
+            scope.save()
+
+        return
     
     ###########################################################################
     # 'IPreferencesService' interface.
@@ -131,9 +136,9 @@ class PreferencesService(HasTraits):
 
     def _create_builtin_scopes(self):
         """ Create the built-in preference scopes. """
-        
-        for scope_name in self.DEFAULT_LOOKUP_ORDER:
-            self.root.children[scope_name] = Preferences()
+
+        self.root.children['applicaton'] = Preferences()
+        self.root.children['default']    = DefaultPreferences()
 
         return
 

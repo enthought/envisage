@@ -20,8 +20,8 @@ class EggPluginManager(PluginManager):
     """ A plugin manager that gets its plugins from Eggs. """
 
     # Extension point Id.
-    PLUGINS     = 'enthought.envisage.plugins'
-    PREFERENCES = 'enthought.envisage.preferences'
+    PLUGINS = 'enthought.envisage.plugins'
+    PREFS   = 'enthought.envisage.preferences'
 
     #### 'EggPluginManager' interface #########################################
     
@@ -38,11 +38,9 @@ class EggPluginManager(PluginManager):
     
     def _plugins_default(self):
         """ Trait initializer. """
-        
+
         plugins = []
-        for ep in get_entry_points_in_egg_order(
-            self.working_set, self.PLUGINS
-        ):
+        for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
             klass = ep.load()
             plugins.append(klass())
 
@@ -68,38 +66,33 @@ class EggPluginManager(PluginManager):
     def _load_preferences(self, plugin_context):
         """ Load all plugin preferences. """
 
-        filenames = []
-        for ep in get_entry_points_in_egg_order(
-            self.working_set, self.PREFERENCES
-        ):
-            filenames.append(ep.name)
-
-        if len(filenames) > 0:
-            print 'Preference files:', filenames
-
-        # The preferences service.
-        preferences = plugin_context.preferences
-        
-        # The root node.
-        root = preferences.root
-        print 'root node', root
-
-        # The default scope.
-        default = root.node('default')
-        print 'default scope', default
-
-
         from enthought.envisage.resource.api import ResourceManager
-        rm = ResourceManager()
+
+        # The default preference scope.
+        default = plugin_context.preferences.root.node('default')
+
+        resource_manager = ResourceManager()
+        for ep in get_entry_points_in_egg_order(self.working_set, self.PREFS):
+            # fixme: This is one of the limitations of eggs - we can't have
+            # a file name as the RHS of an entry point expression, so we use
+            # the LHS (the entry point name). What if we use the dictionary
+            # syntax... Hmmm... try explaining that to somebody!
+            f = resource_manager.file(ep.name)
+            try:
+                default.load(f)
+
+            finally:
+                f.close()
+
+        x = plugin_context.preferences.get(
+            'acme.ui.workbench.application_name', 'Nah!'
+        )
+        print '---------- x', x
+
+        from enthought.etsconfig.api import ETSConfig
+
+        print 'Home is', ETSConfig.application_home
         
-        for filename in filenames:
-            f = rm.file(filename)
-            print 'Loading preferences from', filename
-            default.load(f)
-
-
-
-        print '-----', preferences.get('acme.ui.workbench.application_name', 'Nah!')
         return
     
 #### EOF ######################################################################

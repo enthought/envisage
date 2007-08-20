@@ -1,8 +1,8 @@
 """ A node in a preferences hierarchy. """
 
 
-# Major package imports.
-from configobj import ConfigObj
+# Standard library imports.
+import logging
 
 # Enthought library imports.
 from enthought.traits.api import Any, Dict, HasTraits, Instance, Property, Str
@@ -10,6 +10,10 @@ from enthought.traits.api import implements
 
 # Local imports.
 from i_preferences import IPreferences
+
+
+# Logging.
+logger = logging.getLogger(__name__)
 
 
 class Preferences(HasTraits):
@@ -34,8 +38,8 @@ class Preferences(HasTraits):
     # The node's children.
     children = Dict(Str, IPreferences)
 
-    # The default location for saving the preferences.
-    location = Str
+##     # The default location for saving the preferences.
+##     location = Str
     
     # The node's actual preferences.
     preferences = Dict(Str, Any)
@@ -44,6 +48,8 @@ class Preferences(HasTraits):
     # 'IPreferences' interface.
     ###########################################################################
 
+    #### Properties ###########################################################
+    
     def _get_path(self):
         """ Property getter. """
 
@@ -58,6 +64,8 @@ class Preferences(HasTraits):
         
         return '.'.join(names)
     
+    #### Methods ##############################################################
+
     def keys(self, path=''):
         """ Return the preference keys of the node at the specified path. """
 
@@ -139,15 +147,20 @@ class Preferences(HasTraits):
     ###########################################################################
 
     def load(self, file_or_filename):
-        """ Load the contents of the specified 'ConfigObj' file.
+        """ Load a 'ConfigObj' file into the node.
 
-        This is a merge operation i.e. the contents of the file are added to
+        This is a *merge* operation i.e. the contents of the file are added to
         the node.
 
         """
 
-        config_obj = ConfigObj(file_or_filename)
+        logger.debug('loading preferences from %s', file_or_filename)
 
+        # Do the import here so that we don't make 'ConfigObj' a requirement
+        # if preferences aren't used.
+        from configobj import ConfigObj
+
+        config_obj = ConfigObj(file_or_filename)
         for name, value in config_obj.items():
             self._add_dictionary_to_node(self.node(name), value)
 
@@ -156,11 +169,17 @@ class Preferences(HasTraits):
     def save(self, filename=None):
         """ Save the node to a 'ConfigObj' file. """
 
-        if filename is None:
-            filename = self.location
+        # Do the import here so that we don't make 'ConfigObj' a requirement
+        # if preferences aren't used.
+        from configobj import ConfigObj
 
-        logger.debug('saving preferences to %s', filename)
+        if filename is None:
+            from os.path import join
+            from enthought.etsconfig.api import ETSConfig
+            filename = join(ETSConfig.application_home, 'preferences.ini')
         
+        logger.debug('saving preferences to %s', filename)
+
         config_obj = ConfigObj(filename)
         self._save(self, config_obj)
         config_obj.write()

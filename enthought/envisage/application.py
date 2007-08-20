@@ -2,15 +2,16 @@
 
 
 # Standard library imports.
-import logging
+import logging, os
 
 # Enthought library imports.
 #
 # fixme: The ordering of these imports is critical. We don't use traits UI in
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
-from enthought.traits.api import Event, HasTraits, Instance, Str, VetoableEvent
-from enthought.traits.api import implements, on_trait_change
+from enthought.etsconfig.api import ETSConfig
+from enthought.traits.api import Event, HasTraits, Instance, Property, Str
+from enthought.traits.api import VetoableEvent, implements, on_trait_change
 
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
@@ -47,9 +48,6 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
-    # The preferences service.
-    preferences = Instance(IPreferencesService, factory=PreferencesService)
-    
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
@@ -64,6 +62,9 @@ class Application(HasTraits):
     
     #### 'Application' interface ##############################################
 
+    # A directory that the application can read and write to at will.
+    home = Property(Str)
+    
     # The extension registry.
     extension_registry = Instance(
         IExtensionRegistry, factory=EggExtensionRegistry
@@ -75,6 +76,9 @@ class Application(HasTraits):
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager, factory=EggPluginManager)
 
+    # The preferences service.
+    preferences = Instance(IPreferencesService, factory=PreferencesService)
+    
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
 
@@ -87,6 +91,10 @@ class Application(HasTraits):
 
         super(Application, self).__init__(**traits)
 
+        # The 'application home' is a directory that the application can read
+        # and write to at will.
+        self._initialize_application_home()
+        
         # This allows the 'ExtensionPoint' trait type to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
@@ -106,6 +114,13 @@ class Application(HasTraits):
 
         return preferences
 
+    #### Trait properties #####################################################
+
+    def _get_home(self):
+        """ Property getter. """
+
+        return ETSConfig.application_home
+    
     #### Methods ##############################################################
 
     def get_extensions(self, extension_point):
@@ -203,6 +218,9 @@ class Application(HasTraits):
             # plugins).
             self.plugin_manager.stop(self)
 
+            # Save all preferences.
+            self.preferences.save()
+            
             # Lifecycle event.
             self.stopped = self._create_application_event()
 
@@ -267,5 +285,18 @@ class Application(HasTraits):
         """ Create an application event. """
 
         return ApplicationEvent(application=self)
+
+    def _initialize_application_home(self):
+        """ Initialize the application home directory. """
+        
+        ETSConfig.application_home = os.path.join(
+            ETSConfig.application_data, self.id
+        )
+
+        # Make sure it exists!
+        if not os.path.exists(ETSConfig.application_home):
+            os.makedirs(ETSConfig.application_home)
+
+        return
     
 #### EOF ######################################################################
