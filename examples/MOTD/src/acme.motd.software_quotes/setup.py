@@ -19,5 +19,14 @@ setup(
 
     install_requires     = [
         'acme.motd',
-    ]
+    ],
+
+    entry_points = """
+
+    [enthought.envisage.preferences]
+    pkgfile://acme.motd.software_quotes/preferences.ini = preferences
+
+    """
+
+    
 )
