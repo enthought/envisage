@@ -9,6 +9,7 @@ from enthought.traits.api import implements, List
 from i_preferences import IPreferences
 from i_preferences_service import IPreferencesService
 
+from application_preferences import ApplicationPreferences
 from default_preferences import DefaultPreferences
 from preferences import Preferences
 from root_preferences import RootPreferences
@@ -137,7 +138,7 @@ class PreferencesService(HasTraits):
     def _create_builtin_scopes(self):
         """ Create the built-in preference scopes. """
 
-        self.root.children['applicaton'] = Preferences()
+        self.root.children['applicaton'] = ApplicationPreferences()
         self.root.children['default']    = DefaultPreferences()
 
         return

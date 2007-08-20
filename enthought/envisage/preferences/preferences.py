@@ -172,11 +172,6 @@ class Preferences(HasTraits):
         # Do the import here so that we don't make 'ConfigObj' a requirement
         # if preferences aren't used.
         from configobj import ConfigObj
-
-        if filename is None:
-            from os.path import join
-            from enthought.etsconfig.api import ETSConfig
-            filename = join(ETSConfig.application_home, 'preferences.ini')
         
         logger.debug('saving preferences to %s', filename)
 
