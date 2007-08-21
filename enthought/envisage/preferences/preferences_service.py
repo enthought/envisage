@@ -38,7 +38,7 @@ class PreferencesService(HasTraits):
 
     #### 'PreferencesService' interface #######################################
 
-    # The scopes.
+    # The scopes (in lookup order).
     scopes = Property(List(IPreferences))
 
     ###########################################################################
@@ -99,7 +99,7 @@ class PreferencesService(HasTraits):
     def _get_scopes(self):
         """ Property getter. """
 
-        return self.root.children.values()
+        return [self.root.children[name] for name in self.lookup_order]
 
     ###########################################################################
     # Private interface.
