@@ -5,15 +5,18 @@
 import inspect
 
 # Enthought library imports.
-from enthought.traits.api import Bool, CBool, CFloat, CInt, Float, Int
-from enthought.traits.api import List, TraitError, TraitType
+from enthought.traits.api import CBool, CComplex, CFloat, CInt, CLong
+from enthought.traits.api import Bool, Complex, Float, Int, Long, List
+from enthought.traits.api import List, TraitType
 
 
 # A mapping from non-casting trait types to their casting counterparts.
 NON_CASTING_TO_CASTING_MAP = {
-    Bool  : CBool,
-    Float : CFloat,
-    Int   : CInt
+    Bool    : CBool,
+    Complex : CComplex,
+    Float   : CFloat,
+    Int     : CInt,
+    Long    : CLong,
 }
 
 
@@ -22,7 +25,8 @@ class Preference(TraitType):
 
     #### 'ExtensionPoint' *CLASS* interface ###################################
 
-    # The preferences node (or service) that contains the preferences.
+    # The preferences node (or preferences service) that contains the
+    # preferences.
     preferences = None
     
     ###########################################################################
@@ -102,14 +106,51 @@ class Preference(TraitType):
     ###########################################################################
 
     def _get_path(self, obj, name):
-        """ Return the path to the preferences node. """
+        """ Return the path to the preferences value. """
 
         if self.path is not None:
             path = self.path
 
         else:
-            path = '%s.%s' % (obj.PREFERENCES, name)
+            path = self._get_preferences_path(obj, name)
 
         return path
-    
+
+    def _get_preferences_path(self, obj, name):
+        """ Attempt to create a sensible preferences path for an object. """
+
+        # If the object (or more usually, its class) has the path to a
+        # preferences node defined explicitly then use that.
+        path = getattr(obj, 'PREFERENCES', None)
+        if path is None:
+            # Otherwise, use the name of the package that the object's class is
+            # defined in.
+            path = self._get_package_name(type(obj))
+
+        if len(path) > 0:
+            path = '%s.%s' % (path, name)
+
+        else:
+            path = name
+
+        return path
+
+    def _get_package_name(self, klass):
+        """ Return the name of the package that a class is defined in.
+
+        e.g. For 'HasTraits' this would be 'enthought.traits'
+
+        """
+
+        module_name = klass.__module__
+
+        components = module_name.split('.')
+        if len(components) == 1:
+            package_name = ''
+
+        else:
+            package_name = '.'.join(components[:-1])
+
+        return package_name
+
 #### EOF ######################################################################

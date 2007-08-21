@@ -153,7 +153,6 @@ class PreferenceTestCase(unittest.TestCase):
             
             bgcolor = Preference(Str('black'), path=PREFERENCES + '.bg')
             
-
         w = Widget()
 
         # There is currently no preference so we should get the default value.
@@ -167,6 +166,29 @@ class PreferenceTestCase(unittest.TestCase):
         w.bgcolor = 'yellow'
         self.assertEqual('yellow', self.preferences.get('acme.widget.bg'))
         
+        return
+
+    def test_default_node_path(self):
+        """ default node path """
+
+        class Widget(HasTraits):
+            """ Some widget """
+            
+            bgcolor = Preference(Str('black'))
+            
+        w = Widget()
+
+        # There is currently no preference so we should get the default value.
+        self.assertEqual('black', w.bgcolor)
+
+        # Now set the preference.
+        self.preferences.set('bgcolor', 'red')
+        self.assertEqual('red', w.bgcolor)
+
+        # Set the preference via the trait type.
+        w.bgcolor = 'yellow'
+        self.assertEqual('yellow', self.preferences.get('bgcolor'))
+
         return
     
 #### EOF ######################################################################

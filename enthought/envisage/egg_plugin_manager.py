@@ -52,7 +52,12 @@ class EggPluginManager(PluginManager):
         """ Start the plugin manager. """
 
         # Load the plugin preferences...
-        self._load_preferences(plugin_context)
+        #
+        # fixme: The plugin manager test cases don't assume a plugin context
+        # (i.e. application), and definitely don't assume a plugin context
+        # that has a 'preferences' trait!
+        if plugin_context is not None:
+            self._load_preferences(plugin_context)
 
         # and the start them.
         super(EggPluginManager, self).start(plugin_context)
