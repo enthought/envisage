@@ -30,7 +30,17 @@ class IPreferencesService(Interface):
 
         """
 
+    def set(self, path, value):
+        """ Set the value of the preference at the specified path.
+
+        If the path does *not* contain a scope then by default we assume the
+        first scope in the lookup order (which in the default case is the
+        'application' scope). This seems to be a common case, but we will
+        have to see (Eclipse does not have a 'set' method on the service).
+
+        """
+
     def save(self):
-        """ Ask all preference scopes to save their preferences. """
+        """ Save all scopes. """
 
 #### EOF ######################################################################
