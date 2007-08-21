@@ -193,7 +193,8 @@ class Preferences(HasTraits):
     def _set(self, key, value):
         """ Set the value of a preference in this node. """
 
-        self.preferences[key] = value
+        # Preferences are *always* stored as strings.
+        self.preferences[key] = str(value)
 
         return
 
