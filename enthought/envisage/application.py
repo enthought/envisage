@@ -109,15 +109,6 @@ class Application(HasTraits):
     # 'IApplication' interface.
     ###########################################################################
 
-    #### Trait initializers ###################################################
-
-    def _preferences_default(self):
-        """ Trait initializer. """
-
-        preferences = PreferencesService()
-
-        return preferences
-
     #### Trait properties #####################################################
 
     def _get_home(self):
