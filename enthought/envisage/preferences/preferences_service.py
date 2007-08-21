@@ -84,6 +84,23 @@ class PreferencesService(HasTraits):
 
         return value
 
+    def set(self, path, value):
+        """ Set the value of a preference.
+
+        Obviously, you would normally have to explicitly specify the scope
+        that you would like to set the preference in. However, since the
+        common case is to set it in the first scope in the lookup order (which
+        in the default case is the 'application' scope, we do that here.
+
+        """
+
+        if len(self.scopes) == 0:
+            raise SystemError('No scope to set <%s> to <%s>' % (path, value))
+        
+        self.scopes[0].set(path, value)
+
+        return
+    
     def save(self):
         """ Make sure all scopes persist their preferences. """
 
