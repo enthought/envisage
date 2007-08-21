@@ -151,7 +151,7 @@ class PreferenceTestCase(unittest.TestCase):
             # The preferences node that contains our preferences.
             PREFERENCES = 'acme.widget'
             
-            bgcolor = Preference(Str('black'), PREFERENCES + '.bg')
+            bgcolor = Preference(Str('black'), path=PREFERENCES + '.bg')
             
 
         w = Widget()
