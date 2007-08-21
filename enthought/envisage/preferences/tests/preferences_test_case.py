@@ -56,7 +56,7 @@ class PreferencesTestCase(unittest.TestCase):
         return
 
     def test_set_and_get(self):
-        """ get """
+        """ set and get """
 
         p = Preferences()
 

@@ -38,9 +38,9 @@ class RootPreferences(Preferences):
         #
         # 'project/My Project/my.plugin.id/acme.ui.bgcolor'
         #
-        # The scope is          'project'.
-        # The scope context is  'My Project/my.plugin.id'
-        # The preference key is 'acme.ui.bgcolor' 
+        # The scope is           'project'.
+        # The scope context is   'My Project/my.plugin.id'
+        # The preference path is 'acme.ui.bgcolor' 
         components = path.split('/')
 
         # Lookup the preference node that represents the scope.
