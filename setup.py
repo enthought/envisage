@@ -45,7 +45,6 @@ setup(
         "enthought",
         "enthought.envisage",
         "enthought.envisage.ui",
-        "enthought.envisage.ui.action",
         ],
     packages = find_packages(),
     url = "http://code.enthought.com/envisage",
