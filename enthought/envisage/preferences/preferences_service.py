@@ -113,4 +113,16 @@ class PreferencesService(HasTraits):
 
         return
 
+    ###########################################################################
+    # Debugging interface.
+    ###########################################################################
+
+    def dump(self):
+        """ Dump the contents to stdout! """
+
+        for scope in self.scopes:
+            scope.dump()
+
+        return
+    
 #### EOF ######################################################################

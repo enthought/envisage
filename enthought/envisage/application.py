@@ -17,7 +17,7 @@ from enthought.traits.api import VetoableEvent, implements, on_trait_change
 import enthought.traits.ui
 
 # Relative imports.
-from preferences.api import IPreferencesService, PreferencesService
+from preferences.api import IPreferencesService, Preference, PreferencesService
 
 # Local imports.
 from i_application import IApplication
@@ -99,6 +99,11 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
 
+        # This allows the 'Preference' trait type to be used as a more
+        # convenient way to get the preferences.
+        Preference.preferences = self.preferences
+
+        self.preferences.dump()
         return
     
     ###########################################################################

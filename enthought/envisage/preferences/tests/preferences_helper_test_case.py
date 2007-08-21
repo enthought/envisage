@@ -48,7 +48,6 @@ class PreferencesHelperTestCase(unittest.TestCase):
             text_y     = CInt
             text_color = Str
             
-
         helper = SplashScreenPreferencesHelper(preferences=preferences)
 
         self.assertEqual('splash', helper.image)
