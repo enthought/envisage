@@ -43,7 +43,7 @@ class MOTDPlugin(Plugin):
         # This is a bit of overkill here, but this shows how we can register
         # the MOTD object as a service so that other parts of the application
         # can use it if they so wish (it just so happens that this application
-        # is so small, that there really aren't #any other parts')!
+        # is so small, that there really aren't any other parts')!
         self._motd_service_id = application.register_service(IMOTD, motd)
         
         # And this is how we could look the service up!

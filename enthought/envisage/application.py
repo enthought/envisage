@@ -100,10 +100,9 @@ class Application(HasTraits):
         ExtensionPoint.extension_registry = self.extension_registry
 
         # This allows the 'Preference' trait type to be used as a more
-        # convenient way to get the preferences.
+        # convenient way to access the preferences service.
         Preference.preferences = self.preferences
 
-        self.preferences.dump()
         return
     
     ###########################################################################

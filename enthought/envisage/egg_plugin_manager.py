@@ -83,15 +83,6 @@ class EggPluginManager(PluginManager):
 
             finally:
                 f.close()
-
-        x = plugin_context.preferences.get(
-            'acme.ui.workbench.application_name', 'Nah!'
-        )
-        print '---------- x', x
-
-        from enthought.etsconfig.api import ETSConfig
-
-        print 'Home is', ETSConfig.application_home
         
         return
     
