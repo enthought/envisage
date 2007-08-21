@@ -38,7 +38,7 @@ class PreferenceTestCase(unittest.TestCase):
         class Widget(HasTraits):
             """ Some widget """
 
-            # The preferences node that we will get the preferences from.
+            # The preferences node that cotains our preferences.
             PREFERENCES = 'acme.widget'
             
             bgcolor = Preference(Str('black'))
