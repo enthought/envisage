@@ -25,6 +25,8 @@ class IPreferences(Interface):
         If no value exists for the path (or any part of the path does not
         exist) then return the default value.
 
+        Preference values are *always* returned as strings.
+        
         Raise a 'ValueError' exception if the path is the empty string.
 
         e.g::
