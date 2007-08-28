@@ -74,7 +74,7 @@ class EggPluginManager(PluginManager):
         from enthought.envisage.resource.api import ResourceManager
 
         # The default preference scope.
-        default = plugin_context.preferences.root.node('default')
+        default = plugin_context.preferences.node('default/')
 
         resource_manager = ResourceManager()
         for ep in get_entry_points_in_egg_order(self.working_set, self.PREFS):

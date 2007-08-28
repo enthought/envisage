@@ -10,14 +10,13 @@ import logging, os
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
 from enthought.etsconfig.api import ETSConfig
+from enthought.preferences.api import IPreferences, PreferencesHelper 
+from enthought.preferences.api import PreferencesManager
 from enthought.traits.api import Event, HasTraits, Instance, Property, Str
 from enthought.traits.api import VetoableEvent, implements, on_trait_change
 
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
-
-# Relative imports.
-from preferences.api import IPreferencesService, Preference, PreferencesService
 
 # Local imports.
 from i_application import IApplication
@@ -77,7 +76,7 @@ class Application(HasTraits):
     plugin_manager = Instance(IPluginManager, factory=EggPluginManager)
 
     # The preferences service.
-    preferences = Instance(IPreferencesService, factory=PreferencesService)
+    preferences = Instance(IPreferences, factory=PreferencesManager)
     
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
@@ -101,7 +100,7 @@ class Application(HasTraits):
 
         # This allows the 'Preference' trait type to be used as a more
         # convenient way to access the preferences service.
-        Preference.preferences = self.preferences
+        PreferencesHelper.preferences = self.preferences
 
         return
     
