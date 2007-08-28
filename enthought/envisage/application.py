@@ -11,7 +11,7 @@ import logging, os
 # instances might want to have 'edit_traits' called on them.
 from enthought.etsconfig.api import ETSConfig
 from enthought.preferences.api import IPreferences, PreferencesHelper 
-from enthought.preferences.api import PreferencesManager
+from enthought.preferences.api import ScopedPreferences
 from enthought.traits.api import Event, HasTraits, Instance, Property, Str
 from enthought.traits.api import VetoableEvent, implements, on_trait_change
 
@@ -76,7 +76,7 @@ class Application(HasTraits):
     plugin_manager = Instance(IPluginManager, factory=EggPluginManager)
 
     # The preferences service.
-    preferences = Instance(IPreferences, factory=PreferencesManager)
+    preferences = Instance(IPreferences, factory=ScopedPreferences)
     
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
@@ -98,8 +98,8 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
 
-        # This allows the 'Preference' trait type to be used as a more
-        # convenient way to access the preferences service.
+        # This allows instances of 'PreferencesHelper' to be used as a more
+        # convenient way to access the preferences.
         PreferencesHelper.preferences = self.preferences
 
         return
