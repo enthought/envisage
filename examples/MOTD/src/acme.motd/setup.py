@@ -19,4 +19,11 @@ setup(
     install_requires     = [
         'enthought.envisage>=3.0a1',
     ],
+
+    entry_points = """
+
+    [enthought.envisage.plugins]
+    motd = acme.motd.api:MOTDPlugin
+
+    """
 )

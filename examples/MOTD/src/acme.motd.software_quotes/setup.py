@@ -23,8 +23,8 @@ setup(
 
     entry_points = """
 
-    [enthought.envisage.preferences]
-    pkgfile://acme.motd.software_quotes/preferences.ini = preferences
+    [enthought.envisage.plugins]
+    software_quotes = acme.motd.software_quotes.api:SoftwareQuotesPlugin
 
     """
 

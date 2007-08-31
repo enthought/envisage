@@ -1,0 +1,1 @@
+from software_quotes_plugin import SoftwareQuotesPlugin

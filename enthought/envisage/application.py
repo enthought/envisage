@@ -65,9 +65,7 @@ class Application(HasTraits):
     home = Property(Str)
     
     # The extension registry.
-    extension_registry = Instance(
-        IExtensionRegistry, factory=EggExtensionRegistry
-    )
+    extension_registry = Instance(IExtensionRegistry)
 
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
@@ -108,6 +106,17 @@ class Application(HasTraits):
     # 'IApplication' interface.
     ###########################################################################
 
+    #### Trait initializers ###################################################
+
+    def _extension_registry_default(self):
+        """ Trait initializer. """
+
+        # Do the import here in case the application write doesn't want the
+        # default extension registry.
+        from extension_registry import ExtensionRegistry
+        
+        return ExtensionRegistry(application=self)
+    
     #### Trait properties #####################################################
 
     def _get_home(self):

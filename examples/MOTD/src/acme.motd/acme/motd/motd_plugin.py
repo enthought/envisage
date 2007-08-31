@@ -14,23 +14,21 @@ from motd import MOTD
 class MOTDPlugin(Plugin):
     """ The 'Message of the Day' plugin """
 
+    #### 'IPlugin' interface ##################################################
+
+    id          = 'acme.motd'
+    name        = 'MOTD'
+    description = 'The ACME Message of the Day (MOTD) Plugin'
+    requires    = []
+
     #### 'MOTDPlugin' interface ###############################################
 
-    # All contributed messages.
+    # The messages extension point.
     messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
     
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
-
-    #### Initializers #########################################################
-
-    def _id_default(self):
-        """ Initializer. """
-
-        return 'acme.motd.plugin'
-
-    #### Methods ##############################################################
 
     def start(self, application):
         """ Start the plugin. """
