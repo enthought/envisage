@@ -8,6 +8,19 @@ import inspect
 from enthought.traits.api import List, TraitError, TraitType
 
 
+def extension_point(id):
+    """ A factory for extension point decorators! """
+
+    def decorator(fn):
+        """ A decorator for marking methods as extension contributors. """
+
+        fn.__extension_point__ = id
+
+        return fn
+
+    return decorator
+
+
 class ExtensionPoint(TraitType):
     """ An extension point. """
 

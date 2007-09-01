@@ -12,9 +12,8 @@ from i_service_registry import IServiceRegistry
 from application import Application
 from egg_extension_registry import EggExtensionRegistry
 from egg_plugin_manager import EggPluginManager
-from extension import extension
 from extension_registry import ExtensionRegistry
-from extension_point import ExtensionPoint
+from extension_point import ExtensionPoint, extension_point
 from import_manager import ImportManager
 from mutable_extension_registry import MutableExtensionRegistry
 from plugin import Plugin

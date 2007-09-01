@@ -67,7 +67,7 @@ class EggPluginManager(PluginManager):
     ###########################################################################
     # Private interface.
     ###########################################################################
-
+    
     def _load_preferences(self, plugin_context):
         """ Load all plugin preferences. """
 
@@ -77,12 +77,10 @@ class EggPluginManager(PluginManager):
         default = plugin_context.preferences.node('default/')
 
         resource_manager = ResourceManager()
-        for ep in get_entry_points_in_egg_order(self.working_set, self.PREFS):
-            # fixme: This is one of the limitations of eggs - we can't have
-            # a file name as the RHS of an entry point expression, so we use
-            # the LHS (the entry point name). What if we use the dictionary
-            # syntax... Hmmm... try explaining that to somebody!
-            f = resource_manager.file(ep.name)
+        for resource_name in plugin_context.get_extensions(
+            'enthought.envisage.preferences'
+        ):
+            f = resource_manager.file(resource_name)
             try:
                 default.load(f)
 

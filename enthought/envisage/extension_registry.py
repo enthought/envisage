@@ -35,14 +35,16 @@ class ExtensionRegistry(HasTraits):
         
         extensions = []
         for plugin in self.application.plugin_manager.plugins:
-            for name, value in type(plugin).__dict__.items():
-                if self._is_extension(value, extension_point):
-                    result = getattr(plugin, name)(self.application)
-                    if type(result) is not list:
-                        result = [result]
-                            
-                    extensions.extend(result)
-                        
+            # Harvest all method-based contributions.
+            extensions.extend(
+                self._get_method_extensions(plugin, extension_point)
+            )
+
+            # Harvest all trait-based contributions.
+            extensions.extend(
+                self._get_trait_extensions(plugin, extension_point)
+            )
+
         logger.debug('extensions to %s are %s', extension_point, extensions)
 
         return extensions
@@ -51,6 +53,34 @@ class ExtensionRegistry(HasTraits):
     # Private interface.
     ###########################################################################
 
+    def _get_method_extensions(self, plugin, extension_point):
+        """ Harvest all method-based contributions. """
+
+        extensions = []
+        for name, value in type(plugin).__dict__.items():
+            if self._is_extension(value, extension_point):
+                result = getattr(plugin, name)(self.application)
+                if not isinstance(result, list):
+                    result = [result]
+                            
+                extensions.extend(result)
+
+        return extensions
+
+    def _get_trait_extensions(self, plugin, extension_point):
+        """ Harvest all trait-based contributions. """
+
+        extensions = []
+
+        for trait_name in plugin.traits(extension_point=extension_point):
+            value = getattr(plugin, trait_name)
+            if not isinstance(value, list):
+                value = [value]
+
+            extensions.extend(value)
+
+        return extensions
+        
     def _is_extension(self, value, extension_point):
         """ Return True if a value is an extension to an extension point. """
 
