@@ -54,16 +54,37 @@ class ExtensionRegistry(HasTraits):
     def _is_extension(self, value, extension_point):
         """ Return True if a value is an extension to an extension point. """
 
-        if type(value) is not types.FunctionType:
-            return False
-        
-        id = getattr(value, '__extension_point__', None)
-        if id == extension_point:
-            return True
+        if type(value) is types.FunctionType:
+            if self._has_matching_decorator(value, extension_point):
+                return True
 
-        if value.func_name.replace('_', '.') == extension_point:
-            return True
+            if self._has_matching_name(value, extension_point):
+                return True
 
         return False
+
+    def _has_matching_decorator(self, fn, extension_point):
+        """ Return True if the function has a matching decorator. """
+
+        return extension_point == getattr(fn, '__extension_point__', None)
+
+    def _has_matching_name(self, fn, extension_point):
+        """ Return True if the function's name matches the extension point.
+
+        The comparison is done on the function name with any undescores ('_')
+        replaced with periods ('.').
+
+        e.g, If a plugin has a method named::
+
+          def enthought_envisage_ui_workbench_views(self, application):
+              ...
+
+        Then the name used in the comparison is::
+
+          'enthought.envisage.ui.workbench.views'
+          
+        """
+
+        return extension_point == fn.func_name.replace('_', '.')
         
 #### EOF ######################################################################
