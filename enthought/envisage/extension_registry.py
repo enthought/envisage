@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging, types
+import inspect, logging, types
 
 # Enthought library imports.
 from enthought.traits.api import HasTraits, Instance, implements
@@ -35,15 +35,8 @@ class ExtensionRegistry(HasTraits):
         
         extensions = []
         for plugin in self.application.plugin_manager.plugins:
-            # Harvest all method-based contributions.
-            extensions.extend(
-                self._get_method_extensions(plugin, extension_point)
-            )
-
-            # Harvest all trait-based contributions.
-            extensions.extend(
-                self._get_trait_extensions(plugin, extension_point)
-            )
+            extensions.extend(self._harvest_methods(plugin, extension_point))
+            extensions.extend(self._harvest_traits(plugin, extension_point))
 
         logger.debug('extensions to %s are %s', extension_point, extensions)
 
@@ -53,12 +46,12 @@ class ExtensionRegistry(HasTraits):
     # Private interface.
     ###########################################################################
 
-    def _get_method_extensions(self, plugin, extension_point):
+    def _harvest_methods(self, plugin, extension_point):
         """ Harvest all method-based contributions. """
 
         extensions = []
-        for name, value in type(plugin).__dict__.items():
-            if self._is_extension(value, extension_point):
+        for name, value in inspect.getmembers(plugin):
+            if self._is_extension_method(value, extension_point):
                 result = getattr(plugin, name)(self.application)
                 if not isinstance(result, list):
                     result = [result]
@@ -67,7 +60,7 @@ class ExtensionRegistry(HasTraits):
 
         return extensions
 
-    def _get_trait_extensions(self, plugin, extension_point):
+    def _harvest_traits(self, plugin, extension_point):
         """ Harvest all trait-based contributions. """
 
         extensions = []
@@ -80,41 +73,39 @@ class ExtensionRegistry(HasTraits):
             extensions.extend(value)
 
         return extensions
-        
-    def _is_extension(self, value, extension_point):
-        """ Return True if a value is an extension to an extension point. """
 
-        if type(value) is types.FunctionType:
-            if self._has_matching_decorator(value, extension_point):
+    def _is_extension_method(self, value, extension_point):
+        """ Return True if the value is an extension method.
+
+        i.e. If the method is one that makes a contribution to an extension
+        point. Currently there are two ways to make a method make a
+        contribution.
+
+        1) Mark it using the 'extension_point' decorator, e.g::
+
+          @extension_point('acme.motd.messages')
+          def get_messages(self, application):
+              ...
+              return some_messages
+
+        2) Give the method the same name as the extension point Id, with
+        periods replaced by underscores, e.g::
+
+          def acme_motd_messages(self, application):
+              ...
+              return some_messages
+
+        """
+
+        if inspect.ismethod(value):
+            # 1) Decorator...
+            if extension_point == getattr(value, '__extension_point__', None):
                 return True
 
-            if self._has_matching_name(value, extension_point):
+            # 2) Magic-method name...
+            if extension_point == value.func_name.replace('_', '.'):
                 return True
 
         return False
 
-    def _has_matching_decorator(self, fn, extension_point):
-        """ Return True if the function has a matching decorator. """
-
-        return extension_point == getattr(fn, '__extension_point__', None)
-
-    def _has_matching_name(self, fn, extension_point):
-        """ Return True if the function's name matches the extension point.
-
-        The comparison is done on the function name with any undescores ('_')
-        replaced with periods ('.').
-
-        e.g, If a plugin has a method named::
-
-          def enthought_envisage_ui_workbench_views(self, application):
-              ...
-
-        Then the name used in the comparison is::
-
-          'enthought.envisage.ui.workbench.views'
-          
-        """
-
-        return extension_point == fn.func_name.replace('_', '.')
-        
 #### EOF ######################################################################
