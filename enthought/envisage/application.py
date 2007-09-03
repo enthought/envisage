@@ -198,8 +198,8 @@ class Application(HasTraits):
         # Lifecycle event.
         self.starting = event = self._create_application_event()
         if not event.veto:
-            # Load all plugin preferences.
-            self._load_plugin_preferences()
+            # Load any preferences specified via the extension point.
+            self._load_preferences()
             
             # Start the plugin manager (this starts all of the manager's
             # plugins).
@@ -310,8 +310,8 @@ class Application(HasTraits):
 
         return
 
-    def _load_plugin_preferences(self):
-        """ Load all plugin preferences. """
+    def _load_preferences(self):
+        """ Load any preferences specified via the extension point. """
 
         # We add the plugin preferences to the default scope. The default scope
         # is a transient scope which means that (quite nicely ;^) we never
