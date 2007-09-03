@@ -27,7 +27,6 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
-from egg_extension_registry import EggExtensionRegistry
 from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from import_manager import ImportManager
