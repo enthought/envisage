@@ -119,7 +119,7 @@ class Application(HasTraits):
         # Do the import here in case the application write doesn't want the
         # default extension registry.
         from extension_registry import ExtensionRegistry
-        
+
         return ExtensionRegistry(application=self)
     
     #### Trait properties #####################################################
@@ -131,12 +131,12 @@ class Application(HasTraits):
     
     #### Methods ##############################################################
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, **kw):
         """ Return a list containing all contributions to an extension point.
 
         """
 
-        return self.extension_registry.get_extensions(extension_point)
+        return self.extension_registry.get_extensions(extension_point, **kw)
     
     def get_plugin(self, id):
         """ Return the plugin with the specified Id.
@@ -321,7 +321,9 @@ class Application(HasTraits):
         default = self.preferences.node('default/')
 
         resource_manager = ResourceManager()
-        for resource_name in self.get_extensions(self.PREFERENCES):
+
+        # fixme: Hack for old-egg way...
+        for resource_name in self.get_extensions(self.PREFERENCES, lhs=True):
             f = resource_manager.file(resource_name)
             try:
                 default.load(f)

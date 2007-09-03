@@ -31,13 +31,25 @@ class EggExtensionRegistry(HasTraits):
     # 'IExtensionRegistry' interface.
     ###########################################################################
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, load=True, lhs=False):
         """ Return all contributions to an extension point. """
 
         extensions = []
         for entry_point in self.working_set.iter_entry_points(extension_point):
-            extensions.append(entry_point.load())
+            # fixme: Egg entry point syntax is somewhat limiting. Sometimes
+            # it is useful to use the LHS of the entry point expression.
+            if lhs:
+                extension = entry_point.name
 
+            else:
+                if load:
+                    extension = entry_point.load()
+
+                else:
+                    extension = entry_point.module_name
+
+            extensions.append(extension)
+            
         logger.debug('extensions to %s are %s', extension_point, extensions)
 
         return extensions

@@ -30,7 +30,7 @@ class ExtensionRegistry(HasTraits):
     # 'IExtensionRegistry' interface.
     ###########################################################################
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, **kw):
         """ Return all contributions to an extension point. """
         
         extensions = []
