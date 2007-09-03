@@ -27,7 +27,6 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
-from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from import_manager import ImportManager
 from service_registry import ServiceRegistry
@@ -76,10 +75,10 @@ class Application(HasTraits):
     import_manager = Instance(IImportManager, factory=ImportManager)
     
     # The plugin manager (starts and stops plugins etc).
-    plugin_manager = Instance(IPluginManager, factory=EggPluginManager)
+    plugin_manager = Instance(IPluginManager)
 
     # The preferences service.
-    preferences = Instance(IPreferences, factory=ScopedPreferences)
+    preferences = Instance(IPreferences)
     
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
@@ -116,12 +115,29 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        # Do the import here in case the application write doesn't want the
-        # default extension registry.
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
         from extension_registry import ExtensionRegistry
 
         return ExtensionRegistry(application=self)
+
+    def _plugin_manager_default(self):
+        """ Trait initializer. """
+
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
+        from egg_plugin_manager import EggPluginManager
+
+        return EggPluginManager()
     
+    def _preferences_default(self):
+        """ Trait initializer. """
+
+        preferences = ScopedPreferences()
+        self._initialize_preferences(preferences)
+
+        return preferences
+
     #### Trait properties #####################################################
 
     def _get_home(self):
@@ -198,9 +214,6 @@ class Application(HasTraits):
         # Lifecycle event.
         self.starting = event = self._create_application_event()
         if not event.veto:
-            # Load any preferences specified via the extension point.
-            self._load_preferences()
-            
             # Start the plugin manager (this starts all of the manager's
             # plugins).
             self.plugin_manager.start(self)
@@ -310,19 +323,19 @@ class Application(HasTraits):
 
         return
 
-    def _load_preferences(self):
-        """ Load any preferences specified via the extension point. """
+    def _initialize_preferences(self, preferences):
+        """ Initialize the application's preferences. """
 
         # We add the plugin preferences to the default scope. The default scope
         # is a transient scope which means that (quite nicely ;^) we never
         # save the actual default plugin preference values. They will only get
         # saved if a value has been set in another (persistent) scope - which
         # is exactly what happens in the preferences UI.
-        default = self.preferences.node('default/')
+        default = preferences.node('default/')
 
+        # fixme: 'lhs' is a little hack to allow the egg extension registry
+        # (if used) to use the LHS of the entry point expression.
         resource_manager = ResourceManager()
-
-        # fixme: Hack for old-egg way...
         for resource_name in self.get_extensions(self.PREFERENCES, lhs=True):
             f = resource_manager.file(resource_name)
             try:
@@ -330,7 +343,7 @@ class Application(HasTraits):
 
             finally:
                 f.close()
-        
+
         return
     
 #### EOF ######################################################################
