@@ -10,6 +10,7 @@ import logging, os
 # this module, but it must be imported *before* any 'HasTraits' class whose
 # instances might want to have 'edit_traits' called on them.
 from enthought.etsconfig.api import ETSConfig
+from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
 from enthought.preferences.api import ScopedPreferences
 from enthought.traits.api import Event, HasTraits, Instance, Property, Str
@@ -41,6 +42,11 @@ class Application(HasTraits):
     """ An extensible, pluggable, application. """
 
     implements(IApplication)
+
+    #### 'Application' *CLASS* interface ######################################
+
+    # The extension point Id for preferences.
+    PREFERENCES = 'enthought.envisage.preferences'
     
     #### 'IApplication' interface #############################################
 
@@ -193,6 +199,9 @@ class Application(HasTraits):
         # Lifecycle event.
         self.starting = event = self._create_application_event()
         if not event.veto:
+            # Load all plugin preferences.
+            self._load_plugin_preferences()
+            
             # Start the plugin manager (this starts all of the manager's
             # plugins).
             self.plugin_manager.start(self)
@@ -300,6 +309,27 @@ class Application(HasTraits):
         if not os.path.exists(ETSConfig.application_home):
             os.makedirs(ETSConfig.application_home)
 
+        return
+
+    def _load_plugin_preferences(self):
+        """ Load all plugin preferences. """
+
+        # We add the plugin preferences to the default scope. The default scope
+        # is a transient scope which means that (quite nicely ;^) we never
+        # save the actual default plugin preference values. They will only get
+        # saved if a value has been set in another (persistent) scope - which
+        # is exactly what happens in the preferences UI.
+        default = self.preferences.node('default/')
+
+        resource_manager = ResourceManager()
+        for resource_name in self.get_extensions(self.PREFERENCES):
+            f = resource_manager.file(resource_name)
+            try:
+                default.load(f)
+
+            finally:
+                f.close()
+        
         return
     
 #### EOF ######################################################################

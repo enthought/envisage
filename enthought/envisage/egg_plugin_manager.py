@@ -21,7 +21,6 @@ class EggPluginManager(PluginManager):
 
     # Extension point Id.
     PLUGINS = 'enthought.envisage.plugins'
-    PREFS   = 'enthought.envisage.preferences'
 
     #### 'EggPluginManager' interface #########################################
     
@@ -34,8 +33,6 @@ class EggPluginManager(PluginManager):
     # 'PluginManager' interface.
     ###########################################################################
 
-    #### Trait initializers ###################################################
-    
     def _plugins_default(self):
         """ Trait initializer. """
 
@@ -44,49 +41,8 @@ class EggPluginManager(PluginManager):
             klass = ep.load()
             plugins.append(klass())
 
+        logger.debug('egg plugin manager found plugins <%s>', plugins)
+        
         return plugins
 
-    #### Methods ##############################################################
-
-    def start(self, plugin_context=None):
-        """ Start the plugin manager. """
-
-        # Load the plugin preferences...
-        #
-        # fixme: The plugin manager test cases don't assume a plugin context
-        # (i.e. application), and definitely don't assume a plugin context
-        # that has a 'preferences' trait!
-        if plugin_context is not None:
-            self._load_preferences(plugin_context)
-
-        # and the start them.
-        super(EggPluginManager, self).start(plugin_context)
-
-        return
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-    
-    def _load_preferences(self, plugin_context):
-        """ Load all plugin preferences. """
-
-        from enthought.envisage.resource.api import ResourceManager
-
-        # The default preference scope.
-        default = plugin_context.preferences.node('default/')
-
-        resource_manager = ResourceManager()
-        for resource_name in plugin_context.get_extensions(
-            'enthought.envisage.preferences'
-        ):
-            f = resource_manager.file(resource_name)
-            try:
-                default.load(f)
-
-            finally:
-                f.close()
-        
-        return
-    
 #### EOF ######################################################################
