@@ -13,8 +13,8 @@ rst2html --stylesheet=%s.css "%s" > "html/%s.html"
 """
 
 
-def make_text_docs(stylesheet):
-    """ Make the text documentation. """
+def make_reST_docs(stylesheet):
+    """ Make the reST documentation. """
 
     # Put all the generated documents in here.
     try:
@@ -32,22 +32,6 @@ def make_text_docs(stylesheet):
         os.system(COMMAND_TEMPLATE % (stylesheet, filename, name))
         print 'Done.'
 
-    # Copy over any iamges.
-    if os.path.isdir('images'):
-        # Put all the generated documents in here.
-        try:
-            os.mkdir('html/images')
-            
-        except:
-            pass
-
-        # Copy any images.
-        for filename in os.listdir('images'):
-            if filename == '.svn':
-                continue
-        
-            shutil.copyfile('images/%s' % filename,'html/images/%s' % filename)
-    
     return
 
 def make_api_docs():
@@ -66,6 +50,26 @@ def make_api_docs():
 
     return
 
+def copy_images():
+    """ Copy any images into the 'html' directory. """
+
+    # Copy over any images.
+    if os.path.isdir('images'):
+        print 'Copying images...',
+        try:
+            os.mkdir('html/images')
+            
+        except:
+            pass
+
+        for filename in os.listdir('images'):
+            if filename == '.svn':
+                continue
+        
+            shutil.copyfile('images/%s' % filename,'html/images/%s' % filename)
+        print 'Done.'
+        
+    return
 
 def main(argv=sys.argv):
     """ Application entry point. """
@@ -78,9 +82,10 @@ def main(argv=sys.argv):
     else:
         stylesheet = STYLESHEET
 
-    make_text_docs(stylesheet)
+    make_reST_docs(stylesheet)
     make_api_docs()
-
+    copy_images()
+    
     return
 
 
