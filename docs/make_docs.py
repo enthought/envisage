@@ -19,20 +19,35 @@ def make_text_docs(stylesheet):
     # Put all the generated documents in here.
     try:
         os.mkdir('html')
-        os.mkdir('html/images')
         
     except:
         pass
 
     shutil.copyfile('%s.css' % stylesheet, 'html/%s.css' % stylesheet)
-    shutil.copyfile('images/application.png', 'html/images/application.png')
-    
+
+    # Convert all text files (actually, reST documents!) into HTML.
     for filename in glob.glob('*.txt'):
         name, ext = os.path.splitext(filename)
         print 'Processing %s...' % filename,
         os.system(COMMAND_TEMPLATE % (stylesheet, filename, name))
         print 'Done.'
 
+    # Copy over any iamges.
+    if os.path.isdir('images'):
+        # Put all the generated documents in here.
+        try:
+            os.mkdir('html/images')
+            
+        except:
+            pass
+
+        # Copy any images.
+        for filename in os.listdir('images'):
+            if filename == '.svn':
+                continue
+        
+            shutil.copyfile('images/%s' % filename,'html/images/%s' % filename)
+    
     return
 
 def make_api_docs():
