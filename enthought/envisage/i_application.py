@@ -67,21 +67,21 @@ class IApplication(Interface):
 
         1) 'foo.bar.baz'
 
-        Which is turned into the equivalent of an import statement that
-        looks like::
+           Which is turned into the equivalent of an import statement that
+           looks like::
 
-            from foo.bar import baz
+             from foo.bar import baz
 
-        With the value of 'baz' being returned.
+           With the value of 'baz' being returned.
 
         2) 'foo.bar:baz' (i.e. a ':' separating the module from the symbol)
 
-        Which is turned into the equivalent of::
+           Which is turned into the equivalent of::
 
-            from foo import bar
-            eval('baz', bar.__dict__)
+             from foo import bar
+             eval('baz', bar.__dict__)
 
-        With the result of the 'eval' being returned.
+           With the result of the 'eval' being returned.
 
         The second form is recommended as it allows for nested symbols to be
         retreived, e.g. the symbol path 'foo.bar:baz.bling' becomes::
