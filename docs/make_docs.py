@@ -19,12 +19,14 @@ def make_text_docs(stylesheet):
     # Put all the generated documents in here.
     try:
         os.mkdir('html')
-
+        os.mkdir('html/images')
+        
     except:
         pass
 
     shutil.copyfile('%s.css' % stylesheet, 'html/%s.css' % stylesheet)
-
+    shutil.copyfile('images/application.png', 'html/images/application.png')
+    
     for filename in glob.glob('*.txt'):
         name, ext = os.path.splitext(filename)
         print 'Processing %s...' % filename,

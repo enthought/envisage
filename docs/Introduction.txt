@@ -63,7 +63,7 @@ documentation and examples first).
 .. _enthought.envisage: ../../enthought/envisage/api.py
 .. _enthought.envisage.ui.workbench: ../../../enthought.envisage.ui.workbench_3.0/enthought/envisage/ui/workbench/api.py
 
-.. _API: ../api/doc/index.html
+.. _API: api/index.html
 .. _Core: Core.html
 .. _Eclipse: http://www.eclipse.org
 .. _Glossary: Glossary.html
