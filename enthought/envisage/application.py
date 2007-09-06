@@ -75,11 +75,6 @@ class Application(HasTraits):
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
 
-    # A convenenient way to access plugins by Id (this trait cannot be set and
-    # manipulating the dictionary itself has no effect on the application - of
-    # course mucking about with the plugin might not be a good idea ;^).
-    plugins = Property(Dict)
-    
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
 
@@ -115,43 +110,6 @@ class Application(HasTraits):
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
-
-    #### Trait initializers ###################################################
-
-    def _extension_registry_default(self):
-        """ Trait initializer. """
-
-        # Do the import here in case the application writer doesn't want the
-        # default implementation.
-        from egg_extension_registry import EggExtensionRegistry
-
-        return EggExtensionRegistry()
-
-    def _plugin_manager_default(self):
-        """ Trait initializer. """
-
-        # Do the import here in case the application writer doesn't want the
-        # default implementation.
-        from egg_plugin_manager import EggPluginManager
-
-        return EggPluginManager()
-    
-    def _preferences_default(self):
-        """ Trait initializer. """
-
-        preferences = ScopedPreferences()
-        self._initialize_preferences(preferences)
-
-        return preferences
-
-    #### Trait properties #####################################################
-
-    def _get_home(self):
-        """ Property getter. """
-
-        return ETSConfig.application_home
-    
-    #### Methods ##############################################################
 
     def get_extensions(self, extension_point, **kw):
         """ Return a list containing all contributions to an extension point.
@@ -288,16 +246,41 @@ class Application(HasTraits):
     # 'Application' interface.
     ###########################################################################
 
-    #### Trait properties #####################################################
+    #### Trait initializers ###################################################
+
+    def _extension_registry_default(self):
+        """ Trait initializer. """
+
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
+        from egg_extension_registry import EggExtensionRegistry
+        from extension_registry import ExtensionRegistry
+        
+        return ExtensionRegistry(application=self)
+
+    def _plugin_manager_default(self):
+        """ Trait initializer. """
+
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
+        from egg_plugin_manager import EggPluginManager
+
+        return EggPluginManager()
     
-    def _get_plugins(self):
-        """ Trait property getter. """
+    def _preferences_default(self):
+        """ Trait initializer. """
 
-        plugins = {}
-        for plugin in self.plugin_manager.plugins:
-            plugins[plugin.id] = plugin
+        preferences = ScopedPreferences()
+        self._initialize_preferences(preferences)
 
-        return plugins
+        return preferences
+
+    #### Trait properties #####################################################
+
+    def _get_home(self):
+        """ Property getter. """
+
+        return ETSConfig.application_home
     
     #### Methods ##############################################################
 

@@ -54,7 +54,7 @@ class ApplicationTestCase(ServiceRegistryTestCase):
     ###########################################################################
 
     def test_no_plugins(self):
-        """ application lifecycle no plugins """
+        """ no plugins """
         
         application = self.application
         tracker = self.event_tracker
