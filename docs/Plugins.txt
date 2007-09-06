@@ -10,22 +10,16 @@ thought of as simply being "delivery trucks" -- they rarely (if ever) do any
 2) Make contributions to extension points (including its own)
 3) Create and publish services
 
-Plugins are managed by the *plugin manager*, and, whilst Envisage is designed
-such that you can write your own plugin manager, by default, it uses an
-implementation based on `Python Eggs`_.
+Plugins are located and managed by the *plugin manager*, and, whilst Envisage
+is designed such that you can write your own plugin manager, by default, it
+uses an implementation based on `Python Eggs`_.
 
-Plugin Definition vs Plugin Implementation
-------------------------------------------
-
-Conceptually, a plugin is split into two halves, a *plugin definition* and
-a *plugin implementation*.
-
-Plugin Definition
+Creating a Plugin
 -----------------
 
-The plugin definition is where it declares and makes contributions to
-extension points (2 out the 3 things that plugins can do!). It also provides
-certain "housekeeping" information:
+All plugins must implement the IPlugin_ interface (an easy way to acheive this
+is to subclass the base Plugin_ class), and should provide the following
+"housekeeping" information:
 
 - a globally unique identifier (e.g., "acme.motd")
 
@@ -35,10 +29,13 @@ certain "housekeeping" information:
   plugins from (potentially) all over the world, using the common reverse
   domain name notation is probably a good idea!
 
-- a version
+- a name
 
-  This allows different Envisage applications to use different versions of a
-  plugin according to their needs.
+  This name should be suitable for display to the user.
+
+- a description
+
+  A nice description of the intent and features of your plugin.
 
 - a list of the plugins required by this plugin
 
@@ -47,53 +44,24 @@ certain "housekeeping" information:
   useful for example, if Plugin A requires a service that is started by
   Plugin B.
 
-- a reference to the plugin implementation (if any)
+Here is a snippet from the `acme.motd`_ plugin that is part of the `Message of
+the Day`_ example::
 
-  If a plugin implementation is required (see the following section for
-  details), then this is a reference to the plugin implementation class.
+    class MOTDPlugin(Plugin):
+        """ The 'Message of the Day' plugin """
 
-In the default implementation of the plugin manager, an egg 'setup.py' is
-used as the plugin definition. Here is a snippet from the `acme.motd`_
-plugin that is part of the `Message of the Day`_ example:-
+        #### 'IPlugin' interface ##############################################
 
-::
+        id          = 'acme.motd'
+        name        = 'MOTD'
+        description = 'The ACME Message of the Day (MOTD) Plugin'
+        requires    = []
 
-    setup(
-        name                 = 'acme.motd',
-        version              = '0.1a1',
+Plugin Lifecyle
+---------------
 
-	...
-
-        install_requires     = [
-          'enthought.envisage>=3.0a1',
-        ],
-
-        entry_points = """
-
-        [enthought.envisage.plugins]
-        motd = acme.motd.motd_plugin:MOTDPlugin
-
-        [enthought.envisage.extension_points]
-        acme.motd.messages = acme.motd.api:IMessage
-    
-        """
-    )
-
-In this case, the plugin has an implementation class, MOTDPlugin_, and
-it declares a single extension point "acme.motd.messages" (see `Extension
-Points`_ for more details).
-
-Plugin Implementation
----------------------
-
-If a plugin needs to create and publish any services, then it must provide
-a plugin implementation.
-
-A plugin implementation is defined via any class that implements the
-IPlugin_ interface. Usually, this is done by inheriting from the default
-Plugin_ class provided by Envisage.
-
-There are two key methods on the IPlugin_ interface:
+Plugins have a lifecycle in the context of an application. There are currently
+two key lifecycle methods on the IPlugin_ interface:
 
 ::
 

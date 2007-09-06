@@ -50,9 +50,10 @@ Getting Started
 
 The best way to get started is probably to take the time to read and digest the
 Core_ documentation and then work through the `Message of the Day`_ example.
-Despite being extremely simple, the example introduces you to *all* of the core
-concepts in Envisage, and the applications that you build (which will hopefully
-be a lot more useful) will be built in exactly the same way.
+Despite being extremely simple, the example introduces you to *all* of the
+fundemental concepts of Envisage, and the *real* applications that you build
+(which will hopefully be a lot more useful) will be built in exactly the same
+way.
 
 You might also like to browse the API_ documentation.
 
