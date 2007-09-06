@@ -9,6 +9,7 @@ from enthought.traits.api import HasTraits, implements
 
 # Local imports.
 from i_resource_protocol import IResourceProtocol
+from no_such_resource_error import NoSuchResourceError
 
 
 class FileResourceProtocol(HasTraits):
@@ -30,7 +31,7 @@ class FileResourceProtocol(HasTraits):
 
         except IOError, e:
             if e.errno == errno.ENOENT:
-                f = None
+                raise NoSuchResourceError(address)
 
             else:
                 raise

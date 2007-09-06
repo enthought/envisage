@@ -9,6 +9,7 @@ from enthought.traits.api import HasTraits, implements
 
 # Local imports.
 from i_resource_protocol import IResourceProtocol
+from no_such_resource_error import NoSuchResourceError
 
 
 class PackageResourceProtocol(HasTraits):
@@ -46,11 +47,14 @@ class PackageResourceProtocol(HasTraits):
 
         except IOError, e:
             if e.errno == errno.ENOENT:
-                f = None
+                raise NoSuchResourceError(address)
 
             else:
                 raise
 
+        except ImportError:
+            raise NoSuchResourceError(address)
+        
         return f
 
 #### EOF ######################################################################

@@ -17,7 +17,7 @@ class IResourceManager(Interface):
     def file(self, url):
         """ Return a readable file-like object for the specified url.
 
-        Return None if the resource does not exist.
+        Raise a 'NoSuchResourceError' if the resource does not exist.
 
         e.g.::
 

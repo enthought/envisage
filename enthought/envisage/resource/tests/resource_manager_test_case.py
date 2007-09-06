@@ -8,6 +8,7 @@ import os, thread, time, unittest
 
 # Enthought library imports.
 from enthought.envisage.resource.api import ResourceManager
+from enthought.envisage.resource.api import NoSuchResourceError
 from enthought.traits.api import HasTraits, Int, Str
 
 
@@ -59,8 +60,9 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a file resource.
-        f = rm.file('file://../bogus.py')
-        self.assertEqual(f, None)
+        self.failUnlessRaises(
+            NoSuchResourceError, rm.file, 'file://../bogus.py'
+        )
 
         return
 
@@ -90,8 +92,15 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a package resource.
-        f = rm.file('pkgfile://enthought.envisage.resource/bogus.py')
-        self.assertEqual(f, None)
+        self.failUnlessRaises(
+            NoSuchResourceError,
+            rm.file,
+            'pkgfile://enthought.envisage.resource/bogus.py'
+        )
+
+        self.failUnlessRaises(
+            NoSuchResourceError, rm.file, 'pkgfile://cpmpletely.bogus/bogus.py'
+        )
 
         return
 
@@ -108,8 +117,8 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         # Offer the file via http!
         httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
-        thread.start_new_thread(httpd.serve_forever, ())
-
+        thread.start_new_thread(httpd.handle_request, ())
+        
         # Open an HTTP document resource.
         rm = ResourceManager()
 
@@ -120,6 +129,11 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         self.assertEquals(contents, t)
 
+        # fixme: For some reason, when I switched from using 'urllib' to
+        # 'urllib2', this stopped working - it fails with permission denied.
+        # It looks like calling 'close' on the file-like object returned by
+        # 'urllib2.urlopen' does not close correctly?!?
+        #
         # Cleanup.
         #os.remove('time.dat')
         
@@ -129,13 +143,14 @@ class ResourceManagerTestCase(unittest.TestCase):
         """ no such http resource """
 
         httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
-        thread.start_new_thread(httpd.serve_forever, ())
+        thread.start_new_thread(httpd.handle_request, ())
 
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        f = rm.file('http://localhost:1234/bogus.dat')
-        self.assertEqual(f, None)
+        self.failUnlessRaises(
+            NoSuchResourceError, rm.file, 'http://localhost:1234/bogus.dat'
+        )
 
         return
 

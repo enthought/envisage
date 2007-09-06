@@ -11,7 +11,7 @@ class IResourceProtocol(Interface):
     def file(self, address):
         """ Return a readable file-like object for the specified address.
 
-        Return None if the resource does not exist.
+        Raise a 'NoSuchResourceError' if the resource does not exist.
 
         e.g.::
 

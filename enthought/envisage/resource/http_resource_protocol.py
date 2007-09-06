@@ -6,6 +6,7 @@ from enthought.traits.api import HasTraits, implements
 
 # Local imports.
 from i_resource_protocol import IResourceProtocol
+from no_such_resource_error import NoSuchResourceError
 
 
 class HTTPResourceProtocol(HasTraits):
@@ -23,12 +24,12 @@ class HTTPResourceProtocol(HasTraits):
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.
         import urllib2
-
+        
         try:
             f = urllib2.urlopen('http://' + address)
 
         except urllib2.HTTPError:
-            f = None
+            raise NoSuchResourceError('http:://' + address)
 
         return f
 
