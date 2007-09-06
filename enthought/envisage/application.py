@@ -13,8 +13,9 @@ from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
 from enthought.preferences.api import ScopedPreferences
-from enthought.traits.api import Event, HasTraits, Instance, Property, Str
-from enthought.traits.api import VetoableEvent, implements, on_trait_change
+from enthought.traits.api import Dict, Event, HasTraits, Instance, Property
+from enthought.traits.api import Str, VetoableEvent, implements
+from enthought.traits.api import on_trait_change
 
 # fixme: Just importing the package is enought (see above).
 import enthought.traits.ui
@@ -73,6 +74,11 @@ class Application(HasTraits):
 
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
+
+    # A convenenient way to access plugins by Id (this trait cannot be set and
+    # manipulating the dictionary itself has no effect on the application - of
+    # course mucking about with the plugin might not be a good idea ;^).
+    plugins = Property(Dict)
     
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
@@ -115,12 +121,8 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-##         # Do the import here in case the application writer doesn't want the
-##         # default implementation.
-##         from extension_registry import ExtensionRegistry
-
-##         return ExtensionRegistry(application=self)
-
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
         from egg_extension_registry import EggExtensionRegistry
 
         return EggExtensionRegistry()
@@ -285,6 +287,19 @@ class Application(HasTraits):
     ###########################################################################
     # 'Application' interface.
     ###########################################################################
+
+    #### Trait properties #####################################################
+    
+    def _get_plugins(self):
+        """ Trait property getter. """
+
+        plugins = {}
+        for plugin in self.plugin_manager.plugins:
+            plugins[plugin.id] = plugin
+
+        return plugins
+    
+    #### Methods ##############################################################
 
     def run(self):
         """ Runs the application.

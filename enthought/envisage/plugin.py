@@ -41,11 +41,12 @@ class Plugin(HasTraits):
     ###########################################################################
 
     #### Initializers #########################################################
-    
-    def _id_default(self):
-        """ Initializer. """
 
-        return '%s.%s' % (type(self).__module__, type(self).__name__)
+    # fixme: Traits bug... this trumps any explicit 'id = ...' in subclasses!
+##     def _id_default(self):
+##         """ Initializer. """
+
+##         return '%s.%s' % (type(self).__module__, type(self).__name__)
     
     #### Methods ##############################################################
  
