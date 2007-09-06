@@ -254,9 +254,8 @@ class Application(HasTraits):
         # Do the import here in case the application writer doesn't want the
         # default implementation.
         from egg_extension_registry import EggExtensionRegistry
-        from extension_registry import ExtensionRegistry
         
-        return ExtensionRegistry(application=self)
+        return EggExtensionRegistry()
 
     def _plugin_manager_default(self):
         """ Trait initializer. """

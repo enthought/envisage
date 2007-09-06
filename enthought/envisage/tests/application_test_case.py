@@ -2,10 +2,11 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Application
+from enthought.envisage.api import Application, PluginManager
 
 # Local imports.
 from event_tracker import EventTracker
+from plugin_manager_test_case import PluginManagerTestCase
 from service_registry_test_case import ServiceRegistryTestCase
 
 
@@ -17,7 +18,7 @@ def vetoer(event):
     return
 
 
-class ApplicationTestCase(ServiceRegistryTestCase):
+class ApplicationTestCase(ServiceRegistryTestCase, PluginManagerTestCase):
     """ Tests for applications. """
 
     ###########################################################################
@@ -41,6 +42,10 @@ class ApplicationTestCase(ServiceRegistryTestCase):
         # The application offers the service registry interface so we do all of
         # the usual service registry tests.
         self.service_registry = self.application
+
+        # The application offers the service registry interface so we do all of
+        # the usual service registry tests.
+        self.application.plugin_manager = self.plugin_manager = PluginManager()
 
         return
 
@@ -109,5 +114,5 @@ class ApplicationTestCase(ServiceRegistryTestCase):
         self.assertEqual(False, stopped)
 
         return
-    
+
 #### EOF ######################################################################

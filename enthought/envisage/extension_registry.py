@@ -78,32 +78,19 @@ class ExtensionRegistry(HasTraits):
         """ Return True if the value is an extension method.
 
         i.e. If the method is one that makes a contribution to an extension
-        point. Currently there are two ways to make a method make a
-        contribution.
-
-        1) Mark it using the 'extension_point' decorator, e.g::
+        point. Currently there is exactly one way to make a method make a
+        contribution, and that is to mark it using the 'extension_point'
+        decorator, e.g::
 
           @extension_point('acme.motd.messages')
           def get_messages(self, application):
               ...
               return some_messages
 
-        2) Give the method the same name as the extension point Id, with
-        periods replaced by underscores, e.g::
-
-          def acme_motd_messages(self, application):
-              ...
-              return some_messages
-
         """
 
         if inspect.ismethod(value):
-            # 1) Decorator...
             if extension_point == getattr(value, '__extension_point__', None):
-                return True
-
-            # 2) Magic-method name...
-            if extension_point == value.func_name.replace('_', '.'):
                 return True
 
         return False
