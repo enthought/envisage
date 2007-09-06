@@ -21,7 +21,7 @@ class IResourceManager(Interface):
 
         e.g.::
 
-          manager.file('package://acme.ui.workbench/preferences.ini')
+          manager.file('pkgfile://acme.ui.workbench/preferences.ini')
 
         """
 

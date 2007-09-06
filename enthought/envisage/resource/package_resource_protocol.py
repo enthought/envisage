@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import pkg_resources
+import errno, pkg_resources
 
 # Enthought library imports.
 from enthought.traits.api import HasTraits, implements
@@ -41,6 +41,16 @@ class PackageResourceProtocol(HasTraits):
         package       = address[:first_forward_slash]
         resource_name = address[first_forward_slash+1:]
 
-        return pkg_resources.resource_stream(package, resource_name)
+        try:
+            f = pkg_resources.resource_stream(package, resource_name)
+
+        except IOError, e:
+            if e.errno == errno.ENOENT:
+                f = None
+
+            else:
+                raise
+
+        return f
 
 #### EOF ######################################################################

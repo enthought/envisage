@@ -53,6 +53,17 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         return
 
+    def test_no_such_file_resource(self):
+        """ no such file resource """
+
+        rm = ResourceManager()
+
+        # Open a file resource.
+        f = rm.file('file://../bogus.py')
+        self.assertEqual(f, None)
+
+        return
+
     def test_package_resource(self):
         """ package resource """
 
@@ -70,6 +81,17 @@ class ResourceManagerTestCase(unittest.TestCase):
         g = file('../api.py', 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
+
+        return
+
+    def test_no_such_package_resource(self):
+        """ no such package resource """
+
+        rm = ResourceManager()
+
+        # Open a package resource.
+        f = rm.file('pkgfile://enthought.envisage.resource/bogus.py')
+        self.assertEqual(f, None)
 
         return
 
@@ -99,8 +121,22 @@ class ResourceManagerTestCase(unittest.TestCase):
         self.assertEquals(contents, t)
 
         # Cleanup.
-        os.remove('time.dat')
+        #os.remove('time.dat')
         
+        return
+
+    def test_no_such_http_resource(self):
+        """ no such http resource """
+
+        httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
+        thread.start_new_thread(httpd.serve_forever, ())
+
+        # Open an HTTP document resource.
+        rm = ResourceManager()
+
+        f = rm.file('http://localhost:1234/bogus.dat')
+        self.assertEqual(f, None)
+
         return
 
     def test_unknown_protocol(self):

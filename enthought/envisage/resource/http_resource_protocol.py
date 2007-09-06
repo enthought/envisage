@@ -22,8 +22,14 @@ class HTTPResourceProtocol(HasTraits):
 
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.
-        import urllib
+        import urllib2
 
-        return urllib.urlopen('http://' + address)
+        try:
+            f = urllib2.urlopen('http://' + address)
+
+        except urllib2.HTTPError:
+            f = None
+
+        return f
 
 #### EOF ######################################################################
