@@ -5,10 +5,6 @@
 import logging, os
 
 # Enthought library imports.
-#
-# fixme: The ordering of these imports is critical. We don't use traits UI in
-# this module, but it must be imported *before* any 'HasTraits' class whose
-# instances might want to have 'edit_traits' called on them.
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
@@ -16,9 +12,6 @@ from enthought.preferences.api import ScopedPreferences
 from enthought.traits.api import Dict, Event, HasTraits, Instance, Property
 from enthought.traits.api import Str, VetoableEvent, implements
 from enthought.traits.api import on_trait_change
-
-# fixme: Just importing the package is enought (see above).
-import enthought.traits.ui
 
 # Local imports.
 from i_application import IApplication
@@ -253,10 +246,10 @@ class Application(HasTraits):
 
         # Do the import here in case the application writer doesn't want the
         # default implementation.
-        from egg_extension_registry import EggExtensionRegistry
-        
-        return EggExtensionRegistry()
+        from extension_registry import ExtensionRegistry
 
+        return ExtensionRegistry(application=self)
+    
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
