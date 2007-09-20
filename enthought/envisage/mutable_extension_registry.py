@@ -114,7 +114,7 @@ class MutableExtensionRegistry(HasTraits):
 
         self._lk.acquire()
         listeners = self._listeners.setdefault(extension_point, [])
-        listeners.append(weakref.ref(listener))
+        listeners.append(listener)#weakref.ref(listener))
         self._lk.release()
 
         return
@@ -136,7 +136,7 @@ class MutableExtensionRegistry(HasTraits):
         """
 
         self._lk.acquire()
-        extensions = self._extensions.get(extension_point, [])
+        extensions = self._extensions.get(extension_point, [])[:]
         self._lk.release()
 
         return extensions
@@ -200,7 +200,7 @@ class MutableExtensionRegistry(HasTraits):
         self._lk.acquire()
         try:
             listeners = self._listeners.setdefault(extension_point, [])
-            listeners.remove(weakref.ref(listener))
+            listeners.remove(listener)#weakref.ref(listener))
 
         finally:
             self._lk.release()
@@ -237,7 +237,7 @@ class MutableExtensionRegistry(HasTraits):
         """
 
         for ref in self._get_listener_refs(extension_point):
-            listener = ref()
+            listener = ref#()
             if listener is not None:
                 listener(self, extension_point, added, removed)
 

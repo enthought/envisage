@@ -14,6 +14,7 @@ from egg_extension_registry import EggExtensionRegistry
 from egg_plugin_manager import EggPluginManager
 from extension_registry import ExtensionRegistry
 from extension_point import ExtensionPoint, extension_point
+from extension_point_binding import ExtensionPointBinding, bind_extension_point
 from import_manager import ImportManager
 from mutable_extension_registry import MutableExtensionRegistry
 from plugin import Plugin
