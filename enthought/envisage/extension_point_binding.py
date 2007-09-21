@@ -11,7 +11,7 @@ class ExtensionPointBinding(HasTraits):
     #### 'ExtensionPointBinding' *CLASS* interface ############################
 
     # The extension registry that is used by all extension point bindingss.
-    extension_registry = None
+    extension_registry = None # Instance(IExtensionRegistry)
     
     #### 'ExtensionPointBinding' interface ####################################
 
@@ -62,7 +62,7 @@ class ExtensionPointBinding(HasTraits):
 
     #### Other observer pattern listeners #####################################
     
-    def _on_extension_point_changed(self, registry, id, added, removed):
+    def _extension_point_listener(self, registry, id, added, removed):
         """ Listener called when an extension point is changed. """
 
         self._event_handled = True
@@ -81,7 +81,7 @@ class ExtensionPointBinding(HasTraits):
 
         # Listen for the extension point being changed.
         self.extension_registry.add_extension_listener(
-            self._on_extension_point_changed, self.extension_point
+            self._extension_point_listener, self.extension_point
         )
 
         return
