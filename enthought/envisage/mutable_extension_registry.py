@@ -223,6 +223,18 @@ class MutableExtensionRegistry(HasTraits):
         
         return
 
+    def set_extensions(self, extension_point, extensions):
+        """ Set the extensions to an extension point. """
+
+        self._lk.acquire()
+        self._extensions[extension_point] = extensions
+        self._lk.release()
+
+        # Let any listeners know that the extensions have been set.
+        self._call_listeners(extension_point, [], extensions)
+
+        return
+
     ###########################################################################
     # Private interface.
     ###########################################################################

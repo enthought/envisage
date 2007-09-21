@@ -84,4 +84,41 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         
         return
 
+    def test_set_extensions(self):
+        """ set extensions """
+
+        registry = self.extension_registry
+
+        # Add an extension.
+        registry.add_extension('my.extension.point', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+        f.on_trait_change(listener)
+
+        # Make some bindings.
+        bind_extension_point(f, 'x', 'my.extension.point')
+        
+        # Make sure that the object was initialized properly.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        # Set the extensions.
+        registry.set_extensions('my.extension.point', ['a string'])
+
+        # Make sure that the object picked up the new extension...
+        self.assertEqual(1, len(f.x))
+        self.assert_('a string' in f.x)
+
+        # ... and that the correct trait change event was fired.
+        self.assertEqual(f, listener.obj)
+        self.assertEqual('x', listener.trait_name)
+        self.assertEqual(1, len(listener.new))
+        self.assert_('a string' in listener.new)
+        
+        return
+
 #### EOF ######################################################################
