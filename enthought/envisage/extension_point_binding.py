@@ -1,6 +1,9 @@
 """ A binding between a trait on an object and an extension point. """
 
 
+# Standard library imports.
+import weakref
+
 # Enthought library imports.
 from enthought.traits.api import Any, HasTraits, Str
 
@@ -12,6 +15,10 @@ class ExtensionPointBinding(HasTraits):
 
     # The extension registry that is used by all extension point bindingss.
     extension_registry = None # Instance(IExtensionRegistry)
+
+    # We keep a reference to each binding alive until its associated object is
+    # garbage collected.
+    _bindings = weakref.WeakKeyDictionary()
     
     #### 'ExtensionPointBinding' interface ####################################
 
@@ -43,6 +50,10 @@ class ExtensionPointBinding(HasTraits):
 
         # Wire-up trait change handlers etc.
         self._initialize()
+
+        # We keep a reference to each binding alive until its associated object
+        # is garbage collected.
+        ExtensionPointBinding._bindings[self.obj] = self
 
         return
 

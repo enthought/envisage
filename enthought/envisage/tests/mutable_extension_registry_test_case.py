@@ -311,67 +311,63 @@ class MutableExtensionRegistryTestCase(unittest.TestCase):
 
         return
 
-    # fixme: In Python you can't (by default) create weak references to
-    # bound methods since they are created on demand. Since bound methods
-    # will probably be the most common use case, we won't try to store
-    # weakrefs for now...
-##     def test_gced_specific_extension_listener(self):
-##         """ gc'ed extension listener. """
+    def test_gced_specific_extension_listener(self):
+        """ gc'ed extension listener. """
 
-##         def listener(registry, extension_point, added, removed):
-##             """ Called when an extension point has changed. """
+        def listener(registry, extension_point, added, removed):
+            """ Called when an extension point has changed. """
 
-##             self.listener_called = (registry, extension_point, added, removed)
+            self.listener_called = (registry, extension_point, added, removed)
 
-##             return
+            return
             
-##         # Listen for extensions being added/removed to/from a specific
-##         # extension point.
-##         self.registry.add_extension_listener(listener, 'my.extension.point')
+        # Listen for extensions being added/removed to/from a specific
+        # extension point.
+        self.registry.add_extension_listener(listener, 'my.extension.point')
 
-##         # Delete the listener!
-##         del listener
+        # Delete the listener!
+        del listener
         
-##         # Add an extension.
-##         self.listener_called = None
-##         self.registry.add_extension('my.extension.point', 42)
+        # Add an extension.
+        self.listener_called = None
+        self.registry.add_extension('my.extension.point', 42)
 
-##         # Remove an extension.
-##         self.registry.remove_extension('my.extension.point', 42)
+        # Remove an extension.
+        self.registry.remove_extension('my.extension.point', 42)
 
-##         # Make sure the listener was NOT called.
-##         self.assertEqual(None, self.listener_called)
+        # Make sure the listener was NOT called.
+        self.assertEqual(None, self.listener_called)
 
-##         return
+        return
 
-##     def test_gced_global_extension_listener(self):
-##         """ gc'ed global extension listener. """
+    def test_gced_global_extension_listener(self):
+        """ gc'ed global extension listener. """
 
-##         def listener(registry, extension_point, added, removed):
-##             """ Called when an extension point has changed. """
+        def listener(registry, extension_point, added, removed):
+            """ Called when an extension point has changed. """
 
-##             self.listener_called = (registry, extension_point, added, removed)
+            self.listener_called = (registry, extension_point, added, removed)
 
-##             return
+            return
             
-##         # Listen for extensions being added/removed to/from any extension
-##         # point.
-##         self.registry.add_extension_listener(listener)
+        # Listen for extensions being added/removed to/from any extension
+        # point.
+        self.registry.add_extension_listener(listener)
 
-##         # Delete the listener!
-##         del listener
+        # Delete the listener!
+        del listener
 
-##         # Add an extension.
-##         self.listener_called = None
-##         self.registry.add_extension('my.extension.point', 42)
+        # Add an extension.
+        self.listener_called = None
+        self.registry.add_extension('my.extension.point', 42)
 
-##         # Remove an extension.
-##         self.registry.remove_extension('my.extension.point', 42)
+        # Remove an extension.
+        self.registry.remove_extension('my.extension.point', 42)
 
-##         # Make sure the listener was NOT called.
-##         self.assertEqual(None, self.listener_called)
+        # Make sure the listener was NOT called.
+        self.assertEqual(None, self.listener_called)
 
-##         return
+        return
 
     def test_remove_non_existent_listener(self):
         """ remove non existent listener """

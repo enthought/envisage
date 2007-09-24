@@ -2,13 +2,14 @@
 
 
 # Standard library imports.
-import threading, weakref
+import threading
 
 # Enthought library imports.
 from enthought.traits.api import Dict, HasTraits, implements
 
 # Local imports.
 from i_mutable_extension_registry import IMutableExtensionRegistry
+from safeweakref import ref
 
 
 class MutableExtensionRegistry(HasTraits):
@@ -114,8 +115,7 @@ class MutableExtensionRegistry(HasTraits):
 
         self._lk.acquire()
         listeners = self._listeners.setdefault(extension_point, [])
-##         listeners.append(weakref.ref(listener))
-        listeners.append(listener)
+        listeners.append(ref(listener))
         self._lk.release()
 
         return
@@ -201,8 +201,7 @@ class MutableExtensionRegistry(HasTraits):
         self._lk.acquire()
         try:
             listeners = self._listeners.setdefault(extension_point, [])
-            listeners.remove(listener)
-##             listeners.remove(weakref.ref(listener))
+            listeners.remove(ref(listener))
 
         finally:
             self._lk.release()
@@ -251,8 +250,7 @@ class MutableExtensionRegistry(HasTraits):
         """
 
         for ref in self._get_listener_refs(extension_point):
-            listener = ref
-##             listener = ref()
+            listener = ref()
             if listener is not None:
                 listener(self, extension_point, added, removed)
 
