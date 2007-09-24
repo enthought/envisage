@@ -5,7 +5,7 @@
 import logging, pkg_resources
 
 # Enthought library imports.
-from enthought.traits.api import Instance
+from enthought.traits.api import Instance, List, Str
 
 # Local imports.
 from egg_utils import get_entry_points_in_egg_order
@@ -29,6 +29,11 @@ class EggPluginManager(PluginManager):
     # working set.
     working_set = Instance(pkg_resources.WorkingSet, pkg_resources.working_set)
 
+    # An optional list of the Ids of the plugins that are to be included by
+    # the manager (i.e. *only* plugins with Ids in this list will be added to
+    # the manager).
+    include = List(Str)
+    
     ###########################################################################
     # 'PluginManager' interface.
     ###########################################################################
@@ -38,8 +43,11 @@ class EggPluginManager(PluginManager):
 
         plugins = []
         for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
-            klass = ep.load()
-            plugins.append(klass())
+            klass  = ep.load()
+            plugin = klass()
+
+            if len(self.include) == 0 or plugin.id in self.include:
+                plugins.append(plugin)
 
         logger.debug('egg plugin manager found plugins <%s>', plugins)
         

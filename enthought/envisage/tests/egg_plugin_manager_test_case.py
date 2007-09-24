@@ -36,13 +36,17 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     def test_start_and_stop(self):
         """ start and stop """
 
+        # The Ids of our test plugins.
+        ids = ['acme.foo', 'acme.bar', 'acme.baz']
+
+        # Make sure that the plugin manager only includes those plugins.
+        self.plugin_manager.include = ids
+
+        # Add all the plugin eggs to 'sys.path'.
         self._add_egg('acme.foo-0.1a1-py2.4.egg')
         self._add_egg('acme.bar-0.1a1-py2.4.egg')
         self._add_egg('acme.baz-0.1a1-py2.4.egg')
 
-        # The Ids of our test plugins.
-        ids = ['acme.foo', 'acme.bar', 'acme.baz']
-        
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
         self.plugin_manager.start()
