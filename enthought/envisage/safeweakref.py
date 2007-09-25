@@ -24,7 +24,7 @@ class ref(object):
             self._ref = weakref.ref(obj.im_self)
             
         # Otherwise, it is an arbitrary object (unbound methods and plain ol'
-        # ol' functions fall into this category too!).
+        # functions fall into this category too!).
         else:
             self._cls = None
             self._fn  = None
