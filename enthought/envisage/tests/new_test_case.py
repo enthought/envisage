@@ -105,27 +105,22 @@ class NewTestCase(unittest.TestCase):
 
         # Make sure we get all of the plugin's contributions via the bound
         # trait.
-        x = f.x[:]
-        x.sort()
-        
-        self.assertEqual(6, len(x))
-        self.assertEqual([1, 2, 3, 4, 5, 6], x)
+        f.x.sort()
+        self.assertEqual(6, len(f.x))
+        self.assertEqual([1, 2, 3, 4, 5, 6], f.x)
         
         # Add another contribution to one of the plugins.
         a.x.append(99)
 
-        # Make sure we have picked up the new contribution via the bound
-        # trait...
-        x = f.x[:]
-        x.sort()
-        
-        self.assertEqual(7, len(x))
-        self.assertEqual([1, 2, 3, 4, 5, 6, 99], x)
-
-        # ... and that the correct trait change event was fired.
+        # Make sure that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(7, len(listener.new))
+        
+        # Make sure we have picked up the new contribution via the bound trait.
+        f.x.sort()
+        self.assertEqual(7, len(f.x))
+        self.assertEqual([1, 2, 3, 4, 5, 6, 99], f.x)
 
         return
 
