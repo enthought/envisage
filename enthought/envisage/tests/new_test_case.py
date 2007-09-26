@@ -56,7 +56,7 @@ class NewTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(plugin_manager=PluginManager(plugins=[a, b]))
+        application = Application(plugins=[a, b])
 
         # Make sure we get all of the plugin's contributions.
         extensions = application.get_extensions('x')
@@ -91,7 +91,7 @@ class NewTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(plugin_manager=PluginManager(plugins=[a, b]))
+        application = Application(plugins=[a, b])
 
         # Create an arbitrary object that has a trait bound to the extension
         # point.
