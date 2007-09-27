@@ -129,25 +129,27 @@ class PluginTestCase(unittest.TestCase):
 
         # A plugin that offers an extension point.
         class HelloWorld(Plugin):
-            id        = 'HelloWorld'
             greetings = ExtensionPoint(List(Str), id='greetings')
 
             def start(self, application):
                 """ Start the plugin. """
 
-                import random
-                print random.choice(self.greetings), 'World!'
+                from random import choice
 
+                # For the purposes of testing, we just tag the greeting onto
+                # the application.
+                application.greeting = '%s %s' % (
+                    choice(self.greetings), 'World!'
+                )
+                
                 return
 
         # Plugins that contribute to the extension point.
         class Greetings(Plugin):
-            id       = 'Greetings'
-            messages = List(["Hello", "G'day"], extension_point='greetings')
+            greetings = List(["Hello", "G'day"], extension_point='greetings')
 
         class MoreGreetings(Plugin):
-            id       = 'MoreGreetings'
-            messages = List(['Bonjour'], extension_point='greetings')
+            greetings = List(['Bonjour'], extension_point='greetings')
 
 
         # Create the application.
@@ -156,6 +158,10 @@ class PluginTestCase(unittest.TestCase):
         )
         application.start()
 
+        # Make sure we got one the contributed greetings!
+        greeting = application.greeting.split(' World!')[0]
+        self.assert_(greeting in ['Bonjour', 'Hello', "G'day"])
+        
         return
 
 #### EOF ######################################################################
