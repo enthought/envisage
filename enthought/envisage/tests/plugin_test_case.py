@@ -1,13 +1,13 @@
-""" Tests for applications. """
+""" Tests for plugins. """
 
 
 # Standard library imports.
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, Plugin, PluginManager
-from enthought.envisage.api import bind_extension_point
-from enthought.traits.api import HasTraits, Int, List
+from enthought.envisage.api import Application, ExtensionPoint, Plugin
+from enthought.envisage.api import PluginManager, bind_extension_point
+from enthought.traits.api import HasTraits, Int, List, Str
 
 
 def listener(obj, trait_name, old, new):
@@ -21,8 +21,8 @@ def listener(obj, trait_name, old, new):
     return
 
 
-class NewTestCase(unittest.TestCase):
-    """ Tests for applications. """
+class PluginTestCase(unittest.TestCase):
+    """ Tests for plugins. """
 
     ###########################################################################
     # 'TestCase' interface.
@@ -121,6 +121,40 @@ class NewTestCase(unittest.TestCase):
         f.x.sort()
         self.assertEqual(7, len(f.x))
         self.assertEqual([1, 2, 3, 4, 5, 6, 99], f.x)
+
+        return
+
+    def test_hello_world(self):
+        """ hello world """
+
+        # A plugin that offers an extension point.
+        class HelloWorld(Plugin):
+            id        = 'HelloWorld'
+            greetings = ExtensionPoint(List(Str), id='greetings')
+
+            def start(self, application):
+                """ Start the plugin. """
+
+                import random
+                print random.choice(self.greetings), 'World!'
+
+                return
+
+        # Plugins that contribute to the extension point.
+        class Greetings(Plugin):
+            id       = 'Greetings'
+            messages = List(["Hello", "G'day"], extension_point='greetings')
+
+        class MoreGreetings(Plugin):
+            id       = 'MoreGreetings'
+            messages = List(['Bonjour'], extension_point='greetings')
+
+
+        # Create the application.
+        application = Application(
+            plugins=[HelloWorld(), Greetings(), MoreGreetings()]
+        )
+        application.start()
 
         return
 
