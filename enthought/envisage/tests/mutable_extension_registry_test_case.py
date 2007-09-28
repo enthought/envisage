@@ -82,6 +82,26 @@ class MutableExtensionRegistryTestCase(unittest.TestCase):
 
         return
 
+    # messin'...
+    def test_add_extension_point(self):
+        """ add extension point """
+
+        # Add an extension *point*.
+        self.registry.add_extension_point(
+            'my.extension.point', type=List(Int), doc=""" Help """"
+        )
+
+        # Make sure there's NO extensions.
+        extensions = self.registry.get_extensions('my.extension.point')
+        self.assertEqual(0, len(extensions))
+
+        # Make sure there's one and only one extension point.
+        extension_points = self.registry.get_extension_points()
+        self.assertEqual(1, len(extension_points))
+        self.assertEqual('my.extension.point', extension_points[0])
+
+        return
+
     def test_add_extension_point(self):
         """ add extension point """
 
@@ -98,7 +118,31 @@ class MutableExtensionRegistryTestCase(unittest.TestCase):
         self.assertEqual('my.extension.point', extension_points[0])
 
         return
-        
+
+    def test_declare_before_use(self):
+        """ declare before use """
+
+        self.registry.declare_before_use = True
+
+        # We shouldn't be able to add any extensions unless the extension
+        # point has been explicitly declared.
+        self.failUnlessRaises(
+            ValueError, self.registry.add_extension, 'my.extension.point', 42
+        )
+
+        # Declare the extension point.
+        self.registry.add_extension_point('my.extension.point')
+
+        # Now we should be able to add the extension.
+        self.registry.add_extension('my.extension.point', 42)
+
+        # Make sure there's one and only one extension.
+        extensions = self.registry.get_extensions('my.extension.point')
+        self.assertEqual(1, len(extensions))
+        self.assertEqual(42, extensions[0])
+
+        return
+    
     def test_remove_extension(self):
         """ remove extension """
 

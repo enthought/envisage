@@ -19,7 +19,7 @@ class HTTPResourceProtocol(HasTraits):
     ###########################################################################
 
     def file(self, address):
-        """ Return a readable file-object object for the specified address. """
+        """ Return a readable file-like object for the specified address. """
 
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.

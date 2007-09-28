@@ -35,7 +35,7 @@ class PackageResourceProtocol(HasTraits):
     ###########################################################################
 
     def file(self, address):
-        """ Return a readable file-object object for the specified address. """
+        """ Return a readable file-like object for the specified address. """
 
         first_forward_slash = address.index('/')
         

@@ -42,7 +42,7 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
-            x = ExtensionPoint(id='my.extension.point')
+            x = ExtensionPoint(id='my.extension.point', cached=False)
 
         # Make sure that instances of the class pick up the extensions.
         f = Foo()
@@ -78,7 +78,7 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
-            x = ExtensionPoint(List(Int), id='my.extension.point')
+            x = ExtensionPoint(List(Int), id='my.extension.point',cached=False)
 
         # Make sure that instances of the class pick up the extensions.
         f = Foo()
@@ -147,6 +147,40 @@ class ExtensionPointTestCase(unittest.TestCase):
         # trait.
         f = Foo()
         self.failUnlessRaises(TraitError, setattr, f, 'x', [42])
+        
+        return
+
+    def test_cached(self):
+        """ uncached """
+
+        registry = ExtensionPoint.extension_registry
+
+        # Add an extension.
+        registry.add_extension('my.extension.point', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = ExtensionPoint(List, id='my.extension.point')
+
+        # Make sure that instances of the class pick up the extensions.
+        f = Foo()
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        g = Foo()
+        self.assertEqual(1, len(g.x))
+        self.assertEqual(42, g.x[0])
+
+        # Add another extension.
+        registry.add_extension('my.extension.point', 43)
+
+        # Make sure that the existing instances of the class *don't* pick up
+        # the new extension.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        self.assertEqual(1, len(g.x))
+        self.assertEqual(42, g.x[0])
         
         return
 

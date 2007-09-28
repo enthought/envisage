@@ -67,6 +67,7 @@ class ExtensionPointBinding(HasTraits):
         """ Dynamic trait change handler. """
 
         if not self._event_handled:
+            raise 1/0
             self.extension_registry.set_extensions(self.extension_point, new)
 
         return

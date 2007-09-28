@@ -22,7 +22,7 @@ class FileResourceProtocol(HasTraits):
     ###########################################################################
 
     def file(self, address):
-        """ Return a readable file-object object for the specified address. """
+        """ Return a readable file-like object for the specified address. """
 
         # Opened in binary mode to be consistent with package resources. This
         # means, for example, that line-endings will not be converted.

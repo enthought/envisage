@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import inspect
+import inspect, weakref
 
 # Enthought library imports.
 from enthought.traits.api import List, TraitError, TraitType
@@ -28,12 +28,12 @@ class ExtensionPoint(TraitType):
 
     # The extension registry that is used by all extension points.
     extension_registry = None
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, trait_type=None, id=None, **metadata):
+    def __init__(self, trait_type=None, id=None, cached=True, **metadata):
         """ Constructor. """
 
         super(ExtensionPoint, self).__init__(**metadata)
@@ -49,6 +49,13 @@ class ExtensionPoint(TraitType):
 
         # The Id of the extension point.
         self.id = id or '%s.%s' % (type(self).__module__, type(self).__name__)
+
+        # If the extension point is cached then extensions will be retreived
+        # from the extension regsistry at most once.
+        self.cached = cached
+
+        # The cached extensions.
+        self._cache = weakref.WeakKeyDictionary()
         
         return
 
@@ -59,8 +66,20 @@ class ExtensionPoint(TraitType):
     def get(self, obj, name):
         """ Trait type getter. """
 
-        extensions = self._get_extensions(obj)
-        extensions = self._validate_extensions(obj, name, extensions)
+        if self.cached:
+            all_traits = self._cache.setdefault(obj, {})
+            if name in all_traits:
+                extensions = all_traits[name]
+
+            else:
+                extensions = self._get_extensions(obj)
+                extensions = self._validate_extensions(obj, name, extensions)
+
+                all_traits[name] = extensions
+
+        else:
+            extensions = self._get_extensions(obj)
+            extensions = self._validate_extensions(obj, name, extensions)
 
         return extensions
 

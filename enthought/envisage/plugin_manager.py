@@ -77,6 +77,9 @@ class PluginManager(HasTraits):
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
 
+            plugin.application = plugin_context
+            plugin.get_extension_points()
+
             self.plugin_starting = PluginEvent(plugin=plugin)
             plugin.start(plugin_context)
             self.plugin_started = PluginEvent(plugin=plugin)

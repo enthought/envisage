@@ -8,9 +8,8 @@ import logging, os
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
-from enthought.preferences.api import ScopedPreferences
-from enthought.traits.api import Dict, Event, HasTraits, Instance, Property
-from enthought.traits.api import Str, VetoableEvent, implements
+from enthought.traits.api import Delegate, Dict, Event, HasTraits, Instance
+from enthought.traits.api import Property, Str, VetoableEvent, implements
 from enthought.traits.api import on_trait_change
 
 # Local imports.
@@ -21,7 +20,10 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
+from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
+from extension_point_binding import ExtensionPointBinding
+from extension_registry import ExtensionRegistry
 from import_manager import ImportManager
 from service_registry import ServiceRegistry
 
@@ -68,10 +70,13 @@ class Application(HasTraits):
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
 
+    # The plugins that constitute the application.
+    plugins = Delegate('plugin_manager', modify=True)
+    
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
 
-    # The preferences service.
+    # The preferences node.
     preferences = Instance(IPreferences)
     
     # The service registry.
@@ -94,9 +99,16 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
 
+        # This allows the 'ExtensionPointBinding' type to be used as a more
+        # convenient way to get the extensions for a given extension point.
+        ExtensionPointBinding.extension_registry = self.extension_registry
+
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access the preferences.
         PreferencesHelper.preferences = self.preferences
+
+        # Add all plugins as extension providers.
+        self.extension_registry.providers.extend(self.plugin_manager.plugins)
 
         return
     
@@ -244,23 +256,25 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        # Do the import here in case the application writer doesn't want the
-        # default implementation.
-        from extension_registry import ExtensionRegistry
-
-        return ExtensionRegistry(application=self)
+        return ExtensionRegistry()
     
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
         # Do the import here in case the application writer doesn't want the
         # default implementation.
-        from egg_plugin_manager import EggPluginManager
-
-        return EggPluginManager()
+##         from egg_plugin_manager import EggPluginManager
+        from plugin_manager import PluginManager
+        
+##         return EggPluginManager()
+        return PluginManager()
     
     def _preferences_default(self):
         """ Trait initializer. """
+
+        # Do the import here in case the application writer doesn't want the
+        # default implementation.
+        from enthought.preferences.api import ScopedPreferences
 
         preferences = ScopedPreferences()
         self._initialize_preferences(preferences)
@@ -298,6 +312,33 @@ class Application(HasTraits):
     ###########################################################################
     # Private interface.
     ###########################################################################
+
+    #### Trait change handlers ################################################
+
+    @on_trait_change('plugin_manager.plugins')
+    def _when_plugins_changed(self, obj, trait_name, old, new):
+        """ Trait change handler. """
+
+        print 'Plugin manager plugins changed', obj, trait_name, old, new
+
+        # Was the entire list changed.
+        if trait_name == 'plugins':
+            pass
+            
+        # Or were some items added/removed etc.
+        elif trait_name == 'plugins_items':
+            pass
+
+        # Was the plugin *manager* changed!
+        elif trait_name == 'plugin_manager':
+            pass
+        
+        else:
+            raise SystemError('Unexpected trait name %s' % trait_name)
+        
+        return
+
+    #### Methods ##############################################################
     
     def _create_application_event(self):
         """ Create an application event. """

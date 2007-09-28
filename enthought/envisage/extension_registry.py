@@ -2,43 +2,40 @@
 
 
 # Standard library imports.
-import inspect, logging, types
+import logging
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Instance, implements
+from enthought.traits.api import Instance, List, on_trait_change
 
 # Local imports.
-from i_application import IApplication
-from i_extension_registry import IExtensionRegistry
+from i_extension_provider import IExtensionProvider
+from mutable_extension_registry import MutableExtensionRegistry
 
 
 # Logging.
 logger = logging.getLogger(__name__)
 
 
-class ExtensionRegistry(HasTraits):
+class ExtensionRegistry(MutableExtensionRegistry):
     """ The default extension registry implementation. """
-
-    implements(IExtensionRegistry)
 
     #### 'ExtensionRegistry' interface ########################################
 
-    # The application that the registry is part of.
-    application = Instance(IApplication)
+    # The extension providers that populate the registry.
+    providers = List(IExtensionProvider)
     
     ###########################################################################
-    # 'IExtensionRegistry' interface.
+    # Protected 'MutableExtensionRegistry' interface.
     ###########################################################################
 
-    def get_extensions(self, extension_point, **kw):
-        """ Return all contributions to an extension point. """
-        
-        extensions = []
-        for plugin in self.application.plugin_manager.plugins:
-            extensions.extend(self._harvest_methods(plugin, extension_point))
-            extensions.extend(self._harvest_traits(plugin, extension_point))
+    def _initialize_extensions(self, extension_point):
+        """ Initialize the extensions to an extension point. """
 
-        logger.debug('extensions to %s are %s', extension_point, extensions)
+        extensions = []
+        for provider in self.providers:
+            extensions.extend(provider.get_extensions(extension_point))
+
+        logger.debug('extensions to <%s> : <%s>', extension_point, extensions)
 
         return extensions
 
@@ -46,53 +43,16 @@ class ExtensionRegistry(HasTraits):
     # Private interface.
     ###########################################################################
 
-    def _harvest_methods(self, plugin, extension_point):
-        """ Harvest all method-based contributions. """
+    @on_trait_change('providers.extensions_changed')
+    def _providers_extensions_changed(self, obj, trait_name, old, event):
+        """ Dynamic trait change handler. """
 
-        extensions = []
-        for name, value in inspect.getmembers(plugin):
-            if self._is_extension_method(value, extension_point):
-                result = getattr(plugin, name)(self.application)
-                if not isinstance(result, list):
-                    result = [result]
-                            
-                extensions.extend(result)
+        if trait_name == 'extensions_changed':
+            logger.debug('provider <%s> extensions changed', obj)
 
-        return extensions
+            self.remove_extensions(event.extension_point, event.removed)
+            self.add_extensions(event.extension_point, event.added)
 
-    def _harvest_traits(self, plugin, extension_point):
-        """ Harvest all trait-based contributions. """
-
-        extensions = []
-
-        for trait_name in plugin.traits(extension_point=extension_point):
-            value = getattr(plugin, trait_name)
-            if not isinstance(value, list):
-                value = [value]
-
-            extensions.extend(value)
-
-        return extensions
-
-    def _is_extension_method(self, value, extension_point):
-        """ Return True if the value is an extension method.
-
-        i.e. If the method is one that makes a contribution to an extension
-        point. Currently there is exactly one way to make a method make a
-        contribution, and that is to mark it using the 'extension_point'
-        decorator, e.g::
-
-          @extension_point('acme.motd.messages')
-          def get_messages(self, application):
-              ...
-              return some_messages
-
-        """
-
-        if inspect.ismethod(value):
-            if extension_point == getattr(value, '__extension_point__', None):
-                return True
-
-        return False
+        return
 
 #### EOF ######################################################################

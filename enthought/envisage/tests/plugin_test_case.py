@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import unittest
+import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
@@ -122,46 +122,6 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(7, len(f.x))
         self.assertEqual([1, 2, 3, 4, 5, 6, 99], f.x)
 
-        return
-
-    def test_hello_world(self):
-        """ hello world """
-
-        # A plugin that offers an extension point.
-        class HelloWorld(Plugin):
-            greetings = ExtensionPoint(List(Str), id='greetings')
-
-            def start(self, application):
-                """ Start the plugin. """
-
-                from random import choice
-
-                # For the purposes of testing, we just tag the greeting onto
-                # the application.
-                application.greeting = '%s %s' % (
-                    choice(self.greetings), 'World!'
-                )
-                
-                return
-
-        # Plugins that contribute to the extension point.
-        class Greetings(Plugin):
-            greetings = List(["Hello", "G'day"], extension_point='greetings')
-
-        class MoreGreetings(Plugin):
-            greetings = List(['Bonjour'], extension_point='greetings')
-
-
-        # Create the application.
-        application = Application(
-            plugins=[HelloWorld(), Greetings(), MoreGreetings()]
-        )
-        application.start()
-
-        # Make sure we got one the contributed greetings!
-        greeting = application.greeting.split(' World!')[0]
-        self.assert_(greeting in ['Bonjour', 'Hello', "G'day"])
-        
         return
 
 #### EOF ######################################################################
