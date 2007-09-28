@@ -8,7 +8,6 @@ import inspect, logging
 from enthought.traits.api import HasTraits, Instance, List, Str, implements
 
 # Local imports.
-from extensions_changed_event import ExtensionsChangedEvent
 from extension_provider import ExtensionProvider
 from extension_point import ExtensionPoint
 from i_application import IApplication
@@ -105,10 +104,6 @@ class Plugin(ExtensionProvider):
         pass
 
     ###########################################################################
-    # 'Plugin' interface.
-    ###########################################################################
-
-    ###########################################################################
     # Private interface.
     ###########################################################################
 
@@ -130,14 +125,9 @@ class Plugin(ExtensionProvider):
             else:
                 removed = old
                 added   = new
-
-
+                
             # Let the extension registry know about the change.
-            self.extensions_changed = ExtensionsChangedEvent(
-                extension_point = trait.extension_point,
-                added           = added,
-                removed         = removed
-            )
+            self._fire_extensions_changed(trait.extension_point,added,removed)
 
         return
         

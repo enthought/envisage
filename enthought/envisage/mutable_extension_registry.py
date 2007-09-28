@@ -21,7 +21,7 @@ class MutableExtensionRegistry(HasTraits):
     # 'MutableExtensionRegistry' interface.
     ###########################################################################
 
-    # If this is True, then you must can't add extensions to an extension point
+    # If this is True, then you can't add extensions to an extension point
     # unless the extension point has been explicitly added first (via a call
     # to 'add_extension_point'.
     strict = Bool(False)
@@ -153,7 +153,7 @@ class MutableExtensionRegistry(HasTraits):
         """
 
         self._lk.acquire()
-        self._check_extension_point(extension_point)
+        #self._check_extension_point(extension_point)
         extensions = self._get_extensions(extension_point)[:]
         self._lk.release()
 

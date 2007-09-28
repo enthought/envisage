@@ -88,7 +88,7 @@ class MutableExtensionRegistryTestCase(unittest.TestCase):
 
         # Add an extension *point*.
         self.registry.add_extension_point(
-            'my.extension.point', type=List(Int), doc=""" Help """"
+            'my.extension.point', type=List(Int), doc=""" Help """
         )
 
         # Make sure there's NO extensions.
@@ -119,10 +119,10 @@ class MutableExtensionRegistryTestCase(unittest.TestCase):
 
         return
 
-    def test_declare_before_use(self):
-        """ declare before use """
+    def test_strict(self):
+        """ strict """
 
-        self.registry.declare_before_use = True
+        self.registry.strict = True
 
         # We shouldn't be able to add any extensions unless the extension
         # point has been explicitly declared.

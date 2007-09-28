@@ -31,6 +31,8 @@ class ExtensionRegistry(MutableExtensionRegistry):
     def _initialize_extensions(self, extension_point):
         """ Initialize the extensions to an extension point. """
 
+        self._check_extension_point(extension_point)
+        
         extensions = []
         for provider in self.providers:
             extensions.extend(provider.get_extensions(extension_point))

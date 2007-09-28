@@ -5,8 +5,8 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionsChangedEvent, ExtensionPoint
-from enthought.envisage.api import ExtensionProvider, ExtensionRegistry
+from enthought.envisage.api import ExtensionPoint, ExtensionProvider
+from enthought.envisage.api import ExtensionRegistry
 from enthought.traits.api import Event, Int, Interface, List    
 
 
@@ -119,12 +119,10 @@ class ExtensionRegistryTestCase(unittest.TestCase):
             def _x_items_changed(self, event):
                 """ Static trait change handler. """
 
-                self.extensions_changed = ExtensionsChangedEvent(
-                    extension_point = 'my.extension.point',
-                    added           = event.added,
-                    removed         = event.removed
+                self._fire_extensions_changed(
+                    'my.extension.point', event.added, event.removed
                 )
-
+                
                 return
 
         # Now add the provider.

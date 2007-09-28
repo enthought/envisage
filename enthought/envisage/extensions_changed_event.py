@@ -1,4 +1,4 @@
-""" An event fired when a providers extensions have changed. """
+""" An event fired when a provider's extensions have changed. """
 
 
 # Enthought library imports.
@@ -6,7 +6,7 @@ from enthought.traits.api import HasTraits, List, Str
 
 
 class ExtensionsChangedEvent(HasTraits):
-    """ An event fired when a providers extensions have changed. """
+    """ An event fired when a provider's extensions have changed. """
 
     # The extension point that has changed.
     extension_point = Str
