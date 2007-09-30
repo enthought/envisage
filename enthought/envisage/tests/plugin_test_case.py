@@ -31,6 +31,10 @@ class PluginTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
+        self.application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager()
+        )
+        
         return
 
     def tearDown(self):
@@ -56,7 +60,9 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(plugins=[a, b])
+        application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a, b])
+        )
 
         # Make sure we get all of the plugin's contributions.
         extensions = application.get_extensions('x')
@@ -91,7 +97,9 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(plugins=[a, b])
+        application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a, b])
+        )
 
         # Create an arbitrary object that has a trait bound to the extension
         # point.

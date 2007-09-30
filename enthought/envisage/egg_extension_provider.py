@@ -1,26 +1,24 @@
-""" An Egg based extension registry. """
+""" An Egg based extension provider. """
 
 
 # Standard library imports.
 import logging, pkg_resources
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Instance, implements
+from enthought.traits.api import Instance
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
+from extension_provider import ExtensionProvider
 
 
 # Logging.
 logger = logging.getLogger(__name__)
 
 
-class EggExtensionRegistry(HasTraits):
-    """ An Egg based extension registry. """
+class EggExtensionProvider(ExtensionProvider):
+    """ An Egg based extension provider. """
 
-    implements(IExtensionRegistry)
-
-    #### 'EggExtensionRegistry' interface #####################################
+    #### 'EggExtensionProvider' interface #####################################
 
     # The working set that contains the eggs that contain the extensions that
     # live in the house that Jack built ;^) By default we use the global

@@ -33,7 +33,7 @@ def run():
 
     # Create and run the application.
     from enthought.envisage.api import Application
-
+    
     return Application(id='acme.motd').run()
 
 

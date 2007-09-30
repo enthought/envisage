@@ -5,12 +5,11 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionProvider
-from enthought.envisage.api import ExtensionRegistry
-from enthought.traits.api import Event, Int, Interface, List    
+from enthought.envisage.api import ExtensionProvider, ExtensionRegistry
+from enthought.traits.api import Int, List    
 
 
-class ExtensionRegistryTestCase(unittest.TestCase):
+class ExtensionProviderTestCase(unittest.TestCase):
     """ Tests for the extension registry. """
 
     ###########################################################################
@@ -22,10 +21,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         self.extension_registry = ExtensionRegistry()
 
-        # This allows the 'ExtensionPoint' trait type to be used as a more
-        # convenient way to access an extension point.
-        ExtensionPoint.extension_registry = self.extension_registry
-        
         return
 
     def tearDown(self):
@@ -37,10 +32,37 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_unsupported_methods(self):
+        """ unsupported methods """
+
+        registry = self.extension_registry
+        
+        self.failUnlessRaises(
+            NotImplementedError, registry.add_extension, 'x', 42
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.add_extensions, 'x', [42]
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.remove_extension, 'x', 42
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.remove_extensions, 'x', [42]
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.set_extensions, 'x', [42]
+        )
+
+        return
+    
     def test_providers(self):
         """ providers """
 
-        registry = self.extension_registry
+        extension_registry = self.extension_registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
@@ -51,7 +73,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
                 """
 
-                if extension_point == 'my.extension.point':
+                if extension_point == 'my.point':
                     extensions = [42]
 
                 else:
@@ -67,7 +89,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
                 """
 
-                if extension_point == 'my.extension.point':
+                if extension_point == 'my.point':
                     extensions = [43, 44]
 
                 else:
@@ -75,27 +97,27 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
                 return extensions
 
-        # Now add the providers.
-        registry.providers = [ProviderA(), ProviderB()]
+        # Add the providers to the registry.
+        extension_registry.add_providers([ProviderA(), ProviderB()])
 
-        # Now we should get their extensions.
-        extensions = registry.get_extensions('my.extension.point')
+        # The provider's extensions should now be in the registry.
+        extensions = extension_registry.get_extensions('my.point')
         self.assertEqual(3, len(extensions))
         self.assert_(42 in extensions)
         self.assert_(43 in extensions)
         self.assert_(44 in extensions)
 
         # Make sure there's one and only one extension point.
-        extension_points = registry.get_extension_points()
+        extension_points = extension_registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.point', extension_points[0])
 
         return
 
-    def test_extensions_changed(self):
-        """ extensions changed """
+    def test_provider_extensions_changed(self):
+        """ provider extensions changed """
 
-        registry = self.extension_registry
+        extension_registry = self.extension_registry
 
         # A provider.
         class ProviderA(ExtensionProvider):
@@ -108,7 +130,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
                 """
 
-                if extension_point == 'my.extension.point':
+                if extension_point == 'my.point':
                     return self.x
 
                 else:
@@ -120,29 +142,222 @@ class ExtensionRegistryTestCase(unittest.TestCase):
                 """ Static trait change handler. """
 
                 self._fire_extensions_changed(
-                    'my.extension.point', event.added, event.removed
+                    'my.point', event.added, event.removed
                 )
                 
                 return
 
-        # Now add the provider.
+        # Add the provider to the registry.
         a = ProviderA(x=[42])
-        registry.providers = [a]
+        extension_registry.add_provider(a)
 
-        # Now we should get the extension.
-        extensions = registry.get_extensions('my.extension.point')
+        # The provider's extensions should now be in the registry.
+        extensions = extension_registry.get_extensions('my.point')
         self.assertEqual(1, len(extensions))
         self.assert_(42 in extensions)
 
-        # Now set that trait that fires the event that lives in the house that
-        # jack built ;^)
+        # Add an extension listener to the registry.
+        def listener(registry, extension_point, added, removed):
+            """ A useful trait change handler for testing! """
+
+            listener.registry = registry
+            listener.extension_point = extension_point
+            listener.added = added
+            listener.removed = removed
+
+            return
+
+        extension_registry.add_extension_listener(
+            listener, 'my.point'
+        )
+        
+        # Add a new extension via the provider.
         a.x.append(43)
+
+        # Make sure the listener got called.
+        self.assertEqual('my.point', listener.extension_point)
+        self.assertEqual([43], listener.added)
+        self.assertEqual([], listener.removed)
         
         # Now we should get the new extension.
-        extensions = registry.get_extensions('my.extension.point')
+        extensions = extension_registry.get_extensions('my.point')
         self.assertEqual(2, len(extensions))
         self.assert_(42 in extensions)
         self.assert_(43 in extensions)
+
+        return
+
+    def test_add_provider(self):
+        """ add provider """
+
+        extension_registry = self.extension_registry
+
+        # A provider.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point == 'my.point':
+                    return [42]
+
+                else:
+                    extensions = []
+
+                return extensions
+
+            def _x_items_changed(self, event):
+                """ Static trait change handler. """
+
+                self._fire_extensions_changed(
+                    'my.point', event.added, event.removed
+                )
+                
+                return
+
+        # Add the provider to the registry.
+        extension_registry.add_provider(ProviderA())
+
+        # The provider's extensions should now be in the registry.
+        extensions = extension_registry.get_extensions('my.point')
+        self.assertEqual(1, len(extensions))
+        self.assert_(42 in extensions)
+
+        # Add an extension listener to the registry.
+        def listener(registry, extension_point, added, removed):
+            """ A useful trait change handler for testing! """
+
+            listener.registry = registry
+            listener.extension_point = extension_point
+            listener.added = added
+            listener.removed = removed
+
+            return
+
+        extension_registry.add_extension_listener(
+            listener, 'my.point'
+        )
+
+        # Add a new provider.
+        class ProviderB(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point == 'my.point':
+                    extensions = [43, 44]
+
+                else:
+                    extensions = []
+
+                return extensions
+
+        extension_registry.add_provider(ProviderB())
+
+        # Make sure the listener got called.
+        self.assertEqual('my.point', listener.extension_point)
+        self.assertEqual([43, 44], listener.added)
+        self.assertEqual([], listener.removed)
+        
+        # Now we should get the new extensions.
+        extensions = extension_registry.get_extensions('my.point')
+        self.assertEqual(3, len(extensions))
+        self.assert_(42 in extensions)
+        self.assert_(43 in extensions)
+        self.assert_(44 in extensions)
+
+        return
+
+    def test_remove_provider(self):
+        """ remove provider """
+
+        extension_registry = self.extension_registry
+
+        # Some providers.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point == 'my.point':
+                    return [42]
+
+                else:
+                    extensions = []
+
+                return extensions
+
+            def _x_items_changed(self, event):
+                """ Static trait change handler. """
+
+                self._fire_extensions_changed(
+                    'my.point', event.added, event.removed
+                )
+                
+                return
+
+        class ProviderB(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point == 'my.point':
+                    extensions = [43, 44]
+
+                else:
+                    extensions = []
+
+                return extensions
+
+        # Add the providers to the registry.
+        a = ProviderA()
+        b = ProviderB()
+        extension_registry.add_providers([a, b])
+
+        # The provider's extensions should now be in the registry.
+        extensions = extension_registry.get_extensions('my.point')
+        self.assertEqual(3, len(extensions))
+        self.assert_(42 in extensions)
+        self.assert_(43 in extensions)
+        self.assert_(44 in extensions)
+
+        # Add an extension listener to the registry.
+        def listener(registry, extension_point, added, removed):
+            """ A useful trait change handler for testing! """
+
+            listener.registry = registry
+            listener.extension_point = extension_point
+            listener.added = added
+            listener.removed = removed
+
+            return
+
+        extension_registry.add_extension_listener(listener, 'my.point')
+
+        # Remove one of the providers.
+        extension_registry.remove_provider(b)
+
+        # Make sure the listener got called.
+        self.assertEqual('my.point', listener.extension_point)
+        self.assertEqual([], listener.added)
+        self.assertEqual([43, 44], listener.removed)
+        
+        # Make sure we don't get the removed extensions.
+        extensions = extension_registry.get_extensions('my.point')
+        self.assertEqual(1, len(extensions))
+        self.assert_(42 in extensions)
 
         return
 

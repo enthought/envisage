@@ -29,24 +29,22 @@ class Plugin(ExtensionProvider):
 
     #### 'IPlugin' interface ##################################################
     
+    # The application that the plugin is part of.
+    application = Instance(IApplication)
+
+    # A description of what the plugin is and does.
+    description = Str
+
     # The plugin's unique identifier.
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
     name = Str
 
-    # A description of what the plugin is and does.
-    description = Str
-
     # The Ids of the plugins that must be started before this one is started
     # (this is usually because this plugin requires a service that the other
     # plugin starts).
     requires = List(Str)
-
-    #### 'Plugin' interface ###################################################
-
-    # The application that the plugin is part of.
-    application = Instance(IApplication)
 
     ###########################################################################
     # 'IExtensionProvider' interface.

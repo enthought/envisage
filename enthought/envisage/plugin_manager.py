@@ -5,9 +5,11 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Event, HasTraits, List, implements
+from enthought.traits.api import Event, HasTraits, Instance, List, implements
+from enthought.traits.api import on_trait_change
 
 # Local imports.
+from i_application import IApplication
 from i_plugin import IPlugin
 from i_plugin_manager import IPluginManager
 from plugin_event import PluginEvent
@@ -38,6 +40,9 @@ class PluginManager(HasTraits):
 
     #### 'PluginManager' interface ############################################
 
+    # The application that the plugin manager is part of.
+    application = Instance(IApplication)
+    
     # The manager's plugins.
     plugins = List(IPlugin)
     
@@ -77,7 +82,7 @@ class PluginManager(HasTraits):
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
 
-            plugin.application = plugin_context
+            # fixme: Quick hack!!
             plugin.get_extension_points()
 
             self.plugin_starting = PluginEvent(plugin=plugin)
@@ -123,5 +128,31 @@ class PluginManager(HasTraits):
             raise SystemError('no such plugin %s' % id)
 
         return
-    
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    #### Trait change handlers ################################################
+
+    @on_trait_change('plugins', 'plugins_items')
+    def _when_plugins_changed(self, obj, trait_name, old, new):
+        """ Static trait change handler. """
+
+        if trait_name == 'plugins_items':
+            added   = new.added
+            removed = new.removed
+
+        else:
+            added   = new
+            removed = old
+
+        for plugin in removed:
+            plugin.application = None
+
+        for plugin in added:
+            plugin.application = self.application
+
+        return
+        
 #### EOF ######################################################################

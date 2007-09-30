@@ -20,6 +20,8 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
+from plugin_manager import PluginManager
+from egg_extension_provider import EggExtensionProvider
 from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from extension_point_binding import ExtensionPointBinding
@@ -62,7 +64,7 @@ class Application(HasTraits):
     #### 'Application' interface ##############################################
 
     # A directory that the application can read and write to at will.
-    home = Property(Str)
+    home = Str
     
     # The extension registry.
     extension_registry = Instance(IExtensionRegistry)
@@ -74,9 +76,9 @@ class Application(HasTraits):
     plugins = Delegate('plugin_manager', modify=True)
     
     # The plugin manager (starts and stops plugins etc).
-    plugin_manager = Instance(IPluginManager)
+    plugin_manager = Instance(IPluginManager, factory=PluginManager)
 
-    # The preferences node.
+    # The root preferences node.
     preferences = Instance(IPreferences)
     
     # The service registry.
@@ -91,10 +93,11 @@ class Application(HasTraits):
 
         super(Application, self).__init__(**traits)
 
-        # The 'application home' is a directory that the application can read
-        # and write to at will.
-        self._initialize_application_home()
-        
+        # fixme: Using the extension registry here means that the initializer
+        # gets called straight away, which in turn means that the plugin
+        # manager must be set in the constructor (since we use the plugins as
+        # extension providers).
+        #
         # This allows the 'ExtensionPoint' trait type to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
@@ -106,9 +109,6 @@ class Application(HasTraits):
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access the preferences.
         PreferencesHelper.preferences = self.preferences
-
-        # Add all plugins as extension providers.
-        self.extension_registry.providers.extend(self.plugin_manager.plugins)
 
         return
     
@@ -256,18 +256,26 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        return ExtensionRegistry()
-    
+        # Add all of plugins as extension providers.
+        providers = self.plugin_manager.plugins[:]
+
+        # fixme: And for now, until we can do away with this - add the old
+        # style egg extension provider.
+        providers.append(EggExtensionProvider())
+
+        return ExtensionRegistry(providers=providers)
+
+    def _home_default(self):
+        """ Trait initializer. """
+
+        self._initialize_application_home()
+        
+        return ETSConfig.application_home
+
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
-        # Do the import here in case the application writer doesn't want the
-        # default implementation.
-##         from egg_plugin_manager import EggPluginManager
-        from plugin_manager import PluginManager
-        
-##         return EggPluginManager()
-        return PluginManager()
+        return EggPluginManager(application=self)
     
     def _preferences_default(self):
         """ Trait initializer. """
@@ -280,13 +288,6 @@ class Application(HasTraits):
         self._initialize_preferences(preferences)
 
         return preferences
-
-    #### Trait properties #####################################################
-
-    def _get_home(self):
-        """ Property getter. """
-
-        return ETSConfig.application_home
     
     #### Methods ##############################################################
 
@@ -315,28 +316,39 @@ class Application(HasTraits):
 
     #### Trait change handlers ################################################
 
-    @on_trait_change('plugin_manager.plugins')
-    def _when_plugins_changed(self, obj, trait_name, old, new):
-        """ Trait change handler. """
+    def _plugin_manager_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
 
-        print 'Plugin manager plugins changed', obj, trait_name, old, new
+        if old is not None:
+            old.application = None
 
-        # Was the entire list changed.
-        if trait_name == 'plugins':
-            pass
-            
-        # Or were some items added/removed etc.
-        elif trait_name == 'plugins_items':
-            pass
+        if new is not None:
+            new.application = self
 
-        # Was the plugin *manager* changed!
-        elif trait_name == 'plugin_manager':
-            pass
-        
-        else:
-            raise SystemError('Unexpected trait name %s' % trait_name)
-        
         return
+
+##     @on_trait_change('plugin_manager.plugins')
+##     def _when_plugins_changed(self, obj, trait_name, old, new):
+##         """ Trait change handler. """
+
+##         print 'Plugin manager plugins changed', obj, trait_name, old, new
+
+##         # Was the entire list changed.
+##         if trait_name == 'plugins':
+##             pass
+            
+##         # Or were some items added/removed etc.
+##         elif trait_name == 'plugins_items':
+##             pass
+
+##         # Was the plugin *manager* changed!
+##         elif trait_name == 'plugin_manager':
+##             pass
+        
+##         else:
+##             raise SystemError('Unexpected trait name %s' % trait_name)
+        
+##         return
 
     #### Methods ##############################################################
     

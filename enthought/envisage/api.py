@@ -10,7 +10,7 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application import Application
-from egg_extension_registry import EggExtensionRegistry
+from egg_extension_provider import EggExtensionProvider
 from egg_plugin_manager import EggPluginManager
 from extension_registry import ExtensionRegistry
 from extension_point import ExtensionPoint, extension_point

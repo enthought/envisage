@@ -218,6 +218,21 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         extension_points = self.registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
+        # Add an extension *point* with some extensions...
+        self.registry.add_extension_point('my.extension.point')
+        self.registry.add_extension('my.extension.point', 42)
+        
+        # ...and remove it!
+        self.registry.remove_extension_point('my.extension.point')
+        
+        # Make sure there are no extension points...
+        extension_points = self.registry.get_extension_points()
+        self.assertEqual(0, len(extension_points))
+
+        # ... and that the extensions got cleaned up too.
+        extensions = self.registry.get_extensions('my.extension.point')
+        self.assertEqual(0, len(extensions))
+        
         return
 
     def test_remove_non_existent_extension_point(self):

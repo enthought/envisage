@@ -11,16 +11,10 @@ class IExtensionRegistry(Interface):
     def add_extension(self, extension_point, extension):
         """ Contribute an extension to an extension point.
 
-        If the extension point has not previously been added to the registry
-        then it is added automatically here.
-        
         """
 
     def add_extensions(self, extension_point, extensions):
         """ Contribute a list of extensions to an extension point.
-
-        If the extension point has not previously been added to the registry
-        then it is added automatically here.
 
         """
 
@@ -31,6 +25,11 @@ class IExtensionRegistry(Interface):
 
     def add_extension_listener(self, listener, extension_point=None):
         """ Add a listener for extensions being added or removed.
+
+        A listener is any Python callable with the following signature::
+
+            def listener(extension_registry, extension_point, added, removed):
+                ...
 
         If an extension point is specified then the listener will only called
         when extensions are added to or removed from that extension point (the
@@ -57,7 +56,7 @@ class IExtensionRegistry(Interface):
         Return an empty list if the extension point does not exist.
 
         The keyword arguments can be used to pass arguments that are required
-        by individual concrete implementations.
+        by individual extension providers.
 
         """
 
@@ -69,35 +68,35 @@ class IExtensionRegistry(Interface):
     def remove_extension(self, extension_point, extension):
         """ Remove a contribution from an extension point.
 
-        Raises a 'ValueError' if the extension does not exist.
+        Raise a 'ValueError' if the extension does not exist.
 
         """
 
     def remove_extensions(self, extension_point, extensions):
         """ Remove a list of contributions from an extension point.
 
-        Raises a 'ValueError' if any of the extensions does not exist.
+        Raise a 'ValueError' if any of the extensions does not exist.
         
         """
 
     def remove_extension_listener(self, listener, extension_point=None):
         """ Remove a listener for extensions being added/removed.
 
-        Raises a 'ValueError' if the listener does not exist.
+        Raise a 'ValueError' if the listener does not exist.
 
         """
 
     def remove_extension_point(self, extension_point):
         """ Remove an extension point.
 
-        Raises a 'KeyError' if the extension point does not exist.
+        Raise a 'KeyError' if the extension point does not exist.
 
         """
 
     def remove_extension_points(self, extension_point):
         """ Remove an extension point.
 
-        Raises a 'KeyError' if any of the extension points do not exist.
+        Raise a 'KeyError' if any of the extension points do not exist.
 
         """
 
