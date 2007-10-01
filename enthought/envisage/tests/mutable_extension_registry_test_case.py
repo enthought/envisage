@@ -248,7 +248,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def test_specific_extension_listener(self):
         """ specific extension listener. """
 
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
             self.listener_called = (registry, extension_point, added, removed)
@@ -304,7 +304,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def test_global_extension_listener(self):
         """ global extension listener. """
 
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
             self.listener_called = (registry, extension_point, added, removed)
@@ -375,7 +375,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def test_gced_specific_extension_listener(self):
         """ gc'ed extension listener. """
 
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
             self.listener_called = (registry, extension_point, added, removed)
@@ -404,7 +404,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def test_gced_global_extension_listener(self):
         """ gc'ed global extension listener. """
 
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
             self.listener_called = (registry, extension_point, added, removed)
@@ -433,7 +433,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def test_remove_non_existent_listener(self):
         """ remove non existent listener """
 
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
             self.listener_called = (registry, extension_point, added, removed)

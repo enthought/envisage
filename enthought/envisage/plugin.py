@@ -53,8 +53,8 @@ class Plugin(ExtensionProvider):
     def get_extension_points(self):
         """ Return the extension points offered by the provider.
 
-        Return an empty list if the provider does not offer any extension
-        points.
+        The return value *,ust* be alist. Return an empty list if the provider
+        does not offer any extension points.
 
         """
 
@@ -65,7 +65,7 @@ class Plugin(ExtensionProvider):
 
         return extension_points
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, **kw):
         """ Return the provider's extensions to an extension point.
 
         The return value *must* be a list. Return an empty list if the provider
@@ -119,13 +119,17 @@ class Plugin(ExtensionProvider):
             if trait_name.endswith('_items'):
                 removed = new.removed
                 added   = new.added
-
+                index   = new.index
+                
             else:
                 removed = old
                 added   = new
+                index   = 0
                 
             # Let the extension registry know about the change.
-            self._fire_extensions_changed(trait.extension_point,added,removed)
+            self._fire_extensions_changed(
+                trait.extension_point, added, removed, index=index
+            )
 
         return
         
@@ -157,16 +161,6 @@ class Plugin(ExtensionProvider):
             extensions.extend(value)
             
         return extensions
-
-    def _is_contribution_trait(self, trait_name):
-        """ Return True if a trait is a contribution trait.
-
-        i.e. If the trait has the 'extension_point' metadata.
-
-        """
-
-
-        return trait.extension_point is not None
 
     def _is_extension_method(self, value, extension_point):
         """ Return True if the value is an extension method.

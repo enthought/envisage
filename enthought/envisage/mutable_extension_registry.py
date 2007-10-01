@@ -102,13 +102,16 @@ class MutableExtensionRegistry(HasTraits):
         self._lk.acquire()
         try:
             self._check_extension_point(extension_point)
-            self._get_extensions(extension_point).extend(extensions)
+
+            old   = self._get_extensions(extension_point)
+            index = len(old)
+            old.extend(extensions)
 
         finally:
             self._lk.release()
             
         # Let any listeners know that the extensions have been added.
-        self._call_listeners(extension_point, extensions, [])
+        self._call_listeners(extension_point, extensions, [], index)
         
         return
 
@@ -176,13 +179,15 @@ class MutableExtensionRegistry(HasTraits):
 
         self._lk.acquire()
         try:
-            self._extensions.setdefault(extension_point, []).remove(extension)
+            extensions = self._get_extensions(extension_point)
+            index = extensions.index(extension)
+            extensions.remove(extension)
 
         finally:
             self._lk.release()
             
         # Let any listeners know that the extension has been removed.
-        self._call_listeners(extension_point, [], [extension])
+        self._call_listeners(extension_point, [], [extension], index)
 
         return
 
@@ -203,7 +208,7 @@ class MutableExtensionRegistry(HasTraits):
             self._lk.release()
 
         # Let any listeners know that the extensions have been removed.
-        self._call_listeners(extension_point, [], extensions)
+        self._call_listeners(extension_point, [], extensions, -1)
 
         return
 
@@ -257,7 +262,7 @@ class MutableExtensionRegistry(HasTraits):
             self._lk.release()
 
         # Let any listeners know that the extensions have been set.
-        self._call_listeners(extension_point, extensions, old)
+        self._call_listeners(extension_point, extensions, old, -1)
 
         return
 
@@ -265,7 +270,7 @@ class MutableExtensionRegistry(HasTraits):
     # Private interface.
     ###########################################################################
 
-    def _call_listeners(self, extension_point, added, removed):
+    def _call_listeners(self, extension_point, added, removed, index):
         """ Call listeners that are listening to an extension point.
 
         We call those listeners that are listening to this extension point
@@ -277,7 +282,7 @@ class MutableExtensionRegistry(HasTraits):
         for ref in self._get_listener_refs(extension_point):
             listener = ref()
             if listener is not None:
-                listener(self, extension_point, added, removed)
+                listener(self, extension_point, added, removed, index)
 
         return
 

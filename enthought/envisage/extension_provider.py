@@ -24,18 +24,21 @@ class ExtensionProvider(HasTraits):
 
         return []
     
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, **kw):
         """ Return the provider's extensions to an extension point. """
 
         return []
 
     ##### Protected 'ExtensionProvider' interface #############################
 
-    def _fire_extensions_changed(self, extension_point, added, removed):
+    def _fire_extensions_changed(self, extension_point, added, removed, index):
         """ Fire an extensions changed event. """
 
         self.extensions_changed = ExtensionsChangedEvent(
-            extension_point=extension_point, added=added, removed=removed
+            extension_point = extension_point,
+            added           = added,
+            removed         = removed,
+            index           = index
         )
 
         return

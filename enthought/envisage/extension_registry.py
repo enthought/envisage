@@ -5,8 +5,8 @@
 import logging, threading
 
 # Enthought library imports.
-from enthought.traits.api import Bool, Dict, HasTraits, Instance, List
-from enthought.traits.api import Property, implements, on_trait_change
+from enthought.traits.api import Bool, Dict, HasTraits, List, Property
+from enthought.traits.api import implements, on_trait_change
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry
@@ -232,11 +232,10 @@ class ExtensionRegistry(HasTraits):
         events = {}
         for provider in providers:
             self._add_provider(provider, events)
-
         self._lk.release()
 
-        for extension_point, added in events.items():
-            self._call_listeners(extension_point, added, [])
+        for extension_point, (added, index) in events.items():
+            self._call_listeners(extension_point, added, [], index)
 
         return
 
@@ -245,29 +244,21 @@ class ExtensionRegistry(HasTraits):
 
         Does nothing if the provider are not present.
 
-        """
-
-        self.remove_providers([provider])
-
-        return
-            
-    def remove_providers(self, providers):
-        """ Remove a list of extension providers.
-
-        Does nothing if any (or all!) of the providers are not present.
+        N.B. There is no 'remove_providers' method because we cannot create
+        ---- valid list events if non-consecutive providers are removed. Hence
+             you have to remove providers one at a time.
 
         """
 
         self._lk.acquire()
 
         events = {}
-        for provider in providers:
-            self._remove_provider(provider, events)
-            
+        self._remove_provider(provider, events)
+
         self._lk.release()
 
-        for extension_point, removed in events.items():
-            self._call_listeners(extension_point, [], removed)
+        for extension_point, (removed, index) in events.items():
+            self._call_listeners(extension_point, [], removed, index)
 
         return
         
@@ -281,7 +272,6 @@ class ExtensionRegistry(HasTraits):
     def _providers_extensions_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
-        # could be '_providers' or '_providers_items'
         if trait_name == 'extensions_changed':
             logger.debug('provider <%s> extensions changed', obj)
 
@@ -291,22 +281,26 @@ class ExtensionRegistry(HasTraits):
             try:
                 index = self._providers.index(obj)
                 extensions = self._extensions[extension_point][index]
-                
-                #self._check_extension_point(extension_point)
-                #extensions = self._get_extensions(extension_point)
-                
-                # Removed.
-                for extension in event.removed:
-                    extensions.remove(extension)
-                
-                # Added.
-                extensions.extend(event.added)
+
+                if len(event.removed) > 0:
+                    # Removed.
+                    for extension in event.removed:
+                        extensions.remove(extension)
+                    
+                elif len(event.added) > 0:
+                    # Added.
+                    extensions.extend(event.added)
+
+                event_index = sum(map(len, self._extensions[extension_point][:index]))
+                event_index += event.index
 
             finally:
                 self._lk.release()
 
             # Let any listeners know that the extensions have been added.
-            self._call_listeners(extension_point, event.added, event.removed)
+            self._call_listeners(
+                extension_point, event.added, event.removed, index
+            )
 
         return
 
@@ -319,12 +313,17 @@ class ExtensionRegistry(HasTraits):
         # that has already been accessed?
         for extension_point, extensions in self._extensions.items():
             new = provider.get_extensions(extension_point)
+            if len(new) > 0:
+                if extension_point not in events:
+                    index = sum(map(len, extensions))
+                    events[extension_point] = (new[:], index)
+                    
+                else:
+                    added, index = events[extension_point]
+                    added.extend(new)
+
             extensions.append(new)
             
-            if len(new) > 0:
-                added = events.setdefault(extension_point, [])
-                added.extend(new)
-
         self._providers.append(provider)
 
         return
@@ -340,8 +339,8 @@ class ExtensionRegistry(HasTraits):
             for extension_point, extensions in self._extensions.items():
                 old = extensions[index]
                 if len(old) > 0:
-                    removed = events.setdefault(extension_point, [])
-                    removed.extend(old)
+                    index = sum(map(len, extensions[:index]))
+                    events[extension_point] = (old[:], index)
 
                 del extensions[index]
 
@@ -349,7 +348,7 @@ class ExtensionRegistry(HasTraits):
 
         return
     
-    def _call_listeners(self, extension_point, added, removed):
+    def _call_listeners(self, extension_point, added, removed, index):
         """ Call listeners that are listening to an extension point.
 
         We call those listeners that are listening to this extension point
@@ -361,7 +360,7 @@ class ExtensionRegistry(HasTraits):
         for ref in self._get_listener_refs(extension_point):
             listener = ref()
             if listener is not None:
-                listener(self, extension_point, added, removed)
+                listener(self, extension_point, added, removed, index)
 
         return
 

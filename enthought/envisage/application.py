@@ -384,7 +384,7 @@ class Application(HasTraits):
         # is exactly what happens in the preferences UI.
         default = preferences.node('default/')
 
-        # fixme: 'lhs' is a little hack to allow the egg extension registry
+        # fixme: 'lhs' is a little hack to allow the egg extension provider
         # (if used) to use the LHS of the entry point expression.
         resource_manager = ResourceManager()
         for resource_name in self.get_extensions(self.PREFERENCES, lhs=True):

@@ -35,27 +35,12 @@ class ExtensionProviderTestCase(unittest.TestCase):
     def test_unsupported_methods(self):
         """ unsupported methods """
 
-        registry = self.extension_registry
+        r = self.extension_registry
         
-        self.failUnlessRaises(
-            NotImplementedError, registry.add_extension, 'x', 42
-        )
-
-        self.failUnlessRaises(
-            NotImplementedError, registry.add_extensions, 'x', [42]
-        )
-
-        self.failUnlessRaises(
-            NotImplementedError, registry.remove_extension, 'x', 42
-        )
-
-        self.failUnlessRaises(
-            NotImplementedError, registry.remove_extensions, 'x', [42]
-        )
-
-        self.failUnlessRaises(
-            NotImplementedError, registry.set_extensions, 'x', [42]
-        )
+        self.failUnlessRaises(NotImplementedError, r.add_extension, 'x', 42)
+        self.failUnlessRaises(NotImplementedError, r.add_extensions, 'x', [42])
+        self.failUnlessRaises(NotImplementedError, r.remove_extension, 'x', 42)
+        self.failUnlessRaises(NotImplementedError, r.set_extensions, 'x', [42])
 
         return
     
@@ -142,7 +127,7 @@ class ExtensionProviderTestCase(unittest.TestCase):
                 """ Static trait change handler. """
 
                 self._fire_extensions_changed(
-                    'my.point', event.added, event.removed
+                    'my.point', event.added, event.removed, event.index
                 )
                 
                 return
@@ -157,13 +142,14 @@ class ExtensionProviderTestCase(unittest.TestCase):
         self.assert_(42 in extensions)
 
         # Add an extension listener to the registry.
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ A useful trait change handler for testing! """
 
             listener.registry = registry
             listener.extension_point = extension_point
             listener.added = added
             listener.removed = removed
+            listener.index = index
 
             return
 
@@ -213,7 +199,7 @@ class ExtensionProviderTestCase(unittest.TestCase):
                 """ Static trait change handler. """
 
                 self._fire_extensions_changed(
-                    'my.point', event.added, event.removed
+                    'my.point', event.added, event.removed, event.index
                 )
                 
                 return
@@ -227,13 +213,14 @@ class ExtensionProviderTestCase(unittest.TestCase):
         self.assert_(42 in extensions)
 
         # Add an extension listener to the registry.
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ A useful trait change handler for testing! """
 
             listener.registry = registry
             listener.extension_point = extension_point
             listener.added = added
             listener.removed = removed
+            listener.index = index
 
             return
 
@@ -300,7 +287,7 @@ class ExtensionProviderTestCase(unittest.TestCase):
                 """ Static trait change handler. """
 
                 self._fire_extensions_changed(
-                    'my.point', event.added, event.removed
+                    'my.point', event.added, event.removed, event.index
                 )
                 
                 return
@@ -334,7 +321,7 @@ class ExtensionProviderTestCase(unittest.TestCase):
         self.assert_(44 in extensions)
 
         # Add an extension listener to the registry.
-        def listener(registry, extension_point, added, removed):
+        def listener(registry, extension_point, added, removed, index):
             """ A useful trait change handler for testing! """
 
             listener.registry = registry

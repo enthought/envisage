@@ -74,7 +74,7 @@ class ExtensionPointBinding(HasTraits):
 
     #### Other observer pattern listeners #####################################
     
-    def _extension_point_listener(self, registry, id, added, removed):
+    def _extension_point_listener(self, registry, id, added, removed, index):
         """ Listener called when an extension point is changed. """
 
         self._event_handled = True
