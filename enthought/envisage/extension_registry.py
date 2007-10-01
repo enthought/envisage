@@ -367,26 +367,26 @@ class ExtensionRegistry(HasTraits):
     def _check_extension_point(self, extension_point):
         """ Check to see if the extension point exists. """
 
-        if not extension_point in self._extension_points:
-            if self.strict:
-                message = 'no such extension point <%s>' % extension_point
-                raise ValueError(message)
-
-            else:
-                self._extension_points[extension_point] = extension_point
+        if self.strict and not extension_point in self._extension_points:
+            raise ValueError('unknown extension point <%s>' % extension_point)
 
         return
     
     def _get_extensions(self, extension_point, **kw):
         """ Return the extensions for the given extension point. """
 
-        try:
+        self._check_extension_point(extension_point)
+
+        # Has this extensin point already been accessed?
+        if extension_point in self._extensions:
             extensions = self._extensions[extension_point]
-            
-        except KeyError:
+
+        # If not, then see if any of the providers have any contributions to
+        # make.
+        else:
             extensions = self._initialize_extensions(extension_point)
             self._extensions[extension_point] = extensions
-            
+                
         return extensions
     
     def _get_listener_refs(self, extension_point):
@@ -412,7 +412,11 @@ class ExtensionRegistry(HasTraits):
 
         extensions = []
         for provider in self._providers:
-            extensions.append(provider.get_extensions(extension_point)[:])
+            contributions = provider.get_extensions(extension_point)[:]
+            if not self.strict and len(contributions) > 0:
+                self._extension_points[extension_point] = extension_point
+            
+            extensions.append(contributions)
 
         logger.debug('extensions to <%s> : <%s>', extension_point, extensions)
 

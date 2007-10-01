@@ -1,15 +1,15 @@
-""" Tests for the extension registry. """
+""" Tests for the mutable extension registry. """
 
 
 # Standard library imports.
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, MutableExtensionRegistry
+from enthought.envisage.api import MutableExtensionRegistry
     
 
-class ExtensionRegistryTestCase(unittest.TestCase):
-    """ Tests for the extension registry. """
+class NutableExtensionRegistryTestCase(unittest.TestCase):
+    """ Tests for the mutable extension registry. """
 
     ###########################################################################
     # 'TestCase' interface.
@@ -18,8 +18,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        ExtensionPoint.extension_registry = MutableExtensionRegistry()
-        self.registry = ExtensionPoint.extension_registry
+        self.registry = MutableExtensionRegistry()
 
         return
 
@@ -36,14 +35,12 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ empty registry """
 
         # Make sure there are no extensions.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
-
-        # fixme: Currently, just by getting the extensions we create an
-        # extension point!!
-##         # Make sure there are no extension points.
-##         extension_points = self.registry.get_extension_points()
-##         self.assertEqual(0, len(extension_points))
+        
+        # Make sure there are no extension points.
+        extension_points = self.registry.get_extension_points()
+        self.assertEqual(0, len(extension_points))
         
         return
 
@@ -51,17 +48,17 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ add extension """
 
         # Add an extension.
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure there's one and only one extension.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(1, len(extensions))
         self.assertEqual(42, extensions[0])
 
         # Make sure there's one and only one extension point.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.ep', extension_points[0])
 
         return
 
@@ -69,10 +66,10 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ add extensions """
 
         # Add two extensions.
-        self.registry.add_extensions('my.extension.point', [42, 43])
+        self.registry.add_extensions('my.ep', [42, 43])
 
         # Make sure there's two and only two extensions!
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(2, len(extensions))
         self.assert_(42 in extensions)
         self.assert_(43 in extensions)
@@ -80,27 +77,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure there's one and only one extension point.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
-
-        return
-
-    # messin'...
-    def test_add_extension_point(self):
-        """ add extension point """
-
-        # Add an extension *point*.
-        self.registry.add_extension_point(
-            'my.extension.point', type=List(Int), doc=""" Help """
-        )
-
-        # Make sure there's NO extensions.
-        extensions = self.registry.get_extensions('my.extension.point')
-        self.assertEqual(0, len(extensions))
-
-        # Make sure there's one and only one extension point.
-        extension_points = self.registry.get_extension_points()
-        self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.ep', extension_points[0])
 
         return
 
@@ -108,16 +85,16 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ add extension point """
 
         # Add an extension *point*.
-        self.registry.add_extension_point('my.extension.point')
+        self.registry.add_extension_point('my.ep')
 
         # Make sure there's NO extensions.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
 
         # Make sure there's one and only one extension point.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.ep', extension_points[0])
 
         return
 
@@ -126,20 +103,30 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         self.registry.strict = True
 
-        # We shouldn't be able to add any extensions unless the extension
-        # point has been explicitly declared.
+        # We shouldn't be able to get any extensions unless the extension
+        # point has been explicitly added.
         self.failUnlessRaises(
-            ValueError, self.registry.add_extension, 'my.extension.point', 42
+            ValueError, self.registry.get_extensions, 'my.ep'
+        )
+
+        # We shouldn't be able to add any extensions unless the extension
+        # point has been explicitly added.
+        self.failUnlessRaises(
+            ValueError, self.registry.add_extension, 'my.ep', 42
+        )
+
+        self.failUnlessRaises(
+            ValueError, self.registry.add_extension, 'my.ep', [42]
         )
 
         # Declare the extension point.
-        self.registry.add_extension_point('my.extension.point')
+        self.registry.add_extension_point('my.ep')
 
         # Now we should be able to add the extension.
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure there's one and only one extension.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(1, len(extensions))
         self.assertEqual(42, extensions[0])
 
@@ -149,19 +136,19 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ remove extension """
 
         # Add an extension...
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # ... and remove it!
-        self.registry.remove_extension('my.extension.point', 42)
+        self.registry.remove_extension('my.ep', 42)
         
         # Make sure there are no extensions.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
 
         # But the extension point still exists.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.ep', extension_points[0])
 
         return
 
@@ -170,7 +157,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         self.failUnlessRaises(
             ValueError,
-            self.registry.remove_extension, 'my.extension.point', 42
+            self.registry.remove_extension, 'my.ep', 42
         )
 
         return
@@ -179,19 +166,19 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ remove extensions """
 
         # Add two extensions...
-        self.registry.add_extensions('my.extension.point', [42, 43])
+        self.registry.add_extensions('my.ep', [42, 43])
 
         # ... and remove them!
-        self.registry.remove_extensions('my.extension.point', [42, 43])
+        self.registry.remove_extensions('my.ep', [42, 43])
 
         # Make sure there are no extensions.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
 
         # But the extension point still exists.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.extension.point', extension_points[0])
+        self.assertEqual('my.ep', extension_points[0])
 
         return
 
@@ -200,7 +187,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         self.failUnlessRaises(
             ValueError,
-            self.registry.remove_extensions, 'my.extension.point', [42, 43]
+            self.registry.remove_extensions, 'my.ep', [42, 43]
         )
 
         return
@@ -209,28 +196,28 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ remove extension point """
 
         # Add an extension *point*...
-        self.registry.add_extension_point('my.extension.point')
+        self.registry.add_extension_point('my.ep')
 
         # ...and remove it!
-        self.registry.remove_extension_point('my.extension.point')
+        self.registry.remove_extension_point('my.ep')
         
         # Make sure there are no extension points.
         extension_points = self.registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
         # Add an extension *point* with some extensions...
-        self.registry.add_extension_point('my.extension.point')
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension_point('my.ep')
+        self.registry.add_extension('my.ep', 42)
         
         # ...and remove it!
-        self.registry.remove_extension_point('my.extension.point')
+        self.registry.remove_extension_point('my.ep')
         
         # Make sure there are no extension points...
         extension_points = self.registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
         # ... and that the extensions got cleaned up too.
-        extensions = self.registry.get_extensions('my.extension.point')
+        extensions = self.registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
         
         return
@@ -240,7 +227,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         self.failUnlessRaises(
             KeyError,
-            self.registry.remove_extension_point, 'my.extension.point'
+            self.registry.remove_extension_point, 'my.ep'
         )
 
         return
@@ -257,11 +244,11 @@ class ExtensionRegistryTestCase(unittest.TestCase):
             
         # Listen for extensions being added/removed to/from a specific
         # extension point.
-        self.registry.add_extension_listener(listener, 'my.extension.point')
+        self.registry.add_extension_listener(listener, 'my.ep')
 
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure the listener was called...
         self.assertNotEqual(None, self.listener_called)
@@ -270,13 +257,13 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry, extension_point, added, removed = self.listener_called
         
         self.assertEqual(registry, self.registry)
-        self.assertEqual('my.extension.point', extension_point)
+        self.assertEqual('my.ep', extension_point)
         self.assertEqual([42], added)
         self.assertEqual([], removed)
 
         # Remove an extension.
         self.listener_called = None
-        self.registry.remove_extension('my.extension.point', 42)
+        self.registry.remove_extension('my.ep', 42)
 
         # Make sure the listener was called...
         self.assertNotEqual(None, self.listener_called)
@@ -285,16 +272,16 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry, extension_point, added, removed = self.listener_called
         
         self.assertEqual(registry, self.registry)
-        self.assertEqual('my.extension.point', extension_point)
+        self.assertEqual('my.ep', extension_point)
         self.assertEqual([], added)
         self.assertEqual([42], removed)
 
         # Remove the listener.
-        self.registry.remove_extension_listener(listener, 'my.extension.point')
+        self.registry.remove_extension_listener(listener, 'my.ep')
 
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure the listener was NOT called.
         self.assertEqual(None, self.listener_called)
@@ -317,7 +304,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure the listener was called...
         self.assertNotEqual(None, self.listener_called)
@@ -326,7 +313,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry, extension_point, added, removed = self.listener_called
         
         self.assertEqual(registry, self.registry)
-        self.assertEqual('my.extension.point', extension_point)
+        self.assertEqual('my.ep', extension_point)
         self.assertEqual([42], added)
         self.assertEqual([], removed)
 
@@ -347,7 +334,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Remove an extension.
         self.listener_called = None
-        self.registry.remove_extension('my.extension.point', 42)
+        self.registry.remove_extension('my.ep', 42)
 
         # Make sure the listener was called...
         self.assertNotEqual(None, self.listener_called)
@@ -356,7 +343,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry, extension_point, added, removed = self.listener_called
         
         self.assertEqual(registry, self.registry)
-        self.assertEqual('my.extension.point', extension_point)
+        self.assertEqual('my.ep', extension_point)
         self.assertEqual([], added)
         self.assertEqual([42], removed)
 
@@ -365,7 +352,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Make sure the listener was NOT called.
         self.assertEqual(None, self.listener_called)
@@ -384,17 +371,17 @@ class ExtensionRegistryTestCase(unittest.TestCase):
             
         # Listen for extensions being added/removed to/from a specific
         # extension point.
-        self.registry.add_extension_listener(listener, 'my.extension.point')
+        self.registry.add_extension_listener(listener, 'my.ep')
 
         # Delete the listener!
         del listener
         
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Remove an extension.
-        self.registry.remove_extension('my.extension.point', 42)
+        self.registry.remove_extension('my.ep', 42)
 
         # Make sure the listener was NOT called.
         self.assertEqual(None, self.listener_called)
@@ -420,10 +407,10 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Add an extension.
         self.listener_called = None
-        self.registry.add_extension('my.extension.point', 42)
+        self.registry.add_extension('my.ep', 42)
 
         # Remove an extension.
-        self.registry.remove_extension('my.extension.point', 42)
+        self.registry.remove_extension('my.ep', 42)
 
         # Make sure the listener was NOT called.
         self.assertEqual(None, self.listener_called)
