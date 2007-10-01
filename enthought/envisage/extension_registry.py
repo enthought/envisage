@@ -228,18 +228,11 @@ class ExtensionRegistry(HasTraits):
         """ Add a list of extension providers. """
 
         self._lk.acquire()
-        self._providers.extend(providers)
 
         events = {}
         for provider in providers:
-            for extension_point, extensions in self._extensions.items():
-                new = provider.get_extensions(extension_point)
-                extensions.append(new)
-                
-                if len(new) > 0:
-                    added = events.setdefault(extension_point, [])
-                    added.extend(new)
-                    
+            self._add_provider(provider, events)
+
         self._lk.release()
 
         for extension_point, added in events.items():
@@ -269,23 +262,11 @@ class ExtensionRegistry(HasTraits):
 
         events = {}
         for provider in providers:
-            try:
-                index = self._providers.index(provider)
-
-                for extension_point, extensions in self._extensions.items():
-                    old = self._extensions[extension_point][index]
-                    if len(old) > 0:
-                        removed = events.setdefault(extension_point, [])
-                        removed.extend(old)
-
-                    del extensions[index]
-
-            except IndexError:
-                pass
+            self._remove_provider(provider, events)
             
         self._lk.release()
 
-        for extension_point, added in events.items():
+        for extension_point, removed in events.items():
             self._call_listeners(extension_point, [], removed)
 
         return
@@ -331,32 +312,40 @@ class ExtensionRegistry(HasTraits):
 
     #### Methods ##############################################################
 
-    def _add_provider(self, provider):
+    def _add_provider(self, provider, events):
         """ Add a new provider. """
 
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
         for extension_point, extensions in self._extensions.items():
             new = provider.get_extensions(extension_point)
+            extensions.append(new)
+            
             if len(new) > 0:
-                extensions.append(new)
+                added = events.setdefault(extension_point, [])
+                added.extend(new)
 
-            self._call_listeners(extension_point, new, [])
+        self._providers.append(provider)
 
         return
 
-    def _remove_provider(self, provider):
+    def _remove_provider(self, provider, events):
         """ Remove a provider. """
 
-        # Does the provider contribute any extensions to an extension point
-        # that has already been accessed?
-        index = self._providers.index(provider)
-        for extension_point, extensions in self._extensions.items():
-            old = extensions[index]
-            if len(old) > 0:
-                extensions[index] = []
+        if provider in self._providers:
+            index = self._providers.index(provider)
 
-            self._call_listeners(extension_point, [], old)
+            # Does the provider contribute any extensions to an extension point
+            # that has already been accessed?
+            for extension_point, extensions in self._extensions.items():
+                old = extensions[index]
+                if len(old) > 0:
+                    removed = events.setdefault(extension_point, [])
+                    removed.extend(old)
+
+                del extensions[index]
+
+            self._providers.remove(provider)
 
         return
     
