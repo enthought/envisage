@@ -2,7 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import EggExtensionRegistry, ExtensionPoint
+from enthought.envisage.api import EggExtensionProvider, ExtensionPoint
+from enthought.envisage.api import ExtensionRegistry
 from enthought.traits.api import Dict
 
 # Local imports.
@@ -22,7 +23,9 @@ class EggExtensionRegistryTestCase(EggBasedTestCase):
         EggBasedTestCase.setUp(self)
 
         # Create a new extension registry.
-        ExtensionPoint.extension_registry = EggExtensionRegistry()
+        ExtensionPoint.extension_registry = ExtensionRegistry(
+            providers=[EggExtensionProvider()]
+        )
         
         return
 
@@ -35,8 +38,8 @@ class EggExtensionRegistryTestCase(EggBasedTestCase):
     # Tests.
     ###########################################################################
 
-    def test_egg_extension_registry(self):
-        """ egg extension registry """
+    def test_egg_extension_provider(self):
+        """ egg extension provider """
 
         self._add_egg('acme.motd-0.1a1-py2.4.egg')
         self._add_egg('acme.motd.software_quotes-0.1a1-py2.4.egg')

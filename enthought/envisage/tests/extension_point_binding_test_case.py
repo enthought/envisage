@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPointBinding, bind_extension_point
-from enthought.envisage.api import ExtensionRegistry
+from enthought.envisage.api import MutableExtensionRegistry
 from enthought.traits.api import Bool, HasTraits, Int, List, Float, Str
 
 
@@ -31,7 +31,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.extension_registry = ExtensionRegistry()
+        self.extension_registry = MutableExtensionRegistry()
         ExtensionPointBinding.extension_registry = self.extension_registry
         
         return

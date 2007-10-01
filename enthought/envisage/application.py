@@ -93,6 +93,12 @@ class Application(HasTraits):
 
         super(Application, self).__init__(**traits)
 
+        # fixme: We have to initialize the application home here (i.e. we
+        # can't wait until the 'home' trait is accessed) because the scoped
+        # preferences uses 'ETSConfig.application' home as the default
+        # filename.
+        self._initialize_application_home()
+        
         # fixme: Using the extension registry here means that the initializer
         # gets called straight away, which in turn means that the plugin
         # manager must be set in the constructor (since we use the plugins as
@@ -268,8 +274,6 @@ class Application(HasTraits):
     def _home_default(self):
         """ Trait initializer. """
 
-        self._initialize_application_home()
-        
         return ETSConfig.application_home
 
     def _plugin_manager_default(self):

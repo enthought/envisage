@@ -18,6 +18,7 @@ from extension_point_binding import ExtensionPointBinding, bind_extension_point
 from extension_provider import ExtensionProvider
 from extensions_changed_event import ExtensionsChangedEvent
 from import_manager import ImportManager
+from mutable_extension_registry import MutableExtensionRegistry
 from plugin import Plugin
 from plugin_manager import PluginManager
 from service_registry import ServiceRegistry

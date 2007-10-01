@@ -28,7 +28,9 @@ class ApplicationTestCase(ServiceRegistryTestCase, PluginManagerTestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.application = Application(id=__name__)
+        self.application = Application(
+            id=__name__, plugin_manager=PluginManager()
+        )
         
         self.event_tracker  = EventTracker(
             subscriptions = [
@@ -39,13 +41,13 @@ class ApplicationTestCase(ServiceRegistryTestCase, PluginManagerTestCase):
             ]
         )
 
-        # The application offers the service registry interface so we do all of
-        # the usual service registry tests.
-        self.service_registry = self.application
+        # The application offers the plugin manager interface so we do all of
+        # the usual plugin manager tests.
+        self.plugin_manager = PluginManager()
 
         # The application offers the service registry interface so we do all of
         # the usual service registry tests.
-        self.application.plugin_manager = self.plugin_manager = PluginManager()
+        self.service_registry = self.application
 
         return
 

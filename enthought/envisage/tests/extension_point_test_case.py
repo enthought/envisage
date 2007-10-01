@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionRegistry
+from enthought.envisage.api import ExtensionPoint, MutableExtensionRegistry
 from enthought.traits.api import HasTraits, Int, List, TraitError
 
 
@@ -19,7 +19,7 @@ class ExtensionPointTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        ExtensionPoint.extension_registry = ExtensionRegistry()
+        ExtensionPoint.extension_registry = MutableExtensionRegistry()
         
         return
 
