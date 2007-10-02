@@ -61,7 +61,7 @@ class PluginManagerTestCase(unittest.TestCase):
             # 'IPlugin' interface.
             ###################################################################
 
-            def start(self, application):
+            def start(self):
                 """ Start the plugin. """
 
                 self.started = True
@@ -69,7 +69,7 @@ class PluginManagerTestCase(unittest.TestCase):
 
                 return
 
-            def stop(self, application):
+            def stop(self):
                 """ Stop the plugin. """
 
                 self.started = False
@@ -111,7 +111,7 @@ class PluginManagerTestCase(unittest.TestCase):
             # 'IPlugin' interface.
             ###################################################################
 
-            def start(self, application):
+            def start(self):
                 """ Start the plugin. """
 
                 self.started = True
@@ -119,7 +119,7 @@ class PluginManagerTestCase(unittest.TestCase):
 
                 return
 
-            def stop(self, application):
+            def stop(self):
                 """ Stop the plugin. """
 
                 self.started = False
@@ -134,12 +134,12 @@ class PluginManagerTestCase(unittest.TestCase):
             # 'IPlugin' interface.
             ###################################################################
 
-            def start(self, application):
+            def start(self):
                 """ Start the plugin. """
 
                 raise 1/0
 
-            def stop(self, application):
+            def stop(self):
                 """ Stop the plugin. """
 
                 raise 1/0

@@ -86,7 +86,7 @@ class PluginManager(HasTraits):
             plugin.get_extension_points()
 
             self.plugin_starting = PluginEvent(plugin=plugin)
-            plugin.start(plugin_context)
+            plugin.start()
             self.plugin_started = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s started', plugin.id)
@@ -119,7 +119,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s stopping', plugin.id)
 
             self.plugin_stopping = PluginEvent(plugin=plugin)
-            plugin.stop(plugin_context)
+            plugin.stop()
             self.plugin_stopped = PluginEvent(plugin=plugin)
 
             logger.debug('plugin %s stopped', plugin.id)

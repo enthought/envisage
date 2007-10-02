@@ -27,7 +27,7 @@ class FooPlugin(Plugin):
 
     #### Methods ##############################################################
     
-    def start(self, plugin_context):
+    def start(self):
         """ Start the plugin. """
         
         self.started = True
@@ -35,7 +35,7 @@ class FooPlugin(Plugin):
         
         return
 
-    def stop(self, plugin_context):
+    def stop(self):
         """ Stop the plugin. """
         
         self.started = False

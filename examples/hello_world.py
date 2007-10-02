@@ -14,7 +14,7 @@ class HelloWorld(Plugin):
     
     greetings = ExtensionPoint(List(Str), id='greetings')
 
-    def start(self, application):
+    def start(self):
         """ Start the plugin. """
                 
         print random.choice(self.greetings), 'World!'

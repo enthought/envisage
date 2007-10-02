@@ -31,7 +31,7 @@ class MOTDPlugin(Plugin):
 
     #### Methods ##############################################################
     
-    def start(self, application):
+    def start(self):
         """ Start the plugin. """
         
         self.started = True
@@ -39,7 +39,7 @@ class MOTDPlugin(Plugin):
         
         return
 
-    def stop(self, application):
+    def stop(self):
         """ Stop the plugin. """
         
         self.started = False

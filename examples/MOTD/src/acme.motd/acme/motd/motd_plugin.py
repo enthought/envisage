@@ -30,7 +30,7 @@ class MOTDPlugin(Plugin):
     # 'IPlugin' interface.
     ###########################################################################
 
-    def start(self, application):
+    def start(self):
         """ Start the plugin. """
 
         # Use the contributed messages to create a MOTD object.
@@ -42,10 +42,10 @@ class MOTDPlugin(Plugin):
         # the MOTD object as a service so that other parts of the application
         # can use it if they so wish (it just so happens that this application
         # is so small, that there really aren't any other parts')!
-        self._motd_service_id = application.register_service(IMOTD, motd)
+        self._motd_service_id = self.application.register_service(IMOTD, motd)
         
         # And this is how we could look the service up!
-        motd_service = application.get_service(IMOTD)
+        motd_service = self.application.get_service(IMOTD)
 
         # Get the message of the day...
         message = motd_service.motd()

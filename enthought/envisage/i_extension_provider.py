@@ -22,7 +22,7 @@ class IExtensionProvider(Interface):
 
         """
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point, **kw):
         """ Return the provider's extensions to an extension point.
 
         The return value *must* be a list. Return an empty list if the provider

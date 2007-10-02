@@ -44,7 +44,7 @@ class EggPluginManager(PluginManager):
         plugins = []
         for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
             klass  = ep.load()
-            plugin = klass()
+            plugin = klass(application=self.application)
 
             if len(self.include) == 0 or plugin.id in self.include:
                 plugins.append(plugin)

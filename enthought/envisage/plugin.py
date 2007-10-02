@@ -91,12 +91,12 @@ class Plugin(ExtensionProvider):
     
     #### Methods ##############################################################
  
-    def start(self, plugin_context):
+    def start(self):
         """ Start the plugin. """
 
         pass
 
-    def stop(self, plugin_context):
+    def stop(self):
         """ Stop the plugin. """
 
         pass

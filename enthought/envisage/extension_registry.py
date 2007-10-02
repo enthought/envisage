@@ -384,7 +384,7 @@ class ExtensionRegistry(HasTraits):
         # If not, then see if any of the providers have any contributions to
         # make.
         else:
-            extensions = self._initialize_extensions(extension_point)
+            extensions = self._initialize_extensions(extension_point, **kw)
             self._extensions[extension_point] = extensions
                 
         return extensions
@@ -407,12 +407,12 @@ class ExtensionRegistry(HasTraits):
 
         return refs
 
-    def _initialize_extensions(self, extension_point):
+    def _initialize_extensions(self, extension_point, **kw):
         """ Initialize the extensions to an extension point. """
 
         extensions = []
         for provider in self._providers:
-            contributions = provider.get_extensions(extension_point)[:]
+            contributions = provider.get_extensions(extension_point, **kw)[:]
             if not self.strict and len(contributions) > 0:
                 self._extension_points[extension_point] = extension_point
             
