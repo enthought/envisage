@@ -96,8 +96,8 @@ class Plugin(ExtensionProvider):
             if trait.service_protocol is not None:
                 protocol = trait.service_protocol
 
-            # Otherwise, use the type of the object that can be assigned to the
-            # trait.
+            # Otherwise, use the type of the objects that can be assigned to
+            # the trait.
             #
             # fixme: This works for 'Instance' traits, but what about the
             # 'AdaptsTo' and 'AdaptedTo' traits?
