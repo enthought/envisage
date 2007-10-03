@@ -46,6 +46,11 @@ class Plugin(ExtensionProvider):
     # plugin starts).
     requires = List(Str)
 
+    #### Private interface ####################################################
+
+    # The Ids of the services that were automatically registered.
+    _service_ids = List
+    
     ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
@@ -77,6 +82,46 @@ class Plugin(ExtensionProvider):
         extensions.extend(self._harvest_traits(extension_point))
 
         return extensions
+
+    ###########################################################################
+    # 'IServiceProvider' interface.
+    ###########################################################################
+
+    def register_services(self):
+        """ Register the services offered by the provider. """
+
+        application = self.application
+        for trait_name, trait in self.traits(service=True).items():
+            # If a specific protocol was specified then use it.
+            if trait.service_protocol is not None:
+                protocol = trait.service_protocol
+
+            # Otherwise, use the type of the object that can be assigned to the
+            # trait.
+            #
+            # fixme: This works for 'Instance' traits, but what about the
+            # 'AdaptsTo' and 'AdaptedTo' traits?
+            else:
+                protocol = trait.trait_type.klass
+
+            # The service provider can decide not to register the service by
+            # returning None.
+            service = getattr(self, trait_name)
+            if service is not None:
+                # When we register the service we save the service Id so that
+                # we can unregister it later.
+                service_id = application.register_service(protocol, service)
+                self._service_ids.append(service_id)
+            
+        return
+
+    def unregister_services(self):
+        """ Unregister any service offered by the provider. """
+
+        for service_id in self._service_ids:
+            self.application.unregister_service(service_id)
+
+        return
     
     ###########################################################################
     # 'IPlugin' interface.
@@ -94,12 +139,16 @@ class Plugin(ExtensionProvider):
     def start(self):
         """ Start the plugin. """
 
-        pass
+        self.register_services()
+
+        return
 
     def stop(self):
         """ Stop the plugin. """
 
-        pass
+        self.unregister_services()
+
+        return
 
     ###########################################################################
     # Private interface.

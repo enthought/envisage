@@ -289,9 +289,9 @@ class MutableExtensionRegistry(HasTraits):
     def _call_listeners(self, refs, extension_point, added, removed, index):
         """ Call listeners that are listening to an extension point.
 
-        We call those listeners that are listening to this extension point
-        specifically first, followed by those that are listening to any
-        extension point.
+        We call those listeners that are listening to the specified extension
+        point first, followed by those that are listening to any extension
+        point.
 
         """
 
