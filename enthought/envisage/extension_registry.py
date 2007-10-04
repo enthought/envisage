@@ -349,12 +349,15 @@ class ExtensionRegistry(HasTraits):
                 event_index = sum(map(len, self._extensions[extension_point][:index]))
                 event_index += event.index
 
+
+                refs = self._get_listener_refs(extension_point)
+                
             finally:
                 self._lk.release()
 
             # Let any listeners know that the extensions have been added.
             self._call_listeners(
-                extension_point, event.added, event.removed, index
+                refs, extension_point, event.added, event.removed, index
             )
 
         return

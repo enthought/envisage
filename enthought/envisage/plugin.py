@@ -199,7 +199,7 @@ class Plugin(ExtensionProvider):
         extensions = []
         for name, value in inspect.getmembers(self):
             if self._is_extension_method(value, extension_point):
-                result = getattr(self, name)(self.application)
+                result = getattr(self, name)()
                 if not isinstance(result, list):
                     result = [result]
                             
