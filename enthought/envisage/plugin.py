@@ -102,7 +102,16 @@ class Plugin(ExtensionProvider):
             # fixme: This works for 'Instance' traits, but what about the
             # 'AdaptsTo' and 'AdaptedTo' traits?
             else:
-                protocol = trait.trait_type.klass
+                trait_type = trait.trait_type
+                
+                # The 'Instance' trait type allows the class to be specified
+                # as a string.
+                klass = trait_type.klass
+                if isinstance(klass, basestring):
+                    protocol = trait_type.find_class(klass)
+
+                else:
+                    protocol = klass
 
             # The service provider can decide not to register the service by
             # returning None.
@@ -112,7 +121,7 @@ class Plugin(ExtensionProvider):
                 # we can unregister it later.
                 service_id = application.register_service(protocol, service)
                 self._service_ids.append(service_id)
-            
+                       
         return
 
     def unregister_services(self):

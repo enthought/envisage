@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, Int, implements
+from enthought.traits.api import Dict, HasTraits, Int, Interface, implements
 
 # Local imports.
 from i_service_registry import IServiceRegistry
@@ -70,15 +70,18 @@ class ServiceRegistry(HasTraits):
                 #
                 # fixme: Should we have a formal notion of service factory or
                 # this is good enough?
-                if interface(obj, None) is None:
-                    # A service factory is any callable that takes the
-                    # properties as keyword arguments. This is obviously
-                    # designed to make it easy for traits developers so that
-                    # the factory can simply be a class!
-                    obj = obj(**properties)
-
-                    # The resulting service object is cached.
-                    self._services[service_id] = (i, obj, properties)
+                #
+                # Is this an interface?
+                if issubclass(interface, Interface):
+                    if interface(obj, None) is None:
+                        # A service factory is any callable that takes the
+                        # properties as keyword arguments. This is obviously
+                        # designed to make it easy for traits developers so
+                        # that the factory can simply be a class!
+                        obj = obj(**properties)
+                        
+                        # The resulting service object is cached.
+                        self._services[service_id] = (i, obj, properties)
                     
                 if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
