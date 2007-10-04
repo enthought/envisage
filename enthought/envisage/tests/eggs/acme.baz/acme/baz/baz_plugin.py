@@ -9,6 +9,11 @@ from enthought.traits.api import Bool
 class BazPlugin(Plugin):
     """ The 'Baz' plugin """
     
+    #### 'IPlugin' interface ##################################################
+
+    # The plugin's unique identifier.
+    id = 'acme.baz'
+    
     #### 'BazPlugin' interface ################################################
 
     started = Bool(False)
@@ -18,15 +23,6 @@ class BazPlugin(Plugin):
     # 'IPlugin' interface.
     ###########################################################################
 
-    #### Initializers #########################################################
-
-    def _id_default(self):
-        """ Initializer. """
-
-        return 'acme.baz'
-
-    #### Methods ##############################################################
-    
     def start(self):
         """ Start the plugin. """
         

@@ -8,6 +8,11 @@ from enthought.traits.api import Bool
 
 class BarPlugin(Plugin):
     """ The 'Bar' plugin """
+
+    #### 'IPlugin' interface ##################################################
+
+    # The plugin's unique identifier.
+    id = 'acme.bar'
     
     #### 'BarPlugin' interface ################################################
 
@@ -17,15 +22,6 @@ class BarPlugin(Plugin):
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
-
-    #### Initializers #########################################################
-
-    def _id_default(self):
-        """ Initializer. """
-
-        return 'acme.bar'
-
-    #### Methods ##############################################################
     
     def start(self):
         """ Start the plugin. """

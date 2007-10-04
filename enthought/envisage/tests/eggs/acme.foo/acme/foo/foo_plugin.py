@@ -9,6 +9,11 @@ from enthought.traits.api import Bool
 class FooPlugin(Plugin):
     """ The 'Foo' plugin """
     
+    #### 'IPlugin' interface ##################################################
+
+    # The plugin's unique identifier.
+    id = 'acme.foo'
+
     #### 'FooPlugin' interface ################################################
 
     started = Bool(False)
@@ -17,15 +22,6 @@ class FooPlugin(Plugin):
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
-
-    #### Initializers #########################################################
-
-    def _id_default(self):
-        """ Initializer. """
-
-        return 'acme.foo'
-
-    #### Methods ##############################################################
     
     def start(self):
         """ Start the plugin. """
