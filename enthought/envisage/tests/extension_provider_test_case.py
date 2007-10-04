@@ -50,14 +50,25 @@ class ExtensionProviderTestCase(unittest.TestCase):
     def test_not_implemented(self):
         """ not implemented """
 
-        r = self.registry
+        registry = self.registry
 
         # These are the methods on the 'IExtensionRegistry' interface that this
         # implementation does not support.
-        self.failUnlessRaises(NotImplementedError, r.add_extension, 'x', 42)
-        self.failUnlessRaises(NotImplementedError, r.add_extensions, 'x', [42])
-        self.failUnlessRaises(NotImplementedError, r.remove_extension, 'x', 42)
-        self.failUnlessRaises(NotImplementedError, r.set_extensions, 'x', [42])
+        self.failUnlessRaises(
+            NotImplementedError, registry.add_extension, 'x', 42
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.add_extensions, 'x', [42]
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.remove_extension, 'x', 42
+        )
+
+        self.failUnlessRaises(
+            NotImplementedError, registry.set_extensions, 'x', [42]
+        )
 
         return
     
@@ -105,8 +116,7 @@ class ExtensionProviderTestCase(unittest.TestCase):
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
         self.assertEqual(5, len(extensions))
-        for value in range(42, 47):
-            self.assert_(value in extensions)
+        self.assertEqual(range(42, 47), extensions)
 
         # Make sure there's one and only one extension point.
         extension_points = registry.get_extension_points()
