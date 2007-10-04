@@ -70,7 +70,7 @@ class Plugin(ExtensionProvider):
 
         return extension_points
 
-    def get_extensions(self, extension_point, **kw):
+    def get_extensions(self, extension_point):
         """ Return the provider's extensions to an extension point.
 
         The return value *must* be a list. Return an empty list if the provider

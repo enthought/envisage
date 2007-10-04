@@ -8,6 +8,7 @@ import logging, os
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
+from enthought.preferences.api import ScopedPreferences
 from enthought.traits.api import Delegate, Dict, Event, HasTraits, Instance
 from enthought.traits.api import Property, Str, VetoableEvent, implements
 from enthought.traits.api import on_trait_change
@@ -21,7 +22,6 @@ from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
 from plugin_manager import PluginManager
-from egg_extension_provider import EggExtensionProvider
 from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from extension_point_binding import ExtensionPointBinding
@@ -262,12 +262,8 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        # Add all of plugins as extension providers.
+        # Every plugin is an extension provider.
         providers = self.plugin_manager.plugins[:]
-
-        # fixme: And for now, until we can do away with this - add the old
-        # style egg extension provider.
-        providers.append(EggExtensionProvider())
 
         return ExtensionRegistry(providers=providers)
 
@@ -283,10 +279,6 @@ class Application(HasTraits):
     
     def _preferences_default(self):
         """ Trait initializer. """
-
-        # Do the import here in case the application writer doesn't want the
-        # default implementation.
-        from enthought.preferences.api import ScopedPreferences
 
         preferences = ScopedPreferences()
         self._initialize_preferences(preferences)
@@ -387,7 +379,7 @@ class Application(HasTraits):
         # fixme: 'lhs' is a little hack to allow the egg extension provider
         # (if used) to use the LHS of the entry point expression.
         resource_manager = ResourceManager()
-        for resource_name in self.get_extensions(self.PREFERENCES, lhs=True):
+        for resource_name in self.get_extensions(self.PREFERENCES):
             f = resource_manager.file(resource_name)
             try:
                 default.load(f)

@@ -50,13 +50,10 @@ class IExtensionRegistry(Interface):
 
         """
 
-    def get_extensions(self, extension_point, **kw):
+    def get_extensions(self, extension_point):
         """ Return a list containing all contributions to an extension point.
 
         Return an empty list if the extension point does not exist.
-
-        The keyword arguments can be used to pass arguments that are required
-        by individual extension providers.
 
         """
 

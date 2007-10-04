@@ -118,7 +118,7 @@ class ExtensionRegistry(HasTraits):
 
         return
 
-    def get_extensions(self, extension_point, **kw):
+    def get_extensions(self, extension_point):
         """ Return all contributions to an extension point. """
 
         self._lk.acquire()
@@ -126,7 +126,7 @@ class ExtensionRegistry(HasTraits):
             self._check_extension_point(extension_point)
 
             all_extensions = []
-            for extensions in self._get_extensions(extension_point, **kw):
+            for extensions in self._get_extensions(extension_point):
                 all_extensions.extend(extensions)
 
         finally:
@@ -388,7 +388,7 @@ class ExtensionRegistry(HasTraits):
 
         return
     
-    def _get_extensions(self, extension_point, **kw):
+    def _get_extensions(self, extension_point):
         """ Return the extensions for the given extension point. """
 
         self._check_extension_point(extension_point)
@@ -400,7 +400,7 @@ class ExtensionRegistry(HasTraits):
         # If not, then see if any of the providers have any contributions to
         # make.
         else:
-            extensions = self._initialize_extensions(extension_point, **kw)
+            extensions = self._initialize_extensions(extension_point)
             self._extensions[extension_point] = extensions
                 
         return extensions
@@ -420,12 +420,12 @@ class ExtensionRegistry(HasTraits):
 
         return refs
 
-    def _initialize_extensions(self, extension_point, **kw):
+    def _initialize_extensions(self, extension_point):
         """ Initialize the extensions to an extension point. """
 
         extensions = []
         for provider in self._providers:
-            contributions = provider.get_extensions(extension_point, **kw)[:]
+            contributions = provider.get_extensions(extension_point)[:]
             if not self.strict and len(contributions) > 0:
                 self._extension_points[extension_point] = extension_point
             
