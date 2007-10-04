@@ -86,14 +86,16 @@ class IExtensionRegistry(Interface):
     def remove_extension_point(self, extension_point):
         """ Remove an extension point.
 
-        Raise a 'KeyError' if the extension point does not exist.
+        Raise a 'UnknownExceptionPoint' exception if the extension point does
+        not exist.
 
         """
 
     def remove_extension_points(self, extension_point):
         """ Remove an extension point.
 
-        Raise a 'KeyError' if any of the extension points do not exist.
+        Raise a 'UnknownExceptionPoint' exception if any of the extension
+        points do not exist.
 
         """
 

@@ -21,6 +21,7 @@ from mutable_extension_registry import MutableExtensionRegistry
 from plugin import Plugin
 from plugin_manager import PluginManager
 from service_registry import ServiceRegistry
+from unknown_extension_point import UnknownExtensionPoint
 
 
 #### EOF ######################################################################

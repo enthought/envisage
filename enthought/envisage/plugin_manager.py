@@ -135,17 +135,31 @@ class PluginManager(HasTraits):
 
     #### Trait change handlers ################################################
 
-    @on_trait_change('plugins', 'plugins_items')
-    def _when_plugins_changed(self, obj, trait_name, old, new):
+    def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        if trait_name == 'plugins_items':
-            added   = new.added
-            removed = new.removed
+        self._update_plugin_application(self.plugins, [])
 
-        else:
-            added   = new
-            removed = old
+        return
+
+    def _plugins_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
+
+        self._update_plugin_application(new, old)
+
+        return
+
+    def _plugins_items_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
+
+        self._update_plugin_application(new.added, new.removed)
+
+        return
+
+    #### Methods ##############################################################
+
+    def _update_plugin_application(self, added, removed):
+        """ Update the 'application' trait of plugins added/removed. """
 
         for plugin in removed:
             plugin.application = None
@@ -154,5 +168,6 @@ class PluginManager(HasTraits):
             plugin.application = self.application
 
         return
-        
+
+    
 #### EOF ######################################################################

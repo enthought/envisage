@@ -9,7 +9,8 @@ from enthought.traits.api import Bool, Dict, HasTraits, implements
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry
-from safeweakref import ref
+import safeweakref
+from unknown_extension_point import UnknownExtensionPoint
 
 
 class MutableExtensionRegistry(HasTraits):
@@ -17,13 +18,11 @@ class MutableExtensionRegistry(HasTraits):
 
     implements(IExtensionRegistry)
 
-    ###########################################################################
-    # 'MutableExtensionRegistry' interface.
-    ###########################################################################
+    #### 'MutableExtensionRegistry' interface #################################
 
     # If this is True, then you can't add extensions to an extension point
-    # unless the extension point has been explicitly added first (via a call
-    # to 'add_extension_point').
+    # unless the extension point has been explicitly added first (via a call to
+    # 'add_extension_point').
     strict = Bool(False)
     
     ###########################################################################
@@ -71,10 +70,12 @@ class MutableExtensionRegistry(HasTraits):
     def __init__(self, **traits):
         """ Constructor. """
 
-        super(MutableExtensionRegistry, self).__init__(**traits)
-
         # A lock to make access to the registry thread-safe.
         self._lk = threading.Lock()
+
+        # We have to create the lock first in-case it is required when a trait
+        # is set.
+        super(MutableExtensionRegistry, self).__init__(**traits)
 
         return
     
@@ -142,7 +143,7 @@ class MutableExtensionRegistry(HasTraits):
 
         self._lk.acquire()
         listeners = self._listeners.setdefault(extension_point, [])
-        listeners.append(ref(listener))
+        listeners.append(safeweakref.ref(listener))
         self._lk.release()
 
         return
@@ -207,7 +208,7 @@ class MutableExtensionRegistry(HasTraits):
     def remove_extensions(self, extension_point, extensions):
         """ Remove a list of contributions from an extension point.
 
-        Raises a 'ValueError' if any of the extensions does not exist.
+        Raise a 'ValueError' if any of the extensions does not exist.
         
         """
 
@@ -230,14 +231,14 @@ class MutableExtensionRegistry(HasTraits):
     def remove_extension_listener(self, listener, extension_point=None):
         """ Remove a listener for extensions being added/removed.
 
-        Raises a 'ValueError' if the listener does not exist.
+        Raise a 'ValueError' if the listener does not exist.
 
         """
 
         self._lk.acquire()
         try:
             listeners = self._listeners.setdefault(extension_point, [])
-            listeners.remove(ref(listener))
+            listeners.remove(safeweakref.ref(listener))
 
         finally:
             self._lk.release()
@@ -247,18 +248,24 @@ class MutableExtensionRegistry(HasTraits):
     def remove_extension_point(self, extension_point):
         """ Remove an extension point.
 
-        Raises a 'KeyError' if the extension point does not exist.
+        Raise an 'UnknownExtensionPoint' exception if the extension point does
+        not exist.
 
         """
 
         self._lk.acquire()
         try:
-            del self._extension_points[extension_point]
+            if extension_point in self._extension_points:
+                self._check_extension_point(extension_point)
+                del self._extension_points[extension_point]
 
-            # Remove any extensions to the extension point.
-            if extension_point in self._extensions:
-                del self._extensions[extension_point]
+                # Remove any extensions to the extension point.
+                if extension_point in self._extensions:
+                    del self._extensions[extension_point]
 
+            else:
+                raise UnknownExtensionPoint(extension_point)
+            
         finally:
             self._lk.release()
         
@@ -283,17 +290,11 @@ class MutableExtensionRegistry(HasTraits):
         return
 
     ###########################################################################
-    # Private interface.
+    # Protected 'MutableExtensionRegistry' interface.
     ###########################################################################
 
     def _call_listeners(self, refs, extension_point, added, removed, index):
-        """ Call listeners that are listening to an extension point.
-
-        We call those listeners that are listening to the specified extension
-        point first, followed by those that are listening to any extension
-        point.
-
-        """
+        """ Call listeners that are listening to an extension point. """
 
         for ref in refs:
             listener = ref()
@@ -306,19 +307,12 @@ class MutableExtensionRegistry(HasTraits):
         """ Check to see if the extension point exists. """
         
         if self.strict and not extension_point in self._extension_points:
-            raise ValueError('unknown extension point <%s>' % extension_point)
+            raise UnknownExtensionPoint(extension_point)
 
         return
-    
-    def _get_extensions(self, extension_point):
-        """ Return the extensions for the given extension point. """
 
-        self._check_extension_point(extension_point)
-        
-        return self._extensions.setdefault(extension_point, [])
-    
     def _get_listener_refs(self, extension_point):
-        """ Get the weak references to all listeners for an extension point.
+        """ Get weak references to all listeners for an extension point.
 
         Returns a list containing the weak references to those listeners that
         are listening to this extension point specifically first, followed by
@@ -331,5 +325,16 @@ class MutableExtensionRegistry(HasTraits):
         refs.extend(self._listeners.get(None, []))
 
         return refs
+    
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _get_extensions(self, extension_point):
+        """ Return the extensions for the given extension point. """
+
+        self._check_extension_point(extension_point)
+        
+        return self._extensions.setdefault(extension_point, [])
     
 #### EOF ######################################################################

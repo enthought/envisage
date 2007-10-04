@@ -2,121 +2,38 @@
 
 
 # Standard library imports.
-import logging, threading
+import logging
 
 # Enthought library imports.
-from enthought.traits.api import Bool, Dict, HasTraits, List, Property
-from enthought.traits.api import implements, on_trait_change
+from enthought.traits.api import List, Property, on_trait_change
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
 from i_extension_provider import IExtensionProvider
-from safeweakref import ref
+from mutable_extension_registry import MutableExtensionRegistry
 
 
 # Logging.
 logger = logging.getLogger(__name__)
 
 
-class ExtensionRegistry(HasTraits):
+class ExtensionRegistry(MutableExtensionRegistry):
     """ The default extension registry implementation. """
 
-    implements(IExtensionRegistry)
-    
     #### 'ExtensionRegistry' interface ########################################
 
     # The extension providers that populate the registry.
     providers = Property(List(IExtensionProvider))
 
-    # If this is True, then you can't add extensions to an extension point
-    # unless the extension point has been explicitly added first (via a call to
-    # 'add_extension_point').
-    strict = Bool(False)
-
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    # A dictionary of extensions, keyed by extension point.
-    #
-    # e.g. Dict(extension_point, [[extension]])
-    #
-    # Where 'extension_point' can be any *hashable* object, and 'extension' can
-    # be any object.
-    _extensions = Dict
-
-    # The explicitly added extension points.
-    _extension_points = Dict
-    
-    # Extension listeners.
-    #
-    # These are called when extensions are added to or removed from extension
-    # points.
-    #
-    # e.g. Dict(extension_point, [weakref.ref(callable)])
-    #
-    # Where 'extension_point' can be any *hashable* object, and 'callable' is
-    # any Python callable with the following signature:-
-    #
-    # def listener(extension_registry, extension_point, added, removed):
-    #     ...
-    #
-    # 'added' is a list of any extensions that have been added (may be the
-    # empty list).
-    #
-    # 'removed' is a list of any extensions that have been removed (may be the
-    # empty list).
-    _listeners = Dict
 
     # The extension providers that populate the registry.
     _providers = List(IExtensionProvider)
 
     ###########################################################################
-    # 'object' interface.
-    ###########################################################################
-
-    def __init__(self, **traits):
-        """ Constructor. """
-
-        # A lock to make access to the registry thread-safe.
-        self._lk = threading.Lock()
-
-        super(ExtensionRegistry, self).__init__(**traits)
-
-        return
-    
-    ###########################################################################
     # 'IExtensionRegistry' interface.
     ###########################################################################
-
-    def add_extension(self, extension_point, extension):
-        """ Contribute an extension to an extension point. """
-
-        raise NotImplementedError
-
-    def add_extensions(self, extension_point, extensions):
-        """ Contribute a list of extensions to an extension point. """
-
-        raise NotImplementedError
-
-    def add_extension_listener(self, listener, extension_point=None):
-        """ Add a listener for extensions being added or removed. """
-
-        self._lk.acquire()
-        listeners = self._listeners.setdefault(extension_point, [])
-        listeners.append(ref(listener))
-        self._lk.release()
-
-        return
-
-    def add_extension_point(self, extension_point):
-        """ Add an extension point. """
-
-        self._lk.acquire()
-        self._extension_points[extension_point] = extension_point
-        self._lk.release()
-
-        return
 
     def get_extensions(self, extension_point):
         """ Return all contributions to an extension point. """
@@ -134,15 +51,21 @@ class ExtensionRegistry(HasTraits):
 
         return all_extensions
 
-    def get_extension_points(self):
-        """ Return all extension points. """
-
-        self._lk.acquire()
-        extension_points = self._extension_points.keys()
-        self._lk.release()
-
-        return extension_points
+    ###########################################################################
+    # The following methods are not supported by this implementation.
+    # Extensions are added and removed from individual providers instead.
+    ###########################################################################
     
+    def add_extension(self, extension_point, extension):
+        """ Contribute an extension to an extension point. """
+
+        raise NotImplementedError
+
+    def add_extensions(self, extension_point, extensions):
+        """ Contribute a list of extensions to an extension point. """
+
+        raise NotImplementedError
+
     def remove_extension(self, extension_point, extension):
         """ Remove a contribution from an extension point. """
 
@@ -152,43 +75,6 @@ class ExtensionRegistry(HasTraits):
         """ Remove a list of contributions from an extension point. """
 
         raise NotImplementedError
-
-    def remove_extension_listener(self, listener, extension_point=None):
-        """ Remove a listener for extensions being added/removed.
-
-        Raises a 'ValueError' if the listener does not exist.
-
-        """
-
-        self._lk.acquire()
-        try:
-            listeners = self._listeners.setdefault(extension_point, [])
-            listeners.remove(ref(listener))
-
-        finally:
-            self._lk.release()
-
-        return
-
-    def remove_extension_point(self, extension_point):
-        """ Remove an extension point.
-
-        Raises a 'KeyError' if the extension point does not exist.
-
-        """
-
-        self._lk.acquire()
-        try:
-            self._check_extension_point()
-            del self._extension_points[extension_point]
-
-            if extension_point in self._extensions:
-                del self._extensions[extension_point]
-                
-        finally:
-            self._lk.release()
-        
-        return
 
     def set_extensions(self, extension_point, extensions):
         """ Set the extensions to an extension point. """
@@ -363,30 +249,6 @@ class ExtensionRegistry(HasTraits):
         return
 
     #### Methods ##############################################################
-
-    def _call_listeners(self, refs, extension_point, added, removed, index):
-        """ Call listeners that are listening to an extension point.
-
-        We call those listeners that are listening to the specified extension
-        point first, followed by those that are listening to any extension
-        point.
-
-        """
-
-        for ref in refs:
-            listener = ref()
-            if listener is not None:
-                listener(self, extension_point, added, removed, index)
-
-        return
-
-    def _check_extension_point(self, extension_point):
-        """ Check to see if the extension point exists. """
-
-        if self.strict and not extension_point in self._extension_points:
-            raise ValueError('unknown extension point <%s>' % extension_point)
-
-        return
     
     def _get_extensions(self, extension_point):
         """ Return the extensions for the given extension point. """
@@ -405,21 +267,6 @@ class ExtensionRegistry(HasTraits):
                 
         return extensions
     
-    def _get_listener_refs(self, extension_point):
-        """ Get the weak references to all listeners for an extension point.
-
-        Returns a list containing the weak references to those listeners that
-        are listening to this extension point specifically first, followed by
-        those that are listening to any extension point.
-
-        """
-
-        refs = []
-        refs.extend(self._listeners.get(extension_point, []))
-        refs.extend(self._listeners.get(None, []))
-
-        return refs
-
     def _initialize_extensions(self, extension_point):
         """ Initialize the extensions to an extension point. """
 

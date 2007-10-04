@@ -6,6 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import MutableExtensionRegistry
+from enthought.envisage.api import UnknownExtensionPoint
     
 
 class NutableExtensionRegistryTestCase(unittest.TestCase):
@@ -106,17 +107,17 @@ class NutableExtensionRegistryTestCase(unittest.TestCase):
         # We shouldn't be able to get any extensions unless the extension
         # point has been explicitly added.
         self.failUnlessRaises(
-            ValueError, self.registry.get_extensions, 'my.ep'
+            UnknownExtensionPoint, self.registry.get_extensions, 'my.ep'
         )
 
         # We shouldn't be able to add any extensions unless the extension
         # point has been explicitly added.
         self.failUnlessRaises(
-            ValueError, self.registry.add_extension, 'my.ep', 42
+            UnknownExtensionPoint, self.registry.add_extension, 'my.ep', 42
         )
 
         self.failUnlessRaises(
-            ValueError, self.registry.add_extension, 'my.ep', [42]
+            UnknownExtensionPoint, self.registry.add_extension, 'my.ep', [42]
         )
 
         # Declare the extension point.
@@ -226,7 +227,7 @@ class NutableExtensionRegistryTestCase(unittest.TestCase):
         """ remove non existent extension point """
 
         self.failUnlessRaises(
-            KeyError,
+            UnknownExtensionPoint,
             self.registry.remove_extension_point, 'my.ep'
         )
 

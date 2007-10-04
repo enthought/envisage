@@ -4,9 +4,7 @@
 # Standard library imports.
 import unittest
 import pkg_resources
-
 from os.path import dirname, join
-from pkg_resources import Environment, find_distributions
 
 
 class EggBasedTestCase(unittest.TestCase):
@@ -43,7 +41,7 @@ class EggBasedTestCase(unittest.TestCase):
         filename = join(dirname(__file__), 'eggs', filename)
         
         # Create a distribution for the egg.
-        distributions = find_distributions(filename)
+        distributions = pkg_resources.find_distributions(filename)
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).
@@ -57,7 +55,7 @@ class EggBasedTestCase(unittest.TestCase):
         if working_set is None:
             working_set = pkg_resources.working_set
 
-        environment = Environment(path)
+        environment = pkg_resources.Environment(path)
         
         # 'find_plugins' identifies those distributions that *could* be added
         # to the working set without version conflicts or missing requirements.
