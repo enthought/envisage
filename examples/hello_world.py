@@ -26,9 +26,7 @@ class HelloWorld(Plugin):
         # Standard library imports.
         import random
 
-        print self.greetings
         print random.choice(self.greetings), 'World!'
-
         
         return
 
