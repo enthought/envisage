@@ -48,17 +48,8 @@ class ExtensionRegistry(HasTraits):
     # Where 'extension_point' can be any *hashable* object, and 'callable' is
     # any Python callable with the following signature:-
     #
-    # def listener(extension_registry, extension_point, added, removed, index):
+    # def listener(extension_registry, extension_point_changed_event):
     #     ...
-    #
-    # 'added' is a list of any extensions that have been added (may be the
-    # empty list).
-    #
-    # 'removed' is a list of any extensions that have been removed (may be the
-    # empty list).
-    #
-    # 'index' is the index of the first item that was added/removed (or the
-    # slice for the slice operations).
     _listeners = Dict
 
     ###########################################################################

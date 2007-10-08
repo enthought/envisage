@@ -26,7 +26,7 @@ class ExtensionPointBinding(HasTraits):
     obj = Any
     
     # The Id of the extension point.
-    extension_point = Str
+    extension_point_id = Str
 
     # The name of the trait that we are binding the extension point to.
     trait_name = Str
@@ -67,7 +67,7 @@ class ExtensionPointBinding(HasTraits):
         """ Dynamic trait change handler. """
 
         if not self._event_handled:
-            self.extension_registry.set_extensions(self.extension_point, new)
+            self.extension_registry.set_extensions(self.extension_point_id,new)
 
         return
 
@@ -92,7 +92,7 @@ class ExtensionPointBinding(HasTraits):
 
         # Listen for the extension point being changed.
         self.extension_registry.add_extension_listener(
-            self._extension_point_listener, self.extension_point
+            self._extension_point_listener, self.extension_point_id
         )
 
         return
@@ -100,7 +100,7 @@ class ExtensionPointBinding(HasTraits):
     def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
 
-        value  = self.extension_registry.get_extensions(self.extension_point)
+        value = self.extension_registry.get_extensions(self.extension_point_id)
         traits = {self.trait_name : value}
 
         self.obj.set(trait_change_notify=notify, **traits)
@@ -109,13 +109,13 @@ class ExtensionPointBinding(HasTraits):
 
 
 # Factory function for creating bindings.
-def bind_extension_point(obj, trait_name, extension_point):
+def bind_extension_point(obj, trait_name, extension_point_id):
     """ Create a new extension point binding. """
 
     binding = ExtensionPointBinding(
-        obj             = obj,
-        trait_name      = trait_name,
-        extension_point = extension_point
+        obj                = obj,
+        trait_name         = trait_name,
+        extension_point_id = extension_point_id
     )
 
     return binding

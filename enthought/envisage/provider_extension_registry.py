@@ -32,24 +32,27 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     _providers = List(IExtensionProvider)
 
     ###########################################################################
-    # 'IExtensionRegistry' interface.
+    # Protected 'ExtensionRegistry' interface.
     ###########################################################################
 
-    def get_extensions(self, extension_point):
-        """ Return a list containing all contributions to an extension point.
+    def _get_extensions(self, extension_point):
+        """ Return the extensions for the given extension point. """
 
-        """
+        # Has this extension point already been accessed?
+        if extension_point in self._extensions:
+            extensions = self._extensions[extension_point]
 
-        self._lk.acquire()
-        try:
-            all_extensions = []
-            for extensions in self._get_extensions(extension_point):
-                all_extensions.extend(extensions)
+        # If not, then see if any of the providers have any contributions to
+        # make.
+        else:
+            extensions = self._initialize_extensions(extension_point)
+            self._extensions[extension_point] = extensions
 
-        finally:
-            self._lk.release()
-
-        return all_extensions
+        all = []
+        for extensions in extensions:
+            all.extend(extensions)
+                
+        return all
 
     ###########################################################################
     # 'ProviderExtensionRegistry' interface.
@@ -86,8 +89,8 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         self._lk.acquire()
 
         # Each provider can contribute to multiple extension points, so we
-        # build up a dictionary of the 'ExtensionsChanged' events that we need
-        # to fire.
+        # build up a dictionary of the 'ExtensionPointChanged' events that we
+        # need to fire.
         events = {}
         for provider in providers:
             self._add_provider(provider, events)
@@ -112,9 +115,9 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         self._lk.acquire()
 
-        # A  provider can contribute to multiple extension points, so we build
-        # up a dictionary of the 'ExtensionsChanged' events that we need to
-        # fire.
+        # Each provider can contribute to multiple extension points, so we
+        # build up a dictionary of the 'ExtensionPointChanged' events that we
+        # need to fire.
         events = {}
         self._remove_provider(provider, events)
         
@@ -185,7 +188,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                     del self._extensions[extension_point_id]
 
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -234,21 +237,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return
 
     #### Methods ##############################################################
-    
-    def _get_extensions(self, extension_point):
-        """ Return the extensions for the given extension point. """
-
-        # Has this extensin point already been accessed?
-        if extension_point in self._extensions:
-            extensions = self._extensions[extension_point]
-
-        # If not, then see if any of the providers have any contributions to
-        # make.
-        else:
-            extensions = self._initialize_extensions(extension_point)
-            self._extensions[extension_point] = extensions
-                
-        return extensions
     
     def _initialize_extensions(self, extension_point):
         """ Initialize the extensions to an extension point. """

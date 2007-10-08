@@ -53,7 +53,11 @@ class ExtensionPoint(TraitType):
         self.trait_type = trait_type
 
         # The Id of the extension point.
-        self.id = id or '%s.%s' % (type(self).__module__, type(self).__name__)
+        if id is None:
+            self.id = '%s.%s' % (type(self).__module__, type(self).__name__)
+
+        else:
+            self.id = id
 
         return
 
