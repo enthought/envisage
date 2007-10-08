@@ -32,10 +32,6 @@ class PluginTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager()
-        )
-        
         return
 
     def tearDown(self):
@@ -58,7 +54,7 @@ class PluginTestCase(unittest.TestCase):
             foo = Instance(Foo, (), service=True)
 
         a = PluginA()
-        
+
         application = Application(
             id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
         )

@@ -5,14 +5,14 @@
 from enthought.traits.api import Event, Interface
 
 # Local imports.
-from extensions_changed_event import ExtensionsChangedEvent
+from extension_point_changed_event import ExtensionPointChangedEvent
 
 
 class IExtensionProvider(Interface):
     """ The interface for extension providers. """
 
-    # The event fired when the provider's extensions have changed.
-    extensions_changed = Event(ExtensionsChangedEvent)
+    # The event fired when one of the provider's extension points has changed.
+    extension_point_changed = Event(ExtensionPointChangedEvent)
     
     def get_extension_points(self):
         """ Return the extension points offered by the provider.

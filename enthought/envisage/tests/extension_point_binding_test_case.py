@@ -5,8 +5,9 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPointBinding, bind_extension_point
+from enthought.envisage.api import ExtensionPoint, ExtensionPointBinding
 from enthought.envisage.api import MutableExtensionRegistry
+from enthought.envisage.api import bind_extension_point
 from enthought.traits.api import Bool, HasTraits, Int, List, Float, Str
 
 
@@ -50,8 +51,11 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         registry = self.extension_registry
 
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
         # Add an extension.
-        registry.add_extension('my.extension.point', 42)
+        registry.add_extension('my.ep', 42)
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
@@ -61,14 +65,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.on_trait_change(listener)
 
         # Make some bindings.
-        bind_extension_point(f, 'x', 'my.extension.point')
+        bind_extension_point(f, 'x', 'my.ep')
         
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
         self.assertEqual(42, f.x[0])
 
         # Add another extension.
-        registry.add_extension('my.extension.point', 'a string')
+        registry.add_extension('my.ep', 'a string')
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(2, len(f.x))
@@ -89,8 +93,11 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         registry = self.extension_registry
 
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
         # Add an extension.
-        registry.add_extension('my.extension.point', 42)
+        registry.add_extension('my.ep', 42)
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
@@ -100,14 +107,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.on_trait_change(listener)
 
         # Make some bindings.
-        bind_extension_point(f, 'x', 'my.extension.point')
+        bind_extension_point(f, 'x', 'my.ep')
         
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
         self.assertEqual(42, f.x[0])
 
         # Set the extensions.
-        registry.set_extensions('my.extension.point', ['a string'])
+        registry.set_extensions('my.ep', ['a string'])
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(1, len(f.x))
@@ -120,5 +127,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assert_('a string' in listener.new)
         
         return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _create_extension_point(self, id, trait_type=List, desc=''):
+        """ Create an extension point. """
+
+        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc) 
 
 #### EOF ######################################################################

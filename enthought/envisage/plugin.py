@@ -41,9 +41,7 @@ class Plugin(ExtensionProvider):
     # The plugin's name (suitable for displaying to the user).
     name = Str
 
-    # The Ids of the plugins that must be started before this one is started
-    # (this is usually because this plugin requires a service that the other
-    # plugin starts).
+    # The Ids of the plugins that must be started before this one is started.
     requires = List(Str)
 
     #### Private interface ####################################################
@@ -58,7 +56,7 @@ class Plugin(ExtensionProvider):
     def get_extension_points(self):
         """ Return the extension points offered by the provider.
 
-        The return value *,ust* be alist. Return an empty list if the provider
+        The return value *must* be alist. Return an empty list if the provider
         does not offer any extension points.
 
         """
@@ -185,7 +183,7 @@ class Plugin(ExtensionProvider):
                 index   = 0
                 
             # Let the extension registry know about the change.
-            self._fire_extensions_changed(
+            self._fire_extension_point_changed(
                 trait.extension_point, added, removed, index=index
             )
 

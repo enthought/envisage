@@ -18,9 +18,11 @@ class IPlugin(Interface):
     # The plugin's unique identifier.
     #
     # Where 'unique' technically means 'unique within the plugin manager', but
-    # since you may want to include plugins from external sources, this really
-    # means 'globally unique'! Using the traditional 'reverse domain name'
-    # approach is probably a good idea.
+    # since the chances are that you will want to include plugins from external
+    # sources, this really means 'globally unique'! Using the Python package
+    # path might be useful here ;^)
+    #
+    # e.g. 'enthought.envisage'
     id = Str
 
     # The plugin's name (suitable for displaying to the user).

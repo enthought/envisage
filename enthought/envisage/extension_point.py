@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import inspect, weakref
+import inspect
 
 # Enthought library imports.
 from enthought.traits.api import List, TraitError, TraitType
@@ -21,6 +21,11 @@ def extension_point(id):
     return decorator
 
 
+# fixme: There is a bit of a shortcut for now in that we use this trait type
+# to represent extension points in the extension registry. Now, since this is
+# a trait type, it can't have traits and hence can't 'implement' the
+# 'IExtensionPoint' interface. However, because this is Python we can get away
+# with it. Quack!
 class ExtensionPoint(TraitType):
     """ An extension point. """
 
@@ -33,7 +38,7 @@ class ExtensionPoint(TraitType):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, trait_type=None, id=None, cached=True, **metadata):
+    def __init__(self, trait_type=None, id=None, **metadata):
         """ Constructor. """
 
         super(ExtensionPoint, self).__init__(**metadata)
@@ -50,13 +55,6 @@ class ExtensionPoint(TraitType):
         # The Id of the extension point.
         self.id = id or '%s.%s' % (type(self).__module__, type(self).__name__)
 
-        # If the extension point is cached then extensions will be retreived
-        # from the extension regsistry at most once.
-        self.cached = cached
-
-        # The cached extensions.
-        self._cache = weakref.WeakKeyDictionary()
-        
         return
 
     ###########################################################################
@@ -66,20 +64,8 @@ class ExtensionPoint(TraitType):
     def get(self, obj, name):
         """ Trait type getter. """
 
-        if self.cached:
-            all_traits = self._cache.setdefault(obj, {})
-            if name in all_traits:
-                extensions = all_traits[name]
-
-            else:
-                extensions = self._get_extensions(obj)
-                extensions = self._validate_extensions(obj, name, extensions)
-
-                all_traits[name] = extensions
-
-        else:
-            extensions = self._get_extensions(obj)
-            extensions = self._validate_extensions(obj, name, extensions)
+        extensions = self._get_extensions(obj)
+        extensions = self._validate_extensions(obj, name, extensions)
 
         return extensions
 

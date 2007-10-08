@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Int, List, Str
+from enthought.traits.api import Any, HasTraits, List, Str
 
 
 class ExtensionsChangedEvent(HasTraits):
@@ -18,6 +18,12 @@ class ExtensionsChangedEvent(HasTraits):
     removed = List
 
     # The index at which the first extension was added or removed.
-    index = Int
+    #
+    # The valid values are::
+    #
+    # 'None' to indicate that no detailed index information is available.
+    # An integer that is the index of the first item added/removed.
+    # A Python 'slice' object that describes which items were added/removed.
+    index = Any
     
 #### EOF ######################################################################

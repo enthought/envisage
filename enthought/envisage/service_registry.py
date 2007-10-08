@@ -24,7 +24,17 @@ class ServiceRegistry(HasTraits):
     
     # The services in the registry.
     #
-    # { service_id : (interface, obj, properties) }
+    # { service_id : (protocol, obj, properties) }
+    #
+    # where:
+    #
+    # 'protocol' is the interface, type or class that the object is registered
+    # against.
+    #
+    # 'obj' is the object that is registered (any old, Python object!).
+    #
+    # 'properties' is the arbitrary dictionary of properties that were
+    # registered with the object.
     _services = Dict
 
     # The next service Id (service Ids are never persisted between process
@@ -35,11 +45,10 @@ class ServiceRegistry(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
     
-    def get_service(self, interface, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
 
-        services = self.get_services(interface, query, minimize, maximize)
-
+        services = self.get_services(protocol, query, minimize, maximize)
         if len(services) > 0:
             service = services[0]
 
@@ -48,40 +57,27 @@ class ServiceRegistry(HasTraits):
             
         return service
 
-    def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service. """
-
-        try:
-            interface, obj, properties = self._services[service_id]
-
-        except KeyError:
-            raise ValueError('no service with id [%d]' % service_id)
-
-        return properties
-        
-    def get_services(self, interface, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
         services = []
-        for service_id, (i, obj, properties) in self._services.items():
-            if interface == i:
-                # If the object does not actually implement the interface then
-                # we treat it a service factory.
+        for service_id, (p, obj, properties) in self._services.items():
+            if protocol == p:
+                # If the protocol is an 'Interface' and the registered object
+                # does not actually implement the interface then we treat it as
+                # a service factory.
                 #
                 # fixme: Should we have a formal notion of service factory or
                 # this is good enough?
-                #
-                # Is this an interface?
-                if issubclass(interface, Interface):
-                    if interface(obj, None) is None:
-                        # A service factory is any callable that takes the
-                        # properties as keyword arguments. This is obviously
-                        # designed to make it easy for traits developers so
-                        # that the factory can simply be a class!
-                        obj = obj(**properties)
+                if issubclass(protocol, Interface) and protocol(obj, -1) is -1:
+                    # A service factory is any callable that takes the
+                    # properties as keyword arguments. This is obviously
+                    # designed to make it easy for traits developers so that
+                    # that the factory can simply be a class!
+                    obj = obj(**properties)
                         
-                        # The resulting service object is cached.
-                        self._services[service_id] = (i, obj, properties)
+                    # The resulting service object is cached.
+                    self._services[service_id] = (p, obj, properties)
                     
                 if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
@@ -96,16 +92,28 @@ class ServiceRegistry(HasTraits):
             
         return services
 
-    def register_service(self, interface, obj, properties=None):
+    def get_service_properties(self, service_id):
+        """ Return the dictionary of properties associated with a service. """
+
+        try:
+            protocol, obj, properties = self._services[service_id]
+
+        except KeyError:
+            raise ValueError('no service with id <%d>' % service_id)
+
+        return properties
+        
+    def register_service(self, protocol, obj, properties=None):
         """ Register a service. """
 
         # Make sure each service gets its own properties dictionary.
-        properties = properties or {}
+        if properties is None:
+            properties = {}
 
         service_id = self._next_service_id()
-        self._services[service_id] = (interface, obj, properties)
+        self._services[service_id] = (protocol, obj, properties)
 
-        logger.debug('service %d registered %s', service_id, interface)
+        logger.debug('service <%d> registered %s', service_id, protocol)
         
         return service_id
 
@@ -115,10 +123,10 @@ class ServiceRegistry(HasTraits):
         try:
             del self._services[service_id]
 
-            logger.debug('service %d unregistered', service_id)
+            logger.debug('service <%d> unregistered', service_id)
 
         except KeyError:
-            raise ValueError('no service with id %d' % service_id)
+            raise ValueError('no service with id <%d>' % service_id)
 
         return
 
@@ -127,7 +135,7 @@ class ServiceRegistry(HasTraits):
     ###########################################################################
 
     def _create_namespace(self, service, properties):
-        """ Creates a namespace in which to evaluate a query. """
+        """ Create a namespace in which to evaluate a query. """
 
         namespace = {}
         namespace.update(service.__dict__)
@@ -136,9 +144,9 @@ class ServiceRegistry(HasTraits):
         return namespace
 
     def _eval_query(self, service, properties, query):
-        """ Evaluates a query over a single service.
+        """ Evaluate a query over a single service.
 
-        Returns True if the service matches the query, otherwise returns False.
+        Return True if the service matches the query, otherwise return False.
 
         """
 

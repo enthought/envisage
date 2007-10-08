@@ -5,7 +5,7 @@
 from enthought.traits.api import Event, HasTraits, implements
 
 # Local imports.
-from extensions_changed_event import ExtensionsChangedEvent
+from extension_point_changed_event import ExtensionPointChangedEvent
 from i_extension_provider import IExtensionProvider
 
 
@@ -16,8 +16,8 @@ class ExtensionProvider(HasTraits):
 
     #### 'IExtensionProvider' interface #######################################
     
-    # The event fired when the provider's extensions have changed.
-    extensions_changed = Event(ExtensionsChangedEvent)
+    # The event fired when one of the provider's extension points has changed.
+    extension_point_changed = Event(ExtensionPointChangedEvent)
 
     def get_extension_points(self):
         """ Return the extension points offered by the provider. """
@@ -31,14 +31,15 @@ class ExtensionProvider(HasTraits):
 
     ##### Protected 'ExtensionProvider' interface #############################
 
-    def _fire_extensions_changed(self, extension_point, added, removed, index):
+    def _fire_extension_point_changed(self, extension_point_id, added, removed,
+                                      index):
         """ Fire an extensions changed event. """
 
-        self.extensions_changed = ExtensionsChangedEvent(
-            extension_point = extension_point,
-            added           = added,
-            removed         = removed,
-            index           = index
+        self.extension_point_changed = ExtensionPointChangedEvent(
+            extension_point_id = extension_point_id,
+            added              = added,
+            removed            = removed,
+            index              = index
         )
 
         return

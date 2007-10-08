@@ -48,7 +48,7 @@ class ExtensionPointBinding(HasTraits):
         # Initialize the object's trait from the extension point.
         self._set_trait(notify=False)
 
-        # Wire-up trait change handlers etc.
+        # Wire-up the trait change and extension point handlers.
         self._initialize()
 
         # We keep a reference to each binding alive until its associated object
@@ -67,18 +67,17 @@ class ExtensionPointBinding(HasTraits):
         """ Dynamic trait change handler. """
 
         if not self._event_handled:
-            raise 1/0
             self.extension_registry.set_extensions(self.extension_point, new)
 
         return
 
     #### Other observer pattern listeners #####################################
     
-    def _extension_point_listener(self, registry, id, added, removed, index):
+    def _extension_point_listener(self, extension_registry, event):
         """ Listener called when an extension point is changed. """
 
         self._event_handled = True
-        self._set_trait()
+        self._set_trait(notify=True)
         self._event_handled = False
 
         return
@@ -98,7 +97,7 @@ class ExtensionPointBinding(HasTraits):
 
         return
 
-    def _set_trait(self, notify=True):
+    def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
 
         value  = self.extension_registry.get_extensions(self.extension_point)

@@ -25,7 +25,7 @@ from plugin_manager import PluginManager
 from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from extension_point_binding import ExtensionPointBinding
-from extension_registry import ExtensionRegistry
+from provider_extension_registry import ProviderExtensionRegistry
 from import_manager import ImportManager
 from service_registry import ServiceRegistry
 
@@ -265,7 +265,7 @@ class Application(HasTraits):
         # Every plugin is an extension provider.
         providers = self.plugin_manager.plugins[:]
 
-        return ExtensionRegistry(providers=providers)
+        return ProviderExtensionRegistry(providers=providers)
 
     def _home_default(self):
         """ Trait initializer. """
