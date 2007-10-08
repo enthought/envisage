@@ -27,7 +27,5 @@ from service_registry import ServiceRegistry
 from unknown_extension import UnknownExtension
 from unknown_extension_point import UnknownExtensionPoint
 
-# Delete me?
-from extensions_changed_event import ExtensionsChangedEvent
 
 #### EOF ######################################################################
