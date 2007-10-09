@@ -18,7 +18,7 @@ def listener(obj, trait_name, old, event):
 
     clone = TEST_LIST[:]
 
-    # If nothing was added then this must be a 'del' operation...
+    # If nothing was added then this is a 'del' or 'remove' operation.
     if len(event.added) == 0:
         if isinstance(event.index, slice):
             del clone[event.index]
@@ -26,8 +26,8 @@ def listener(obj, trait_name, old, event):
         else:
             del clone[event.index : event.index + len(event.removed)]
 
-    # If nothing was removed then it is some kind of append, extend or
-    # insert.
+    # If nothing was removed then it is an 'append', 'insert' or 'extend'
+    # operation.
     elif len(event.removed) == 0:
         if isinstance(event.index, slice):
             clone[event.index] = event.added[0]
@@ -35,7 +35,8 @@ def listener(obj, trait_name, old, event):
         else:
             clone.insert(event.index, event.added[0])
         
-    # Otherwise, it is some kind of assigment.
+    # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
+    # category).
     else:
         if isinstance(event.index, slice):
             clone[event.index] = event.added[0]
