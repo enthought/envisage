@@ -2,10 +2,14 @@
 
 
 # Standard library imports.
-import inspect
+import inspect, weakref
 
 # Enthought library imports.
-from enthought.traits.api import List, TraitError, TraitType
+from enthought.traits.api import List, TraitError, TraitType, Undefined
+from enthought.traits.api import implements
+
+# Local imports.
+from i_extension_point import IExtensionPoint
 
 
 def extension_point(id):
@@ -21,19 +25,25 @@ def extension_point(id):
     return decorator
 
 
-# fixme: There is a bit of a shortcut for now in that we use this trait type
-# to represent extension points in the extension registry. Now, since this is
-# a trait type, it can't have traits and hence can't 'implement' the
-# 'IExtensionPoint' interface. However, because this is Python we can get away
-# with it. Quack!
 class ExtensionPoint(TraitType):
     """ An extension point. """
 
+    # Even though trait types do not themselves have traits, we can still
+    # declare that we implement an interface.
+    implements(IExtensionPoint)
+    
     #### 'ExtensionPoint' *CLASS* interface ###################################
 
     # The extension registry that is used by all extension points.
     extension_registry = None
 
+    #### Private 'ExtensionPoint' *CLASS* interface ###########################
+
+    # A dictionary of all extension point traits.
+    #
+    # { obj : trait_names }
+    _obj_to_trait_names_map = weakref.WeakKeyDictionary()
+    
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -46,7 +56,8 @@ class ExtensionPoint(TraitType):
         # The trait type that describes the extension point.
         #
         # If we are handed a trait type *class* e.g. List, instead of a trait
-        # type *instance* e.g. List(Int), then we just instantiate it.
+        # type *instance* e.g. List() or List(Int) etc, then we just
+        # instantiate it.
         if inspect.isclass(trait_type):
             trait_type = trait_type()
                 
@@ -59,37 +70,59 @@ class ExtensionPoint(TraitType):
         else:
             self.id = id
 
+        # Add ourselves as a listener for when the extension point is changed.
+        ExtensionPoint.extension_registry.add_extension_listener(
+            self._extension_point_listener, self.id
+        )
+
         return
 
     ###########################################################################
     # 'TraitType' interface.
     ###########################################################################
 
-    def get(self, obj, name):
+    def get(self, obj, trait_name):
         """ Trait type getter. """
 
-        extensions = self._get_extensions(obj)
-        extensions = self._validate_extensions(obj, name, extensions)
+        extensions = self._get_extensions(self.id)
+        extensions = self._validate_extensions(obj, trait_name, extensions)
 
+        # We save the object and trait name combination so that we can fire the
+        # appropriate trait events if the extension point is changed in the
+        # extension registry.
+        trait_names = self._obj_to_trait_names_map.setdefault(obj, {})
+        if not trait_name in trait_names:
+            trait_names[trait_name] = True
+            
         return extensions
 
     def set(self, obj, name, value):
         """ Trait type setter. """
-        
-        raise TraitError('extension points cannot be set')
+
+        self._set_extensions(self.id, value)
+
+        return
 
     ###########################################################################
     # Protected 'ExtensionPoint' interface.
     ###########################################################################
 
-    def _get_extensions(self, obj):
+    def _get_extensions(self, extension_point_id):
         """ Return all contributions to this extension point. """
 
         extension_registry = ExtensionPoint.extension_registry
 
-        return extension_registry.get_extensions(self.id)
+        return extension_registry.get_extensions(extension_point_id)
 
-    def _validate_extensions(self, obj, name, extensions):
+    def _set_extensions(self, extension_point_id, extensions):
+        """ Set the contributions to this extension point. """
+
+        extension_registry = ExtensionPoint.extension_registry
+        extension_registry.set_extensions(extension_point_id, extensions)
+
+        return
+
+    def _validate_extensions(self, obj, trait_name, extensions):
         """ Validate the contibutions to this extension point. """
 
         # fixme: Ideally, instead of checking for 'None' here, we would just
@@ -97,8 +130,33 @@ class ExtensionPoint(TraitType):
         # trait type doesn't support the 'TraitType' interface 8^( It doesn't
         # have a 'validate' method!
         if self.trait_type is not None:
-            extensions = self.trait_type.validate(obj, name, extensions)
+            extensions = self.trait_type.validate(obj, trait_name, extensions)
 
         return extensions
+
+    ###########################################################################
+    # Private 'ExtensionPoint' interface.
+    ###########################################################################
+
+    def _extension_point_listener(self, extension_registry, event):
+        """ Listener called when an extension point is changed. """
+
+        for obj, trait_names in self._obj_to_trait_names_map.items():
+            for trait_name in trait_names:
+                # If an index was specified then we fire a '_items' changed
+                # event.
+                if event.index is not None:
+                    trait_name += '_items'
+                    old        = Undefined
+                    new        = event
+
+                # Otherwise, we fire a normal trait changed event.
+                else:
+                    old        = event.removed
+                    new        = event.added
+
+                obj.trait_property_changed(trait_name, old, new)
+        
+        return
     
 #### EOF ######################################################################

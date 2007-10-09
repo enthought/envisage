@@ -51,7 +51,7 @@ This tells us two things:
 2) That every contribution to the extension point must implement the
    IMessage_ interface.
 
-Note that because the whole purpose of extension points is ato allow multiple
+Note that because the whole purpose of extension points is to allow multiple
 contributions, they are always 'Lists's.
 
 2) Making contributions to an Extension Point
@@ -86,7 +86,10 @@ a simple module (messages.py_) and add our Message_ instances to it::
     ]
 
 Now we create a plugin for the acme.motd.software_quotes_ package and tell
-tell Envisage about the messages that we have just created::
+tell Envisage about the messages that we have just created. This can be done
+in one of two ways.
+
+We can either use a method decorated with the '@extension_point' decorator::
 
     class SoftwareQuotesPlugin(Plugin):
         """ The software quotes plugin. """
@@ -94,14 +97,42 @@ tell Envisage about the messages that we have just created::
         ...
 
         @extension_point('acme.motd.messages')
-        def get_messages(self, application):
+        def get_messages(self):
             """ Extension point contribution. """
 
+	    # It is good practise to only import your extensions when they
+	    # are actually required.
 	    from messages import messages
 
 	    return messages
 
 	...
+
+or we can use a trait with the 'extension_point' as metadata::
+
+    class SoftwareQuotesPlugin(Plugin):
+        """ The software quotes plugin. """
+
+        ...
+
+	messages = List(extension_point='acme.motd.messages')
+
+        def _messages_default(self):
+            """ Trait initializer. """
+
+	    # It is good practise to only import your extensions when they
+	    # are actually required.
+	    from messages import messages
+
+	    return messages
+
+	...
+
+The only difference between the two approaches is that using a trait allows
+the plugin to add and remove contributions to the extension point at runtime by
+simply manipulating the list as normal. The extension registry listens for
+changes to the list and will notify anybody actual *using* the extension point
+that the contributions have been changed.
 
 3) Retrieving the contributions to an Extension Point
 -----------------------------------------------------
