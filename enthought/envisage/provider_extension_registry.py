@@ -202,12 +202,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         if trait_name == 'extension_point_changed':
             logger.debug('provider <%s> extension point changed', obj)
 
-            extension_point = event.extension_point_id
+            extension_point_id = event.extension_point_id
             
             self._lk.acquire()
             try:
                 index = self._providers.index(obj)
-                extensions = self._extensions[extension_point][index]
+                extensions = self._extensions[extension_point_id][index]
 
                 if len(event.removed) > 0:
                     # Removed.
@@ -219,37 +219,33 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                     extensions.extend(event.added)
 
                 event_index = sum(
-                    map(len, self._extensions[extension_point][:index])
+                    map(len, self._extensions[extension_point_id][:index])
                 )
                 event_index += event.index
 
 
-                refs = self._get_listener_refs(extension_point)
+                refs = self._get_listener_refs(extension_point_id)
                 
             finally:
                 self._lk.release()
 
             # Let any listeners know that the extensions have been added.
             self._call_listeners(
-                refs, extension_point, event.added, event.removed, index
+                refs, extension_point_id, event.added, event.removed, index
             )
 
         return
 
     #### Methods ##############################################################
     
-    def _initialize_extensions(self, extension_point):
+    def _initialize_extensions(self, extension_point_id):
         """ Initialize the extensions to an extension point. """
 
         extensions = []
         for provider in self._providers:
-            contributions = provider.get_extensions(extension_point)[:]
-            if len(contributions) > 0:
-                self._extension_points[extension_point] = extension_point
-            
-            extensions.append(contributions)
+            extensions.append(provider.get_extensions(extension_point_id)[:])
 
-        logger.debug('extensions to <%s> : <%s>', extension_point, extensions)
+        logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)
 
         return extensions
 

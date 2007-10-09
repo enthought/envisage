@@ -43,7 +43,7 @@ class ExtensionPoint(TraitType):
     #
     # { obj : trait_names }
     _obj_to_trait_names_map = weakref.WeakKeyDictionary()
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -70,11 +70,6 @@ class ExtensionPoint(TraitType):
         else:
             self.id = id
 
-        # Add ourselves as a listener for when the extension point is changed.
-        ExtensionPoint.extension_registry.add_extension_listener(
-            self._extension_point_listener, self.id
-        )
-
         return
 
     ###########################################################################
@@ -87,13 +82,20 @@ class ExtensionPoint(TraitType):
         extensions = self._get_extensions(self.id)
         extensions = self._validate_extensions(obj, trait_name, extensions)
 
+        # Add ourselves as a listener for when the extension point is changed.
+        if len(self._obj_to_trait_names_map) == 0:
+            ExtensionPoint.extension_registry.add_extension_listener(
+                self._extension_point_listener, self.id
+            )
+            
         # We save the object and trait name combination so that we can fire the
         # appropriate trait events if the extension point is changed in the
         # extension registry.
         trait_names = self._obj_to_trait_names_map.setdefault(obj, {})
         if not trait_name in trait_names:
             trait_names[trait_name] = True
-            
+
+
         return extensions
 
     def set(self, obj, name, value):

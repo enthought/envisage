@@ -87,7 +87,7 @@ class ProviderExtensionTestCase(ExtensionRegistryTestCase):
         # Make sure there's one and only one extension point.
         extension_points = registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('x', extension_points[0])
+        self.assertEqual('x', extension_points[0].id)
 
         return
 

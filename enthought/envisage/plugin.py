@@ -64,11 +64,11 @@ class Plugin(ExtensionProvider):
         extension_points = []
         for trait in self.traits().values():
             if isinstance(trait.trait_type, ExtensionPoint):
-                extension_points.append(trait.trait_type.id)
+                extension_points.append(trait.trait_type)
 
         return extension_points
 
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point_id):
         """ Return the provider's extensions to an extension point.
 
         The return value *must* be a list. Return an empty list if the provider
@@ -76,10 +76,7 @@ class Plugin(ExtensionProvider):
 
         """
 
-        extensions = self._harvest_methods(extension_point)
-        extensions.extend(self._harvest_traits(extension_point))
-
-        return extensions
+        return self._harvest_traits(extension_point_id)
 
     ###########################################################################
     # 'IServiceProvider' interface.
@@ -190,26 +187,12 @@ class Plugin(ExtensionProvider):
         return
         
     #### Methods ##############################################################
-    
-    def _harvest_methods(self, extension_point):
-        """ Harvest all method-based contributions. """
+
+    def _harvest_traits(self, extension_point_id):
+        """ Harvest all trait-based contributions to an extension point. """
 
         extensions = []
-        for name, value in inspect.getmembers(self):
-            if self._is_extension_method(value, extension_point):
-                result = getattr(self, name)()
-                if not isinstance(result, list):
-                    result = [result]
-                            
-                extensions.extend(result)
-
-        return extensions
-
-    def _harvest_traits(self, extension_point):
-        """ Harvest all trait-based contributions. """
-
-        extensions = []
-        for trait_name in self.trait_names(extension_point=extension_point):
+        for trait_name in self.trait_names(extension_point=extension_point_id):
             value = getattr(self, trait_name)
             if not isinstance(value, list):
                 value = [value]
@@ -217,28 +200,5 @@ class Plugin(ExtensionProvider):
             extensions.extend(value)
             
         return extensions
-
-    def _is_extension_method(self, value, extension_point):
-        """ Return True if the value is an extension method.
-
-        i.e. If the method is one that makes a contribution to an extension
-        point. Currently there is exactly one way to make a method make a
-        contribution, and that is to mark it using the 'extension_point'
-        decorator, e.g::
-
-          @extension_point('acme.motd.messages')
-          def get_messages(self, application):
-              ...
-              messages = [...]
-              ...
-              return messages
-
-        """
-
-        if inspect.ismethod(value):
-            if extension_point == getattr(value, '__extension_point__', None):
-                return True
-
-        return False
     
 #### EOF ######################################################################
