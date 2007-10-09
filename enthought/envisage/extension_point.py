@@ -12,19 +12,6 @@ from enthought.traits.api import implements
 from i_extension_point import IExtensionPoint
 
 
-def extension_point(id):
-    """ A factory for extension point decorators! """
-
-    def decorator(fn):
-        """ A decorator for marking methods as extension contributors. """
-
-        fn.__extension_point__ = id
-
-        return fn
-
-    return decorator
-
-
 class ExtensionPoint(TraitType):
     """ An extension point. """
 

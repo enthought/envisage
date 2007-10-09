@@ -14,7 +14,7 @@ from i_service_registry import IServiceRegistry
 from application import Application
 from egg_plugin_manager import EggPluginManager
 from extension_registry import ExtensionRegistry
-from extension_point import ExtensionPoint, extension_point
+from extension_point import ExtensionPoint
 from extension_point_binding import ExtensionPointBinding, bind_extension_point
 from extension_provider import ExtensionProvider
 from extension_point_changed_event import ExtensionPointChangedEvent

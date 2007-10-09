@@ -2,34 +2,29 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, extension_point
+from enthought.envisage.api import Plugin
 
 
 class SoftwareQuotesPlugin(Plugin):
     """ The 'Software Quotes' plugin """
 
-    PREFERENCES = 'pkgfile://acme.motd.software_quotes/preferences.ini'
-    
     #### 'IPlugin' interface ##################################################
 
     id          = 'acme.motd.software_quotes'
     name        = 'Software Quotes'
     description = 'The Software Quotes Plugin'
     requires    = []
+
+    #### Extension point contributions ########################################
+
+    messages    = List(extension_point='acme.motd.messages')
     
     ###########################################################################
-    # Extension point contributions.
+    # 'SoftwareQuotesPlugin' interface.
     ###########################################################################
 
-    @extension_point('enthought.envisage.preferences')
-    def enthought_envisage_preferences(self, application):
-        """ Extension point contribution. """
-
-        return [SoftwareQuotesPlugin.PREFERENCES]
-
-    @extension_point('acme.motd.messages')
-    def get_messages(self, application):
-        """ Extension point contribution. """
+    def _messages_default(self):
+        """ Trait initializer. """
 
         from messages import messages
 
