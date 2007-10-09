@@ -2,30 +2,48 @@
 
 
 # Standard library imports.
-import random, unittest
+import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, bind_extension_point
-from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
-from enthought.traits.api import implements
+from enthought.traits.api import HasTraits, List
+
+
+# The starting list for all tests.
+TEST_LIST = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]
+
 
 
 def listener(obj, trait_name, old, event):
     """ Create the original list from a trait list event. """
 
-    # Ignore the '_items' part of the trait name (if it is there!).
-    trait_name = trait_name.split('_items')[0]
+    clone = TEST_LIST[:]
 
-    original = getattr(obj, trait_name)[:]
+    # If nothing was added then this must be a 'del' operation...
+    if len(event.added) == 0:
+        if isinstance(event.index, slice):
+            del clone[event.index]
 
-    if isinstance(event.index, slice):
-        original[event.index] = event.removed[0]
+        else:
+            del clone[event.index : event.index + len(event.removed)]
 
+    # If nothing was removed then it is some kind of append, extend or
+    # insert.
+    elif len(event.removed) == 0:
+        if isinstance(event.index, slice):
+            clone[event.index] = event.added[0]
+
+        else:
+            clone.insert(event.index, event.added[0])
+        
+    # Otherwise, it is some kind of assigment.
     else:
-        original[event.index : event.index + len(event.added)] = event.removed
+        if isinstance(event.index, slice):
+            clone[event.index] = event.added[0]
+
+        else:
+            clone[event.index : event.index + len(event.added)] = event.added 
     
-    listener.original = original
+    listener.clone = clone
 
     return
 
@@ -40,10 +58,19 @@ class SliceTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
+        class Foo(HasTraits):
+            l = List
+
+        self.f = Foo(l=TEST_LIST)
+        self.f.on_trait_change(listener, 'l_items')
+
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+
+        # Make sure we can replay the operation.
+        self.assertEqual(self.f.l, listener.clone)
         
         return
     
@@ -51,42 +78,102 @@ class SliceTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_del(self):
-        """ del """
+    def test_append(self):
+        """ append """
 
-        original = range(10)
-        
-        class Foo(HasTraits):
-            l = List
+        self.f.l.append(99)
 
-        f = Foo(l=original)
-        f.on_trait_change(listener, 'l_items')
+        return
 
-        # Delete an item.
-        del f.l[5:9]
+    def test_insert(self):
+        """ insert """
 
-        # Make sure we get the original.
-        self.assertEqual(original, listener.original)
+        self.f.l.insert(3, 99)
+
+        return
+
+    def test_extend(self):
+        """ extend """
+
+        self.f.l.append([99, 100])
+
+        return
+
+    def test_remove(self):
+        """ remove """
+
+        self.f.l.remove(5)
+
+        return
+
+    def test_reverse(self):
+        """ reverse """
+
+        self.f.l.reverse()
+
+        return
+
+    def test_sort(self):
+        """ sort """
+
+        self.f.l.sort()
+
+        return
+
+    def test_pop(self):
+        """ remove """
+
+        self.f.l.pop()
+
+        return
+
+    def test_del_all(self):
+        """ del all """
+
+        del self.f.l[:]
 
         return
     
-    def test_slice(self):
-        """ slice """
+    def test_assign_item(self):
+        """ assign item """
 
-        original = range(10)
-        
-        class Foo(HasTraits):
-            l = List
-
-        f = Foo(l=original)
-        f.on_trait_change(listener, 'l_items')
-
-        # Replace a slice.
-        f.l[2:6:2] = [88, 99]
-
-        # Make sure we get the original.
-        self.assertEqual(original, listener.original)
+        self.f.l[3] = 99
 
         return
-    
+
+    def test_del_item(self):
+        """ del item """
+
+        del self.f.l[3]
+
+        return
+
+    def test_assign_slice(self):
+        """ assign slice """
+
+        self.f.l[2:4] = [88, 99]
+
+        return
+
+    def test_del_slice(self):
+        """ del slice """
+
+        del self.f.l[2:5]
+
+        return
+
+    def test_assign_extended_slice(self):
+        """ assign extended slice """
+
+        self.f.l[2:6:2] = [88, 99]
+
+        return
+
+    def test_del_extended_slice(self):
+        """ del extended slice """
+
+        del self.f.l[2:6:2]
+
+        return
+
 #### EOF ######################################################################
