@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import List, Property, on_trait_change
+from enthought.traits.api import List, on_trait_change
 
 # Local imports.
 from extension_registry import ExtensionRegistry
@@ -19,18 +19,30 @@ logger = logging.getLogger(__name__)
 class ProviderExtensionRegistry(ExtensionRegistry):
     """ An extension registry implementation with multiple providers. """
 
-    #### 'ProviderExtensionRegistry' interface ################################
-
-    # The extension providers that populate the registry.
-    providers = Property(List(IExtensionProvider))
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
+    ####  Private interface ###################################################
 
     # The extension providers that populate the registry.
     _providers = List(IExtensionProvider)
 
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, providers=None, **traits):
+        """ Constructor. """
+
+        super(ProviderExtensionRegistry, self).__init__(**traits)
+        
+        # This constructor exists because we want the caller to be able to
+        # pass in a list of providers at creation time, but we don't that list
+        # to be public, and we don't want the caller to be able to modify the
+        # list dynamically.
+        if providers is not None:
+            for provider in providers:
+                self._add_provider(provider, {})
+            
+        return
+    
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.
     ###########################################################################
@@ -57,34 +69,9 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     ###########################################################################
     # 'ProviderExtensionRegistry' interface.
     ###########################################################################
-
-    def _get_providers(self):
-        """ Property getter. """
-
-        self._lk.acquire()
-        providers = self._providers[:]
-        self._lk.release()
-
-        return providers
-
-    def _set_providers(self, providers):
-        """ Property setter. """
-
-        self._lk.acquire()
-        self._providers = providers
-        self._lk.release()
-
-        return
         
     def add_provider(self, provider):
         """ Add an extension provider. """
-
-        self.add_providers([provider])
-
-        return
-
-    def add_providers(self, providers):
-        """ Add a list of extension providers. """
 
         self._lk.acquire()
 
@@ -92,24 +79,19 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # build up a dictionary of the 'ExtensionPointChanged' events that we
         # need to fire.
         events = {}
-        for provider in providers:
-            self._add_provider(provider, events)
+        self._add_provider(provider, events)
 
         self._lk.release()
 
-        for extension_point, (refs, added, index) in events.items():
-            self._call_listeners(refs, extension_point, added, [], index)
+        for extension_point_id, (refs, added, index) in events.items():
+            self._call_listeners(refs, extension_point_id, added, [], index)
 
         return
 
     def remove_provider(self, provider):
         """ Remove an extension provider.
 
-        Does nothing if the provider are not present.
-
-        N.B. There is no 'remove_providers' method because we cannot create
-        ---- valid list events if non-consecutive providers are removed. Hence
-             you have to remove providers one at a time.
+        Does nothing if the provider is not present.
 
         """
 
@@ -123,8 +105,8 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         
         self._lk.release()
 
-        for extension_point, (refs, removed, index) in events.items():
-            self._call_listeners(refs, extension_point, [], removed, index)
+        for extension_point_id, (refs, removed, index) in events.items():
+            self._call_listeners(refs, extension_point_id, [], removed, index)
 
         return
     
@@ -224,7 +206,11 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                 # from all providers.
                 start = sum(map(len, extensions[:provider_index]))
                 if isinstance(event.index, slice):
-                    event.index.start = event.index.start + start
+                    event.index = slice(
+                        event.index.start + start,
+                        event.index.stop  + start,
+                        event.index.step
+                    )
 
                 else:
                     event.index = event.index + start
@@ -257,7 +243,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return extensions
 
     def _update_list(self, l, event):
-        """ Update a list 'l'  based on a trait list event. """
+        """ Update a list 'l'  based on an 'ExtensionPointChanged' event. """
 
         # If nothing was added then this is a 'del' or 'remove' operation.
         if len(event.added) == 0:
@@ -271,7 +257,9 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # operation.
         elif len(event.removed) == 0:
             if isinstance(event.index, slice):
-                l[event.index] = event.added[0]
+                # fixme: For some reason, if the index is a slice then the
+                # trait list event 'added' trait contains a list of lists?!?
+                l[event.index] = event.added#[0]
 
             else:
                 l.insert(event.index, event.added[0])
@@ -280,7 +268,9 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # category).
         else:
             if isinstance(event.index, slice):
-                l[event.index] = event.added[0]
+                # fixme: For some reason, if the index is a slice then the
+                # trait list event 'added' trait contains a list of lists?!?
+                l[event.index] = event.added#[0]
 
             else:
                 l[event.index : event.index + len(event.added)] = event.added 

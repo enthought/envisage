@@ -177,7 +177,7 @@ class Plugin(ExtensionProvider):
             else:
                 removed = old
                 added   = new
-                index   = 0
+                index   = slice(0, len(old))
                 
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(
@@ -188,17 +188,36 @@ class Plugin(ExtensionProvider):
         
     #### Methods ##############################################################
 
+    def _create_multiple_traits_exception(self, extension_point_id):
+        """ Create the exception raised when multiple traits are found. """
+
+        exception = ValueError(
+            'multiple traits for extension point <%s> in plugin <%s>' % (
+                extension_point_id, self.id
+            )
+        )
+        
+        return exception
+    
     def _harvest_traits(self, extension_point_id):
         """ Harvest all trait-based contributions to an extension point. """
 
-        extensions = []
-        for trait_name in self.trait_names(extension_point=extension_point_id):
-            value = getattr(self, trait_name)
-            if not isinstance(value, list):
-                value = [value]
+        # Each class can have at most *one* trait that contributes to a
+        # particular extension point.
+        #
+        # fixme: We make this restriction in case that in future we can wire up
+        # the list traits directly. If we don't end up doing that then it is
+        # fine to allow mutiple traits!
+        trait_names = self.trait_names(extension_point=extension_point_id)
+        if len(trait_names) == 1:
+            extensions = getattr(self, trait_names[0])
 
-            extensions.extend(value)
-            
+        elif len(trait_names) == 0:
+            extensions = []
+
+        else:
+            raise self._create_multiple_traits_exception(extension_point_id)
+
         return extensions
-    
+
 #### EOF ######################################################################

@@ -77,7 +77,8 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                 return extensions
 
         # Add the providers to the registry.
-        registry.add_providers([ProviderA(), ProviderB()])
+        registry.add_provider(ProviderA())
+        registry.add_provider(ProviderB())
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
@@ -120,6 +121,15 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
                 return extensions
 
+            def _x_changed(self, old, new):
+                """ Static trait change handler. """
+
+                self._fire_extension_point_changed(
+                    'my.ep', new, old, slice(0, len(old))
+                )
+                
+                return
+
             def _x_items_changed(self, event):
                 """ Static trait change handler. """
 
@@ -128,6 +138,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                 )
                 
                 return
+
 
         class ProviderB(ExtensionProvider):
             """ An extension provider. """
@@ -147,6 +158,15 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
                 return extensions
 
+            def _x_changed(self, old, new):
+                """ Static trait change handler. """
+
+                self._fire_extension_point_changed(
+                    'my.ep', new, old, slice(0, len(old))
+                )
+                
+                return
+
             def _x_items_changed(self, event):
                 """ Static trait change handler. """
 
@@ -156,10 +176,11 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                 
                 return
 
-        # Add the provider to the registry.
+        # Add the providers to the registry.
         a = ProviderA(x=[42])
         b = ProviderB(x=[99, 100])
-        registry.add_providers([a, b])
+        registry.add_provider(a)
+        registry.add_provider(b)
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('my.ep')
@@ -194,7 +215,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(4, len(extensions))
         self.assertEqual([42, 43, 99, 100], extensions)
 
-        # Add a new extension via the other provider.
+        # Insert a new extension via the other provider.
         b.x.insert(0, 98)
 
         # Make sure the listener got called.
@@ -207,6 +228,21 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         extensions = registry.get_extensions('my.ep')
         self.assertEqual(5, len(extensions))
         self.assertEqual([42, 43, 98, 99, 100], extensions)
+
+        # Completely change a provider's extensions.
+        b.x = [1, 2]
+
+        # Make sure the listener got called.
+        self.assertEqual('my.ep', listener.extension_point)
+        self.assertEqual([1, 2], listener.added)
+        self.assertEqual([98, 99, 100], listener.removed)
+        self.assertEqual(2, listener.index.start)
+        self.assertEqual(5, listener.index.stop)
+        
+        # Now we should get the new extension.
+        extensions = registry.get_extensions('my.ep')
+        self.assertEqual(4, len(extensions))
+        self.assertEqual([42, 43, 1, 2], extensions)
 
         return
 
@@ -351,7 +387,8 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # Add the providers to the registry.
         a = ProviderA()
         b = ProviderB()
-        registry.add_providers([a, b])
+        registry.add_provider(a)
+        registry.add_provider(b)
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
