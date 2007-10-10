@@ -81,10 +81,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
-        self.assertEqual('x', listener.trait_name)
-        self.assertEqual(2, len(listener.new))
-        self.assert_(42 in listener.new)
-        self.assert_('a string' in listener.new)
+        self.assertEqual('x_items', listener.trait_name)
+        self.assertEqual(1, len(listener.new.added))
+        self.assert_('a string' in listener.new.added)
         
         return
 

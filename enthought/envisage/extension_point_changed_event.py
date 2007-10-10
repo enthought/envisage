@@ -2,22 +2,21 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, HasTraits, List, Str
+from enthought.traits.api import TraitListEvent
 
 
-class ExtensionPointChangedEvent(HasTraits):
+class ExtensionPointChangedEvent(TraitListEvent):
     """ An event fired when an extension point's extensions have changed. """
-    
-    # The Id of the extension point that changed.
-    extension_point_id = Str
 
-    # The extensions that have been added to the extension point.
-    added = List
+    def __init__ (self, extension_point_id=None, **kw):
+        """ Constructor. """
 
-    # The extensions that have been removed from the extension point.
-    removed = List
+        # The base class has the 'index', 'removed' and 'added' attributes.
+        super(ExtensionPointChangedEvent, self).__init__(**kw)
 
-    # The index at which the first extension was added or removed.
-    index = Any
+        # We add the extension point Id.
+        self.extension_point_id = extension_point_id
+
+        return
     
 #### EOF ######################################################################

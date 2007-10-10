@@ -188,32 +188,32 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             
             self._lk.acquire()
             try:
-                # This is a list of lists, each inner list contains the
+                # This is a list of lists where each inner list contains the
                 # contributions made to the extension point by a single
                 # provider.
                 extensions = self._extensions[extension_point_id]
-                
+
                 # Find the index of the provider in the provider list. Its
                 # contributions are at the same index in the extensions list of
                 # lists.
                 provider_index = self._providers.index(obj)
-                
-                # Update the provider's contributions based on the event.
-                self._update_list(extensions[provider_index], event)
 
-                # Trnaslate the index from one that refers to the list of
+                # Get the updated list from the provider.
+                extensions[provider_index] = obj.get_extensions(
+                    extension_point_id
+                )
+                
+##                 # Update the provider's contributions based on the event.
+##                 self._update_list(extensions[provider_index], event)
+
+                # Find where the provider's contributions are in the whole
+                # 'list'.
+                offset = sum(map(len, extensions[:provider_index]))
+                
+                # Translate the event index from one that refers to the list of
                 # contributions from the provider, to the list of contributions
                 # from all providers.
-                start = sum(map(len, extensions[:provider_index]))
-                if isinstance(event.index, slice):
-                    event.index = slice(
-                        event.index.start + start,
-                        event.index.stop  + start,
-                        event.index.step
-                    )
-
-                else:
-                    event.index = event.index + start
+                event.index = self._translate_index(event.index, offset)
 
                 # Find out who is listening.
                 refs = self._get_listener_refs(extension_point_id)
@@ -242,35 +242,46 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         return extensions
 
-    def _update_list(self, l, event):
-        """ Update a list 'l'  based on an 'ExtensionPointChanged' event. """
+##     def _update_list(self, l, event):
+##         """ Update a list 'l'  based on an 'ExtensionPointChanged' event. """
 
-        # If nothing was added then this is a 'del' or 'remove' operation.
-        if len(event.added) == 0:
-            if isinstance(event.index, slice):
-                del l[event.index]
+##         # If nothing was added then this is a 'del' or 'remove' operation.
+##         if len(event.added) == 0:
+##             if isinstance(event.index, slice):
+##                 del l[event.index]
                 
-            else:
-                del l[event.index : event.index + len(event.removed)]
+##             else:
+##                 del l[event.index : event.index + len(event.removed)]
 
-        # If nothing was removed then it is an 'append', 'insert' or 'extend'
-        # operation.
-        elif len(event.removed) == 0:
-            if isinstance(event.index, slice):
-                l[event.index] = event.added
+##         # If nothing was removed then it is an 'append', 'insert' or 'extend'
+##         # operation.
+##         elif len(event.removed) == 0:
+##             if isinstance(event.index, slice):
+##                 l[event.index] = event.added
 
-            else:
-                l.insert(event.index, event.added[0])
+##             else:
+##                 l.insert(event.index, event.added[0])
         
-        # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
-        # category).
+##         # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
+##         # category).
+##         else:
+##             if isinstance(event.index, slice):
+##                 l[event.index] = event.added
+
+##             else:
+##                 l[event.index : event.index + len(event.added)] = event.added 
+
+##         return
+
+    def _translate_index(self, index, offset):
+        """ Translate an event index by the given offset. """
+        
+        if isinstance(index, slice):
+            index = slice(index.start+offset, index.stop+offset, index.step)
+
         else:
-            if isinstance(event.index, slice):
-                l[event.index] = event.added
+            index = index + offset
 
-            else:
-                l[event.index : event.index + len(event.added)] = event.added 
-
-        return
-
+        return index
+    
 #### EOF ######################################################################

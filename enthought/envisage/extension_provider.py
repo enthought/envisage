@@ -33,7 +33,7 @@ class ExtensionProvider(HasTraits):
 
     def _fire_extension_point_changed(self, extension_point_id, added, removed,
                                       index):
-        """ Fire an extensions changed event. """
+        """ Fire an extension point changed event. """
 
         self.extension_point_changed = ExtensionPointChangedEvent(
             extension_point_id = extension_point_id,

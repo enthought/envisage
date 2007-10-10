@@ -211,8 +211,6 @@ class PluginTestCase(unittest.TestCase):
 
         # Make sure we get all of the plugin's contributions via the bound
         # trait.
-        f.x.sort()
-        self.assertEqual(6, len(f.x))
         self.assertEqual([1, 2, 3, 4, 5, 6], f.x)
         
         # Add another contribution to one of the plugins.
@@ -220,13 +218,23 @@ class PluginTestCase(unittest.TestCase):
 
         # Make sure that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
-        self.assertEqual('x', listener.trait_name)
-        self.assertEqual(7, len(listener.new))
+        self.assertEqual('x_items', listener.trait_name)
+        self.assert_(99 in listener.new.added)
         
         # Make sure we have picked up the new contribution via the bound trait.
-        f.x.sort()
-        self.assertEqual(7, len(f.x))
         self.assertEqual([1, 2, 3, 4, 5, 6, 99], f.x)
+
+        # Completley overwrite one of the plugins contributions
+        b.x = [100, 101]
+
+        # Make sure that the correct trait change event was fired.
+        self.assertEqual(f, listener.obj)
+        self.assertEqual('x_items', listener.trait_name)
+        self.assertEqual([100, 101], listener.new.added)
+        self.assertEqual([4, 5, 6, 99], listener.new.removed)
+        
+        # Make sure we have picked up the new contribution via the bound trait.
+        self.assertEqual([1, 2, 3, 100, 101], f.x)
 
         return
 

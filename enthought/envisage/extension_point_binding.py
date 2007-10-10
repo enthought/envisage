@@ -5,7 +5,7 @@
 import weakref
 
 # Enthought library imports.
-from enthought.traits.api import Any, HasTraits, Str
+from enthought.traits.api import Any, HasTraits, Str, Undefined
 
 
 class ExtensionPointBinding(HasTraits):
@@ -67,7 +67,15 @@ class ExtensionPointBinding(HasTraits):
         """ Dynamic trait change handler. """
 
         if not self._event_handled:
-            self.extension_registry.set_extensions(self.extension_point_id,new)
+            self._set_extensions(new)
+
+        return
+
+    def _on_trait_items_changed(self, obj, trait_name, old, event):
+        """ Dynamic trait change handler. """
+
+        if not self._event_handled:
+            self._set_extensions(getattr(obj, self.trait_name))
 
         return
 
@@ -77,7 +85,11 @@ class ExtensionPointBinding(HasTraits):
         """ Listener called when an extension point is changed. """
 
         self._event_handled = True
-        self._set_trait(notify=True)
+        if event.index is not None:
+            self._update_trait(event)
+            
+        else:
+            self._set_trait(notify=True)
         self._event_handled = False
 
         return
@@ -88,7 +100,13 @@ class ExtensionPointBinding(HasTraits):
         """ Wire-up trait change handlers etc. """
 
         # Listen for the object's trait being changed.
-        self.obj.on_trait_change(self._on_trait_changed, self.trait_name)
+        self.obj.on_trait_change(
+            self._on_trait_changed, self.trait_name
+        )
+
+        self.obj.on_trait_change(
+            self._on_trait_items_changed, self.trait_name + '_items'
+        )
 
         # Listen for the extension point being changed.
         self.extension_registry.add_extension_listener(
@@ -104,6 +122,26 @@ class ExtensionPointBinding(HasTraits):
         traits = {self.trait_name : value}
 
         self.obj.set(trait_change_notify=notify, **traits)
+
+        return
+
+    def _update_trait(self, event):
+        """ Update the object's trait to the value of the extension point. """
+
+        self._set_trait(notify=False)
+
+        self.obj.trait_property_changed(
+            self.trait_name + '_items', Undefined, event
+        )
+
+        return
+
+    def _set_extensions(self, extension_point_id, extensions):
+        """ Set the extensions to an extension point. """
+        
+        self.extension_registry.set_extensions(
+            self.extension_point_id, extensions
+        )
 
         return
 
