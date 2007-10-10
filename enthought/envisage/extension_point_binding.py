@@ -136,7 +136,7 @@ class ExtensionPointBinding(HasTraits):
 
         return
 
-    def _set_extensions(self, extension_point_id, extensions):
+    def _set_extensions(self, extensions):
         """ Set the extensions to an extension point. """
         
         self.extension_registry.set_extensions(

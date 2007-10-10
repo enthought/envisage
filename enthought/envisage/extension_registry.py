@@ -123,6 +123,15 @@ class ExtensionRegistry(HasTraits):
 
         return extensions
 
+    def get_extension_point(self, extension_point_id):
+        """ Return the extension point with the specified Id.
+
+        Return None if no such extension point exists.
+
+        """
+
+        return self._extension_points.get(extension_point_id)
+        
     def get_extension_points(self):
         """ Return all extension points. """
 

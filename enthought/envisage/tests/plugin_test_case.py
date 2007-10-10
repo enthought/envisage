@@ -181,6 +181,26 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
+    def test_multiple_trait_contributions(self):
+        """ multiple trait contributions """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = List(Int, [1, 2, 3], extension_point='x')
+            y  = List(Int, [4, 5, 6], extension_point='x')
+
+        a = PluginA()
+
+        application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
+        )
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
+
+        return
+
     def test_trait_contributions_with_binding(self):
         """ trait contributions with binding """
 
@@ -238,4 +258,26 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
+    def test_preferences(self):
+        """ preferences """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = List(
+                ['file://preferences.ini'],
+                extension_point='enthought.envisage.preferences'
+            )
+
+        a = PluginA()
+        
+        application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
+        )
+        application.run()
+
+        # Make sure we can get one of the preferences.
+        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+
+        return
+    
 #### EOF ######################################################################

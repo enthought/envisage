@@ -118,22 +118,16 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """ Add a new provider. """
 
         # Add the provider's extension points.
-        for extension_point in provider.get_extension_points():
-            self._extension_points[extension_point.id] = extension_point
-            
+        self._add_provider_extension_points(provider)
+        
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
         for extension_point, extensions in self._extensions.items():
             new = provider.get_extensions(extension_point)
             if len(new) > 0:
-                if extension_point not in events:
-                    index = sum(map(len, extensions))
-                    refs  = self._get_listener_refs(extension_point)
-                    events[extension_point] = (refs, new[:], index)
-                    
-                else:
-                    added, index, refs = events[extension_point]
-                    added.extend(new)
+                index = sum(map(len, extensions))
+                refs  = self._get_listener_refs(extension_point)
+                events[extension_point] = (refs, new[:], index)
 
             extensions.append(new)
             
@@ -141,6 +135,14 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         return
 
+    def _add_provider_extension_points(self, provider):
+        """ Add a provider's extension points to the registry. """
+
+        for extension_point in provider.get_extension_points():
+            self._extension_points[extension_point.id] = extension_point
+
+        return
+    
     def _remove_provider(self, provider, events):
         """ Remove a provider. """
 
@@ -161,13 +163,20 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             self._providers.remove(provider)
 
             # Remove the provider's extension points.
-            for extension_point in provider.get_extension_points():
-                # Remove the extension point.
-                del self._extension_points[extension_point_id]
+            self._remove_provider_extension_points(provider)
 
-                # Remove any extensions to the extension point.
-                if extension_point_id in self._extensions:
-                    del self._extensions[extension_point_id]
+        return
+
+    def _remove_provider_extension_points(self, provider):
+        """ Remove a provider's extension points from the registry. """
+        
+        for extension_point in provider.get_extension_points():
+            # Remove the extension point.
+            del self._extension_points[extension_point.id]
+
+            # Remove any extensions to the extension point.
+            if extension_point.id in self._extensions:
+                del self._extensions[extension_point.id]
 
         return
 
