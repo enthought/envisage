@@ -257,9 +257,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # operation.
         elif len(event.removed) == 0:
             if isinstance(event.index, slice):
-                # fixme: For some reason, if the index is a slice then the
-                # trait list event 'added' trait contains a list of lists?!?
-                l[event.index] = event.added#[0]
+                l[event.index] = event.added
 
             else:
                 l.insert(event.index, event.added[0])
@@ -268,9 +266,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # category).
         else:
             if isinstance(event.index, slice):
-                # fixme: For some reason, if the index is a slice then the
-                # trait list event 'added' trait contains a list of lists?!?
-                l[event.index] = event.added#[0]
+                l[event.index] = event.added
 
             else:
                 l[event.index : event.index + len(event.added)] = event.added 

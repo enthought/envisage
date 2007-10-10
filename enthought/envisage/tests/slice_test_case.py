@@ -1,4 +1,4 @@
-""" Tests for trait list events. """
+""" Tests to help find out how trait list events work. """
 
 
 # Standard library imports.
@@ -9,12 +9,11 @@ from enthought.traits.api import HasTraits, List
 
 
 # The starting list for all tests.
-TEST_LIST = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]
-
+TEST_LIST = [7, 9, 2, 3, 4, 1, 6, 5, 8, 0]
 
 
 def listener(obj, trait_name, old, event):
-    """ Create the original list from a trait list event. """
+    """ Recreate a list operation from a trait list event. """
 
     clone = TEST_LIST[:]
 
@@ -50,7 +49,7 @@ def listener(obj, trait_name, old, event):
 
 
 class SliceTestCase(unittest.TestCase):
-    """ Tests for trait list events. """
+    """ Tests to help find out how trait list events work. """
 
     ###########################################################################
     # 'TestCase' interface.
@@ -70,7 +69,7 @@ class SliceTestCase(unittest.TestCase):
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
-        # Make sure we can replay the operation.
+        # Make sure we successfully recreated the operation.
         self.assertEqual(self.f.l, listener.clone)
         
         return
