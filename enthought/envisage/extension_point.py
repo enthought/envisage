@@ -69,7 +69,9 @@ class ExtensionPoint(TraitType):
         extensions = self._get_extensions(self.id)
         extensions = self._validate_extensions(obj, trait_name, extensions)
 
-        # Add ourselves as a listener for when the extension point is changed.
+        # If this is the first time that this trait type instance has been
+        # accessed then we add ourselves as a listener for when the extension
+        # point is changed.
         if len(self._obj_to_trait_names_map) == 0:
             ExtensionPoint.extension_registry.add_extension_listener(
                 self._extension_point_listener, self.id
@@ -81,7 +83,6 @@ class ExtensionPoint(TraitType):
         trait_names = self._obj_to_trait_names_map.setdefault(obj, {})
         if not trait_name in trait_names:
             trait_names[trait_name] = True
-
 
         return extensions
 
