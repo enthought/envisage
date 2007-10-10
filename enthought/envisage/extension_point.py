@@ -132,7 +132,7 @@ class ExtensionPoint(TraitType):
 
         for obj, trait_names in self._obj_to_trait_names_map.items():
             for trait_name in trait_names:
-                # If an index was specified then we fire a '_items' changed
+                # If an index was specified then we fire an '_items' changed
                 # event.
                 if event.index is not None:
                     trait_name += '_items'

@@ -206,36 +206,43 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             
             self._lk.acquire()
             try:
-                index = self._providers.index(obj)
-                extensions = self._extensions[extension_point_id][index]
-
-                if len(event.removed) > 0:
-                    # Removed.
-                    for extension in event.removed:
-                        extensions.remove(extension)
-                    
-                elif len(event.added) > 0:
-                    # Added.
-                    extensions.extend(event.added)
-
-                event_index = sum(
-                    map(len, self._extensions[extension_point_id][:index])
-                )
-                event_index += event.index
-
-
-                refs = self._get_listener_refs(extension_point_id)
+                # This is a list of lists, each inner list contains the
+                # contributions made to the extension point by a single
+                # provider.
+                extensions = self._extensions[extension_point_id]
                 
+                # Find the index of the provider in the provider list. Its
+                # contributions are at the same index in the extensions list of
+                # lists.
+                provider_index = self._providers.index(obj)
+                
+                # Update the provider's contributions based on the event.
+                self._update_list(extensions[provider_index], event)
+
+                # Trnaslate the index from one that refers to the list of
+                # contributions from the provider, to the list of contributions
+                # from all providers.
+                start = sum(map(len, extensions[:provider_index]))
+                if isinstance(event.index, slice):
+                    event.index.start = event.index.start + start
+
+                else:
+                    event.index = event.index + start
+
+                # Find out who is listening.
+                refs = self._get_listener_refs(extension_point_id)
+
             finally:
                 self._lk.release()
 
             # Let any listeners know that the extensions have been added.
             self._call_listeners(
-                refs, extension_point_id, event.added, event.removed, index
+                refs, extension_point_id, event.added, event.removed,
+                event.index
             )
 
         return
-
+        
     #### Methods ##############################################################
     
     def _initialize_extensions(self, extension_point_id):
@@ -248,5 +255,36 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)
 
         return extensions
+
+    def _update_list(self, l, event):
+        """ Update a list 'l'  based on a trait list event. """
+
+        # If nothing was added then this is a 'del' or 'remove' operation.
+        if len(event.added) == 0:
+            if isinstance(event.index, slice):
+                del l[event.index]
+                
+            else:
+                del l[event.index : event.index + len(event.removed)]
+
+        # If nothing was removed then it is an 'append', 'insert' or 'extend'
+        # operation.
+        elif len(event.removed) == 0:
+            if isinstance(event.index, slice):
+                l[event.index] = event.added[0]
+
+            else:
+                l.insert(event.index, event.added[0])
+        
+        # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
+        # category).
+        else:
+            if isinstance(event.index, slice):
+                l[event.index] = event.added[0]
+
+            else:
+                l[event.index : event.index + len(event.added)] = event.added 
+
+        return
 
 #### EOF ######################################################################

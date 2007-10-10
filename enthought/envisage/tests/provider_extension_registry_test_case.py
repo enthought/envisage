@@ -10,7 +10,7 @@ from enthought.traits.api import Int, List
 from extension_registry_test_case import ExtensionRegistryTestCase
 
 
-class ProviderExtensionTestCase(ExtensionRegistryTestCase):
+class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
     """ Tests for the provider extension registry. """
 
     ###########################################################################
@@ -96,7 +96,7 @@ class ProviderExtensionTestCase(ExtensionRegistryTestCase):
 
         registry = self.registry
 
-        # A provider.
+        # Some providers.
         class ProviderA(ExtensionProvider):
             """ An extension provider. """
 
@@ -107,12 +107,39 @@ class ProviderExtensionTestCase(ExtensionRegistryTestCase):
                 
                 return [ExtensionPoint(List, 'x')]
 
-            def get_extensions(self, extension_point):
+            def get_extensions(self, extension_point_id):
                 """ Return the provider's contributions to an extension point.
 
                 """
 
-                if extension_point == 'my.ep':
+                if extension_point_id == 'my.ep':
+                    return self.x
+
+                else:
+                    extensions = []
+
+                return extensions
+
+            def _x_items_changed(self, event):
+                """ Static trait change handler. """
+
+                self._fire_extension_point_changed(
+                    'my.ep', event.added, event.removed, event.index
+                )
+                
+                return
+
+        class ProviderB(ExtensionProvider):
+            """ An extension provider. """
+
+            x = List(Int)
+
+            def get_extensions(self, extension_point_id):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point_id == 'my.ep':
                     return self.x
 
                 else:
@@ -131,12 +158,13 @@ class ProviderExtensionTestCase(ExtensionRegistryTestCase):
 
         # Add the provider to the registry.
         a = ProviderA(x=[42])
-        registry.add_provider(a)
+        b = ProviderB(x=[99, 100])
+        registry.add_providers([a, b])
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('my.ep')
-        self.assertEqual(1, len(extensions))
-        self.assert_(42 in extensions)
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([42, 99, 100], extensions)
 
         # Add an extension listener to the registry.
         def listener(registry, event):
@@ -159,12 +187,26 @@ class ProviderExtensionTestCase(ExtensionRegistryTestCase):
         self.assertEqual('my.ep', listener.extension_point)
         self.assertEqual([43], listener.added)
         self.assertEqual([], listener.removed)
+        self.assertEqual(1, listener.index)
         
         # Now we should get the new extension.
         extensions = registry.get_extensions('my.ep')
-        self.assertEqual(2, len(extensions))
-        self.assert_(42 in extensions)
-        self.assert_(43 in extensions)
+        self.assertEqual(4, len(extensions))
+        self.assertEqual([42, 43, 99, 100], extensions)
+
+        # Add a new extension via the other provider.
+        b.x.insert(0, 98)
+
+        # Make sure the listener got called.
+        self.assertEqual('my.ep', listener.extension_point)
+        self.assertEqual([98], listener.added)
+        self.assertEqual([], listener.removed)
+        self.assertEqual(2, listener.index)
+        
+        # Now we should get the new extension.
+        extensions = registry.get_extensions('my.ep')
+        self.assertEqual(5, len(extensions))
+        self.assertEqual([42, 43, 98, 99, 100], extensions)
 
         return
 

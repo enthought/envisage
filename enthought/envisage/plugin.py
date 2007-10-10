@@ -181,7 +181,7 @@ class Plugin(ExtensionProvider):
                 
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(
-                trait.extension_point, added, removed, index=index
+                trait.extension_point, added, removed, index
             )
 
         return
