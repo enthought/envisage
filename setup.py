@@ -49,6 +49,6 @@ setup(
         ],
     packages = find_packages(),
     url = "http://code.enthought.com/envisage",
-    version = "3.0.0a2",
+    version = "3.0.0b1",
     zip_safe = False,
     )

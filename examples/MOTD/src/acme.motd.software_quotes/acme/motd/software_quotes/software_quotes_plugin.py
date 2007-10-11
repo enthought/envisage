@@ -18,7 +18,8 @@ class SoftwareQuotesPlugin(Plugin):
 
     #### Extension point contributions ########################################
 
-    messages    = List(extension_point='acme.motd.messages')
+    # Messages for the 'Message Of The Day'.
+    messages = List(extension_point='acme.motd.messages')
     
     ###########################################################################
     # 'SoftwareQuotesPlugin' interface.
@@ -27,6 +28,8 @@ class SoftwareQuotesPlugin(Plugin):
     def _messages_default(self):
         """ Trait initializer. """
 
+        # It is good practise to only import/create your contributions when
+        # they are needed.
         from messages import messages
 
         return messages

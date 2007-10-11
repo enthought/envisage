@@ -21,10 +21,17 @@ class MOTDPlugin(Plugin):
     description = 'The ACME Message of the Day (MOTD) Plugin'
     requires    = []
 
-    #### 'MOTDPlugin' interface ###############################################
+    #### Extension points #####################################################
 
     # The messages extension point.
-    messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
+    messages = ExtensionPoint(
+        List(IMessage), id='acme.motd.messages', desc = """
+
+        This extension point allows you to contribute messages to the 'Message
+        Of The Day'.
+
+        """
+    )
     
     ###########################################################################
     # 'IPlugin' interface.
