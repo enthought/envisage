@@ -55,11 +55,11 @@ class MOTDPlugin(Plugin):
         
         return
 
-    def stop(self, application):
+    def stop(self):
         """ Stop the plugin. """
 
         # Unregister the MOTD service.
-        application.unregister_service(self._motd_service_id)
+        self.application.unregister_service(self._motd_service_id)
         
         return
 
