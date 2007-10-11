@@ -440,4 +440,22 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         return
 
+    def test_remove_non_existent_provider(self):
+        """ remove provider """
+
+        registry = self.registry
+
+        # Some providers.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+
+            pass
+
+        a = ProviderA()
+        
+        # Remove one of the providers.
+        self.failUnlessRaises(ValueError, registry.remove_provider, a)
+
+        return
+
 #### EOF ######################################################################

@@ -34,6 +34,9 @@ class IExtensionRegistry(Interface):
     def add_extension_point(self, extension_point):
         """ Add an extension point.
 
+        If an extension point already exists with this Id then it is simply
+        replaced.
+
         """
 
     def get_extensions(self, extension_point_id):

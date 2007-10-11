@@ -39,7 +39,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # list dynamically.
         if providers is not None:
             for provider in providers:
-                self._add_provider(provider, {})
+                self._add_provider(provider)
             
         return
     
@@ -54,12 +54,15 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         if extension_point in self._extensions:
             extensions = self._extensions[extension_point]
 
-        # If not, then see if any of the providers have any contributions to
-        # make.
+        # If not, then ask each provider in trun for its contributions to this
+        # extension point.
         else:
             extensions = self._initialize_extensions(extension_point)
             self._extensions[extension_point] = extensions
 
+        # We store the extensions as a list of lists, with each inner list
+        # containing the contributions from a single provider. Here we just
+        # concatenate them into a single list.
         all = []
         for extensions in extensions:
             all.extend(extensions)
@@ -74,13 +77,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """ Add an extension provider. """
 
         self._lk.acquire()
-
-        # Each provider can contribute to multiple extension points, so we
-        # build up a dictionary of the 'ExtensionPointChanged' events that we
-        # need to fire.
-        events = {}
-        self._add_provider(provider, events)
-
+        events = self._add_provider(provider)
         self._lk.release()
 
         for extension_point_id, (refs, added, index) in events.items():
@@ -91,18 +88,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def remove_provider(self, provider):
         """ Remove an extension provider.
 
-        Does nothing if the provider is not present.
+        Raise a 'ValueError' if the provider is not in the registry.
 
         """
 
         self._lk.acquire()
-
-        # Each provider can contribute to multiple extension points, so we
-        # build up a dictionary of the 'ExtensionPointChanged' events that we
-        # need to fire.
-        events = {}
-        self._remove_provider(provider, events)
-        
+        events = self._remove_provider(provider)
         self._lk.release()
 
         for extension_point_id, (refs, removed, index) in events.items():
@@ -114,9 +105,14 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     # Protected 'ProviderExtensionRegistry' interface.
     ###########################################################################
 
-    def _add_provider(self, provider, events):
+    def _add_provider(self, provider):
         """ Add a new provider. """
 
+        # Each provider can contribute to multiple extension points, so we
+        # build up a dictionary of the 'ExtensionPointChanged' events that we
+        # need to fire.
+        events = {}
+        
         # Add the provider's extension points.
         self._add_provider_extension_points(provider)
         
@@ -133,7 +129,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             
         self._providers.append(provider)
 
-        return
+        return events
 
     def _add_provider_extension_points(self, provider):
         """ Add a provider's extension points to the registry. """
@@ -143,29 +139,33 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         return
     
-    def _remove_provider(self, provider, events):
+    def _remove_provider(self, provider):
         """ Remove a provider. """
 
-        if provider in self._providers:
-            index = self._providers.index(provider)
+        # Each provider can contribute to multiple extension points, so we
+        # build up a dictionary of the 'ExtensionPointChanged' events that we
+        # need to fire.
+        events = {}
 
-            # Does the provider contribute any extensions to an extension point
-            # that has already been accessed?
-            for extension_point, extensions in self._extensions.items():
-                old = extensions[index]
-                if len(old) > 0:
-                    index = sum(map(len, extensions[:index]))
-                    refs  = self._get_listener_refs(extension_point)
-                    events[extension_point] = (refs, old[:], index)
+        index = self._providers.index(provider)
 
-                del extensions[index]
+        # Does the provider contribute any extensions to an extension point
+        # that has already been accessed?
+        for extension_point, extensions in self._extensions.items():
+            old = extensions[index]
+            if len(old) > 0:
+                index = sum(map(len, extensions[:index]))
+                refs  = self._get_listener_refs(extension_point)
+                events[extension_point] = (refs, old[:], index)
 
-            self._providers.remove(provider)
+            del extensions[index]
 
-            # Remove the provider's extension points.
-            self._remove_provider_extension_points(provider)
+        self._providers.remove(provider)
 
-        return
+        # Remove the provider's extension points.
+        self._remove_provider_extension_points(provider)
+
+        return events
 
     def _remove_provider_extension_points(self, provider):
         """ Remove a provider's extension points from the registry. """
@@ -211,9 +211,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                 extensions[provider_index] = obj.get_extensions(
                     extension_point_id
                 )
-                
-##                 # Update the provider's contributions based on the event.
-##                 self._update_list(extensions[provider_index], event)
 
                 # Find where the provider's contributions are in the whole
                 # 'list'.
@@ -250,37 +247,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)
 
         return extensions
-
-##     def _update_list(self, l, event):
-##         """ Update a list 'l'  based on an 'ExtensionPointChanged' event. """
-
-##         # If nothing was added then this is a 'del' or 'remove' operation.
-##         if len(event.added) == 0:
-##             if isinstance(event.index, slice):
-##                 del l[event.index]
-                
-##             else:
-##                 del l[event.index : event.index + len(event.removed)]
-
-##         # If nothing was removed then it is an 'append', 'insert' or 'extend'
-##         # operation.
-##         elif len(event.removed) == 0:
-##             if isinstance(event.index, slice):
-##                 l[event.index] = event.added
-
-##             else:
-##                 l.insert(event.index, event.added[0])
-        
-##         # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
-##         # category).
-##         else:
-##             if isinstance(event.index, slice):
-##                 l[event.index] = event.added
-
-##             else:
-##                 l[event.index : event.index + len(event.added)] = event.added 
-
-##         return
 
     def _translate_index(self, index, offset):
         """ Translate an event index by the given offset. """

@@ -59,12 +59,10 @@ class ExtensionRegistry(HasTraits):
     def __init__(self, **traits):
         """ Constructor. """
 
+        super(ExtensionRegistry, self).__init__(**traits)
+
         # A lock to make access to the registry thread-safe.
         self._lk = threading.Lock()
-
-        # We have to create the lock first in-case it is required when a trait
-        # is set.
-        super(ExtensionRegistry, self).__init__(**traits)
 
         return
     
@@ -130,7 +128,11 @@ class ExtensionRegistry(HasTraits):
 
         """
 
-        return self._extension_points.get(extension_point_id)
+        self._lk.acquire()
+        extension_point = self._extension_points.get(extension_point_id)
+        self._lk.release()
+
+        return extension_point
         
     def get_extension_points(self):
         """ Return all extension points. """
@@ -206,7 +208,11 @@ class ExtensionRegistry(HasTraits):
         return
 
     def _check_extension_point(self, extension_point_id):
-        """ Check to see if the extension point exists. """
+        """ Check to see if the extension point exists.
+
+        Raise an 'UnknownExtensionPoint' if it does not.
+
+        """
         
         if not extension_point_id in self._extension_points:
             raise UnknownExtensionPoint(extension_point_id)
@@ -219,7 +225,7 @@ class ExtensionRegistry(HasTraits):
         return self._extensions.setdefault(extension_point_id, [])
 
     def _get_listener_refs(self, extension_point_id):
-        """ Get weak references to all listeners for an extension point.
+        """ Get weak references to all listeners to an extension point.
 
         Returns a list containing the weak references to those listeners that
         are listening to this extension point specifically first, followed by
