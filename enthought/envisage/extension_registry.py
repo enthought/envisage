@@ -70,7 +70,7 @@ class ExtensionRegistry(HasTraits):
     # 'IExtensionRegistry' interface.
     ###########################################################################
 
-    def add_extension_listener(self, listener, extension_point_id=None):
+    def add_extension_point_listener(self, listener, extension_point_id=None):
         """ Add a listener for extensions being added or removed.
 
         If an extension point is specified then the listener will only called
@@ -143,7 +143,7 @@ class ExtensionRegistry(HasTraits):
 
         return extension_points
 
-    def remove_extension_listener(self, listener, extension_point_id=None):
+    def remove_extension_point_listener(self,listener,extension_point_id=None):
         """ Remove a listener for extensions being added/removed.
 
         Raise a 'ValueError' if the listener does not exist.
@@ -177,12 +177,20 @@ class ExtensionRegistry(HasTraits):
 
             # Remove any extensions to the extension point.
             if extension_point_id in self._extensions:
+                old = self._extensions[extension_point_id]
                 del self._extensions[extension_point_id]
 
+            else:
+                old = []
+                
+            refs = self._get_listener_refs(extension_point_id)
+            
             logger.debug('extension point <%s> removed', extension_point_id)
 
         finally:
             self._lk.release()
+
+        self._call_listeners(refs, extension_point_id, [], old, 0)
         
         return
 

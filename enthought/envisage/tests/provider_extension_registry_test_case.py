@@ -199,7 +199,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
             return
 
-        registry.add_extension_listener(listener, 'my.ep')
+        registry.add_extension_point_listener(listener, 'my.ep')
         
         # Add a new extension via the provider.
         a.x.append(43)
@@ -302,7 +302,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
             return
 
-        registry.add_extension_listener(listener, 'x')
+        registry.add_extension_point_listener(listener, 'x')
 
         # Add a new provider.
         class ProviderB(ExtensionProvider):
@@ -413,7 +413,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
             return
 
-        registry.add_extension_listener(listener, 'x')
+        registry.add_extension_point_listener(listener, 'x')
 
         # Remove one of the providers.
         registry.remove_provider(b)
@@ -437,6 +437,11 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # Make sure we don't get the removed extensions.
         extensions = registry.get_extensions('x')
         self.assertEqual(0, len(extensions))
+
+        # Make sure the listener got called.
+        self.assertEqual('x', listener.extension_point)
+        self.assertEqual([], listener.added)
+        self.assertEqual([42], listener.removed)
 
         return
 

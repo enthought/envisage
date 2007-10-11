@@ -108,7 +108,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
             return
 
         self.failUnlessRaises(
-            ValueError, registry.remove_extension_listener, listener
+            ValueError, registry.remove_extension_point_listener, listener
         )
 
         return

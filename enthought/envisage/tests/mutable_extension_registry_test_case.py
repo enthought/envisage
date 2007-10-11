@@ -182,8 +182,8 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
         
         return
 
-    def test_specific_extension_listener(self):
-        """ specific extension listener. """
+    def test_specific_extension_point_listener(self):
+        """ specific extension point listener. """
 
         registry = self.registry
 
@@ -201,7 +201,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
             
         # Listen for extensions being added/removed to/from a specific
         # extension point.
-        registry.add_extension_listener(listener, 'my.ep')
+        registry.add_extension_point_listener(listener, 'my.ep')
 
         # Add an extension.
         self.listener_called = None
@@ -234,7 +234,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual([42], removed)
 
         # Remove the listener.
-        registry.remove_extension_listener(listener, 'my.ep')
+        registry.remove_extension_point_listener(listener, 'my.ep')
 
         # Add an extension.
         self.listener_called = None
@@ -245,7 +245,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
         
         return
 
-    def test_global_extension_listener(self):
+    def test_global_extension_point_listener(self):
         """ global extension listener. """
 
         registry = self.registry
@@ -265,7 +265,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         # Listen for extensions being added/removed to/from any extension
         # point.
-        registry.add_extension_listener(listener)
+        registry.add_extension_point_listener(listener)
 
         # Add an extension.
         self.listener_called = None
@@ -313,7 +313,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual([42], removed)
 
         # Remove the listener.
-        registry.remove_extension_listener(listener)
+        registry.remove_extension_point_listener(listener)
 
         # Add an extension.
         self.listener_called = None
@@ -324,8 +324,8 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         return
 
-    def test_gced_specific_extension_listener(self):
-        """ gc'ed extension listener. """
+    def test_gced_specific_extension_point_listener(self):
+        """ gc'ed extension point listener. """
 
         registry = self.registry
 
@@ -343,7 +343,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         # Listen for extensions being added/removed to/from a specific
         # extension point.
-        registry.add_extension_listener(listener, 'my.ep')
+        registry.add_extension_point_listener(listener, 'my.ep')
 
         # Delete the listener!
         del listener
@@ -360,7 +360,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         return
 
-    def test_gced_global_extension_listener(self):
+    def test_gced_global_extension_point_listener(self):
         """ gc'ed global extension listener. """
 
         registry = self.registry
@@ -379,7 +379,7 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         # Listen for extensions being added/removed to/from any extension
         # point.
-        registry.add_extension_listener(listener)
+        registry.add_extension_point_listener(listener)
 
         # Delete the listener!
         del listener

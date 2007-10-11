@@ -109,7 +109,7 @@ class ExtensionPointBinding(HasTraits):
         )
 
         # Listen for the extension point being changed.
-        self.extension_registry.add_extension_listener(
+        self.extension_registry.add_extension_point_listener(
             self._extension_point_listener, self.extension_point_id
         )
 

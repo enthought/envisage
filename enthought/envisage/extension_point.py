@@ -73,7 +73,7 @@ class ExtensionPoint(TraitType):
         # accessed then we add ourselves as a listener for when the extension
         # point is changed.
         if len(self._obj_to_trait_names_map) == 0:
-            ExtensionPoint.extension_registry.add_extension_listener(
+            ExtensionPoint.extension_registry.add_extension_point_listener(
                 self._extension_point_listener, self.id
             )
             

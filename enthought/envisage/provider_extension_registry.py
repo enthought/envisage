@@ -38,8 +38,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # to be public, and we don't want the caller to be able to modify the
         # list dynamically.
         if providers is not None:
-            for provider in providers:
-                self._add_provider(provider)
+            map(self._add_provider, providers)
             
         return
     
@@ -54,8 +53,8 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         if extension_point in self._extensions:
             extensions = self._extensions[extension_point]
 
-        # If not, then ask each provider in trun for its contributions to this
-        # extension point.
+        # If not, then ask each provider for its contributions to the extension
+        # point.
         else:
             extensions = self._initialize_extensions(extension_point)
             self._extensions[extension_point] = extensions
@@ -118,12 +117,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
-        for extension_point, extensions in self._extensions.items():
-            new = provider.get_extensions(extension_point)
+        for extension_point_id, extensions in self._extensions.items():
+            new = provider.get_extensions(extension_point_id)
             if len(new) > 0:
                 index = sum(map(len, extensions))
-                refs  = self._get_listener_refs(extension_point)
-                events[extension_point] = (refs, new[:], index)
+                refs  = self._get_listener_refs(extension_point_id)
+                events[extension_point_id] = (refs, new[:], index)
 
             extensions.append(new)
             
@@ -147,27 +146,29 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # need to fire.
         events = {}
 
+        # Find the index of the provider in the provider list. Its
+        # contributions are at the same index in the extensions list of lists.
         index = self._providers.index(provider)
 
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
-        for extension_point, extensions in self._extensions.items():
+        for extension_point_id, extensions in self._extensions.items():
             old = extensions[index]
             if len(old) > 0:
                 index = sum(map(len, extensions[:index]))
-                refs  = self._get_listener_refs(extension_point)
-                events[extension_point] = (refs, old[:], index)
+                refs  = self._get_listener_refs(extension_point_id)
+                events[extension_point_id] = (refs, old[:], index)
 
             del extensions[index]
 
         self._providers.remove(provider)
 
         # Remove the provider's extension points.
-        self._remove_provider_extension_points(provider)
+        self._remove_provider_extension_points(provider, events)
 
         return events
 
-    def _remove_provider_extension_points(self, provider):
+    def _remove_provider_extension_points(self, provider, events):
         """ Remove a provider's extension points from the registry. """
         
         for extension_point in provider.get_extension_points():
@@ -176,7 +177,17 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             # Remove any extensions to the extension point.
             if extension_point.id in self._extensions:
+                old = self._extensions[extension_point.id]
                 del self._extensions[extension_point.id]
+
+            else:
+                old = []
+
+            # Because the extension point was offered by the provider that we
+            # are removing, the  chances are that nobody else is listening to
+            # the extension point, but just to be sure.
+            refs  = self._get_listener_refs(extension_point)
+            events[extension_point] = (refs, old[:], 0)
 
         return
 
@@ -219,7 +230,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                 # Translate the event index from one that refers to the list of
                 # contributions from the provider, to the list of contributions
                 # from all providers.
-                event.index = self._translate_index(event.index, offset)
+                index = self._translate_index(event.index, offset)
 
                 # Find out who is listening.
                 refs = self._get_listener_refs(extension_point_id)
@@ -229,8 +240,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             # Let any listeners know that the extensions have been added.
             self._call_listeners(
-                refs, extension_point_id, event.added, event.removed,
-                event.index
+                refs, extension_point_id, event.added, event.removed, index
             )
 
         return
