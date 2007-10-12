@@ -2,17 +2,29 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface, Str, VetoableEvent
+from enthought.preferences.api import IPreferences
+from enthought.traits.api import Event, Instance, Interface, List, Str
+from enthought.traits.api import VetoableEvent
 
 # Local imports.
 from application_event import ApplicationEvent
+from i_plugin import IPlugin
 
 
 class IApplication(Interface):
     """ The application interface. """
 
+    # A directory that the application can read and write to at will.
+    home = Str
+
     # The application's globally unique identifier.
     id = Str
+
+    # The plugins that constitute the application.
+    plugins = List(IPlugin)
+
+    # The root preferences node.
+    preferences = Instance(IPreferences)
     
     # Fired when the application is starting. This is the first thing that
     # happens when the 'start' method is called.
@@ -28,14 +40,57 @@ class IApplication(Interface):
     # Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
 
-    def get_extensions(self, extension_point):
+    def add_extension_point_listener(self, listener, extension_point_id=None):
+        """ Add a listener for extensions being added/removed.
+
+        A listener is any Python callable with the following signature::
+
+          def listener(extension_registry, extension_point_changed_event):
+
+                ...
+
+        If an extension point is specified then the listener will only be
+        called when extensions are added to or removed from that extension
+        point (the extension point may or may not have been added to the
+        registry at the time of this call).
+        
+        If *no* extension point is specified then the listener will be called
+        when extensions are added to or removed from *any* extension point.
+
+        When extensions are added or removed all specific listeners are called
+        first (in arbitrary order), followed by all non-specific listeners
+        (again, in arbitrary order).
+        
+        """
+
+    def add_extension_point(self, extension_point):
+        """ Add an extension point.
+
+        If an extension point already exists with this Id then it is simply
+        replaced.
+
+        """
+
+    def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
         Return an empty list if the extension point does not exist.
 
         """
 
-    def get_plugin(self, id):
+    def get_extension_point(self, extension_point_id):
+        """ Return the extension point with the specified Id.
+
+        Return None if no such extension point exists.
+
+        """
+
+    def get_extension_points(self):
+        """ Return all extension points that have been added to the registry.
+
+        """
+
+    def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
         Return None if no such plugin exists.
@@ -101,6 +156,31 @@ class IApplication(Interface):
 
         """
 
+    def remove_extension_point_listener(self,listener,extension_point_id=None):
+        """ Remove a listener for extensions being added/removed.
+
+        Raise a 'ValueError' if the listener does not exist.
+
+        """
+
+    def remove_extension_point(self, extension_point_id):
+        """ Remove an extension point.
+
+        Raise an 'UnknownExtensionPoint' exception if no extension point exists
+        with the specified Id.
+
+        """
+
+    def run(self):
+        """ Run the application.
+
+        The same as::
+
+          application.start()
+          application.stop()
+
+        """
+
     def start(self):
         """ Start the application.
 
@@ -117,7 +197,7 @@ class IApplication(Interface):
 
         """
 
-    def start_plugin(self, plugin=None, id=None):
+    def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         If a plugin is specified then start it.
@@ -128,7 +208,7 @@ class IApplication(Interface):
 
         """
 
-    def stop_plugin(self, plugin=None, id=None):
+    def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         If a plugin is specified then stop it.

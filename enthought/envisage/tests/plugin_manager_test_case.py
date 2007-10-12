@@ -166,12 +166,12 @@ class PluginManagerTestCase(unittest.TestCase):
 
         # Try to start a non-existent plugin.
         self.failUnlessRaises(
-            SystemError, self.plugin_manager.start_plugin, id='bogus'
+            SystemError, self.plugin_manager.start_plugin, plugin_id='bogus'
         )
 
         # Try to stop a non-existent plugin.
         self.failUnlessRaises(
-            SystemError, self.plugin_manager.stop_plugin, id='bogus'
+            SystemError, self.plugin_manager.stop_plugin, plugin_id='bogus'
         )
 
         return

@@ -15,17 +15,15 @@ from enthought.traits.api import on_trait_change
 
 # Local imports.
 from i_application import IApplication
+from i_extension_provider import IExtensionProvider
 from i_extension_registry import IExtensionRegistry
 from i_import_manager import IImportManager
 from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
-from plugin_manager import PluginManager
-from egg_plugin_manager import EggPluginManager
 from extension_point import ExtensionPoint
 from extension_point_binding import ExtensionPointBinding
-from provider_extension_registry import ProviderExtensionRegistry
 from import_manager import ImportManager
 from service_registry import ServiceRegistry
 
@@ -46,9 +44,18 @@ class Application(HasTraits):
     
     #### 'IApplication' interface #############################################
 
+    # A directory that the application can read and write to at will.
+    home = Str
+
     # The application's globally unique identifier.
     id = Str
 
+    # The plugins that constitute the application.
+    plugins = Delegate('plugin_manager', modify=True)
+
+    # The root preferences node.
+    preferences = Instance(IPreferences)
+    
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
@@ -63,23 +70,14 @@ class Application(HasTraits):
     
     #### 'Application' interface ##############################################
 
-    # A directory that the application can read and write to at will.
-    home = Str
-    
     # The extension registry.
     extension_registry = Instance(IExtensionRegistry)
 
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
 
-    # The plugins that constitute the application.
-    plugins = Delegate('plugin_manager', modify=True)
-    
     # The plugin manager (starts and stops plugins etc).
-    plugin_manager = Instance(IPluginManager, factory=PluginManager)
-
-    # The root preferences node.
-    preferences = Instance(IPreferences)
+    plugin_manager = Instance(IPluginManager)
     
     # The service registry.
     service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
@@ -122,20 +120,71 @@ class Application(HasTraits):
     # 'IApplication' interface.
     ###########################################################################
 
-    def get_extensions(self, extension_point, **kw):
+    #### Trait initializers ###################################################
+
+    def _home_default(self):
+        """ Trait initializer. """
+
+        return ETSConfig.application_home
+
+    def _preferences_default(self):
+        """ Trait initializer. """
+
+        preferences = ScopedPreferences()
+        self._initialize_preferences(preferences)
+
+        return preferences
+
+    #### Methods ##############################################################
+    
+    def add_extension_point_listener(self, listener, extension_point_id=None):
+        """ Add a listener for extensions being added/removed.
+
+        """
+
+        self.extension_registry.add_extension_point_listener(
+            listener, extension_point_id
+        )
+
+        return
+
+    def add_extension_point(self, extension_point):
+        """ Add an extension point.
+
+        """
+
+        self.extension_registry.add_extension_point(extension_point)
+
+        return
+
+    def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
         """
 
-        return self.extension_registry.get_extensions(extension_point, **kw)
-    
-    def get_plugin(self, id):
+        return self.extension_registry.get_extensions(extension_point_id)
+
+    def get_extension_point(self, extension_point_id):
+        """ Return the extension point with the specified Id.
+
+        """
+
+        return self.extension_registry.get_extension_point(extension_point_id)
+        
+    def get_extension_points(self):
+        """ Return all extension points that have been added to the registry.
+
+        """
+
+        return self.extension_registry.get_extension_points()
+
+    def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
         """
 
-        return self.plugin_manager.get_plugin(id)
-
+        return self.plugin_manager.get_plugin(plugin_id)
+    
     def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
@@ -177,7 +226,43 @@ class Application(HasTraits):
 
         """
 
-        return self.service_registry.register_service(interface,obj,properties)
+        service_id = self.service_registry.register_service(
+            interface, obj, properties
+        )
+
+        return service_id
+    
+    def remove_extension_point_listener(self,listener,extension_point_id=None):
+        """ Remove a listener for extensions being added/removed.
+
+        """
+
+        self.extension_registry.remove_extension_point_listener(
+            listener, extension_point_id
+        )
+
+        return
+
+    def remove_extension_point(self, extension_point_id):
+        """ Remove an extension point.
+
+        """
+
+        self.extension_registry.remove_extension_point(extension_point_id)
+
+        return
+
+    def run(self):
+        """ Run the application. """
+
+        # Start the application.
+        self.start()
+
+        # Stop the application to give all of the plugins a chance to close
+        # down cleanly and to do any housekeeping etc.
+        self.stop()
+        
+        return
 
     def start(self):
         """ Start the application.
@@ -230,19 +315,19 @@ class Application(HasTraits):
             
         return not event.veto
 
-    def start_plugin(self, plugin=None, id=None):
+    def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         """
 
-        return self.plugin_manager.start_plugin(self, plugin, id)
+        return self.plugin_manager.start_plugin(self, plugin, plugin_id)
 
-    def stop_plugin(self, plugin=None, id=None):
+    def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         """
 
-        return self.plugin_manager.stop_plugin(self, plugin, id)
+        return self.plugin_manager.stop_plugin(self, plugin, plugin_id)
 
     def unregister_service(self, service_id):
         """ Unregister a service.
@@ -262,49 +347,28 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        # Every plugin is an extension provider.
-        providers = self.plugin_manager.plugins[:]
+        # Do the import here to emphasize that this is just the default
+        # extension registry and that the developer is free to override it!
+        from provider_extension_registry import ProviderExtensionRegistry
+
+        # Add every plugin that implements the 'IExtensionProvider' interface
+        # as an extension provider.
+        providers = [
+            plugin for plugin in self.plugin_manager.plugins
+
+            if IExtensionProvider(plugin) is not None
+        ]
 
         return ProviderExtensionRegistry(providers=providers)
-
-    def _home_default(self):
-        """ Trait initializer. """
-
-        return ETSConfig.application_home
 
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
-        return EggPluginManager(application=self)
-    
-    def _preferences_default(self):
-        """ Trait initializer. """
-
-        preferences = ScopedPreferences()
-        self._initialize_preferences(preferences)
-
-        return preferences
-    
-    #### Methods ##############################################################
-
-    def run(self):
-        """ Runs the application.
-
-        This does the following (so you don't have to ;^):-
-
-        1) Starts the application
-        2) Stops the application
-
-        """
-
-        # Start the application.
-        self.start()
-
-        # Stop the application to give all of the plugins a chance to close
-        # down cleanly and to do any housekeeping etc.
-        self.stop()
+        # Do the import here to emphasize that this is just the default
+        # plugin manager and that the developer is free to override it!
+        from egg_plugin_manager import EggPluginManager
         
-        return
+        return EggPluginManager(application=self)
 
     ###########################################################################
     # Private interface.
@@ -322,29 +386,6 @@ class Application(HasTraits):
             new.application = self
 
         return
-
-##     @on_trait_change('plugin_manager.plugins')
-##     def _when_plugins_changed(self, obj, trait_name, old, new):
-##         """ Trait change handler. """
-
-##         print 'Plugin manager plugins changed', obj, trait_name, old, new
-
-##         # Was the entire list changed.
-##         if trait_name == 'plugins':
-##             pass
-            
-##         # Or were some items added/removed etc.
-##         elif trait_name == 'plugins_items':
-##             pass
-
-##         # Was the plugin *manager* changed!
-##         elif trait_name == 'plugin_manager':
-##             pass
-        
-##         else:
-##             raise SystemError('Unexpected trait name %s' % trait_name)
-        
-##         return
 
     #### Methods ##############################################################
     

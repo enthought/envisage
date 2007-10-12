@@ -50,13 +50,13 @@ class PluginManager(HasTraits):
     # 'IPluginManager' interface.
     ###########################################################################
 
-    def get_plugin(self, id):
+    def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
         """
 
         for plugin in self.plugins:
-            if id == plugin.id:
+            if plugin_id == plugin.id:
                 break
 
         else:
@@ -73,12 +73,12 @@ class PluginManager(HasTraits):
         
         return
 
-    def start_plugin(self, plugin_context=None, plugin=None, id=None):
+    def start_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         """
 
-        plugin = plugin or self.get_plugin(id)
+        plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
 
@@ -92,7 +92,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s started', plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % id)
+            raise SystemError('no such plugin %s' % plugin_id)
         
         return
 
@@ -109,12 +109,12 @@ class PluginManager(HasTraits):
 
         return
     
-    def stop_plugin(self, plugin_context=None, plugin=None, id=None):
+    def stop_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         """
 
-        plugin = plugin or self.get_plugin(id)
+        plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s stopping', plugin.id)
 
@@ -125,7 +125,7 @@ class PluginManager(HasTraits):
             logger.debug('plugin %s stopped', plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % id)
+            raise SystemError('no such plugin %s' % plugin_id)
 
         return
 

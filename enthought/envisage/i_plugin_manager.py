@@ -23,7 +23,7 @@ class IPluginManager(Interface):
     # Fired when a plugin has been stopped.
     plugin_started = Event(PluginEvent)
 
-    def get_plugin(self, id):
+    def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
         Return None if no such plugin exists.
@@ -37,7 +37,7 @@ class IPluginManager(Interface):
         
         """
 
-    def start_plugin(self, plugin_context=None, plugin=None, id=None):
+    def start_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         If a plugin is specified then start it.
@@ -56,7 +56,7 @@ class IPluginManager(Interface):
 
         """
 
-    def stop_plugin(self, plugin_context=None, plugin=None, id=None):
+    def stop_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         If a plugin is specified then stop it (the Id is ignored).

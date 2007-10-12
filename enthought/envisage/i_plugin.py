@@ -3,14 +3,13 @@
 
 # Enthought library imports.
 from enthought.traits.api import Instance, Interface, List, Str
-from enthought.envisage.api import IApplication
 
 
 class IPlugin(Interface):
     """ The plugin interface. """
 
     # The application that the plugin is part of.
-    application = Instance(IApplication)
+    application = Instance('enthought.envisage.api.IApplication')
 
     # A description of what the plugin is and does.
     description = Str

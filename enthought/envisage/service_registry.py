@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging
+import logging, threading
 
 # Enthought library imports.
 from enthought.traits.api import Dict, HasTraits, Int, Interface, implements
@@ -42,6 +42,20 @@ class ServiceRegistry(HasTraits):
     _service_id = Int
 
     ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, **traits):
+        """ Constructor. """
+
+        super(ServiceRegistry, self).__init__(**traits)
+
+        # A lock to make access to the registry thread-safe.
+        self._lk = threading.Lock()
+
+        return
+
+    ###########################################################################
     # 'IServiceRegistry' interface.
     ###########################################################################
     
@@ -59,6 +73,8 @@ class ServiceRegistry(HasTraits):
 
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
+
+        self._lk.acquire()
 
         services = []
         for service_id, (p, obj, properties) in self._services.items():
@@ -89,23 +105,32 @@ class ServiceRegistry(HasTraits):
 
         elif maximize != '':
             services.sort(None, lambda x: getattr(x, maximize), reverse=True)
-            
+
+        self._lk.release()
+        
         return services
 
     def get_service_properties(self, service_id):
         """ Return the dictionary of properties associated with a service. """
 
+        self._lk.acquire()
         try:
-            protocol, obj, properties = self._services[service_id]
+            try:
+                protocol, obj, properties = self._services[service_id]
+                
+            except KeyError:
+                raise ValueError('no service with id <%d>' % service_id)
 
-        except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
-
+        finally:
+            self._lk.release()
+            
         return properties
         
     def register_service(self, protocol, obj, properties=None):
         """ Register a service. """
 
+        self._lk.acquire()
+        
         # Make sure each service gets its own properties dictionary.
         if properties is None:
             properties = {}
@@ -113,6 +138,8 @@ class ServiceRegistry(HasTraits):
         service_id = self._next_service_id()
         self._services[service_id] = (protocol, obj, properties)
 
+        self._lk.release()
+        
         logger.debug('service <%d> registered %s', service_id, protocol)
         
         return service_id
@@ -120,14 +147,19 @@ class ServiceRegistry(HasTraits):
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
+        self._lk.acquire()
         try:
-            del self._services[service_id]
+            try:
+                del self._services[service_id]
 
-            logger.debug('service <%d> unregistered', service_id)
+                logger.debug('service <%d> unregistered', service_id)
 
-        except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            except KeyError:
+                raise ValueError('no service with id <%d>' % service_id)
 
+        finally:
+            self._lk.release()
+            
         return
 
     ###########################################################################

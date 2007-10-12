@@ -48,7 +48,7 @@ class Plugin(ExtensionProvider):
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
-    
+
     ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
