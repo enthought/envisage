@@ -385,6 +385,37 @@ class Application(HasTraits):
 
         return
 
+    @on_trait_change('plugin_manager.plugins')
+    def _plugin_manager_plugins_changed(self, obj, trait_name, old, new):
+        """ Dynamic trait change handler. """
+
+        # Do the import here to emphasize that this is just the default
+        # extension registry and that the developer is free to override it!
+        from provider_extension_registry import ProviderExtensionRegistry
+
+        if trait_name == 'plugins':
+            added   = new
+            removed = old
+
+        elif trait_name == 'plugins_items':
+            added   = new.added
+            removed = new.removed
+
+        elif trait_name == 'plugin_manager':
+            added   = new is not None and new.plugins or []
+            removed = old is not None and old.plugins or []
+
+        # fixme: This assumes that the extension registry is a provider
+        # extension registry!
+        if isinstance(self.extension_registry, ProviderExtensionRegistry):
+            for plugin in removed:
+                self.extension_registry.remove_provider(plugin)
+
+            for plugin in added:
+                self.extension_registry.add_provider(plugin)
+            
+        return
+    
     #### Methods ##############################################################
     
     def _create_application_event(self):

@@ -43,6 +43,43 @@ class PluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_add_plugin(self):
+        """ add plugin """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = List(Int, [1, 2, 3], extension_point='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+            x  = List(Int, [4, 5, 6], extension_point='x')
+
+        a = PluginA()
+        b = PluginB()
+
+        application = Application(
+            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
+        )
+
+        # Make sure we get the first plugin's contributions.
+        extensions = application.get_extensions('x')
+        extensions.sort()
+        
+        self.assertEqual(3, len(application.get_extensions('x')))
+        self.assertEqual([1, 2, 3], extensions)
+
+        # Now add the second plugin.
+        application.plugin_manager.plugins.append(b)
+
+        # Make sure we get the second plugin's contributions too.
+        extensions = application.get_extensions('x')
+        extensions.sort()
+        
+        self.assertEqual(6, len(application.get_extensions('x')))
+        self.assertEqual([1, 2, 3, 4, 5, 6], extensions)
+
+        return
+
     def test_service(self):
         """ service """
 
