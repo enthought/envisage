@@ -20,9 +20,6 @@ class IApplication(Interface):
     # The application's globally unique identifier.
     id = Str
 
-    # The plugins that constitute the application.
-    plugins = List(IPlugin)
-
     # The root preferences node.
     preferences = Instance(IPreferences)
     
@@ -86,7 +83,7 @@ class IApplication(Interface):
         """
 
     def get_extension_points(self):
-        """ Return all extension points that have been added to the registry.
+        """ Return all extension points.
 
         """
 

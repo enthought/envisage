@@ -50,9 +50,6 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
-    # The plugins that constitute the application.
-    plugins = Delegate('plugin_manager', modify=True)
-
     # The root preferences node.
     preferences = Instance(IPreferences)
     
@@ -75,6 +72,9 @@ class Application(HasTraits):
 
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
+
+    # The plugins that constitute the application.
+    plugins = Delegate('plugin_manager', modify=True)
 
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
@@ -253,13 +253,11 @@ class Application(HasTraits):
         return
 
     def run(self):
-        """ Run the application. """
+        """ Run the application.
 
-        # Start the application.
+        """
+
         self.start()
-
-        # Stop the application to give all of the plugins a chance to close
-        # down cleanly and to do any housekeeping etc.
         self.stop()
         
         return

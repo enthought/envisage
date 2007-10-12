@@ -82,9 +82,6 @@ class PluginManager(HasTraits):
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
 
-            # fixme: Quick hack!!
-            plugin.get_extension_points()
-
             self.plugin_starting = PluginEvent(plugin=plugin)
             plugin.start()
             self.plugin_started = PluginEvent(plugin=plugin)
@@ -130,7 +127,7 @@ class PluginManager(HasTraits):
         return
 
     ###########################################################################
-    # Private interface.
+    # 'PluginManager' interface.
     ###########################################################################
 
     #### Trait change handlers ################################################
@@ -155,6 +152,10 @@ class PluginManager(HasTraits):
         self._update_plugin_application(new.added, new.removed)
 
         return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
 
     #### Methods ##############################################################
 
