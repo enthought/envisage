@@ -184,6 +184,23 @@ class ApplicationTestCase(unittest.TestCase):
         
         return
 
+    def test_set_extension_point(self):
+        """ set extension point """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='a.x')
+
+        a = PluginA()
+
+        application = TestApplication(id='test', plugins=[a])
+        application.start()
+
+        # Try to set the extension point.
+        self.failUnlessRaises(SystemError, setattr, a, 'x', [1, 2, 3])
+        
+        return
+
     def test_extension_point_changed(self):
         """ extension point changed """
 
@@ -282,6 +299,8 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual('x_items', listener.trait_name)
         self.assertEqual([], listener.new.added)
         self.assertEqual([1, 2, 99], listener.new.removed)
+        self.assertEqual(0, listener.new.index.start)
+        self.assertEqual(0, listener.new.index.stop)
 
         b.x = [2, 4, 6, 8]
 
@@ -305,6 +324,8 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual('x_items', listener.trait_name)
         self.assertEqual([2, 4, 6, 8], listener.new.added)
         self.assertEqual([], listener.new.removed)
+        self.assertEqual(0, listener.new.index.start)
+        self.assertEqual(0, listener.new.index.stop)
         
         return
 

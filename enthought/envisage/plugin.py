@@ -139,10 +139,13 @@ class Plugin(ExtensionProvider):
         return '%s.%s' % (type(self).__module__, type(self).__name__)
     
     #### Methods ##############################################################
- 
+
     def start(self):
         """ Start the plugin. """
 
+        from extension_point_binding import initialize_extension_point_traits
+        initialize_extension_point_traits(self)
+        
         self.register_services()
 
         return
@@ -177,7 +180,7 @@ class Plugin(ExtensionProvider):
             else:
                 removed = old
                 added   = new
-                index   = slice(0, len(old))
+                index   = slice(0, max(len(old), len(new)))
                 
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(
@@ -198,7 +201,7 @@ class Plugin(ExtensionProvider):
         )
         
         return exception
-    
+
     def _harvest_traits(self, extension_point_id):
         """ Harvest all trait-based contributions to an extension point. """
 

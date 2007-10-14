@@ -146,7 +146,6 @@ class ExtensionPointBinding(HasTraits):
         return
 
 
-# Factory function for creating bindings.
 def bind_extension_point(obj, trait_name, extension_point_id):
     """ Create a new extension point binding. """
 
@@ -157,5 +156,22 @@ def bind_extension_point(obj, trait_name, extension_point_id):
     )
 
     return binding
+
+
+def initialize_extension_point_traits(obj):
+    """ Initialize all extension point traits. """
+
+    traits = obj.traits(__extension_point_id__ = lambda x : x is not None)
+    for trait_name, trait in traits.items():
+        # fixme: There must be a better way to get hold of the extension point
+        # Id from the trait type. Can we put it in metadata?
+        extension_point_id = trait.trait_type._metadata[
+            '__extension_point_id__'
+        ]
+        
+        # Wire up the object's trait to the extension point.
+        bind_extension_point(obj, trait_name, extension_point_id)
+
+    return
 
 #### EOF ######################################################################
