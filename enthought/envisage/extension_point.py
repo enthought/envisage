@@ -62,7 +62,6 @@ class ExtensionPoint(TraitType):
 
     def get(self, obj, trait_name):
         """ Trait type getter. """
-
         
         extensions = self._get_extensions(self.id)
         extensions = self._validate_extensions(obj, trait_name, extensions)
@@ -106,6 +105,10 @@ class ExtensionPoint(TraitType):
         """ Set the contributions to this extension point. """
 
         extension_registry = ExtensionPoint.extension_registry
+
+        if not hasattr(extension_registry, 'set_extensions'):
+            raise SystemError('extension points cannot be set')
+        
         extension_registry.set_extensions(extension_point_id, extensions)
 
         return

@@ -184,151 +184,6 @@ class ApplicationTestCase(unittest.TestCase):
         
         return
 
-    def test_set_extension_point(self):
-        """ set extension point """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
-
-        a = PluginA()
-
-        application = TestApplication(id='test', plugins=[a])
-        application.start()
-
-        # Try to set the extension point.
-        self.failUnlessRaises(SystemError, setattr, a, 'x', [1, 2, 3])
-        
-        return
-
-    def test_extension_point_changed(self):
-        """ extension point changed """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], extension_point='a.x')
-
-        a = PluginA(); a.on_trait_change(listener, 'x_items')
-        b = PluginB()
-
-        application = TestApplication(id='test', plugins=[a, b])
-        application.start()
-        
-        # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
-
-        # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
-        
-        #### Add another contribution #########################################
-        b.x.append(99)
-
-        # Make sure we pick up the new contribution via the application.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(4, len(extensions))
-        self.assertEqual([1, 2, 3, 99], extensions)
-
-        # Make sure we pick up the new contribution via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
-        self.assertEqual(4, len(extensions))
-        self.assertEqual([1, 2, 3, 99], extensions)
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([99], listener.new.added)
-        self.assertEqual([], listener.new.removed)
-        self.assertEqual(3, listener.new.index)
-
-        #### Remove a contribution ############################################
-        b.x.remove(3)
-
-        # Make sure we pick up the correct contributions via the application.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 99], extensions)
-
-        # Make sure we pick up the correct contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 99], extensions)
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([3], listener.new.removed)
-        self.assertEqual(2, listener.new.index)
-
-        #### Set a plugins contributions ######################################
-        b.x = []
-
-        # Make sure we pick up the correct contribution via the application.
-        extensions = application.get_extensions('a.x')
-        self.assertEqual(0, len(extensions))
-
-        # Make sure we pick up the correct contribution via the plugin.
-        extensions = a.x[:]
-        self.assertEqual(0, len(extensions))
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([1, 2, 99], listener.new.removed)
-        self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(0, listener.new.index.stop)
-
-        b.x = [2, 4, 6, 8]
-
-        # Make sure we pick up the new contribution via the application.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(4, len(extensions))
-        self.assertEqual([2, 4, 6, 8], extensions)
-
-        # Make sure we pick up the new contribution via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
-        self.assertEqual(4, len(extensions))
-        self.assertEqual([2, 4, 6, 8], extensions)
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([2, 4, 6, 8], listener.new.added)
-        self.assertEqual([], listener.new.removed)
-        self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(0, listener.new.index.stop)
-        
-        return
-
     def test_add_plugin(self):
         """ add plugin """
 
@@ -340,7 +195,7 @@ class ApplicationTestCase(unittest.TestCase):
             id = 'B'
             x  = List(Int, [1, 2, 3], extension_point='a.x')
 
-        a = PluginA(); a.on_trait_change(listener, 'x_items')
+        a = PluginA()
         b = PluginB()
 
         # Start off with just one of the plugins.
@@ -369,14 +224,6 @@ class ApplicationTestCase(unittest.TestCase):
         
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([1, 2, 3], listener.new.added)
-        self.assertEqual([], listener.new.removed)
-        self.assertEqual(0, listener.new.index)
         
         return
 
@@ -391,7 +238,7 @@ class ApplicationTestCase(unittest.TestCase):
             id = 'B'
             x  = List(Int, [1, 2, 3], extension_point='a.x')
 
-        a = PluginA(); a.on_trait_change(listener, 'x_items')
+        a = PluginA()
         b = PluginB()
 
         # Start off with just one of the plugins.
@@ -420,14 +267,6 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we pick up the correct contribution via the plugin.
         self.assertEqual(0, len(a.x))
-
-        # Make sure we got a trait event telling us that the contributions
-        # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([1, 2, 3], listener.new.removed)
-        self.assertEqual(0, listener.new.index)
         
         return
     
