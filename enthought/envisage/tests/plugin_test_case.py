@@ -22,6 +22,15 @@ def listener(obj, trait_name, old, new):
     return
 
 
+class TestApplication(Application):
+    """ The type of application used in the tests. """
+
+    def _plugin_manager_default(self):
+        """ Trait initializer. """
+
+        return PluginManager(application=self)
+
+    
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
 
@@ -57,21 +66,20 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
-        )
+        # Start off with just one of the plugins.
+        application = TestApplication(id='plugin.test.case', plugins=[a])
 
-        # Make sure we get the first plugin's contributions.
+        # Make sure we get the plugin's contributions.
         extensions = application.get_extensions('x')
         extensions.sort()
         
         self.assertEqual(3, len(application.get_extensions('x')))
         self.assertEqual([1, 2, 3], extensions)
 
-        # Now add the second plugin.
+        # Now add the other plugin.
         application.plugin_manager.plugins.append(b)
 
-        # Make sure we get the second plugin's contributions too.
+        # Make sure we get the other plugin's contributions too.
         extensions = application.get_extensions('x')
         extensions.sort()
         
@@ -92,9 +100,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a])
         application.start()
 
         # Make sure the service was registered.
@@ -126,9 +132,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
         
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a])
         application.start()
 
         # Make sure the service was registered with the 'IBar' protocol.
@@ -156,11 +160,8 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a, b])
-        )
-        application.start()
-        application.stop()
+        application = TestApplication(id='plugin.test.case',plugins=[a, b])
+        application.run()
         
         # Make sure we get all of the plugin's contributions.
         extensions = application.get_extensions('a.x')
@@ -195,9 +196,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a, b])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a, b])
 
         # Make sure we get all of the plugin's contributions.
         extensions = application.get_extensions('x')
@@ -228,9 +227,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a])
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
@@ -252,9 +249,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a, b])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a, b])
 
         # Create an arbitrary object that has a trait bound to the extension
         # point.
@@ -307,9 +302,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
         
-        application = Application(
-            id='plugin.test.case', plugin_manager=PluginManager(plugins=[a])
-        )
+        application = TestApplication(id='plugin.test.case', plugins=[a])
         application.run()
 
         # Make sure we can get one of the preferences.

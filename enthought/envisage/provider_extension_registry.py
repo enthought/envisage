@@ -149,15 +149,15 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # Find the index of the provider in the provider list. Its
         # contributions are at the same index in the extensions list of lists.
         index = self._providers.index(provider)
-
+        
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
         for extension_point_id, extensions in self._extensions.items():
             old = extensions[index]
             if len(old) > 0:
-                index = sum(map(len, extensions[:index]))
+                offset = sum(map(len, extensions[:index]))
                 refs  = self._get_listener_refs(extension_point_id)
-                events[extension_point_id] = (refs, old[:], index)
+                events[extension_point_id] = (refs, old[:], offset)
 
             del extensions[index]
 

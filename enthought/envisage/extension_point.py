@@ -5,8 +5,7 @@
 import inspect, weakref
 
 # Enthought library imports.
-from enthought.traits.api import List, TraitError, TraitType, Undefined
-from enthought.traits.api import implements
+from enthought.traits.api import TraitType, Undefined, implements
 
 # Local imports.
 from i_extension_point import IExtensionPoint
@@ -23,13 +22,6 @@ class ExtensionPoint(TraitType):
 
     # The extension registry that is used by all extension points.
     extension_registry = None
-
-    #### Private 'ExtensionPoint' *CLASS* interface ###########################
-
-    # A dictionary of all extension point traits.
-    #
-    # { obj : trait_names }
-    _obj_to_trait_names_map = weakref.WeakKeyDictionary()
 
     ###########################################################################
     # 'object' interface.
@@ -57,6 +49,11 @@ class ExtensionPoint(TraitType):
         else:
             self.id = id
 
+        # A dictionary of all extension point traits.
+        #
+        # { obj : trait_names }
+        self._obj_to_trait_names_map = weakref.WeakKeyDictionary()
+
         return
 
     ###########################################################################
@@ -66,6 +63,7 @@ class ExtensionPoint(TraitType):
     def get(self, obj, trait_name):
         """ Trait type getter. """
 
+        
         extensions = self._get_extensions(self.id)
         extensions = self._validate_extensions(obj, trait_name, extensions)
 
