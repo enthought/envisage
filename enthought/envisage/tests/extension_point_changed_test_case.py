@@ -5,10 +5,10 @@
 import unittest
 
 # Enthought library imports.
-##from enthought.envisage.api import ExtensionPoint
+from enthought.envisage.api import ExtensionPoint
 
 # Local imports.
-from application_test_case import ExtensionPoint, PluginA, PluginB, PluginC
+from application_test_case import PluginA, PluginB, PluginC
 from application_test_case import TestApplication, listener
 
     

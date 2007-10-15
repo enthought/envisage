@@ -50,20 +50,6 @@ class TestApplication(Application):
         return PluginManager(application=self)
 
 
-## def ExtensionPoint(trait_type, id):
-##     """ A factory function for extension point traits. """
-    
-##     import inspect
-
-##     if inspect.isclass(trait_type):
-##         trait_type = trait_type()
-
-##     # fixme: There must be a better API than this to add metadata to a trait?
-##     trait_type._metadata['__extension_point_id__'] = id
-    
-##     return  trait_type
-
-
 class PluginA(Plugin):
     id = 'A'
     x  = ExtensionPoint(List, id='a.x')

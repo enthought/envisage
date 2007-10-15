@@ -66,7 +66,7 @@ class ExtensionPoint(TraitType):
         else:
             self.id = id
 
-        # A dictionary that basically just keeps a reference to all extension
+        # A dictionary that is used only to keep a reference to all extension
         # point listeners alive until their associated objects are garbage
         # collected.
         self._obj_to_listener_map = weakref.WeakKeyDictionary()
@@ -133,7 +133,7 @@ class ExtensionPoint(TraitType):
         extension_registry.add_extension_point_listener(listener)
 
         # Save a reference to the listener so that it does not get garbage
-        # collected until its associated object is.
+        # collected until its associated object does.
         listeners = self._obj_to_listener_map.setdefault(obj, [])
         listeners.append(listener)
 

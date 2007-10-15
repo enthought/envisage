@@ -157,24 +157,4 @@ def connect_extension_point(obj, trait_name, extension_point_id):
 
     return connection
 
-
-def connect_extension_point_traits(obj):
-    """ Connect all of an object's  extension point traits. """
-
-    # Find all 'ExtensionPoint' traits on the object.
-    traits = obj.traits(__extension_point_id__ = lambda x : x is not None)
-
-    # Connect each of them to their extension point.
-    for trait_name, trait in traits.items():
-        # fixme: There must be a better way to get hold of the extension point
-        # Id from the trait type. Can we put it in metadata?
-        extension_point_id = trait.trait_type._metadata[
-            '__extension_point_id__'
-        ]
-        
-        # Connect up the object's trait to the extension point.
-        connect_extension_point(obj, trait_name, extension_point_id)
-
-    return
-
 #### EOF ######################################################################
