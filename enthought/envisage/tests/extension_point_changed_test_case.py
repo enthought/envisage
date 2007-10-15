@@ -39,10 +39,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    # fixme: This doesn't work when tryoing the extension poin tbinding way
-    # since we don't control the trait set... maybe we should set the trait
-    # type's setter?
-    def Xtest_set_extension_point(self):
+    def test_set_extension_point(self):
         """ set extension point """
 
         a = PluginA()

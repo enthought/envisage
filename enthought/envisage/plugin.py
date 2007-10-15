@@ -62,9 +62,8 @@ class Plugin(ExtensionProvider):
         """
 
         extension_points = []
-        for trait in self.traits().values():
-            if isinstance(trait.trait_type, ExtensionPoint):
-                extension_points.append(trait.trait_type)
+        for trait in self.traits(__extension_point__=True).values():
+            extension_points.append(trait.trait_type)
 
         return extension_points
 
@@ -143,14 +142,11 @@ class Plugin(ExtensionProvider):
     def start(self):
         """ Start the plugin. """
 
-        extension_points = []
-        for trait_name, trait in self.traits().items():
-            if isinstance(trait.trait_type, ExtensionPoint):
-                trait.trait_type.bind(self, trait_name)
+        # Bind all of the plugin's extension point traits so that the plugin
+        # wiil get notified if contributions are added/removed.
+        ExtensionPoint.bind_extension_point_traits(self)
 
-##         from extension_point_binding import bind_extension_point_traits
-##         bind_extension_point_traits(self)
-        
+        # Register all service traits.
         self.register_services()
 
         return
@@ -158,6 +154,7 @@ class Plugin(ExtensionProvider):
     def stop(self):
         """ Stop the plugin. """
 
+        # Unregister all service traits.
         self.unregister_services()
 
         return
