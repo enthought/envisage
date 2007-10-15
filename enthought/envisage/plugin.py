@@ -142,9 +142,9 @@ class Plugin(ExtensionProvider):
     def start(self):
         """ Start the plugin. """
 
-        # Bind all of the plugin's extension point traits so that the plugin
+        # Connect all of the plugin's extension point traits so that the plugin
         # wiil get notified if contributions are added/removed.
-        ExtensionPoint.bind_extension_point_traits(self)
+        ExtensionPoint.connect_extension_point_traits(self)
 
         # Register all service traits.
         self.register_services()

@@ -1,4 +1,4 @@
-""" A binding between a trait on an object and an extension point. """
+""" A connection between a trait on an object and an extension point. """
 
 
 # Standard library imports.
@@ -8,27 +8,27 @@ import weakref
 from enthought.traits.api import Any, HasTraits, Str, Undefined
 
 
-class ExtensionPointBinding(HasTraits):
-    """ A binding between a trait on an object and an extension point. """
+class ExtensionPointConnection(HasTraits):
+    """ A connection between a trait on an object and an extension point. """
 
-    #### 'ExtensionPointBinding' *CLASS* interface ############################
+    #### 'ExtensionPointConnection' *CLASS* interface #########################
 
-    # The extension registry that is used by all extension point bindingss.
+    # The extension registry that is used by all extension point connections.
     extension_registry = None # Instance(IExtensionRegistry)
 
-    # We keep a reference to each binding alive until its associated object is
-    # garbage collected.
-    _bindings = weakref.WeakKeyDictionary()
+    # We keep a reference to each connection alive until its associated object
+    # is garbage collected.
+    _connections = weakref.WeakKeyDictionary()
     
-    #### 'ExtensionPointBinding' interface ####################################
+    #### 'ExtensionPointConnection' interface #################################
 
-    # The object that we are binding the extension point to.
+    # The object that we are connecting the extension point to.
     obj = Any
     
     # The Id of the extension point.
     extension_point_id = Str
 
-    # The name of the trait that we are binding the extension point to.
+    # The name of the trait that we are connecting the extension point to.
     trait_name = Str
     
     #### Private interface ####################################################
@@ -43,7 +43,7 @@ class ExtensionPointBinding(HasTraits):
     def __init__(self, **traits):
         """ Constructor. """
 
-        super(ExtensionPointBinding, self).__init__(**traits)
+        super(ExtensionPointConnection, self).__init__(**traits)
 
         # Initialize the object's trait from the extension point.
         self._set_trait(notify=False)
@@ -51,9 +51,9 @@ class ExtensionPointBinding(HasTraits):
         # Wire-up the trait change and extension point handlers.
         self._initialize()
 
-        # We keep a reference to each binding alive until its associated object
-        # is garbage collected.
-        ExtensionPointBinding._bindings[self.obj] = self
+        # We keep a reference to each connection alive until its associated
+        # object is garbage collected.
+        ExtensionPointConnection._connections[self.obj] = self
 
         return
 
@@ -146,25 +146,25 @@ class ExtensionPointBinding(HasTraits):
         return
 
 
-def bind_extension_point(obj, trait_name, extension_point_id):
-    """ Create a new extension point binding. """
+def connect_extension_point(obj, trait_name, extension_point_id):
+    """ Create a connection to an extension point. """
 
-    binding = ExtensionPointBinding(
+    connection = ExtensionPointConnection(
         obj                = obj,
         trait_name         = trait_name,
         extension_point_id = extension_point_id
     )
 
-    return binding
+    return connection
 
 
-def bind_extension_point_traits(obj):
-    """ Bind all extension point traits on an object. """
+def connect_extension_point_traits(obj):
+    """ Connect all of an object's  extension point traits. """
 
     # Find all 'ExtensionPoint' traits on the object.
     traits = obj.traits(__extension_point_id__ = lambda x : x is not None)
 
-    # Bind each of them to their extension point.
+    # Connect each of them to their extension point.
     for trait_name, trait in traits.items():
         # fixme: There must be a better way to get hold of the extension point
         # Id from the trait type. Can we put it in metadata?
@@ -172,8 +172,8 @@ def bind_extension_point_traits(obj):
             '__extension_point_id__'
         ]
         
-        # Wire up the object's trait to the extension point.
-        bind_extension_point(obj, trait_name, extension_point_id)
+        # Connect up the object's trait to the extension point.
+        connect_extension_point(obj, trait_name, extension_point_id)
 
     return
 

@@ -6,7 +6,7 @@ import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, bind_extension_point
+from enthought.envisage.api import PluginManager, connect_extension_point
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 

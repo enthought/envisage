@@ -1,13 +1,13 @@
-""" Tests for extension point bindings. """
+""" Tests for extension point connections. """
 
 
 # Standard library imports.
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionPointBinding
+from enthought.envisage.api import ExtensionPoint, ExtensionPointConnection
 from enthought.envisage.api import MutableExtensionRegistry
-from enthought.envisage.api import bind_extension_point
+from enthought.envisage.api import connect_extension_point
 from enthought.traits.api import Bool, HasTraits, Int, List, Float, Str
 
 
@@ -22,8 +22,8 @@ def listener(obj, trait_name, old, new):
     return
 
 
-class ExtensionPointBindingTestCase(unittest.TestCase):
-    """ Tests for extension point bindings. """
+class ExtensionPointConnectionTestCase(unittest.TestCase):
+    """ Tests for extension point connections. """
 
     ###########################################################################
     # 'TestCase' interface.
@@ -33,7 +33,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         self.extension_registry = MutableExtensionRegistry()
-        ExtensionPointBinding.extension_registry = self.extension_registry
+        ExtensionPointConnection.extension_registry = self.extension_registry
         
         return
 
@@ -64,8 +64,8 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f = Foo()
         f.on_trait_change(listener)
 
-        # Make some bindings.
-        bind_extension_point(f, 'x', 'my.ep')
+        # Make some connections.
+        connect_extension_point(f, 'x', 'my.ep')
         
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
@@ -105,8 +105,8 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f = Foo()
         f.on_trait_change(listener)
 
-        # Make some bindings.
-        bind_extension_point(f, 'x', 'my.ep')
+        # Make some connections.
+        connect_extension_point(f, 'x', 'my.ep')
         
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
@@ -148,8 +148,8 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f = Foo()
         f.on_trait_change(listener)
 
-        # Make some bindings.
-        bind_extension_point(f, 'x', 'my.ep')
+        # Make some connections.
+        connect_extension_point(f, 'x', 'my.ep')
         
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))

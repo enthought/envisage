@@ -23,7 +23,7 @@ from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
 from extension_point import ExtensionPoint
-from extension_point_binding import ExtensionPointBinding
+from extension_point_connection import ExtensionPointConnection
 from import_manager import ImportManager
 from service_registry import ServiceRegistry
 
@@ -106,9 +106,9 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
 
-        # This allows the 'ExtensionPointBinding' type to be used as a more
+        # This allows 'ExtensionPointConnections' to be used as a more
         # convenient way to get the extensions for a given extension point.
-        ExtensionPointBinding.extension_registry = self.extension_registry
+        ExtensionPointConnection.extension_registry = self.extension_registry
 
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access the preferences.

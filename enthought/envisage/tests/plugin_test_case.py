@@ -6,7 +6,7 @@ import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, bind_extension_point
+from enthought.envisage.api import PluginManager, connect_extension_point
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -235,8 +235,8 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
-    def test_trait_contributions_with_binding(self):
-        """ trait contributions with binding """
+    def test_trait_contributions_with_connection(self):
+        """ trait contributions with connection """
 
         class PluginA(Plugin):
             id = 'A'
@@ -258,7 +258,7 @@ class PluginTestCase(unittest.TestCase):
 
             x = List(Int)
 
-        f = Foo(); bind_extension_point(f, 'x', 'x')
+        f = Foo(); connect_extension_point(f, 'x', 'x')
         f.on_trait_change(listener)
 
         # Make sure we get all of the plugin's contributions via the bound

@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionPointBinding
+from enthought.envisage.api import ExtensionPoint, ExtensionPointConnection
 from enthought.envisage.api import MutableExtensionRegistry
 from enthought.traits.api import HasTraits, Int, List, TraitError
 
@@ -23,7 +23,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.extension_registry = MutableExtensionRegistry()
         
         ExtensionPoint.extension_registry = self.extension_registry
-        ExtensionPointBinding.extension_registry = self.extension_registry
+        ExtensionPointConnection.extension_registry = self.extension_registry
         
         return
 
@@ -71,11 +71,11 @@ class ExtensionPointTestCase(unittest.TestCase):
             
         # Make sure that instances of the class pick up the extensions.
         #
-        # fixme: The bind call is a little weird - here. WHy wouldn't we just
-        # use 'ExtensionPoint' trait types in plugins (where the wiring up can
-        # be done in the base class), and then use 'ExtensionPointBinding's for
-        # arbitrary classes.
-        f = Foo(); f.trait('x').trait_type.bind(f, 'x')
+        # fixme: The 'connect' call is a little weird - here. Why wouldn't we
+        # just use 'ExtensionPoint' trait types in plugins (where the wiring up
+        # can be done in the base class), and then use the
+        # 'ExtensionPointConnections's for  arbitrary classes.
+        f = Foo(); f.trait('x').trait_type.connect(f, 'x')
         self.assertEqual(1, len(f.x))
         self.assertEqual(42, f.x[0])
 

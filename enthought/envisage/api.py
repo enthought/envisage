@@ -15,7 +15,8 @@ from application import Application
 from egg_plugin_manager import EggPluginManager
 from extension_registry import ExtensionRegistry
 from extension_point import ExtensionPoint
-from extension_point_binding import ExtensionPointBinding, bind_extension_point
+from extension_point_connection import ExtensionPointConnection
+from extension_point_connection import connect_extension_point
 from extension_provider import ExtensionProvider
 from extension_point_changed_event import ExtensionPointChangedEvent
 from import_manager import ImportManager
