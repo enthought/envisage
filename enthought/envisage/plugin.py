@@ -143,8 +143,13 @@ class Plugin(ExtensionProvider):
     def start(self):
         """ Start the plugin. """
 
-        from extension_point_binding import initialize_extension_point_traits
-        initialize_extension_point_traits(self)
+        extension_points = []
+        for trait_name, trait in self.traits().items():
+            if isinstance(trait.trait_type, ExtensionPoint):
+                trait.trait_type.bind(self, trait_name)
+
+##         from extension_point_binding import bind_extension_point_traits
+##         bind_extension_point_traits(self)
         
         self.register_services()
 

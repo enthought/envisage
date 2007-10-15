@@ -49,10 +49,13 @@ class ExtensionPoint(TraitType):
         else:
             self.id = id
 
-        # A dictionary of all extension point traits.
+        # A dictionary that basically just keeps a reference to all extension
+        # point listeners alive until their associated objects are garbage
+        # collected.
         #
         # { obj : trait_names }
-        self._obj_to_trait_names_map = weakref.WeakKeyDictionary()
+##         self._obj_to_trait_names_map = weakref.WeakKeyDictionary()
+        self._obj_to_listener_map = weakref.WeakKeyDictionary()
 
         return
 
@@ -66,20 +69,20 @@ class ExtensionPoint(TraitType):
         extensions = self._get_extensions(self.id)
         extensions = self._validate_extensions(obj, trait_name, extensions)
 
-        # If this is the first time that this trait type instance has been
-        # accessed then we add ourselves as a listener for when the extension
-        # point is changed.
-        if len(self._obj_to_trait_names_map) == 0:
-            ExtensionPoint.extension_registry.add_extension_point_listener(
-                self._extension_point_listener, self.id
-            )
+##         # If this is the first time that this trait type instance has been
+##         # accessed then we add ourselves as a listener for when the extension
+##         # point is changed.
+##         if len(self._obj_to_trait_names_map) == 0:
+##             ExtensionPoint.extension_registry.add_extension_point_listener(
+##                 self._extension_point_listener, self.id
+##             )
             
-        # We save the object and trait name combination so that we can fire the
-        # appropriate trait events if the extension point is changed in the
-        # extension registry.
-        trait_names = self._obj_to_trait_names_map.setdefault(obj, {})
-        if not trait_name in trait_names:
-            trait_names[trait_name] = True
+##         # We save the object and trait name combination so that we can fire the
+##         # appropriate trait events if the extension point is changed in the
+##         # extension registry.
+##         trait_names = self._obj_to_trait_names_map.setdefault(obj, {})
+##         if not trait_name in trait_names:
+##             trait_names[trait_name] = True
 
         return extensions
 
@@ -89,6 +92,52 @@ class ExtensionPoint(TraitType):
         self._set_extensions(self.id, value)
 
         return
+
+    ###########################################################################
+    # 'ExtensionPoint' interface.
+    ###########################################################################
+
+    def bind(self, obj, trait_name):
+        """ Bind the extension point to a trait on an object.
+
+        This allows the object to react to changes to the contributions to
+        an extension point.
+
+        fixme: It would be nice to be able to do this wiring up automatically,
+        but we need a slight twek to traits to allow the trait type to get
+        called when an instance is created.
+
+        """
+
+        def extension_point_listener(extension_registry, event):
+            """ Listener called when an extension point is changed. """
+
+            # If an index was specified then we fire an '_items' changed
+            # event.
+            if event.index is not None:
+                name = trait_name + '_items'
+                old  = Undefined
+                new  = event
+
+            # Otherwise, we fire a normal trait changed event.
+            else:
+                name = trait_name
+                old  = event.removed
+                new  = event.added
+
+            obj.trait_property_changed(name, old, new)
+        
+            return
+
+        listeners = self._obj_to_listener_map.setdefault(obj, [])
+        listeners.append(extension_point_listener)
+        
+        ExtensionPoint.extension_registry.add_extension_point_listener(
+            extension_point_listener
+        )
+
+        return
+        
 
     ###########################################################################
     # Protected 'ExtensionPoint' interface.
@@ -125,29 +174,29 @@ class ExtensionPoint(TraitType):
 
         return extensions
 
-    ###########################################################################
-    # Private 'ExtensionPoint' interface.
-    ###########################################################################
+##     ###########################################################################
+##     # Private 'ExtensionPoint' interface.
+##     ###########################################################################
 
-    def _extension_point_listener(self, extension_registry, event):
-        """ Listener called when an extension point is changed. """
+##     def _extension_point_listener(self, extension_registry, event):
+##         """ Listener called when an extension point is changed. """
 
-        for obj, trait_names in self._obj_to_trait_names_map.items():
-            for trait_name in trait_names:
-                # If an index was specified then we fire an '_items' changed
-                # event.
-                if event.index is not None:
-                    trait_name += '_items'
-                    old        = Undefined
-                    new        = event
+##         for obj, trait_names in self._obj_to_trait_names_map.items():
+##             for trait_name in trait_names:
+##                 # If an index was specified then we fire an '_items' changed
+##                 # event.
+##                 if event.index is not None:
+##                     trait_name += '_items'
+##                     old        = Undefined
+##                     new        = event
 
-                # Otherwise, we fire a normal trait changed event.
-                else:
-                    old        = event.removed
-                    new        = event.added
+##                 # Otherwise, we fire a normal trait changed event.
+##                 else:
+##                     old        = event.removed
+##                     new        = event.added
 
-                obj.trait_property_changed(trait_name, old, new)
+##                 obj.trait_property_changed(trait_name, old, new)
         
-        return
+##         return
     
 #### EOF ######################################################################

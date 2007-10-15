@@ -70,7 +70,12 @@ class ExtensionPointTestCase(unittest.TestCase):
                 return
             
         # Make sure that instances of the class pick up the extensions.
-        f = Foo()
+        #
+        # fixme: The bind call is a little weird - here. WHy wouldn't we just
+        # use 'ExtensionPoint' trait types in plugins (where the wiring up can
+        # be done in the base class), and then use 'ExtensionPointBinding's for
+        # arbitrary classes.
+        f = Foo(); f.trait('x').trait_type.bind(f, 'x')
         self.assertEqual(1, len(f.x))
         self.assertEqual(42, f.x[0])
 

@@ -212,7 +212,7 @@ class ExtensionRegistry(HasTraits):
             listener = ref()
             if listener is not None:
                 listener(self, event)
-
+                
         return
 
     def _check_extension_point(self, extension_point_id):

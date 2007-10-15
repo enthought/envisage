@@ -158,10 +158,13 @@ def bind_extension_point(obj, trait_name, extension_point_id):
     return binding
 
 
-def initialize_extension_point_traits(obj):
-    """ Initialize all extension point traits. """
+def bind_extension_point_traits(obj):
+    """ Bind all extension point traits on an object. """
 
+    # Find all 'ExtensionPoint' traits on the object.
     traits = obj.traits(__extension_point_id__ = lambda x : x is not None)
+
+    # Bind each of them to their extension point.
     for trait_name, trait in traits.items():
         # fixme: There must be a better way to get hold of the extension point
         # Id from the trait type. Can we put it in metadata?

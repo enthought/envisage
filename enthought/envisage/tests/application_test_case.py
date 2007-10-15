@@ -41,10 +41,42 @@ class TestApplication(Application):
 
     """
 
+    # The application's unique identifier.
+    id = 'test'
+    
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
         return PluginManager(application=self)
+
+
+## def ExtensionPoint(trait_type, id):
+##     """ A factory function for extension point traits. """
+    
+##     import inspect
+
+##     if inspect.isclass(trait_type):
+##         trait_type = trait_type()
+
+##     # fixme: There must be a better API than this to add metadata to a trait?
+##     trait_type._metadata['__extension_point_id__'] = id
+    
+##     return  trait_type
+
+
+class PluginA(Plugin):
+    id = 'A'
+    x  = ExtensionPoint(List, id='a.x')
+
+
+class PluginB(Plugin):
+    id = 'B'
+    x  = List(Int, [1, 2, 3], extension_point='a.x')
+
+
+class PluginC(Plugin):
+    id = 'C'
+    x  = List(Int, [98, 99, 100], extension_point='a.x')
 
     
 class ApplicationTestCase(unittest.TestCase):
@@ -77,7 +109,7 @@ class ApplicationTestCase(unittest.TestCase):
     def test_no_plugins(self):
         """ no plugins """
         
-        application = TestApplication(id='test')
+        application = TestApplication()
 
         tracker = EventTracker(
             subscriptions = [
@@ -88,24 +120,26 @@ class ApplicationTestCase(unittest.TestCase):
             ]
         )
 
-        # Start.
+        # Start the application.
         started = application.start()
-        self.assertEqual(['starting', 'started'], tracker.event_names)
         self.assertEqual(True, started)
+        self.assertEqual(['starting', 'started'], tracker.event_names)
         
-        # Stop.
+        # Stop the application.
         stopped = application.stop()
+        self.assertEqual(True, stopped)
         self.assertEqual(
             ['starting', 'started', 'stopping', 'stopped'], tracker.event_names
         )
-        self.assertEqual(True, stopped)
 
         return
 
     def test_veto_starting(self):
         """ veto starting """
 
-        application = TestApplication(id='test')
+        application = TestApplication()
+
+        # This listener will veto the 'starting' event.
         application.on_trait_change(vetoer, 'starting')
 
         tracker = EventTracker(
@@ -117,7 +151,7 @@ class ApplicationTestCase(unittest.TestCase):
             ]
         )
 
-        # Start.
+        # Start the application.
         started = application.start()
         self.assertEqual(False, started)
         self.assert_('started' not in tracker.event_names)
@@ -127,7 +161,9 @@ class ApplicationTestCase(unittest.TestCase):
     def test_veto_stopping(self):
         """ veto stopping """
 
-        application = TestApplication(id='test')
+        application = TestApplication()
+        
+        # This listener will veto the 'stopping' event.
         application.on_trait_change(vetoer, 'stopping')
 
         tracker = EventTracker(
@@ -139,35 +175,55 @@ class ApplicationTestCase(unittest.TestCase):
             ]
         )
 
-        # Start.
+        # Start the application.
         started = application.start()
         self.assertEqual(['starting', 'started'], tracker.event_names)
         self.assertEqual(True, started)
         
-        # Stop.
+        # Stop the application.
         stopped = application.stop()
-        self.assert_('stopped' not in tracker.event_names)
         self.assertEqual(False, stopped)
+        self.assert_('stopped' not in tracker.event_names)
 
         return
 
     def test_extension_point(self):
         """ extension point """
 
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
+        a = PluginA()
+        b = PluginB()
+        c = PluginC()
 
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], extension_point='a.x')
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+        
+        # Make sure we can get the contributions via the application.
+        extensions = application.get_extensions('a.x')
+        extensions.sort()
+        
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
+
+        # Make sure we can get the contributions via the plugin.
+        extensions = a.x[:]
+        extensions.sort()
+        
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
+        
+        return
+
+    def test_add_plugin(self):
+        """ add plugin """
 
         a = PluginA()
         b = PluginB()
-
-        application = TestApplication(id='test', plugins=[a, b])
-        application.start()
+        c = PluginC()
         
+        # Start off with just two of the plugins.
+        application = TestApplication(plugins=[a, b])
+        application.start()
+
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         extensions.sort()
@@ -181,92 +237,66 @@ class ApplicationTestCase(unittest.TestCase):
         
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
-        
-        return
-
-    def test_add_plugin(self):
-        """ add plugin """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], extension_point='a.x')
-
-        a = PluginA()
-        b = PluginB()
-
-        # Start off with just one of the plugins.
-        application = TestApplication(id='test', plugins=[a])
-
-        # Make sure we pick up the correct contribution via the application.
-        extensions = application.get_extensions('a.x')
-        self.assertEqual(0, len(extensions))
-
-        # Make sure we pick up the correct contribution via the plugin.
-        self.assertEqual(0, len(a.x))
 
         # Now add the other plugin.
-        application.plugins.append(b)
+        application.plugins.append(c)
 
-        # Make sure we pick up the correct contribution via the application.
+        # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         extensions.sort()
 
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
-        # Make sure we pick up the correct contribution via the plugin.
+        # Make sure we can get the contributions via the plugin.
         extensions = a.x[:]
         extensions.sort()
         
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
         
         return
 
     def test_remove_plugin(self):
         """ remove plugin """
 
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], extension_point='a.x')
-
         a = PluginA()
         b = PluginB()
-
-        # Start off with just one of the plugins.
-        application = TestApplication(id='test', plugins=[a, b])
-
-        # Make sure we pick up the correct contribution via the application.
+        c = PluginC()
+        
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+        
+        # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         extensions.sort()
 
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
-        # Make sure we pick up the correct contribution via the plugin.
+        # Make sure we can get the contributions via the plugin.
+        extensions = a.x[:]
+        extensions.sort()
+        
+        self.assertEqual(6, len(extensions))
+        self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
+
+        # Now remove one plugin.
+        application.plugins.remove(b)
+
+        # Make sure we can get the contributions via the application.
+        extensions = application.get_extensions('a.x')
+        extensions.sort()
+        
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([98, 99, 100], extensions)
+
+        # Make sure we can get the contributions via the plugin.
         extensions = a.x[:]
         extensions.sort()
         
         self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
-
-        # Now remove the plugin that made the contributions.
-        application.plugins.remove(b)
-
-        # Make sure we pick up the correct contribution via the application.
-        extensions = application.get_extensions('a.x')
-        self.assertEqual(0, len(extensions))
-
-        # Make sure we pick up the correct contribution via the plugin.
-        self.assertEqual(0, len(a.x))
+        self.assertEqual([98, 99, 100], extensions)
         
         return
     
@@ -288,7 +318,7 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         a = PluginA()
 
-##         application = TestApplication(id='test', plugins=[a])
+##         application = TestApplication(plugins=[a])
 ##         application.start()
 
 ##         # Make sure the service was registered.
@@ -320,7 +350,7 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         a = PluginA()
         
-##         application = TestApplication(id='test', plugins=[a])
+##         application = TestApplication(plugins=[a])
 ##         application.start()
 
 ##         # Make sure the service was registered with the 'IBar' protocol.
@@ -334,77 +364,6 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         return
 
-##     def test_extension_point_declarations(self):
-##         """ extension point declarations """
-
-##         class PluginA(Plugin):
-##             id = 'A'
-##             x  = ExtensionPoint(List, id='a.x')
-
-##         class PluginB(Plugin):
-##             id = 'B'
-##             x  = List(Int, [1, 2, 3], extension_point='a.x')
-
-##         a = PluginA()
-##         b = PluginB()
-
-##         application = TestApplication(id='test',plugins=[a, b])
-##         application.run()
-        
-##         # Make sure we get all of the plugin's contributions.
-##         extensions = application.get_extensions('a.x')
-##         extensions.sort()
-        
-##         self.assertEqual(3, len(extensions))
-##         self.assertEqual([1, 2, 3], extensions)
-        
-##         # Add another contribution to one of the plugins.
-##         b.x.append(99)
-
-##         # Make sure we have picked up the new contribution.
-##         extensions = application.get_extensions('a.x')
-##         extensions.sort()
-        
-##         self.assertEqual(4, len(extensions))
-##         self.assertEqual([1, 2, 3, 99], extensions)
-
-##         return
-
-##     def test_trait_contributions(self):
-##         """ trait contributions """
-
-##         class PluginA(Plugin):
-##             id = 'A'
-##             x  = List(Int, [1, 2, 3], extension_point='x')
-
-##         class PluginB(Plugin):
-##             id = 'B'
-##             x  = List(Int, [4, 5, 6], extension_point='x')
-
-##         a = PluginA()
-##         b = PluginB()
-
-##         application = TestApplication(id='test', plugins=[a, b])
-
-##         # Make sure we get all of the plugin's contributions.
-##         extensions = application.get_extensions('x')
-##         extensions.sort()
-        
-##         self.assertEqual(6, len(application.get_extensions('x')))
-##         self.assertEqual([1, 2, 3, 4, 5, 6], extensions)
-        
-##         # Add another contribution to one of the plugins.
-##         a.x.append(99)
-
-##         # Make sure we have picked up the new contribution.
-##         extensions = application.get_extensions('x')
-##         extensions.sort()
-        
-##         self.assertEqual(7, len(application.get_extensions('x')))
-##         self.assertEqual([1, 2, 3, 4, 5, 6, 99], extensions)
-
-##         return
-
 ##     def test_multiple_trait_contributions(self):
 ##         """ multiple trait contributions """
 
@@ -415,7 +374,7 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         a = PluginA()
 
-##         application = TestApplication(id='test', plugins=[a])
+##         application = TestApplication(plugins=[a])
 
 ##         # We should get an error because the plugin has multiple traits
 ##         # contributing to the same extension point.
@@ -437,7 +396,7 @@ class ApplicationTestCase(unittest.TestCase):
 ##         a = PluginA()
 ##         b = PluginB()
 
-##         application = TestApplication(id='test', plugins=[a, b])
+##         application = TestApplication(plugins=[a, b])
 
 ##         # Create an arbitrary object that has a trait bound to the extension
 ##         # point.
@@ -490,7 +449,7 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         a = PluginA()
         
-##         application = TestApplication(id='test', plugins=[a])
+##         application = TestApplication(plugins=[a])
 ##         application.run()
 
 ##         # Make sure we can get one of the preferences.

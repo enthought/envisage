@@ -374,17 +374,6 @@ class Application(HasTraits):
 
     #### Trait change handlers ################################################
 
-    def _plugin_manager_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
-
-        if old is not None:
-            old.application = None
-
-        if new is not None:
-            new.application = self
-
-        return
-
     @on_trait_change('plugin_manager.plugins')
     def _plugin_manager_plugins_changed(self, obj, trait_name, old, new):
         """ Dynamic trait change handler. """
@@ -402,8 +391,13 @@ class Application(HasTraits):
             removed = new.removed
 
         elif trait_name == 'plugin_manager':
-            added   = new is not None and new.plugins or []
-            removed = old is not None and old.plugins or []
+            if old is not None:
+                old.application = None
+                removed = old.plugins
+
+            if new is not None:
+                new.application = self
+                added = new.plugins
 
         # fixme: This assumes that the extension registry is a provider
         # extension registry!
