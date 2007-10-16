@@ -68,6 +68,11 @@ class IApplication(Interface):
 
         """
 
+    def add_plugin(self, plugin):
+        """ Add a plugin to the application.
+
+        """
+
     def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
@@ -165,6 +170,11 @@ class IApplication(Interface):
 
         Raise an 'UnknownExtensionPoint' exception if no extension point exists
         with the specified Id.
+
+        """
+
+    def remove_plugin(self, plugin):
+        """ Remove a plugin from the application.
 
         """
 

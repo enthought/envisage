@@ -77,7 +77,9 @@ class MutableExtensionRegistry(ExtensionRegistry):
         return
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions to an extension point. """
+        """ Set the extensions contributed to an extension point.
+
+        """
 
         self._lk.acquire()
         try:

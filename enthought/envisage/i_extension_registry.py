@@ -40,7 +40,7 @@ class IExtensionRegistry(Interface):
         """
 
     def get_extensions(self, extension_point_id):
-        """ Return a list containing all contributions to an extension point.
+        """ Return the extensions contributed to an extension point.
 
         Return an empty list if the extension point does not exist.
 
@@ -70,6 +70,11 @@ class IExtensionRegistry(Interface):
 
         Raise an 'UnknownExtensionPoint' exception if no extension point exists
         with the specified Id.
+
+        """
+
+    def set_extensions(self, extension_point_id, extensions):
+        """ Set the extensions contributed to an extension point.
 
         """
 

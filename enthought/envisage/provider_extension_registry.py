@@ -41,6 +41,17 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             map(self._add_provider, providers)
             
         return
+
+    ###########################################################################
+    # 'IExtensionRegistry' interface.
+    ###########################################################################
+
+    def set_extensions(self, extension_point_id, extensions):
+        """ Set the extensions to an extension point.
+
+        """
+
+        raise SystemError('extension points cannot be set')
     
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.

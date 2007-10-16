@@ -68,16 +68,17 @@ class PluginTestCase(unittest.TestCase):
 
         # Start off with just one of the plugins.
         application = TestApplication(id='plugin.test.case', plugins=[a])
-
+        application.start()
+        
         # Make sure we get the plugin's contributions.
         extensions = application.get_extensions('x')
         extensions.sort()
         
-        self.assertEqual(3, len(application.get_extensions('x')))
         self.assertEqual([1, 2, 3], extensions)
 
         # Now add the other plugin.
-        application.plugin_manager.plugins.append(b)
+##        application.plugins.append(b)
+        application.add_plugin(b)
 
         # Make sure we get the other plugin's contributions too.
         extensions = application.get_extensions('x')
@@ -250,7 +251,8 @@ class PluginTestCase(unittest.TestCase):
         b = PluginB()
 
         application = TestApplication(id='plugin.test.case', plugins=[a, b])
-
+        application.start()
+        
         # Create an arbitrary object that has a trait bound to the extension
         # point.
         class Foo(HasTraits):

@@ -13,7 +13,7 @@ class IExtensionPoint(Interface):
     # 'Pythonic', maybe 'doc' to match the 'desc' metadata used in traits).
     desc = Str
 
-    # The plugin's unique identifier.
+    # The extension point's unique identifier.
     #
     # Where 'unique' technically means 'unique within the extension registry',
     # but since the chances are that you will want to include extension points

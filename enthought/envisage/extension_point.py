@@ -44,7 +44,8 @@ class ExtensionPoint(TraitType):
         """ Constructor. """
 
         # We add '__extension_point_id__' to the metadata to make the extension
-        # point traits easier to find.
+        # point traits easier to find with the 'traits' and 'trait_names'
+        # methods on 'HasTraits'.
         super(ExtensionPoint, self).__init__(
             __extension_point__=True, **metadata
         )
@@ -52,8 +53,7 @@ class ExtensionPoint(TraitType):
         # The trait type that describes the extension point.
         #
         # If we are handed a trait type *class* e.g. List, instead of a trait
-        # type *instance* e.g. List() or List(Int) etc, then we just
-        # instantiate it.
+        # type *instance* e.g. List() or List(Int) etc, then we instantiate it.
         if inspect.isclass(trait_type):
             trait_type = trait_type()
                 
@@ -61,15 +61,16 @@ class ExtensionPoint(TraitType):
 
         # The Id of the extension point.
         if id is None:
-            self.id = '%s.%s' % (type(self).__module__, type(self).__name__)
+            raise ValueError('an extension point must have an Id')
 
-        else:
-            self.id = id
+        self.id = id
 
-        # A dictionary that is used only to keep a reference to all extension
+        # A dictionary that is used solely to keep a reference to all extension
         # point listeners alive until their associated objects are garbage
         # collected.
-        self._obj_to_listener_map = weakref.WeakKeyDictionary()
+        #
+        # Dict(weakref.ref(Any), List(Callable))
+        self._obj_to_listeners_map = weakref.WeakKeyDictionary()
 
         return
 
@@ -99,12 +100,12 @@ class ExtensionPoint(TraitType):
     def connect(self, obj, trait_name):
         """ Connect the extension point to a trait on an object.
 
-        This allows the object to react to changes to the contributions to
-        an extension point.
+        This allows the object to react when contributions are added or
+        removed from the extension point.
 
-        fixme: It would be nice to be able to do this wiring up automatically,
-        but we need a slight twek to traits to allow the trait type to get
-        called when an instance is created.
+        fixme: It would be nice to be able to make the connection automatically
+        but we would need a slight tweak to traits to allow the trait type to
+        be notified when a new instance that uses the trait type is created.
 
         """
 
@@ -134,7 +135,7 @@ class ExtensionPoint(TraitType):
 
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.
-        listeners = self._obj_to_listener_map.setdefault(obj, [])
+        listeners = self._obj_to_listeners_map.setdefault(obj, [])
         listeners.append(listener)
 
         return
@@ -147,17 +148,12 @@ class ExtensionPoint(TraitType):
         """ Return all contributions to this extension point. """
 
         extension_registry = ExtensionPoint.extension_registry
-
         return extension_registry.get_extensions(extension_point_id)
 
     def _set_extensions(self, extension_point_id, extensions):
         """ Set the contributions to this extension point. """
 
         extension_registry = ExtensionPoint.extension_registry
-
-        if not hasattr(extension_registry, 'set_extensions'):
-            raise SystemError('extension points cannot be set')
-        
         extension_registry.set_extensions(extension_point_id, extensions)
 
         return

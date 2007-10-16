@@ -71,21 +71,7 @@ class ExtensionRegistry(HasTraits):
     ###########################################################################
 
     def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added or removed.
-
-        If an extension point is specified then the listener will only called
-        when extensions are added to or removed from that extension point (the
-        extension point may or may not have been added to the registry at the
-        time of this call).
-        
-        If no extension point is specified then the listener will be called
-        when extensions are added to or removed from *any* extension point.
-
-        When extensions are added or removed all specific listeners are called
-        (in arbitrary order), followed by all non-specific listeners (again, in
-        arbitrary order).
-        
-        """
+        """ Add a listener for extensions being added or removed. """
 
         self._lk.acquire()
         listeners = self._listeners.setdefault(extension_point_id, [])
@@ -106,11 +92,7 @@ class ExtensionRegistry(HasTraits):
         return
 
     def get_extensions(self, extension_point_id, **kw):
-        """ Return all contributions to an extension point.
-
-        Returns an empty list if the extension point does not exist.
-
-        """
+        """ Return the extensions contributed to an extension point. """
 
         self._lk.acquire()
         try:
@@ -122,11 +104,7 @@ class ExtensionRegistry(HasTraits):
         return extensions
 
     def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id.
-
-        Return None if no such extension point exists.
-
-        """
+        """ Return the extension point with the specified Id. """
 
         self._lk.acquire()
         extension_point = self._extension_points.get(extension_point_id)
@@ -144,11 +122,7 @@ class ExtensionRegistry(HasTraits):
         return extension_points
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
-        """ Remove a listener for extensions being added/removed.
-
-        Raise a 'ValueError' if the listener does not exist.
-
-        """
+        """ Remove a listener for extensions being added/removed. """
 
         self._lk.acquire()
         try:
@@ -161,12 +135,7 @@ class ExtensionRegistry(HasTraits):
         return
 
     def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point.
-
-        Raise an 'UnknownExtensionPoint' exception if the extension point does
-        not exist.
-
-        """
+        """ Remove an extension point. """
 
         self._lk.acquire()
         try:

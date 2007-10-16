@@ -22,6 +22,7 @@ from extension_point_changed_event import ExtensionPointChangedEvent
 from import_manager import ImportManager
 from mutable_extension_registry import MutableExtensionRegistry
 from plugin import Plugin
+from plugin_extension_registry import PluginExtensionRegistry
 from plugin_manager import PluginManager
 from provider_extension_registry import ProviderExtensionRegistry
 from service_registry import ServiceRegistry

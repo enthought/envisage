@@ -5,8 +5,9 @@
 import random, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, connect_extension_point
+from enthought.envisage.api import Application, ExtensionPoint, IApplication
+from enthought.envisage.api import Plugin, PluginManager
+from enthought.envisage.api import connect_extension_point
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -33,7 +34,7 @@ def vetoer(event):
     return
 
 
-class TestApplication(Application):
+class _TestApplication(Application):
     """ The type of application used in the tests.
 
     This applications uses a plugin manager that is manually populated (the
@@ -48,6 +49,14 @@ class TestApplication(Application):
         """ Trait initializer. """
 
         return PluginManager(application=self)
+
+
+def TestApplication(**traits):
+    """ Factory function for creating type-safe applications! """
+    
+    application = _TestApplication(**traits)
+
+    return IApplication(application)
 
 
 class PluginA(Plugin):
@@ -85,7 +94,7 @@ class ApplicationTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
     
     ###########################################################################
@@ -94,9 +103,9 @@ class ApplicationTestCase(unittest.TestCase):
 
     def test_no_plugins(self):
         """ no plugins """
-        
-        application = TestApplication()
 
+        application = TestApplication()
+        
         tracker = EventTracker(
             subscriptions = [
                 (application, 'starting'),
@@ -175,7 +184,7 @@ class ApplicationTestCase(unittest.TestCase):
 
     def test_extension_point(self):
         """ extension point """
-
+        
         a = PluginA()
         b = PluginB()
         c = PluginC()
@@ -225,7 +234,8 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3], extensions)
 
         # Now add the other plugin.
-        application.plugins.append(c)
+##         application.plugins.append(c)
+        application.add_plugin(c)
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
@@ -268,7 +278,8 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
         # Now remove one plugin.
-        application.plugins.remove(b)
+##         application.plugins.remove(b)
+        application.remove_plugin(b)
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
@@ -284,6 +295,26 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
         
+        return
+
+    def test_preferences(self):
+        """ preferences """
+
+        class PluginA(Plugin):
+            id = 'A'
+            preferences = List(
+                ['file://preferences.ini'],
+                extension_point='enthought.envisage.preferences'
+            )
+
+        a = PluginA()
+        
+        application = TestApplication(plugins=[a])
+        application.run()
+
+        # Make sure we can get one of the preferences.
+        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+
         return
     
 ###############################################################################
@@ -423,24 +454,4 @@ class ApplicationTestCase(unittest.TestCase):
 
 ##         return
 
-##     def test_preferences(self):
-##         """ preferences """
-
-##         class PluginA(Plugin):
-##             id = 'A'
-##             x  = List(
-##                 ['file://preferences.ini'],
-##                 extension_point='enthought.envisage.preferences'
-##             )
-
-##         a = PluginA()
-        
-##         application = TestApplication(plugins=[a])
-##         application.run()
-
-##         # Make sure we can get one of the preferences.
-##         self.assertEqual('42', application.preferences.get('enthought.test.x'))
-
-##         return
-    
 #### EOF ######################################################################

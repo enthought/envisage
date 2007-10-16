@@ -74,7 +74,7 @@ class Application(HasTraits):
     import_manager = Instance(IImportManager, factory=ImportManager)
 
     # The plugins that constitute the application.
-    plugins = Delegate('plugin_manager', modify=True)
+    #plugins = Delegate('plugin_manager', modify=True)
 
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
@@ -86,7 +86,7 @@ class Application(HasTraits):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, **traits):
+    def __init__(self, plugins=None, **traits):
         """ Constructor. """
 
         super(Application, self).__init__(**traits)
@@ -109,6 +109,19 @@ class Application(HasTraits):
         # This allows 'ExtensionPointConnections' to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self.extension_registry
+
+        # fixme: Ordering issue here... We have to add the plugins before
+        # initializing the preferences. Sadly we have to get the preferences
+        # to set the trait on the 'PreferencesHelper'. I think instead of a
+        # trait, the helper should be passed an object that it can call to get
+        # the preferences lazily.
+        #
+        # We allow the user to pass in a list of initial plugins, but we don't
+        # make the list part of the public API. To add and remove plugins after
+        # construction time, the client must call the 'add_plugin' and
+        # 'remove_plugin' methods.
+        if plugins is not None:
+            map(self.add_plugin, plugins)
 
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access the preferences.
@@ -157,6 +170,15 @@ class Application(HasTraits):
 
         return
 
+    def add_plugin(self, plugin):
+        """ Add a plugin to the application.
+
+        """
+
+        self.plugin_manager.plugins.append(plugin)
+
+        return
+    
     def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
@@ -249,6 +271,15 @@ class Application(HasTraits):
         """
 
         self.extension_registry.remove_extension_point(extension_point_id)
+
+        return
+
+    def remove_plugin(self, plugin):
+        """ Remove a plugin from the application.
+
+        """
+
+        self.plugin_manager.plugins.remove(plugin)
 
         return
 
@@ -347,18 +378,17 @@ class Application(HasTraits):
 
         # Do the import here to emphasize that this is just the default
         # extension registry and that the developer is free to override it!
-        from provider_extension_registry import ProviderExtensionRegistry
+        from plugin_extension_registry import PluginExtensionRegistry
 
-        # Add every plugin that implements the 'IExtensionProvider' interface
-        # as an extension provider.
-        providers = [
-            plugin for plugin in self.plugin_manager.plugins
+        # fixme: There is a traits bug that prevents trait handlers that are
+        # registered via '@on_trait_change' firing if the trait is changed via
+        # the constructor, so we have to set the 'application' trait
+        # separately.
+        registry = PluginExtensionRegistry()
+        registry.application = self
 
-            if IExtensionProvider(plugin) is not None
-        ]
-
-        return ProviderExtensionRegistry(providers=providers)
-
+        return registry
+    
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
@@ -374,40 +404,15 @@ class Application(HasTraits):
 
     #### Trait change handlers ################################################
 
-    @on_trait_change('plugin_manager.plugins')
-    def _plugin_manager_plugins_changed(self, obj, trait_name, old, new):
-        """ Dynamic trait change handler. """
+    def _plugin_manager_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
 
-        # Do the import here to emphasize that this is just the default
-        # extension registry and that the developer is free to override it!
-        from provider_extension_registry import ProviderExtensionRegistry
+        if old is not None:
+            old.application = None
 
-        if trait_name == 'plugins':
-            added   = new
-            removed = old
+        if new is not None:
+            new.application = self
 
-        elif trait_name == 'plugins_items':
-            added   = new.added
-            removed = new.removed
-
-        elif trait_name == 'plugin_manager':
-            if old is not None:
-                old.application = None
-                removed = old.plugins
-
-            if new is not None:
-                new.application = self
-                added = new.plugins
-
-        # fixme: This assumes that the extension registry is a provider
-        # extension registry!
-        if isinstance(self.extension_registry, ProviderExtensionRegistry):
-            for plugin in removed:
-                self.extension_registry.remove_provider(plugin)
-
-            for plugin in added:
-                self.extension_registry.add_provider(plugin)
-            
         return
     
     #### Methods ##############################################################
@@ -440,8 +445,7 @@ class Application(HasTraits):
         # is exactly what happens in the preferences UI.
         default = preferences.node('default/')
 
-        # fixme: 'lhs' is a little hack to allow the egg extension provider
-        # (if used) to use the LHS of the entry point expression.
+        # The resource manager is used to find the preferences files.
         resource_manager = ResourceManager()
         for resource_name in self.get_extensions(self.PREFERENCES):
             f = resource_manager.file(resource_name)

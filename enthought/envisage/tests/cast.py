@@ -1,6 +1,9 @@
 """ An attempt at type-safe casting. """
 
 
+# Standard library imports.
+import inspect
+
 # Enthought library imports.
 from enthought.traits.api import Any, HasTraits, Interface
 
@@ -8,55 +11,60 @@ from enthought.traits.api import Any, HasTraits, Interface
 class ProtocolError(Exception):
     """ A protocol error. """
 
-    
-class TypeSafeAdapter(HasTraits):
-    """ An attempt at type-safe casting. """
 
-    # The object that we cast.
-    adaptee  = Any
+def cast(adaptee, protocol):
+    """ Cast an object to a protocol in type-safe manner! """
 
-    # The protocol that we cast it to.
-    protocol = Any
+    class TypeSafeAdapter(adaptee.__class__):
+        """ An attempt at type-safe casting. """
 
-    ###########################################################################
-    # 'object' interface.
-    ###########################################################################
+        # The object that we are adapiting.
+        tsa_adaptee = Any
 
-    def __init__(self, adaptee, protocol):
-        """ Constructor. """
+        # The protocol that we are adapting it to.
+        tsa_protocol = Any
 
-        super(HasTraits, self).__init__(adaptee=adaptee, protocol=protocol)
+        #######################################################################
+        # 'object' interface.
+        #######################################################################
 
-        return
-    
-    def __getattribute__(self, name):
-        """ Get an attribute of an object. """
+        def __getattribute__(self, name):
+            """ Get an attribute of an object. """
 
-        # Make sure that the attribute is actually a part of the protocol.
-        protocol = object.__getattribute__(self, 'protocol')
+            adaptee = object.__getattribute__(self, 'tsa_adaptee')
 
-        import inspect
-        for cls in inspect.getmro(protocol):
-            if cls is Interface or cls is object:
-                continue
+            # Ignore any calls internal to the object.
+            caller = inspect.currentframe().f_back
+            if 'self' in caller.f_locals and caller.f_locals['self'] is self:
+                return getattr(adaptee, name)
+            
+            # Make sure that the attribute is actually a part of the protocol.
+            protocol = object.__getattribute__(self, 'tsa_protocol')
 
-            if name in cls.__dict__.keys():
-                break
+            for cls in inspect.getmro(protocol):
+                if cls is object:
+                    continue
 
-        else:
-            raise ProtocolError(
-                '%s protocol has no attribute %s' % (protocol.__name__, name)
-            )
-        
-        # Get the attribute as normal.
-        adaptee = object.__getattribute__(self, 'adaptee')
+                # fixme: Our type-hierarechy is kinda screwy! We need this to
+                # allow the adapters to be able to access 'HasTraits'
+                # attributes and methods like 'on_trait_change', but of course
+                # there is no interface that these methods are on.
+                if cls is Interface:
+                    cls = HasTraits
 
-        return getattr(adaptee, name)
+                if name in cls.__dict__.keys():
+                    break
+                
+            else:
+                raise ProtocolError(
+                    '%s protocol has no attribute %s' % (
+                        protocol.__name__, name
+                    )
+                )
 
+            # Get the attribute as normal.
+            return getattr(adaptee, name)
 
-def cast(obj, protocol):
-    """ Cast an object to a protocol. """
-
-    return TypeSafeAdapter(obj, protocol)
+    return TypeSafeAdapter(tsa_adaptee=adaptee, tsa_protocol=protocol)
 
 #### EOF ######################################################################
