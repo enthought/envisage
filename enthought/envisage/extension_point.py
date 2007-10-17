@@ -20,8 +20,8 @@ class ExtensionPoint(TraitType):
     
     #### 'ExtensionPoint' *CLASS* interface ###################################
 
-    # The extension registry that is used by all extension points.
-    extension_registry = None
+    # The extension registry used by *ALL* extension points.
+    extension_registry = None # Instance(IExtensionRegistry)
 
     ###########################################################################
     # 'ExtensionPoint' *CLASS* interface.
@@ -81,15 +81,21 @@ class ExtensionPoint(TraitType):
     def get(self, obj, trait_name):
         """ Trait type getter. """
         
-        extensions = self._get_extensions(self.id)
-        extensions = self._validate_extensions(obj, trait_name, extensions)
+        extensions = self.extension_registry.get_extensions(self.id)
+
+        # fixme: Ideally, instead of checking for 'None' here, we would just
+        # make the trait type default to 'Any'. Unfortunately, the 'Any'
+        # trait type doesn't support the 'TraitType' interface 8^( It doesn't
+        # have a 'validate' method!
+        if self.trait_type is not None:
+            extensions = self.trait_type.validate(obj, trait_name, extensions)
 
         return extensions
 
     def set(self, obj, name, value):
         """ Trait type setter. """
 
-        self._set_extensions(self.id, value)
+        self.extension_registry.set_extensions(self.id, value)
 
         return
 
@@ -130,8 +136,8 @@ class ExtensionPoint(TraitType):
             return
 
         # Add the listener to the extension registry.
-        extension_registry = ExtensionPoint.extension_registry
-        extension_registry.add_extension_point_listener(listener)
+        ##extension_registry = ExtensionPoint.extension_registry
+        self.extension_registry.add_extension_point_listener(listener)
 
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.
@@ -139,35 +145,5 @@ class ExtensionPoint(TraitType):
         listeners.append(listener)
 
         return
-        
-    ###########################################################################
-    # Protected 'ExtensionPoint' interface.
-    ###########################################################################
-
-    def _get_extensions(self, extension_point_id):
-        """ Return all contributions to this extension point. """
-
-        extension_registry = ExtensionPoint.extension_registry
-        return extension_registry.get_extensions(extension_point_id)
-
-    def _set_extensions(self, extension_point_id, extensions):
-        """ Set the contributions to this extension point. """
-
-        extension_registry = ExtensionPoint.extension_registry
-        extension_registry.set_extensions(extension_point_id, extensions)
-
-        return
-
-    def _validate_extensions(self, obj, trait_name, extensions):
-        """ Validate the contibutions to this extension point. """
-
-        # fixme: Ideally, instead of checking for 'None' here, we would just
-        # make the trait type default to 'Any'. Unfortunately, the 'Any'
-        # trait type doesn't support the 'TraitType' interface 8^( It doesn't
-        # have a 'validate' method!
-        if self.trait_type is not None:
-            extensions = self.trait_type.validate(obj, trait_name, extensions)
-
-        return extensions
 
 #### EOF ######################################################################

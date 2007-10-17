@@ -13,7 +13,7 @@ class ExtensionPointConnection(HasTraits):
 
     #### 'ExtensionPointConnection' *CLASS* interface #########################
 
-    # The extension registry that is used by all extension point connections.
+    # The extension registry used by *ALL* extension point connections.
     extension_registry = None # Instance(IExtensionRegistry)
 
     # We keep a reference to each connection alive until its associated object
@@ -138,7 +138,7 @@ class ExtensionPointConnection(HasTraits):
 
     def _set_extensions(self, extensions):
         """ Set the extensions to an extension point. """
-        
+
         self.extension_registry.set_extensions(
             self.extension_point_id, extensions
         )
