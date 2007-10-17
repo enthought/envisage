@@ -74,7 +74,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Ignore any other plugins that may be in the working set.
         plugins = [
-            plugin for plugin in self.plugin_manager.plugins
+            plugin for plugin in self.plugin_manager.get_plugins()
 
             if plugin in [foo, bar, baz]
         ]

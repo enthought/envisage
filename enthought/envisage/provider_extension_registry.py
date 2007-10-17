@@ -21,23 +21,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     """ An extension registry implementation with multiple providers. """
 
     implements(IProviderExtensionRegistry)
-    
-    #### 'IProviderExtensionRegistry' interface ###############################
+
+    #### Protectes 'ProviderExtensionRegistry' interface ######################
 
     # The extension providers that populate the registry.
-    providers = List(IExtensionProvider)
-
-##     ###########################################################################
-##     # 'object' interface.
-##     ###########################################################################
-
-##     def __init__(self, **traits):
-##         """ Constructor. """
-
-##         super(ProviderExtensionRegistry, self).__init__(**traits)
-
-##         return
-
+    _providers = List(IExtensionProvider)
+    
     ###########################################################################
     # 'IExtensionRegistry' interface.
     ###########################################################################
@@ -133,7 +122,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             extensions.append(new)
             
-        self.providers.append(provider)
+        self._providers.append(provider)
 
         return events
 
@@ -155,7 +144,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         # Find the index of the provider in the provider list. Its
         # contributions are at the same index in the extensions list of lists.
-        index = self.providers.index(provider)
+        index = self._providers.index(provider)
         
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
@@ -168,7 +157,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             del extensions[index]
 
-        self.providers.remove(provider)
+        self._providers.remove(provider)
 
         # Remove the provider's extension points.
         self._remove_provider_extension_points(provider, events)
@@ -204,7 +193,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     #### Trait change handlers ################################################
     
-    @on_trait_change('providers.extension_point_changed')
+    @on_trait_change('_providers.extension_point_changed')
     def _providers_extension_point_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
@@ -223,7 +212,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                 # Find the index of the provider in the provider list. Its
                 # contributions are at the same index in the extensions list of
                 # lists.
-                provider_index = self.providers.index(obj)
+                provider_index = self._providers.index(obj)
 
                 # Get the updated list from the provider.
                 extensions[provider_index] = obj.get_extensions(
@@ -258,7 +247,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """ Initialize the extensions to an extension point. """
 
         extensions = []
-        for provider in self.providers:
+        for provider in self._providers:
             extensions.append(provider.get_extensions(extension_point_id)[:])
 
         logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)

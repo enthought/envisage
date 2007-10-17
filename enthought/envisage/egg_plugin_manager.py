@@ -35,10 +35,10 @@ class EggPluginManager(PluginManager):
     include = List(Str)
     
     ###########################################################################
-    # 'PluginManager' interface.
+    # Protected 'PluginManager' interface.
     ###########################################################################
 
-    def _plugins_default(self):
+    def __plugins_default(self):
         """ Trait initializer. """
 
         plugins = []

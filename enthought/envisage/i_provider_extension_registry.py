@@ -2,30 +2,33 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import List
+from enthought.traits.api import Event
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry
-from i_extension_provider import IExtensionProvider
 
 
 class IProviderExtensionRegistry(IExtensionRegistry):
     """ The provider extension registry interface. """
 
-    # The extension providers that populate the registry.
-    #
-    # There is currently no way to express this in traits, but this trait is
-    # readonly, meaning that you can use the list to iterate over all of the
-    # items in it, and you can listen for changes to the list, but if you want
-    # to add or remove a provider you should call 'add_provider' or
-    # 'remove_provider' respectively.
-    providers = List(IExtensionProvider)
+    #### Events ####
+
+    # Fired when a provider has been added to the registry.
+    provider_added = Event#(Provider)
+    
+    # Fired when a provider has been removed from the registry.
+    provider_removed = Event#(PluginEvent)
         
     def add_provider(self, provider):
         """ Add an extension provider.
 
         """
 
+    def get_providers(self):
+        """ Return all of the providers in the registry.
+
+        """
+        
     def remove_provider(self, provider):
         """ Remove an extension provider.
 

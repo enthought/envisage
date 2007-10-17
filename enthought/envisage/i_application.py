@@ -3,12 +3,13 @@
 
 # Enthought library imports.
 from enthought.preferences.api import IPreferences
-from enthought.traits.api import Event, Instance, Interface, List, Str
+from enthought.traits.api import Event, Instance, Interface, Str
 from enthought.traits.api import VetoableEvent
 
 # Local imports.
 from application_event import ApplicationEvent
 from i_plugin import IPlugin
+from plugin_event import PluginEvent
 
 
 class IApplication(Interface):
@@ -20,17 +21,16 @@ class IApplication(Interface):
     # The application's globally unique identifier.
     id = Str
 
-    # The plugins that the manager managers!
-    #
-    # There is currently no way to express this in traits, but this trait is
-    # readonly, meaning that you can use the list to iterate over all of the
-    # items in it, and you can listen for changes to the list, but if you want
-    # to add or remove a plugin you should call 'add_plugin' or 'remove_plugin'
-    # respectively.
-    plugins = List(IPlugin)
-
     # The root preferences node.
     preferences = Instance(IPreferences)
+
+    #### Events ####
+
+    # Fired when a plugin has been added to the application.
+    plugin_added = Event(PluginEvent)
+    
+    # Fired when a plugin has been removed from the application.
+    plugin_removed = Event(PluginEvent)
     
     # Fired when the application is starting. This is the first thing that
     # happens when the 'start' method is called.
@@ -105,6 +105,11 @@ class IApplication(Interface):
         """ Return the plugin with the specified Id.
 
         Return None if no such plugin exists.
+
+        """
+
+    def get_plugins(self):
+        """ Return all of the plugins in the application
 
         """
 

@@ -26,8 +26,13 @@ class PluginManager(HasTraits):
 
     #### 'IPluginManager' interface ###########################################
 
-    # The plugins that the manager manages!
-    plugins = List(IPlugin)
+    #### Events ####
+
+    # Fired when a plugin has been added to the manager.
+    plugin_added = Event(PluginEvent)
+    
+    # Fired when a plugin has been removed from the manager.
+    plugin_removed = Event(PluginEvent)
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
@@ -45,6 +50,29 @@ class PluginManager(HasTraits):
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
+
+    #### Private interface ####################################################
+
+    # The plugins that the manager manages!
+    _plugins = List(IPlugin)
+
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, plugins=None, **traits):
+        """ Constructor. """
+
+        super(PluginManager, self).__init__(**traits)
+
+        # We allow the caller to specify an initial list of plugins, but the
+        # list itself is not part of the public API. To add and remove plugins
+        # after construction, use the 'add_plugin' and 'remove_plugin' methods
+        # repsectively.
+        if plugins is not None:
+            self._plugins = plugins
+
+        return
     
     ###########################################################################
     # 'IPluginManager' interface.
@@ -55,7 +83,9 @@ class PluginManager(HasTraits):
 
         """
 
-        self.plugins.append(plugin)
+        self._plugins.append(plugin)
+
+        self.plugin_added = PluginEvent(plugin=plugin)
 
         return
     
@@ -64,7 +94,7 @@ class PluginManager(HasTraits):
 
         """
 
-        for plugin in self.plugins:
+        for plugin in self._plugins:
             if plugin_id == plugin.id:
                 break
 
@@ -73,12 +103,21 @@ class PluginManager(HasTraits):
 
         return plugin
 
+    def get_plugins(self):
+        """ Return all of the manager's plugins.
+
+        """
+
+        return self._plugins[:]
+    
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager.
 
         """
 
-        self.plugins.remove(plugin)
+        self._plugins.remove(plugin)
+
+        self.plugin_removed = PluginEvent(plugin=plugin)
 
         return
     
@@ -87,7 +126,7 @@ class PluginManager(HasTraits):
         
         """
 
-        map(lambda p: self.start_plugin(plugin_context, p), self.plugins)
+        map(lambda p: self.start_plugin(plugin_context, p), self._plugins)
         
         return
 
@@ -117,7 +156,7 @@ class PluginManager(HasTraits):
         """
 
         # We stop the plugins in the reverse order that they were started.
-        stop_order = self.plugins[:]
+        stop_order = self._plugins[:]
         stop_order.reverse()
         
         map(lambda p: self.stop_plugin(plugin_context, p), stop_order)
@@ -153,18 +192,18 @@ class PluginManager(HasTraits):
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        self._update_plugin_application(self.plugins, [])
+        self._update_plugin_application(self._plugins, [])
 
         return
 
-    def _plugins_changed(self, trait_name, old, new):
+    def __plugins_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         self._update_plugin_application(new, old)
 
         return
 
-    def _plugins_items_changed(self, trait_name, old, new):
+    def __plugins_items_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         self._update_plugin_application(new.added, new.removed)

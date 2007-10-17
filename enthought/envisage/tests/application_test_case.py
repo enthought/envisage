@@ -234,7 +234,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3], extensions)
 
         # Now add the other plugin.
-##         application.plugins.append(c)
         application.add_plugin(c)
 
         # Make sure we can get the contributions via the application.
@@ -278,7 +277,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
         # Now remove one plugin.
-##         application.plugins.remove(b)
         application.remove_plugin(b)
 
         # Make sure we can get the contributions via the application.

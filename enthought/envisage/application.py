@@ -50,11 +50,16 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
-    # The plugins that constitute the application.
-    plugins = Delegate('plugin_manager', modify=True)
-
     # The root preferences node.
     preferences = Instance(IPreferences)
+
+    #### Events ####
+
+    # Fired when a plugin has been added.
+    plugin_added = Delegate('plugin_manager')
+    
+    # Fired when a plugin has been removed.
+    plugin_removed = Delegate('plugin_manager')
     
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
@@ -86,7 +91,7 @@ class Application(HasTraits):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, **traits):
+    def __init__(self, plugins=None, **traits):
         """ Constructor. """
 
         super(Application, self).__init__(**traits)
@@ -109,6 +114,12 @@ class Application(HasTraits):
         # This allows 'ExtensionPointConnections' to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self.extension_registry
+
+        # The initial list of plugins (to add and remove plugins after
+        # construction, use the 'add_plugin' and 'remove_plugin' methods.
+        if plugins is not None:
+            for plugin in plugins:
+                self.add_plugin(plugin)
 
         return
     
@@ -134,7 +145,7 @@ class Application(HasTraits):
         PreferencesHelper.preferences = preferences
 
         return preferences
-
+        
     #### Methods ##############################################################
     
     def add_extension_point_listener(self, listener, extension_point_id=None):
@@ -193,6 +204,13 @@ class Application(HasTraits):
         """
 
         return self.plugin_manager.get_plugin(plugin_id)
+
+    def get_plugins(self):
+        """ Return all of the plugins in the application
+
+        """
+
+        return self.plugin_manager.get_plugins()
     
     def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
