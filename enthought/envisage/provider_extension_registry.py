@@ -5,11 +5,12 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import List, on_trait_change
+from enthought.traits.api import List, implements, on_trait_change
 
 # Local imports.
 from extension_registry import ExtensionRegistry
 from i_extension_provider import IExtensionProvider
+from i_provider_extension_registry import IProviderExtensionRegistry
 
 
 # Logging.
@@ -19,28 +20,23 @@ logger = logging.getLogger(__name__)
 class ProviderExtensionRegistry(ExtensionRegistry):
     """ An extension registry implementation with multiple providers. """
 
-    ####  Private interface ###################################################
+    implements(IProviderExtensionRegistry)
+    
+    #### 'IProviderExtensionRegistry' interface ###############################
 
     # The extension providers that populate the registry.
-    _providers = List(IExtensionProvider)
+    providers = List(IExtensionProvider)
 
-    ###########################################################################
-    # 'object' interface.
-    ###########################################################################
+##     ###########################################################################
+##     # 'object' interface.
+##     ###########################################################################
 
-    def __init__(self, providers=None, **traits):
-        """ Constructor. """
+##     def __init__(self, **traits):
+##         """ Constructor. """
 
-        super(ProviderExtensionRegistry, self).__init__(**traits)
-        
-        # This constructor exists because we want the caller to be able to
-        # pass in a list of providers at creation time, but we don't that list
-        # to be public, and we don't want the caller to be able to modify the
-        # list dynamically.
-        if providers is not None:
-            map(self._add_provider, providers)
-            
-        return
+##         super(ProviderExtensionRegistry, self).__init__(**traits)
+
+##         return
 
     ###########################################################################
     # 'IExtensionRegistry' interface.
@@ -137,7 +133,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             extensions.append(new)
             
-        self._providers.append(provider)
+        self.providers.append(provider)
 
         return events
 
@@ -159,7 +155,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         # Find the index of the provider in the provider list. Its
         # contributions are at the same index in the extensions list of lists.
-        index = self._providers.index(provider)
+        index = self.providers.index(provider)
         
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
@@ -172,7 +168,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             del extensions[index]
 
-        self._providers.remove(provider)
+        self.providers.remove(provider)
 
         # Remove the provider's extension points.
         self._remove_provider_extension_points(provider, events)
@@ -208,7 +204,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     #### Trait change handlers ################################################
     
-    @on_trait_change('_providers.extension_point_changed')
+    @on_trait_change('providers.extension_point_changed')
     def _providers_extension_point_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
@@ -227,7 +223,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
                 # Find the index of the provider in the provider list. Its
                 # contributions are at the same index in the extensions list of
                 # lists.
-                provider_index = self._providers.index(obj)
+                provider_index = self.providers.index(obj)
 
                 # Get the updated list from the provider.
                 extensions[provider_index] = obj.get_extensions(
@@ -262,7 +258,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """ Initialize the extensions to an extension point. """
 
         extensions = []
-        for provider in self._providers:
+        for provider in self.providers:
             extensions.append(provider.get_extensions(extension_point_id)[:])
 
         logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)

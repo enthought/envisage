@@ -59,10 +59,10 @@ class ExtensionRegistry(HasTraits):
     def __init__(self, **traits):
         """ Constructor. """
 
-        super(ExtensionRegistry, self).__init__(**traits)
-
         # A lock to make access to the registry thread-safe.
         self._lk = threading.Lock()
+
+        super(ExtensionRegistry, self).__init__(**traits)
 
         return
     

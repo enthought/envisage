@@ -26,6 +26,9 @@ class PluginManager(HasTraits):
 
     #### 'IPluginManager' interface ###########################################
 
+    # The plugins that the manager manages!
+    plugins = List(IPlugin)
+
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
 
@@ -43,13 +46,19 @@ class PluginManager(HasTraits):
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
     
-    # The manager's plugins.
-    plugins = List(IPlugin)
-    
     ###########################################################################
     # 'IPluginManager' interface.
     ###########################################################################
 
+    def add_plugin(self, plugin):
+        """ Add a plugin to the manager.
+
+        """
+
+        self.plugins.append(plugin)
+
+        return
+    
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
@@ -64,6 +73,15 @@ class PluginManager(HasTraits):
 
         return plugin
 
+    def remove_plugin(self, plugin):
+        """ Remove a plugin from the manager.
+
+        """
+
+        self.plugins.remove(plugin)
+
+        return
+    
     def start(self, plugin_context=None):
         """ Start the plugin manager.
         

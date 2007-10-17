@@ -20,6 +20,15 @@ class IApplication(Interface):
     # The application's globally unique identifier.
     id = Str
 
+    # The plugins that the manager managers!
+    #
+    # There is currently no way to express this in traits, but this trait is
+    # readonly, meaning that you can use the list to iterate over all of the
+    # items in it, and you can listen for changes to the list, but if you want
+    # to add or remove a plugin you should call 'add_plugin' or 'remove_plugin'
+    # respectively.
+    plugins = List(IPlugin)
+
     # The root preferences node.
     preferences = Instance(IPreferences)
     

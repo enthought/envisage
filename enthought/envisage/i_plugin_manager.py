@@ -2,14 +2,24 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface
+from enthought.traits.api import Event, Interface, List
 
 # Local imports.
+from i_plugin import IPlugin
 from plugin_event import PluginEvent
 
 
 class IPluginManager(Interface):
     """ The plugin manager interface. """
+
+    # The plugins that the manager managers!
+    #
+    # There is currently no way to express this in traits, but this trait is
+    # readonly, meaning that you can use the list to iterate over all of the
+    # items in it, and you can listen for changes to the list, but if you want
+    # to add or remove a plugin you should call 'add_plugin' or 'remove_plugin'
+    # respectively.
+    plugins = List(IPlugin)
 
     # Fired when a plugin is about to be started.
     plugin_starting = Event(PluginEvent)
@@ -23,10 +33,20 @@ class IPluginManager(Interface):
     # Fired when a plugin has been stopped.
     plugin_started = Event(PluginEvent)
 
+    def add_plugin(self, plugin):
+        """ Add a plugin to the manager.
+
+        """
+
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
 
         Return None if no such plugin exists.
+
+        """
+
+    def remove_plugin(self, plugin):
+        """ Remove a plugin from the manager.
 
         """
         

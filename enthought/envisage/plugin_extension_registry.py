@@ -2,68 +2,134 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, on_trait_change
+from enthought.traits.api import Instance, List, Undefined, on_trait_change
 
 # Local imports.
 from i_application import IApplication
+from i_extension_provider import IExtensionProvider
 from provider_extension_registry import ProviderExtensionRegistry
+
+
+# fixme: Can we add something like these to traits? I hate the remove=True
+# API!?!
+def connect(obj, handler, trait_name=None, dispatch='same'):
+    """ Connect a dynamic trait change handler. """
+
+    obj.on_trait_change(handler, trait_name, dispatch=dispatch)
+    
+    return
+    
+def disconnect(obj, handler, trait_name=None, dispatch='same'):
+    """ Connect a dynamic trait change handler. """
+    
+    obj.on_trait_change(handler, trait_name, dispatch=dispatch, remove=True)
+    
+    return
 
 
 class PluginExtensionRegistry(ProviderExtensionRegistry):
     """ An extension registry that uses plugins as extension providers. """
+
+    #### 'IProviderExtensionRegistry' interface ###############################
+
+    # The extension providers that populate the registry.
+    #
+    # There is currently no way to express this in traits, but this trait is
+    # readonly, meaning that you can use the list to iterate over all of the
+    # items in it, and you can listen for changes to the list, but if you want
+    # to add or remove a provider you should call 'add_provider' or
+    # 'remove_provider' respectively.
+    providers = List(IExtensionProvider)
+
+    # fixme: We would like to use::
+    #
+    # providers = Delegate('application', 'plugins')
+    #
+    # but there are oustanding bugs with traits that prevent this from working
+    # as expected.
     
-    #### 'PluginProviderExtensionRegistry' interface ##########################
+    #### 'PluginExtensionRegistry' interface ##################################
 
     # The application that the registry is part of.
     application = Instance(IApplication)
 
     ###########################################################################
-    # Private interface.
+    # 'object' interface.
     ###########################################################################
+
+    def __init__(self, **traits):
+        """ Constructor. """
+
+        super(PluginExtensionRegistry, self).__init__(**traits)
 
     #### Trait change handlers ################################################
 
-    @on_trait_change(
-        'application.plugin_manager.plugins,'
-        'application.plugin_manager.plugins_items'
-    )
-    def _plugins_changed(self, obj, trait_name, old, new):
-        """ Dynamic trait change handler. """
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
 
-        if trait_name == 'plugins':
-            added   = new
-            removed = old
+##     def _application_changed(self, trait_name, old, new):
+##         """ Static trait change handler. """
 
-        elif trait_name == 'plugins_items':
-            added   = new.added
-            removed = new.removed
+##         if new is not None:
+##             new.sync_trait('plugins', self, 'providers')
 
-        elif trait_name == 'plugin_manager':
-            added   = new is not None and new.plugins or []
-            removed = old is not None and old.plugins or []
+##         return
 
-        else:
-            assert trait_name=='application'
-                
-            if new is not None and new.plugin_manager is not None:
-                added = new.plugin_manager.plugins
+##     def _providers_changed(self, trait_name, old, new):
+##         """ Static trait change handler. """
 
-            else:
-                added = []
+##         print 'PER._providers_changed', old, new
+        
+##         self._update_providers(old, new)
 
-            if old is not None and old.plugin_manager is not None:
-                removed = old.plugin_manager.plugins
+##         return
 
-            else:
-                removed = []
+##     def _providers_items_changed(self, trait_name, old, event):
+##         """ Static trait change handler. """
 
-        self._update_providers(added, removed)
+##         print 'PER._providers_changed', event.removed, event.added
+        
+##         self._update_providers(event.removed, event.added)
+
+##         return
+
+    #### Trait change handlers ################################################
+
+    def _application_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
+
+        if old is not None:
+            disconnect(old, self._on_plugins_changed, 'plugins')
+            disconnect(old, self._on_plugins_items_changed, 'plugins_items')
+
+            self._update_providers(old.plugins, [])
+            
+        if new is not None:
+            connect(new, self._on_plugins_changed, 'plugins')
+            connect(new, self._on_plugins_items_changed, 'plugins_items')
+
+            self._update_providers([], new.plugins)
 
         return
 
+    def _on_plugins_changed(self, obj, trait_name, old, new):
+        """ Dynamic trait change handler. """
+
+        self._update_providers(old, new)
+        
+        return
+
+    def _on_plugins_items_changed(self, obj, trait_name, old, event):
+        """ Dynamic trait change handler. """
+
+        self._update_providers(event.removed, event.added)
+
+        return
+    
     #### Methods ##############################################################
 
-    def _update_providers(self, added, removed):
+    def _update_providers(self, removed, added):
         """ Add/remove the specified providers. """
 
         for plugin in removed:

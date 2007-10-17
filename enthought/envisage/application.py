@@ -50,6 +50,9 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
+    # The plugins that constitute the application.
+    plugins = Delegate('plugin_manager', modify=True)
+
     # The root preferences node.
     preferences = Instance(IPreferences)
     
@@ -73,9 +76,6 @@ class Application(HasTraits):
     # The import manager.
     import_manager = Instance(IImportManager, factory=ImportManager)
 
-    # The plugins that constitute the application.
-    #plugins = Delegate('plugin_manager', modify=True)
-
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
     
@@ -86,7 +86,7 @@ class Application(HasTraits):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, plugins=None, **traits):
+    def __init__(self, **traits):
         """ Constructor. """
 
         super(Application, self).__init__(**traits)
@@ -110,23 +110,6 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self.extension_registry
 
-        # fixme: Ordering issue here... We have to add the plugins before
-        # initializing the preferences. Sadly we have to get the preferences
-        # to set the trait on the 'PreferencesHelper'. I think instead of a
-        # trait, the helper should be passed an object that it can call to get
-        # the preferences lazily.
-        #
-        # We allow the user to pass in a list of initial plugins, but we don't
-        # make the list part of the public API. To add and remove plugins after
-        # construction time, the client must call the 'add_plugin' and
-        # 'remove_plugin' methods.
-        if plugins is not None:
-            map(self.add_plugin, plugins)
-
-        # This allows instances of 'PreferencesHelper' to be used as a more
-        # convenient way to access the preferences.
-        PreferencesHelper.preferences = self.preferences
-
         return
     
     ###########################################################################
@@ -145,6 +128,10 @@ class Application(HasTraits):
 
         preferences = ScopedPreferences()
         self._initialize_preferences(preferences)
+
+        # This allows instances of 'PreferencesHelper' to be used as a more
+        # convenient way to access the preferences.
+        PreferencesHelper.preferences = preferences
 
         return preferences
 
@@ -175,7 +162,7 @@ class Application(HasTraits):
 
         """
 
-        self.plugin_manager.plugins.append(plugin)
+        self.plugin_manager.add_plugin(plugin)
 
         return
     
@@ -279,7 +266,7 @@ class Application(HasTraits):
 
         """
 
-        self.plugin_manager.plugins.remove(plugin)
+        self.plugin_manager.remove_plugin(plugin)
 
         return
 
@@ -366,7 +353,7 @@ class Application(HasTraits):
         self.service_registry.unregister_service(service_id)
 
         return
-
+        
     ###########################################################################
     # 'Application' interface.
     ###########################################################################
@@ -380,14 +367,7 @@ class Application(HasTraits):
         # extension registry and that the developer is free to override it!
         from plugin_extension_registry import PluginExtensionRegistry
 
-        # fixme: There is a traits bug that prevents trait handlers that are
-        # registered via '@on_trait_change' firing if the trait is changed via
-        # the constructor, so we have to set the 'application' trait
-        # separately.
-        registry = PluginExtensionRegistry()
-        registry.application = self
-
-        return registry
+        return PluginExtensionRegistry(application=self)
     
     def _plugin_manager_default(self):
         """ Trait initializer. """
