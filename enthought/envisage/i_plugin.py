@@ -35,16 +35,18 @@ class IPlugin(Interface):
     def start(self):
         """ Start the plugin.
 
-        Can be called manually, but is usually called exactly once when the
-        application starts.
+        This method is called by the framework exactly once when the
+        application is starting up. If you want to start a plugin manually call
+        'application.start_plugin'.
 
         """
 
     def stop(self):
         """ Stop the plugin.
 
-        Can be called manually, but is usually called exactly once when the
-        application exits.
+        This method is called by the framework exactly once when the
+        application is stopping. If you want to stop a plugin manually call
+        'application.stop_plugin'.
 
         """
 

@@ -25,6 +25,8 @@ def listener(obj, trait_name, old, new):
 class TestApplication(Application):
     """ The type of application used in the tests. """
 
+    id = 'test'
+    
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
@@ -52,43 +54,6 @@ class PluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_add_plugin(self):
-        """ add plugin """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = List(Int, [1, 2, 3], extension_point='x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [4, 5, 6], extension_point='x')
-
-        a = PluginA()
-        b = PluginB()
-
-        # Start off with just one of the plugins.
-        application = TestApplication(id='plugin.test.case', plugins=[a])
-        application.start()
-        
-        # Make sure we get the plugin's contributions.
-        extensions = application.get_extensions('x')
-        extensions.sort()
-        
-        self.assertEqual([1, 2, 3], extensions)
-
-        # Now add the other plugin.
-##        application.plugins.append(b)
-        application.add_plugin(b)
-
-        # Make sure we get the other plugin's contributions too.
-        extensions = application.get_extensions('x')
-        extensions.sort()
-        
-        self.assertEqual(6, len(application.get_extensions('x')))
-        self.assertEqual([1, 2, 3, 4, 5, 6], extensions)
-
-        return
-
     def test_service(self):
         """ service """
 
@@ -101,7 +66,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = TestApplication(id='plugin.test.case', plugins=[a])
+        application = TestApplication(plugins=[a])
         application.start()
 
         # Make sure the service was registered.
@@ -133,7 +98,7 @@ class PluginTestCase(unittest.TestCase):
             
         a = PluginA()
         
-        application = TestApplication(id='plugin.test.case', plugins=[a])
+        application = TestApplication(plugins=[a])
         application.start()
 
         # Make sure the service was registered with the 'IBar' protocol.
@@ -147,77 +112,6 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
-    def test_extension_point_declarations(self):
-        """ extension point declarations """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='a.x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], extension_point='a.x')
-
-        a = PluginA()
-        b = PluginB()
-
-        application = TestApplication(id='plugin.test.case',plugins=[a, b])
-        application.run()
-        
-        # Make sure we get all of the plugin's contributions.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(3, len(extensions))
-        self.assertEqual([1, 2, 3], extensions)
-        
-        # Add another contribution to one of the plugins.
-        b.x.append(99)
-
-        # Make sure we have picked up the new contribution.
-        extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
-        self.assertEqual(4, len(extensions))
-        self.assertEqual([1, 2, 3, 99], extensions)
-
-        return
-
-    def test_trait_contributions(self):
-        """ trait contributions """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = List(Int, [1, 2, 3], extension_point='x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [4, 5, 6], extension_point='x')
-
-        a = PluginA()
-        b = PluginB()
-
-        application = TestApplication(id='plugin.test.case', plugins=[a, b])
-
-        # Make sure we get all of the plugin's contributions.
-        extensions = application.get_extensions('x')
-        extensions.sort()
-        
-        self.assertEqual(6, len(application.get_extensions('x')))
-        self.assertEqual([1, 2, 3, 4, 5, 6], extensions)
-        
-        # Add another contribution to one of the plugins.
-        a.x.append(99)
-
-        # Make sure we have picked up the new contribution.
-        extensions = application.get_extensions('x')
-        extensions.sort()
-        
-        self.assertEqual(7, len(application.get_extensions('x')))
-        self.assertEqual([1, 2, 3, 4, 5, 6, 99], extensions)
-
-        return
-
     def test_multiple_trait_contributions(self):
         """ multiple trait contributions """
 
@@ -228,7 +122,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = TestApplication(id='plugin.test.case', plugins=[a])
+        application = TestApplication(plugins=[a])
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
@@ -250,7 +144,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(id='plugin.test.case', plugins=[a, b])
+        application = TestApplication(plugins=[a, b])
         application.start()
         
         # Create an arbitrary object that has a trait bound to the extension
@@ -289,26 +183,6 @@ class PluginTestCase(unittest.TestCase):
         
         # Make sure we have picked up the new contribution via the bound trait.
         self.assertEqual([1, 2, 3, 100, 101], f.x)
-
-        return
-
-    def test_preferences(self):
-        """ preferences """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = List(
-                ['file://preferences.ini'],
-                extension_point='enthought.envisage.preferences'
-            )
-
-        a = PluginA()
-        
-        application = TestApplication(id='plugin.test.case', plugins=[a])
-        application.run()
-
-        # Make sure we can get one of the preferences.
-        self.assertEqual('42', application.preferences.get('enthought.test.x'))
 
         return
     
