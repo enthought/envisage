@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging
+import logging, threading
 
 # Enthought library imports.
 from enthought.traits.api import Event, HasTraits, Instance, List, implements
@@ -71,6 +71,9 @@ class PluginManager(HasTraits):
         if plugins is not None:
             self._plugins = plugins
 
+        # A lock to make access to the registry thread-safe.
+        self._lk = threading.Lock()
+
         return
     
     ###########################################################################
@@ -82,7 +85,9 @@ class PluginManager(HasTraits):
 
         """
 
+        self._lk.acquire()
         self._plugins.append(plugin)
+        self._lk.release()
 
         self.plugin_added = PluginEvent(plugin=plugin)
 
@@ -93,12 +98,14 @@ class PluginManager(HasTraits):
 
         """
 
+        self._lk.acquire()
         for plugin in self._plugins:
             if plugin_id == plugin.id:
                 break
 
         else:
             plugin = None
+        self._lk.release()
 
         return plugin
 
@@ -107,15 +114,21 @@ class PluginManager(HasTraits):
 
         """
 
-        return self._plugins[:]
+        self._lk.acquire()
+        plugins = self._plugins[:]
+        self._lk.release()
+
+        return plugins
     
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager.
 
         """
 
+        self._lk.acquire()
         self._plugins.remove(plugin)
-
+        self._lk.release()
+        
         self.plugin_removed = PluginEvent(plugin=plugin)
 
         return
@@ -154,8 +167,11 @@ class PluginManager(HasTraits):
 
         """
 
-        # We stop the plugins in the reverse order that they were started.
+        self._lk.acquire()
         stop_order = self._plugins[:]
+        self._lk.release()
+        
+        # We stop the plugins in the reverse order that they were started.
         stop_order.reverse()
         
         map(lambda plugin: self.stop_plugin(plugin), stop_order)

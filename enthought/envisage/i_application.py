@@ -109,7 +109,7 @@ class IApplication(Interface):
         """
 
     def get_plugins(self):
-        """ Return all of the plugins in the application
+        """ Return all of the plugins in the application.
 
         """
 
