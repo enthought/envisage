@@ -351,14 +351,14 @@ class Application(HasTraits):
 
         """
 
-        return self.plugin_manager.start_plugin(self, plugin, plugin_id)
+        return self.plugin_manager.start_plugin(plugin, plugin_id)
 
     def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         """
 
-        return self.plugin_manager.stop_plugin(self, plugin, plugin_id)
+        return self.plugin_manager.stop_plugin(plugin, plugin_id)
 
     def unregister_service(self, service_id):
         """ Unregister a service.

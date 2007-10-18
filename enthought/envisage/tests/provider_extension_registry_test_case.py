@@ -337,6 +337,30 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         return
 
+    def test_get_providers(self):
+        """ get providers """
+
+        registry = self.registry
+
+        # Some providers.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+            
+        class ProviderB(ExtensionProvider):
+            """ An extension provider. """
+
+        a = ProviderA()
+        b = ProviderB()
+        
+        # Add the provider to the registry.
+        registry.add_provider(a)
+        registry.add_provider(b)
+
+        # Make sure we can get them.
+        self.assertEqual([a, b], registry.get_providers())
+
+        return
+
     def test_remove_provider(self):
         """ remove provider """
 
@@ -349,7 +373,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             def get_extension_points(self):
                 """ Return the extension points offered by the provider. """
                 
-                return [ExtensionPoint(List, 'x')]
+                return [ExtensionPoint(List, 'x'), ExtensionPoint(List, 'y')]
 
             def get_extensions(self, extension_point):
                 """ Return the provider's contributions to an extension point.

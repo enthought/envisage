@@ -62,7 +62,7 @@ class ExtensionPoint(TraitType):
         # The Id of the extension point.
         if id is None:
             raise ValueError('an extension point must have an Id')
-
+        
         self.id = id
 
         # A dictionary that is used solely to keep a reference to all extension
@@ -137,7 +137,7 @@ class ExtensionPoint(TraitType):
 
         # Add the listener to the extension registry.
         ##extension_registry = ExtensionPoint.extension_registry
-        self.extension_registry.add_extension_point_listener(listener)
+        self.extension_registry.add_extension_point_listener(listener, self.id)
 
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.

@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ImportManager
+from enthought.envisage.api import Application, ImportManager
 
 
 class ImportManagerTestCase(unittest.TestCase):
@@ -18,7 +18,9 @@ class ImportManagerTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.import_manager = ImportManager()
+        # We do all of the testing via the application to make sure it offers
+        # the same interface!
+        self.import_manager = Application(import_manager=ImportManager())
 
         return
 

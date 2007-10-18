@@ -154,11 +154,6 @@ class Plugin(ExtensionProvider):
         base_trait_name = trait_name.split('_items')[0]
         trait           = self.trait(base_trait_name)
 
-        # fixme: For some reason when using type-safe adapters we get None here
-        # with a trait name of 'tas_protocol'...
-        if trait is None:
-            return
-        
         if trait.extension_point is not None:
             if trait_name.endswith('_items'):
                 added   = new.added

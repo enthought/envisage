@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionRegistry
+from enthought.envisage.api import Application, ExtensionPoint
 from enthought.envisage.api import UnknownExtensionPoint, UnknownExtension
 from enthought.traits.api import List
 
@@ -20,7 +20,9 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.registry = ExtensionRegistry()
+        # We do all of the testing via the application to make sure it offers
+        # the same interface!
+        self.registry = Application()
 
         return
 
@@ -64,6 +66,21 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         extension_points = registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
         self.assertEqual('my.ep', extension_points[0].id)
+
+        return
+
+    def test_get_extension_point(self):
+        """ get extension point """
+
+        registry = self.registry
+
+        # Add an extension *point*.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Make sure we can get it.
+        extension_point = registry.get_extension_point('my.ep')
+        self.assertNotEqual(None, extension_point)
+        self.assertEqual('my.ep', extension_point.id)
 
         return
     

@@ -20,6 +20,8 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
+        # We do all of the testing via the application to make sure it offers
+        # the same interface!
         self.registry = MutableExtensionRegistry()
 
         return

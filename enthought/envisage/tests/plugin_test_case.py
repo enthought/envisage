@@ -130,7 +130,7 @@ class PluginTestCase(unittest.TestCase):
         class PluginA(Plugin):
             id = 'A'
             foo = Instance(Foo, (), service=True, service_protocol=IBar)
-
+            
         a = PluginA()
         
         application = TestApplication(id='plugin.test.case', plugins=[a])

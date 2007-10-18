@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ServiceRegistry
+from enthought.envisage.api import Application, ServiceRegistry
 from enthought.traits.api import HasTraits, Int, Interface, implements
 
 
@@ -19,7 +19,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.service_registry = ServiceRegistry()
+        # We do all of the testing via the application to make sure it offers
+        # the same interface!
+        self.service_registry = Application(service_registry=ServiceRegistry())
 
         return
 

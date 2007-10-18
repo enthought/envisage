@@ -194,6 +194,19 @@ class ExtensionPointTestCase(unittest.TestCase):
         
         return
 
+    def test_extension_point_with_no_id(self):
+        """ extension point with no Id """
+
+        registry = self.extension_registry
+
+        def factory():
+            class Foo(HasTraits):
+                x = ExtensionPoint(List(Int))
+            
+        self.failUnlessRaises(ValueError, factory)
+            
+        return
+
     def test_set_untyped_extension_point(self):
         """ set untyped extension point """
 
