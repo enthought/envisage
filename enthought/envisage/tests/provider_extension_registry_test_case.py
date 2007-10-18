@@ -76,9 +76,14 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
                 return extensions
 
+        class ProviderC(ExtensionProvider):
+            """ An empty provider! """
+
+
         # Add the providers to the registry.
         registry.add_provider(ProviderA())
         registry.add_provider(ProviderB())
+        registry.add_provider(ProviderC())
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')

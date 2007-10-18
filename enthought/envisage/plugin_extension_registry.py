@@ -26,6 +26,9 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
+        # In practise I can't see why you would ever want (or need) to change
+        # the registry's application on the fly, but hey... Hence, 'old' will
+        # probably always be 'None'!
         if old is not None:
             for plugin in old.get_plugins():
                 self.remove_provider(plugin)
