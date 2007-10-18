@@ -54,14 +54,14 @@ class IPluginManager(Interface):
 
         """
         
-    def start(self, plugin_context=None):
+    def start(self):
         """ Start the plugin manager.
 
         This starts all of the manager's plugins.
         
         """
 
-    def start_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
+    def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         If a plugin is specified then start it.
@@ -72,7 +72,7 @@ class IPluginManager(Interface):
 
         """
 
-    def stop(self, plugin_context=None):
+    def stop(self):
         """ Stop the plugin manager.
 
         This stop's all of the plugin manager's plugins (in the reverse order
@@ -80,7 +80,7 @@ class IPluginManager(Interface):
 
         """
 
-    def stop_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
+    def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         If a plugin is specified then stop it (the Id is ignored).

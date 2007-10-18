@@ -6,7 +6,6 @@ import logging
 
 # Enthought library imports.
 from enthought.traits.api import Event, HasTraits, Instance, List, implements
-from enthought.traits.api import on_trait_change
 
 # Local imports.
 from i_application import IApplication
@@ -68,7 +67,7 @@ class PluginManager(HasTraits):
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
         # after construction, use the 'add_plugin' and 'remove_plugin' methods
-        # repsectively.
+        # respectively.
         if plugins is not None:
             self._plugins = plugins
 
@@ -121,16 +120,16 @@ class PluginManager(HasTraits):
 
         return
     
-    def start(self, plugin_context=None):
+    def start(self):
         """ Start the plugin manager.
         
         """
 
-        map(lambda p: self.start_plugin(plugin_context, p), self._plugins)
+        map(lambda plugin: self.start_plugin(plugin), self._plugins)
         
         return
 
-    def start_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
+    def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
         """
@@ -150,7 +149,7 @@ class PluginManager(HasTraits):
         
         return
 
-    def stop(self, plugin_context=None):
+    def stop(self):
         """ Stop the plugin manager.
 
         """
@@ -159,11 +158,11 @@ class PluginManager(HasTraits):
         stop_order = self._plugins[:]
         stop_order.reverse()
         
-        map(lambda p: self.stop_plugin(plugin_context, p), stop_order)
+        map(lambda plugin: self.stop_plugin(plugin), stop_order)
 
         return
     
-    def stop_plugin(self, plugin_context=None, plugin=None, plugin_id=None):
+    def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin.
 
         """
@@ -187,14 +186,18 @@ class PluginManager(HasTraits):
     # 'PluginManager' interface.
     ###########################################################################
 
-    #### Trait change handlers ################################################
-
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         self._update_plugin_application(self._plugins, [])
 
         return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    #### Trait change handlers ################################################
 
     def __plugins_changed(self, trait_name, old, new):
         """ Static trait change handler. """
@@ -209,10 +212,6 @@ class PluginManager(HasTraits):
         self._update_plugin_application(new.added, new.removed)
 
         return
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
 
     #### Methods ##############################################################
 

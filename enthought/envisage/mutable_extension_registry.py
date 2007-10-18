@@ -76,24 +76,4 @@ class MutableExtensionRegistry(ExtensionRegistry):
 
         return
 
-    def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point.
-
-        """
-
-        self._lk.acquire()
-        try:
-            old = self._get_extensions(extension_point_id)
-            self._extensions[extension_point_id] = extensions
-
-            refs = self._get_listener_refs(extension_point_id)
-
-        finally:
-            self._lk.release()
-
-        # Let any listeners know that the extensions have been set.
-        self._call_listeners(refs, extension_point_id, extensions, old, None)
-
-        return
-
 #### EOF ######################################################################

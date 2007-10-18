@@ -96,17 +96,12 @@ class Application(HasTraits):
 
         super(Application, self).__init__(**traits)
 
-        # fixme: We have to initialize the application home here (i.e. we
-        # can't wait until the 'home' trait is accessed) because the scoped
-        # preferences uses 'ETSConfig.application' home as the default
-        # filename.
+        # fixme: We have to initialize the application home here (i.e. we can't
+        # wait until the 'home' trait is accessed) because the scoped
+        # preferences uses 'ETSConfig.application' home as the default file
+        # name.
         self._initialize_application_home()
         
-        # fixme: Using the extension registry here means that the initializer
-        # gets called straight away, which in turn means that the plugin
-        # manager must be set in the constructor (since we use the plugins as
-        # extension providers).
-        #
         # This allows the 'ExtensionPoint' trait type to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self.extension_registry
@@ -115,8 +110,10 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self.extension_registry
 
-        # The initial list of plugins (to add and remove plugins after
-        # construction, use the 'add_plugin' and 'remove_plugin' methods.
+        # We allow the caller to specify an initial list of plugins, but the
+        # list itself is not part of the public API. To add and remove plugins
+        # after construction, use the 'add_plugin' and 'remove_plugin' methods
+        # respectively.
         if plugins is not None:
             for plugin in plugins:
                 self.add_plugin(plugin)
@@ -310,7 +307,7 @@ class Application(HasTraits):
         if not event.veto:
             # Start the plugin manager (this starts all of the manager's
             # plugins).
-            self.plugin_manager.start(self)
+            self.plugin_manager.start()
             
             # Lifecycle event.
             self.started = self._create_application_event()
@@ -334,7 +331,7 @@ class Application(HasTraits):
         if not event.veto:
             # Stop the plugin manager (this stops all of the manager's
             # plugins).
-            self.plugin_manager.stop(self)
+            self.plugin_manager.stop()
 
             # Save all preferences.
             self.preferences.save()

@@ -199,6 +199,9 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         registry = self.extension_registry
 
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
             x = ExtensionPoint(id='my.ep')
@@ -216,6 +219,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         """ set typed extension point """
 
         registry = self.extension_registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):

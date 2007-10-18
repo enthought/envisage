@@ -1,8 +1,6 @@
 """ The provider extension registry interface. """
 
 
-# Enthought library imports.
-from enthought.traits.api import Event
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry
@@ -11,14 +9,6 @@ from i_extension_registry import IExtensionRegistry
 class IProviderExtensionRegistry(IExtensionRegistry):
     """ The provider extension registry interface. """
 
-    #### Events ####
-
-    # Fired when a provider has been added to the registry.
-    provider_added = Event#(Provider)
-    
-    # Fired when a provider has been removed from the registry.
-    provider_removed = Event#(PluginEvent)
-        
     def add_provider(self, provider):
         """ Add an extension provider.
 
