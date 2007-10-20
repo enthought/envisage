@@ -43,9 +43,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def add_provider(self, provider):
         """ Add an extension provider. """
 
-        self._lk.acquire()
         events = self._add_provider(provider)
-        self._lk.release()
 
         for extension_point_id, (refs, added, index) in events.items():
             self._call_listeners(refs, extension_point_id, added, [], index)
@@ -55,11 +53,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def get_providers(self):
         """ Return all of the providers in the registry. """
 
-        self._lk.acquire()
-        providers = self._providers[:]
-        self._lk.release()
-        
-        return providers
+        return self._providers[:]
 
     def remove_provider(self, provider):
         """ Remove an extension provider.
@@ -68,9 +62,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         """
 
-        self._lk.acquire()
         events = self._remove_provider(provider)
-        self._lk.release()
 
         for extension_point_id, (refs, removed, index) in events.items():
             self._call_listeners(refs, extension_point_id, [], removed, index)
@@ -233,37 +225,29 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
             extension_point_id = event.extension_point_id
             
-            self._lk.acquire()
-            try:
-                # This is a list of lists where each inner list contains the
-                # contributions made to the extension point by a single
-                # provider.
-                extensions = self._extensions[extension_point_id]
+            # This is a list of lists where each inner list contains the
+            # contributions made to the extension point by a single
+            # provider.
+            extensions = self._extensions[extension_point_id]
 
-                # Find the index of the provider in the provider list. Its
-                # contributions are at the same index in the extensions list of
-                # lists.
-                provider_index = self._providers.index(obj)
+            # Find the index of the provider in the provider list. Its
+            # contributions are at the same index in the extensions list of
+            # lists.
+            provider_index = self._providers.index(obj)
+            
+            # Get the updated list from the provider.
+            extensions[provider_index] = obj.get_extensions(extension_point_id)
 
-                # Get the updated list from the provider.
-                extensions[provider_index] = obj.get_extensions(
-                    extension_point_id
-                )
-
-                # Find where the provider's contributions are in the whole
-                # 'list'.
-                offset = sum(map(len, extensions[:provider_index]))
+            # Find where the provider's contributions are in the whole 'list'.
+            offset = sum(map(len, extensions[:provider_index]))
                 
-                # Translate the event index from one that refers to the list of
-                # contributions from the provider, to the list of contributions
-                # from all providers.
-                index = self._translate_index(event.index, offset)
-
-                # Find out who is listening.
-                refs = self._get_listener_refs(extension_point_id)
-
-            finally:
-                self._lk.release()
+            # Translate the event index from one that refers to the list of
+            # contributions from the provider, to the list of contributions
+            # from all providers.
+            index = self._translate_index(event.index, offset)
+                
+            # Find out who is listening.
+            refs = self._get_listener_refs(extension_point_id)
 
             # Let any listeners know that the extensions have been added.
             self._call_listeners(

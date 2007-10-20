@@ -206,6 +206,10 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Update the properties.
         foo_properties['price'] = 300
         goo_properties['price'] = 500
+
+        # Set the properties.
+        self.service_registry.set_service_properties(foo_id, foo_properties)
+        self.service_registry.set_service_properties(goo_id, goo_properties)
         
         # Get the properties again.
         foo_properties = self.service_registry.get_service_properties(foo_id)
@@ -299,7 +303,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # fixme: Commented out due to wierdness in debug mode for type-safe
         # adapters...
-##         self.assertEqual(Foo, type(service))
+        self.assertEqual(Foo, type(service))
 
         # Make sure that the object created by the factory is cached (i.e. we
         # get the same object back from now on!).
@@ -338,5 +342,10 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(z, service)
 
         return
+
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
 
 #### EOF ######################################################################

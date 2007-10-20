@@ -139,4 +139,9 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc) 
 
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
+
 #### EOF ######################################################################

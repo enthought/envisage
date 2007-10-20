@@ -64,6 +64,13 @@ class IServiceRegistry(Interface):
         properties, and to unregister the service.
         
         """
+
+    def set_service_properties(self, service_id, properties):
+        """ Set the dictionary of properties associated with a service.
+
+        If no such service exists a 'ValueError' exception is raised.
+        
+        """
         
     def unregister_service(self, service_id):
         """ Unregister a service.

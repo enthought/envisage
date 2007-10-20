@@ -29,20 +29,14 @@ class MutableExtensionRegistry(ExtensionRegistry):
     def add_extensions(self, extension_point_id, extensions):
         """ Contribute a list of extensions to an extension point. """
 
-        self._lk.acquire()
-        try:
-            self._check_extension_point(extension_point_id)
+        self._check_extension_point(extension_point_id)
             
-            old   = self._get_extensions(extension_point_id)
-            index = len(old)
-            old.extend(extensions)
+        old   = self._get_extensions(extension_point_id)
+        index = len(old)
+        old.extend(extensions)
 
-            refs = self._get_listener_refs(extension_point_id)
-
-        finally:
-            self._lk.release()
-            
         # Let any listeners know that the extensions have been added.
+        refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, extensions, [], index)
         
         return
@@ -57,21 +51,15 @@ class MutableExtensionRegistry(ExtensionRegistry):
     def remove_extensions(self, extension_point_id, extensions):
         """ Remove a list of contributions from an extension point. """
 
-        self._lk.acquire()
-        try:
-            for extension in extensions:
-                try:
-                    self._get_extensions(extension_point_id).remove(extension)
+        for extension in extensions:
+            try:
+                self._get_extensions(extension_point_id).remove(extension)
 
-                except ValueError:
-                    raise UnknownExtension(extension_point_id, extension)
-
-            refs = self._get_listener_refs(extension_point_id)
-
-        finally:
-            self._lk.release()
+            except ValueError:
+                raise UnknownExtension(extension_point_id, extension)
 
         # Let any listeners know that the extensions have been removed.
+        refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], extensions, None)
 
         return

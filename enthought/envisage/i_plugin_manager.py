@@ -44,11 +44,6 @@ class IPluginManager(Interface):
 
         """
 
-    def get_plugins(self):
-        """ Return all of the manager's plugins.
-
-        """
-
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager.
 

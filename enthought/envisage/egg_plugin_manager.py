@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class EggPluginManager(PluginManager):
     """ A plugin manager that gets its plugins from Eggs. """
 
-    # Extension point Id.
+    # Entry point Id.
     PLUGINS = 'enthought.envisage.plugins'
 
     #### 'EggPluginManager' interface #########################################

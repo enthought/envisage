@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging, threading
+import logging
 
 # Enthought library imports.
 from enthought.traits.api import Event, HasTraits, Instance, List, implements
@@ -27,6 +27,12 @@ class PluginManager(HasTraits):
 
     #### Events ####
 
+    # We can't make the plugin manager thread-safe as long as we use trait
+    # events in the API. Traits is not thread-safe and handlers could end up
+    # being added/removed whiel events are firing. We either need thread-safe
+    # traits events or we have to have an explcit API to add and remove
+    # listeners...
+    #
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
     
@@ -71,10 +77,12 @@ class PluginManager(HasTraits):
         if plugins is not None:
             self._plugins = plugins
 
-        # A lock to make access to the registry thread-safe.
-        self._lk = threading.Lock()
-
         return
+
+    def __iter__(self):
+        """ Return an iterator over the manager's plugins. """
+
+        return iter(self._plugins)
     
     ###########################################################################
     # 'IPluginManager' interface.
@@ -85,10 +93,7 @@ class PluginManager(HasTraits):
 
         """
 
-        self._lk.acquire()
         self._plugins.append(plugin)
-        self._lk.release()
-
         self.plugin_added = PluginEvent(plugin=plugin)
 
         return
@@ -98,37 +103,21 @@ class PluginManager(HasTraits):
 
         """
 
-        self._lk.acquire()
         for plugin in self._plugins:
             if plugin_id == plugin.id:
                 break
 
         else:
             plugin = None
-        self._lk.release()
 
         return plugin
-
-    def get_plugins(self):
-        """ Return all of the manager's plugins.
-
-        """
-
-        self._lk.acquire()
-        plugins = self._plugins[:]
-        self._lk.release()
-
-        return plugins
     
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager.
 
         """
 
-        self._lk.acquire()
         self._plugins.remove(plugin)
-        self._lk.release()
-        
         self.plugin_removed = PluginEvent(plugin=plugin)
 
         return
@@ -167,11 +156,8 @@ class PluginManager(HasTraits):
 
         """
 
-        self._lk.acquire()
-        stop_order = self._plugins[:]
-        self._lk.release()
-        
         # We stop the plugins in the reverse order that they were started.
+        stop_order = self._plugins[:]
         stop_order.reverse()
         
         map(lambda plugin: self.stop_plugin(plugin), stop_order)
@@ -197,7 +183,7 @@ class PluginManager(HasTraits):
             raise SystemError('no such plugin %s' % plugin_id)
 
         return
-
+        
     ###########################################################################
     # 'PluginManager' interface.
     ###########################################################################
@@ -205,7 +191,7 @@ class PluginManager(HasTraits):
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        self._update_plugin_application(self._plugins, [])
+        self._update_plugin_application([], self._plugins)
 
         return
 
@@ -218,20 +204,20 @@ class PluginManager(HasTraits):
     def __plugins_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        self._update_plugin_application(new, old)
+        self._update_plugin_application(old, new)
 
         return
 
     def __plugins_items_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        self._update_plugin_application(new.added, new.removed)
+        self._update_plugin_application(new.removed, new.added)
 
         return
 
     #### Methods ##############################################################
 
-    def _update_plugin_application(self, added, removed):
+    def _update_plugin_application(self, removed, added):
         """ Update the 'application' trait of plugins added/removed. """
 
         for plugin in removed:

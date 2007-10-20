@@ -1,6 +1,9 @@
 """ Tests for the mutable extension registry. """
 
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, MutableExtensionRegistry
 from enthought.envisage.api import UnknownExtensionPoint, UnknownExtension
@@ -397,5 +400,10 @@ class MutableExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(None, self.listener_called)
 
         return
+
+
+# Entry point for stand-alone teating.
+if __name__ == '__main__':
+    unittest.main()
 
 #### EOF ######################################################################

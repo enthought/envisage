@@ -186,4 +186,9 @@ class PluginTestCase(unittest.TestCase):
 
         return
     
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
+
 #### EOF ######################################################################

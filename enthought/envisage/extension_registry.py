@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging, threading
+import logging
 
 # Enthought library imports.
 from enthought.traits.api import Dict, HasTraits, implements
@@ -51,20 +51,6 @@ class ExtensionRegistry(HasTraits):
     # def listener(extension_registry, extension_point_changed_event):
     #     ...
     _listeners = Dict
-
-    ###########################################################################
-    # 'object' interface.
-    ###########################################################################
-
-    def __init__(self, **traits):
-        """ Constructor. """
-
-        # A lock to make access to the registry thread-safe.
-        self._lk = threading.Lock()
-
-        super(ExtensionRegistry, self).__init__(**traits)
-
-        return
     
     ###########################################################################
     # 'IExtensionRegistry' interface.
@@ -73,20 +59,15 @@ class ExtensionRegistry(HasTraits):
     def add_extension_point_listener(self, listener, extension_point_id=None):
         """ Add a listener for extensions being added or removed. """
 
-        self._lk.acquire()
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.append(safeweakref.ref(listener))
-        self._lk.release()
 
         return
 
     def add_extension_point(self, extension_point):
         """ Add an extension point. """
 
-        self._lk.acquire()
         self._extension_points[extension_point.id] = extension_point
-        self._lk.release()
-
         logger.debug('extension point <%s> added', extension_point.id)
         
         return
@@ -94,88 +75,58 @@ class ExtensionRegistry(HasTraits):
     def get_extensions(self, extension_point_id, **kw):
         """ Return the extensions contributed to an extension point. """
 
-        self._lk.acquire()
-        extensions = self._get_extensions(extension_point_id)[:]
-        self._lk.release()
-
-        return extensions
+        return self._get_extensions(extension_point_id)[:]
 
     def get_extension_point(self, extension_point_id):
         """ Return the extension point with the specified Id. """
 
-        self._lk.acquire()
-        extension_point = self._extension_points.get(extension_point_id)
-        self._lk.release()
+        return self._extension_points.get(extension_point_id)
 
-        return extension_point
-        
     def get_extension_points(self):
         """ Return all extension points. """
 
-        self._lk.acquire()
-        extension_points = self._extension_points.values()
-        self._lk.release()
-
-        return extension_points
+        return self._extension_points.values()
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
         """ Remove a listener for extensions being added/removed. """
 
-        self._lk.acquire()
-        try:
-            listeners = self._listeners.setdefault(extension_point_id, [])
-            listeners.remove(safeweakref.ref(listener))
-
-        finally:
-            self._lk.release()
+        listeners = self._listeners.setdefault(extension_point_id, [])
+        listeners.remove(safeweakref.ref(listener))
 
         return
 
     def remove_extension_point(self, extension_point_id):
         """ Remove an extension point. """
 
-        self._lk.acquire()
-        try:
-            self._check_extension_point(extension_point_id)
+        self._check_extension_point(extension_point_id)
 
-            # Remove the extension point.
-            del self._extension_points[extension_point_id]
+        # Remove the extension point.
+        del self._extension_points[extension_point_id]
 
-            # Remove any extensions to the extension point.
-            if extension_point_id in self._extensions:
-                old = self._extensions[extension_point_id]
-                del self._extensions[extension_point_id]
+        # Remove any extensions to the extension point.
+        if extension_point_id in self._extensions:
+            old = self._extensions[extension_point_id]
+            del self._extensions[extension_point_id]
 
-            else:
-                old = []
-                
-            refs = self._get_listener_refs(extension_point_id)
+        else:
+            old = []
             
-            logger.debug('extension point <%s> removed', extension_point_id)
-
-        finally:
-            self._lk.release()
-
+        refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], old, 0)
+
+        logger.debug('extension point <%s> removed', extension_point_id)
         
         return
 
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions contributed to an extension point. """
 
-        self._lk.acquire()
-        try:
-            self._check_extension_point(extension_point_id)
+        self._check_extension_point(extension_point_id)
 
-            old = self._get_extensions(extension_point_id)
-            self._extensions[extension_point_id] = extensions
+        old = self._get_extensions(extension_point_id)
+        self._extensions[extension_point_id] = extensions
 
-            refs = self._get_listener_refs(extension_point_id)
-
-        finally:
-            self._lk.release()
-
-        # Let any listeners know that the extensions have been set.
+        refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, extensions, old, None)
 
         return

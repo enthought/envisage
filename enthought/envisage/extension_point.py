@@ -83,7 +83,7 @@ class ExtensionPoint(TraitType):
         
         extensions = self.extension_registry.get_extensions(self.id)
 
-        # fixme: Ideally, instead of checking for 'None' here, we would just
+        # fixme: Ideally, instead of checking for 'None' here, we would like to
         # make the trait type default to 'Any'. Unfortunately, the 'Any'
         # trait type doesn't support the 'TraitType' interface 8^( It doesn't
         # have a 'validate' method!
@@ -118,8 +118,7 @@ class ExtensionPoint(TraitType):
         def listener(extension_registry, event):
             """ Listener called when an extension point is changed. """
 
-            # If an index was specified then we fire an '_items' changed
-            # event.
+            # If an index was specified then we fire an '_items' changed event.
             if event.index is not None:
                 name = trait_name + '_items'
                 old  = Undefined
@@ -136,7 +135,6 @@ class ExtensionPoint(TraitType):
             return
 
         # Add the listener to the extension registry.
-        ##extension_registry = ExtensionPoint.extension_registry
         self.extension_registry.add_extension_point_listener(listener, self.id)
 
         # Save a reference to the listener so that it does not get garbage

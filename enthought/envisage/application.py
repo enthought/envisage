@@ -56,11 +56,11 @@ class Application(HasTraits):
     #### Events ####
 
     # Fired when a plugin has been added.
-    plugin_added = Delegate('plugin_manager')
+    plugin_added = Delegate('plugin_manager', modify=True)
     
     # Fired when a plugin has been removed.
-    plugin_removed = Delegate('plugin_manager')
-    
+    plugin_removed = Delegate('plugin_manager', modify=True)
+
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
@@ -104,11 +104,11 @@ class Application(HasTraits):
         
         # This allows the 'ExtensionPoint' trait type to be used as a more
         # convenient way to get the extensions for a given extension point.
-        ExtensionPoint.extension_registry = self.extension_registry
+        ExtensionPoint.extension_registry = self
 
         # This allows 'ExtensionPointConnections' to be used as a more
         # convenient way to get the extensions for a given extension point.
-        ExtensionPointConnection.extension_registry = self.extension_registry
+        ExtensionPointConnection.extension_registry = self
 
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
@@ -119,6 +119,11 @@ class Application(HasTraits):
                 self.add_plugin(plugin)
 
         return
+
+    def __iter__(self):
+        """ Return an iterator over the application's plugins. """
+
+        return iter(self.plugin_manager)
     
     ###########################################################################
     # 'IApplication' interface.
@@ -202,13 +207,6 @@ class Application(HasTraits):
 
         return self.plugin_manager.get_plugin(plugin_id)
 
-    def get_plugins(self):
-        """ Return all of the plugins in the application
-
-        """
-
-        return self.plugin_manager.get_plugins()
-    
     def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
@@ -293,6 +291,22 @@ class Application(HasTraits):
         self.start()
         self.stop()
         
+        return
+
+    def set_extensions(self, extension_point_id, extensions):
+        """ Set the extensions contributed to an extension point.
+
+        """
+
+        self.extension_registry.set_extensions(extension_point_id, extensions)
+
+        return
+    
+    def set_service_properties(self, service_id, properties):
+        """ Set the dictionary of properties associated with a service. """
+
+        self.service_registry.set_service_properties(service_id, properties)
+
         return
 
     def start(self):

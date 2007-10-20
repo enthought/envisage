@@ -92,22 +92,40 @@ class PluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_get_plugins(self):
-        """ get plugins """
+##     def test_get_plugins(self):
+##         """ get plugins """
 
-        simple_plugin  = SimplePlugin()
-        plugin_manager = PluginManager(plugins=[simple_plugin])
+##         simple_plugin  = SimplePlugin()
+##         plugin_manager = PluginManager(plugins=[simple_plugin])
 
-        # Get the plugin.
-        plugins = plugin_manager.get_plugins()
-        self.assertEqual([simple_plugin], plugins)
+##         # Get the plugin.
+##         plugins = plugin_manager.get_plugins()
+##         self.assertEqual([simple_plugin], plugins)
 
-        # Mess with the list.
-        plugins.append(BadPlugin())
+##         # Mess with the list.
+##         plugins.append(BadPlugin())
 
-        # Make sure we didn't affect the plugin manager.
-        plugins = plugin_manager.get_plugins()
-        self.assertEqual([simple_plugin], plugins)
+##         # Make sure we didn't affect the plugin manager.
+##         plugins = plugin_manager.get_plugins()
+##         self.assertEqual([simple_plugin], plugins)
+
+##         return
+
+    def test_iteration_over_plugins(self):
+        """ iteration over plugins """
+
+        simple_plugin = SimplePlugin()
+        bad_plugin    = BadPlugin()
+        
+        plugin_manager = PluginManager(plugins=[simple_plugin, bad_plugin])
+
+        # Iterate over the plugin manager's plugins.
+        plugins = []
+        for plugin in plugin_manager:
+            plugins.append(plugin)
+
+
+        self.assertEqual([simple_plugin, bad_plugin], plugins)
 
         return
     
@@ -159,5 +177,10 @@ class PluginManagerTestCase(unittest.TestCase):
         )
 
         return
+
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
 
 #### EOF ######################################################################

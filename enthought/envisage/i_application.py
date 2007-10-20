@@ -108,11 +108,6 @@ class IApplication(Interface):
 
         """
 
-    def get_plugins(self):
-        """ Return all of the plugins in the application.
-
-        """
-
     def get_service(self, interface, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
@@ -200,6 +195,13 @@ class IApplication(Interface):
           application.start()
           application.stop()
 
+        """
+
+    def set_service_properties(self, service_id, properties):
+        """ Set the dictionary of properties associated with a service.
+
+        If no such service exists a 'ValueError' exception is raised.
+        
         """
 
     def start(self):

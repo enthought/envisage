@@ -30,11 +30,13 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
         # the registry's application on the fly, but hey... Hence, 'old' will
         # probably always be 'None'!
         if old is not None:
-            for plugin in old.get_plugins():
+            ##for plugin in old.get_plugins():
+            for plugin in old:
                 self.remove_provider(plugin)
-
+                
         if new is not None:
-            for plugin in new.get_plugins():
+            ##for plugin in new.get_plugins():
+            for plugin in new:
                 self.add_provider(plugin)
 
         return

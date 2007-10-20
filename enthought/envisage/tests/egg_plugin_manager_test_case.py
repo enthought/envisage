@@ -1,6 +1,9 @@
 """ Tests for the Egg plugin manager. """
 
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from enthought.envisage.api import EggPluginManager
 
@@ -74,7 +77,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Ignore any other plugins that may be in the working set.
         plugins = [
-            plugin for plugin in self.plugin_manager.get_plugins()
+            plugin for plugin in self.plugin_manager#.get_plugins()
 
             if plugin in [foo, bar, baz]
         ]
@@ -82,5 +85,10 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self.assertEqual([foo, bar, baz], plugins)
 
         return
+
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
 
 #### EOF ######################################################################

@@ -18,7 +18,12 @@ def cast(adaptee, protocol):
     class TypeSafeAdapter(adaptee.__class__):
         """ An attempt at type-safe casting. """
 
-        # The object that we are adapiting.
+        # The 'tsa' prefix is used because we are dynamically creating a
+        # subclass of the adaptee's class, and we don't want name clashes. I
+        # tried leading and trailing underscores, but traits complained for
+        # some reason...
+        #
+        # The object that we are adapting.
         tsa_adaptee = Any
 
         # The protocol that we are adapting it to.
