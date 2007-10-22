@@ -231,12 +231,18 @@ This call would return a dictionary containing the following::
 
     {'price' : 125}
 
-Note that the dictionary that is returned is the actual properties dictionary
-used by the service registry to evaluate queries against. So, if you are
-dynamically keeping track of the state of an object via some property (for 
-example, CPU usage) then all you have to do is update the
-dictionary. However, in practise, it is more common to use the actual
-attributes of a service for this purpose.
+To set the properties for a service that has already been registered, use::
+
+    wilma = Plumber(name='wilma', location='BH6')
+    wilma_id = application.register_service(IPlumber, wilma, {'price':125})
+	
+    ...
+
+    application.set_service_properties(wilma_id, {'price' : 150})
+
+Not however, that in practise, it is more common to use the actual attributes
+of a service object for the purposes of querying, but this is useful if you
+want additional properties that aren't part of the object's type.
 
 .. _IApplication: ../../enthought/envisage/i_application.py
 
