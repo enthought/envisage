@@ -6,7 +6,7 @@ import logging, os
 
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
-from enthought.envisage.resource.api import ResourceManager
+##from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
 from enthought.preferences.api import ScopedPreferences
 from enthought.traits.api import Delegate, Dict, Event, HasTraits, Instance
@@ -39,8 +39,8 @@ class Application(HasTraits):
 
     #### 'Application' *CLASS* interface ######################################
 
-    # The extension point Id for preferences.
-    PREFERENCES = 'enthought.envisage.preferences'
+##     # The extension point Id for preferences.
+##     PREFERENCES = 'enthought.envisage.preferences'
     
     #### 'IApplication' interface #############################################
 
@@ -110,14 +110,6 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self
 
-        # We allow the caller to specify an initial list of plugins, but the
-        # list itself is not part of the public API. To add and remove plugins
-        # after construction, use the 'add_plugin' and 'remove_plugin' methods
-        # respectively.
-        if plugins is not None:
-            for plugin in plugins:
-                self.add_plugin(plugin)
-
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access the preferences.
         #
@@ -126,6 +118,14 @@ class Application(HasTraits):
         # We need to make sure a plugins preferences get loaded when it is
         # added to the application!
         PreferencesHelper.preferences = self.preferences
+
+        # We allow the caller to specify an initial list of plugins, but the
+        # list itself is not part of the public API. To add and remove plugins
+        # after construction, use the 'add_plugin' and 'remove_plugin' methods
+        # respectively.
+        if plugins is not None:
+            for plugin in plugins:
+                self.add_plugin(plugin)
 
         return
 
@@ -149,7 +149,7 @@ class Application(HasTraits):
         """ Trait initializer. """
 
         preferences = ScopedPreferences()
-        self._initialize_preferences(preferences)
+##         self._initialize_preferences(preferences)
         
         return preferences
         
@@ -449,26 +449,26 @@ class Application(HasTraits):
 
         return
 
-    def _initialize_preferences(self, preferences):
-        """ Initialize the application's preferences. """
+##     def _initialize_preferences(self, preferences):
+##         """ Initialize the application's preferences. """
 
-        # We add the plugin preferences to the default scope. The default scope
-        # is a transient scope which means that (quite nicely ;^) we never
-        # save the actual default plugin preference values. They will only get
-        # saved if a value has been set in another (persistent) scope - which
-        # is exactly what happens in the preferences UI.
-        default = preferences.node('default/')
+##         # We add the plugin preferences to the default scope. The default scope
+##         # is a transient scope which means that (quite nicely ;^) we never
+##         # save the actual default plugin preference values. They will only get
+##         # saved if a value has been set in another (persistent) scope - which
+##         # is exactly what happens in the preferences UI.
+##         default = preferences.node('default/')
 
-        # The resource manager is used to find the preferences files.
-        resource_manager = ResourceManager()
-        for resource_name in self.get_extensions(self.PREFERENCES):
-            f = resource_manager.file(resource_name)
-            try:
-                default.load(f)
+##         # The resource manager is used to find the preferences files.
+##         resource_manager = ResourceManager()
+##         for resource_name in self.get_extensions(self.PREFERENCES):
+##             f = resource_manager.file(resource_name)
+##             try:
+##                 default.load(f)
 
-            finally:
-                f.close()
+##             finally:
+##                 f.close()
 
-        return
+##         return
     
 #### EOF ######################################################################

@@ -486,6 +486,9 @@ class ApplicationTestCase(unittest.TestCase):
     def test_preferences(self):
         """ preferences """
 
+        from enthought.envisage.core_plugin import CorePlugin
+        core = CorePlugin()
+        
         class PluginA(Plugin):
             id = 'A'
             preferences = List(
@@ -495,7 +498,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         a = PluginA()
         
-        application = TestApplication(plugins=[a])
+        application = TestApplication(plugins=[core ,a])
         application.run()
 
         # Make sure we can get one of the preferences.

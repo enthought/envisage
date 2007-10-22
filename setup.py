@@ -29,6 +29,10 @@ setup(
         'http://code.enthought.com/enstaller/eggs/source/unstable',
         ],
     description = "Envisage - An Extensible Application Framework",
+    entry_points = """
+        [enthought.envisage.plugins]
+        core = enthought.envisage.core_plugin:CorePlugin
+        """,
     extras_require = {
         # All non-ets dependencies should be in this extra to ensure users can
         # decide whether to require them or not.
