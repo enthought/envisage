@@ -17,7 +17,7 @@ uses an implementation based on `Python Eggs`_.
 Creating a Plugin
 -----------------
 
-All plugins must implement the IPlugin_ interface (an easy way to acheive this
+All plugins must implement the IPlugin_ interface (an easy way to achieve this
 is to subclass the base Plugin_ class), and should provide the following
 "housekeeping" information:
 

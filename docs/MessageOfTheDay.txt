@@ -214,7 +214,7 @@ a simple module ('messages.py'_) and add our Message_ instances to it::
     ]
 
 Now we create a plugin for the acme.motd.software_quotes_ package and tell
-tell Envisage about the messages that we have just created::
+Envisage about the messages that we have just created::
 
     class SoftwareQuotesPlugin(Plugin):
         """ The software quotes plugin. """

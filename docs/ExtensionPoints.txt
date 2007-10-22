@@ -93,7 +93,7 @@ a simple module (messages.py_) and add our Message_ instances to it::
     ]
 
 Now we create a plugin for the acme.motd.software_quotes_ package and tell
-tell Envisage about the messages that we have just created::
+Envisage about the messages that we have just created::
 
     class SoftwareQuotesPlugin(Plugin):
         """ The software quotes plugin. """
@@ -114,7 +114,7 @@ tell Envisage about the messages that we have just created::
 	...
 
 Note that if a plugin changes a list of contributions then the extension
-registry will be updated automatically, and anybod that is consuming the
+registry will be updated automatically, and anybody that is consuming the
 extensions will be notified accordingly.
 
 3) Retrieving the contributions to an Extension Point
