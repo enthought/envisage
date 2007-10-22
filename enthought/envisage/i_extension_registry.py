@@ -9,7 +9,7 @@ class IExtensionRegistry(Interface):
     """ The interface for extension registries. """
 
     def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added/removed.
+        """ Add a listener for extensions being added or removed.
 
         A listener is any Python callable with the following signature::
 
@@ -59,7 +59,7 @@ class IExtensionRegistry(Interface):
         """
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
-        """ Remove a listener for extensions being added/removed.
+        """ Remove a listener for extensions being added or removed.
 
         Raise a 'ValueError' if the listener does not exist.
 

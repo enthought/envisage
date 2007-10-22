@@ -28,11 +28,6 @@ class ExtensionRegistry(HasTraits):
     ###########################################################################
 
     # A dictionary of extensions, keyed by extension point.
-    #
-    # e.g. Dict(extension_point, [extension])
-    #
-    # Where 'extension_point' can be any *hashable* object, and 'extension' can
-    # be any object.
     _extensions = Dict
 
     # The extension points that have been added *explicitly*.
@@ -45,8 +40,7 @@ class ExtensionRegistry(HasTraits):
     #
     # e.g. Dict(extension_point, [weakref.ref(callable)])
     #
-    # Where 'extension_point' can be any *hashable* object, and 'callable' is
-    # any Python callable with the following signature:-
+    # A listener is any Python callable with the following signature:-
     #
     # def listener(extension_registry, extension_point_changed_event):
     #     ...
@@ -88,7 +82,7 @@ class ExtensionRegistry(HasTraits):
         return self._extension_points.values()
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
-        """ Remove a listener for extensions being added/removed. """
+        """ Remove a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.remove(safeweakref.ref(listener))
