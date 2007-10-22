@@ -6,7 +6,8 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
-from enthought.envisage.api import UnknownExtensionPoint, UnknownExtension
+from enthought.envisage.api import ExtensionRegistry, UnknownExtensionPoint
+from enthought.envisage.api import UnknownExtension
 from enthought.traits.api import List
 
 
@@ -22,7 +23,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
-        self.registry = Application()
+        self.registry = Application(extension_registry=ExtensionRegistry())
 
         return
 
