@@ -110,6 +110,13 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPointConnection.extension_registry = self
 
+        # This allows instances of 'PreferencesHelper' to be used as a more
+        # convenient way to access the preferences.
+        #
+        # fixme: We need this here to make sure the preferences gets
+        # initialized.
+        PreferencesHelper.preferences = self.preferences
+
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
         # after construction, use the 'add_plugin' and 'remove_plugin' methods
@@ -141,11 +148,7 @@ class Application(HasTraits):
 
         preferences = ScopedPreferences()
         self._initialize_preferences(preferences)
-
-        # This allows instances of 'PreferencesHelper' to be used as a more
-        # convenient way to access the preferences.
-        PreferencesHelper.preferences = preferences
-
+        
         return preferences
         
     #### Methods ##############################################################
