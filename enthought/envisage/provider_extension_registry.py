@@ -76,8 +76,8 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def _get_extensions(self, extension_point_id):
         """ Return the extensions for the given extension point. """
 
-        # If we don;t know about the extension point then it sure ain't got
-        # anu extensions!
+        # If we don't know about the extension point then it sure ain't got
+        # any extensions!
         if not extension_point_id in self._extension_points:
             extensions = []
             
