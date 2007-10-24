@@ -49,7 +49,7 @@ class ref(object):
         """ Compare two objects. """
 
         if type(self) is not type(other):
-            return False
+            return -1
         
         return cmp(self._ref, other._ref)
 

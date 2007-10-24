@@ -10,7 +10,12 @@ from provider_extension_registry import ProviderExtensionRegistry
 
 
 class PluginExtensionRegistry(ProviderExtensionRegistry):
-    """ An extension registry that uses plugins as extension providers. """
+    """ An extension registry that uses plugins as extension providers.
+
+    The application's plugins are used as the registries providers so adding
+    or removing a plugin affects the extension points and extensions etc.
+
+    """
 
     #### 'PluginExtensionRegistry' interface ##################################
 
