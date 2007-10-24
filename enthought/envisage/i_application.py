@@ -3,12 +3,10 @@
 
 # Enthought library imports.
 from enthought.preferences.api import IPreferences
-from enthought.traits.api import Event, Instance, Interface, Str
-from enthought.traits.api import VetoableEvent
+from enthought.traits.api import Event, Instance, Interface, Str, VetoableEvent
 
 # Local imports.
 from application_event import ApplicationEvent
-from i_plugin import IPlugin
 from plugin_event import PluginEvent
 
 
@@ -46,6 +44,11 @@ class IApplication(Interface):
     # Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
 
+    def __iter__(self):
+        """ Return an iterator over the application's plugins.
+
+        """
+        
     def add_extension_point_listener(self, listener, extension_point_id=None):
         """ Add a listener for extensions being added/removed.
 
@@ -197,6 +200,11 @@ class IApplication(Interface):
 
         """
 
+    def set_extensions(self, extension_point_id, extensions):
+        """ Set the extensions contributed to an extension point.
+
+        """
+
     def set_service_properties(self, service_id, properties):
         """ Set the dictionary of properties associated with a service.
 
@@ -212,14 +220,6 @@ class IApplication(Interface):
 
         """
 
-    def stop(self):
-        """ Stop the application.
-
-        Return True if the application was stopped, False if the stop was
-        vetoed.
-
-        """
-
     def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin.
 
@@ -228,6 +228,14 @@ class IApplication(Interface):
         If a plugin Id is specified then use the Id to look up the plugin and
         then start it. If no such plugin exists then a 'SystemError' exception
         is raised.
+
+        """
+
+    def stop(self):
+        """ Stop the application.
+
+        Return True if the application was stopped, False if the stop was
+        vetoed.
 
         """
 

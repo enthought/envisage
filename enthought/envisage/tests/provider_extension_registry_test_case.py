@@ -111,7 +111,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             def get_extension_points(self):
                 """ Return the extension points offered by the provider. """
                 
-                return [ExtensionPoint(List, 'x')]
+                return [ExtensionPoint(List, 'my.ep')]
 
             def get_extensions(self, extension_point_id):
                 """ Return the provider's contributions to an extension point.
@@ -489,6 +489,75 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         
         # Remove one of the providers.
         self.failUnlessRaises(ValueError, registry.remove_provider, a)
+
+        return
+
+    # Overriden to test differing behavior between the provider registry and
+    # the base class.
+    def test_set_extensions(self):
+        """ set extensions """
+
+        registry = self.registry
+
+        # Add an extension *point*.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Set some extensions.
+        self.failUnlessRaises(
+            SystemError, registry.set_extensions, 'my.ep', [1, 2, 3]
+        )
+
+        return
+
+    def test_remove_non_empty_extension_point(self):
+        """ remove non-empty extension point """
+
+        registry = self.registry
+
+        # Some providers.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extension_points(self):
+                """ Return the extension points offered by the provider. """
+                
+                return [ExtensionPoint(List, 'x')]
+            
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                if extension_point == 'x':
+                    extensions = [42, 43]
+
+                else:
+                    extensions = []
+
+                return extensions
+
+        # Add the provider to the registry.
+        registry.add_provider(ProviderA())
+
+        # The provider's extensions should now be in the registry.
+        extensions = registry.get_extensions('x')
+        self.assertEqual(2, len(extensions))
+        self.assertEqual(range(42, 44), extensions)
+
+        # Make sure there's one and only one extension point.
+        extension_points = registry.get_extension_points()
+        self.assertEqual(1, len(extension_points))
+        self.assertEqual('x', extension_points[0].id)
+
+        # Remove the extension point.
+        registry.remove_extension_point('x')
+
+        # Make sure there are no extension points.
+        extension_points = registry.get_extension_points()
+        self.assertEqual(0, len(extension_points))
+
+        # And that the extensions are gone too.
+        self.assertEqual([], registry.get_extensions('x'))
 
         return
 

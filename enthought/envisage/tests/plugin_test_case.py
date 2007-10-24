@@ -6,7 +6,7 @@ import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, connect_extension_point
+from enthought.envisage.api import PluginManager
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -117,12 +117,19 @@ class PluginTestCase(unittest.TestCase):
 
         class PluginA(Plugin):
             id = 'A'
-            x  = List(Int, [1, 2, 3], extension_point='x')
-            y  = List(Int, [4, 5, 6], extension_point='x')
+            x  = ExtensionPoint(List, id='x')
+
+
+        class PluginB(Plugin):
+            id = 'B'
+
+            x  = List([1, 2, 3], extension_point='x')
+            y  = List([4, 5, 6], extension_point='x')
 
         a = PluginA()
+        b = PluginB()
 
-        application = TestApplication(plugins=[a])
+        application = TestApplication(plugins=[a, b])
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
@@ -130,62 +137,6 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
-    def test_trait_contributions_with_connection(self):
-        """ trait contributions with connection """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = List(Int, [1, 2, 3], extension_point='x')
-
-        class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [4, 5, 6], extension_point='x')
-
-        a = PluginA()
-        b = PluginB()
-
-        application = TestApplication(plugins=[a, b])
-        application.start()
-        
-        # Create an arbitrary object that has a trait bound to the extension
-        # point.
-        class Foo(HasTraits):
-            """ A class! """
-
-            x = List(Int)
-
-        f = Foo(); connect_extension_point(f, 'x', 'x')
-        f.on_trait_change(listener)
-
-        # Make sure we get all of the plugin's contributions via the bound
-        # trait.
-        self.assertEqual([1, 2, 3, 4, 5, 6], f.x)
-        
-        # Add another contribution to one of the plugins.
-        b.x.append(99)
-
-        # Make sure that the correct trait change event was fired.
-        self.assertEqual(f, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assert_(99 in listener.new.added)
-        
-        # Make sure we have picked up the new contribution via the bound trait.
-        self.assertEqual([1, 2, 3, 4, 5, 6, 99], f.x)
-
-        # Completley overwrite one of the plugins contributions
-        b.x = [100, 101]
-
-        # Make sure that the correct trait change event was fired.
-        self.assertEqual(f, listener.obj)
-        self.assertEqual('x_items', listener.trait_name)
-        self.assertEqual([100, 101], listener.new.added)
-        self.assertEqual([4, 5, 6, 99], listener.new.removed)
-        
-        # Make sure we have picked up the new contribution via the bound trait.
-        self.assertEqual([1, 2, 3, 100, 101], f.x)
-
-        return
-    
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':

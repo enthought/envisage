@@ -20,17 +20,10 @@ class IPluginManager(Interface):
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
-    # Fired when a plugin is about to be started.
-    plugin_starting = Event(PluginEvent)
+    def __iter__(self):
+        """ Return an iterator over the manager's plugins.
 
-    # Fired when a plugin has been started.
-    plugin_started = Event(PluginEvent)
-
-    # Fired when a plugin is about to be stopped.
-    plugin_stopping = Event(PluginEvent)
-
-    # Fired when a plugin has been stopped.
-    plugin_started = Event(PluginEvent)
+        """
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager.

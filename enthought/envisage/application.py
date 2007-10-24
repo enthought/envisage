@@ -6,16 +6,13 @@ import logging, os
 
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
-##from enthought.envisage.resource.api import ResourceManager
 from enthought.preferences.api import IPreferences, PreferencesHelper 
 from enthought.preferences.api import ScopedPreferences
-from enthought.traits.api import Delegate, Dict, Event, HasTraits, Instance
-from enthought.traits.api import Property, Str, VetoableEvent, implements
-from enthought.traits.api import on_trait_change
+from enthought.traits.api import Delegate, Event, HasTraits, Instance, Str
+from enthought.traits.api import VetoableEvent, implements
 
 # Local imports.
 from i_application import IApplication
-from i_extension_provider import IExtensionProvider
 from i_extension_registry import IExtensionRegistry
 from i_import_manager import IImportManager
 from i_plugin_manager import IPluginManager
@@ -23,9 +20,7 @@ from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
 from extension_point import ExtensionPoint
-from extension_point_connection import ExtensionPointConnection
 from import_manager import ImportManager
-from service_registry import ServiceRegistry
 
 
 # Logging.
@@ -37,11 +32,6 @@ class Application(HasTraits):
 
     implements(IApplication)
 
-    #### 'Application' *CLASS* interface ######################################
-
-##     # The extension point Id for preferences.
-##     PREFERENCES = 'enthought.envisage.preferences'
-    
     #### 'IApplication' interface #############################################
 
     # A directory that the application can read and write to at will.
@@ -75,17 +65,23 @@ class Application(HasTraits):
     
     #### 'Application' interface ##############################################
 
+    # These traits allow application developers to build completely different
+    # styles of extensible application. It allows Envisage to be used as a
+    # framework for frameworks ;^)
+    #
     # The extension registry.
     extension_registry = Instance(IExtensionRegistry)
-
-    # The import manager.
-    import_manager = Instance(IImportManager, factory=ImportManager)
 
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
     
     # The service registry.
-    service_registry = Instance(IServiceRegistry, factory=ServiceRegistry)
+    service_registry = Instance(IServiceRegistry)
+
+    #### Private interface ####################################################
+    
+    # The import manager.
+    _import_manager = Instance(IImportManager, factory=ImportManager)
 
     ###########################################################################
     # 'object' interface.
@@ -98,34 +94,25 @@ class Application(HasTraits):
 
         # fixme: We have to initialize the application home here (i.e. we can't
         # wait until the 'home' trait is accessed) because the scoped
-        # preferences uses 'ETSConfig.application' home as the default file
-        # name.
+        # preferences uses 'ETSConfig.application' home as the name of the
+        # default preferences file.
         self._initialize_application_home()
         
         # This allows the 'ExtensionPoint' trait type to be used as a more
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self
 
-        # This allows 'ExtensionPointConnections' to be used as a more
-        # convenient way to get the extensions for a given extension point.
-        ExtensionPointConnection.extension_registry = self
-
         # This allows instances of 'PreferencesHelper' to be used as a more
-        # convenient way to access the preferences.
-        #
-        # fixme: We need this here to make sure the preferences get
-        # initialized, but we have to put them after we have added all plugins!
-        # We need to make sure a plugins preferences get loaded when it is
-        # added to the application!
+        # convenient way to access preferences.
         PreferencesHelper.preferences = self.preferences
 
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
         # after construction, use the 'add_plugin' and 'remove_plugin' methods
-        # respectively.
+        # respectively. The application is also iterable, so to iterate over
+        # the plugins use 'for plugin in application'.
         if plugins is not None:
-            for plugin in plugins:
-                self.add_plugin(plugin)
+            map(self.add_plugin, plugins)
 
         return
 
@@ -148,17 +135,12 @@ class Application(HasTraits):
     def _preferences_default(self):
         """ Trait initializer. """
 
-        preferences = ScopedPreferences()
-##         self._initialize_preferences(preferences)
-        
-        return preferences
+        return ScopedPreferences()
         
     #### Methods ##############################################################
-    
-    def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added/removed.
 
-        """
+    def add_extension_point_listener(self, listener, extension_point_id=None):
+        """ Add a listener for extensions being added/removed. """
 
         self.extension_registry.add_extension_point_listener(
             listener, extension_point_id
@@ -167,23 +149,19 @@ class Application(HasTraits):
         return
 
     def add_extension_point(self, extension_point):
-        """ Add an extension point.
-
-        """
+        """ Add an extension point. """
 
         self.extension_registry.add_extension_point(extension_point)
 
         return
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the application.
-
-        """
+        """ Add a plugin to the application. """
 
         self.plugin_manager.add_plugin(plugin)
 
         return
-    
+
     def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
@@ -192,9 +170,7 @@ class Application(HasTraits):
         return self.extension_registry.get_extensions(extension_point_id)
 
     def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id.
-
-        """
+        """ Return the extension point with the specified Id. """
 
         return self.extension_registry.get_extension_point(extension_point_id)
         
@@ -206,16 +182,12 @@ class Application(HasTraits):
         return self.extension_registry.get_extension_points()
 
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id.
-
-        """
+        """ Return the plugin with the specified Id. """
 
         return self.plugin_manager.get_plugin(plugin_id)
 
     def get_service(self, interface, query='', minimize='', maximize=''):
-        """ Return at most one service that matches the specified query.
-
-        """
+        """ Return at most one service that matches the specified query. """
 
         service = self.service_registry.get_service(
             interface, query, minimize, maximize
@@ -224,16 +196,12 @@ class Application(HasTraits):
         return service
 
     def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service.
-
-        """
+        """ Return the dictionary of properties associated with a service. """
 
         return self.service_registry.get_service_properties(service_id)
     
     def get_services(self, interface, query='', minimize='', maximize=''):
-        """ Return all services that match the specified query.
-
-        """
+        """ Return all services that match the specified query. """
 
         services = self.service_registry.get_services(
             interface, query, minimize, maximize
@@ -242,27 +210,21 @@ class Application(HasTraits):
         return services
 
     def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path.
-        
-        """
+        """ Import the symbol defined by the specified symbol path. """
 
-        return self.import_manager.import_symbol(symbol_path)
+        return self._import_manager.import_symbol(symbol_path)
 
     def register_service(self, interface, obj, properties=None):
-        """ Register a service.
-
-        """
+        """ Register a service. """
 
         service_id = self.service_registry.register_service(
             interface, obj, properties
         )
 
         return service_id
-    
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
-        """ Remove a listener for extensions being added/removed.
 
-        """
+    def remove_extension_point_listener(self,listener,extension_point_id=None):
+        """ Remove a listener for extensions being added/removed. """
 
         self.extension_registry.remove_extension_point_listener(
             listener, extension_point_id
@@ -271,42 +233,34 @@ class Application(HasTraits):
         return
 
     def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point.
-
-        """
+        """ Remove an extension point. """
 
         self.extension_registry.remove_extension_point(extension_point_id)
 
         return
 
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the application.
-
-        """
+        """ Remove a plugin from the application. """
 
         self.plugin_manager.remove_plugin(plugin)
 
         return
 
     def run(self):
-        """ Run the application.
-
-        """
+        """ Run the application. """
 
         self.start()
         self.stop()
-        
+
         return
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point.
-
-        """
+        """ Set the extensions contributed to an extension point. """
 
         self.extension_registry.set_extensions(extension_point_id, extensions)
 
         return
-    
+
     def set_service_properties(self, service_id, properties):
         """ Set the dictionary of properties associated with a service. """
 
@@ -315,9 +269,7 @@ class Application(HasTraits):
         return
 
     def start(self):
-        """ Start the application.
-
-        """
+        """ Start the application. """
 
         logger.debug('---------- application starting ----------')
 
@@ -338,10 +290,13 @@ class Application(HasTraits):
 
         return not event.veto
 
-    def stop(self):
-        """ Stop the application.
+    def start_plugin(self, plugin=None, plugin_id=None):
+        """ Start the specified plugin. """
 
-        """
+        return self.plugin_manager.start_plugin(plugin, plugin_id)
+
+    def stop(self):
+        """ Stop the application. """
 
         logger.debug('---------- application stopping ----------')
 
@@ -365,24 +320,13 @@ class Application(HasTraits):
             
         return not event.veto
 
-    def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin.
-
-        """
-
-        return self.plugin_manager.start_plugin(plugin, plugin_id)
-
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin.
-
-        """
+        """ Stop the specified plugin. """
 
         return self.plugin_manager.stop_plugin(plugin, plugin_id)
-
+    
     def unregister_service(self, service_id):
-        """ Unregister a service.
-
-        """
+        """ Unregister a service. """
 
         self.service_registry.unregister_service(service_id)
 
@@ -397,8 +341,9 @@ class Application(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        # Do the import here to emphasize that this is just the default
-        # extension registry and that the developer is free to override it!
+        # Do the import here to emphasize the fact that this is just the
+        # default implementation and that the application developer is free
+        # to override it!
         from plugin_extension_registry import PluginExtensionRegistry
 
         return PluginExtensionRegistry(application=self)
@@ -406,12 +351,23 @@ class Application(HasTraits):
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
-        # Do the import here to emphasize that this is just the default
-        # plugin manager and that the developer is free to override it!
+        # Do the import here to emphasize the fact that this is just the
+        # default implementation and that the application developer is free
+        # to override it!
         from egg_plugin_manager import EggPluginManager
         
         return EggPluginManager(application=self)
 
+    def _service_registry_default(self):
+        """ Trait initializer. """
+
+        # Do the import here to emphasize the fact that this is just the
+        # default implementation and that the application developer is free
+        # to override it!
+        from service_registry import ServiceRegistry
+        
+        return ServiceRegistry()
+        
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -449,26 +405,4 @@ class Application(HasTraits):
 
         return
 
-##     def _initialize_preferences(self, preferences):
-##         """ Initialize the application's preferences. """
-
-##         # We add the plugin preferences to the default scope. The default scope
-##         # is a transient scope which means that (quite nicely ;^) we never
-##         # save the actual default plugin preference values. They will only get
-##         # saved if a value has been set in another (persistent) scope - which
-##         # is exactly what happens in the preferences UI.
-##         default = preferences.node('default/')
-
-##         # The resource manager is used to find the preferences files.
-##         resource_manager = ResourceManager()
-##         for resource_name in self.get_extensions(self.PREFERENCES):
-##             f = resource_manager.file(resource_name)
-##             try:
-##                 default.load(f)
-
-##             finally:
-##                 f.close()
-
-##         return
-    
 #### EOF ######################################################################

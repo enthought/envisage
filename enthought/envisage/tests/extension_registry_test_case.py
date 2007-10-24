@@ -85,8 +85,8 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         return
     
-    def test_remove_extension_point(self):
-        """ remove extension point """
+    def test_remove_empty_extension_point(self):
+        """ remove empty_extension point """
 
         registry = self.registry
 
@@ -99,6 +99,29 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
+        
+        return
+
+    def test_remove_non_empty_extension_point(self):
+        """ remove non-empty extension point """
+
+        registry = self.registry
+
+        # Add an extension point...
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # ... with some extensions...
+        registry.set_extensions('my.ep', [42])
+        
+        # ...and remove it!
+        registry.remove_extension_point('my.ep')
+        
+        # Make sure there are no extension points.
+        extension_points = registry.get_extension_points()
+        self.assertEqual(0, len(extension_points))
+
+        # And that the extensions are gone too.
+        self.assertEqual([], registry.get_extensions('my.ep'))
         
         return
 
@@ -131,6 +154,22 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         return
 
+    def test_set_extensions(self):
+        """ set extensions """
+
+        registry = self.registry
+
+        # Add an extension *point*.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Set some extensions.
+        registry.set_extensions('my.ep', [1, 2, 3])
+        
+        # Make sure we can get them.
+        self.assertEqual([1, 2, 3], registry.get_extensions('my.ep'))
+
+        return
+        
     ###########################################################################
     # Private interface.
     ###########################################################################

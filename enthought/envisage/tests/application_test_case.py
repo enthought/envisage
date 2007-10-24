@@ -8,7 +8,6 @@ import os, random, shutil, unittest
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint, IApplication
 from enthought.envisage.api import Plugin, PluginManager
-from enthought.envisage.api import connect_extension_point
 from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 

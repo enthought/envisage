@@ -12,14 +12,14 @@ Usually, all you have to do in here is:-
    
 """
 
-## # Standard library imports.
-## import logging
+# Standard library imports.
+import logging
 
 
-## # Log to stderr for now!
-## logger = logging.getLogger()
-## logger.addHandler(logging.StreamHandler())
-## logger.setLevel(logging.DEBUG)
+# Log to stderr for now!
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 
 # A list of the directories that contain the application's eggs (any directory

@@ -27,29 +27,11 @@ class PluginManager(HasTraits):
 
     #### Events ####
 
-    # We can't make the plugin manager thread-safe as long as we use trait
-    # events in the API. Traits is not thread-safe and handlers could end up
-    # being added/removed whiel events are firing. We either need thread-safe
-    # traits events or we have to have an explcit API to add and remove
-    # listeners...
-    #
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
     
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
-
-    # Fired when a plugin is about to be started.
-    plugin_starting = Event(PluginEvent)
-
-    # Fired when a plugin has been started.
-    plugin_started = Event(PluginEvent)
-
-    # Fired when a plugin is about to be stopped.
-    plugin_stopping = Event(PluginEvent)
-
-    # Fired when a plugin has been stopped.
-    plugin_started = Event(PluginEvent)
 
     #### 'PluginManager' interface ############################################
 
@@ -73,7 +55,8 @@ class PluginManager(HasTraits):
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
         # after construction, use the 'add_plugin' and 'remove_plugin' methods
-        # respectively.
+        # respectively. The manager is also iterable, so to iterate over the
+        # plugins use 'for plugin in plugin_manager'.
         if plugins is not None:
             self._plugins = plugins
 
@@ -89,9 +72,7 @@ class PluginManager(HasTraits):
     ###########################################################################
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the manager.
-
-        """
+        """ Add a plugin to the manager. """
 
         self._plugins.append(plugin)
         self.plugin_added = PluginEvent(plugin=plugin)
@@ -99,9 +80,7 @@ class PluginManager(HasTraits):
         return
     
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id.
-
-        """
+        """ Return the plugin with the specified Id. """
 
         for plugin in self._plugins:
             if plugin_id == plugin.id:
@@ -113,9 +92,7 @@ class PluginManager(HasTraits):
         return plugin
     
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the manager.
-
-        """
+        """ Remove a plugin from the manager. """
 
         self._plugins.remove(plugin)
         self.plugin_removed = PluginEvent(plugin=plugin)
@@ -123,27 +100,19 @@ class PluginManager(HasTraits):
         return
     
     def start(self):
-        """ Start the plugin manager.
-        
-        """
+        """ Start the plugin manager. """
 
         map(lambda plugin: self.start_plugin(plugin), self._plugins)
         
         return
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin.
-
-        """
+        """ Start the specified plugin. """
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
-
-            self.plugin_starting = PluginEvent(plugin=plugin)
             plugin.start()
-            self.plugin_started = PluginEvent(plugin=plugin)
-
             logger.debug('plugin %s started', plugin.id)
 
         else:
@@ -152,9 +121,7 @@ class PluginManager(HasTraits):
         return
 
     def stop(self):
-        """ Stop the plugin manager.
-
-        """
+        """ Stop the plugin manager. """
 
         # We stop the plugins in the reverse order that they were started.
         stop_order = self._plugins[:]
@@ -165,18 +132,12 @@ class PluginManager(HasTraits):
         return
     
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin.
-
-        """
+        """ Stop the specified plugin. """
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s stopping', plugin.id)
-
-            self.plugin_stopping = PluginEvent(plugin=plugin)
             plugin.stop()
-            self.plugin_stopped = PluginEvent(plugin=plugin)
-
             logger.debug('plugin %s stopped', plugin.id)
 
         else:

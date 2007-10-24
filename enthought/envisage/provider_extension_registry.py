@@ -73,18 +73,23 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     # Protected 'ExtensionRegistry' interface.
     ###########################################################################
 
-    def _get_extensions(self, extension_point):
+    def _get_extensions(self, extension_point_id):
         """ Return the extensions for the given extension point. """
 
+        # If we don;t know about the extension point then it sure ain't got
+        # anu extensions!
+        if not extension_point_id in self._extension_points:
+            extensions = []
+            
         # Has this extension point already been accessed?
-        if extension_point in self._extensions:
-            extensions = self._extensions[extension_point]
+        elif extension_point_id in self._extensions:
+            extensions = self._extensions[extension_point_id]
 
         # If not, then ask each provider for its contributions to the extension
         # point.
         else:
-            extensions = self._initialize_extensions(extension_point)
-            self._extensions[extension_point] = extensions
+            extensions = self._initialize_extensions(extension_point_id)
+            self._extensions[extension_point_id] = extensions
 
         # We store the extensions as a list of lists, with each inner list
         # containing the contributions from a single provider. Here we just
@@ -205,11 +210,11 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             # Because the extension point was offered by the provider that we
             # are removing, the  chances are that nobody else is listening to
             # the extension point, but just to be sure.
-            refs  = self._get_listener_refs(extension_point)
+            refs  = self._get_listener_refs(extension_point.id)
             events[extension_point] = (refs, old[:], 0)
 
         return
-
+    
     ###########################################################################
     # Private interface.
     ###########################################################################
