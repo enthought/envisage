@@ -17,8 +17,7 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    ADAPTER_DEFINITIONS = 'enthought.envisage.adapters'
-    PREFERENCES_FILES   = 'enthought.envisage.preferences'
+    PREFERENCES_FILES = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
 
@@ -30,30 +29,6 @@ class CorePlugin(Plugin):
     #### 'CorePlugin' interface ###############################################
     
     # Extension points.
-    adapter_definitions = ExtensionPoint(
-        List(Instance('enthought.envisage.adapter_definition')),
-        id   = ADAPTER_DEFINITIONS,
-        desc = """
-
-        This extension point allows you to contribute adapters. The adapters
-        are lazily loaded which in this case means they are loaded when the
-        class that they adapt is imported.
-
-        """
-    )
-
-    class_load_hook = ExtensionPoint(
-        List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
-        id   = ADAPTER_DEFINITIONS,
-        desc = """
-
-        This extension point allows you to contribute adapters. The adapters
-        are lazily loaded which in this case means they are loaded when the
-        class that they adapt is imported.
-
-        """
-    )
-
     preferences_files = ExtensionPoint(
         List(Str),
         id   = PREFERENCES_FILES,
@@ -74,23 +49,12 @@ class CorePlugin(Plugin):
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences_files(self.application.preferences)
-
-        # Register all contributed adapter factories.
-        self._register_adapters(self.adapter_definitions)
         
         return
     
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    def _register_adapters(self, adapter_definitions):
-        """ Registers all adapter factories declared in an extension. """
-
-        for adapter_definition in adapter_definitions:
-            adapter_definition.connect()
-
-        return
 
     def _load_preferences_files(self, preferences):
         """ Load all contributed preferences files into a preferences node. """
