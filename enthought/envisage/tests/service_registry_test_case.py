@@ -175,8 +175,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         return
 
-    def test_get_service_properties(self):
-        """ get service properties """
+    def test_get_and_set_service_properties(self):
+        """ get and set service properties """
 
         class IFoo(Interface):
             price = Int
@@ -222,9 +222,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.failUnlessRaises(
             ValueError, self.service_registry.get_service_properties, -1
         )
+
+        # Try to set the properties of a non-existent service.
+        self.failUnlessRaises(
+            ValueError, self.service_registry.set_service_properties, -1, {}
+        )
         
         return
-
+        
     def test_unregister_service(self):
         """ unregister service """
 

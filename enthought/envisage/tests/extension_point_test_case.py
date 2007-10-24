@@ -35,6 +35,39 @@ class ExtensionPointTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
         
+    def test_extension_point_changed(self):
+        """ extension point changed """
+
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = ExtensionPoint(id='my.ep')
+
+            def _x_changed(self):
+                """ Static trait change handler. """
+
+                self.x_changed_called = True
+
+                return
+            
+        f = Foo(); f.trait('x').trait_type.connect(f, 'x')
+
+        # Set the extensions.
+        registry.set_extensions('my.ep', [42, 'a string', True])
+
+        # Make sure that instances of the class pick up the extensions.
+        self.assertEqual(3, len(f.x))
+        self.assertEqual([42, 'a string', True],  f.x)
+
+        # Make sure the trait change handler was called.
+        self.assert_(f.x_changed_called)
+        
+        return
+        
     def test_untyped_extension_point(self):
         """ untyped extension point """
 
