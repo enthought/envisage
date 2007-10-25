@@ -34,12 +34,43 @@ class ServiceRegistryTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_function_service_factory(self):
+        """ function service factory """
+
+        class IFoo(Interface):
+            price = Int
+
+        class Foo(HasTraits):
+            implements(IFoo)
+
+        def foo_factory(protocol, properties):
+            """ A factory for foos. """
+
+            return Foo(**properties)
+        
+        # Register a service factory.
+        self.service_registry.register_service(
+            IFoo, foo_factory, {'price' : 100}
+        )
+        
+        # Create a query that matches the registered object.
+        service = self.service_registry.get_service(IFoo, 'price <= 100')
+        self.assertNotEqual(None, service)
+        self.assertEqual(Foo, type(service))
+
+        # Make sure that the object created by the factory is cached (i.e. we
+        # get the same object back from now on!).
+        service2 = self.service_registry.get_service(IFoo, 'price <= 100')
+        self.assert_(service is service2)
+
+        return
+
     def test_lazy_function_service_factory(self):
         """ lazy function service factory """
 
         # Register a service factory by name.
-        def foo_factory(**traits):
-            """ A factory for foo. """
+        def foo_factory(protocol, properties):
+            """ A factory for foos. """
 
             from foo import Foo
 
@@ -68,8 +99,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
             """
 
             # Register a service factory by name.
-            def foo_factory(self, **traits):
-                """ A factory for foo. """
+            def foo_factory(self, protocol, properties):
+                """ A factory for foos. """
                 
                 from foo import Foo
                 
@@ -338,35 +369,6 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.failUnlessRaises(
             ValueError, self.service_registry.unregister_service, -1
         )
-
-        return
-
-    def test_service_factory(self):
-        """ service factory """
-
-        class IFoo(Interface):
-            price = Int
-
-        class Foo(HasTraits):
-            implements(IFoo)
-
-        # Register a service factory. A service factory is any callable that
-        # takes the properties as keyword arguments. In this case we just use
-        # a class that has traits.
-        self.service_registry.register_service(IFoo, Foo, {'price' : 100})
-        
-        # Create a query that matches the registered object.
-        service = self.service_registry.get_service(IFoo, 'price <= 100')
-        self.assertNotEqual(None, service)
-
-        # fixme: Commented out due to wierdness in debug mode for type-safe
-        # adapters...
-        self.assertEqual(Foo, type(service))
-
-        # Make sure that the object created by the factory is cached (i.e. we
-        # get the same object back from now on!).
-        service2 = self.service_registry.get_service(IFoo, 'price <= 100')
-        self.assert_(service is service2)
 
         return
 

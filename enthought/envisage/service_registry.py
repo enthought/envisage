@@ -5,7 +5,9 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, Int, Interface, implements
+from enthought.traits.api import Dict, HasTraits, Int, Interface, Undefined
+from enthought.traits.api import implements
+from enthought.traits.protocols.interfaces import Protocol
 
 # Local imports.
 from i_service_registry import IServiceRegistry
@@ -61,23 +63,18 @@ class ServiceRegistry(HasTraits):
         """ Return all services that match the specified query. """
 
         services = []
-        for service_id, (p, obj, properties) in self._services.items():
-            if self._get_protocol_name(protocol) == p:
-                # If the protocol is an 'Interface' and the registered object
-                # does not actually implement the interface then we treat it as
-                # a service factory.
-                #
-                # fixme: Should we have a formal notion of service factory or
-                # this is good enough?
-                if issubclass(protocol, Interface) and protocol(obj, -1) is -1:
-                    # A service factory is any callable that takes the
-                    # properties as keyword arguments. This is obviously
-                    # designed to make it easy for traits developers so that
-                    # that the factory can simply be a class!
-                    obj = obj(**properties)
+        for service_id, (name, obj, properties) in self._services.items():
+            if self._get_protocol_name(protocol) == name:
+                # Is the registered service actually a service *factory*?
+                if self._is_service_factory(protocol, obj):
+                    # A service factory is any callable that takes two
+                    # arguments, the first is the protocol the second is the
+                    # (possibly empty) dictionary of properties that were
+                    # registered with the service.
+                    obj = obj(protocol, properties)
                         
                     # The resulting service object is cached.
-                    self._services[service_id] = (p, obj, properties)
+                    self._services[service_id] = (name, obj, properties)
                     
                 if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
@@ -186,6 +183,26 @@ class ServiceRegistry(HasTraits):
             )
 
         return name
+
+    def _is_service_factory(self, protocol, obj):
+        """ Is the object a factory for services supporting the protocol? """
+
+        # fixme: Should we have a formal notion of service factory with an
+        # appropriate API, or is this good enough? An API might have lifecycle
+        # methods to both create and destroy the service?!?
+        #
+        # If the protocol is a PyProtocols protocol (try saying that five times
+        # fast ;^), then the object is deemed to be a factory if it does not
+        # explicitly provide and cannot be adapted to the protocol.
+        if isinstance(protocol, Protocol):
+            is_service_factory = protocol(obj, Undefined) is Undefined
+
+        # Otherwise, the protocol is a normal Python class so the object is
+        # deemed to be a factory if it is not an instance of that class.
+        else:
+            is_service_factory = not isinstance(obj, protocol)
+
+        return is_service_factory
     
     def _next_service_id(self):
         """ Returns the next service ID. """
