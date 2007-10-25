@@ -38,7 +38,7 @@ def TestApplication(**traits):
     """ Factory function for creating type-safe applications! """
     
     application = Application(
-        id='test', plugin_manager = PluginManager(), **traits
+        id='test', plugin_manager=PluginManager(), **traits
     )
 
     return IApplication(application)
@@ -92,16 +92,22 @@ class BadPlugin(Plugin):
 
     
 class PluginA(Plugin):
+    """ A plugin that offers an extension point. """
+    
     id = 'A'
     x  = ExtensionPoint(List, id='a.x')
 
 
 class PluginB(Plugin):
+    """ A plugin that contributes to an extension point. """
+    
     id = 'B'
     x  = List(Int, [1, 2, 3], extension_point='a.x')
 
 
 class PluginC(Plugin):
+    """ Another plugin that contributes to an extension point! """
+
     id = 'C'
     x  = List(Int, [98, 99, 100], extension_point='a.x')
 
@@ -273,15 +279,11 @@ class ApplicationTestCase(unittest.TestCase):
         
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
         # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
+        extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
         
@@ -302,15 +304,13 @@ class ApplicationTestCase(unittest.TestCase):
             """ An extension point listener. """
 
             listener.extension_point_id = event.extension_point_id
-            listener.added   = event.added
-            listener.removed = event.removed
+            listener.added              = event.added
+            listener.removed            = event.removed
 
             return
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
 
@@ -354,7 +354,7 @@ class ApplicationTestCase(unittest.TestCase):
         # Add the listener.
         application.add_extension_point_listener(listener, 'a.x')
 
-        # Now add one of the other plugin.
+        # Now add one of the other plugins.
         application.add_plugin(b)
 
         # Make sure the listener was called.
@@ -387,15 +387,11 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
 
         # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
+        extensions = a.x
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
 
@@ -404,15 +400,11 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
         # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
+        extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
         
@@ -451,15 +443,11 @@ class ApplicationTestCase(unittest.TestCase):
         
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
         # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
+        extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
@@ -468,15 +456,11 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
-        extensions.sort()
-        
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
 
         # Make sure we can get the contributions via the plugin.
-        extensions = a.x[:]
-        extensions.sort()
-        
+        extensions = a.x
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
         
@@ -485,8 +469,9 @@ class ApplicationTestCase(unittest.TestCase):
     def test_preferences(self):
         """ preferences """
 
+        # The core plugin is the plugin that offers the preferences extension
+        # point.
         from enthought.envisage.core_plugin import CorePlugin
-        core = CorePlugin()
         
         class PluginA(Plugin):
             id = 'A'
@@ -495,9 +480,7 @@ class ApplicationTestCase(unittest.TestCase):
                 extension_point='enthought.envisage.preferences'
             )
 
-        a = PluginA()
-        
-        application = TestApplication(plugins=[core ,a])
+        application = TestApplication(plugins=[CorePlugin(), PluginA()])
         application.run()
 
         # Make sure we can get one of the preferences.

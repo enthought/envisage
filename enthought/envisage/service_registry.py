@@ -62,7 +62,7 @@ class ServiceRegistry(HasTraits):
 
         services = []
         for service_id, (p, obj, properties) in self._services.items():
-            if protocol == p:
+            if self._get_protocol_name(protocol) == p:
                 # If the protocol is an 'Interface' and the registered object
                 # does not actually implement the interface then we treat it as
                 # a service factory.
@@ -107,14 +107,16 @@ class ServiceRegistry(HasTraits):
     def register_service(self, protocol, obj, properties=None):
         """ Register a service. """
 
+        protocol_name = self._get_protocol_name(protocol)
+        
         # Make sure each service gets its own properties dictionary.
         if properties is None:
             properties = {}
 
         service_id = self._next_service_id()
-        self._services[service_id] = (protocol, obj, properties)
+        self._services[service_id] = (protocol_name, obj, properties)
 
-        logger.debug('service <%d> registered %s', service_id, protocol)
+        logger.debug('service <%d> registered %s', service_id, protocol_name)
         
         return service_id
 
@@ -171,6 +173,19 @@ class ServiceRegistry(HasTraits):
             result = False
 
         return result
+
+    def _get_protocol_name(self, protocol_or_name):
+        """ Returns the full class name for a protocol. """
+
+        if isinstance(protocol_or_name, basestring):
+            name = protocol_or_name
+
+        else:
+            name = '%s.%s' % (
+                protocol_or_name.__module__, protocol_or_name.__name__
+            )
+
+        return name
     
     def _next_service_id(self):
         """ Returns the next service ID. """

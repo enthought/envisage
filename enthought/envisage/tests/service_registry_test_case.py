@@ -34,6 +34,59 @@ class ServiceRegistryTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_lazy_function_service_factory(self):
+        """ lazy function service factory """
+
+        # Register a service factory by name.
+        def foo_factory(**traits):
+            """ A factory for foo. """
+
+            from foo import Foo
+
+            foo_factory.foo = Foo()
+            
+            return foo_factory.foo
+        
+        self.service_registry.register_service('foo.IFoo', foo_factory)
+
+        # Look it up again.
+        from foo import IFoo
+        services = self.service_registry.get_services(IFoo)
+        self.assertEqual([foo_factory.foo], services)
+        
+        return
+
+    def test_lazy_bound_method_service_factory(self):
+        """ lazy bound method service factory """
+
+        class ServiceProvider(HasTraits):
+            """ A class that provides a service.
+
+            This is used to make sure abound method can be used as a service
+            factory.
+
+            """
+
+            # Register a service factory by name.
+            def foo_factory(self, **traits):
+                """ A factory for foo. """
+                
+                from foo import Foo
+                
+                self.foo = Foo()
+            
+                return self.foo
+
+        sp = ServiceProvider()
+        self.service_registry.register_service('foo.IFoo', sp.foo_factory)
+
+        # Look it up again.
+        from foo import IFoo
+        services = self.service_registry.get_services(IFoo)
+        self.assertEqual([sp.foo], services)
+        
+        return
+        
     def test_get_services(self):
         """ get services """
 
