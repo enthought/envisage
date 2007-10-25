@@ -83,7 +83,7 @@ class ServiceRegistry(HasTraits):
         # of services by the specified attribute/property.
         if minimize != '':
             services.sort(None, lambda x: getattr(x, minimize))
-
+            
         elif maximize != '':
             services.sort(None, lambda x: getattr(x, maximize), reverse=True)
 

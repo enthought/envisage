@@ -119,7 +119,6 @@ class PluginTestCase(unittest.TestCase):
             id = 'A'
             x  = ExtensionPoint(List, id='x')
 
-
         class PluginB(Plugin):
             id = 'B'
 

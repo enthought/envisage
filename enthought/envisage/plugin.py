@@ -119,14 +119,17 @@ class Plugin(ExtensionProvider):
             # with.
             protocol = self._get_service_protocol(trait)
 
-            # The service provider can decide not to register the service by
-            # returning None.
-            service = getattr(self, trait_name)
-            if service is not None:
-                # When we register the service we save the service Id so that
-                # we can unregister it later.
-                service_id = application.register_service(protocol, service)
-                self._service_ids.append(service_id)
+            # Register a factory for the service so that it will be lazily
+            # loaded.
+            def factory(protocol, properties):
+                """ A service factory. """
+
+                return getattr(self, trait_name)
+            
+            # When we register the service we save the service Id so that
+            # we can unregister it later.
+            service_id = application.register_service(protocol, factory)
+            self._service_ids.append(service_id)
                        
         return
 
@@ -192,19 +195,13 @@ class Plugin(ExtensionProvider):
         # Otherwise, use the type of the objects that can be assigned to the
         # trait.
         #
-        # fixme: This works for 'Instance' traits, but what about the
-        # 'AdaptsTo' and 'AdaptedTo' traits?
+        # fixme: This works for 'Instance' traits, but what about 'AdaptsTo'
+        # and 'AdaptedTo' traits?
         else:
-            trait_type = trait.trait_type
-            
-            # The 'Instance' trait type allows the class to be specified as a
-            # a string.
-            klass = trait_type.klass
-            if isinstance(klass, basestring):
-                protocol = trait_type.find_class(klass)
-                
-            else:
-                protocol = klass
+            # Note that in traits the protocol can be an actual class or
+            # interfacem or the *name* of a class or interface. This allows
+            # us to lazy load them!
+            protocol = trait.trait_type.klass
 
         return protocol
     

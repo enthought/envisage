@@ -381,7 +381,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
-        # Register some object with various prices.
+        # Register some objects with various prices.
         x = Foo(price=10)
         y = Foo(price=5)
         z = Foo(price=100)

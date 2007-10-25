@@ -27,6 +27,9 @@ class IServiceRegistry(Interface):
     def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
+        The protocol can be an actual class or interface, or the *name* of a
+        class or interface in the form '<module_name>.<class_name>'.
+
         Return None if no such service is found.
 
         If no query is specified then a service that provides the specified
@@ -39,6 +42,9 @@ class IServiceRegistry(Interface):
 
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
+
+        The protocol can be an actual class or interface, or the *name* of a
+        class or interface in the form '<module_name>.<class_name>'.
 
         If no services match the query, then an empty list is returned.
 
@@ -59,6 +65,9 @@ class IServiceRegistry(Interface):
 
     def register_service(self, protocol, obj, properties=None):
         """ Register a service.
+
+        The protocol can be an actual class or interface, or the *name* of a
+        class or interface in the form '<module_name>.<class_name>'.
 
         Returns a service Id that can be used to retrieve any service
         properties, and to unregister the service.
