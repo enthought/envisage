@@ -45,10 +45,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Make sure that the plugin manager only includes those plugins.
         self.plugin_manager.include = ids
 
-        # Add all the plugin eggs to 'sys.path'.
-        self._add_egg('acme.foo-0.1a1-py2.4.egg')
-        self._add_egg('acme.bar-0.1a1-py2.4.egg')
-        self._add_egg('acme.baz-0.1a1-py2.4.egg')
+        # Add all of the plugin eggs to 'sys.path'.
+        self._add_eggs_on_path()
 
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
