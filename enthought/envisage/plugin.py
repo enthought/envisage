@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Instance, List, Str, implements
+from enthought.traits.api import Instance, List, Str, implements
 
 # Local imports.
 from extension_provider import ExtensionProvider
