@@ -26,11 +26,6 @@ class IPlugin(Interface):
 
     # The plugin's name (suitable for displaying to the user).
     name = Str
-
-    # The Ids of the plugins that must be started before this one is started
-    # (this is usually because this plugin requires a service that the other
-    # plugin starts).
-    requires = List(Str)
     
     def start(self):
         """ Start the plugin.

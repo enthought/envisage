@@ -34,9 +34,6 @@ class Plugin(ExtensionProvider):
     # The plugin's name (suitable for displaying to the user).
     name = Str
 
-    # The Ids of the plugins that must be started before this one is started.
-    requires = List(Str)
-
     #### Private interface ####################################################
 
     # The Ids of the services that were automatically registered.
