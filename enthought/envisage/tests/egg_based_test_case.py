@@ -58,7 +58,6 @@ class EggBasedTestCase(unittest.TestCase):
         if working_set is None:
             working_set = pkg_resources.working_set
 
-    
         environment = pkg_resources.Environment(path)
         
         # 'find_plugins' identifies those distributions that *could* be added
