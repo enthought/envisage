@@ -1,8 +1,10 @@
 """ An implementation of weak references that works for bound methods.
 
 This code is based on the code in the Python Cookbook, but uses weak references
-for unbound methods and functions too. It also adds comparison and hash methods
-to allow the weak references to be compared just like standard weak references.
+for everything that is *not* a bound method too. It also adds comparison and
+hash methods to allow the weak references to be compared just like standard
+weak references. It is therefore intended to be used as a drop-in replacement
+for 'weakref.ref'.
 
 """
 

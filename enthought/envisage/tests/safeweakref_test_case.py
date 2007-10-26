@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import unittest, weakref
+import unittest
 
 # Enthought library imports.
 from enthought.envisage.safeweakref import ref
