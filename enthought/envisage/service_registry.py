@@ -11,6 +11,7 @@ from enthought.traits.protocols.interfaces import Protocol
 
 # Local imports.
 from i_service_registry import IServiceRegistry
+from import_manager import ImportManager
 
 
 # Logging.
@@ -65,6 +66,10 @@ class ServiceRegistry(HasTraits):
         services = []
         for service_id, (name, obj, properties) in self._services.items():
             if self._get_protocol_name(protocol) == name:
+                # If the protocol is a string then we need to import it!
+                if isinstance(protocol, basestring):
+                    protocol = ImportManager().import_symbol(protocol)
+            
                 # Is the registered service actually a service *factory*?
                 if self._is_service_factory(protocol, obj):
                     # A service factory is any callable that takes two

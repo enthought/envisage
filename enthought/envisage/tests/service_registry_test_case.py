@@ -93,7 +93,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class ServiceProvider(HasTraits):
             """ A class that provides a service.
 
-            This is used to make sure abound method can be used as a service
+            This is used to make sure a bound method can be used as a service
             factory.
 
             """
@@ -112,8 +112,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.service_registry.register_service('foo.IFoo', sp.foo_factory)
 
         # Look it up again.
-        from foo import IFoo
-        services = self.service_registry.get_services(IFoo)
+        services = self.service_registry.get_services('foo.IFoo')
         self.assertEqual([sp.foo], services)
         
         return
