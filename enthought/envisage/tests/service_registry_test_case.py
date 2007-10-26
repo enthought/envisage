@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import unittest
+import sys, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ServiceRegistry
@@ -80,10 +80,22 @@ class ServiceRegistryTestCase(unittest.TestCase):
         
         self.service_registry.register_service('foo.IFoo', foo_factory)
 
+        # Make sure that we haven't imported the 'foo' module.
+        self.assert_('foo' not in sys.modules)
+
+        # Look up a non-existent service.
+        services = self.service_registry.get_services('bogus.IBogus')
+
+        # Make sure that we *still* haven't imported the 'foo' module.
+        self.assert_('foo' not in sys.modules)
+        
         # Look it up again.
-        from foo import IFoo
-        services = self.service_registry.get_services(IFoo)
+        services = self.service_registry.get_services('foo.IFoo')
         self.assertEqual([foo_factory.foo], services)
+        self.assert_('foo' in sys.modules)
+
+        # Clean up!
+        del sys.modules['foo']
         
         return
 
@@ -105,15 +117,28 @@ class ServiceRegistryTestCase(unittest.TestCase):
                 from foo import Foo
                 
                 self.foo = Foo()
-            
+
                 return self.foo
 
         sp = ServiceProvider()
         self.service_registry.register_service('foo.IFoo', sp.foo_factory)
 
-        # Look it up again.
+        # Make sure that we haven't imported the 'foo' module.
+        self.assert_('foo' not in sys.modules)
+
+        # Look up a non-existent service.
+        services = self.service_registry.get_services('bogus.IBogus')
+
+        # Make sure that we *still* haven't imported the 'foo' module.
+        self.assert_('foo' not in sys.modules)
+        
+        # Look up the service.
         services = self.service_registry.get_services('foo.IFoo')
         self.assertEqual([sp.foo], services)
+        self.assert_('foo' in sys.modules)
+
+        # Clean up!
+        del sys.modules['foo']
         
         return
         
