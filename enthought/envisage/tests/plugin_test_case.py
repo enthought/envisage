@@ -60,23 +60,31 @@ class PluginTestCase(unittest.TestCase):
         class Foo(HasTraits):
             pass
 
+        class Bar(HasTraits):
+            pass
+        
         class PluginA(Plugin):
             id = 'A'
             foo = Instance(Foo, (), service=True)
+            bar = Instance(Bar, (), service=True)
 
         a = PluginA()
 
         application = TestApplication(plugins=[a])
         application.start()
 
-        # Make sure the service was registered.
+        # Make sure the services were registered.
         self.assertNotEqual(None, application.get_service(Foo))
         self.assertEqual(a.foo, application.get_service(Foo))
+
+        self.assertNotEqual(None, application.get_service(Bar))
+        self.assertEqual(a.bar, application.get_service(Bar))
 
         application.stop()
 
         # Make sure the service was unregistered.
         self.assertEqual(None, application.get_service(Foo))
+        self.assertEqual(None, application.get_service(Bar))
 
         return
 
