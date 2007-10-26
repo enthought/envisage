@@ -24,6 +24,9 @@ class HelloWorld(Plugin):
         """ Start the plugin. """
 
         # Standard library imports.
+        #
+        # We put this import here just to emphasize that it is only used in
+        # this specific plugin.
         import random
 
         print random.choice(self.greetings), 'World!'

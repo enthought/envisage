@@ -24,7 +24,7 @@ setup(
     entry_points = """
 
     [enthought.envisage.plugins]
-    software_quotes = acme.motd.software_quotes.api:SoftwareQuotesPlugin
+    software_quotes = acme.motd.software_quotes.software_quotes_plugin:SoftwareQuotesPlugin
 
     """
 

@@ -23,7 +23,7 @@ setup(
     entry_points = """
 
     [enthought.envisage.plugins]
-    motd = acme.motd.api:MOTDPlugin
+    motd = acme.motd.motd_plugin:MOTDPlugin
 
     """
 )

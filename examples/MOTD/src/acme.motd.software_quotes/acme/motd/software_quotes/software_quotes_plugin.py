@@ -7,14 +7,15 @@ from enthought.traits.api import List
 
 
 class SoftwareQuotesPlugin(Plugin):
-    """ The 'Software Quotes' plugin """
+    """ The 'Software Quotes' plugin. """
 
     #### 'IPlugin' interface ##################################################
 
-    id          = 'acme.motd.software_quotes'
-    name        = 'Software Quotes'
-    description = 'The Software Quotes Plugin'
-    requires    = []
+    # The plugin's unique identifier.
+    id = 'acme.motd.software_quotes'
+
+    # The plugin's name (suitable for displaying to the user).
+    name = 'Software Quotes'
 
     #### Extension point contributions ########################################
 
@@ -28,8 +29,7 @@ class SoftwareQuotesPlugin(Plugin):
     def _messages_default(self):
         """ Trait initializer. """
 
-        # It is good practise to only import/create your contributions when
-        # they are needed.
+        # Only do imports when you need to!
         from messages import messages
 
         return messages

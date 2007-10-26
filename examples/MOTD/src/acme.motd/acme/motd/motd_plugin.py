@@ -1,37 +1,49 @@
 """ The 'Message of the Day' plugin """
 
 
+# In the interest of lazy loading you should only import from the follwing
+# packages at the module level of a plugin::
+#
+# - enthought.envisage
+# - enthought.traits
+#
+# Eveything else should be imported when it is actually required.
+
+
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin
-from enthought.traits.api import List
-
-# Local imports.
-from i_message import IMessage
-from i_motd import IMOTD
-from motd import MOTD
+from enthought.traits.api import Instance, List
 
 
 class MOTDPlugin(Plugin):
-    """ The 'Message of the Day' plugin """
+    """ The 'Message of the Day' plugin. """
 
     #### 'IPlugin' interface ##################################################
 
-    id          = 'acme.motd'
-    name        = 'MOTD'
-    description = 'The ACME Message of the Day (MOTD) Plugin'
-    requires    = []
+    # The plugin's unique identifier.
+    id = 'acme.motd'
+
+    # The plugin's name (suitable for displaying to the user).
+    name = 'MOTD'
 
     #### Extension points #####################################################
 
     # The messages extension point.
     messages = ExtensionPoint(
-        List(IMessage), id='acme.motd.messages', desc = """
+        List(Instance('acme.motd.api.IMessage')),
+        id   ='acme.motd.messages',
+        desc = """
 
         This extension point allows you to contribute messages to the 'Message
         Of The Day'.
 
         """
     )
+
+    #### Services #############################################################
+
+    # The 'MOTD' service.
+    motd = Instance('acme.motd.api.IMOTD', service=True)
     
     ###########################################################################
     # 'IPlugin' interface.
@@ -40,34 +52,33 @@ class MOTDPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        # Use the contributed messages to create a MOTD object.
-        motd = MOTD(messages=self.messages)
+        # The base class 'start' method registers service traits etc. Here it
+        # means that our 'motd' trait will be registered.
+        super(MOTDPlugin, self).start()
         
-        # Publish the object as a service.
+        # This is a bit of overkill here, but it shows how other plugins can
+        # look up the MOTD service. We could, of course, just use::
         #
-        # This is a bit of overkill here, but this shows how we can register
-        # the MOTD object as a service so that other parts of the application
-        # can use it if they so wish (it just so happens that this application
-        # is so small, that there aren't any other parts')!
-        self._motd_service_id = self.application.register_service(IMOTD, motd)
-        
-        # And this is how we could look the service up!
-        motd_service = self.application.get_service(IMOTD)
-
+        #    message = self.motd.motd()
+        #
         # Get the message of the day...
-        message = motd_service.motd()
+        message = self.application.get_service('acme.motd.api.IMOTD').motd()
 
         # ... and print it.
         print '\n"%s"\n\n- %s' % (message.text, message.author)
         
         return
 
-    def stop(self):
-        """ Stop the plugin. """
+    ###########################################################################
+    # 'MOTDPlugin' interface.
+    ###########################################################################
 
-        # Unregister the MOTD service.
-        self.application.unregister_service(self._motd_service_id)
-        
-        return
+    def _motd_default(self):
+        """ Trait initializer. """
 
+        # Only do imports when you need to!
+        from motd import MOTD
+
+        return MOTD(messages=self.messages)
+    
 #### EOF ######################################################################
