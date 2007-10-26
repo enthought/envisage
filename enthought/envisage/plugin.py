@@ -110,23 +110,14 @@ class Plugin(ExtensionProvider):
     def register_services(self):
         """ Register the services offered by the plugin. """
 
-        application = self.application
         for trait_name, trait in self.traits(service=True).items():
-            # Determine the protocol that the service should be registered
-            # with.
-            protocol = self._get_service_protocol(trait)
-            
-            # Register a factory for the service so that it will be lazily
-            # loaded the first time somebody asks for a service with the
-            # same protocol (this could obviously be a lambda function, but I
-            # thought it best to be more explicit 8^).
-            factory = self._create_service_factory(trait_name)
-            
-            # When we register the service we save the service Id so that
-            # we can unregister it later.
-            service_id = application.register_service(protocol, factory)
+            # Register a service factory for the trait.
+            service_id = self._register_service_factory(trait_name, trait)
+
+            # We save the service Id so that so that we can unregister the
+            # service when the plugin is stopped.
             self._service_ids.append(service_id)
-                       
+
         return
 
     def unregister_services(self):
@@ -181,16 +172,6 @@ class Plugin(ExtensionProvider):
         
         return exception
 
-    def _create_service_factory(self, trait_name):
-        """ Create a service factory for the specified trait. """
-        
-        def factory(protocol, properties):
-            """ A service factory. """
-
-            return getattr(self, trait_name)
-
-        return factory
-    
     def _get_service_protocol(self, trait):
         """ Determine the protocol to register a service trait with. """
         
@@ -210,5 +191,22 @@ class Plugin(ExtensionProvider):
             protocol = trait.trait_type.klass
 
         return protocol
+
+    def _register_service_factory(self, trait_name, trait):
+        """ Register a service factory for the specified trait. """
+            
+        # Determine the protocol that the service should be registered with.
+        protocol = self._get_service_protocol(trait)
+            
+        # Register a factory for the service so that it will be lazily loaded
+        # the first time somebody asks for a service with the same protocol
+        # (this could obviously be a lambda function, but I thought it best to
+        # be more explicit 8^).
+        def factory(protocol, properties):
+            """ A service factory. """
+
+            return getattr(self, trait_name)
+
+        return self.application.register_service(protocol, factory)
     
 #### EOF ######################################################################
