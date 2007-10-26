@@ -17,38 +17,27 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    ADAPTER_DEFINITIONS = 'enthought.envisage.adapters'
-    PREFERENCES_FILES   = 'enthought.envisage.preferences'
+    CLASS_LOAD_HOOKS  = 'enthought.envosage.class_load_hooks'
+    PREFERENCES_FILES = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
 
-    id                = 'enthought.envisage.core'
-    name              = 'Core'
-    description       = 'The Envisage Core Plugin'
+    # The plugin's unique identifier.
+    id   = 'enthought.envisage.core'
+
+    # The plugin's name (suitable for displaying to the user).
+    name = 'Core'
 
     #### 'CorePlugin' interface ###############################################
     
     # Extension points.
-    adapter_definitions = ExtensionPoint(
-        List(Instance('enthought.envisage.adapter_definition')),
-        id   = ADAPTER_DEFINITIONS,
-        desc = """
-
-        This extension point allows you to contribute adapters. The adapters
-        are lazily loaded which in this case means they are loaded when the
-        class that they adapt is imported.
-
-        """
-    )
-
-    class_load_hook = ExtensionPoint(
+    class_load_hooks = ExtensionPoint(
         List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
-        id   = ADAPTER_DEFINITIONS,
+        id   = CLASS_LOAD_HOOKS,
         desc = """
 
-        This extension point allows you to contribute adapters. The adapters
-        are lazily loaded which in this case means they are loaded when the
-        class that they adapt is imported.
+        This extension point allows you to contribute code that is executed
+        when a particular class is loaded (created or imported etc).
 
         """
     )
@@ -74,8 +63,8 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences_files(self.application.preferences)
 
-        # Register all contributed adapter factories.
-        self._register_adapters(self.adapter_definitions)
+        # Connect all class load hooks.
+        self._connect_class_load_hooks(self.class_load_hooks)
         
         return
     
@@ -83,11 +72,11 @@ class CorePlugin(Plugin):
     # Private interface.
     ###########################################################################
 
-    def _register_adapters(self, adapter_definitions):
-        """ Registers all adapter factories declared in an extension. """
+    def _connect_class_load_hooks(self, class_load_hooks):
+        """ Connect all class load hooks. """
 
-        for adapter_definition in adapter_definitions:
-            adapter_definition.connect()
+        for class_load_hook in class_load_hooks:
+            class_load_hook.connect()
 
         return
 

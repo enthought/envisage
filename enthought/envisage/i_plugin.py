@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, Interface, List, Str
+from enthought.traits.api import Instance, Interface, Str
 
 
 class IPlugin(Interface):
@@ -10,9 +10,6 @@ class IPlugin(Interface):
 
     # The application that the plugin is part of.
     application = Instance('enthought.envisage.api.IApplication')
-
-    # A description of what the plugin is and does.
-    description = Str
 
     # The plugin's unique identifier.
     #

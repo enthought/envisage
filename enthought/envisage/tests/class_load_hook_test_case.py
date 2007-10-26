@@ -5,7 +5,7 @@
 import sys, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import AdapterHook, ClassLoadHook
+from enthought.envisage.api import ClassLoadHook, ModuleImporter
 from enthought.traits.api import HasTraits
 
     
@@ -87,15 +87,8 @@ class ClassLoadHookTestCase(unittest.TestCase):
         
         return
 
-    def test_adapter_hook(self):
-        """ adapter hook """
-
-        def on_class_loaded(cls):
-            """ Called when a class is loaded. """
-
-            on_class_loaded.cls = cls
-
-            return
+    def test_module_importer(self):
+        """ module importer """
 
         # The name of a built-in module to load when a class is loaed.
         # Obviously this is slightly dodgy because we can't be sure that some
@@ -106,7 +99,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
         built_in = 'sndhdr'
         
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
-        hook = AdapterHook(
+        hook = ModuleImporter(
             class_name='class_load_hook_test_case.Foo', module_name=built_in
         )
         hook.connect()

@@ -25,9 +25,6 @@ class Plugin(ExtensionProvider):
     # The application that the plugin is part of.
     application = Instance(IApplication)
 
-    # A description of what the plugin is and does.
-    description = Str
-
     # The plugin's unique identifier.
     id = Str
 
@@ -120,7 +117,8 @@ class Plugin(ExtensionProvider):
             protocol = self._get_service_protocol(trait)
 
             # Register a factory for the service so that it will be lazily
-            # loaded.
+            # loaded the first time somebody asks for a service with the
+            # same protocol.
             def factory(protocol, properties):
                 """ A service factory. """
 

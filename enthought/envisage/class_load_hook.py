@@ -6,7 +6,7 @@ from enthought.traits.api import Callable, HasTraits, MetaHasTraits, Str
 
 
 class ClassLoadHook(HasTraits):
-    """ A hook to allow code be executed when a class is loaded. """
+    """ A hook to allow code to be executed when a class is loaded. """
 
     #### 'ClassLoadHook' interface ############################################
     
@@ -52,14 +52,13 @@ class ClassLoadHook(HasTraits):
         return
 
 
-class AdapterHook(ClassLoadHook):
-    """ A class load hook that imports a module! """
+class ExecClassLoadHook(ClassLoadHook):
+    """ A class load hook that executes a statement when a class is loaded. """
 
-    #### 'AdapterHook' interface ##############################################
-    
-    # The possibly dotted package path to the module that we want to import
-    # when the class is loaded.
-    module_name = Str
+    #### 'ExecClassLoadHook' interface ########################################
+
+    # The statement to execute when a class is loaded.
+    code = Str
 
     ###########################################################################
     # 'ClassLoadHook' interface.
@@ -68,8 +67,27 @@ class AdapterHook(ClassLoadHook):
     def on_class_loaded(self, cls):
         """ This method is called when the class is loaded. """
 
-        exec "import %s" % self.module_name
+        exec self.code
 
         return
+
+    
+class ModuleImporter(ExecClassLoadHook):
+    """ A class load hook that imports a module! """
+
+    #### 'ModuleImporter' interface ###########################################
+    
+    # The possibly dotted package path to the module that we want to import
+    # when the class is loaded.
+    module_name = Str
+
+    ###########################################################################
+    # 'ExecClassLoadHook' interface.
+    ###########################################################################
+
+    def _code_default(self):
+        """ Trait initializer. """
+
+        return "import %s" % self.module_name
 
 #### EOF ######################################################################
