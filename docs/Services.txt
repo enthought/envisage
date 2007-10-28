@@ -3,8 +3,8 @@ Services
 
 Services are the real "guts" of an Envisage application -- they are the objects
 that do the actual work! To get the job done, services obviously need to
-interact, and so Envisage provides a way for them to
-find each other. This is where the *service registry* comes in.
+interact, and so Envisage provides a way for them to find each other. This is
+where the *service registry* comes in.
 
 Service Registry
 ================

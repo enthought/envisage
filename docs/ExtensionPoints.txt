@@ -32,8 +32,8 @@ chosen at random from a list of contributed messages.
 
 Plugins declare their extension points using the 'ExtensionPoint' trait type.
 In the MOTD example, the acme.motd_ plugin needs to advertise an extension
-point that allows other plugins to contribute new messages, so it declares
-the existence of an extension point as follows::
+point that allows other plugins to contribute new messages. How it does this is
+shown below::
 
     class MOTDPlugin(Plugin):
         """ The MOTD Plugin. """"
@@ -52,11 +52,12 @@ the existence of an extension point as follows::
 
 	...
 
-This tells us two things:
+This tells us three things:
 
 1) That the extension point is called "acme.motd.messages"
-2) That every contribution to the extension point must implement the
+2) That every contribution to the extension point implement the
    IMessage_ interface.
+3) What the extension point is used for (the 'desc' trait metadata)
 
 Note that because the whole purpose of extension points is to allow multiple
 contributions, they are always 'Lists's.
@@ -113,6 +114,11 @@ Envisage about the messages that we have just created::
 
 	...
 
+The messages are contributed simply by creating a list trait and setting its
+"extension_point" metadata to the Id of the extension point that we want to
+contribute to. All we have to do then is to intialize the trait with our
+messages and "Job done"!
+
 Note that if a plugin changes a list of contributions then the extension
 registry will be updated automatically, and anybody that is consuming the
 extensions will be notified accordingly.
@@ -140,19 +146,18 @@ implementation::
 
 	...
 
-        def start(self, application):
-            """ Start the plugin. """
+        def _motd_default(self):
+            """ Trait initializer. """
 
-            # Use the contributed messages to create a MOTD object.
-            motd = MOTD(messages=self.messages)
-	
-            # Publish the object as a service.
-	    application.register_service(IMOTD, motd)
+            # Only do imports when you need to!
+            from motd import MOTD
+
+            return MOTD(messages=self.messages)
 
             ...
 
 As you can see, all we have to do is to access the **messages** extension point
-trait.
+trait when we create our instance of the MOTD_ class.
 
 This example demonstrates a common pattern in Envisage application development,
 in that contributions to extension points are most often used by plugin
@@ -176,7 +181,9 @@ extension point you would use::
 
 Note however, that using the ExtensionPoint_ trait type, adds the ability to
 validate the contributions -- in this case, to make sure that they are all
-objects that implement (or can be adapted to) the IMessage_ interface.
+objects that implement (or can be adapted to) the IMessage_ interface. It also
+automatically connects the trait so that the plugin will receive trait change
+events if extensions are added/removed to/from the extension point at runtime.
 
 
 .. _acme.motd: ../../examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
