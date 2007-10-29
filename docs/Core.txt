@@ -18,9 +18,6 @@ Envisage applications:
 2) Services_
 3) Plugins_
 
-All of these concepts are demonstrated in the `Message of the Day`_ (MOTD) example.
- 
 .. _`Extension Points`: ExtensionPoints.html
-.. _`Message of the Day`: MessageOfTheDay.html
 .. _`Plugins`: Plugins.html
 .. _`Services`: Services.html

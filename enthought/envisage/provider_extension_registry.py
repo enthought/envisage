@@ -95,8 +95,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # containing the contributions from a single provider. Here we just
         # concatenate them into a single list.
         all = []
-        for extensions in extensions:
-            all.extend(extensions)
+        map(all.extend, extensions)
                 
         return all
 

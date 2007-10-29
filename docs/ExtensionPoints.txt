@@ -32,8 +32,7 @@ chosen at random from a list of contributed messages.
 
 Plugins declare their extension points using the 'ExtensionPoint' trait type.
 In the MOTD example, the acme.motd_ plugin needs to advertise an extension
-point that allows other plugins to contribute new messages. How it does this is
-shown below::
+point that allows other plugins to contribute new messages::
 
     class MOTDPlugin(Plugin):
         """ The MOTD Plugin. """"
@@ -55,12 +54,9 @@ shown below::
 This tells us three things:
 
 1) That the extension point is called "acme.motd.messages"
-2) That every contribution to the extension point implement the
-   IMessage_ interface.
-3) What the extension point is used for (the 'desc' trait metadata)
-
-Note that because the whole purpose of extension points is to allow multiple
-contributions, they are always 'Lists's.
+2) That every item in a list of contributions to the extension point must
+   implement the IMessage_ interface.
+3) That the extension point allows you to contribute messages!
 
 2) Making contributions to an Extension Point
 ---------------------------------------------
@@ -101,6 +97,8 @@ Envisage about the messages that we have just created::
 
         ...
 
+        # The 'extension_point' trait metadata tells Envisage the Id of the
+        # extension point that this trait contributes to.
 	messages = List(extension_point='acme.motd.messages')
 
         def _messages_default(self):
@@ -133,16 +131,22 @@ Another plugin (acme.motd.software_quotes_) has kindly offered to contribute
 some messages about software development. Now we need to know how to retrieve
 the contributed messages at runtime.
 
-In the MOTD example, the messages are retrieved by the acme.motd_ plugin
-implementation::
+In the MOTD example, the messages are retrieved by the acme.motd_ plugin::
 
     class MOTDPlugin(Plugin):
-        """ The MOTD Plugin. """
+        """ The MOTD Plugin. """"
 
 	...
 
-	# The contributed messages.
-        messages = ExtensionPoint(List(IMessage), id='acme.motd.messages')
+	# The messages extension point.
+	messages = ExtensionPoint(
+            List(IMessage), id='acme.motd.messages', desc = """
+
+            This extension point allows you to contribute messages to the 'Message
+            Of The Day'.
+
+            """
+        )
 
 	...
 

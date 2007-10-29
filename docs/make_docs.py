@@ -71,6 +71,13 @@ def copy_images():
         
     return
 
+def create_index(filename):
+    """ Create the index.html. """
+
+    shutil.copyfile(os.path.join('html', filename+'.html'), 'html/index.html')
+
+    return
+    
 def main(argv=sys.argv):
     """ Application entry point. """
 
@@ -85,6 +92,7 @@ def main(argv=sys.argv):
     make_reST_docs(stylesheet)
     make_api_docs()
     copy_images()
+    create_index('Introduction')
     
     return
 
