@@ -33,89 +33,99 @@ is to subclass the base Plugin_ class), and should provide the following
 
   This name should be suitable for display to the user.
 
-- a description
+- a doc string!
 
   A nice description of the intent and features of your plugin.
-
-- a list of the plugins required by this plugin
-
-  Envisage uses this to start the plugins in the appropriate order (i.e., if
-  plugin A requires plugin B, then plugin B will be started first). This is
-  useful for example, if Plugin A requires a service that is started by
-  Plugin B.
 
 Here is a snippet from the `acme.motd`_ plugin that is part of the `Message of
 the Day`_ example::
 
     class MOTDPlugin(Plugin):
-        """ The 'Message of the Day' plugin """
+        """ The 'Message of the Day' plugin.
+
+	When this plugin is started it prints the 'Message of the Day' to stdout.
+
+        """
 
         #### 'IPlugin' interface ##############################################
 
-        id          = 'acme.motd'
-        name        = 'MOTD'
-        description = 'The ACME Message of the Day (MOTD) Plugin'
-        requires    = []
+        # The plugin's unique identifier.
+        id = 'acme.motd'
+
+        # The plugin's name (suitable for displaying to the user).
+        name = 'MOTD'
 
 Plugin Lifecyle
 ---------------
 
 Plugins have a lifecycle in the context of an application. There are currently
-two key lifecycle methods on the IPlugin_ interface:
+two key lifecycle methods on the IPlugin_ interface::
 
-::
-
-    def start(self, application):
+    def start(self):
         """ Start the plugin.
 
-        Can be called manually, but is usually called exactly once when the
-        application starts.
+        This method is called by the framework when the application is starting
+        up. If you want to start a plugin manually use::
+
+          application.start_plugin(plugin)
 
         """
 
-    def stop(self, application):
+    def stop(self):
         """ Stop the plugin.
 
-        Can be called manually, but is usually called exactly once when the
-        application exits.
+        This method is called by the framework when the application is
+        stopping. If you want to stop a plugin manually use::
+
+          application.stop_plugin(plugin)
 
         """
 
-The start() method is where the implementation creates and registers the 
-services it offers, and stop() is where it unregisters them and performs any
-other necessary cleanup.
+When Envisage starts up it calls the start() method of every plugin in the
+the same order that its iterator returns them in. This depends on the plugin
+manager being used, but by default this will be either a) the order of the list
+of plugins that was passed into the application or b) the order of the plugins
+based on egg dependencies. When the application stops, it calls the stop()
+method of each plugin in the reverse order that they were started in.
 
-Envisage calls the start() method when the application is being started up,
-and as mentioned previously, plugins are started in the order defined by
-their requirements clauses.
+The default Plugin_ implementation of the start() method, automatically
+registers any traits marked as 'service=True', and connects up any extension
+points so that the plugin will receive notification if and when extensions are
+added/removed.
 
-In the `Message of the Day`_ example, the acme.motd_ plugin creates a MOTD_
-object and registers it as a service in its start() method:
+The default Plugin_ implementation of the stop() method simply unregisters any
+services that were automatically registered in the start() method.
+
+Consequentlt, if you override either of these methods, you probably want to
+call the base-class methods too!
+
+As an example, here is the start() method from the acme.motd_ plugin in the
+the `Message of the Day`_ example::
 
 ::
 
-        def start(self, application):
+        def start(self):
             """ Start the plugin. """
 
-            # Use the contributed messages to populate a MOTD object.
-            motd = MOTD(messages=self.messages)
+            # The base class 'start' method registers service traits etc. Here it
+            # means that our 'motd' trait will be registered.
+            super(MOTDPlugin, self).start()
         
-            # Publish the object as a service.
-            self._motd_service_id = application.register_service(IMOTD, motd)
-        
-	    ...
+            # This is a bit of overkill here, but it shows how other plugins can
+            # look up the MOTD service. We could, of course, just use::
+            #
+            #    message = self.motd.motd()
+            #
+            # Get the message of the day...
+            message = self.application.get_service('acme.motd.api.IMOTD').motd()
 
-Being a good citizen, it cleans up after itself in the stop() method:
-
-::
-
-        def stop(self, application):
-            """ Stop the plugin. """
-
-            # Unregister the MOTD service.
-            application.unregister_service(self._motd_service_id)
+            # ... and print it.
+            print '\n"%s"\n\n- %s' % (message.text, message.author)
         
 	    return
+
+The implementation of 'stop' in the 'Plugin' class takes care of unregistering
+all of our service traits.
 
 .. _acme.motd: ../../examples/MOTD/src/acme.motd/setup.py
 .. _acme.motd.software_quotes: ../../examples/MOTD/src/acme.motd.software_quotes/setup.py

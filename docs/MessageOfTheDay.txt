@@ -138,7 +138,6 @@ entry point in our 'setup.py' module::
 Notice that we don't import the plugin from an 'api.py' module. This is to
 delay importing implementation code until it is actually needed.
 
-
 As showm above, the corresponding plugin implementation is in the
 MOTDPlugin_ class.
 

@@ -244,5 +244,35 @@ Not however, that in practise, it is more common to use the actual attributes
 of a service object for the purposes of querying, but this is useful if you
 want additional properties that aren't part of the object's type.
 
+8) Service Factories
+--------------------
+
+Last, but not least, we will look at an important feature of the service
+registry, namely, service factories.
+
+Service factories allow a Python callable to be registered in place of an
+actual service object. The callable is invoked the first time anybody asks
+for a service with the same type that the factory was registered against, and
+the object returned by the callable replaces the factory in the registry (so
+that the next time it is asked for it is simply returned as normal).
+
+
+To register a service factory, just register any callable that takes two
+arguments. The first is the protocol (type) of the service being requested, and
+the second is the (possibly empty) dictionary of properties that were
+registered along with the factory, e.g.::
+
+  def wilma_factory(protocol, properties):
+      """ A service factory that creates wilma the plumber! """
+
+      return Plumber(name='wilma', location='BH6')
+
+To register the factory, we just use 'application.register_service' as usual::
+
+    wilma_id = application.register_service(IPlumber, wilma_factory, {'price':125})
+
+Now, the first time somebody tries to get any 'IPlumber' service, the factory
+is called and the returned plumber object replaces the factory in the registry.
+
 .. _IApplication: ../../enthought/envisage/i_application.py
 
