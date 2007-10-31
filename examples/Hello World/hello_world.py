@@ -1,9 +1,18 @@
 """ The Envisage version of the old chestnut. """
 
 
+# Standard library imports.
+import logging
+
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
 from enthought.traits.api import List, Str
+
+
+# Logging.
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler(file('hello_world.log', 'w')))
+logger.setLevel(logging.DEBUG)
 
 
 class HelloWorld(Plugin):

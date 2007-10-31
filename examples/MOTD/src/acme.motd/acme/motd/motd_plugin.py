@@ -16,7 +16,11 @@ from enthought.traits.api import Instance, List
 
 
 class MOTDPlugin(Plugin):
-    """ The 'Message of the Day' plugin. """
+    """ The 'Message of the Day' plugin.
+
+    When this plugin is started it prints the 'Message of the Day' to stdout.
+    
+    """
 
     #### 'IPlugin' interface ##################################################
 

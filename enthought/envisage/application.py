@@ -21,6 +21,7 @@ from i_service_registry import IServiceRegistry
 from application_event import ApplicationEvent
 from extension_point import ExtensionPoint
 from import_manager import ImportManager
+from service import Service
 
 
 # Logging.
@@ -105,6 +106,10 @@ class Application(HasTraits):
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access preferences.
         PreferencesHelper.preferences = self.preferences
+
+        # This allows the 'Service' trait type to be used as a more
+        # convenient way to access services.
+        Service.application = self
 
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins

@@ -22,6 +22,7 @@ from plugin import Plugin
 from plugin_extension_registry import PluginExtensionRegistry
 from plugin_manager import PluginManager
 from provider_extension_registry import ProviderExtensionRegistry
+from service import Service
 from service_registry import ServiceRegistry
 from unknown_extension import UnknownExtension
 from unknown_extension_point import UnknownExtensionPoint

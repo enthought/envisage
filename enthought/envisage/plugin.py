@@ -59,11 +59,11 @@ class Plugin(ExtensionProvider):
         # the list traits directly. If we don't end up doing that then it is
         # fine to allow mutiple traits!
         trait_names = self.trait_names(extension_point=extension_point_id)
-        if len(trait_names) == 1:
-            extensions = getattr(self, trait_names[0])
-
-        elif len(trait_names) == 0:
+        if len(trait_names) == 0:
             extensions = []
+
+        elif len(trait_names) == 1:
+            extensions = getattr(self, trait_names[0])
 
         else:
             raise self._create_multiple_traits_exception(extension_point_id)

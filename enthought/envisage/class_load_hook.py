@@ -88,6 +88,6 @@ class ModuleImporter(ExecClassLoadHook):
     def _code_default(self):
         """ Trait initializer. """
 
-        return "import %s" % self.module_name
+        return 'import %s' % self.module_name
 
 #### EOF ######################################################################
