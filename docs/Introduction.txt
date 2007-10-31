@@ -61,9 +61,6 @@ For definitions of the terminology used in Envisage, see the Glossary_
 (although it will probably make more sense after going through the other
 documentation and examples first).
 
-.. _enthought.envisage: https://svn.enthought.com/svn/enthought/trunk/enthought.envisage_3.0/enthought/envisage/api.py
-.. _enthought.envisage.ui.workbench: https://svn.enthough.com/svn/enthought/trunk/enthought.envisage.ui.workbench_3.0/enthought/envisage/ui/workbench/api.py
-
 .. _API: api/index.html
 .. _Core: Core.html
 .. _Eclipse: http://www.eclipse.org
@@ -72,3 +69,7 @@ documentation and examples first).
 .. _NetBeans: http://www.netbeans.org
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
+
+.. _enthought.envisage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage
+
+.. _enthought.envisage.ui.workbench: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage.ui.workbench_3.0/enthought/envisage/ui/workbench/api.py

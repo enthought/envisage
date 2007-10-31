@@ -1,4 +1,4 @@
-Syntactic Suger is Sweet
+Syntactic Sugar is Sweet
 ========================
 
 While everything that the framework offers is available via the IApplication
