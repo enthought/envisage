@@ -18,7 +18,7 @@ def etsdep(p, min, max=None, literal=False):
 
 # Declare our ETS project dependencies.
 ETS_CONFIG = etsdep('enthought.etsconfig', '2.1.0a1')
-PREFERENCES = etsdap('enthought.preferences', '1.0.0a1')
+PREFERENCES = etsdep('enthought.preferences', '1.0.0a1')
 TRAITS = etsdep('enthought.traits', '3.0.0b1')
 UTIL = etsdep('enthought.util', '3.0.0a1')
 
