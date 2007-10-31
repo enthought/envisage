@@ -70,6 +70,6 @@ documentation and examples first).
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
 
-.. _enthought.envisage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage
+.. _enthought.envisage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/api.py
 
 .. _enthought.envisage.ui.workbench: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage.ui.workbench_3.0/enthought/envisage/ui/workbench/api.py
