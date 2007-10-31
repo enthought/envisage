@@ -1,3 +1,6 @@
+Syntactic Suger is Sweet
+========================
+
 While everything that the framework offers is available via the IApplication
 interface, Envisage also provides some 'syntactic sugar' (in the form of trait
 types and metadata) to make the definition and access of extension points and
