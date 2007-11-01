@@ -55,8 +55,6 @@ fundemental concepts of Envisage, and the *real* applications that you build
 (which will hopefully be a lot more useful) will be built in exactly the same
 way.
 
-You might also like to browse the API_ documentation.
-
 For definitions of the terminology used in Envisage, see the Glossary_
 (although it will probably make more sense after going through the other
 documentation and examples first).
