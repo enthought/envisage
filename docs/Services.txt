@@ -6,25 +6,31 @@ that do the actual work! To get the job done, services obviously need to
 interact, and so Envisage provides a way for them to find each other. This is
 where the *service registry* comes in.
 
+Don't be phased by the term *service*. In Envisage it just means any objects
+in your application that you want to share between plugins. Services can be
+any Python object and do not have to inherits from any Envisage class or even
+implement any particular interface!
+
 Service Registry
 ================
 
 The service registry provides a "Yellow Pages" style mechanism, in that
-services are published and looked up by *interface*, or *type*. It is called
-a "Yellow Pages" mechanism because it is just like looking up a telephone
-number in the "Yellow Pages" phone book. You use the "Yellow Pages" instead
-of the "White Pages" when you don't know the *name* of the person you want to
-call but you do know what *kind* of service you require. For example, if you
-have a leaking pipe, you know you need a plumber, so you pick up your "Yellow
-Pages", go to the "Plumbers" section and choose one that seems to fit the bill
-based on price, location, certification, etc. The service registry does
-exactly the same thing as the "Yellow Pages", only with objects, and it even
-allows you to publish your own entries for free (unlike the "real" one)!
+services are published and looked up by *protocol* meaning *interface*, or
+*type*. It is called a "Yellow Pages" mechanism because it is just like looking
+up a telephone number in the "Yellow Pages" phone book. You use the
+"Yellow Pages" instead of the "White Pages" when you don't know the *name* of
+the person you want to call but you do know what *kind* of service you require.
+For example, if you have a leaking pipe, you know you need a plumber, so you
+pick up your "Yellow Pages", go to the "Plumbers" section and choose one that
+seems to fit the bill based on price, location, certification, etc. The service
+registry does exactly the same thing as the "Yellow Pages", only with objects,
+and it even allows you to publish your own entries for free (unlike the "real"
+one)!
 
 In an Envisage application, the service registry is accessed through the
 following methods on the IApplication_ interface::
 
-    def get_service(self, interface, query='', minimimize='', maximize=''):
+    def get_service(self, protocol, query='', minimimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
         """
@@ -34,12 +40,12 @@ following methods on the IApplication_ interface::
 
         """
         
-    def get_services(self, interface, query='', minimimize='', maximize=''):
+    def get_services(self, protocol, query='', minimimize='', maximize=''):
         """ Return all services that match the specified query.
 
         """
 
-    def register_service(self, interface, obj, properties=None):
+    def register_service(self, protocol, obj, properties=None):
         """ Register a service.
 
         Returns a service ID that can be used to retrieve any service
@@ -93,11 +99,11 @@ following interface and implementation::
 1) Registering a service
 ------------------------
 
-To register a service, create an object and call the
-register_service() method, passing it the interface or type to
-publish the object under (for "interface/type" think "Yellow Pages" section),
-and the object to publish. Note that the object to publish does *not* have
-to inherit from any particular base class -- any arbitrary Python object will
+To register a service, create an object and call the register_service() method,
+passing it the protocol (interface or type) to publish the object under
+(for "protocol" think "Yellow Pages" section), and the object to publish. Note
+that the object to publish does *not* have to inherit from any particular base
+class or implement any special interface -- any arbitrary Python object will
 do::
 
     fred = Plumber(name='fred', location='BH1', price=90)
@@ -107,8 +113,8 @@ Note that each registered service gets assigned an ID that is unique within
 the current process. This can be used later
 to access its properties, or to unregister it, etc.
 
-You can also associate an arbitrary dictionary of properties with an object when
-you register it. These properties, along with the actual attributes of the
+You can also associate an arbitrary dictionary of properties with an object
+when you register it. These properties, along with the actual attributes of the
 service itself, can be used later to lookup the service using the query
 mechanism as shown in Section 4.
 
@@ -117,11 +123,21 @@ mechanism as shown in Section 4.
     wilma = Plumber(name='wilma', location='BH6')
     wilma_id = application.register_service(IPlumber, wilma, {'price' : 125})
 
+Note that the symbol name of the protocol can be specified instead of the
+actual type or class. Say, for example, that the *IPlumber* interface can be
+imported via 'from acme.plumber.api import IPlumber', then the registration
+can be written as::
+
+    wilma_id = application.register_service('acme.plumber.api.IPlumber', wilma, {'price' : 125})
+
+This comes in handy when using service factories (see later) to make sure that
+implementation classes are imported only when necessary.
+
 2) Looking up a service
 -----------------------
 
-Looking up a service is just as easy -- call get_service() with the
-interface or type of service required::
+Looking up a service is just as easy -- call get_service() specifiying the
+protocol of the service required::
 
     plumber = application.get_service(IPlumber)
 
@@ -130,10 +146,20 @@ then there is no way of knowing which of those objects would be returned.
 The choice of the object returned does *not* necessarily reflect the order in
 which they were added, so don't depend on it.
 
+Note that the symbol name of the protocol can be specified instead of the
+actual type or class. Say, for example, that the *IPlumber* interface can be
+imported via 'from acme.plumber.api import IPlumber', then the service lookup
+can be written as::
+
+    plumber = application.get_service('acme.plumber.api.IPlumber')
+
+This comes in handy when using service factories (see later) to make sure that
+implementation classes are imported only when necessary.
+
 3) Looking up a list of services
 --------------------------------
 
-You can also look up *all* services of a particular interface or type::
+You can also look up *all* services of a particular protocol::
 
     plumbers = application.get_services(IPlumber)
 
