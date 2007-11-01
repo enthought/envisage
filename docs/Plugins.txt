@@ -127,13 +127,20 @@ the `Message of the Day`_ example::
 The implementation of 'stop' in the 'Plugin' class takes care of unregistering
 all of our service traits.
 
-.. _acme.motd: ../../examples/MOTD/src/acme.motd/setup.py
-.. _acme.motd.software_quotes: ../../examples/MOTD/src/acme.motd.software_quotes/setup.py
 .. _`Extension Points`: ExtensionPoints.html
-.. _IPlugin: ../../enthought/envisage/i_plugin.py
-.. _`Message of the Day`: ../../examples/MOTD
-.. _MOTD: ../../examples/MOTD/src/acme.motd/acme/motd/motd.py
-.. _MOTDPlugin: ../../examples/MOTD/acme.motd/acme/motd/motd_plugin.py
-.. _Plugin: ../../enthought/envisage/plugin.py
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _Services: Services.html
+
+.. _acme.motd: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/setup.py
+
+.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd.software_quotes/setup.py
+
+.. _IPlugin: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/i_plugin.py
+
+.. _`Message of the Day`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD
+
+.. _MOTD: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd.py
+
+.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/acme.motd/acme/motd/motd_plugin.py
+
+.. _Plugin: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/plugin.py
