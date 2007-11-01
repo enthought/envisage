@@ -190,14 +190,26 @@ automatically connects the trait so that the plugin will receive trait change
 events if extensions are added/removed to/from the extension point at runtime.
 
 
-.. _acme.motd: ../../examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
-.. _acme.motd.software_quotes: ../../examples/MOTD/src/acme.motd.software_quotes/acme/motd/software_quotes/software_quotes_plugin.py
-.. _ExtensionPoint: ../../enthought/envisage/extension_point.py
-.. _IApplication: ../../enthought/envisage/i_application.py
-.. _IMessage: ../../examples/MOTD/src/acme.motd/acme/motd/i_message.py
-.. _Message: ../../examples/MOTD/src/acme.motd/acme/motd/message.py
-.. _messages.py: ../../examples/MOTD/src/acme.motd.software_quotes/acme/motd/software_quotes/messages.py
-.. _`Message of the Day`: ../../examples/MOTD
-.. _MOTD: ../../examples/MOTD/src/acme.motd/acme/motd/motd.py
-.. _MOTDPlugin: ../../examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
+
+.. _acme.motd: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
+
+.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd.software_quotes/acme/motd/software_quotes/software_quotes_plugin.py
+
+.. _ExtensionPoint: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/extension_point.py
+
+.. _IApplication: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/i_application.py
+
+.. _IMessage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/i_message.py
+
+.. _Message: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/message.py
+
+.. _messages.py: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd.software_quotes/acme/motd/software_quotes/messages.py
+
+.. _`Message of the Day`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD
+
+.. _MOTD: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd.py
+
+.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
+
+
