@@ -6,13 +6,7 @@ for building extensible, pluggable applications. Hopefully, these tools are
 useful whether you are building an airline reservation system, a web server or
 a game of tetris!
 
-Generally, when we try to represent an Envisage application visually, we draw
-something like this:
-
-.. image:: images/application.png
-
-Which attempts to illustrate the 3 simple concepts used to build *all*
-Envisage applications:
+There are just 3 simple concepts at the heart of every Envisage application:
 
 1) `Extension Points`_
 2) Services_
