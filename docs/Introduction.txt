@@ -40,8 +40,8 @@ NetBeans_. Like these other frameworks, Envisage helps you build applications
 that are based on the concept of plugins. However, one of the main goals is to
 provide a simplified system so that applications and plugins can be written by
 scientists, engineers, and those people whose full-time job is *not*
-necessarily software development so a lot of work has gone into trying to
-satify the old adage of "make simple things simple and complex things
+necessarily software development, hence a lot of work has gone into trying to
+satify the old adage of "make simple things simple, and complex things
 possible". It will obviously be up to you to judge if we succeeded!
 
 Getting Started

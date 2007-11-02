@@ -16,7 +16,13 @@ logger.setLevel(logging.DEBUG)
 
 
 class HelloWorld(Plugin):
-    """ A plugin that offers an extension point. """
+    """ The 'Hello World' plugin.
+
+    This plugin offers a single extension point 'greetings' which is a list of
+    greetings, one of which is used to produce the '<greeting> World' message
+    when the plugin is started.
+
+    """
 
     # This tells us that the plugin offers the 'greetings' extension point,
     # and that plugins that want to contribute to it must each provide a list
@@ -25,10 +31,9 @@ class HelloWorld(Plugin):
         List(Str), id='greetings', desc='Greetings for "Hello World"'
     )
 
-    # Plugin's have two important lifecyle methods, 'start' and 'stop'.
-    # These methods can be called manually, but usually they are called
-    # automatically by Envisage when the application is started and stopped
-    # respectively.
+    # Plugin's have two important lifecyle methods, 'start' and 'stop'. These
+    # methods are called automatically by Envisage when the application is
+    # started and stopped respectively.
     def start(self):
         """ Start the plugin. """
 
@@ -76,6 +81,12 @@ class MoreGreetings(Plugin):
 if __name__ == '__main__':
     
     # Create the application.
+    #
+    # An application is simply a collection of plugins. In this case we
+    # specify the plugins explicitly, but the mechanism for finding plugins
+    # is up to you! By default, if no plugins are specified then Envisage will
+    # search in all Python Eggs on the python path looking for contributions to
+    # the 'enthought.envisage.plugins' entry point.
     application = Application(
         id='hello.world', plugins=[HelloWorld(), Greetings(), MoreGreetings()]
     )
