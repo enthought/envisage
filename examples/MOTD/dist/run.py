@@ -12,16 +12,15 @@ Usually, all you have to do in here is:-
    
 """
 
-# Uncomment the following lines if you want to see the kind of things that
 # Envisage writes to the log!
-## # Standard library imports.
-## import logging
+# Standard library imports.
+import logging
 
 
-## # Log to stderr for now!
-## logger = logging.getLogger()
-## logger.addHandler(logging.StreamHandler())
-## logger.setLevel(logging.DEBUG)
+# Log to stderr for now!
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler(file('acme_motd.log', 'w')))
+logger.setLevel(logging.DEBUG)
 
 
 # A list of the directories that contain the application's eggs (any directory
