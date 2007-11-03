@@ -12,7 +12,7 @@ class CorePlugin(Plugin):
 
     The core plugin offers facilities that are generally useful when building
     extensible applications such as adapters, categories and hooks etc. It does
-    not contain anything to do with user interfaces.
+    not contain anything to do with user interfaces!
 
     """
 
@@ -47,8 +47,26 @@ class CorePlugin(Plugin):
         id   = PREFERENCES_FILES,
         desc = """
 
-        This extension point allows you to contribute preferences files.
+        This extension point allows you to contribute preferences files. Each
+        string must be the URL of a file-like object that contains preferences
+        value.
 
+        e.g.
+
+        'pkgfile://enthought.envisage/preferences.ini'
+
+        - this looks for the 'preferences.ini' file in the 'enthought.envisage'
+        package.
+
+        'file://C:/tmp/preferences.ini'
+
+        - this looks for the 'preferences.ini' file in 'C:/tmp'
+
+        'http://some.website/preferences.ini'
+
+        - this looks for the 'preferences.ini' document on the 'some.website'
+        web site!
+        
         """
     )
 

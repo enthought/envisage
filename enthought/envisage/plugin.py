@@ -25,7 +25,8 @@ class Plugin(ExtensionProvider):
     # The application that the plugin is part of.
     application = Instance(IApplication)
 
-    # The plugin's unique identifier.
+    # The plugin's unique identifier (if no identifier is specified then the
+    # plugin's name is used).
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
@@ -79,7 +80,7 @@ class Plugin(ExtensionProvider):
     def _id_default(self):
         """ Initializer. """
 
-        return '%s.%s' % (type(self).__module__, type(self).__name__)
+        return self.name
     
     #### Methods ##############################################################
 
