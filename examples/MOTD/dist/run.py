@@ -34,9 +34,14 @@ def run():
     """ The function that starts your application. """
 
     # Create and run the application.
-    from enthought.envisage.api import Application
-    
-    return Application(id='acme.motd').run()
+    from enthought.envisage.api import Application, EggPluginManager
+
+    # Use the egg plugin manager!
+    application = Application(
+        id='acme.motd', plugin_manager=EggPluginManager()
+    )
+
+    return application.run()
 
 
 ###############################################################################
