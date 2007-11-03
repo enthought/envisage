@@ -83,7 +83,7 @@ class Application(HasTraits):
     
     # The import manager.
     _import_manager = Instance(IImportManager, factory=ImportManager)
-
+    
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -359,9 +359,9 @@ class Application(HasTraits):
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
         # to override it!
-        from egg_plugin_manager import EggPluginManager
-        
-        return EggPluginManager(application=self)
+        from plugin_manager import PluginManager
+
+        return PluginManager(application=self)
 
     def _service_registry_default(self):
         """ Trait initializer. """
