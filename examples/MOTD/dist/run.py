@@ -32,14 +32,14 @@ EGG_PATH = ['eggs']
 def run():
     """ The function that starts your application. """
 
-    # Create and run the application.
+    # We do the imports here because the modules may well be in eggs that get
+    # added to the path in 'main'.
     from enthought.envisage.api import Application, EggPluginManager
 
-    # Use the egg plugin manager!
-    application = Application(
-        id='acme.motd', plugin_manager=EggPluginManager()
-    )
+    # Create the application using the egg plugin manager to find plugins.
+    application = Application(id='acme.motd',plugin_manager=EggPluginManager())
 
+    # Run it!
     return application.run()
 
 
