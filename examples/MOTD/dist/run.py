@@ -17,7 +17,7 @@ Usually, all you have to do in here is:-
 import logging
 
 
-# Log to a file.
+# Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acme_motd.log', 'w')))
 logger.setLevel(logging.DEBUG)
@@ -36,7 +36,8 @@ def run():
     # added to the path in 'main'.
     from enthought.envisage.api import Application, EggPluginManager
 
-    # Create the application using the egg plugin manager to find plugins.
+    # Create an application that uses the egg plugin manager to find its
+    # plugins.
     application = Application(id='acme.motd',plugin_manager=EggPluginManager())
 
     # Run it!
