@@ -12,12 +12,12 @@ Usually, all you have to do in here is:-
    
 """
 
-# Envisage writes to the log!
+
 # Standard library imports.
 import logging
 
 
-# Log to stderr for now!
+# Log to a file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acme_motd.log', 'w')))
 logger.setLevel(logging.DEBUG)
