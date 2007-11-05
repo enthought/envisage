@@ -689,4 +689,113 @@ class MenuBuilderTestCase(unittest.TestCase):
 
         return
 
+    def test_duplicate_menu(self):
+        """ duplicate menu """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(
+                        name   = '&File',
+                        path   = 'MenuBar',
+                        groups = ['NewGroup', 'ExitGroup']
+                    ),
+                ],
+            ),
+
+            ActionSet(
+                menus = [
+                    Menu(
+                        name   = '&File',
+                        path   = 'MenuBar',
+                        groups = ['ExtraGroup']
+                    ),
+                ],
+            ),
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+
+        # Create a menu bar manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+
+        # Make sure that all of the menus were added the the 'additions' group
+        # of the menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        # Make sure we only get *one* 'File' menu.
+        additions = menu_manager.find_group('additions')
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File'], ids)
+
+        # Make sure the 'File' menu has got 4 groups, 'NewGroup', 'ExitGroup',
+        # 'ExtraGroup' and 'additions' (and in that order!).
+        menu = menu_manager.find_item('File')
+        self.assertEqual(4, len(menu.groups))
+
+        ids = [group.id for group in menu.groups]
+        self.assertEqual(
+            ['NewGroup', 'ExitGroup', 'ExtraGroup', 'additions'], ids
+        )
+
+        return
+
+    def test_duplicate_group(self):
+        """ duplicate group """
+
+        action_sets = [
+            ActionSet(
+                menus = [
+                    Menu(
+                        name   = '&File',
+                        path   = 'MenuBar',
+                        groups = ['NewGroup', 'ExitGroup']
+                    ),
+                ],
+            ),
+
+            ActionSet(
+                menus = [
+                    Menu(
+                        name   = '&File',
+                        path   = 'MenuBar',
+                        groups = ['NewGroup']
+                    ),
+                ],
+            ),
+        ]
+
+        # Create a menu builder containing the action set.
+        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+
+        # Create a menu bar manager for the 'MenuBar'.
+        menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
+
+        # Make sure that all of the menus were added the the 'additions' group
+        # of the menubar.
+        self.assertEqual(1, len(menu_manager.groups))
+
+        # Make sure we only get *one* 'File' menu.
+        additions = menu_manager.find_group('additions')
+        ids = [item.id for item in additions.items]
+        self.assertEqual(['File'], ids)
+
+        # Make sure the 'File' menu has got 3 groups, 'NewGroup', 'ExitGroup'
+        # and 'additions' (and in that order!).
+        menu = menu_manager.find_item('File')
+        self.assertEqual(3, len(menu.groups))
+
+        ids = [group.id for group in menu.groups]
+        self.assertEqual(
+            ['NewGroup', 'ExitGroup', 'additions'], ids
+        )
+
+        return
+
+
+# Entry point for stand-alone testing.
+if __name__ == '__main__':
+    unittest.main()
+
 #### EOF ######################################################################
