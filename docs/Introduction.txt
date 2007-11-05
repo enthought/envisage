@@ -48,11 +48,11 @@ Getting Started
 ---------------
 
 The best way to get started is probably to take the time to read and digest the
-Core_ documentation and then work through the `Message of the Day`_ example.
-Despite being extremely simple, the example introduces you to *all* of the
-fundemental concepts of Envisage, and the *real* applications that you build
-(which will hopefully be a lot more useful) will be built in exactly the same
-way.
+Core_ documentation and then work through the `Hello World`_ and
+`Message of the Day`_ examples. Despite being extremely simple, the examples
+introduces you to *all* of the fundemental concepts of Envisage, and the *real*
+applications that you build (which will hopefully be a lot more useful) will be
+built in exactly the same way.
 
 For definitions of the terminology used in Envisage, see the Glossary_
 (although it will probably make more sense after going through the other
@@ -66,6 +66,8 @@ documentation and examples first).
 .. _NetBeans: http://www.netbeans.org
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
+
+.. _`Hello World`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/Hello World/hello_world.py
 
 .. _enthought.envisage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/api.py
 
