@@ -9,7 +9,7 @@ from enthought.envisage.api import Application, ExtensionPoint, Plugin
 from enthought.traits.api import List, Str
 
 
-# Logging.
+# Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('hello_world.log', 'w')))
 logger.setLevel(logging.DEBUG)
@@ -37,6 +37,8 @@ class HelloWorld(Plugin):
     def start(self):
         """ Start the plugin. """
 
+        super(HelloWorld, self).start()
+        
         # Standard library imports.
         #
         # We put this import here just to emphasize that it is only used in
@@ -84,9 +86,7 @@ if __name__ == '__main__':
     #
     # An application is simply a collection of plugins. In this case we
     # specify the plugins explicitly, but the mechanism for finding plugins
-    # is up to you! By default, if no plugins are specified then Envisage will
-    # search in all Python Eggs on the python path looking for contributions to
-    # the 'enthought.envisage.plugins' entry point.
+    # is configurable by setting the application's 'plugin_manager' trait.
     application = Application(
         id='hello.world', plugins=[HelloWorld(), Greetings(), MoreGreetings()]
     )
