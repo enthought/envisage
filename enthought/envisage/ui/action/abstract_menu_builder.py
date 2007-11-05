@@ -208,33 +208,36 @@ class AbstractMenuBuilder(HasTraits):
 
         """
 
-        if len(group.before) > 0:
-            item = menu_manager.find_group(group.before)
-            if item is None:
-                return False
+        # Does the group already exist in the menu? If not then add it,
+        # otherwise do nothing.
+        if menu_manager.find_group(group.id) is None:
+            if len(group.before) > 0:
+                item = menu_manager.find_group(group.before)
+                if item is None:
+                    return False
 
-            index = menu_manager.groups.index(item)
+                index = menu_manager.groups.index(item)
 
-        elif len(group.after) > 0:
-            item = menu_manager.find_group(group.after)
-            if item is None:
-                return False
+            elif len(group.after) > 0:
+                item = menu_manager.find_group(group.after)
+                if item is None:
+                    return False
 
-            index = menu_manager.groups.index(item) + 1
-
-        else:
-            # If the menu manger has an 'additions' group then make sure that
-            # it is always the last one! In Pyface, the 'additions' groups is
-            # created by default, so unless someone has explicitly removed it,
-            # it *will* be there! 
-            additions = menu_manager.find_group('additions')
-            if additions is not None:
-                index = menu_manager.groups.index(additions)
+                index = menu_manager.groups.index(item) + 1
 
             else:
-                index = len(menu_manager.groups)
+                # If the menu manger has an 'additions' group then make sure
+                # that it is always the last one! In Pyface, the 'additions'
+                # groups is created by default, so unless someone has
+                # explicitly removed it, it *will* be there! 
+                additions = menu_manager.find_group('additions')
+                if additions is not None:
+                    index = menu_manager.groups.index(additions)
 
-        menu_manager.insert(index, self._create_group(group))
+                else:
+                    index = len(menu_manager.groups)
+
+            menu_manager.insert(index, self._create_group(group))
 
         return True
 
@@ -269,7 +272,15 @@ class AbstractMenuBuilder(HasTraits):
         else:
             index = len(group.items)
 
-        group.insert(index, self._create_menu_manager(menu))
+        # If the menu does *not* already exist in the group then add it.
+        menu_item = group.find(menu.id)
+        if menu_item is None:
+            group.insert(index, self._create_menu_manager(menu))
+
+        # Otherwise, add all of the new menu's groups to the existing one.
+        else:
+            for group in menu.groups:
+                self._add_group(menu_item, group)
 
         return True
 
