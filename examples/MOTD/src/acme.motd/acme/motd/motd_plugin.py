@@ -30,6 +30,8 @@ class MOTDPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'MOTD'
 
+    #### 'MOTDPlugin' interface ###############################################
+    
     #### Extension points #####################################################
 
     # The messages extension point.
