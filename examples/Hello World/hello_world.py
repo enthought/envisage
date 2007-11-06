@@ -73,7 +73,7 @@ class MoreGreetings(Plugin):
         extensions = [
             'The %s application says %s' % (self.application.id, greeting)
 
-            for greeting in ['Bonjour', 'Ola']
+            for greeting in ['Bonjour', 'Hola']
         ]
                              
         return extensions
