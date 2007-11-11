@@ -271,7 +271,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         for provider in self._providers:
             extensions.append(provider.get_extensions(extension_point_id)[:])
 
-        logger.debug('extensions to <%s>:<%s>', extension_point_id, extensions)
+        logger.debug('extensions to <%s> <%s>', extension_point_id, extensions)
 
         return extensions
 
