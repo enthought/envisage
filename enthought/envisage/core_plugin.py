@@ -17,7 +17,7 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CLASS_LOAD_HOOKS  = 'enthought.envosage.class_load_hooks'
+    CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'
     PREFERENCES_FILES = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################

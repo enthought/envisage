@@ -10,15 +10,15 @@ class ClassLoadHook(HasTraits):
 
     #### 'ClassLoadHook' interface ############################################
     
-    # The name of the class. When this class is loaded the code in the hook
-    # will be executed.
+    # The name of the class. When this class is loaded the 'on_class_loaded'
+    # method is called.
     class_name = Str
 
     # A callable that will be executed when the class is loaded. The callable
     # must take a single argument which will be the loaded class.
     #
     # This is used in the default implementation of 'on_class_loaded'. If you
-    # override that, then  you don't have to set to this trait.
+    # override that, then you don't have to set to this trait.
     on_load = Callable
 
     ###########################################################################
