@@ -58,6 +58,12 @@ class ref(object):
     def __hash__(self):
         """ Return a hash value for the object. """
 
-        return hash(self._ref)
+        if self._cls is not None:
+            hashable = (self._ref, self._fn)
+
+        else:
+            hashable = self._ref
+            
+        return hash(hashable)
 
 #### EOF ######################################################################
