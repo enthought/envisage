@@ -90,6 +90,13 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         self.assert_(r1 is not r2)
         self.assertEqual(hash(r1), hash(r2))
+
+        # Make sure we can hash non-bound methods.
+        r1 = ref(Foo)
+        r2 = ref(Foo)
+
+        self.assert_(r1 is not r2)
+        self.assertEqual(hash(r1), hash(r2))
         
         return
 
