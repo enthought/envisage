@@ -58,10 +58,6 @@ class MOTDPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        # The base class 'start' method registers service traits etc. Here it
-        # means that our 'motd' trait will be registered.
-        super(MOTDPlugin, self).start()
-        
         # This is a bit of overkill here, but it shows how other plugins can
         # look up the MOTD service. We could, of course, just use::
         #

@@ -37,8 +37,6 @@ class HelloWorld(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        super(HelloWorld, self).start()
-        
         # Standard library imports.
         #
         # We put this import here just to emphasize that it is only used in

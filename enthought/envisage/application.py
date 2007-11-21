@@ -107,8 +107,8 @@ class Application(HasTraits):
         # convenient way to access preferences.
         PreferencesHelper.preferences = self.preferences
 
-        # This allows the 'Service' trait type to be used as a more
-        # convenient way to access services.
+        # This allows the 'Service' trait type to be used as a more convenient
+        # way to access services.
         Service.application = self
 
         # We allow the caller to specify an initial list of plugins, but the
