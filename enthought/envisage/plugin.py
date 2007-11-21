@@ -38,6 +38,38 @@ class Plugin(ExtensionProvider):
     _service_ids = List
 
     ###########################################################################
+    # 'Plugin' *class* interface.
+    ###########################################################################
+
+    @staticmethod
+    def start_plugin(plugin):
+        """ Start the specified plugin. """
+
+        # Connect all of the plugin's extension point traits so that the plugin
+        # will be notified if and when contributions are added or removed.
+        ExtensionPoint.connect_extension_point_traits(plugin)
+
+        # Register all service traits.
+        plugin.register_services()
+
+        # Plugin specific start.
+        plugin.start()
+        
+        return
+
+    @staticmethod
+    def stop_plugin(plugin):
+        """ Stop the specified plugin. """
+
+        # Plugin specific stop.
+        plugin.stop()
+
+        # Unregister all service traits.
+        plugin.unregister_services()
+
+        return
+    
+    ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
 
@@ -87,22 +119,12 @@ class Plugin(ExtensionProvider):
     def start(self):
         """ Start the plugin. """
 
-        # Connect all of the plugin's extension point traits so that the plugin
-        # will be notified if and when contributions are added or removed.
-        ExtensionPoint.connect_extension_point_traits(self)
-
-        # Register all service traits.
-        self.register_services()
-
-        return
+        pass
 
     def stop(self):
         """ Stop the plugin. """
 
-        # Unregister all service traits.
-        self.unregister_services()
-
-        return
+        pass
 
     ###########################################################################
     # 'Plugin' interface.
