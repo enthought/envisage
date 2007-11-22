@@ -5,8 +5,9 @@
 import random, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.envisage.api import PluginManager, Service
+from enthought.envisage.api import Application, ExtensionPoint
+from enthought.envisage.api import IPluginActivator, Plugin, PluginManager
+from enthought.envisage.api import Service
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -54,6 +55,53 @@ class PluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_plugin_activator(self):
+        """ plugin activator. """
+
+        class NullPluginActivator(HasTraits):
+            """ A plugin activator that does nothing! """
+
+            implements(IPluginActivator)
+            
+            def start_plugin(self, plugin):
+                """ Start a plugin. """
+
+                self.started = plugin
+
+                return
+            
+            def stop_plugin(self, plugin):
+                """ Stop a plugin. """
+                
+                self.stopped = plugin
+
+                return
+
+        class PluginA(Plugin):
+            id = 'A'
+
+        class PluginB(Plugin):
+            id = 'B'
+
+        plugin_activator = NullPluginActivator()
+
+        a = PluginA(plugin_activator=plugin_activator)
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+        application.start()
+
+        # Make sure A's plugin activator was called.
+        self.assertEqual(a, plugin_activator.started)
+
+        # Stop the application.
+        application.stop()
+
+        # Make sure A's plugin activator was called.
+        self.assertEqual(a, plugin_activator.stopped)
+
+        return
+    
     def test_service_trait_type(self):
         """ service trait type"""
 

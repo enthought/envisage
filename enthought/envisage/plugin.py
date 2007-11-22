@@ -5,10 +5,12 @@
 from enthought.traits.api import Instance, List, Str, implements
 
 # Local imports.
-from extension_provider import ExtensionProvider
 from extension_point import ExtensionPoint
+from extension_provider import ExtensionProvider
 from i_application import IApplication
 from i_plugin import IPlugin
+from i_plugin_activator import IPluginActivator
+from plugin_activator import PluginActivator
 
 
 class Plugin(ExtensionProvider):
@@ -32,43 +34,18 @@ class Plugin(ExtensionProvider):
     # The plugin's name (suitable for displaying to the user).
     name = Str
 
+    #### 'Plugin' interface ###################################################
+
+    # The activator used to start and stop the plugin.
+    #
+    # By default the *same* activator instance is used for *all* plugins.
+    plugin_activator = Instance(IPluginActivator, PluginActivator())
+    
     #### Private interface ####################################################
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
 
-    ###########################################################################
-    # 'Plugin' *class* interface.
-    ###########################################################################
-
-    @staticmethod
-    def start_plugin(plugin):
-        """ Start the specified plugin. """
-
-        # Connect all of the plugin's extension point traits so that the plugin
-        # will be notified if and when contributions are added or removed.
-        ExtensionPoint.connect_extension_point_traits(plugin)
-
-        # Register all service traits.
-        plugin.register_services()
-
-        # Plugin specific start.
-        plugin.start()
-        
-        return
-
-    @staticmethod
-    def stop_plugin(plugin):
-        """ Stop the specified plugin. """
-
-        # Plugin specific stop.
-        plugin.stop()
-
-        # Unregister all service traits.
-        plugin.unregister_services()
-
-        return
-    
     ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
@@ -130,6 +107,18 @@ class Plugin(ExtensionProvider):
     # 'Plugin' interface.
     ###########################################################################
 
+    def connect_extension_point_traits(self):
+        """ Connect all of the plugin's extesnion points.
+
+        This means that the plugin will be notified if and when contributions
+        are add or removed.
+
+        """
+
+        ExtensionPoint.connect_extension_point_traits(self)
+
+        return
+    
     def register_services(self):
         """ Register the services offered by the plugin. """
 

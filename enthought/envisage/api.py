@@ -7,6 +7,7 @@ from i_extension_provider import IExtensionProvider
 from i_extension_registry import IExtensionRegistry
 from i_import_manager import IImportManager
 from i_plugin import IPlugin
+from i_plugin_activator import IPluginActivator
 from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
@@ -19,6 +20,7 @@ from extension_provider import ExtensionProvider
 from extension_point_changed_event import ExtensionPointChangedEvent
 from import_manager import ImportManager
 from plugin import Plugin
+from plugin_activator import PluginActivator
 from plugin_extension_registry import PluginExtensionRegistry
 from plugin_manager import PluginManager
 from provider_extension_registry import ProviderExtensionRegistry
