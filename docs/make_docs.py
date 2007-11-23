@@ -45,7 +45,7 @@ def make_api_docs():
     
     # Now make the API documentation.
     print 'Making API documentation...',
-    os.system('endo --rst -d html/api -r ..\enthought')
+    os.system('endo --rst -d html/api -r %s' % os.path.join('..', 'enthought'))
     print 'Done.'
 
     return
