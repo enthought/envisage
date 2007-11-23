@@ -112,7 +112,7 @@ class PluginManager(HasTraits):
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s starting', plugin.id)
-            plugin.plugin_activator.start_plugin(plugin)
+            plugin.activator.start_plugin(plugin)
             logger.debug('plugin %s started', plugin.id)
 
         else:
@@ -137,7 +137,7 @@ class PluginManager(HasTraits):
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
             logger.debug('plugin %s stopping', plugin.id)
-            plugin.plugin_activator.stop_plugin(plugin)
+            plugin.activator.stop_plugin(plugin)
             logger.debug('plugin %s stopped', plugin.id)
 
         else:

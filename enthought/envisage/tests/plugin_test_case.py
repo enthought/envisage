@@ -85,7 +85,7 @@ class PluginTestCase(unittest.TestCase):
 
         plugin_activator = NullPluginActivator()
 
-        a = PluginA(plugin_activator=plugin_activator)
+        a = PluginA(activator=plugin_activator)
         b = PluginB()
 
         application = TestApplication(plugins=[a, b])

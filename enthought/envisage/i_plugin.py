@@ -4,10 +4,16 @@
 # Enthought library imports.
 from enthought.traits.api import Instance, Interface, Str
 
+# Local imports.
+from i_plugin_activator import IPluginActivator
+
 
 class IPlugin(Interface):
     """ The plugin interface. """
 
+    # The activator used to start and stop the plugin.
+    activator = Instance(IPluginActivator)
+    
     # The application that the plugin is part of.
     application = Instance('enthought.envisage.api.IApplication')
 
@@ -16,14 +22,12 @@ class IPlugin(Interface):
     # Where 'unique' technically means 'unique within the plugin manager', but
     # since the chances are that you will want to include plugins from external
     # sources, this really means 'globally unique'! Using the Python package
-    # path might be useful here ;^)
-    #
-    # e.g. 'enthought.envisage'
+    # path might be useful here. e.g. 'enthought.envisage'.
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
     name = Str
-    
+
     def start(self):
         """ Start the plugin.
 

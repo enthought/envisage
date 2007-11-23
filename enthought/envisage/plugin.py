@@ -24,6 +24,12 @@ class Plugin(ExtensionProvider):
 
     #### 'IPlugin' interface ##################################################
     
+    # The activator used to start and stop the plugin.
+    #
+    # By default the *same* activator instance is used for *all* plugins of
+    # this type.
+    activator = Instance(IPluginActivator, PluginActivator())
+
     # The application that the plugin is part of.
     application = Instance(IApplication)
 
@@ -34,13 +40,6 @@ class Plugin(ExtensionProvider):
     # The plugin's name (suitable for displaying to the user).
     name = Str
 
-    #### 'Plugin' interface ###################################################
-
-    # The activator used to start and stop the plugin.
-    #
-    # By default the *same* activator instance is used for *all* plugins.
-    plugin_activator = Instance(IPluginActivator, PluginActivator())
-    
     #### Private interface ####################################################
 
     # The Ids of the services that were automatically registered.
@@ -101,7 +100,7 @@ class Plugin(ExtensionProvider):
         derived class.
 
         The framework does what it needs to do when it starts a plugin by means
-        of the plugin's activator ('plugin_activator').
+        of the plugin's activator.
 
         """
 
@@ -115,7 +114,7 @@ class Plugin(ExtensionProvider):
         derived class.
 
         The framework does what it needs to do when it stops a plugin by means
-        of the plugin's activator ('plugin_activator').
+        of the plugin's activator.
 
         """
 
