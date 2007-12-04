@@ -7,6 +7,7 @@ import unittest
 # Enthought library imports.
 from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
+from enthought.pyface.action.api import MenuBarManager
 
 
 class DummyActionManagerBuilder(AbstractActionManagerBuilder):
@@ -17,7 +18,20 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
     """
 
     ###########################################################################
-    # Protected 'MenuBuilder' interface.
+    # 'DummyActionManagerBuilder' interface.
+    ###########################################################################
+
+    def create_menu_bar_manager(self, root):
+        """ Create a menu bar manager from the builder's action sets. """
+
+        menu_bar_manager = MenuBarManager(id='MenuBar')
+
+        self.initialize_action_manager(menu_bar_manager, root)
+
+        return menu_bar_manager
+
+    ###########################################################################
+    # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
 
     def _create_action(self, action_definition):

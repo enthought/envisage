@@ -36,17 +36,8 @@ class AbstractActionManagerBuilder(HasTraits):
     _action_set_manager = Instance(ActionSetManager, ())
     
     ###########################################################################
-    # 'IMenuBuilder' interface.
+    # 'IActionManagerBuilder' interface.
     ###########################################################################
-
-    def create_menu_bar_manager(self, root):
-        """ Create a menu bar manager from the builder's action sets. """
-
-        menu_bar_manager = MenuBarManager(id='MenuBar')
-
-        self.initialize_menu_manager(menu_bar_manager, root)
-
-        return menu_bar_manager
         
     def initialize_action_manager(self, menu_manager, root):
         """ Initialize an action manager from the builder's action sets. """
@@ -67,7 +58,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return
 
     ###########################################################################
-    # Protected 'MenuBuilder' interface.
+    # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
 
     def _create_action(self, action_definition):
