@@ -39,21 +39,22 @@ class AbstractActionManagerBuilder(HasTraits):
     # 'IActionManagerBuilder' interface.
     ###########################################################################
         
-    def initialize_action_manager(self, menu_manager, root):
+    def initialize_action_manager(self, action_manager, root):
         """ Initialize an action manager from the builder's action sets. """
 
-        # Get all of the groups and menus for the specified root.
+        # Get all of the groups and menus for the specified root (for toolbars
+        # there will **only** be groups).
         groups_and_menus = self._action_set_manager.get_groups(root)
         groups_and_menus.extend(self._action_set_manager.get_menus(root))
 
         # Add all groups and menus.
-        self._add_groups_and_menus(menu_manager, groups_and_menus)
+        self._add_groups_and_menus(action_manager, groups_and_menus)
 
         # Get all actions for the specified root.
         actions = self._action_set_manager.get_actions(root)
         
         # Add all of the actions ot the menu manager.
-        self._add_actions(menu_manager, actions)
+        self._add_actions(action_manager, actions)
 
         return
 
@@ -91,19 +92,19 @@ class AbstractActionManagerBuilder(HasTraits):
     
     #### Methods ##############################################################
 
-    def _add_actions(self, menu_manager, actions):
-        """ Add the specified actions to the menu manager. """
+    def _add_actions(self, action_manager, actions):
+        """ Add the specified actions to an action manager. """
 
         while len(actions) > 0:
             start = len(actions)
 
             for action in actions[:]:
-                # Resolve the action's path to find the menu manager that it
+                # Resolve the action's path to find the action manager that it
                 # should be added to.
                 #
                 # If any of the menus in path are missing then this creates
                 # them automatically (think 'mkdirs'!).
-                target = self._make_submenus(menu_manager, action.path)
+                target = self._make_submenus(action_manager, action.path)
 
                 # Attempt to place the action.
                 #
@@ -122,8 +123,8 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return
 
-    def _add_action(self, menu_manager, action):
-        """ Add an action to a menu manager.
+    def _add_action(self, action_manager, action):
+        """ Add an action to an action manager.
 
         Return True if the action was added successfully.
 
@@ -132,7 +133,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
         """
 
-        group = self._find_group(menu_manager, action.group)
+        group = self._find_group(action_manager, action.group)
         if group is None:
             msg = 'No such group (%s) for %s' % (action.group, action)
             raise ValueError(msg)
@@ -158,8 +159,8 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return True
 
-    def _add_groups_and_menus(self, menu_manager, groups_and_menus):
-        """ Add the specified groups and menus to the menu manager. """
+    def _add_groups_and_menus(self, action_manager, groups_and_menus):
+        """ Add the specified groups and menus to an action manager. """
 
         # The reason we put the groups and menus together is that as we iterate
         # over the list trying to add them, we might need to add a group before
@@ -172,7 +173,7 @@ class AbstractActionManagerBuilder(HasTraits):
             for item in groups_and_menus[:]:
                 # Resolve the path to find the menu manager that we are about
                 # to add the sub-menu or group to.
-                target = self._find_menu_manager(menu_manager, item.path)
+                target = self._find_action_manager(action_manager, item.path)
                 if target is not None:
                     # Attempt to place a group.
                     if isinstance(item, Group):
@@ -192,8 +193,8 @@ class AbstractActionManagerBuilder(HasTraits):
         
         return
 
-    def _add_group(self, menu_manager, group):
-        """ Add a group to a menu manager.
+    def _add_group(self, action_manager, group):
+        """ Add a group to an action manager.
 
         Return True if the group was added successfully.
 
@@ -204,34 +205,34 @@ class AbstractActionManagerBuilder(HasTraits):
 
         # Does the group already exist in the menu? If not then add it,
         # otherwise do nothing.
-        if menu_manager.find_group(group.id) is None:
+        if action_manager.find_group(group.id) is None:
             if len(group.before) > 0:
-                item = menu_manager.find_group(group.before)
+                item = action_manager.find_group(group.before)
                 if item is None:
                     return False
 
-                index = menu_manager.groups.index(item)
+                index = action_manager.groups.index(item)
 
             elif len(group.after) > 0:
-                item = menu_manager.find_group(group.after)
+                item = action_manager.find_group(group.after)
                 if item is None:
                     return False
 
-                index = menu_manager.groups.index(item) + 1
+                index = action_manager.groups.index(item) + 1
 
             else:
                 # If the menu manger has an 'additions' group then make sure
                 # that it is always the last one! In Pyface, the 'additions'
                 # groups is created by default, so unless someone has
                 # explicitly removed it, it *will* be there! 
-                additions = menu_manager.find_group('additions')
+                additions = action_manager.find_group('additions')
                 if additions is not None:
-                    index = menu_manager.groups.index(additions)
+                    index = action_manager.groups.index(additions)
 
                 else:
-                    index = len(menu_manager.groups)
+                    index = len(action_manager.groups)
 
-            menu_manager.insert(index, self._create_group(group))
+            action_manager.insert(index, self._create_group(group))
 
         return True
 
@@ -278,32 +279,32 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return True
 
-    def _find_group(self, menu_manager, id):
+    def _find_group(self, action_manager, id):
         """ Find the group with the specified ID. """
         
         if len(id) > 0:
-            group = menu_manager.find_group(id)
+            group = action_manager.find_group(id)
 
         else:
-            group = menu_manager.find_group('additions')
+            group = action_manager.find_group('additions')
 
         return group
     
-    def _find_menu_manager(self, menu_manager, path):
-        """ Return the menu manager at the specified path.
+    def _find_action_manager(self, action_manager, path):
+        """ Return the action manager at the specified path.
 
-        Returns None if the menu manager cannot be found.
+        Returns None if the action manager cannot be found.
 
         """
 
         components = path.split('/')
         if len(components) == 1:
-            menu_manager = menu_manager
+            action_manager = action_manager
 
         else:
-            menu_manager = menu_manager.find_item('/'.join(components[1:]))
+            action_manager = action_manager.find_item('/'.join(components[1:]))
 
-        return menu_manager
+        return action_manager
 
     def _make_submenus(self, menu_manager, path):
         """ Retutn the menu manager identified by the path.
