@@ -55,7 +55,7 @@ class Menu(Location):
     groups = List(CGroup)
 
     # The optional name of a class that implements the menu. The class must
-    # support the **enthought.pyface.action.MenuManager** interface.
+    # support the **enthought.pyface.action.MenuManager** protocol.
     class_name = Str
 
     ###########################################################################
