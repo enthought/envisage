@@ -4,12 +4,13 @@
 # Enthought library imports.
 from enthought.pyface.action.api import ActionManager, MenuBarManager
 from enthought.pyface.action.api import MenuManager
-from enthought.traits.api import HasTraits, Instance, List
+from enthought.traits.api import HasTraits, Instance, List, implements
 
 # Local imports.
 from action_set import ActionSet
 from action_set_manager import ActionSetManager
 from group import Group
+from i_menu_builder import IMenuBuilder
 
 
 class AbstractMenuBuilder(HasTraits):
@@ -23,7 +24,9 @@ class AbstractMenuBuilder(HasTraits):
 
     """
 
-    #### 'MenuBuilder' interface ##############################################
+    implements(IMenuBuilder)
+    
+    #### 'IMenuBuilder' interface #############################################
 
     # The action sets used in the menu builder.
     action_sets = List(ActionSet)
@@ -33,7 +36,7 @@ class AbstractMenuBuilder(HasTraits):
     _action_set_manager = Instance(ActionSetManager, ())
     
     ###########################################################################
-    # 'MenuBuilder' interface.
+    # 'IMenuBuilder' interface.
     ###########################################################################
 
     def create_menu_bar_manager(self, root):

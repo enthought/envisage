@@ -1,21 +1,22 @@
-""" An action set is a collection of menus, groups, and actions. """
+""" The action set interface. """
 
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, List, Str, implements
+from enthought.traits.api import Dict, Interface, List, Str
 
 # Local imports.
 from action import Action
 from group import Group
-from i_action_set import IActionSet
 from menu import Menu
 
 
-class ActionSet(HasTraits):
-    """ An action set is a collection of menus, groups, and actions. """
+class IActionSet(Interface):
+    """ The action set interface.
 
-    implements(IActionSet)
-    
+    An action set is a collection of menus, groups, and actions.
+
+    """
+
     # The action set's globally unique identifier.
     id = Str
 
