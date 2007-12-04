@@ -1,4 +1,4 @@
-""" Builds menus from action, group, and menu extensions. """
+""" Builds menus, menu bars and tool bars from action sets. """
 
 
 # Enthought library imports.
@@ -10,11 +10,11 @@ from enthought.traits.api import HasTraits, Instance, List, implements
 from action_set import ActionSet
 from action_set_manager import ActionSetManager
 from group import Group
-from i_menu_builder import IMenuBuilder
+from i_action_manager_builder import IActionManagerBuilder
 
 
-class AbstractMenuBuilder(HasTraits):
-    """ Builds menus from action, group, and menu extensions.
+class AbstractActionManagerBuilder(HasTraits):
+    """ Builds menus, menu bars and tool bars from action sets.
 
     This class *must* be subclassed, and the following methods implemented::
 
@@ -24,11 +24,11 @@ class AbstractMenuBuilder(HasTraits):
 
     """
 
-    implements(IMenuBuilder)
+    implements(IActionManagerBuilder)
     
-    #### 'IMenuBuilder' interface #############################################
+    #### 'IActionManagerBuilder' interface ####################################
 
-    # The action sets used in the menu builder.
+    # The action sets used by the builder.
     action_sets = List(ActionSet)
 
     #### Private interface ####################################################
@@ -48,8 +48,8 @@ class AbstractMenuBuilder(HasTraits):
 
         return menu_bar_manager
         
-    def initialize_menu_manager(self, menu_manager, root):
-        """ Initialize a menu manager. """
+    def initialize_action_manager(self, menu_manager, root):
+        """ Initialize an action manager from the builder's action sets. """
 
         # Get all of the groups and menus for the specified root.
         groups_and_menus = self._action_set_manager.get_groups(root)

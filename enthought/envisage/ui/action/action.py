@@ -1,4 +1,4 @@
-""" The *definition* of an action in a menu bar, menu, or tool bar. """
+""" The *definition* of an action in a tool bar or menu. """
 
 
 # Enthought library imports.
@@ -9,7 +9,7 @@ from location import Location
 
 
 class Action(Location):
-    """ The *definition* of an action in a menu bar, menu, or tool bar. """
+    """ The *definition* of an action in a tool bar or menu. """
 
     #### Action implementation ################################################
 

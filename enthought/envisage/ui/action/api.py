@@ -1,7 +1,7 @@
 from i_action_set import IActionSet
-from i_menu_builder import IMenuBuilder
+from i_action_manager_builder import IActionManagerBuilder
 
-from abstract_menu_builder import AbstractMenuBuilder
+from abstract_action_manager_builder import AbstractActionManagerBuilder
 from action import Action
 from action_set import ActionSet
 from group import Group

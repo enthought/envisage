@@ -11,7 +11,7 @@ import enthought.traits.ui.wx
 from enthought.envisage.ui.action.api import Action, ActionSet, Group, Menu
 
 # Local imports.
-from dummy_menu_builder import DummyMenuBuilder
+from dummy_action_manager_builder import DummyActionManagerBuilder
 
     
 class MenuBuilderTestCase(unittest.TestCase):
@@ -52,7 +52,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -78,7 +78,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -99,7 +99,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
         
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -120,7 +120,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
         
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -150,7 +150,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -171,7 +171,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -198,7 +198,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -226,7 +226,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_bar_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -271,7 +271,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -298,7 +298,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
@@ -323,7 +323,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -364,7 +364,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -403,7 +403,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -437,7 +437,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -493,7 +493,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -576,7 +576,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -652,7 +652,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -715,7 +715,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')
@@ -767,7 +767,7 @@ class MenuBuilderTestCase(unittest.TestCase):
         ]
 
         # Create a menu builder containing the action set.
-        menu_builder = DummyMenuBuilder(action_sets=action_sets)
+        menu_builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
         menu_manager = menu_builder.create_menu_bar_manager('MenuBar')

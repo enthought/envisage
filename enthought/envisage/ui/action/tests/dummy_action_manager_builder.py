@@ -5,12 +5,12 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import AbstractMenuBuilder
+from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
 
 
-class DummyMenuBuilder(AbstractMenuBuilder):
-    """ A menu builder that doesn't build real actions!
+class DummyActionManagerBuilder(AbstractActionManagerBuilder):
+    """ An action manager builder that doesn't build real actions!
 
     This makes it very easy to test!
 

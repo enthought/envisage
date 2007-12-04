@@ -1,4 +1,4 @@
-""" Manages contributions of action sets. """
+""" Manages a collection of action sets. """
 
 
 # Enthought library imports.
@@ -9,7 +9,7 @@ from action_set import ActionSet
 
 
 class ActionSetManager(HasTraits):
-    """ Manages contributions of action sets. """
+    """ Manages a collection of action sets. """
 
     #### 'ActionSetManager' interface #########################################
 
@@ -26,12 +26,12 @@ class ActionSetManager(HasTraits):
         return self._get_items(self.action_sets, 'actions', root)
 
     def get_groups(self, root):
-        """ Returns all group definitions for a root. """
+        """ Return all group definitions for a root. """
 
         return self._get_items(self.action_sets, 'groups', root)
 
     def get_menus(self, root):
-        """ Returns all menu definitions for a root. """
+        """ Return all menu definitions for a root. """
 
         return self._get_items(self.action_sets, 'menus', root)
 
@@ -79,7 +79,7 @@ class ActionSetManager(HasTraits):
 
         e.g. If the aliases are::
 
-            {'ToolBar' : 'enthought.envisage.ui.workbench.menubar'}
+            {'ToolBar' : 'enthought.envisage.ui.workbench.toolbar'}
 
         and the path is::
 
