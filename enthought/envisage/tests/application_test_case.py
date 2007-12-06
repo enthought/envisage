@@ -7,7 +7,7 @@ import os, random, shutil, unittest
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint, IApplication
-from enthought.envisage.api import Plugin, PluginManager
+from enthought.envisage.api import Plugin
 from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 
@@ -34,14 +34,10 @@ def vetoer(event):
     return
 
 
-def TestApplication(**traits):
-    """ Factory function for creating type-safe applications! """
-    
-    application = Application(
-        id='test', plugin_manager=PluginManager(), **traits
-    )
+class TestApplication(Application):
+    """ The type of application used in the tests. """
 
-    return IApplication(application)
+    id = 'test'
 
 
 class SimplePlugin(Plugin):

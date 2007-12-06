@@ -6,7 +6,7 @@ import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
-from enthought.envisage.api import IPluginActivator, Plugin, PluginManager
+from enthought.envisage.api import IPluginActivator, Plugin
 from enthought.envisage.api import Service
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
@@ -27,11 +27,6 @@ class TestApplication(Application):
     """ The type of application used in the tests. """
 
     id = 'test'
-    
-    def _plugin_manager_default(self):
-        """ Trait initializer. """
-
-        return PluginManager(application=self)
 
     
 class PluginTestCase(unittest.TestCase):
