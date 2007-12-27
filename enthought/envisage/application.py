@@ -254,8 +254,8 @@ class Application(HasTraits):
     def run(self):
         """ Run the application. """
 
-        self.start()
-        self.stop()
+        if self.start():
+            self.stop()
 
         return
 

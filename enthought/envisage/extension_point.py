@@ -28,6 +28,14 @@ class ExtensionPoint(TraitType):
     ###########################################################################
 
     @staticmethod
+    def bind(obj, trait_name, extension_point_id):
+        """ Create a binding to an extension point. """
+
+        from extension_point_binding import bind_extension_point
+
+        return bind_extension_point(obj, trait_name, extension_point_id)
+
+    @staticmethod
     def connect_extension_point_traits(obj):
         """ Connect all of the 'ExtensionPoint' traits on an object. """
 
