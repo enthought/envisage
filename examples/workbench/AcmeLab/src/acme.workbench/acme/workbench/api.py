@@ -1,0 +1,1 @@
+from workbench_plugin import WorkbenchPlugin

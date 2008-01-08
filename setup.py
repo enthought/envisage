@@ -17,7 +17,8 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-ENVISAGEUIWORKBENCH = etsdep('enthought.envisage.ui.workbench', '3.0.0a1')
+ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
+TRAITSGUI = etsdep('TraitsGUI', '3.0.0b1')
 
 
 setup(
@@ -25,9 +26,12 @@ setup(
     author_email = "info@enthought.com",
     dependency_links = [
         'http://code.enthought.com/enstaller/eggs/source',
-        'http://code.enthought.com/enstaller/eggs/source/unstable',
         ],
     description = "The Envisage Action Framework",
+    entry_points = """
+        [enthought.envisage.plugins]
+        workbench = enthought.envisage.ui.workbench.workbench_plugin:WorkbenchPlugin
+        """,
     extras_require = {
         # All non-ets dependencies should be in this extra to ensure users can
         # decide whether to require them or not.
@@ -37,16 +41,17 @@ setup(
     ext_modules = [],
     include_package_data = True,
     install_requires = [
-        ENVISAGEUIWORKBENCH,
+        ENVISAGECORE,
+        TRAITSGUI,
         ],
     license = "BSD",
-    name = "enthought.envisage.ui.action",
+    name = "EnvisagePlugins",
     namespace_packages = [
         "enthought",
         "enthought.envisage",
         "enthought.envisage.ui",
         ],
-    packages = find_packages(),
+    packages = find_packages(exclude=['examples']),
     url = "http://code.enthought.com/envisage",
     version = "3.0.0a1",
     zip_safe = False,
