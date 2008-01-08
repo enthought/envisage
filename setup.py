@@ -17,17 +17,16 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-ETS_CONFIG = etsdep('enthought.etsconfig', '2.1.0a1')
-PREFERENCES = etsdep('enthought.preferences', '1.0.0a1')
-TRAITS = etsdep('enthought.traits', '3.0.0b1')
-UTIL = etsdep('enthought.util', '3.0.0a1')
+APPTOOLS = etsdep('AppTools', '3.0.0b1')
+ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.0b1')
+TRAITS = etsdep('Traits', '3.0.0b1')
+
 
 setup(
     author = "Martin Chilvers",
     author_email = "info@enthought.com",
     dependency_links = [
         'http://code.enthought.com/enstaller/eggs/source',
-        'http://code.enthought.com/enstaller/eggs/source/unstable',
         ],
     description = "Envisage - An Extensible Application Framework",
     entry_points = """
@@ -43,13 +42,12 @@ setup(
     ext_modules = [],
     include_package_data = True,
     install_requires = [
-        ETS_CONFIG,
-        PREFERENCES,
+        APPTOOLS,
+        ENTHOUGHTBASE,
         TRAITS,
-        UTIL
         ],
     license = "BSD",
-    name = "enthought.envisage",
+    name = "EnvisageCore",
     namespace_packages   = [
         "enthought",
         "enthought.envisage"
@@ -59,3 +57,4 @@ setup(
     version = "3.0.0b1",
     zip_safe = False,
     )
+
