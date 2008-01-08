@@ -22,8 +22,8 @@ CHACO = etsdep('Chaco', '3.0.0b1')
 DEVTOOLS = etsdep('DevTools', '3.0.0b1')
 ENABLE_WX = etsdep('Enable[wx]', '3.0.0b1')
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
-TRAITS = etsdep('Traits', '3.0.0b1')
 TRAITSGUI = etsdep('TraitsGUI', '3.0.0b1')
+TRAITS_UI = etsdep('Traits[ui]', '3.0.0b1')
 
 
 setup(
@@ -36,6 +36,7 @@ setup(
     entry_points = '''
         [enthought.envisage.plugins]
         workbench = enthought.envisage.ui.workbench.workbench_plugin:WorkbenchPlugin
+        shell = enthought.plugins.python_shell.python_shell_plugin:PythonShellPlugin
         ''',
     extras_require = {
         # All non-ets dependencies should be in this extra to ensure users can
@@ -52,7 +53,7 @@ setup(
         DEVTOOLS,
         ENABLE_WX,
         ENVISAGECORE,
-        TRAITS,
+        TRAITS_UI,
         TRAITSGUI,
         ],
     license = 'BSD',
