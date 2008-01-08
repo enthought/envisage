@@ -19,6 +19,7 @@ def etsdep(p, min, max=None, literal=False):
 # Declare our ETS project dependencies.
 APPTOOLS = etsdep('AppTools', '3.0.0b1')
 CHACO = etsdep('Chaco', '3.0.0b1')
+DEVTOOLS = etsdep('DevTools', '3.0.0b1')
 ENABLE_WX = etsdep('Enable[wx]', '3.0.0b1')
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
 TRAITS = etsdep('Traits', '3.0.0b1')
@@ -48,6 +49,7 @@ setup(
     install_requires = [
         APPTOOLS,
         CHACO,
+        DEVTOOLS,
         ENABLE_WX,
         ENVISAGECORE,
         TRAITS,
