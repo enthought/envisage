@@ -17,42 +17,52 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
+APPTOOLS = etsdep('AppTools', '3.0.0b1')
+CHACO = etsdep('Chaco', '3.0.0b1')
+ENABLE_WX = etsdep('Enable[wx]', '3.0.0b1')
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
+TRAITS = etsdep('Traits', '3.0.0b1')
 TRAITSGUI = etsdep('TraitsGUI', '3.0.0b1')
 
 
 setup(
-    author = "Martin Chilvers",
-    author_email = "info@enthought.com",
+    author = 'Martin Chilvers',
+    author_email = 'info@enthought.com',
     dependency_links = [
         'http://code.enthought.com/enstaller/eggs/source',
         ],
-    description = "The Envisage Action Framework",
-    entry_points = """
+    description = 'The Envisage Action Framework',
+    entry_points = '''
         [enthought.envisage.plugins]
         workbench = enthought.envisage.ui.workbench.workbench_plugin:WorkbenchPlugin
-        """,
+        ''',
     extras_require = {
         # All non-ets dependencies should be in this extra to ensure users can
         # decide whether to require them or not.
         'nonets': [
+            #'wx ==2.6',  # wx not available in egg format on all platforms.
             ],
         },
     ext_modules = [],
     include_package_data = True,
     install_requires = [
+        APPTOOLS,
+        CHACO,
+        ENABLE_WX,
         ENVISAGECORE,
+        TRAITS,
         TRAITSGUI,
         ],
-    license = "BSD",
-    name = "EnvisagePlugins",
+    license = 'BSD',
+    name = 'EnvisagePlugins',
     namespace_packages = [
-        "enthought",
-        "enthought.envisage",
-        "enthought.envisage.ui",
+        'enthought',
+        'enthought.envisage',
+        'enthought.envisage.ui',
+        'enthought.plugins',
         ],
     packages = find_packages(exclude=['examples']),
-    url = "http://code.enthought.com/envisage",
-    version = "3.0.0a1",
+    url = 'http://code.enthought.com/envisage',
+    version = '3.0.0a1',
     zip_safe = False,
     )
