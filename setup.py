@@ -18,10 +18,11 @@ def etsdep(p, min, max=None, literal=False):
 
 # Declare our ETS project dependencies.
 APPTOOLS = etsdep('AppTools', '3.0.0b1')
-DEVTOOLS = etsdep('DevTools', '3.0.0b1')  # -- only by the debug/fbi_plugin.py
+CHACO = etsdep('Chaco', '3.0.0b1')
+DEVTOOLS_FBI = etsdep('DevTools[fbi]', '3.0.0b1')  # -- only by the debug/fbi_plugin.py
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
-TRAITS = etsdep('Traits', '3.0.0b1')
 TRAITSGUI = etsdep('TraitsGUI', '3.0.0b1')
+TRAITS_UI = etsdep('Traits[ui]', '3.0.0b1')
 
 
 setup(
@@ -37,8 +38,11 @@ setup(
         shell = enthought.plugins.python_shell.python_shell_plugin:PythonShellPlugin
         ''',
     extras_require = {
+        'chaco': [
+            CHACO,
+            ],
         'debug': [
-            DEVTOOLS,
+            DEVTOOLS_FBI,
             ],
 
         # All non-ets dependencies should be in this extra to ensure users can
@@ -52,8 +56,8 @@ setup(
     install_requires = [
         APPTOOLS,
         ENVISAGECORE,
-        TRAITS,
         TRAITSGUI,
+        TRAITS_UI,
         ],
     license = 'BSD',
     name = 'EnvisagePlugins',

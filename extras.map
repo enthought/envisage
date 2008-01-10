@@ -1,0 +1,7 @@
+[chaco]
+enthought.plugins.chaco = *
+
+
+[debug]
+enthought.plugins.debug = *
+
