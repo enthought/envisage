@@ -6,8 +6,8 @@ import logging, os
 
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
-from enthought.preferences.api import IPreferences, PreferencesHelper 
-from enthought.preferences.api import ScopedPreferences
+from enthought.preferences.api import IPreferences, PreferenceBinding 
+from enthought.preferences.api import PreferencesHelper, ScopedPreferences
 from enthought.traits.api import Delegate, Event, HasTraits, Instance, Str
 from enthought.traits.api import VetoableEvent, implements
 
@@ -106,6 +106,10 @@ class Application(HasTraits):
         # This allows instances of 'PreferencesHelper' to be used as a more
         # convenient way to access preferences.
         PreferencesHelper.preferences = self.preferences
+
+        # This allows instances of 'PreferenceBinding' to be used as a more
+        # convenient way to access preferences.
+        PreferenceBinding.preferences = self.preferences
 
         # This allows the 'Service' trait type to be used as a more convenient
         # way to access services.
