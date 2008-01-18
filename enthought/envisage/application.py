@@ -6,8 +6,8 @@ import logging, os
 
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
-from enthought.preferences.api import IPreferences, PreferenceBinding 
-from enthought.preferences.api import PreferencesHelper, ScopedPreferences
+from enthought.preferences.api import IPreferences, ScopedPreferences
+from enthought.preferences.api import set_default_preferences
 from enthought.traits.api import Delegate, Event, HasTraits, Instance, Str
 from enthought.traits.api import VetoableEvent, implements
 
@@ -103,13 +103,10 @@ class Application(HasTraits):
         # convenient way to get the extensions for a given extension point.
         ExtensionPoint.extension_registry = self
 
-        # This allows instances of 'PreferencesHelper' to be used as a more
-        # convenient way to access preferences.
-        PreferencesHelper.preferences = self.preferences
-
-        # This allows instances of 'PreferenceBinding' to be used as a more
-        # convenient way to access preferences.
-        PreferenceBinding.preferences = self.preferences
+        # Set the default preference node used by the preferences package.
+        # This allows 'PreferencesHelper' and 'PreferenceBinding' instances to
+        # be used as more convenient ways to access preferences.
+        set_default_preferences(self.preferences)
 
         # This allows the 'Service' trait type to be used as a more convenient
         # way to access services.
