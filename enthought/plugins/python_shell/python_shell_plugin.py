@@ -17,7 +17,7 @@ class PythonShellPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     id   = 'enthought.plugins.python_shell'
-    name = 'Acme Workbench'
+    name = 'Python Shell'
 
     #### 'PythonShellPlugin' interface ########################################
 

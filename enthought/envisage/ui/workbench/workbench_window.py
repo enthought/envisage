@@ -6,6 +6,7 @@ import enthought.pyface.workbench.api as pyface
 
 from enthought.envisage.api import IApplication, ExtensionPoint
 from enthought.envisage.ui.action.api import ActionSet
+from enthought.pyface.workbench.api import IPerspective
 from enthought.pyface.workbench.action.api import MenuBarManager
 from enthought.pyface.workbench.action.api import ToolBarManager
 from enthought.traits.api import Callable, Instance, List, Property
@@ -38,8 +39,9 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # Contributed action sets.
     _actions = ExtensionPoint(id=ACTIONS)
     
-    # Contributed views.
-    _views = ExtensionPoint(id=VIEWS)
+    # Contributed views (views are contributed as factories not view instances
+    # as each workbench window requires its own).
+    _view_factories = ExtensionPoint(id=VIEWS)
 
     # Contributed perspectives.
     _perspectives = ExtensionPoint(id=PERSPECTIVES)
@@ -58,15 +60,15 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _perspectives_default(self):
         """ Trait initializer. """
 
-        import inspect
-        
         perspectives = []
-        for perspective in self._perspectives:
-            if inspect.isclass(perspective):
-                perspectives.append(perspective())
+        for factory_or_perspective in self._perspectives:
+            # Is the contribution an actual perspective, or is it a factory
+            # that can create a perspective?
+            perspective = IPerspective(factory_or_perspective, None)
+            if perspective is None:
+                perspective = factory_or_perspective()
 
-            else:
-                perspectives.append(perspective)
+            perspectives.append(perspective)
                 
         return perspectives
 
@@ -78,18 +80,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _views_default(self):
         """ Trait initializer. """
 
-        import inspect
-        
-        views = []
-        for view in self._views:
-            if inspect.isclass(view):
-                views.append(view(window=self))
-
-            else:
-                view.window = self
-                views.append(view)
-                
-        return views
+        return [factory(window=self) for factory in self._view_factories]
     
     ###########################################################################
     # 'pyface.Window' interface.

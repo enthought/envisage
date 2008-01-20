@@ -32,8 +32,11 @@ class WorkbenchPlugin(Plugin):
     name = 'Workbench'
 
     #### 'WorkbenchPlugin' interface ##########################################
-    
+
+    ###########################################################################
     # Extension points offered by this plugin.
+    ###########################################################################
+    
     actions = ExtensionPoint(
         List(Instance('enthought.envisage.ui.action.api.IActionSet')),
         id   = ACTIONS,
@@ -86,11 +89,17 @@ class WorkbenchPlugin(Plugin):
         """
     )
 
-    # Extension point contributions made by this plugin.
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
+
     workbench_actions           = List(extension_point=ACTIONS)
     workbench_preferences_pages = List(extension_point=PREFERENCES_PAGES)
 
+    ###########################################################################
     # Services offered by this plugin.
+    ###########################################################################
+
     workbench = Instance(
         'enthought.envisage.ui.workbench.api.Workbench', service=True
     )
