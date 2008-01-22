@@ -13,6 +13,7 @@ from enthought.traits.api import Callable, Instance, List, Property
 
 # Local imports.
 from workbench_action_manager_builder import WorkbenchActionManagerBuilder
+from workbench_editor_manager import WorkbenchEditorManager
 
 
 class WorkbenchWindow(pyface.WorkbenchWindow):
@@ -52,6 +53,11 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
     #### Trait initializers ###################################################
 
+    def _editor_manager_default(self):
+        """ Trait initializer. """
+
+        return WorkbenchEditorManager(window=self)
+    
     def _icon_default(self):
         """ Trait initializer. """
 

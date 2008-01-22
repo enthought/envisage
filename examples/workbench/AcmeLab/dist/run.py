@@ -20,6 +20,7 @@ import logging
 # Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
+#logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
 
