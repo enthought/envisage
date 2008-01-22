@@ -49,10 +49,5 @@ class DeveloperUIPlugin(Plugin):
              DeveloperPerspective
 
         return [DeveloperPerspective()]
-
-
-if __name__ == '__main__':
-    from enthought.envisage.ui.developer.api import browse_plugin
-    browse_plugin(DeveloperPlugin)
     
 #### EOF ######################################################################

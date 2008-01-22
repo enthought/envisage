@@ -1,133 +1,27 @@
 """ A view showing a summary of the running application. """
 
 
+# Standard library imports.
+import inspect
+
 # Enthought library imports.
-from enthought.envisage.api import IApplication, IPlugin
-from enthought.traits.api import Any, HasTraits, Instance, Undefined
-from enthought.traits.ui.api import Item, TreeEditor, TreeNode, View
+from enthought.envisage.api import IApplication, IPlugin, Service
+from enthought.io.api import File
+from enthought.traits.api import Any, HasTraits, Instance
+from enthought.traits.ui.api import Item, View
 
+# fixme: non-api import.
+from enthought.plugins.text_editor.editor.text_editor import TextEditor
 
-
-class PluginBrowser(HasTraits):
-    """ A model useful for browsing a plugin. """
-
-    
-
-
-
-class IApplicationTreeNode(TreeNode):
-    """ A tree node for an Envisage application. """
-
-    ###########################################################################
-    # 'TreeNode' interface.
-    ###########################################################################
-
-    def allows_children(self, obj):
-        """ Return True if this object allows children. """
-
-        return True
-
-    def get_children(self, obj):
-        """ Get the object's children. """
-
-        return [plugin for plugin in obj]
-
-    def is_node_for(self, obj):
-        """ Return whether this is the node that handles a specified object.
-        
-        """
-
-        return IApplication(obj, Undefined) is obj
-
-
-class IPluginTreeNode(TreeNode):
-    """ A tree node for a Envisage plugins. """
-
-    ###########################################################################
-    # 'TreeNode' interface.
-    ###########################################################################
-
-    def allows_children(self, obj):
-        """ Return True if this object allows children. """
-
-        return False
-
-    def is_node_for(self, obj):
-        """ Returns whether this is the node that handles a specified object.
-        
-        """
-
-        return IPlugin(obj, Undefined) is obj
-
-    def get_children(self, obj):
-        """ Get the object's children. """
-
-        return []#plugin for plugin in obj]
-
-    def dclick(self, obj):
-        """ Handle an object being double-clicked. """
-
-        print 'Double click', obj
-
-
-        
-## from enthought.traits.ui.value_tree import ValueTree, value_tree_nodes
-## application_view = View(
-##     Item(
-##         name       = 'value',
-##         show_label = False,
-
-##         editor     = TreeEditor(
-##             nodes       = value_tree_nodes,
-##             editable    = False,
-##             orientation = 'vertical',
-##             hide_root   = False,
-##             show_icons  = True
-##         )
-##     ),
-
-##     resizable = True,
-##     style     = 'custom',
-##     title     = 'Application',
-
-##     width     = .2,
-##     height    = .4
-## )
+# Local imports.
+from application_browser_tree_editor import application_browser_tree_editor
 
 
 application_view = View(
     Item(
         name       = 'application',
         show_label = False,
-
-        editor     = TreeEditor(
-            nodes  = [
-                IApplicationTreeNode(
-                    auto_open = True,
-                    label     = 'id',
-                    rename    = False,
-                    copy      = False,
-                    delete    = False,
-                    insert    = False,
-                    menu      = None,
-                ),
-
-                IPluginTreeNode(
-                    label     = 'name',
-                    rename    = False,
-                    copy      = False,
-                    delete    = False,
-                    insert    = False,
-                    menu      = None,
-                )
-            ],
-
-            editable    = False,
-            orientation = 'vertical',
-            hide_root   = False,
-            show_icons  = True,
-            selected    = 'selection',
-        )
+        editor     = application_browser_tree_editor
     ),
 
     resizable = True,
@@ -149,12 +43,21 @@ class ApplicationBrowser(HasTraits):
 
     # The application that we are browsing.
     application = Instance(IApplication)
+
+    # The workbench service.
+    workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
+    
+    # The object that is currently selected in the tree.
+    selection = Any
     
     # The default traits UI view.
-    traits_ui_view = application_view
+    traits_view = application_view
 
-    selection = Any
+    ###########################################################################
+    # 'ApplicationBrowser' interface.
+    ###########################################################################
 
+    #### Trait change handlers ################################################
 
     def _selection_changed(self, trait_name, old, new):
         """ Static trait change handler. """
@@ -162,5 +65,24 @@ class ApplicationBrowser(HasTraits):
         print 'Selection changed', trait_name, old, new
 
         return
+
+    #### Methods ##############################################################
+    
+    def dclick(self, obj):
+        """ Called when an object in the tree is double-clicked. """
+
+        if IPlugin(obj, None) is not None:
+            self.workbench.edit(self._get_file_object(obj), kind=TextEditor)
+            
+        return
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _get_file_object(self, obj):
+        """ Return a 'File' object for the object's source file. """
+        
+        return File(path=inspect.getsourcefile(type(obj)))
     
 #### EOF ######################################################################

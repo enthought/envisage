@@ -14,14 +14,15 @@ class DeveloperPlugin(Plugin):
 
     """
 
-    # Extension points Ids.
-    #PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
-    #VIEWS        = 'enthought.envisage.ui.workbench.views'
-
     #### 'IPlugin' interface ##################################################
 
-    id   = 'enthought.envisage.developer'
+    # The plugin's globally unique identifier.
+    id = 'enthought.envisage.developer'
+
+    # The plugin's name (suitable for displaying to the user).
     name = 'Developer'
+
+    #### 'DeveloperPlugin' interface ##########################################
 
     ###########################################################################
     # Extension points offered by this plugin.
@@ -54,10 +55,5 @@ class DeveloperPlugin(Plugin):
         from enthought.envisage.developer.charm.api import CodeBrowser
         
         return CodeBrowser()
-
-
-if __name__ == '__main__':
-    from enthought.envisage.developer.ui.api import browse_plugin
-    browse_plugin(DeveloperPlugin)
     
 #### EOF ######################################################################
