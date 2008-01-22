@@ -29,8 +29,11 @@ class CorePlugin(Plugin):
     name = 'Core'
 
     #### 'CorePlugin' interface ###############################################
+
+    ###########################################################################
+    # Extension points offered by this plugin.
+    ###########################################################################
     
-    # Extension points.
     class_load_hooks = ExtensionPoint(
         List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
         id   = CLASS_LOAD_HOOKS,
@@ -69,6 +72,18 @@ class CorePlugin(Plugin):
         
         """
     )
+
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
+
+    # None
+
+    ###########################################################################
+    # Services offered by this plugin.
+    ###########################################################################
+
+    # None
 
     ###########################################################################
     # 'IPlugin' interface.

@@ -17,10 +17,26 @@ class SoftwareQuotesPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'Software Quotes'
 
-    #### Extension point contributions ########################################
+    #### 'SoftwareQuotesPlugin' interface #####################################
+
+    ###########################################################################
+    # Extension points offered by this plugin.
+    ###########################################################################
+
+    # None
+    
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
 
     # Messages for the 'Message Of The Day'.
     messages = List(extension_point='acme.motd.messages')
+
+    ###########################################################################
+    # Services offered by this plugin.
+    ###########################################################################
+
+    # None
     
     ###########################################################################
     # 'SoftwareQuotesPlugin' interface.
