@@ -2,11 +2,8 @@
 
 
 # Enthought library imports.
+from enthought.envisage.developer.api import CodeBrowser, Module
 from enthought.traits.api import Event, HasTraits, Instance, Str
-
-# Local imports.
-from code_browser import CodeBrowser
-from module import Module
 
 
 class Charm(HasTraits):
