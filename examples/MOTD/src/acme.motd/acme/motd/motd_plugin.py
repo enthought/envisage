@@ -1,7 +1,7 @@
 """ The 'Message of the Day' plugin """
 
 
-# In the interest of lazy loading you should only import from the follwing
+# In the interest of lazy loading you should only import from the following
 # packages at the module level of a plugin::
 #
 # - enthought.envisage
@@ -37,9 +37,13 @@ class MOTDPlugin(Plugin):
     ###########################################################################
 
     # The messages extension point.
+    #
+    # Notice that we use the string name of the 'IMessage' interface rather
+    # than actually importing it. This makes sure that the import only happens
+    # when somebody actually gets the contributions to the extension point.
     messages = ExtensionPoint(
         List(Instance('acme.motd.api.IMessage')),
-        id   ='acme.motd.messages',
+        id   = 'acme.motd.messages',
         desc = """
 
         This extension point allows you to contribute messages to the 'Message
@@ -59,6 +63,10 @@ class MOTDPlugin(Plugin):
     ###########################################################################
 
     # The 'MOTD' service.
+    #
+    # Notice that we use the string name of the 'IMOTD' interface rather than
+    # actually importing it. This makes sure that the import only happens when
+    # somebody needs an 'IMOTD' service.
     motd = Instance('acme.motd.api.IMOTD', service=True)
     
     ###########################################################################
@@ -88,7 +96,8 @@ class MOTDPlugin(Plugin):
     def _motd_default(self):
         """ Trait initializer. """
 
-        # Only do imports when you need to!
+        # Only do imports when you need to! This makes sure that the import
+        # only happens when somebody needs an 'IMOTD' service.
         from motd import MOTD
 
         return MOTD(messages=self.messages)
