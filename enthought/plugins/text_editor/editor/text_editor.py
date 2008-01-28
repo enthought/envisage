@@ -5,9 +5,9 @@
 from os.path import basename
 
 # Enthought library imports.
-from enthought.envisage.workbench.api import TraitsUIEditor
+from enthought.pyface.workbench.api import TraitsUIEditor
 from enthought.pyface.api import FileDialog, CANCEL
-from enthought.traits.api import Code, Instance, Str
+from enthought.traits.api import Code, Instance, Property, Str
 
 # Local imports.
 from text_editor_handler import TextEditorHandler
@@ -34,58 +34,24 @@ class TextEditor(TraitsUIEditor):
     # The text being edited.
     text = Code
 
-    ###########################################################################
-    # 'TraitsUIEditor' interface.
-    ###########################################################################
+    #### Private interface ####################################################
 
-    def create_ui(self, parent):
-        """ Creates the traits UI that represents the editor. """
-
-        ui = TextEditorHandler().edit_traits(
-            context = self,
-            parent  = parent,
-            kind    = 'panel'
-        )
-        
-        return ui
+    # The STC (styled text control) that actually does the editing.
+    _stc = Property
 
     ###########################################################################
-    # 'TextEditor' interface.
+    # 'IEditor' interface.
     ###########################################################################
-
-    def center_line(self, lineno, force=True):
-        """ Centers the specified line.
-
-        If 'force' is False then the line will not be centered if it is
-        close to the current line.
-
-        """
-
-        # fixme: Errr, we might want a cleaner way to get hold of the
-        # STC!
-        stc = self.control.GetChildren()[0].GetChildren()[0]
-
-        lines_on_screen = stc.LinesOnScreen()
-        current_lineno = stc.LineFromPosition(stc.GetCurrentPos())
-
-        # We only center the line if it is not too close to the current one
-        # (otherwise, the editor jumps all over the place to center a line even
-        # if it is next to the one we just clicked on).
-        if abs(lineno - current_lineno) > (lines_on_screen / 3):
-            # Center the selected line.
-            stc.ScrollToLine(lineno - (lines_on_screen / 2))
-
-        return
 
     def save(self):
         """ Saves the text to disk. """
 
         # If the file has not yet been saved then prompt for the file name.
-        if len(self.resource.path) == 0:
+        if len(self.obj.path) == 0:
             self.save_as()
 
         else:
-            f = file(self.resource.path, 'w')
+            f = file(self.obj.path, 'w')
             f.write(self.text)
             f.close()
 
@@ -109,23 +75,49 @@ class TextEditor(TraitsUIEditor):
             self.name = basename(dialog.path)
 
             # Update the resource.
-            self.resource.path = dialog.path
+            self.obj.path = dialog.path
 
             # Save it!
             self.save()
 
         return
+    
+    ###########################################################################
+    # 'TraitsUIEditor' interface.
+    ###########################################################################
 
-    def select_line(self, lineno):
-        """ Selects the specified line. """
+    def create_ui(self, parent):
+        """ Creates the traits UI that represents the editor. """
 
-        # fixme: Errr, we might want a cleaner way to get hold of the STC!
-        stc = self.control.GetChildren()[0].GetChildren()[0]
+        ui = TextEditorHandler().edit_traits(
+            context=self, parent=parent, kind='panel'
+        )
+        
+        return ui
 
-        start = stc.PositionFromLine(lineno)
-        end   = stc.GetLineEndPosition(lineno)
+    ###########################################################################
+    # 'TextEditor' interface.
+    ###########################################################################
 
-        stc.SetSelection(start, end)
+    def center_line(self, lineno, force=True):
+        """ Centers the specified line.
+
+        If 'force' is False then the line will not be centered if it is
+        close to the current line.
+
+        """
+
+        stc = self._stc
+
+        lines_on_screen = stc.LinesOnScreen()
+        current_lineno = stc.LineFromPosition(stc.GetCurrentPos())
+
+        # We only center the line if it is not too close to the current one
+        # (otherwise, the editor jumps all over the place to center a line even
+        # if it is next to the one we just clicked on).
+        if abs(lineno - current_lineno) > (lines_on_screen / 3):
+            # Center the selected line.
+            stc.ScrollToLine(lineno - (lines_on_screen / 2))
 
         return
 
@@ -136,22 +128,45 @@ class TextEditor(TraitsUIEditor):
         self.save()
         
         # Execute the code.
-        if len(self.resource.path) > 0:
+        if len(self.obj.path) > 0:
             view = self.window.get_view_by_id(
                 'enthought.plugins.python_shell.view.PythonShellView'
             )
 
             if view is not None:
                 view.execute_command(
-                    'execfile(r"%s")' % self.resource.path, hidden=False
+                    'execfile(r"%s")' % self.obj.path, hidden=False
                 )
             
         return
     
+    def select_line(self, lineno):
+        """ Selects the specified line. """
+
+        stc = self._stc
+
+        start = stc.PositionFromLine(lineno)
+        end   = stc.GetLineEndPosition(lineno)
+
+        stc.SetSelection(start, end)
+
+        return
+
     ###########################################################################
     # Private interface.
     ###########################################################################
 
+    #### Traits properties ####################################################
+
+    def _get__stc(self):
+        """ Get a reference to the STC. """
+
+        # fixme: Errr, we might want a cleaner (and non-toolkit specific!) way
+        # to get hold of the STC!
+        return self.control.GetChildren()[0].GetChildren()[0]
+
+    #### Methods ##############################################################
+    
     def _get_unique_id(self, prefix='Untitled '):
         """ Returns a unique id for a new file. """
 
@@ -165,7 +180,7 @@ class TextEditor(TraitsUIEditor):
 
     #### Static ####
     
-    def _resource_changed(self, new):
+    def _obj_changed(self, new):
         """ Static trait change handler. """
 
         # The path will be the empty string if we are editing a file that has
@@ -189,12 +204,12 @@ class TextEditor(TraitsUIEditor):
     def _on_dirty_changed(self, dirty):
         """ Dynamic trait change handler. """
 
-        if len(self.resource.path) > 0:
+        if len(self.obj.path) > 0:
             if dirty:
-                self.name = basename(self.resource.path) + '*'
+                self.name = basename(self.obj.path) + '*'
                 
             else:
-                self.name = basename(self.resource.path)
+                self.name = basename(self.obj.path)
             
         return
     

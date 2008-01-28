@@ -38,9 +38,10 @@ class DeveloperUIPlugin(Plugin):
     def _views_default(self):
         """ Trait initializer. """
 
-        from enthought.envisage.developer.ui.view.api import ApplicationView
+        from enthought.envisage.developer.ui.view.api import \
+             ApplicationBrowserView
         
-        return [ApplicationView]
+        return [ApplicationBrowserView]
 
     def _perspectives_default(self):
         """ Trait initializer. """

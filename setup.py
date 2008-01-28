@@ -36,6 +36,8 @@ setup(
         [enthought.envisage.plugins]
         workbench = enthought.envisage.ui.workbench.workbench_plugin:WorkbenchPlugin
         shell = enthought.plugins.python_shell.python_shell_plugin:PythonShellPlugin
+        developer = enthought.envisage.developer.developer_plugin:DeveloperPlugin
+        developer_ui = enthought.envisage.developer.ui.developer_ui_plugin:DeveloperUIPlugin
         ''',
     extras_require = {
         'chaco': [

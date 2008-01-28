@@ -20,10 +20,23 @@ class WorkbenchPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    id   = 'acme.workbench'
+    # The plugin's unique identifier.
+    id = 'acme.workbench'
+
+    # The plugin's name (suitable for displaying to the user).
     name = 'Acme Workbench'
 
-    #### Extension point contributions ########################################
+    #### 'WorkbenchPlugin' interface ##########################################
+
+    ###########################################################################
+    # Extension points offered by this plugin.
+    ###########################################################################
+
+    # None
+    
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
 
     # Perspectives.
     perspectives = List(extension_point=PERSPECTIVES)
@@ -33,6 +46,12 @@ class WorkbenchPlugin(Plugin):
 
     # Preferences pages.
     preferences_pages = List(extension_point=PREFERENCES_PAGES)
+
+    ###########################################################################
+    # Services offered by this plugin.
+    ###########################################################################
+
+    # None
 
     ###########################################################################
     # 'WorkbenchPlugin' interface.

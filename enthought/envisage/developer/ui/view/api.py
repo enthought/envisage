@@ -1,1 +1,1 @@
-from application_view import ApplicationView
+from application_browser_view import ApplicationBrowserView

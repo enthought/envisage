@@ -54,7 +54,7 @@ class TextEditorHandler(Handler):
     ###########################################################################
 
     def run(self, info):
-        """ Runs the text as Python code. """
+        """ Run the text as Python code. """
 
         obj = info.ui.context['object']
         obj.run()
@@ -62,10 +62,22 @@ class TextEditorHandler(Handler):
         return
     
     def save(self, info):
-        """ Saves the text to disk. """
+        """ Save the text to disk. """
 
         obj = info.ui.context['object']
         obj.save()
+
+        return
+
+    def select_line(self, lineno):
+        """ Select the specified line. """
+
+        stc = self._stc
+
+        start = stc.PositionFromLine(lineno)
+        end   = stc.GetLineEndPosition(lineno)
+
+        stc.SetSelection(start, end)
 
         return
 

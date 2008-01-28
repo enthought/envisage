@@ -13,7 +13,11 @@ class DeveloperPerspective(Perspective):
 
     """
 
-    APPLICATION_VIEW = 'enthought.envisage.ui.developer.view.application_view'
+    # The root of all view Ids in this package.
+    ROOT = 'enthought.envisage.ui.developer.view'
+
+    # View Ids.
+    APPLICATION_BROWSER_VIEW = ROOT + '.application_browser_view'
     
     # The perspective's name.
     name = 'Developer'
@@ -23,7 +27,7 @@ class DeveloperPerspective(Perspective):
 
     # The contents of the perspective.
     contents = [
-        PerspectiveItem(id=APPLICATION_VIEW,  position='left'),
+        PerspectiveItem(id=APPLICATION_BROWSER_VIEW,  position='left'),
     ]
     
 #### EOF ######################################################################
