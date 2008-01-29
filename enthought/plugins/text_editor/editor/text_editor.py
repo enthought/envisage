@@ -7,7 +7,7 @@ from os.path import basename
 # Enthought library imports.
 from enthought.pyface.workbench.api import TraitsUIEditor
 from enthought.pyface.api import FileDialog, CANCEL
-from enthought.traits.api import Code, Instance, Property, Str
+from enthought.traits.api import Code, Instance
 
 # Local imports.
 from text_editor_handler import TextEditorHandler
