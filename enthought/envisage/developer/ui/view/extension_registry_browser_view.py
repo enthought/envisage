@@ -1,4 +1,4 @@
-""" A view that allows a developer to browse the current application. """
+""" A view that allows a developer to browse the extension registry. """
 
 
 # Enthought library imports.
@@ -6,24 +6,24 @@ from enthought.envisage.api import Service
 from enthought.pyface.workbench.api import TraitsUIView
 
 
-class ApplicationBrowserView(TraitsUIView):
-    """ A view that allows a developer to browse the current application. """
+class ExtensionRegistryBrowserView(TraitsUIView):
+    """ A view that allows a developer to browse the extension registry. """
 
     #### 'IWorkbenchPart' interface ###########################################
     
     # The part's globally unique identifier.
-    id = 'enthought.envisage.developer.ui.view.application_browser_view'
+    id = 'enthought.envisage.developer.ui.view.extension_registry_browser_view'
 
     # The part's name (displayed to the user).
-    name = 'Plugins'
+    name = 'Extension Points'
 
-    #### 'ApplicationBrowserView' interface ###################################
+    #### 'ExtensionRegistryBrowserView' interface #############################
 
     # The code browser used to parse Python code.
     code_browser = Service(
         'enthought.envisage.developer.code_browser.api.CodeBrowser'
     )
-
+    
     ###########################################################################
     # 'TraitsUIView' interface.
     ###########################################################################
@@ -32,13 +32,13 @@ class ApplicationBrowserView(TraitsUIView):
         """ Trait initializer. """
 
         # Local imports.
-        from application_browser import ApplicationBrowser
+        from extension_registry_browser import ExtensionRegistryBrowser
 
-        application_browser = ApplicationBrowser(
-            application = self.window.application,
+        extension_registry_browser = ExtensionRegistryBrowser(
+            application  = self.window.application,
             code_browser = self.code_browser
         )
 
-        return application_browser
+        return extension_registry_browser
 
 #### EOF ######################################################################

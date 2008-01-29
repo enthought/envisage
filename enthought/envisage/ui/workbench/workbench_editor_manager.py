@@ -23,7 +23,7 @@ class WorkbenchEditorManager(EditorManager):
 
         """
 
-        print 'WorkbenchEditorManager.create_editor', obj, kind
+        #print 'WorkbenchEditorManager.create_editor', obj, kind
         
         if kind is None:
             kind = TraitsUIEditor

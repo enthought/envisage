@@ -14,13 +14,19 @@ class DeveloperUIPlugin(Plugin):
 
     """
 
+    # The plugin Id.
+    ID = 'enthought.envisage.developer.ui'
+    
     # Extension points Ids.
     PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
     VIEWS        = 'enthought.envisage.ui.workbench.views'
 
+    # View Ids.
+    APPLICATION_BROWSER = ID + '.view.application_browser_view'
+
     #### 'IPlugin' interface ##################################################
 
-    id   = 'enthought.envisage.developer.ui'
+    id   = ID
     name = 'Developer UI'
 
     #### Extension point contributions ########################################
@@ -38,10 +44,26 @@ class DeveloperUIPlugin(Plugin):
     def _views_default(self):
         """ Trait initializer. """
 
-        from enthought.envisage.developer.ui.view.api import \
-             ApplicationBrowserView
-        
-        return [ApplicationBrowserView]
+        from view.api import \
+             ApplicationBrowserView, ExtensionRegistryBrowserView
+
+        return [ApplicationBrowserView, ExtensionRegistryBrowserView]
+
+    def _XXviews_default(self):
+        """ Trait initializer. """
+
+        # Enthought library imports.
+        from enthought.pyface.workbench.api import TraitsUIViewFactory
+
+        views = [
+            TraitsUIViewFactory(
+                id   = APPLICATION_BROWSER,
+                name = 'Application Browser',
+                obj  = self._create_application_browser()
+            )
+        ]
+
+        return views
 
     def _perspectives_default(self):
         """ Trait initializer. """
@@ -50,5 +72,17 @@ class DeveloperUIPlugin(Plugin):
              DeveloperPerspective
 
         return [DeveloperPerspective()]
-    
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _create_application_browser(self):
+        """ Create an application browser. """
+
+        # Local imports.
+        from view.application_browser import ApplicationBrowser
+        
+        return ApplicationBrowser(application=self.application)
+        
 #### EOF ######################################################################

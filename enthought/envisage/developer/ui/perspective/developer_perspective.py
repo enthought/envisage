@@ -14,10 +14,11 @@ class DeveloperPerspective(Perspective):
     """
 
     # The root of all view Ids in this package.
-    ROOT = 'enthought.envisage.ui.developer.view'
+    ROOT = 'enthought.envisage.developer.ui.view'
 
     # View Ids.
     APPLICATION_BROWSER_VIEW = ROOT + '.application_browser_view'
+    EXTENSION_REGISTRY_BROWSER_VIEW = ROOT + '.extension_registry_browser_view'
     
     # The perspective's name.
     name = 'Developer'
@@ -28,6 +29,7 @@ class DeveloperPerspective(Perspective):
     # The contents of the perspective.
     contents = [
         PerspectiveItem(id=APPLICATION_BROWSER_VIEW,  position='left'),
+        PerspectiveItem(id=EXTENSION_REGISTRY_BROWSER_VIEW,  position='right')
     ]
     
 #### EOF ######################################################################

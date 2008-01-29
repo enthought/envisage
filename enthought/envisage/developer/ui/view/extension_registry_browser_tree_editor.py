@@ -1,14 +1,15 @@
-""" The tree editor used in the application browser. """
+""" The tree editor used in the extension registry browser. """
 
 
 # Enthought library imports.
-from enthought.envisage.api import IApplication, IPlugin
+from enthought.envisage.api import IApplication, IExtensionPoint
+from enthought.envisage.api import IExtensionRegistry, IPlugin
 from enthought.traits.api import Undefined
 from enthought.traits.ui.api import TreeEditor, TreeNode
 
 
-class IApplicationTreeNode(TreeNode):
-    """ A tree node for an Envisage application. """
+class IExtensionRegistryTreeNode(TreeNode):
+    """ A tree node for an extension registry. """
 
     ###########################################################################
     # 'TreeNode' interface.
@@ -22,7 +23,7 @@ class IApplicationTreeNode(TreeNode):
     def get_children(self, obj):
         """ Get the object's children. """
 
-        return [plugin for plugin in obj]
+        return obj.get_extension_points()
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
@@ -32,8 +33,8 @@ class IApplicationTreeNode(TreeNode):
         return IApplication(obj, Undefined) is obj
 
 
-class IPluginTreeNode(TreeNode):
-    """ A tree node for a Envisage plugins. """
+class IExtensionPointTreeNode(TreeNode):
+    """ A tree node for an extension point. """
 
     ###########################################################################
     # 'TreeNode' interface.
@@ -44,18 +45,31 @@ class IPluginTreeNode(TreeNode):
 
         return False
 
+    def get_children(self, obj):
+        """ Get the object's children. """
+
+        return []
+
+    def get_label(self, obj):
+        """ Get the object's label. """
+
+        return obj.id
+
+    def when_label_changed(self, obj, callback, remove):
+        return
+    
     def is_node_for(self, obj):
-        """ Returns whether this is the node that handles a specified object.
+        """ Return whether this is the node that handles a specified object.
         
         """
 
-        return IPlugin(obj, Undefined) is obj
+        return IExtensionPoint(obj, Undefined) is obj
 
 
-application_browser_tree_nodes  = [
-    IApplicationTreeNode(
+extension_registry_browser_tree_nodes = [
+    IExtensionRegistryTreeNode(
         auto_open = True,
-        label     = 'id',
+        label     = '=Extension Points',
         rename    = False,
         copy      = False,
         delete    = False,
@@ -63,8 +77,7 @@ application_browser_tree_nodes  = [
         menu      = None,
     ),
 
-    IPluginTreeNode(
-        label     = 'name',
+    IExtensionPointTreeNode(
         rename    = False,
         copy      = False,
         delete    = False,
@@ -74,13 +87,13 @@ application_browser_tree_nodes  = [
 ]
 
 
-application_browser_tree_editor = TreeEditor(
-    nodes       = application_browser_tree_nodes,
+extension_registry_browser_tree_editor = TreeEditor(
+    nodes       = extension_registry_browser_tree_nodes,
     editable    = False,
     orientation = 'vertical',
-    hide_root   = True,
+    hide_root   = False,
     show_icons  = True,
-    selected    = 'selection',
+#    selected    = 'selection',
     on_dclick   = 'object.dclick'
 )
 

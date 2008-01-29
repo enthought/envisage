@@ -6,6 +6,7 @@ import inspect
 
 # Enthought library imports.
 from enthought.envisage.api import IApplication, IPlugin, Service
+from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from enthought.traits.api import Any, HasTraits, Instance
 from enthought.traits.ui.api import Item, View
@@ -17,7 +18,7 @@ from enthought.plugins.text_editor.editor.text_editor import TextEditor
 from application_browser_tree_editor import application_browser_tree_editor
 
 
-application_view = View(
+application_browser_view = View(
     Item(
         name       = 'application',
         show_label = False,
@@ -44,6 +45,9 @@ class ApplicationBrowser(HasTraits):
     # The application that we are browsing.
     application = Instance(IApplication)
 
+    # The code browser that we use to parse plugin source code.
+    code_browser = Instance(CodeBrowser)
+
     # The workbench service.
     workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
     
@@ -51,7 +55,7 @@ class ApplicationBrowser(HasTraits):
     selection = Any
     
     # The default traits UI view.
-    traits_view = application_view
+    traits_view = application_browser_view
 
     ###########################################################################
     # 'ApplicationBrowser' interface.
@@ -62,7 +66,7 @@ class ApplicationBrowser(HasTraits):
     def _selection_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        print 'Selection changed', trait_name, old, new
+        #print 'Selection changed', trait_name, old, new
 
         return
 
@@ -72,7 +76,20 @@ class ApplicationBrowser(HasTraits):
         """ Called when an object in the tree is double-clicked. """
 
         if IPlugin(obj, None) is not None:
-            self.workbench.edit(self._get_file_object(obj), kind=TextEditor)
+            # Parse the plugin source code.
+            module = self._parse_plugin(obj)
+
+            # Get the plugin klass.
+            klass = self._get_plugin_klass(module, obj)
+
+            # Edit the plugin.
+            editor = self.workbench.edit(
+                self._get_file_object(obj), kind=TextEditor
+            )
+
+            # Move to the class definition.
+            editor.center_line(klass.lineno-1)
+            editor.select_line(klass.lineno-1)
             
         return
 
@@ -84,5 +101,24 @@ class ApplicationBrowser(HasTraits):
         """ Return a 'File' object for the object's source file. """
         
         return File(path=inspect.getsourcefile(type(obj)))
+
+    def _get_plugin_klass(self, module, plugin):
+        """ Get the klass that defines the plugin. """
+        
+        for name, klass in module.klasses.items():
+            if name == type(plugin).__name__:
+                break
+
+        else:
+            klass = None
+            
+        return klass
+
+    def _parse_plugin(self, plugin):
+        """ Parse the plugin source code. """
+
+        filename = self._get_file_object(plugin).path
+
+        return self.code_browser.read_file(filename)
     
 #### EOF ######################################################################
