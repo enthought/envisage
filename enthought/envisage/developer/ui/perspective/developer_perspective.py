@@ -28,8 +28,16 @@ class DeveloperPerspective(Perspective):
 
     # The contents of the perspective.
     contents = [
-        PerspectiveItem(id=APPLICATION_BROWSER_VIEW,  position='left'),
-        PerspectiveItem(id=EXTENSION_REGISTRY_BROWSER_VIEW,  position='right')
+        PerspectiveItem(
+            id       = APPLICATION_BROWSER_VIEW,
+            position = 'left'
+        ),
+
+        PerspectiveItem(
+            id          = EXTENSION_REGISTRY_BROWSER_VIEW,
+            position    = 'bottom',
+            relative_to = APPLICATION_BROWSER_VIEW
+        )
     ]
     
 #### EOF ######################################################################

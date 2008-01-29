@@ -34,11 +34,6 @@ class TextEditor(TraitsUIEditor):
     # The text being edited.
     text = Code
 
-    #### Private interface ####################################################
-
-    # The STC (styled text control) that actually does the editing.
-    _stc = Property
-
     ###########################################################################
     # 'IEditor' interface.
     ###########################################################################
@@ -92,34 +87,12 @@ class TextEditor(TraitsUIEditor):
         ui = TextEditorHandler().edit_traits(
             context=self, parent=parent, kind='panel'
         )
-        
+
         return ui
 
     ###########################################################################
     # 'TextEditor' interface.
     ###########################################################################
-
-    def center_line(self, lineno, force=True):
-        """ Centers the specified line.
-
-        If 'force' is False then the line will not be centered if it is
-        close to the current line.
-
-        """
-
-        stc = self._stc
-
-        lines_on_screen = stc.LinesOnScreen()
-        current_lineno = stc.LineFromPosition(stc.GetCurrentPos())
-
-        # We only center the line if it is not too close to the current one
-        # (otherwise, the editor jumps all over the place to center a line even
-        # if it is next to the one we just clicked on).
-        if abs(lineno - current_lineno) > (lines_on_screen / 3):
-            # Center the selected line.
-            stc.ScrollToLine(lineno - (lines_on_screen / 2))
-
-        return
 
     def run(self):
         """ Runs the file as Python. """
@@ -143,27 +116,13 @@ class TextEditor(TraitsUIEditor):
     def select_line(self, lineno):
         """ Selects the specified line. """
 
-        stc = self._stc
-
-        start = stc.PositionFromLine(lineno)
-        end   = stc.GetLineEndPosition(lineno)
-
-        stc.SetSelection(start, end)
+        self.ui.info.text.selected_line = lineno
 
         return
 
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    #### Traits properties ####################################################
-
-    def _get__stc(self):
-        """ Get a reference to the STC. """
-
-        # fixme: Errr, we might want a cleaner (and non-toolkit specific!) way
-        # to get hold of the STC!
-        return self.control.GetChildren()[0].GetChildren()[0]
 
     #### Methods ##############################################################
     

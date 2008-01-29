@@ -31,8 +31,8 @@ extension_registry_browser_view = View(
     style     = 'custom',
     title     = 'Extension Registry',
 
-    width     = .2,
-    height    = .4
+    width     = .1,
+    height    = .1
 )
 
 
@@ -98,8 +98,7 @@ class ExtensionRegistryBrowser(HasTraits):
             else:
                 lineno = klass.lineno
 
-            editor.center_line(lineno-1)
-            editor.select_line(lineno-1)
+            editor.select_line(lineno)
 
         return
 

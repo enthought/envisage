@@ -29,8 +29,8 @@ application_browser_view = View(
     style     = 'custom',
     title     = 'Application',
 
-    width     = .2,
-    height    = .4
+    width     = .1,
+    height    = .1
 )
 
 
@@ -88,8 +88,7 @@ class ApplicationBrowser(HasTraits):
             )
 
             # Move to the class definition.
-            editor.center_line(klass.lineno-1)
-            editor.select_line(klass.lineno-1)
+            editor.select_line(klass.lineno)
             
         return
 
