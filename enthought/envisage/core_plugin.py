@@ -23,7 +23,7 @@ class CorePlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id   = 'enthought.envisage.core'
+    id = 'enthought.envisage.core'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Core'
