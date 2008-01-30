@@ -8,6 +8,9 @@ from os.path import basename
 from enthought.pyface.workbench.api import TraitsUIEditor
 from enthought.pyface.api import FileDialog, CANCEL
 from enthought.traits.api import Code, Instance
+from enthought.traits.ui.api import CodeEditor, Group, Item, View
+from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
+from enthought.traits.ui.menu import NoButtons
 
 # Local imports.
 from text_editor_handler import TextEditorHandler
@@ -31,6 +34,9 @@ class TextEditor(TraitsUIEditor):
 
     #### 'TextEditor' interface ###############################################
 
+    # The key bindings used by the editor.
+    key_bindings = Instance(KeyBindings)
+    
     # The text being edited.
     text = Code
 
@@ -84,12 +90,12 @@ class TextEditor(TraitsUIEditor):
     def create_ui(self, parent):
         """ Creates the traits UI that represents the editor. """
 
-        ui = TextEditorHandler().edit_traits(
-            context=self, parent=parent, kind='panel'
+        ui = self.edit_traits(
+            parent=parent, view=self._create_traits_ui_view(), kind='subpanel'
         )
 
         return ui
-
+    
     ###########################################################################
     # 'TextEditor' interface.
     ###########################################################################
@@ -124,21 +130,29 @@ class TextEditor(TraitsUIEditor):
     # Private interface.
     ###########################################################################
 
-    #### Methods ##############################################################
-    
-    def _get_unique_id(self, prefix='Untitled '):
-        """ Returns a unique id for a new file. """
+    #### Trait initializers ###################################################
 
-        id = prefix + str(_id_generator.next())
-        while self.window.get_editor_by_id(id) is not None:
-            id = prefix + str(_id_generator.next())
+    def _key_bindings_default(self):
+        """ Trait initializer. """
 
-        return id
-    
+        key_bindings = KeyBindings(
+            KeyBinding(
+                binding1    = 'Ctrl-s',
+                description = 'Save the file',
+                method_name = 'save'
+            ),
+
+            KeyBinding(
+                binding1    = 'Ctrl-r',
+                description = 'Run the file',
+                method_name = 'run'
+            )
+        )
+
+        return key_bindings
+        
     #### Trait change handlers ################################################
 
-    #### Static ####
-    
     def _obj_changed(self, new):
         """ Static trait change handler. """
 
@@ -158,10 +172,16 @@ class TextEditor(TraitsUIEditor):
         
         return
 
-    #### Dynamic ####
+    def _text_changed(self, trait_name, old, new):
+        """ Static trait change handler. """
+
+        if self.traits_inited():
+            self.dirty = True
+
+        return
     
-    def _on_dirty_changed(self, dirty):
-        """ Dynamic trait change handler. """
+    def _dirty_changed(self, dirty):
+        """ Static trait change handler. """
 
         if len(self.obj.path) > 0:
             if dirty:
@@ -171,5 +191,44 @@ class TextEditor(TraitsUIEditor):
                 self.name = basename(self.obj.path)
             
         return
+    
+    #### Methods ##############################################################
+
+    def _create_traits_ui_view(self):
+        """ Create the traits UI view used by the editor.
+
+        fixme: We create the view dynamically to allow the key bindings to be
+        created dynamically (we don't use this just yet, but obviously plugins
+        need to be able to contribute new bindings).
+
+        """
+
+        view = View(
+            Group(
+                Item(
+                    'text', editor=CodeEditor(key_bindings=self.key_bindings)
+                ),
+                show_labels = False
+            ),
+        
+            id        = 'enthought.envisage.editor.text_editor',
+            handler   = TextEditorHandler(),
+            kind      = 'live',
+            resizable = True,
+            width     = 1.0,
+            height    = 1.0,
+            buttons   = NoButtons,
+        )    
+
+        return view
+    
+    def _get_unique_id(self, prefix='Untitled '):
+        """ Return a unique id for a new file. """
+
+        id = prefix + str(_id_generator.next())
+        while self.window.get_editor_by_id(id) is not None:
+            id = prefix + str(_id_generator.next())
+
+        return id
     
 #### EOF ######################################################################

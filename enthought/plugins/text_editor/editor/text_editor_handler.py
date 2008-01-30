@@ -1,69 +1,31 @@
-""" The traits UI handler for the text editor.
-
-fixme: This is currently set up for Python files, but should work for any text
-file.  We need to generalize this code to support all text editing.
-
-"""
+""" The traits UI handler for the text editor. """
 
 
 # Enthought library imports.
-from enthought.traits.ui.api import CodeEditor, Group, Handler, Item, View
-from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
-from enthought.traits.ui.menu import NoButtons
-
-
-# fixme: Key bindings need to be set dynamically when the editor is created.
-key_bindings = KeyBindings(
-    KeyBinding(
-        binding1    = 'Ctrl-s',
-        description = 'Save the file',
-        method_name = 'save'
-    ),
-
-    KeyBinding(
-        binding1    = 'Ctrl-r',
-        description = 'Run the file',
-        method_name = 'run'
-    )
-    
-)
+from enthought.traits.ui.api import Handler
 
 
 class TextEditorHandler(Handler):
     """ The traits UI handler for the text editor. """
 
-    #### 'TextEditor' interface ###############################################
-
-    # The default traits view.
-    traits_view = View(
-        Group(
-            Item('text', editor=CodeEditor(key_bindings=key_bindings)),
-            show_labels = False
-        ),
-        
-        buttons   = NoButtons,
-        height    = 1.0,
-        id        = 'enthought.envisage.editor.text_editor',
-        kind      = 'live',
-        resizable = True,
-        width     = 1.0,
-    )    
-
     ###########################################################################
-    # 'TextEditor' interface.
+    # 'TextEditorHandler' interface.
     ###########################################################################
 
+    # fixme: We need to work out how to create these 'dispatch' methods
+    # dynamically! Plugins will want to add bindings to the editor to bind
+    # a key to an action.
     def run(self, info):
         """ Run the text as Python code. """
 
-        info.ui.object.run()
+        info.object.run()
 
         return
     
     def save(self, info):
         """ Save the text to disk. """
 
-        info.ui.object.save()
+        info.object.save()
 
         return
 
