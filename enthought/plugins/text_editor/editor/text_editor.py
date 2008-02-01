@@ -109,7 +109,8 @@ class TextEditor(TraitsUIEditor):
         # Execute the code.
         if len(self.obj.path) > 0:
             view = self.window.get_view_by_id(
-                'enthought.plugins.python_shell.view.PythonShellView'
+                #'enthought.plugins.python_shell.view.PythonShellView'
+                'Python'
             )
 
             if view is not None:

@@ -37,7 +37,12 @@ class DeveloperPerspective(Perspective):
             id          = EXTENSION_REGISTRY_BROWSER_VIEW,
             position    = 'bottom',
             relative_to = APPLICATION_BROWSER_VIEW
-        )
+        ),
+
+        PerspectiveItem(
+            id          = 'Python',
+            position    = 'bottom',
+        ),
     ]
     
 #### EOF ######################################################################

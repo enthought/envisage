@@ -22,7 +22,7 @@ from extension_registry_browser_tree_editor import \
 
 extension_registry_browser_view = View(
     Item(
-        name       = 'application',
+        name       = 'extension_registry',
         show_label = False,
         editor     = extension_registry_browser_tree_editor
     ),
@@ -51,6 +51,9 @@ class ExtensionRegistryBrowser(HasTraits):
 
     # The code browser that we use to parse plugin source code.
     code_browser = Instance(CodeBrowser)
+
+    # The extension registry that we are browsing.
+    extension_registry = Instance(IExtensionRegistry)
     
     # The workbench service.
     workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
@@ -100,11 +103,83 @@ class ExtensionRegistryBrowser(HasTraits):
 
             editor.select_line(lineno)
 
+        # Was the double-click on an extension?
+        elif IExtensionPoint(obj.parent.value, None) is not None:
+            extension_point = obj.parent.value
+            index           = obj.parent._index
+
+            # fixme: The Envisage application sets 'ExtensionPoint.er' to
+            # self, not the actual extension registry! Therefore to dig into
+            # the guts of the registry we need the extra level on indirection!
+            extension_registry = extension_point.extension_registry.extension_registry
+            extensions = extension_registry._extensions
+            
+            total = 0
+            provider_index = 0
+            for l in extensions[extension_point.id]:
+                total = total + len(l)
+                if index < total:
+                    break
+                provider_index += 1
+                
+
+            plugin = extension_registry._providers[provider_index]
+
+            # Parse the plugin source code.
+            module = self._parse_plugin(plugin)
+
+            # Get the plugin klass.
+            klass = self._get_plugin_klass(module, plugin)
+            
+            # Edit the plugin.
+            editor = self.workbench.edit(
+                self._get_file_object(plugin), kind=TextEditor
+            )
+
+            # Was the extension offered declaratively?
+            trait_name = self._get_extension_trait(plugin, extension_point.id)
+            if trait_name is not None:
+
+                # Does the trait have a default initializer?
+                initializer = klass.methods.get('_%s_default' % trait_name)
+                if initializer is not None:
+                    lineno    = initializer.lineno
+
+
+
+                else:
+                    attribute = klass.attributes.get(trait_name)
+                    lineno    = attribute.lineno
+
+            else:
+                lineno = klass.lineno
+
+
+
+            editor.select_line(lineno)
+            
+            
         return
 
     ###########################################################################
     # Private interface.
     ###########################################################################
+
+    def _get_extension_trait(self, plugin, id):
+        """ Return the extension trait with the specifed Id.
+
+        Return None if the extension point was not declared via a trait.
+
+        """
+
+        # There can only be one extension point trait per extension point!
+        for name, trait in plugin.traits(extension_point=id).items():
+            break
+
+        else:
+            name = None
+
+        return name
 
     def _get_extension_point_trait(self, plugin, id):
         """ Return the extension point trait with the specifed Id.
@@ -117,8 +192,8 @@ class ExtensionRegistryBrowser(HasTraits):
             if trait.trait_type.id == id:
                 break
 
-            else:
-                name = None
+        else:
+            name = None
 
         return name
         

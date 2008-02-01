@@ -61,6 +61,13 @@ class ApplicationBrowser(HasTraits):
     # 'ApplicationBrowser' interface.
     ###########################################################################
 
+    #### Trait initializers ###################################################
+
+    def _code_browser_default(self):
+        """ Trait initializer. """
+
+        return self.application.get_service(CodeBrowser)
+    
     #### Trait change handlers ################################################
 
     def _selection_changed(self, trait_name, old, new):
@@ -97,7 +104,7 @@ class ApplicationBrowser(HasTraits):
     ###########################################################################
 
     def _get_file_object(self, obj):
-        """ Return a 'File' object for the object's source file. """
+        """ Return a 'File' object for an object's source file. """
         
         return File(path=inspect.getsourcefile(type(obj)))
 

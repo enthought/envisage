@@ -35,7 +35,7 @@ class ApplicationBrowserView(TraitsUIView):
         from application_browser import ApplicationBrowser
 
         application_browser = ApplicationBrowser(
-            application = self.window.application,
+            application  = self.window.application,
             code_browser = self.code_browser
         )
 

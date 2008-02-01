@@ -40,7 +40,7 @@ class DeveloperPlugin(Plugin):
     # Services offered by this plugin.
     ###########################################################################
 
-    # A code browser.
+    # A code browser (used to parse Python source code).
     code_browser = Instance(
         'enthought.envisage.developer.code_browser.api.CodeBrowser',
         service=True

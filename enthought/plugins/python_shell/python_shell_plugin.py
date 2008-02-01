@@ -16,12 +16,17 @@ class PythonShellPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    id   = 'enthought.plugins.python_shell'
+    # The plugin's unique identifier.
+    id = 'enthought.plugins.python_shell'
+
+    # The plugin's name (suitable for displaying to the user).
     name = 'Python Shell'
 
     #### 'PythonShellPlugin' interface ########################################
 
-    #### Extension points #####################################################
+    ###########################################################################
+    # Extension points offered by this plugin.
+    ###########################################################################
 
     bindings = ExtensionPoint(
         List(Dict), id=BINDINGS, desc="""
@@ -53,16 +58,32 @@ class PythonShellPlugin(Plugin):
         """
     )
 
-    #### Extension point contributions ########################################
-             
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
+
+    # Bindings.
+    default_bindings = List(extension_point=BINDINGS)
+    
     # Views.
     views = List(extension_point=VIEWS)
-    
+
+    ###########################################################################
+    # Services offered by this plugin.
+    ###########################################################################
+
+    # None
+
     ###########################################################################
     # 'PythonShellPlugin' interface.
     ###########################################################################
 
     #### Trait initializers ###################################################
+
+    def _default_bindings_default(self):
+        """ Trait initializer. """
+
+        return [{'application' : self.application}]
     
     def _views_default(self):
         """ Trait initializer. """
