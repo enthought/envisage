@@ -1,10 +1,10 @@
-""" The tree editor used in the extension registry browser. """
+""" The nodes used in the extension registry browser tree. """
 
 
 # Enthought library imports.
 from enthought.envisage.api import IExtensionPoint, IExtensionRegistry
 from enthought.traits.api import Undefined
-from enthought.traits.ui.api import TreeEditor, TreeNode
+from enthought.traits.ui.api import TreeNode
 
 # fixme: non-api imports.
 from enthought.traits.ui.value_tree import SingleValueTreeNodeObject
@@ -95,7 +95,6 @@ class IExtensionPointTreeNode(TreeNode):
         """ Set up or remove listenrs for children being changed. """
         
         return
-    
 
 
 extension_registry_browser_tree_nodes = [
@@ -116,16 +115,6 @@ extension_registry_browser_tree_nodes = [
         insert    = False,
         menu      = None,
     ),
-]
-
-
-extension_registry_browser_tree_editor = TreeEditor(
-    nodes       = extension_registry_browser_tree_nodes + value_tree_nodes,
-    editable    = False,
-    orientation = 'vertical',
-    hide_root   = True,
-    show_icons  = True,
-    on_dclick   = 'object.dclick'
-)
+] + value_tree_nodes
 
 #### EOF ######################################################################

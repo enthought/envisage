@@ -9,22 +9,29 @@ from enthought.envisage.api import IApplication, IExtensionPoint
 from enthought.envisage.api import IExtensionRegistry, Service
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
-from enthought.traits.api import Any, HasTraits, Instance
-from enthought.traits.ui.api import Item, View
+from enthought.traits.api import HasTraits, Instance
+from enthought.traits.ui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
 from enthought.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
-from extension_registry_browser_tree_editor import \
-     extension_registry_browser_tree_editor
+from extension_registry_browser_tree import \
+     extension_registry_browser_tree_nodes
 
 
 extension_registry_browser_view = View(
     Item(
         name       = 'extension_registry',
         show_label = False,
-        editor     = extension_registry_browser_tree_editor
+        editor     = TreeEditor(
+            nodes       = extension_registry_browser_tree_nodes,
+            editable    = False,
+            orientation = 'vertical',
+            hide_root   = True,
+            show_icons  = True,
+            on_dclick   = 'object.dclick'
+        )
     ),
 
     resizable = True,
@@ -77,90 +84,100 @@ class ExtensionRegistryBrowser(HasTraits):
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
+        # Double-click on an extension point.
         if IExtensionPoint(obj, None) is not None:
-            # Find the plugin that offered the extension point.
-            plugin = self._get_plugin(obj)
-
-            # Parse the plugin source code.
-            module = self._parse_plugin(plugin)
-
-            # Get the plugin klass.
-            klass = self._get_plugin_klass(module, plugin)
+            self.dclick_extension_point(obj)
             
-            # Edit the plugin.
-            editor = self.workbench.edit(
-                self._get_file_object(plugin), kind=TextEditor
-            )
-            
-            # Was the extension point offered declaratively via a trait?
-            trait_name = self._get_extension_point_trait(plugin, obj.id)
-            if trait_name is not None:
-                attribute = klass.attributes.get(trait_name)
-                lineno    = attribute.lineno
-
-            else:
-                lineno = klass.lineno
-
-            editor.select_line(lineno)
-
-        # Was the double-click on an extension?
+        # Double-click on an extension.
         elif IExtensionPoint(obj.parent.value, None) is not None:
-            extension_point = obj.parent.value
-            index           = obj.parent._index
-
-            # fixme: The Envisage application sets 'ExtensionPoint.er' to
-            # self, not the actual extension registry! Therefore to dig into
-            # the guts of the registry we need the extra level on indirection!
-            extension_registry = extension_point.extension_registry.extension_registry
-            extensions = extension_registry._extensions
-            
-            total = 0
-            provider_index = 0
-            for l in extensions[extension_point.id]:
-                total = total + len(l)
-                if index < total:
-                    break
-                provider_index += 1
-                
-
-            plugin = extension_registry._providers[provider_index]
-
-            # Parse the plugin source code.
-            module = self._parse_plugin(plugin)
-
-            # Get the plugin klass.
-            klass = self._get_plugin_klass(module, plugin)
-            
-            # Edit the plugin.
-            editor = self.workbench.edit(
-                self._get_file_object(plugin), kind=TextEditor
-            )
-
-            # Was the extension offered declaratively?
-            trait_name = self._get_extension_trait(plugin, extension_point.id)
-            if trait_name is not None:
-
-                # Does the trait have a default initializer?
-                initializer = klass.methods.get('_%s_default' % trait_name)
-                if initializer is not None:
-                    lineno    = initializer.lineno
-
-
-
-                else:
-                    attribute = klass.attributes.get(trait_name)
-                    lineno    = attribute.lineno
-
-            else:
-                lineno = klass.lineno
-
-
-
-            editor.select_line(lineno)
-            
+            self.dclick_extension(obj)
             
         return
 
+    def dclick_extension_point(self, obj):
+        """ Called when an extension point is double-clicked. """
+
+        # Find the plugin that offered the extension point.
+        plugin = self._get_plugin(obj)
+            
+        # Parse the plugin source code.
+        module = self._parse_plugin(plugin)
+
+        # Get the plugin klass.
+        klass = self._get_plugin_klass(module, plugin)
+            
+        # Edit the plugin.
+        editor = self.workbench.edit(
+            self._get_file_object(plugin), kind=TextEditor
+        )
+            
+        # Was the extension point offered declaratively via a trait?
+        trait_name = self._get_extension_point_trait(plugin, obj.id)
+        if trait_name is not None:
+            attribute = klass.attributes.get(trait_name)
+            lineno    = attribute.lineno
+
+        else:
+            lineno = klass.lineno
+            
+        editor.select_line(lineno)
+
+        return
+
+    def dclick_extension(self, obj):
+        """ Called when an extension is double-clicked. """
+
+        extension_point = obj.parent.value
+        index           = obj.parent._index
+
+        # fixme: The Envisage application sets 'ExtensionPoint.er' to
+        # self, not the actual extension registry! Therefore to dig into
+        # the guts of the registry we need the extra level on indirection!
+        extension_registry = extension_point.extension_registry.extension_registry
+        extensions = extension_registry._extensions
+
+        total = 0
+        provider_index = 0
+        for l in extensions[extension_point.id]:
+            total = total + len(l)
+            if index < total:
+                break
+            provider_index += 1
+
+
+        plugin = extension_registry._providers[provider_index]
+
+        # Parse the plugin source code.
+        module = self._parse_plugin(plugin)
+
+        # Get the plugin klass.
+        klass = self._get_plugin_klass(module, plugin)
+
+        # Edit the plugin.
+        editor = self.workbench.edit(
+            self._get_file_object(plugin), kind=TextEditor
+        )
+
+        # Was the extension offered declaratively?
+        trait_name = self._get_extension_trait(plugin, extension_point.id)
+        if trait_name is not None:
+
+            # Does the trait have a default initializer?
+            initializer = klass.methods.get('_%s_default' % trait_name)
+            if initializer is not None:
+                lineno    = initializer.lineno
+
+            else:
+                attribute = klass.attributes.get(trait_name)
+                lineno    = attribute.lineno
+
+        else:
+            lineno = klass.lineno
+
+        editor.select_line(lineno)
+
+        return
+    
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -172,14 +189,16 @@ class ExtensionRegistryBrowser(HasTraits):
 
         """
 
-        # There can only be one extension point trait per extension point!
-        for name, trait in plugin.traits(extension_point=id).items():
-            break
+        extension_traits = plugin.traits(extension_point=id)
+
+        if len(extension_traits) > 0:
+            # There is *at most* one extension point trait per extension point.
+            trait_name = extension_traits.keys()[0]
 
         else:
-            name = None
+            trait_name = None
 
-        return name
+        return trait_name
 
     def _get_extension_point_trait(self, plugin, id):
         """ Return the extension point trait with the specifed Id.
@@ -188,14 +207,16 @@ class ExtensionRegistryBrowser(HasTraits):
 
         """
 
-        for name, trait in plugin.traits(__extension_point__=True).items():
+        extension_point_traits = plugin.traits(__extension_point__=True)
+        
+        for trait_name, trait in extension_point_traits.items():
             if trait.trait_type.id == id:
                 break
 
         else:
-            name = None
+            trait_name = None
 
-        return name
+        return trait_name
         
     def _get_plugin(self, extension_point):
         """ Return the plugin that offered an extension point. """
