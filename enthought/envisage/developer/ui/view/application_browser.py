@@ -9,20 +9,28 @@ from enthought.envisage.api import IApplication, IPlugin, Service
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from enthought.traits.api import Any, HasTraits, Instance
-from enthought.traits.ui.api import Item, View
+from enthought.traits.ui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
 from enthought.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
-from application_browser_tree_editor import application_browser_tree_editor
+from application_browser_tree import application_browser_tree_nodes
 
 
 application_browser_view = View(
     Item(
         name       = 'application',
         show_label = False,
-        editor     = application_browser_tree_editor
+        editor     = TreeEditor(
+            nodes       = application_browser_tree_nodes,
+            editable    = False,
+            orientation = 'vertical',
+            hide_root   = True,
+            show_icons  = True,
+            selected    = 'selection',
+            on_dclick   = 'object.dclick'
+        )
     ),
 
     resizable = True,

@@ -45,25 +45,32 @@ class DeveloperUIPlugin(Plugin):
         """ Trait initializer. """
 
         from view.api import \
-             ApplicationBrowserView, ExtensionRegistryBrowserView
-
-        return [ApplicationBrowserView, ExtensionRegistryBrowserView]
-
-    def _XXviews_default(self):
-        """ Trait initializer. """
-
-        # Enthought library imports.
-        from enthought.pyface.workbench.api import TraitsUIViewFactory
+             ApplicationBrowserView, ExtensionRegistryBrowserView, \
+             ServiceRegistryBrowserView
 
         views = [
-            TraitsUIViewFactory(
-                id   = APPLICATION_BROWSER,
-                name = 'Application Browser',
-                obj  = self._create_application_browser()
-            )
+            ApplicationBrowserView,
+            ExtensionRegistryBrowserView,
+            ServiceRegistryBrowserView
         ]
 
         return views
+
+##     def _views_default(self):
+##         """ Trait initializer. """
+
+##         # Enthought library imports.
+##         from enthought.pyface.workbench.api import TraitsUIViewFactory
+
+##         views = [
+##             TraitsUIViewFactory(
+##                 id   = APPLICATION_BROWSER,
+##                 name = 'Application Browser',
+##                 obj  = self._create_application_browser()
+##             )
+##         ]
+
+##         return views
 
     def _perspectives_default(self):
         """ Trait initializer. """

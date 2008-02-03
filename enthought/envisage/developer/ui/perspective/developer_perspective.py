@@ -19,6 +19,7 @@ class DeveloperPerspective(Perspective):
     # View Ids.
     APPLICATION_BROWSER_VIEW = ROOT + '.application_browser_view'
     EXTENSION_REGISTRY_BROWSER_VIEW = ROOT + '.extension_registry_browser_view'
+    SERVICE_REGISTRY_BROWSER_VIEW = ROOT + '.service_registry_browser_view'
     
     # The perspective's name.
     name = 'Developer'
@@ -42,6 +43,11 @@ class DeveloperPerspective(Perspective):
         PerspectiveItem(
             id          = 'Python',
             position    = 'bottom',
+        ),
+        
+        PerspectiveItem(
+            id          = SERVICE_REGISTRY_BROWSER_VIEW,
+            position    = 'right',
         ),
     ]
     
