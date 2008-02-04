@@ -90,16 +90,15 @@ class ServiceRegistryBrowser(HasTraits):
                 id       = obj._service_id_
                 service  = obj.value
 
-                print 'Clicked on service', id, protocol, service
-
                 for plugin in self.application:
                     if id in plugin._service_ids:
                         self.dclick_service(plugin, protocol, service)
                         break
 
                 else:
-                    print 'Cant find service!'
-
+                    self.workbench.active_window.information(
+                        'Service not create by a plugin'
+                    )
             
         return
 
@@ -147,17 +146,12 @@ class ServiceRegistryBrowser(HasTraits):
         Return None if the service was not declared via a trait.
 
         """
-        print 'get service traits', plugin, protocol, obj
 
         service_traits = plugin.traits(service=True)
-        print 'Service traits', service_traits
 
         protocol = self.application.import_symbol(protocol)
         
-        print 'Protocol', protocol, type(protocol)
         for trait_name, trait in service_traits.items():
-            print 'Service Protocol', self._get_service_protocol(trait), type(self._get_service_protocol(trait))
-
             if protocol == self._get_service_protocol(trait):
                 break
 
