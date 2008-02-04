@@ -84,69 +84,29 @@ class ServiceRegistryBrowser(HasTraits):
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
-        # Double-click on an extension point.
-        if IExtensionPoint(obj, None) is not None:
-            self.dclick_extension_point(obj)
-            
-        # Double-click on an extension.
-        elif IExtensionPoint(obj.parent.value, None) is not None:
-            self.dclick_extension(obj)
+        if hasattr(obj, 'parent'):
+            if hasattr(obj.parent, '_protocol_'):
+                if obj.parent._protocol_ is not None:
+                    print 'Clicked on service', obj, obj.parent._protocol_
+                    print obj.value
+                    protocol = obj.parent._protocol_
+                    id         = obj.value[0]
+                    service    = obj.value[1]
+
+                    for plugin in self.application:
+                        if id in plugin._service_ids:
+                            self.dclick_service(plugin, protocol, service)
+                            break
+
+                    else:
+                        print 'Cant find service!'
+
             
         return
 
-    def dclick_extension_point(self, obj):
-        """ Called when an extension point is double-clicked. """
-
-        # Find the plugin that offered the extension point.
-        plugin = self._get_plugin(obj)
-            
-        # Parse the plugin source code.
-        module = self._parse_plugin(plugin)
-
-        # Get the plugin klass.
-        klass = self._get_plugin_klass(module, plugin)
-            
-        # Edit the plugin.
-        editor = self.workbench.edit(
-            self._get_file_object(plugin), kind=TextEditor
-        )
-            
-        # Was the extension point offered declaratively via a trait?
-        trait_name = self._get_extension_point_trait(plugin, obj.id)
-        if trait_name is not None:
-            attribute = klass.attributes.get(trait_name)
-            lineno    = attribute.lineno
-
-        else:
-            lineno = klass.lineno
-            
-        editor.select_line(lineno)
-
-        return
-
-    def dclick_extension(self, obj):
+    def dclick_service(self, plugin, protocol, obj):
         """ Called when an extension is double-clicked. """
 
-        extension_point = obj.parent.value
-        index           = obj.parent._index
-
-        # fixme: The Envisage application sets 'ExtensionPoint.er' to
-        # self, not the actual extension registry! Therefore to dig into
-        # the guts of the registry we need the extra level on indirection!
-        service_registry = extension_point.service_registry.service_registry
-        extensions = service_registry._extensions
-
-        total = 0
-        provider_index = 0
-        for l in extensions[extension_point.id]:
-            total = total + len(l)
-            if index < total:
-                break
-            provider_index += 1
-
-
-        plugin = service_registry._providers[provider_index]
-
         # Parse the plugin source code.
         module = self._parse_plugin(plugin)
 
@@ -158,8 +118,8 @@ class ServiceRegistryBrowser(HasTraits):
             self._get_file_object(plugin), kind=TextEditor
         )
 
-        # Was the extension offered declaratively?
-        trait_name = self._get_extension_trait(plugin, extension_point.id)
+        # Was the service offered declaratively?
+        trait_name = self._get_service_trait(plugin, protocol, obj)
         if trait_name is not None:
 
             # Does the trait have a default initializer?
@@ -182,53 +142,49 @@ class ServiceRegistryBrowser(HasTraits):
     # Private interface.
     ###########################################################################
 
-    def _get_extension_trait(self, plugin, id):
-        """ Return the extension trait with the specifed Id.
+    def _get_service_trait(self, plugin, protocol, obj):
+        """ Return the servicetrait with the specifed Id.
 
-        Return None if the extension point was not declared via a trait.
-
-        """
-
-        extension_traits = plugin.traits(extension_point=id)
-
-        if len(extension_traits) > 0:
-            # There is *at most* one extension point trait per extension point.
-            trait_name = extension_traits.keys()[0]
-
-        else:
-            trait_name = None
-
-        return trait_name
-
-    def _get_extension_point_trait(self, plugin, id):
-        """ Return the extension point trait with the specifed Id.
-
-        Return None if the extension point was not declared via a trait.
+        Return None if the service was not declared via a trait.
 
         """
 
-        extension_point_traits = plugin.traits(__extension_point__=True)
+        service_traits = plugin.traits(service=True)
+        print 'Service traits', service_traits
+
+        protocol = self.application.import_symbol(protocol)
         
-        for trait_name, trait in extension_point_traits.items():
-            if trait.trait_type.id == id:
+        print 'Protocol', protocol, type(protocol)
+        for trait_name, trait in service_traits.items():
+            print 'Service Protocol', self._get_service_protocol(trait), type(self._get_service_protocol(trait))
+
+            if protocol == self._get_service_protocol(trait):
                 break
 
         else:
             trait_name = None
 
         return trait_name
+
+    def _get_service_protocol(self, trait):
+        """ Determine the protocol to register a service trait with. """
         
-    def _get_plugin(self, extension_point):
-        """ Return the plugin that offered an extension point. """
+        # If a specific protocol was specified then use it.
+        if trait.service_protocol is not None:
+            protocol = trait.service_protocol
 
-        for plugin in self.application:
-            if extension_point in plugin.get_extension_points():
-                break
-
+        # Otherwise, use the type of the objects that can be assigned to the
+        # trait.
+        #
+        # fixme: This works for 'Instance' traits, but what about 'AdaptsTo'
+        # and 'AdaptedTo' traits?
         else:
-            plugin = None
+            # Note that in traits the protocol can be an actual class or
+            # interfacem or the *name* of a class or interface. This allows
+            # us to lazy load them!
+            protocol = trait.trait_type.klass
 
-        return plugin
+        return protocol
 
     def _get_plugin_klass(self, module, plugin):
         """ Get the klass that defines the plugin. """

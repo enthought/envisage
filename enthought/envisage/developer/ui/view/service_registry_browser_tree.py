@@ -26,12 +26,26 @@ class IServiceRegistryTreeNode(TreeNode):
     def get_children(self, obj):
         """ Get the object's children. """
 
-        print obj._services.items()
+
+        services_by_type = {}
+
+        print obj._services
+        
+        for id, (protocol, obj, properties) in obj._services.items():
+            services = services_by_type.setdefault(protocol, [])
+            services.append((id, obj, properties))
+            
 
         svtno = SingleValueTreeNodeObject()
-        node  = svtno.node_for('Services', obj._services)
-        
-        return [node]
+
+        nodes = []
+        for protocol, services in services_by_type.items():
+            node = svtno.node_for(protocol, services)
+            node._protocol_ = protocol
+            
+            nodes.append(node)
+
+        return nodes
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
