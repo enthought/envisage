@@ -84,22 +84,21 @@ class ServiceRegistryBrowser(HasTraits):
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
-        if hasattr(obj, 'parent'):
-            if hasattr(obj.parent, '_protocol_'):
-                if obj.parent._protocol_ is not None:
-                    print 'Clicked on service', obj, obj.parent._protocol_
-                    print obj.value
-                    protocol = obj.parent._protocol_
-                    id         = obj.value[0]
-                    service    = obj.value[1]
+        if hasattr(obj, '_protocol_'):
+            if obj._protocol_ is not None:
+                protocol = obj._protocol_
+                id       = obj._service_id_
+                service  = obj.value
 
-                    for plugin in self.application:
-                        if id in plugin._service_ids:
-                            self.dclick_service(plugin, protocol, service)
-                            break
+                print 'Clicked on service', id, protocol, service
 
-                    else:
-                        print 'Cant find service!'
+                for plugin in self.application:
+                    if id in plugin._service_ids:
+                        self.dclick_service(plugin, protocol, service)
+                        break
+
+                else:
+                    print 'Cant find service!'
 
             
         return
@@ -148,6 +147,7 @@ class ServiceRegistryBrowser(HasTraits):
         Return None if the service was not declared via a trait.
 
         """
+        print 'get service traits', plugin, protocol, obj
 
         service_traits = plugin.traits(service=True)
         print 'Service traits', service_traits
