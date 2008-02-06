@@ -36,7 +36,7 @@ service_registry_browser_view = View(
 
     resizable = True,
     style     = 'custom',
-    title     = 'Service Registry',
+    title     = 'Service Registryyyyyyy',
 
     width     = .1,
     height    = .1
@@ -97,7 +97,7 @@ class ServiceRegistryBrowser(HasTraits):
 
                 else:
                     self.workbench.active_window.information(
-                        'Service not create by a plugin'
+                        'The service was not created by a plugin (%s)' % repr(service)
                     )
             
         return

@@ -36,7 +36,7 @@ class WorkbenchPlugin(Plugin):
     ###########################################################################
     # Extension points offered by this plugin.
     ###########################################################################
-    
+
     actions = ExtensionPoint(
         List(Instance('enthought.envisage.ui.action.api.IActionSet')),
         id   = ACTIONS,
@@ -78,13 +78,28 @@ class WorkbenchPlugin(Plugin):
         desc = """
 
         This extension point allows you to contribute views to the workbench.
-        Each extension must be a callable with the following signature::
+        Each extension must be a factory (i.e. callable) with the following
+        signature::
 
           callable(**traits) -> IView
 
         i.e. It should be a callable that takes keyword arguments that specify
         the view's traits, and should return an object that implements the
-        'IView' interface. A class that implements 'IView' would do nicely ;^)
+        'IView' interface.
+
+        e.g. a factory could be::
+        
+        1) A class derived from the base 'View' class::
+        
+            class MyView(View):
+                " A view class! "
+
+        2) A factory function::
+
+            def factory(**traits):
+                return MyView(**traits)
+
+        etc...
          
         """
     )
