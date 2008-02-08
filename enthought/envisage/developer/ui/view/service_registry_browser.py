@@ -9,7 +9,7 @@ from enthought.envisage.api import IApplication, IExtensionPoint
 from enthought.envisage.api import IServiceRegistry, Service
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
-from enthought.traits.api import HasTraits, Instance
+from enthought.traits.api import Any, HasTraits, Instance
 from enthought.traits.ui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
@@ -22,7 +22,7 @@ from service_registry_browser_tree import \
 
 service_registry_browser_view = View(
     Item(
-        name       = 'service_registry',
+        name       = 'service_registry_model',
         show_label = False,
         editor     = TreeEditor(
             nodes       = service_registry_browser_tree_nodes,
@@ -36,7 +36,7 @@ service_registry_browser_view = View(
 
     resizable = True,
     style     = 'custom',
-    title     = 'Service Registryyyyyyy',
+    title     = 'Service Registry',
 
     width     = .1,
     height    = .1
@@ -61,6 +61,9 @@ class ServiceRegistryBrowser(HasTraits):
 
     # The extension registry that we are browsing.
     service_registry = Instance(IServiceRegistry)
+
+    # The extension registry that we are browsing.
+    service_registry_model = Any#Instance(IServiceRegistry)
     
     # The workbench service.
     workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
@@ -78,27 +81,33 @@ class ServiceRegistryBrowser(HasTraits):
         """ Trait initializer. """
 
         return self.application.service_registry
+
+    def _service_registry_model_default(self):
+        """ Trait initializer. """
+
+        from service_registry_browser_tree import ServiceRegistryModel
+        
+        return ServiceRegistryModel(service_registry=self.service_registry)
     
     #### Methods ##############################################################
     
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
-        if hasattr(obj, '_protocol_'):
-            if obj._protocol_ is not None:
-                protocol = obj._protocol_
-                id       = obj._service_id_
-                service  = obj.value
+        if hasattr(obj, '_service_id_'):
+            protocol = obj._protocol_
+            id       = obj._service_id_
+            service  = obj.value
 
-                for plugin in self.application:
-                    if id in plugin._service_ids:
-                        self.dclick_service(plugin, protocol, service)
-                        break
+            for plugin in self.application:
+                if id in plugin._service_ids:
+                    self.dclick_service(plugin, protocol, service)
+                    break
 
-                else:
-                    self.workbench.active_window.information(
-                        'The service was not created by a plugin (%s)' % repr(service)
-                    )
+            else:
+                self.workbench.information(
+                    'Service not created by a plugin (%s)' % repr(service)
+                )
             
         return
 
