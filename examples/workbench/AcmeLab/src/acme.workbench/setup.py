@@ -16,14 +16,10 @@ setup(
         'acme.workbench'
     ],
 
-    install_requires     = [
-        'enthought.envisage.ui.workbench>=3.0a1'
-    ],
-
     entry_points         = """
 
     [enthought.envisage.plugins]
-    workbench = acme.workbench.api:WorkbenchPlugin
+    workbench = acme.workbench.workbench_plugin:WorkbenchPlugin
 
     """
     

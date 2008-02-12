@@ -15,8 +15,4 @@ setup(
         'acme',
         'acme.acmelab'
     ],
-
-    install_requires     = [
-        'enthought.envisage.ui.workbench>=3.0a1'
-    ],
 )
