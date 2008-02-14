@@ -8,6 +8,117 @@ from enthought.traits.api import Code, Str
 from enthought.traits.ui.api import Item, TableEditor, View, VGroup
 from enthought.traits.ui.table_column import ObjectColumn # fixme: non-api!
 
+class ExtensionPointModel(Hastraits):
+    """ A model for browsing an extension point. """
+
+    # The plugin that offered the extension point.
+    plugin = Instance(IPlugin)
+
+    # The extension point.
+    extension_point = Instance(IExtensionPoint)
+
+    #### 'ExtensionPointModel' interface ######################################
+
+
+
+class ExtensionModel(Hastraits):
+    """ A model for browsing a contribution to an extension point. """
+
+    # The plugin that made the contribution.
+    plugin = Instance(IPlugin)
+
+    #### 'ContributionModel' interface ########################################
+
+    # The Id of the extension point that the contribution is for.
+    extension_point_id = Str
+
+    # The contributions to the extension point.
+    contributions = List
+    
+    ###########################################################################
+    # 'ApplicationModel' interface.
+    ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _contributions_default(self):
+        """ Trait initializer. """
+
+        return plugin.application.get_extensions(self.extension_point_id)
+    
+
+class PluginModel(HasTraits):
+    """ A model for browsing a plugin.  """
+
+    # The plugin that we are a model for.
+    plugin = Instance(IPlugin)
+
+    #### 'PluginModel' interface ##############################################
+
+    # Models for each of the plugin's extension points.
+    extension_point_models = List(ExtensionPointModel)
+
+    # Models for each of the plugin's contributions to extension points.
+    extension_models = List(ExtensionModel)
+
+    ###########################################################################
+    # 'ApplicationModel' interface.
+    ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _extension_models_default(self):
+        """ Trait initializer. """
+
+        extension_modelss = [
+            ExtensionModel(
+                plugin             = plugin,
+                extension_point_id = extension_point.id
+            )
+
+            for extension_point in plugin.get_extension_points()
+        ]
+
+        return extension_models
+
+    def _extension_point_models_default(self):
+        """ Trait initializer. """
+
+        extension_point_models = [
+            ExtensionPointModel(
+                plugin          = plugin,
+                extension_point = extension_point
+            )
+
+            for extension_point in plugin.get_extension_points()
+        ]
+
+        return extension_point_models
+    
+
+class ApplicationModel(HasTraits):
+    """ A model for browsing an application. """
+
+    # The application that we are a model for.
+    application = Instance(IApplication)
+
+    #### 'ApplicationModel' interface #########################################
+
+    # Models for each of the application's plugins.
+    plugin_models = List(PluginModel)
+
+    ###########################################################################
+    # 'ApplicationModel' interface.
+    ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _plugin_models_default(self):
+        """ Trait initializer. """
+
+        return [PluginModel(plugin=plugin) for plugin in self.application]
+
+
 
 extension_point_table_editor = TableEditor(
     columns = [
