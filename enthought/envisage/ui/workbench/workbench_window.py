@@ -107,18 +107,50 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         return menu_bar_manager
 
-    def _tool_bar_manager_default(self):
+##     def _tool_bar_manager_default(self):
+##         """ Trait initializer. """
+
+##         # Create an empty tool bar.
+##         tool_bar_manager = ToolBarManager(window=self, show_tool_names=False)
+
+##         # Add all of the contributed groups and actions.
+##         self._action_manager_builder.initialize_action_manager(
+##             tool_bar_manager, 'ToolBar'
+##         )
+
+##         return tool_bar_manager
+
+    def _tool_bar_managers_default(self):
         """ Trait initializer. """
 
-        # Create an empty tool bar.
-        tool_bar_manager = ToolBarManager(window=self, show_tool_names=False)
+        # Get the roots of all actions, groups and menus.
+        roots = self._action_manager_builder.get_roots()
 
-        # Add all of the contributed groups and actions.
-        self._action_manager_builder.initialize_action_manager(
-            tool_bar_manager, 'ToolBar'
-        )
+        tool_bar_managers = []
+        for root in roots:
+            if root.startswith('ToolBar'):
+                components = root.split(':')
+                if len(components) == 1:
+                    name = 'Default'
 
-        return tool_bar_manager
+                else:
+                    name = components[1]
+                
+                # Create an empty tool bar.
+                tool_bar_manager = ToolBarManager(
+                    window          = self,
+                    show_tool_names = False,
+                    name            = name
+                )
+
+                # Add all of the contributed groups and actions.
+                self._action_manager_builder.initialize_action_manager(
+                    tool_bar_manager, root
+                )
+
+                tool_bar_managers.append(tool_bar_manager)
+                
+        return tool_bar_managers
 
     ###########################################################################
     # 'WorkbenchWindow' interface.

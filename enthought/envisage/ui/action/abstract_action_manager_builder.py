@@ -58,6 +58,27 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return
 
+    def get_roots(self):
+        """ Return the roots of all action, menu and group paths.
+
+        This method was created solely to help provide the ability to have
+        multiple toolbars.
+
+        """
+
+        roots = {}
+        for action_set in self.action_sets:
+            for action in action_set.actions:
+                roots[action.path.split('/')[0]] = None
+
+            for action in action_set.groups:
+                roots[action.path.split('/')[0]] = None
+
+            for action in action_set.menus:
+                roots[action.path.split('/')[0]] = None
+
+        return roots.keys()
+
     ###########################################################################
     # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
