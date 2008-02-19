@@ -48,76 +48,12 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return menu_bar_manager
 
-##     # fixme: This method is a big ol' mess - refactor!
-##     def create_tool_bar_managers(self, root):
-##         """ Creates all tool bar managers from the builder's action sets. """
-
-##         tool_bar_managers = [
-##             self._create_tool_bar_manager(tool_bar)
-            
-##             for tool_bar in self._action_set_manager.get_tool_bars(root)
-##         ]
-
-##         for tool_bar_manager in tool_bar_managers:
-##             name = tool_bar_manager.name
-            
-##             # Get all of the groups for the tool bar.
-##             groups = []
-##             for group in self._action_set_manager.get_groups(root):
-##                 if group.path.startswith('%s/%s' % (root, name)):
-##                     group.path = '/'.join(action.path.split('/')[1:])
-##                     groups.append(group)
-
-##             # Add all groups and menus.
-##             self._add_groups_and_menus(tool_bar_manager, groups)
-
-##             # Get all of the actions for the tool bar.
-##             actions = []
-##             for action in self._action_set_manager.get_actions(root):
-##                 if action.path.startswith('%s/%s' % (root, name)):
-##                     action.path = '/'.join(action.path.split('/')[1:])
-##                     actions.append(action)
-
-##             # Add all of the actions ot the menu manager.
-##             self._add_actions(tool_bar_manager, actions)
-
-##         from tool_bar import ToolBar
-##         tool_bar_manager = self._create_tool_bar_manager(
-##             ToolBar(name='Tool Bar', path=root)
-##         )
-        
-##         # Scoop up old style groups and actions.
-##         add_default = False
-        
-##         groups = []
-##         for group in self._action_set_manager.get_groups(root):
-##             if group.path == root:
-##                 groups.append(group)
-
-##         if len(groups) > 0:
-##             add_default = True
-            
-##         # Add all groups and menus.
-##         self._add_groups_and_menus(tool_bar_manager, groups)
-
-##         actions = []
-##         for action in self._action_set_manager.get_actions(root):
-##             if action.path == root:
-##                 actions.append(action)
-
-##         if len(actions) > 0:
-##             add_default = True
-                
-##         # Add all of the actions ot the menu manager.
-##         self._add_actions(tool_bar_manager, actions)
-
-##         if add_default:
-##             tool_bar_managers.insert(0, tool_bar_manager)
-            
-##         return tool_bar_managers
-
     def create_tool_bar_managers(self, root):
         """ Creates all tool bar managers from the builder's action sets. """
+
+        ########################################
+        # New style (i.e multi) tool bars.
+        ########################################
 
         tool_bar_managers = []
         for tool_bar in self._action_set_manager.get_tool_bars(root):
@@ -148,9 +84,9 @@ class AbstractActionManagerBuilder(HasTraits):
                 # Include the tool bar!
                 tool_bar_managers.append(tool_bar_manager)
 
-        ########################################
-        # Scoop up old style groups and actions.
-        ########################################
+        ######################################################################
+        # Scoop up old groups and actions for the old style (single) tool bar.
+        ######################################################################
 
         # Get all of the groups for the tool bar.
         groups = []
@@ -167,6 +103,7 @@ class AbstractActionManagerBuilder(HasTraits):
         # We don't add the tool bar if it is empty!
         if len(groups) + len(actions) > 0:
             from tool_bar import ToolBar
+
             tool_bar_manager = self._create_tool_bar_manager(
                 ToolBar(name='Tool Bar', path=root)
             )
