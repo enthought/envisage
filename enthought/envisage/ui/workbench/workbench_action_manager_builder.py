@@ -7,6 +7,7 @@ import weakref
 # Enthought library imports.
 from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
+from enthought.pyface.workbench.action.api import MenuBarManager
 from enthought.pyface.workbench.action.api import ToolBarManager
 from enthought.traits.api import Instance
 
@@ -98,6 +99,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
 
         return menu_manager
 
+    def _create_menu_bar_manager(self):
+        """ Create a menu bar manager from the builder's action sets. """
+
+        return MenuBarManager(window=self.window)
+        
     def _create_tool_bar_manager(self, definition):
         """ Create a tool bar manager implementation from a definition. """
 

@@ -5,11 +5,8 @@
 import enthought.pyface.workbench.api as pyface
 
 from enthought.envisage.api import IApplication, ExtensionPoint
-from enthought.envisage.ui.action.api import ActionSet
 from enthought.pyface.workbench.api import IPerspective
-from enthought.pyface.workbench.action.api import MenuBarManager
-from enthought.pyface.workbench.action.api import ToolBarManager
-from enthought.traits.api import Callable, Instance, List, Property
+from enthought.traits.api import Instance, Property
 
 # Local imports.
 from workbench_action_manager_builder import WorkbenchActionManagerBuilder
@@ -97,60 +94,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _menu_bar_manager_default(self):
         """ Trait initializer. """
 
-        # Create an empty menu bar.
-        menu_bar_manager = MenuBarManager(window=self)
-
-        # Add all of the contributed menus, groups and actions.
-        self._action_manager_builder.initialize_action_manager(
-            menu_bar_manager, 'MenuBar'
-        )
-
-        return menu_bar_manager
-
-##     def _tool_bar_manager_default(self):
-##         """ Trait initializer. """
-
-##         # Create an empty tool bar.
-##         tool_bar_manager = ToolBarManager(window=self, show_tool_names=False)
-
-##         # Add all of the contributed groups and actions.
-##         self._action_manager_builder.initialize_action_manager(
-##             tool_bar_manager, 'ToolBar'
-##         )
-
-##         return tool_bar_manager
-
-##     def _tool_bar_managers_default(self):
-##         """ Trait initializer. """
-
-##         # Get the roots of all actions, groups and menus.
-##         roots = self._action_manager_builder.get_roots()
-
-##         tool_bar_managers = []
-##         for root in roots:
-##             if root.startswith('ToolBar'):
-##                 components = root.split(':')
-##                 if len(components) == 1:
-##                     name = 'Default'
-
-##                 else:
-##                     name = components[1]
-                
-##                 # Create an empty tool bar.
-##                 tool_bar_manager = ToolBarManager(
-##                     window          = self,
-##                     show_tool_names = False,
-##                     name            = name
-##                 )
-
-##                 # Add all of the contributed groups and actions.
-##                 self._action_manager_builder.initialize_action_manager(
-##                     tool_bar_manager, root
-##                 )
-
-##                 tool_bar_managers.append(tool_bar_manager)
-                
-##         return tool_bar_managers
+        return self._action_manager_builder.create_menu_bar_manager('MenuBar')
 
     def _tool_bar_managers_default(self):
         """ Trait initializer. """

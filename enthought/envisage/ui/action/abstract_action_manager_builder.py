@@ -38,26 +38,16 @@ class AbstractActionManagerBuilder(HasTraits):
     ###########################################################################
     # 'IActionManagerBuilder' interface.
     ###########################################################################
-        
-    def initialize_action_manager(self, action_manager, root):
-        """ Initialize an action manager from the builder's action sets. """
 
-        # Get all of the groups and menus for the specified root (for toolbars
-        # there will **only** be groups).
-        groups_and_menus = self._action_set_manager.get_groups(root)
-        groups_and_menus.extend(self._action_set_manager.get_menus(root))
+    def create_menu_bar_manager(self, root):
+        """ Create a menu bar manager from the builder's action sets. """
 
-        # Add all groups and menus.
-        self._add_groups_and_menus(action_manager, groups_and_menus)
+        menu_bar_manager = self._create_menu_bar_manager()
 
-        # Get all actions for the specified root.
-        actions = self._action_set_manager.get_actions(root)
-        
-        # Add all of the actions ot the menu manager.
-        self._add_actions(action_manager, actions)
+        self.initialize_action_manager(menu_bar_manager, root)
 
-        return
-
+        return menu_bar_manager
+    
     def create_tool_bar_managers(self, root):
         """ Creates all tool bar managers from the builder's action sets. """
 
@@ -124,27 +114,25 @@ class AbstractActionManagerBuilder(HasTraits):
             tool_bar_managers.insert(0, tool_bar_manager)
             
         return tool_bar_managers
+        
+    def initialize_action_manager(self, action_manager, root):
+        """ Initialize an action manager from the builder's action sets. """
 
-##     def get_roots(self):
-##         """ Return the roots of all action, menu and group paths.
+        # Get all of the groups and menus for the specified root (for toolbars
+        # there will **only** be groups).
+        groups_and_menus = self._action_set_manager.get_groups(root)
+        groups_and_menus.extend(self._action_set_manager.get_menus(root))
 
-##         This method was created solely to help provide the ability to have
-##         multiple toolbars.
+        # Add all groups and menus.
+        self._add_groups_and_menus(action_manager, groups_and_menus)
 
-##         """
+        # Get all actions for the specified root.
+        actions = self._action_set_manager.get_actions(root)
+        
+        # Add all of the actions ot the menu manager.
+        self._add_actions(action_manager, actions)
 
-##         roots = {}
-##         for action_set in self.action_sets:
-##             for action in action_set.actions:
-##                 roots[action.path.split('/')[0]] = None
-
-##             for action in action_set.groups:
-##                 roots[action.path.split('/')[0]] = None
-
-##             for action in action_set.menus:
-##                 roots[action.path.split('/')[0]] = None
-
-##         return roots.keys()
+        return
 
     ###########################################################################
     # Protected 'AbstractActionManagerBuilder' interface.
@@ -162,6 +150,11 @@ class AbstractActionManagerBuilder(HasTraits):
 
     def _create_menu_manager(self, menu_manager_definition):
         """ Creates a menu manager implementation from a definition. """
+
+        raise NotImplementedError
+
+    def _create_menu_bar_manager(self):
+        """ Creates a tool bar manager implementation from a definition. """
 
         raise NotImplementedError
 
