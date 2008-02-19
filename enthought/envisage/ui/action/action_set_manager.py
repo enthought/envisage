@@ -35,6 +35,11 @@ class ActionSetManager(HasTraits):
 
         return self._get_items(self.action_sets, 'menus', root)
 
+    def get_tool_bars(self, root):
+        """ Return all tool bar definitions for a root. """
+
+        return self._get_items(self.action_sets, 'tool_bars', root)
+
     ###########################################################################
     # 'Private' interface.
     ###########################################################################

@@ -1,4 +1,4 @@
-""" The *definition* of a menu in a menu bar or menu. """
+""" The *definition* of a tool bar. """
 
 
 # Enthought library imports.
@@ -9,6 +9,7 @@ from group import Group
 from location import Location
 
 
+# fixme: Remove duplication (in menu.py too!)
 class CGroup(Instance):
     """ A trait type for a 'Group' or anything that can be cast to a 'Group'.
 
@@ -41,21 +42,21 @@ class CGroup(Instance):
         return super(CGroup, self).validate(object, name, value)
 
     
-class Menu(Location):
+class ToolBar(Location):
     """ The *definition* of a menu in a menu bar or menu. """
 
-    # The menu's unique identifier (unique within the group that the menu is to
-    # be added to).
+    # The tool bars's unique identifier (unique within the multi-toolbar
+    # that the tool bar is to be added to).
     id = Str
 
-    # The menu name (appears on the menu bar or menu).
+    # The tool bar name (appears when the tool bar is 'undocked').
     name = Str
 
-    # The groups in the menu.
+    # The groups in the tool bar.
     groups = List(CGroup)
 
-    # The optional name of a class that implements the menu. The class must
-    # support the **enthought.pyface.action.MenuManager** protocol.
+    # The optional name of a class that implements the too bar. The class must
+    # support the **enthought.pyface.action.ToolBarManager** protocol.
     class_name = Str
 
     ###########################################################################
@@ -65,7 +66,7 @@ class Menu(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Menu(%s)' % self.name
+        return 'ToolBar(%s)' % self.name
 
     __repr__ = __str__
 
@@ -76,6 +77,6 @@ class Menu(Location):
     def _id_default(self):
         """ Trait initializer. """
         
-        return self.name.strip('&')
+        return self.name
     
 #### EOF ######################################################################

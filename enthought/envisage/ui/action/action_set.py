@@ -9,6 +9,7 @@ from action import Action
 from group import Group
 from i_action_set import IActionSet
 from menu import Menu
+from tool_bar import ToolBar
 
 
 class ActionSet(HasTraits):
@@ -34,6 +35,9 @@ class ActionSet(HasTraits):
 
     # The menus in this set.
     menus = List(Menu)
+
+    # The tool bars in this set.
+    tool_bars = List(ToolBar)
 
     # A mapping from human-readable names to globally unique IDs.
     #

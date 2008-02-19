@@ -7,6 +7,7 @@ import weakref
 # Enthought library imports.
 from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
+from enthought.pyface.workbench.action.api import ToolBarManager
 from enthought.traits.api import Instance
 
 
@@ -87,13 +88,47 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
                 menu_manager.name = definition.name
             
         else:
-            menu_manager = MenuManager(id=definition.id, name=definition.name)
+            menu_manager = MenuManager(
+                window=self.window, id=definition.id, name=definition.name
+            )
             
         # Add any groups to the menu.
         for group in definition.groups:
             menu_manager.insert(-1, self._create_group(group))
 
         return menu_manager
+
+    def _create_tool_bar_manager(self, definition):
+        """ Create a tool bar manager implementation from a definition. """
+
+        if len(definition.class_name) > 0:
+            klass = self._import_symbol(definition.class_name)
+            
+            # fixme: 'window' is not actually a trait on 'ToolBarManager'! We
+            # set it here because it is set on the 'MenuManager'! However, it
+            # seems that menus and actions etc should *always* have a reference
+            # to the window that they are in?!?
+            tool_bar_manager = klass(window=self.window)
+
+            # Overwrite any attributes specified in the definition.
+            #
+            # fixme: Is there a better way to do this?
+            if len(definition.name) > 0:
+                tool_bar_manager.name = definition.name
+            
+        else:
+            tool_bar_manager = ToolBarManager(
+                id              = definition.id,
+                name            = definition.name,
+                show_tool_names = False,
+                window          = self.window
+            )
+            
+        # Add any groups to the menu.
+        for group in definition.groups:
+            tool_bar_manager.insert(-1, self._create_group(group))
+
+        return tool_bar_manager
 
     ###########################################################################
     # Private interface.

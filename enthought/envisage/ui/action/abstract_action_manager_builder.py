@@ -58,26 +58,93 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return
 
-    def get_roots(self):
-        """ Return the roots of all action, menu and group paths.
+    def create_tool_bar_managers(self, root):
+        """ Creates all tool bar managers from the builder's action sets. """
 
-        This method was created solely to help provide the ability to have
-        multiple toolbars.
+        tool_bar_managers = [
+            self._create_tool_bar_manager(tool_bar)
+            
+            for tool_bar in self._action_set_manager.get_tool_bars(root)
+        ]
 
-        """
+        for tool_bar_manager in tool_bar_managers:
+            name = tool_bar_manager.name
+            
+            # Get all of the groups for the tool bar.
+            groups = []
+            for group in self._action_set_manager.get_groups(root):
+                if group.path.startswith('%s/%s' % (root, name)):
+                    group.path = '/'.join(action.path.split('/')[1:])
+                    groups.append(group)
 
-        roots = {}
-        for action_set in self.action_sets:
-            for action in action_set.actions:
-                roots[action.path.split('/')[0]] = None
+            # Add all groups and menus.
+            self._add_groups_and_menus(tool_bar_manager, groups)
 
-            for action in action_set.groups:
-                roots[action.path.split('/')[0]] = None
+            # Get all of the actions for the tool bar.
+            actions = []
+            for action in self._action_set_manager.get_actions(root):
+                if action.path.startswith('%s/%s' % (root, name)):
+                    action.path = '/'.join(action.path.split('/')[1:])
+                    actions.append(action)
 
-            for action in action_set.menus:
-                roots[action.path.split('/')[0]] = None
+            # Add all of the actions ot the menu manager.
+            self._add_actions(tool_bar_manager, actions)
 
-        return roots.keys()
+        from tool_bar import ToolBar
+        tool_bar_manager = self._create_tool_bar_manager(
+            ToolBar(name='Tool Bar', path=root)
+        )
+        
+        # Scoop up old style groups and actions.
+        add_default = False
+        
+        groups = []
+        for group in self._action_set_manager.get_groups(root):
+            if group.path == root:
+                groups.append(group)
+
+        if len(groups) > 0:
+            add_default = True
+            
+        # Add all groups and menus.
+        self._add_groups_and_menus(tool_bar_manager, groups)
+
+        actions = []
+        for action in self._action_set_manager.get_actions(root):
+            if action.path == root:
+                actions.append(action)
+
+        if len(actions) > 0:
+            add_default = True
+                
+        # Add all of the actions ot the menu manager.
+        self._add_actions(tool_bar_manager, actions)
+
+        if add_default:
+            tool_bar_managers.insert(0, tool_bar_manager)
+            
+        return tool_bar_managers
+
+##     def get_roots(self):
+##         """ Return the roots of all action, menu and group paths.
+
+##         This method was created solely to help provide the ability to have
+##         multiple toolbars.
+
+##         """
+
+##         roots = {}
+##         for action_set in self.action_sets:
+##             for action in action_set.actions:
+##                 roots[action.path.split('/')[0]] = None
+
+##             for action in action_set.groups:
+##                 roots[action.path.split('/')[0]] = None
+
+##             for action in action_set.menus:
+##                 roots[action.path.split('/')[0]] = None
+
+##         return roots.keys()
 
     ###########################################################################
     # Protected 'AbstractActionManagerBuilder' interface.
@@ -95,6 +162,11 @@ class AbstractActionManagerBuilder(HasTraits):
 
     def _create_menu_manager(self, menu_manager_definition):
         """ Creates a menu manager implementation from a definition. """
+
+        raise NotImplementedError
+
+    def _create_tool_bar_manager(self, tool_bar_definition):
+        """ Creates a tool bar manager implementation from a definition. """
 
         raise NotImplementedError
 

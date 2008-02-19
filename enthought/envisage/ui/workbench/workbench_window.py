@@ -120,37 +120,42 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
 ##         return tool_bar_manager
 
+##     def _tool_bar_managers_default(self):
+##         """ Trait initializer. """
+
+##         # Get the roots of all actions, groups and menus.
+##         roots = self._action_manager_builder.get_roots()
+
+##         tool_bar_managers = []
+##         for root in roots:
+##             if root.startswith('ToolBar'):
+##                 components = root.split(':')
+##                 if len(components) == 1:
+##                     name = 'Default'
+
+##                 else:
+##                     name = components[1]
+                
+##                 # Create an empty tool bar.
+##                 tool_bar_manager = ToolBarManager(
+##                     window          = self,
+##                     show_tool_names = False,
+##                     name            = name
+##                 )
+
+##                 # Add all of the contributed groups and actions.
+##                 self._action_manager_builder.initialize_action_manager(
+##                     tool_bar_manager, root
+##                 )
+
+##                 tool_bar_managers.append(tool_bar_manager)
+                
+##         return tool_bar_managers
+
     def _tool_bar_managers_default(self):
         """ Trait initializer. """
 
-        # Get the roots of all actions, groups and menus.
-        roots = self._action_manager_builder.get_roots()
-
-        tool_bar_managers = []
-        for root in roots:
-            if root.startswith('ToolBar'):
-                components = root.split(':')
-                if len(components) == 1:
-                    name = 'Default'
-
-                else:
-                    name = components[1]
-                
-                # Create an empty tool bar.
-                tool_bar_manager = ToolBarManager(
-                    window          = self,
-                    show_tool_names = False,
-                    name            = name
-                )
-
-                # Add all of the contributed groups and actions.
-                self._action_manager_builder.initialize_action_manager(
-                    tool_bar_manager, root
-                )
-
-                tool_bar_managers.append(tool_bar_manager)
-                
-        return tool_bar_managers
+        return self._action_manager_builder.create_tool_bar_managers('ToolBar')
 
     ###########################################################################
     # 'WorkbenchWindow' interface.
