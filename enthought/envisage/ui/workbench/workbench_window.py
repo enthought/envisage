@@ -143,16 +143,9 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
                 self._on_action_set_state_changed, 'visible'
             )
 
-##         def foo(value):
-##             for action_set in self._action_sets:
-##                 action_set.enabled = value
+        ##self._test('visible')
+        ##self._test('enabled')
 
-##             GUI.invoke_after(500, foo, not value)
-##             return
-
-##         from enthought.pyface.api import GUI
-##         GUI.invoke_after(5000, foo, False)
-        
         return action_manager_builder
 
     #### Trait change handlers ################################################
@@ -198,4 +191,39 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         return
 
+    def _test(self, trait_name):
+        """ Testing only! """
+
+        action_set_ids = ['enthought.envisage.ui.workbench.test']
+
+        def toggle(value):
+            for action_set_id in action_set_ids:
+                action_set = self._get_action_set_by_id(action_set_id)
+                setattr(action_set, trait_name, value)
+
+            GUI.invoke_after(500, toggle, not value)
+
+            return
+
+        from enthought.pyface.api import GUI
+        GUI.invoke_after(1000, toggle, False)
+        
+        return
+
+    def _get_action_set_by_id(self, id):
+        """ Return the action set with the specified Id.
+
+        Return None if no such action set exists.
+
+        """
+
+        for action_set in self._action_sets:
+            if action_set.id == id:
+                break
+
+        else:
+            action_set = None
+
+        return action_set
+    
 #### EOF ######################################################################
