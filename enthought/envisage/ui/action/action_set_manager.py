@@ -59,6 +59,10 @@ class ActionSetManager(HasTraits):
                 if self._get_root(item.path, action_set.aliases) == root:
                     items.append(item)
 
+                    # fixme: Hacky, but the model needs to maintain the
+                    # action set that contributed the item.
+                    item._action_set_ = action_set
+
         return items
 
     def _get_root(self, path, aliases):

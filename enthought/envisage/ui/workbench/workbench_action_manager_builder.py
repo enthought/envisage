@@ -50,6 +50,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         else:
             action = Action(name=definition.name)
 
+        # fixme: We need to associate the action set with the action to
+        # allow for dynamic enabling/disabling etc. This is a *very* hacky
+        # way to do it!
+        action._action_set_ = definition._action_set_
+        
         return action
 
     def _create_group(self, definition):
@@ -67,6 +72,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
 
         else:
             group = Group(id=definition.id)
+
+        # fixme: We need to associate the action set with the action to
+        # allow for dynamic enabling/disabling etc. This is a *very* hacky
+        # way to do it!
+        group._action_set_ = definition._action_set_
 
         return group
 
@@ -95,7 +105,13 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
             
         # Add any groups to the menu.
         for group in definition.groups:
+            group._action_set_ = definition._action_set_
             menu_manager.insert(-1, self._create_group(group))
+
+        # fixme: We need to associate the action set with the action to
+        # allow for dynamic enabling/disabling etc. This is a *very* hacky
+        # way to do it!
+        menu_manager._action_set_ = definition._action_set_
 
         return menu_manager
 
@@ -132,7 +148,13 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
             
         # Add any groups to the tool bar.
         for group in definition.groups:
+            group._action_set_ = definition._action_set_
             tool_bar_manager.insert(-1, self._create_group(group))
+
+        # fixme: We need to associate the action set with the action to
+        # allow for dynamic enabling/disabling etc. This is a *very* hacky
+        # way to do it!
+        tool_bar_manager._action_set_ = definition._action_set_
 
         return tool_bar_manager
 

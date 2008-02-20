@@ -105,7 +105,7 @@ class AbstractActionManagerBuilder(HasTraits):
             from tool_bar import ToolBar
 
             tool_bar_manager = self._create_tool_bar_manager(
-                ToolBar(name='Tool Bar', path=root)
+                ToolBar(name='Tool Bar', path=root, _action_set_=None)
             )
         
             # Add all groups and menus.

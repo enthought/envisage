@@ -136,29 +136,33 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         for action_set in self._action_sets:
             action_set.on_trait_change(
-                self._on_action_set_enabled_changed, 'enabled'
+                self._on_action_set_state_changed, 'enabled'
             )
 
             action_set.on_trait_change(
-                self._on_action_set_visible_changed, 'visible'
+                self._on_action_set_state_changed, 'visible'
             )
 
+##         def foo(value):
+##             for action_set in self._action_sets:
+##                 action_set.enabled = value
+
+##             GUI.invoke_after(500, foo, not value)
+##             return
+
+##         from enthought.pyface.api import GUI
+##         GUI.invoke_after(5000, foo, False)
+        
         return action_manager_builder
 
     #### Trait change handlers ################################################
 
-    def _on_action_set_enabled_changed(self, obj, trait_name, old, new):
+    def _on_action_set_state_changed(self, obj, trait_name, old, new):
         """ Dynamic trait change handler. """
 
-        self._update_tool_bars(obj, 'visible', new)
+        self._update_tool_bars(obj, trait_name, new)
+        self._update_actions(obj, trait_name, new)
 
-        return
-
-    def _on_action_set_visible_changed(self, obj, trait_name, old, new):
-        """ Dynamic trait change handler. """
-
-        self._update_tool_bars(obj, 'visible', new)
-                    
         return
 
     #### Methods ##############################################################
@@ -166,11 +170,32 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _update_tool_bars(self, action_set, trait_name, value):
         """ Update the state of the tool bars in an action set. """
 
-        for tool_bar in action_set.tool_bars:
-            for tool_bar_manager in self.tool_bar_managers:
-                if tool_bar_manager.id == tool_bar.id:
-                    setattr(tool_bar_manager, trait_name, value)
+        for tool_bar_manager in self.tool_bar_managers:
+            if tool_bar_manager._action_set_ is action_set:
+                setattr(tool_bar_manager, trait_name, value)
 
         return
-        
+
+    def _update_actions(self, action_set, trait_name, value):
+        """ Update the state of the tool bars in an action set. """
+
+        def visitor(item):
+            """ Called when we visit each item in an action manager. """
+
+            # fixme: The 'additions' group gets created by default and hence
+            # has no '_action_set_' attribute. This smells because of the
+            # fact that we 'tag' the '_action_set_' attribute onto all items to
+            # be able to find them later. This link should be maintained
+            # externally (maybe in the action set itself?).
+            if hasattr(item, '_action_set'):
+                if item._action_set_ is action_set:
+                    setattr(item.action, trait_name, value)
+
+        self.menu_bar_manager.walk(visitor)
+
+        for tool_bar_manager in self.tool_bar_managers:
+            tool_bar_manager.walk(visitor)
+
+        return
+
 #### EOF ######################################################################
