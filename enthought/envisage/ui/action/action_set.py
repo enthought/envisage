@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, List, Str, implements
+from enthought.traits.api import Bool, Dict, HasTraits, List, Str, implements
 
 # Local imports.
 from action import Action
@@ -39,6 +39,13 @@ class ActionSet(HasTraits):
     # The tool bars in this set.
     tool_bars = List(ToolBar)
 
+    # Are the actions and menus in this set enabled (if they are diabled they
+    # will be greyed out).
+    enabled = Bool(True)
+
+    # Are the actions, menus and toolbars in this set visible?
+    visible = Bool(True)
+    
     # A mapping from human-readable names to globally unique IDs.
     #
     # This mapping is used when interpreting the first item in a location path

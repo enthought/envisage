@@ -28,7 +28,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     _actions = weakref.WeakValueDictionary()
     
     ###########################################################################
-    # Protected 'MenuBuilder' interface.
+    # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
 
     def _create_action(self, definition):
@@ -130,7 +130,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
                 window          = self.window
             )
             
-        # Add any groups to the menu.
+        # Add any groups to the tool bar.
         for group in definition.groups:
             tool_bar_manager.insert(-1, self._create_group(group))
 

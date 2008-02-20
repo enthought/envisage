@@ -5,6 +5,7 @@
 import enthought.pyface.workbench.api as pyface
 
 from enthought.envisage.api import IApplication, ExtensionPoint
+from enthought.envisage.ui.action.api import ActionSet
 from enthought.pyface.workbench.api import IPerspective
 from enthought.traits.api import Instance, Property
 
@@ -35,7 +36,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     _action_manager_builder = Instance(WorkbenchActionManagerBuilder)
     
     # Contributed action sets.
-    _actions = ExtensionPoint(id=ACTIONS)
+    _action_sets = ExtensionPoint(id=ACTIONS)
     
     # Contributed views (views are contributed as factories not view instances
     # as each workbench window requires its own).
@@ -105,7 +106,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # 'WorkbenchWindow' interface.
     ###########################################################################
 
-    #### Properties ###########################################################
+    #### Trait properties #####################################################
 
     def _get_application(self):
         """ Property getter. """
@@ -121,16 +122,55 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def __action_manager_builder_default(self):
         """ Trait initializer. """
 
-        import inspect
-        
-        actions = []
-        for action in self._actions:
-            if inspect.isclass(action):
-                actions.append(action())
+        action_sets = []
+        for factory_or_action_set in self._action_sets:
+            if not isinstance(factory_or_action_set, ActionSet):
+                action_sets.append(factory_or_action_set())
 
             else:
-                actions.append(action)
+                action_sets.append(factory_or_action_set)
+
+        action_manager_builder = WorkbenchActionManagerBuilder(
+            window=self, action_sets=action_sets
+        )
+
+        for action_set in self._action_sets:
+            action_set.on_trait_change(
+                self._on_action_set_enabled_changed, 'enabled'
+            )
+
+            action_set.on_trait_change(
+                self._on_action_set_visible_changed, 'visible'
+            )
+
+        return action_manager_builder
+
+    #### Trait change handlers ################################################
+
+    def _on_action_set_enabled_changed(self, obj, trait_name, old, new):
+        """ Dynamic trait change handler. """
+
+        self._update_tool_bars(obj, 'visible', new)
+
+        return
+
+    def _on_action_set_visible_changed(self, obj, trait_name, old, new):
+        """ Dynamic trait change handler. """
+
+        self._update_tool_bars(obj, 'visible', new)
+                    
+        return
+
+    #### Methods ##############################################################
+
+    def _update_tool_bars(self, action_set, trait_name, value):
+        """ Update the state of the tool bars in an action set. """
+
+        for tool_bar in action_set.tool_bars:
+            for tool_bar_manager in self.tool_bar_managers:
+                if tool_bar_manager.id == tool_bar.id:
+                    setattr(tool_bar_manager, trait_name, value)
+
+        return
         
-        return WorkbenchActionManagerBuilder(window=self, action_sets=actions)
-    
 #### EOF ######################################################################

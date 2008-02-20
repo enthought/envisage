@@ -2,8 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import ActionManager, MenuBarManager
-from enthought.pyface.action.api import MenuManager
+from enthought.pyface.action.api import ActionManager, MenuManager
 from enthought.traits.api import HasTraits, Instance, List, implements
 
 # Local imports.
@@ -48,6 +47,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
         return menu_bar_manager
 
+    # fixme: V3 refactor loooong (and confusing) method!
     def create_tool_bar_managers(self, root):
         """ Creates all tool bar managers from the builder's action sets. """
 
@@ -256,7 +256,7 @@ class AbstractActionManagerBuilder(HasTraits):
         # over the list trying to add them, we might need to add a group before
         # we can add a menu and we might need to add a menu before we can add a
         # group! Hence, we take multiple passes over the list and we only barf
-        # if, in any single iteration, we cannot place anything.
+        # if, in any single iteration, we cannot add anything.
         while len(groups_and_menus) > 0:
             start = len(groups_and_menus)
             
@@ -276,7 +276,7 @@ class AbstractActionManagerBuilder(HasTraits):
                     
             end = len(groups_and_menus)
             
-            # If we didn't succeed in placing *any* menus or groups then we
+            # If we didn't succeed in adding *any* menus or groups then we
             # must have a problem!
             if start == end:
                 raise ValueError('Could not place %s' % groups_and_menus)
