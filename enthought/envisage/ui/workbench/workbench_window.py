@@ -180,9 +180,9 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
             # fact that we 'tag' the '_action_set_' attribute onto all items to
             # be able to find them later. This link should be maintained
             # externally (maybe in the action set itself?).
-            if hasattr(item, '_action_set'):
+            if hasattr(item, '_action_set_'):
                 if item._action_set_ is action_set:
-                    setattr(item.action, trait_name, value)
+                    setattr(item, trait_name, value)
 
         self.menu_bar_manager.walk(visitor)
 
