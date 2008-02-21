@@ -10,7 +10,7 @@ messages = [
     ),
 
     Message(
-        author = "Edgar W. Dijkstra",
+        author = "Edsger W. Dijkstra",
         text   = "The effective programmer is keenly aware of the limited size"
         " of his own head."
     ),
