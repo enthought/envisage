@@ -104,8 +104,9 @@ class Application(HasTraits):
         # be used as more convenient ways to access preferences.
         set_default_preferences(self.preferences)
 
-        # This allows the 'ExtensionPoint' trait type to be used as a more
-        # convenient way to get the extensions for a given extension point.
+        # Set the default extension registry used by 'ExtensionPoint' and
+        # 'ExtensionPointBinding' instances. This allows them to be used as
+        # more convenient ways to use extension points.
         ExtensionPoint.extension_registry = self
 
         # This allows the 'Service' trait type to be used as a more convenient

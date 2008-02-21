@@ -12,7 +12,12 @@ from i_extension_point import IExtensionPoint
 
 
 class ExtensionPoint(TraitType):
-    """ An extension point. """
+    """ An extension point.
+
+    Note that this is a trait *type* and hence does *NOT* have traits itself
+    (i.e. it does *not* inherit from 'HasTraits').
+
+    """
 
     # Even though trait types do not themselves have traits, we can still
     # declare that we implement an interface.

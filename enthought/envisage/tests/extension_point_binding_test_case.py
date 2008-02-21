@@ -35,7 +35,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         self.extension_registry = MutableExtensionRegistry()
-        ExtensionPointBinding.extension_registry = self.extension_registry
+
+        # Use the extension registry for all extension points and bindings.
+        ExtensionPoint.extension_registry = self.extension_registry
         
         return
 
@@ -169,6 +171,35 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(1, len(listener.new))
         self.assert_('a string' in listener.new)
+        
+        return
+
+    def test_explicit_extension_registry(self):
+        """ explicit extension registry """
+
+        registry = self.extension_registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+        f.on_trait_change(listener)
+
+        # Create an empty extension registry use that in the binding.
+        extension_registry = MutableExtensionRegistry()
+
+        # Make some bindings.
+        bind_extension_point(f, 'x', 'my.ep', extension_registry)
+        
+        # Make sure that the object was initialized properly.
+        self.assertEqual(0, len(f.x))
         
         return
 
