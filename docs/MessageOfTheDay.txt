@@ -317,25 +317,25 @@ We have successfully built our first extensible, pluggable application!
 
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 
-.. _acme.motd: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/api.py
+.. _acme.motd: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/api.py
 
-.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd.software_quotes/setup.py
+.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd.software_quotes/setup.py
 
-.. _Application: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/application.py
+.. _Application: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/application.py
 
-.. _`examples/MOTD`: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD
+.. _`examples/MOTD`: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD
 
-.. _IApplication: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/i_application.py
+.. _IApplication: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_application.py
 
-.. _IMessage: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/i_message.py
+.. _IMessage: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/i_message.py
 
-.. _Message: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/message.py
+.. _Message: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/message.py
 
-.. _MOTD: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd.py
+.. _MOTD: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/motd.py
 
-.. _IMOTD: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/i_motd.py
+.. _IMOTD: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/i_motd.py
 
-.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
+.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/motd_plugin.py
 
-.. _run.py: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/examples/MOTD/dist/run.py
+.. _run.py: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/dist/run.py
 
