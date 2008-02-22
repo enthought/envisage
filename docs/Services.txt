@@ -300,5 +300,5 @@ To register the factory, we just use 'application.register_service' as usual::
 Now, the first time somebody tries to get any 'IPlumber' service, the factory
 is called and the returned plumber object replaces the factory in the registry.
 
-.. _IApplication: https://svn.enthought.com/enthought/browser/trunk/enthought.envisage_3.0/enthought/envisage/i_application.py
+.. _IApplication: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought.envisage_3.0/enthought/envisage/i_application.py
 
