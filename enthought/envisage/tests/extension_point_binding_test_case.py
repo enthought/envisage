@@ -198,7 +198,8 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         # Make some bindings.
         bind_extension_point(f, 'x', 'my.ep', extension_registry)
         
-        # Make sure that the object was initialized properly.
+        # Make sure that we pick up the empty extension registry and not the
+        # default one.
         self.assertEqual(0, len(f.x))
         
         return
