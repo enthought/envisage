@@ -30,7 +30,8 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # as a convenience since windows often want access to the application.
     application = Delegate('workbench', modify=True)
 
-    # The action sets used in the window.
+    # The action sets that provide the toolbars, menus groups and actions
+    # used in the window.
     action_sets = List(Instance(ActionSet))
 
     #### Private interface ####################################################

@@ -26,10 +26,23 @@ class DeveloperUIPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
+    # The plugin's unique identifier.
     id   = ID
+
+    # The plugin's name (suitable for displaying to the user).
     name = 'Developer UI'
 
-    #### Extension point contributions ########################################
+    #### 'DeveloperUIPlugin' interface ########################################
+
+    ###########################################################################
+    # Extension points offered by this plugin.
+    ###########################################################################
+
+    # None
+
+    ###########################################################################
+    # Contributions to extension points made by this plugin.
+    ###########################################################################
 
     # Perspectives.
     perspectives = List(extension_point=PERSPECTIVES)
@@ -38,8 +51,16 @@ class DeveloperUIPlugin(Plugin):
     views = List(extension_point=VIEWS)
 
     ###########################################################################
-    # 'WorkbenchPlugin' interface.
+    # Services offered by this plugin.
     ###########################################################################
+
+    # None
+    
+    ###########################################################################
+    # 'DeveloperUIPlugin' interface.
+    ###########################################################################
+
+    #### Extension point contributions ########################################
 
     def _views_default(self):
         """ Trait initializer. """
@@ -56,29 +77,13 @@ class DeveloperUIPlugin(Plugin):
 
         return views
 
-##     def _views_default(self):
-##         """ Trait initializer. """
-
-##         # Enthought library imports.
-##         from enthought.pyface.workbench.api import TraitsUIViewFactory
-
-##         views = [
-##             TraitsUIViewFactory(
-##                 id   = APPLICATION_BROWSER,
-##                 name = 'Application Browser',
-##                 obj  = self._create_application_browser()
-##             )
-##         ]
-
-##         return views
-
     def _perspectives_default(self):
         """ Trait initializer. """
 
         from enthought.envisage.developer.ui.perspective.api import \
              DeveloperPerspective
 
-        return [DeveloperPerspective()]
+        return [DeveloperPerspective]
 
     ###########################################################################
     # Private interface.
