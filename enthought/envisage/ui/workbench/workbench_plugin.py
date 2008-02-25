@@ -6,6 +6,10 @@ from enthought.envisage.api import ExtensionPoint, Plugin
 from enthought.traits.api import Callable, List, Instance
 
 
+# Testing!
+TESTING = False
+
+
 class WorkbenchPlugin(Plugin):
     """ The Envisage workbench plugin.
 
@@ -151,8 +155,15 @@ class WorkbenchPlugin(Plugin):
 
         from default_action_set import DefaultActionSet
 
-        return [DefaultActionSet]
+        if TESTING:
+            from test_action_set import TestActionSet
+            action_sets = [DefaultActionSet, TestActionSet]
 
+        else:
+            action_sets = [DefaultActionSet]
+
+        return action_sets
+    
     def _workbench_preferences_pages_default(self):
         """ Trait initializer. """
         
