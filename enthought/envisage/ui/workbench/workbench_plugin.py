@@ -10,7 +10,7 @@ class WorkbenchPlugin(Plugin):
     """ The Envisage workbench plugin.
 
     The workbench plugin uses the PyFace workbench to provide the basis of an
-    IDE-like user interface. The interface is made of up perspectives, views
+    IDE-like user interface. The interface is made up of perspectives, views
     and editors.
 
     Note that this is not intended to be a 'general-purpose' plugin for user
@@ -21,14 +21,17 @@ class WorkbenchPlugin(Plugin):
     """
 
     # Extension point Ids.
-    ACTIONS           = 'enthought.envisage.ui.workbench.actions'
+    ACTION_SETS       = 'enthought.envisage.ui.workbench.actions'
     PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
     PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
     VIEWS             = 'enthought.envisage.ui.workbench.views'
     
     #### 'IPlugin' interface ##################################################
 
-    id   = 'enthought.envisage.ui.workbench'
+    # The plugin's unique identifier.
+    id = 'enthought.envisage.ui.workbench'
+
+    # The plugin's name (suitable for displaying to the user).
     name = 'Workbench'
 
     #### 'WorkbenchPlugin' interface ##########################################
@@ -37,70 +40,88 @@ class WorkbenchPlugin(Plugin):
     # Extension points offered by this plugin.
     ###########################################################################
 
-    actions = ExtensionPoint(
-        List(Instance('enthought.envisage.ui.action.api.IActionSet')),
-        id   = ACTIONS,
-        desc = """
+    action_sets = ExtensionPoint(
+        List(Callable), id=ACTION_SETS, desc="""
 
-        This extension point allows you to contribute menus, groups and actions
-        to the workbench menu and tool bars. You can create new menus and
-        groups or add to existing ones.
-
+        An action set contains the toobars, menus, groups and actions that you
+        would like to add to top-level workbench windows (i.e. the main
+        application window). You can create new toolbars, menus and groups
+        and/or add to existing ones.
+    
+        Each contribution to this extension point must be a factory that
+        creates an action set, where 'factory' means any callable with the
+        following signature::
+    
+          callable(**traits) -> IActionSet
+    
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.envisage.ui.action.api:ActionSet'.
+    
         """
     )
     
     perspectives = ExtensionPoint(
-        List(Instance('enthought.envisage.ui.workbench.api.IPerspective')),
-        id   = PERSPECTIVES,
-        desc = """
+        List(Callable), id=PERSPECTIVES, desc="""
+        
+        A perspective is simply an arrangment of views around the (optionally
+        hidden) editor area.
 
-        This extension point allows you to contribute perspectives to the
-        workbench. Each perspective is just an arrangement of views around an
-        (optional) editor area.
+        Each contribution to this extension point must be a factory that
+        creates a perspective, where 'factory' means any callable with the
+        following signature::
+    
+          callable(**traits) -> IPerspective
+
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.pyface.workbench.api:IPerspective'.
 
         """
     )
 
     preferences_pages = ExtensionPoint(
-        List(Instance('enthought.preferences.ui.api.IPreferencesPage')),
-        id   = PREFERENCES_PAGES,
-        desc = """
+        List(Callable), id=PREFERENCES_PAGES, desc="""
 
-        This extension points allows you to contribute pages to the
-        preferences dialog.
+        A preferences page appears in the preferences dialog to allow the user
+        to manipulate some preference values.
 
+        Each contribution to this extension point must be a factory that
+        creates a preferences page, where 'factory' means any callable with the
+        following signature::
+    
+          callable(**traits) -> IPreferencesPage
+
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.preferences.ui.api:IPreferencesPage'.
+          
         """
     )
     
     views = ExtensionPoint(
-        List(Callable),
-        id   = VIEWS,
-        desc = """
+        List(Callable), id=VIEWS, desc="""
 
-        This extension point allows you to contribute views to the workbench.
-        Each extension must be a factory (i.e. callable) with the following
+        A view provides information to the user to support their current
+        task. Views can contain anything you like(!) and are arranged around
+        the (optionally hidden) editor area. The user can re-arrange views as
+        he/she sees fit.
+
+        Each contribution to this extension point must be a factory that
+        creates a view, where 'factory' means any callable with the following
         signature::
-
+    
           callable(**traits) -> IView
 
-        i.e. It should be a callable that takes keyword arguments that specify
-        the view's traits, and should return an object that implements the
-        'IView' interface.
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.pyface.workbench.api.View'.
 
-        e.g. a factory could be::
-        
-        1) A class derived from the base 'View' class::
-        
-            class MyView(View):
-                " A view class! "
+        It is also common to use a simple function (especially when a view
+        is a representation of a service) e.g::
 
-        2) A factory function::
+            def view_factory(**traits):
+                ' Create a view that is a representation of a service. '
+                fooe = self.application.get_service('IFoo')
 
-            def factory(**traits):
-                return MyView(**traits)
+                return SomeView(foo=foo, **traits)
 
-        etc...
-         
         """
     )
 
@@ -108,7 +129,7 @@ class WorkbenchPlugin(Plugin):
     # Contributions to extension points made by this plugin.
     ###########################################################################
 
-    workbench_actions           = List(extension_point=ACTIONS)
+    workbench_action_sets       = List(extension_point=ACTION_SETS)
     workbench_preferences_pages = List(extension_point=PREFERENCES_PAGES)
 
     ###########################################################################
@@ -125,19 +146,19 @@ class WorkbenchPlugin(Plugin):
 
     #### Extension point contributions ########################################
     
-    def _workbench_actions_default(self):
+    def _workbench_action_sets_default(self):
         """ Trait initializer. """
 
         from default_action_set import DefaultActionSet
 
-        return [DefaultActionSet()]
+        return [DefaultActionSet]
 
     def _workbench_preferences_pages_default(self):
         """ Trait initializer. """
         
         from workbench_preferences_page import WorkbenchPreferencesPage
         
-        return [WorkbenchPreferencesPage()]
+        return [WorkbenchPreferencesPage]
 
     #### Services #############################################################
 

@@ -7,7 +7,7 @@ import enthought.pyface.workbench.api as pyface
 from enthought.envisage.api import IApplication, ExtensionPoint
 from enthought.envisage.ui.action.api import ActionSet
 from enthought.pyface.workbench.api import IPerspective
-from enthought.traits.api import Instance, Property
+from enthought.traits.api import Delegate, Instance, List, Property
 
 # Local imports.
 from workbench_action_manager_builder import WorkbenchActionManagerBuilder
@@ -18,7 +18,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     """ An extensible workbench window. """
 
     # Extension point Ids.
-    ACTIONS      = 'enthought.envisage.ui.workbench.actions'
+    ACTION_SETS  = 'enthought.envisage.ui.workbench.actions'
     VIEWS        = 'enthought.envisage.ui.workbench.views'
     PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
     
@@ -28,7 +28,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     #
     # This is equivalent to 'self.workbench.application', and is provided just
     # as a convenience since windows often want access to the application.
-    application = Property(Instance(IApplication))
+    application = Delegate('workbench', modify=True)
+
+    # The action sets used in the window.
+    action_sets = List(Instance(ActionSet))
 
     #### Private interface ####################################################
 
@@ -36,14 +39,30 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     _action_manager_builder = Instance(WorkbenchActionManagerBuilder)
     
     # Contributed action sets.
-    _action_sets = ExtensionPoint(id=ACTIONS)
+    _action_sets = ExtensionPoint(id=ACTION_SETS)
     
     # Contributed views (views are contributed as factories not view instances
     # as each workbench window requires its own).
-    _view_factories = ExtensionPoint(id=VIEWS)
+    _views = ExtensionPoint(id=VIEWS)
 
     # Contributed perspectives.
     _perspectives = ExtensionPoint(id=PERSPECTIVES)
+
+    ###########################################################################
+    # 'pyface.Window' interface.
+    ###########################################################################
+
+    #### Trait initializers ###################################################
+    
+    def _menu_bar_manager_default(self):
+        """ Trait initializer. """
+
+        return self._action_manager_builder.create_menu_bar_manager('MenuBar')
+
+    def _tool_bar_managers_default(self):
+        """ Trait initializer. """
+
+        return self._action_manager_builder.create_tool_bar_managers('ToolBar')
 
     ###########################################################################
     # 'pyface.WorkbenchWindow' interface.
@@ -84,34 +103,36 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _views_default(self):
         """ Trait initializer. """
 
-        return [factory(window=self) for factory in self._view_factories]
+        return [factory(window=self) for factory in self._views]
     
-    ###########################################################################
-    # 'pyface.Window' interface.
-    ###########################################################################
-
-    #### Trait initializers ###################################################
-    
-    def _menu_bar_manager_default(self):
-        """ Trait initializer. """
-
-        return self._action_manager_builder.create_menu_bar_manager('MenuBar')
-
-    def _tool_bar_managers_default(self):
-        """ Trait initializer. """
-
-        return self._action_manager_builder.create_tool_bar_managers('ToolBar')
-
     ###########################################################################
     # 'WorkbenchWindow' interface.
     ###########################################################################
 
-    #### Trait properties #####################################################
+    #### Trait initializers ###################################################
 
-    def _get_application(self):
-        """ Property getter. """
+    def _action_sets_default(self):
+        """ Trait initializer. """
 
-        return self.workbench.application
+        action_sets = []
+        for factory_or_action_set in self._action_sets:
+            if not isinstance(factory_or_action_set, ActionSet):
+                action_set = factory_or_action_set()
+
+            else:
+                action_set = factory_or_action_set
+
+            action_set.on_trait_change(
+                self._on_action_set_state_changed, 'enabled'
+            )
+
+            action_set.on_trait_change(
+                self._on_action_set_state_changed, 'visible'
+            )
+
+            action_sets.append(action_set)
+
+        return action_sets
 
     ###########################################################################
     # Private interface.
@@ -122,30 +143,13 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def __action_manager_builder_default(self):
         """ Trait initializer. """
 
-        action_sets = []
-        for factory_or_action_set in self._action_sets:
-            if not isinstance(factory_or_action_set, ActionSet):
-                action_sets.append(factory_or_action_set())
-
-            else:
-                action_sets.append(factory_or_action_set)
-
         action_manager_builder = WorkbenchActionManagerBuilder(
-            window=self, action_sets=action_sets
+            window=self, action_sets=self.action_sets
         )
 
-        for action_set in self._action_sets:
-            action_set.on_trait_change(
-                self._on_action_set_state_changed, 'enabled'
-            )
-
-            action_set.on_trait_change(
-                self._on_action_set_state_changed, 'visible'
-            )
-
-        ##self._test('visible')
-        ##self._test('enabled')
-
+        for action_set in self.action_sets:
+            action_set.initialize(self)
+            
         return action_manager_builder
 
     #### Trait change handlers ################################################
@@ -190,40 +194,5 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
             tool_bar_manager.walk(visitor)
 
         return
-
-    def _test(self, trait_name):
-        """ Testing only! """
-
-        action_set_ids = ['enthought.envisage.ui.workbench.test']
-
-        def toggle(value):
-            for action_set_id in action_set_ids:
-                action_set = self._get_action_set_by_id(action_set_id)
-                setattr(action_set, trait_name, value)
-
-            GUI.invoke_after(500, toggle, not value)
-
-            return
-
-        from enthought.pyface.api import GUI
-        GUI.invoke_after(1000, toggle, False)
-        
-        return
-
-    def _get_action_set_by_id(self, id):
-        """ Return the action set with the specified Id.
-
-        Return None if no such action set exists.
-
-        """
-
-        for action_set in self._action_sets:
-            if action_set.id == id:
-                break
-
-        else:
-            action_set = None
-
-        return action_set
     
 #### EOF ######################################################################

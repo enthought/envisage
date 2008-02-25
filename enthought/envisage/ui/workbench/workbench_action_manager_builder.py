@@ -9,7 +9,7 @@ from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
 from enthought.pyface.action.api import Action, Group, MenuManager
 from enthought.pyface.workbench.action.api import MenuBarManager
 from enthought.pyface.workbench.action.api import ToolBarManager
-from enthought.traits.api import Instance
+from enthought.traits.api import Any, Instance
 
 
 class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
@@ -22,11 +22,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     # The workbench window that we build the menu and tool bars for.
     window = Instance('enthought.envisage.ui.workbench.api.WorkbenchWindow')
 
-    #### Private CLASS interface ##############################################
+    #### Private interface ####################################################
 
-    # All actions implementations.
-    _actions = weakref.WeakValueDictionary()
-    
+    # All action implementations.
+    _actions = Any
+
     ###########################################################################
     # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
@@ -161,6 +161,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     ###########################################################################
     # Private interface.
     ###########################################################################
+
+    def __actions_default(self):
+        """ Trait initializer. """
+
+        return weakref.WeakValueDictionary()
 
     def _import_symbol(self, symbol_path):
         """ Import a symbol. """
