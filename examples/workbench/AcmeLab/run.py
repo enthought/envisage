@@ -4,19 +4,18 @@
 # Standard library imports.
 import logging
 
-# Enthought library imports.
-from enthought.envisage.api import EggPluginManager
-
 # Example imports.
 from acme.acmelab.api import Acmelab
 
 
 # Enthought plugins.
 from enthought.envisage.core_plugin import CorePlugin
+from enthought.envisage.developer.developer_plugin import DeveloperPlugin
+from enthought.envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
 from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Example plugins.
-from acme.workbench.workbench_plugin import WorkbenchPlugin as AcmeWorkbenchPlugin
+from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin
 
 
 # Create a log file.
@@ -29,14 +28,14 @@ logger.setLevel(logging.DEBUG)
 def main():
     """ Run the application. """
 
-
-    # Create an application that uses the egg plugin manager to find its
-    # plugins.
+    # Create an application with the specified plugins.
     acmelab = Acmelab(
-        plugins = [
+        plugins=[
             CorePlugin(),
             WorkbenchPlugin(),
-            AcmeWorkbenchPlugin()
+            AcmeWorkbenchPlugin(),
+            DeveloperPlugin(),
+            DeveloperUIPlugin()
         ]
     )
 
