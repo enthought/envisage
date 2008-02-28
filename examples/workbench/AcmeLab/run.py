@@ -21,7 +21,7 @@ from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin
 # Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
-#logger.addHandler(logging.StreamHandler())
+logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
 
