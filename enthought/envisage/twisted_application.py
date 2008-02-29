@@ -26,7 +26,7 @@ class TwistedApplication(Application):
         started = super(TwistedApplication, self).start()
 
         # Don't start the event loop if the start was vetoed.
-        if started
+        if started:
             from twisted.internet import reactor
                     
             logger.debug('---------- reactor starting ----------')        
