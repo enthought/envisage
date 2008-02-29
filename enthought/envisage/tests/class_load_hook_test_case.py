@@ -90,7 +90,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
     def test_module_importer(self):
         """ module importer """
 
-        # The name of a built-in module to load when a class is loaed.
+        # The name of a built-in module to load when a class is loaded.
         # Obviously this is slightly dodgy because we can't be sure that some
         # other test hasn't imported the module already, but I've tried to
         # pick an obscure one ;^) I didn't want to import a local module 'cos
