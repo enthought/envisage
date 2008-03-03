@@ -108,22 +108,6 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Trait initializer. """
 
         return [factory(window=self) for factory in self._views]
-
-    #### Methods ##############################################################
-
-    def open(self):
-        """ Open the window.
-
-        Overridden to initialize the window's action sets once the window has
-        been opened.
-
-        """
-
-        opened = super(WorkbenchWindow, self).open()
-        if opened:
-            self._initialize_action_sets()
-            
-        return opened
     
     ###########################################################################
     # 'WorkbenchWindow' interface.
@@ -157,19 +141,5 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         )
 
         return action_manager_builder
-
-    def _initialize_action_sets(self):
-        """ Initialize all of the window's action sets.
-
-        This gives the action sets a chance to enable/disable or show/hide
-        menus, groups, tool bars or actions etc based on the initial state of
-        the window.
-
-        """
-        
-        for action_set in self.action_sets:
-                action_set.initialize()
-
-        return
 
 #### EOF ######################################################################

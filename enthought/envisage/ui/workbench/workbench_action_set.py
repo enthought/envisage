@@ -42,8 +42,6 @@ class WorkbenchActionSet(ActionSet):
     # 'ActionSet' interface.
     ###########################################################################
 
-    #### Trait initializers ###################################################
-
     def _enabled_changed(self, trait_name, old, new):
         """ Static trait change initializer. """
 
@@ -61,14 +59,14 @@ class WorkbenchActionSet(ActionSet):
             self._update_actions(self.window, 'visible', new)
 
         return
-    
-    #### Methods ##############################################################
-    
-    @on_trait_change('window:active_perspective')
-    def initialize(self):
-        """ Called by the framework when the action set is added to a window.
 
-        """
+    ###########################################################################
+    # 'WorkbenchActionSet' interface.
+    ###########################################################################
+    
+    @on_trait_change('window:[opened,active_perspective]')
+    def refresh(self):
+        """ Refresh the enabled/visible state of the action set. """
 
         window = self.window
 

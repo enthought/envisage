@@ -77,27 +77,5 @@ class ActionSet(HasTraits):
     #     ``Location(path='MenuBar/ASubMenu/AGroup')``
     #
     aliases = Dict(Str, Str)
-
-    ###########################################################################
-    # 'ActionSet' interface.
-    ###########################################################################
-
-    def initialize(self):
-        """ Called by the framework when the action set is added to a window.
-
-        """
-
-        # By default, do nothing!
-        pass
-
-    ###########################################################################
-    # Testing interface.
-    ###########################################################################
-
-    def test(self):
-        """ Testing! """
-
-        # By default do nothing!
-        pass
     
 #### EOF ######################################################################
