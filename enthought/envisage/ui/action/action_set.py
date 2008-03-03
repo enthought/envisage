@@ -82,7 +82,7 @@ class ActionSet(HasTraits):
     # 'ActionSet' interface.
     ###########################################################################
 
-    def initialize(self, window):
+    def initialize(self):
         """ Called by the framework when the action set is added to a window.
 
         """

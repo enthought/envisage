@@ -135,11 +135,12 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         action_sets = []
         for factory_or_action_set in self._action_sets:
             if not isinstance(factory_or_action_set, ActionSet):
-                action_set = factory_or_action_set()
+                action_set = factory_or_action_set(window=self)
 
             else:
                 action_set = factory_or_action_set
-
+                action_set.window = self
+                
             action_sets.append(action_set)
 
         return action_sets
@@ -167,7 +168,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """
         
         for action_set in self.action_sets:
-                action_set.initialize(self)
+                action_set.initialize()
 
         return
 

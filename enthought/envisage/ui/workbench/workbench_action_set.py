@@ -64,12 +64,13 @@ class WorkbenchActionSet(ActionSet):
     
     #### Methods ##############################################################
     
-    def initialize(self, window):
+    @on_trait_change('window:active_perspective')
+    def initialize(self):
         """ Called by the framework when the action set is added to a window.
 
         """
 
-        self.window = window
+        window = self.window
 
         if len(self.enabled_in) > 0:
             self.enabled = window is not None \
@@ -86,18 +87,6 @@ class WorkbenchActionSet(ActionSet):
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    #### Trait change handlers ################################################
-    
-    @on_trait_change('window.active_perspective')
-    def _when_active_perspective_changed(self, obj, trait_name, old, new):
-        """ Dynamic trait change handler. """
-
-        self.initialize(self.window)
-
-        return
-
-    #### Methods ##############################################################
 
     def _update_actions(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
