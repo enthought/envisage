@@ -65,7 +65,7 @@ class ActionSetManager(HasTraits):
 
                     # fixme: Even hackier if this is a menu then we need to
                     # tag the action set onto all of the groups.
-                    if attribute_name == 'menus':
+                    if attribute_name in ['menus', 'toolbars']:
                         for group in item.groups:
                             group._action_set_ = action_set
 
