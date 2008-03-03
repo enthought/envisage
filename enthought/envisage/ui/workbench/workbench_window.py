@@ -108,6 +108,23 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Trait initializer. """
 
         return [factory(window=self) for factory in self._views]
+
+    #### Methods ##############################################################
+
+    def open(self):
+        """ Open the window.
+
+        Overridden to initialize the action sets once the window has been
+        opened.
+
+        """
+
+        opened = super(WorkbenchWindow, self).open()
+        if opened:
+            for action_set in self.action_sets:
+                action_set.initialize(self)
+            
+        return opened
     
     ###########################################################################
     # 'WorkbenchWindow' interface.
@@ -141,9 +158,6 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
             window=self, action_sets=self.action_sets
         )
 
-        for action_set in self.action_sets:
-            action_set.initialize(self)
-            
         return action_manager_builder
     
 #### EOF ######################################################################

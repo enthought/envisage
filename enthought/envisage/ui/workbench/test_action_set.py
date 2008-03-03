@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, Menu, ToolBar
+from enthought.envisage.ui.action.api import Action, Group, Menu, ToolBar
 from enthought.envisage.ui.workbench.api import WorkbenchActionSet
 
 
@@ -31,13 +31,22 @@ class TestActionSet(WorkbenchActionSet):
         ),
     ]
 
+    groups = [
+        Group(id='Fred', path='MenuBar/Test')
+    ]
+        
     tool_bars = [
-        ToolBar(name='Fred'),
+        ToolBar(name='Fred', groups=['AToolBarGroup']),
         ToolBar(name='Wilma'),
         ToolBar(name='Barney')
     ]
         
     actions = [
+        Action(
+            path='MenuBar/Test', group='Fred',
+            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+        ),
+
         Action(
             path='ToolBar',
             class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
@@ -49,7 +58,7 @@ class TestActionSet(WorkbenchActionSet):
         ),
 
         Action(
-            path='ToolBar/Fred',
+            path='ToolBar/Fred', group='AToolBarGroup',
             class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
         ),
 
