@@ -63,6 +63,12 @@ class ActionSetManager(HasTraits):
                     # action set that contributed the item.
                     item._action_set_ = action_set
 
+                    # fixme: Even hackier if this is a menu then we need to
+                    # tag the action set onto all of the groups.
+                    if attribute_name == 'menus':
+                        for group in item.groups:
+                            group._action_set_ = action_set
+
         return items
 
     def _get_root(self, path, aliases):
