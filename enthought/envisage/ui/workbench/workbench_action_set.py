@@ -17,7 +17,7 @@ class WorkbenchActionSet(ActionSet):
     in specific perspectives.
     
     """
- 
+
     ###########################################################################
     # 'WorkbenchActionSet' interface.
     ###########################################################################
@@ -43,7 +43,7 @@ class WorkbenchActionSet(ActionSet):
     ###########################################################################
 
     def _enabled_changed(self, trait_name, old, new):
-        """ Static trait change initializer. """
+        """ Static trait change handler. """
 
         if self.window is not None:
             self._update_tool_bars(self.window, 'enabled', new)
@@ -52,7 +52,7 @@ class WorkbenchActionSet(ActionSet):
         return
 
     def _visible_changed(self, trait_name, old, new):
-        """ Static trait change initializer. """
+        """ Static trait change handler. """
 
         if self.window is not None:
             self._update_tool_bars(self.window, 'visible', new)
