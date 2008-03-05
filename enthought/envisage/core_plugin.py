@@ -38,16 +38,26 @@ class CorePlugin(Plugin):
     ###########################################################################
 
     categories = ExtensionPoint(
-        List(Instance('enthought.envisage.category_importer.CategoryImporter')),
+        List(Instance('enthought.envisage.category.Category')),
         id   = CATEGORIES,
         desc = """
 
         Traits categories allow you to dynamically extend a Python class with
         extra attributes, methods and events.
 
-        Contributions to this extension point contain the name of the class
-        you want to add the category to, and the name of the category class.
-        The category will not be loaded until the target class is loaded.
+        Contributions to this extension point allow you to import categories
+        lazily when the class to be extended is imported.
+
+        Contributions to this extension point contain the name of the category
+        class that you want to add ('class_name') and the name of the class
+        that you want to extend ('target_class_name').
+
+        e.g. To add the 'FooCategory' category to the 'Foo' class::
+
+            Category(
+                class_name        = 'foo_category.FooCategory',
+                target_class_name = 'foo.Foo'
+            )
 
         """
     )
@@ -103,9 +113,8 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences_files(self.application.preferences)
 
-        # Add all contributed category importers (the categories are only
-        # imported when the class that they extend is imported).
-        self._connect_class_load_hooks(self.categories)
+        # Add all contributed categories.
+        self._add_categories(self.categories)
         
         return
     
@@ -113,14 +122,21 @@ class CorePlugin(Plugin):
     # Private interface.
     ###########################################################################
 
-    def _connect_class_load_hooks(self, class_load_hooks):
-        """ Connect a list of class load hooks. """
+    def _add_categories(self, categories):
+        """ Add a list of categories. """
 
-        for class_load_hook in class_load_hooks:
-            class_load_hook.connect()
+        from category_importer import CategoryImporter
+        
+        for category in self.categories:
+            hook = CategoryImporter(
+                class_name          = category.target_class_name,
+                category_class_name = category.class_name,
+                import_manager      = self.application.import_manager
+            )
+            hook.connect()
 
         return
-
+    
     def _load_preferences_files(self, preferences):
         """ Load all contributed preferences files into a preferences node. """
 

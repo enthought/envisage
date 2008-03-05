@@ -41,6 +41,9 @@ class Application(HasTraits):
     # The application's globally unique identifier.
     id = Str
 
+    # The import manager.
+    import_manager = Instance(IImportManager, factory=ImportManager)
+
     # The root preferences node.
     preferences = Instance(IPreferences)
 
@@ -78,11 +81,6 @@ class Application(HasTraits):
     
     # The service registry.
     service_registry = Instance(IServiceRegistry)
-
-    #### Private interface ####################################################
-    
-    # The import manager.
-    _import_manager = Instance(IImportManager, factory=ImportManager)
     
     ###########################################################################
     # 'object' interface.
@@ -219,7 +217,7 @@ class Application(HasTraits):
     def import_symbol(self, symbol_path):
         """ Import the symbol defined by the specified symbol path. """
 
-        return self._import_manager.import_symbol(symbol_path)
+        return self.import_manager.import_symbol(symbol_path)
 
     def register_service(self, interface, obj, properties=None):
         """ Register a service. """

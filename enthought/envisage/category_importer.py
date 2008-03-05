@@ -1,31 +1,26 @@
 """ A class load hook that imports and adds a category! """
 
 
-# Standard library imports.
-import sys
-
 # Enthought library imports.
-from enthought.traits.api import Str
+from enthought.traits.api import Instance, Str
 
 # Local imports.
 from class_load_hook import ClassLoadHook
+from i_import_manager import IImportManager
 from import_manager import ImportManager
 
 
 class CategoryImporter(ClassLoadHook):
     """ A class load hook that imports and adds a category! """
 
-    #### 'CategoryImporter' *class* interface #################################
-    
-    # fixme: We would really like to use the application's import manager, but
-    # we don't really want to have to pass the application into every hook!
-    import_manager = ImportManager()
-
     #### 'CategoryImporter' interface #########################################
 
     # The possibly dotted path to the category class that we want to add when
     # the class is loaded.
     category_class_name = Str
+
+    # The import manager used to import the category class.
+    import_manager = Instance(IImportManager, ImportManager())
 
     ###########################################################################
     # 'ClassLoadHook' interface.

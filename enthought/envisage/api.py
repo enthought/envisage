@@ -12,8 +12,7 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application import Application
-from category_importer import CategoryImporter
-from class_load_hook import ClassLoadHook
+from category import Category
 from egg_plugin_manager import EggPluginManager
 from extension_registry import ExtensionRegistry
 from extension_point import ExtensionPoint
