@@ -100,7 +100,7 @@ class Plugin(ExtensionProvider):
 
         else:
             id = '%s.%s' % (type(self).__module__, type(self).__name__)
-            logger.warn('plugin has no "id"' % id)
+            logger.warn('plugin %s has no Id using <%s>' % (self, id))
             
         return id
     

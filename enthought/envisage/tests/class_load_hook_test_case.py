@@ -102,7 +102,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
         # Import the target class.
         from bar import Bar
 
-        # Make sure the category was added!
+        # Make sure the category was added when the class was loaded.
         self.assert_('y' in Bar.class_traits())
 
         # Try another one now that the class is already loaded.
