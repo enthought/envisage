@@ -14,10 +14,13 @@ class CorePlugin(Plugin):
     extensible applications such as adapters, categories and hooks etc. It does
     not contain anything to do with user interfaces!
 
+    The core plugin should be started before any other plugin. It is up to
+    the plugin manager to do this.
+    
     """
 
     # Extension point Ids.
-    CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'
+    CATEGORIES        = 'enthought.envisage.categories'
     PREFERENCES_FILES = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
@@ -33,14 +36,18 @@ class CorePlugin(Plugin):
     ###########################################################################
     # Extension points offered by this plugin.
     ###########################################################################
-    
-    class_load_hooks = ExtensionPoint(
-        List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
-        id   = CLASS_LOAD_HOOKS,
+
+    categories = ExtensionPoint(
+        List(Instance('enthought.envisage.category_importer.CategoryImporter')),
+        id   = CATEGORIES,
         desc = """
 
-        This extension point allows you to contribute code that is executed
-        when a particular class is loaded (created or imported etc).
+        Traits categories allow you to dynamically extend a Python class with
+        extra attributes, methods and events.
+
+        Contributions to this extension point contain the name of the class
+        you want to add the category to, and the name of the category class.
+        The category will not be loaded until the target class is loaded.
 
         """
     )
@@ -96,8 +103,9 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences_files(self.application.preferences)
 
-        # Connect all class load hooks.
-        self._connect_class_load_hooks(self.class_load_hooks)
+        # Add all contributed category importers (the categories are only
+        # imported when the class that they extend is imported).
+        self._connect_class_load_hooks(self.categories)
         
         return
     
@@ -106,7 +114,7 @@ class CorePlugin(Plugin):
     ###########################################################################
 
     def _connect_class_load_hooks(self, class_load_hooks):
-        """ Connect all class load hooks. """
+        """ Connect a list of class load hooks. """
 
         for class_load_hook in class_load_hooks:
             class_load_hook.connect()

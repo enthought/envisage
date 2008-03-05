@@ -38,15 +38,15 @@ class ClassLoadHook(HasTraits):
 
         MetaHasTraits.add_listener(self.on_class_loaded, self.class_name)
 
-        # If the class is already loaded then invoke the callback.
+        # If the class has already been loaded then run the code now!
         cls = self._get_class(self.class_name)
         if cls is not None:
             self.on_class_loaded(cls)
-        
+            
         return
 
     def disconnect(self):
-        """ Connect the load hook to listen for the class being loaded. """
+        """ Disconnect the load hook. """
 
         MetaHasTraits.remove_listener(self.on_class_loaded, self.class_name)
 
