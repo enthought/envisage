@@ -1,12 +1,20 @@
 """ A hook to allow code be executed when a class is loaded. """
 
 
+# Standard library imports.
+import sys
+
 # Enthought library imports.
 from enthought.traits.api import Callable, HasTraits, MetaHasTraits, Str
 
 
 class ClassLoadHook(HasTraits):
-    """ A hook to allow code to be executed when a class is loaded. """
+    """ A hook to allow code to be executed when a class is loaded.
+
+    If the class is *already* loaded when the 'connect' method is called then
+    the code is executed immediately.
+
+    """
 
     #### 'ClassLoadHook' interface ############################################
     
@@ -30,6 +38,11 @@ class ClassLoadHook(HasTraits):
 
         MetaHasTraits.add_listener(self.on_class_loaded, self.class_name)
 
+        # If the class is already loaded then invoke the callback.
+        cls = self._get_class(self.class_name)
+        if cls is not None:
+            self.on_class_loaded(cls)
+        
         return
 
     def disconnect(self):
@@ -51,43 +64,38 @@ class ClassLoadHook(HasTraits):
 
         return
 
-
-class ExecClassLoadHook(ClassLoadHook):
-    """ A class load hook that executes a statement when a class is loaded. """
-
-    #### 'ExecClassLoadHook' interface ########################################
-
-    # The statement to execute when a class is loaded.
-    code = Str
-
     ###########################################################################
-    # 'ClassLoadHook' interface.
+    # Private interface.
     ###########################################################################
 
-    def on_class_loaded(self, cls):
-        """ This method is called when the class is loaded. """
+    def _get_class(self, class_path):
+        """ Returns the class defined by *class_path*.
 
-        exec self.code
+        Returns **None** if the class has not yet been loaded.
 
-        return
+        """
 
-    
-class ModuleImporter(ExecClassLoadHook):
-    """ A class load hook that imports a module! """
+        # Only check if the class name has at least a partial hierarchy.
+        #
+        # fixme: Comment should say why!
+        if '.' in class_path:
+            components = class_path.split('.')
 
-    #### 'ModuleImporter' interface ###########################################
-    
-    # The possibly dotted package path to the module that we want to import
-    # when the class is loaded.
-    module_name = Str
+            module_name = '.'.join(components[:-1])
+            class_name  = components[-1]
 
-    ###########################################################################
-    # 'ExecClassLoadHook' interface.
-    ###########################################################################
+            # The class is loaded if its module has been imported and the class
+            # is defined in the module dictionary.
+            module = sys.modules.get(module_name, None)
+            if module is not None and hasattr(module, class_name):
+                klass = getattr(module, class_name)
 
-    def _code_default(self):
-        """ Trait initializer. """
+            else:
+                klass = None
 
-        return 'import %s' % self.module_name
+        else:
+            klass = None
+
+        return klass
 
 #### EOF ######################################################################

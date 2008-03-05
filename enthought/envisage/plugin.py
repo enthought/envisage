@@ -1,6 +1,9 @@
 """ The default implementation of the 'IPlugin' interface. """
 
 
+# Standard library imports.
+import logging
+
 # Enthought library imports.
 from enthought.traits.api import Instance, List, Str, implements
 
@@ -11,6 +14,10 @@ from i_application import IApplication
 from i_plugin import IPlugin
 from i_plugin_activator import IPluginActivator
 from plugin_activator import PluginActivator
+
+
+# Logging.
+logger = logging.getLogger(__name__)
 
 
 class Plugin(ExtensionProvider):
@@ -88,7 +95,14 @@ class Plugin(ExtensionProvider):
     def _id_default(self):
         """ Initializer. """
 
-        return self.name
+        if len(self.name) > 0:
+            id = name
+
+        else:
+            id = '%s.%s' % (type(self).__module__, type(self).__name__)
+            logger.warn('plugin has no "id"' % id)
+            
+        return id
     
     #### Methods ##############################################################
 

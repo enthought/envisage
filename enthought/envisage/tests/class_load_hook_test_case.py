@@ -5,7 +5,7 @@
 import sys, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ClassLoadHook, ModuleImporter
+from enthought.envisage.api import CategoryImporter, ClassLoadHook
 from enthought.traits.api import HasTraits
 
     
@@ -87,32 +87,39 @@ class ClassLoadHookTestCase(unittest.TestCase):
         
         return
 
-    def test_module_importer(self):
-        """ module importer """
+    def test_category_importer(self):
+        """ category importer """
 
-        # The name of a built-in module to load when a class is loaded.
-        # Obviously this is slightly dodgy because we can't be sure that some
-        # other test hasn't imported the module already, but I've tried to
-        # pick an obscure one ;^) I didn't want to import a local module 'cos
-        # I know some test runners don't set the current working directory when
-        # running harvested test suites. Seems lame to me, but hey...
-        built_in = 'sndhdr'
-        
-        # To register with 'MetaHasTraits' we use 'module_name.class_name'.
-        hook = ModuleImporter(
-            class_name='class_load_hook_test_case.Foo', module_name=built_in
+        category = CategoryImporter(
+            class_name          = 'bar.Bar',
+            category_class_name = 'bar_category.BarCategory',
         )
-        hook.connect()
+        category.connect()
+        
+        # Import the target class.
+        from bar import Bar
 
-        self.assert_(built_in not in sys.modules)
+        # Make sure the category was added!
+        self.assert_('y' in Bar.class_traits())
 
-        class Foo(HasTraits):
-            pass
+        # Try another one now that the class is already loaded.
+        category = CategoryImporter(
+            class_name          = 'bar.Bar',
+            category_class_name = 'baz_category.BazCategory',
+        )
 
-        self.assert_(built_in in sys.modules)
+        # The 'BazCategory' shouldn't be there yet!
+        self.assert_('z' not in Bar.class_traits())
+
+        # But when we 'connect' the class load hook, it should realise that
+        # the class is already loaded and add the category to it straight
+        # away.
+        category.connect()
+
+        # Make sure the category was added!
+        self.assert_('z' in Bar.class_traits())
         
         return
-
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
