@@ -40,8 +40,11 @@ class Plugin(ExtensionProvider):
     # The application that the plugin is part of.
     application = Instance(IApplication)
 
-    # The plugin's unique identifier (if no identifier is specified then the
-    # plugin's name is used).
+    # The plugin's unique identifier.
+    #
+    # If no identifier is specified then the plugin's name is used. If no name
+    # is specified either then the module and class name of the plugin are used
+    # to create an Id with the form 'module_name.class_name').
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
@@ -59,10 +62,12 @@ class Plugin(ExtensionProvider):
     def get_extension_points(self):
         """ Return the extension points offered by the provider. """
 
-        extension_points = []
-        for trait in self.traits(__extension_point__=True).values():
-            extension_points.append(trait.trait_type)
+        extension_points = [
+            trait.trait_type
 
+            for trait in self.traits(__extension_point__=True).values()
+        ]
+        
         return extension_points
 
     def get_extensions(self, extension_point_id):
@@ -100,7 +105,7 @@ class Plugin(ExtensionProvider):
 
         else:
             id = '%s.%s' % (type(self).__module__, type(self).__name__)
-            logger.warn('plugin %s has no Id using <%s>' % (self, id))
+            logger.warn('plugin %s has no Id - using <%s>' % (self, id))
             
         return id
     
@@ -166,9 +171,17 @@ class Plugin(ExtensionProvider):
     def unregister_services(self):
         """ Unregister any service offered by the plugin. """
 
-        for service_id in self._service_ids:
+        # Unregister the services in the reverse order that we registered
+        # them.
+        service_ids = self._service_ids[:]
+        service_ids.reverse()
+        
+        for service_id in service_ids:
             self.application.unregister_service(service_id)
 
+        # Just in case the plugin is started again!
+        self._service_ids = []
+        
         return
 
     ###########################################################################
