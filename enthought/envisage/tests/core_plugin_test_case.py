@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, Plugin
-from enthought.traits.api import List
+from enthought.traits.api import HasTraits, Int, List
 
 
 class TestApplication(Application):
@@ -47,8 +47,8 @@ class CorePluginTestCase(unittest.TestCase):
             categories = List(
                 [
                     Category(
-                        class_name        = 'bar_category.BarCategory',
-                        target_class_name = 'bar.Bar'
+                        class_name = 'bar_category.BarCategory',
+                        target_class_name = 'core_plugin_test_case.Bar'
                     )
                 ],
                 
@@ -61,8 +61,9 @@ class CorePluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[core, a])
         application.start()
 
-        # Import the target class.
-        from bar import Bar
+        # Create the target class.
+        class Bar(HasTraits):
+            x = Int
 
         # Make sure the category was imported and added.
         self.assert_('y' in Bar.class_traits())
