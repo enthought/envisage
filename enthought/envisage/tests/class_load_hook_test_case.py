@@ -65,16 +65,16 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
             return
 
-        # Create the class before we create the hook.
-        class Bar(HasTraits):
-            pass
-
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
             class_name = 'class_load_hook_test_case.ClassLoadHookTestCase',
             on_load    = on_class_loaded
         )
         hook.connect()
+
+        # Make sure the 'on_load' got called immediately because the class is
+        # already loaded.
+        self.assertEqual(ClassLoadHookTestCase, on_class_loaded.cls)
         
         return
 
