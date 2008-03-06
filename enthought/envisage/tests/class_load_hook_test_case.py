@@ -55,6 +55,29 @@ class ClassLoadHookTestCase(unittest.TestCase):
         
         return
 
+    def test_class_already_loaded(self):
+        """ class already loaded """
+
+        def on_class_loaded(cls):
+            """ Called when a class is loaded. """
+
+            on_class_loaded.cls = cls
+
+            return
+
+        # Create the class before we create the hook.
+        class Bar(HasTraits):
+            pass
+
+        # To register with 'MetaHasTraits' we use 'module_name.class_name'.
+        hook = ClassLoadHook(
+            class_name = 'class_load_hook_test_case.ClassLoadHookTestCase',
+            on_load    = on_class_loaded
+        )
+        hook.connect()
+        
+        return
+
     def test_disconnect(self):
         """ disconnect """
 
