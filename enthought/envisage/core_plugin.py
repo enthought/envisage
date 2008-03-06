@@ -6,6 +6,9 @@ from enthought.envisage.api import ExtensionPoint, Plugin
 from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
 
+# Local imports.
+from class_load_hook import ClassLoadHook
+
 
 class CorePlugin(Plugin):
     """ The Envisage core plugin.
@@ -113,8 +116,9 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences_files(self.application.preferences)
 
-        # Add all contributed categories.
-        self._add_categories(self.categories)
+        # Add class load hooks to add all contributed categories when the
+        # associated target class is imported/created.
+        self._add_category_class_load_hooks(self.categories)
         
         return
     
@@ -122,21 +126,31 @@ class CorePlugin(Plugin):
     # Private interface.
     ###########################################################################
 
-    def _add_categories(self, categories):
-        """ Add a list of categories. """
+    def _add_category_class_load_hooks(self, categories):
+        """ Add class load hooks for a list of categories. """
 
-        from category_importer import CategoryImporter
-        
         for category in self.categories:
-            hook = CategoryImporter(
-                class_name          = category.target_class_name,
-                category_class_name = category.class_name,
-                import_manager      = self.application.import_manager
+            hook = ClassLoadHook(
+                class_name = category.target_class_name,
+                on_load    = self._create_category_adder(category.class_name)
             )
             hook.connect()
 
         return
-    
+
+    def _create_category_adder(self, category_class_name):
+        """ Create a category adder function. """
+
+        def category_adder(cls):
+            """ Import and add a category to a class. """
+
+            category = self.application.import_symbol(category_class_name)
+            cls.add_trait_category(category)
+
+            return
+
+        return category_adder
+            
     def _load_preferences_files(self, preferences):
         """ Load all contributed preferences files into a preferences node. """
 

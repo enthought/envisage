@@ -8,7 +8,6 @@ import sys, unittest
 from enthought.traits.api import HasTraits
 
 # fixme: Should these be in the api?
-from enthought.envisage.category_importer import CategoryImporter
 from enthought.envisage.class_load_hook import ClassLoadHook
 
 
@@ -90,39 +89,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
         
         return
 
-    def test_category_importer(self):
-        """ category importer """
-
-        category = CategoryImporter(
-            class_name          = 'bar.Bar',
-            category_class_name = 'bar_category.BarCategory',
-        )
-        category.connect()
-        
-        # Import the target class.
-        from bar import Bar
-
-        # Make sure the category was added when the class was loaded.
-        self.assert_('y' in Bar.class_traits())
-
-        # Try another one now that the class is already loaded.
-        category = CategoryImporter(
-            class_name          = 'bar.Bar',
-            category_class_name = 'baz_category.BazCategory',
-        )
-
-        # The 'BazCategory' shouldn't be there yet!
-        self.assert_('z' not in Bar.class_traits())
-
-        # But when we 'connect' the class load hook, it should realise that
-        # the class is already loaded and add the category to it straight
-        # away.
-        category.connect()
-
-        # Make sure the category was added!
-        self.assert_('z' in Bar.class_traits())
-        
-        return
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
