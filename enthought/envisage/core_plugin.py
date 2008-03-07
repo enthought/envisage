@@ -131,16 +131,22 @@ class CorePlugin(Plugin):
         """ Add class load hooks for a list of categories. """
 
         for category in self.categories:
-            hook = CategoryClassLoadHook(
-                import_manager      = self.application.import_manager,
-                class_name          = category.target_class_name,
-                category_class_name = category.class_name,
-                
-            )
+            hook = self._create_category_class_load_hook(category)
             hook.connect()
 
         return
-            
+
+    def _create_category_class_load_hook(self, category):
+        """ Create a category class load hook. """
+
+        category_class_load_hook = CategoryClassLoadHook(
+            import_manager      = self.application.import_manager,
+            class_name          = category.target_class_name,
+            category_class_name = category.class_name,
+        )
+
+        return category_class_load_hook
+        
     def _load_preferences_files(self, preferences):
         """ Load all contributed preferences files into a preferences node. """
 

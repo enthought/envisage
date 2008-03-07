@@ -101,7 +101,7 @@ class Plugin(ExtensionProvider):
         """ Initializer. """
 
         if len(self.name) > 0:
-            id = name
+            id = self.name
 
         else:
             id = '%s.%s' % (type(self).__module__, type(self).__name__)

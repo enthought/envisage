@@ -50,6 +50,23 @@ class PluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_id_policy(self):
+        """ id policy """
+
+        # If no Id or name is specified then use 'module_name.class_name'.
+        p = Plugin()
+        self.assertEqual('enthought.envisage.plugin.Plugin', p.id)
+
+        # If no Id is specified, but a name is then id == name.
+        p = Plugin(name='fred')
+        self.assertEqual('fred', p.id)
+
+        # If an Id is specified make sure we use it!
+        p = Plugin(name='fred', id='wilma')
+        self.assertEqual('wilma', p.id)
+
+        return
+    
     def test_plugin_activator(self):
         """ plugin activator. """
 
