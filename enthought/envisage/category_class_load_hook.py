@@ -13,7 +13,7 @@ from import_manager import ImportManager
 class CategoryClassLoadHook(ClassLoadHook):
     """ A class load hook that imports and adds a category. """
 
-    #### 'CategoryImporter' interface #########################################
+    #### 'CategoryClassLoadHook' interface ####################################
 
     # The possibly dotted path to the category class that we want to add when
     # the class is loaded.
