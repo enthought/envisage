@@ -44,7 +44,7 @@ class Plugin(ExtensionProvider):
     #
     # If no identifier is specified then the plugin's name is used. If no name
     # is specified either then the module and class name of the plugin are used
-    # to create an Id with the form 'module_name.class_name').
+    # to create an Id with the form 'module_name.class_name'.
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
