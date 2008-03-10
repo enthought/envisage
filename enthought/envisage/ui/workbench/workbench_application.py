@@ -98,6 +98,15 @@ class WorkbenchApplication(Application):
     
     #### Methods ##############################################################
 
+    def about(self):
+        """ Display the about dialog. """
+
+        # fixme: We need to create a new 'about dialog' every time so that it
+        # can have the active window as its parent.
+        self.about_dialog.open()
+
+        return
+    
     def create_workbench(self):
         """ Create the workbench. """
 
@@ -105,13 +114,24 @@ class WorkbenchApplication(Application):
 
         return self.workbench_factory(application=self)
 
+    def exit(self):
+        """ Exit the application.
+
+        This closes all open windows and hence exits the GUI event loop.
+
+        """
+
+        self.workbench.exit()
+
+        return
+    
     def run(self):
         """ Run the application.
 
         This does the following (so you don't have to ;^):-
 
         1) Starts the application
-        2) Creates and opens a workbench window.
+        2) Creates and opens a workbench window
         3) Starts the GUI event loop
         4) When the event loop terminates, stops the application
 

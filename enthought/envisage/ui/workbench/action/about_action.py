@@ -26,7 +26,7 @@ class AboutAction(Action):
     def perform(self, event):
         """ Perform the action. """
 
-        event.window.application.about_dialog.open()
+        self.window.application.about()
 
         return
     

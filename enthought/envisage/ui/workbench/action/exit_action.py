@@ -30,7 +30,7 @@ class ExitAction(Action):
     def perform(self, event):
         """ Perform the action. """
 
-        event.window.workbench.exit()
+        self.window.application.exit()
 
         return
     
