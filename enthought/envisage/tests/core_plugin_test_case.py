@@ -118,6 +118,31 @@ class CorePluginTestCase(unittest.TestCase):
        
         return
 
+    def test_preferences(self):
+        """ preferences """
+
+        from enthought.envisage.core_plugin import CorePlugin
+        
+        class PluginA(Plugin):
+            id = 'A'
+
+            preferences = List(
+                ['file://preferences.ini'], 
+                extension_point='enthought.envisage.preferences'
+            )
+
+        core = CorePlugin()
+        a    = PluginA()
+        
+        application = TestApplication(plugins=[core, a])
+        application.start()
+
+        # Make sure the preferences file was loaded.
+        x = application.preferences.get('enthought.test.x')
+        self.assertEqual('42', x)
+        
+        return
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':

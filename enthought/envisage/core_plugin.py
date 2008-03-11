@@ -25,7 +25,7 @@ class CorePlugin(Plugin):
     # Extension point Ids.
     CATEGORIES        = 'enthought.envisage.categories'
     CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
-    PREFERENCES_FILES = 'enthought.envisage.preferences'
+    PREFERENCES       = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
 
@@ -50,11 +50,10 @@ class CorePlugin(Plugin):
         extra attributes, methods and events.
 
         Contributions to this extension point allow you to import categories
-        lazily when the class to be extended is imported.
-
-        Contributions to this extension point contain the name of the category
-        class that you want to add ('class_name') and the name of the class
-        that you want to extend ('target_class_name').
+        lazily when the class to be extended is imported. Each contribution
+        contains the name of the category class that you want to add
+        ('class_name') and the name of the class that you want to extend
+        ('target_class_name').
 
         e.g. To add the 'FooCategory' category to the 'Foo' class::
 
@@ -74,17 +73,19 @@ class CorePlugin(Plugin):
         Class load hooks allow you to be notified when any 'HasTraits' class
         is imported or created.
 
+        See the documentation for 'ClassLoadHook' for more details.
+
         """
     )
     
-    preferences_files = ExtensionPoint(
+    preferences = ExtensionPoint(
         List(Str),
-        id   = PREFERENCES_FILES,
+        id   = PREFERENCES,
         desc = """
 
-        This extension point allows you to contribute preferences files. Each
-        string must be the URL of a file-like object that contains preferences
-        value.
+        Preferences files allow plugins to contribute default values for
+        user preferences. Each contributed string must be the URL of a
+        file-like object that contains preferences values.
 
         e.g.
 
@@ -126,7 +127,7 @@ class CorePlugin(Plugin):
 
         # Load all contributed preferences files into the application's root
         # preferences node.
-        self._load_preferences_files(self.application.preferences)
+        self._load_preferences(self.application.preferences)
         
         # Connect all class load hooks.
         self._connect_class_load_hooks(self.class_load_hooks)
@@ -170,8 +171,8 @@ class CorePlugin(Plugin):
 
         return category_class_load_hook
         
-    def _load_preferences_files(self, preferences):
-        """ Load all contributed preferences files into a preferences node. """
+    def _load_preferences(self, preferences):
+        """ Load all contributed preferences into a preferences node. """
 
         # We add the plugin preferences to the default scope. The default scope
         # is a transient scope which means that (quite nicely ;^) we never
@@ -182,7 +183,7 @@ class CorePlugin(Plugin):
 
         # The resource manager is used to find the preferences files.
         resource_manager = ResourceManager()
-        for resource_name in self.preferences_files:
+        for resource_name in self.preferences:
             f = resource_manager.file(resource_name)
             try:
                 default.load(f)
