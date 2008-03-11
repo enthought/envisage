@@ -24,6 +24,7 @@ class CorePlugin(Plugin):
 
     # Extension point Ids.
     CATEGORIES        = 'enthought.envisage.categories'
+    CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
     PREFERENCES_FILES = 'enthought.envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
@@ -64,7 +65,18 @@ class CorePlugin(Plugin):
 
         """
     )
+    
+    class_load_hooks = ExtensionPoint(
+        List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
+        id   = CLASS_LOAD_HOOKS,
+        desc = """
 
+        Class load hooks allow you to be notified when any 'HasTraits' class
+        is imported or created.
+
+        """
+    )
+    
     preferences_files = ExtensionPoint(
         List(Str),
         id   = PREFERENCES_FILES,
@@ -115,7 +127,10 @@ class CorePlugin(Plugin):
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences_files(self.application.preferences)
-
+        
+        # Connect all class load hooks.
+        self._connect_class_load_hooks(self.class_load_hooks)
+        
         # Add class load hooks for all of the contributed categories. The
         # category will be imported and added when the associated target class
         # is imported/created.
@@ -130,12 +145,20 @@ class CorePlugin(Plugin):
     def _add_category_class_load_hooks(self, categories):
         """ Add class load hooks for a list of categories. """
 
-        for category in self.categories:
+        for category in categories:
             hook = self._create_category_class_load_hook(category)
             hook.connect()
 
         return
 
+    def _connect_class_load_hooks(self, class_load_hooks):
+        """ Connect all class load hooks. """
+
+        for class_load_hook in class_load_hooks:
+            class_load_hook.connect()
+
+        return
+    
     def _create_category_class_load_hook(self, category):
         """ Create a category class load hook. """
 

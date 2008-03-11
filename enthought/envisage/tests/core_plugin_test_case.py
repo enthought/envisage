@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, Category, Plugin
+from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
 from enthought.traits.api import HasTraits, Int, List
 
 
@@ -68,6 +68,54 @@ class CorePluginTestCase(unittest.TestCase):
         # Make sure the category was imported and added.
         self.assert_('y' in Bar.class_traits())
         
+        return
+
+    def test_class_load_hooks(self):
+        """ class load hooks """
+
+        from enthought.envisage.core_plugin import CorePlugin
+
+        def on_class_loaded(cls):
+            """ Called when a class has been loaded. """
+
+            on_class_loaded.cls = cls
+
+            return
+
+        class PluginA(Plugin):
+            id = 'A'
+
+            class_load_hooks = List(
+                [
+                    ClassLoadHook(
+                        class_name = 'core_plugin_test_case.Baz',
+                        on_load    = on_class_loaded,
+                    )
+                ],
+                
+                extension_point='enthought.envisage.class_load_hooks'
+            )
+
+        core = CorePlugin()
+        a    = PluginA()
+        
+        application = TestApplication(plugins=[core, a])
+        application.start()
+
+        # Make sure we ignore a class that we are not interested in!
+        class Bif(HasTraits):
+            pass
+
+        # Make sure the class load hook was *ignored*.
+        self.assert_(not hasattr(on_class_loaded, 'cls'))
+        
+        # Create the target class.
+        class Baz(HasTraits):
+            pass
+ 
+        # Make sure the class load hook was called.
+        self.assertEqual(Baz, on_class_loaded.cls)
+       
         return
 
 
