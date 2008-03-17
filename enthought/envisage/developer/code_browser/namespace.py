@@ -30,6 +30,7 @@ class Namespace(HasTraits):
     def is_trait(self, name):
         """ Attempt to resolve a name to see if it is a trait. """
 
+        # fixme: We might want to be a bit cleverer than this ;^)
         return True
     
         # Try the namespace's locals first.

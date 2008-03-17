@@ -76,9 +76,15 @@ class TestActionSet(WorkbenchActionSet):
     #### 'WorkbenchActionSet' interface #######################################
 
     # The Ids of the perspectives that the action set is enabled in.
-    enabled_in = ['Foo']
+    enabled_for_perspectives = ['Foo']
 
     # The Ids of the perspectives that the action set is visible in.
-    visible_in = ['Foo', 'Bar']
+    visible_for_perspectives = ['Foo', 'Bar']
 
+    # The Ids of the views that the action set is enabled for.
+    #enabled_for_views = ['Red']
+
+    # The Ids of the views that the action set is visible for.
+    #visible_for_views = ['Red']
+    
 #### EOF ######################################################################

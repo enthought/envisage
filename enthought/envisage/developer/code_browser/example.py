@@ -5,7 +5,7 @@
 import sys, time
 
 # Enthought library imports.
-from enthought.charm import enclbr
+from enthought.envisage.developer.code_browser.api import CodeBrowser
 
 
 def main(argv):
@@ -17,18 +17,18 @@ def main(argv):
         print 'e.g., python example.py enthought.traits'
         
     else:
-        # Load the cache.
-        enclbr.load_cache('data.pickle')
+        # Create a code browser.
+        code_browser = CodeBrowser(filename='data.pickle')
         
         # Parse the specified package.
         start = time.time()
-        contents = enclbr.read_package(sys.argv[1])
+        contents = code_browser.read_package(sys.argv[1])
         stop = time.time()
         
         print 'Time taken to parse', sys.argv[1], 'was', stop - start, 'secs'
         
         # Save the cache.
-        enclbr.save_cache('data.pickle')
+        code_browser.save('data.pickle')
 
     return
 

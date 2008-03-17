@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.ui.action.api import ActionSet
-from enthought.traits.api import Instance, List, Str, on_trait_change
+from enthought.traits.api import Instance, List, Str
 
 
 class WorkbenchActionSet(ActionSet):
@@ -29,8 +29,18 @@ class WorkbenchActionSet(ActionSet):
     #
     # For finer control over the enablement/visibility simply override the
     # 'initialize' method.
-    enabled_in = List(Str)
-    visible_in = List(Str)
+    enabled_for_perspectives = List(Str)
+    visible_for_perspectives = List(Str)
+
+    # It is common for an action set to be enabled and/or visible only when
+    # particular view (or group of views) is visible. The following traits
+    # allow you to say which by specifiying a list of the appropriate view
+    # *Ids*.
+    #
+    # For finer control over the enablement/visibility simply override the
+    # 'initialize' method.
+    enabled_for_views = List(Str)
+    visible_for_views = List(Str)
     
     # The workbench window that the action set is in.
     #
@@ -63,29 +73,77 @@ class WorkbenchActionSet(ActionSet):
     ###########################################################################
     # 'WorkbenchActionSet' interface.
     ###########################################################################
-    
-    @on_trait_change('window:[opened,active_perspective]')
-    def refresh(self):
-        """ Refresh the enabled/visible state of the action set. """
 
-        window = self.window
+    def initialize(self):
+        """ Called when the action set has been added to a window.
 
-        if len(self.enabled_in) > 0:
-            self.enabled = window is not None \
-                           and window.active_perspective is not None \
-                           and window.active_perspective.id in self.enabled_in
+        Use this method to hook up any listeners that you need to control
+        the enabled and/or visible state of the action set.
 
-        if len(self.visible_in) > 0:
-            self.visible = window is not None \
-                           and window.active_perspective is not None \
-                           and window.active_perspective.id in self.visible_in
+        By default, we listen to the window being opened and the active
+        perspective and active view being changed.
+
+        """
+
+        # We use dynamic trait handlers here instead of static handlers (or
+        # @on_trait_change) because sub-classes might have a completely
+        # different way to determine the anabled and/or visible state, hence
+        # we might want to hook up completely different events.
+        self.window.on_trait_change(self._refresh, 'opened')
+        self.window.on_trait_change(self._refresh, 'active_part')
+        self.window.on_trait_change(self._refresh, 'active_perspective')
 
         return
-
+    
     ###########################################################################
     # Private interface.
     ###########################################################################
 
+    #### Trait change handlers ################################################
+    
+    def _window_changed(self):
+        """ Static trait change handler. """
+
+        # fixme: We put the code into an 'initialize' method because it seems
+        # easier to explain that we expect it to be overridden. It seems a bit
+        # smelly to say that a trait change handfler needs to be overridden.
+        self.initialize()
+
+        return
+    
+    #### Methods ##############################################################
+
+    def _refresh(self):
+        """ Refresh the enabled/visible state of the action set. """
+
+        window = self.window
+
+        if len(self.enabled_for_perspectives) > 0:
+            self.enabled = window is not None \
+                           and window.active_perspective is not None \
+                           and window.active_perspective.id in \
+                           self.enabled_for_perspectives
+
+        if len(self.visible_for_perspectives) > 0:
+            self.visible = window is not None \
+                           and window.active_perspective is not None \
+                           and window.active_perspective.id in \
+                           self.visible_for_perspectives
+
+        if len(self.enabled_for_views) > 0:
+            self.enabled = window is not None \
+                           and window.active_part is not None \
+                           and window.active_part.id in \
+                           self.enabled_for_views
+
+        if len(self.visible_for_views) > 0:
+            self.visible = window is not None \
+                           and window.active_part is not None \
+                           and window.active_part.id in \
+                           self.visible_for_views
+        
+        return
+    
     def _update_actions(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
 
