@@ -43,6 +43,8 @@ def main():
     # that terminates, stops the application.
     acmelab.run()
 
+    return
+
 
 if __name__ == '__main__':
     main()
