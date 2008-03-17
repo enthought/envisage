@@ -63,7 +63,7 @@ class ExtensionPointBinding(HasTraits):
         return
 
     ###########################################################################
-    # 'PreferenceBinding' interface.
+    # 'ExtensionPointBinding' interface.
     ###########################################################################
 
     #### Trait initializers ###################################################
@@ -177,7 +177,7 @@ def bind_extension_point(
     # This is because we only want to set the 'extension_registry' trait iff
     # one is explicitly specified. If we passed it in with the default argument
     # value of 'None' then it counts as 'setting' the trait which prevents
-    # the binding instance from defaulting to the appropriat registry.
+    # the binding instance from defaulting to the appropriate registry.
     # Also, if we try to set the 'extension_registry' trait *after*
     # construction time then it is too late as the binding initialization is
     # done in the constructor (we could of course split that out, which may be
