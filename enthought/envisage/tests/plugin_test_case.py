@@ -246,6 +246,36 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
+    def test_exception_in_trait_contribution(self):
+        """ exception in trait contribution """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+
+            x  = List(extension_point='x')
+
+            def _x_default(self):
+                """ Trait initializer. """
+
+                raise 1/0
+
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an when we try to get the contributions to the
+        # extension point.
+        self.failUnlessRaises(
+            ZeroDivisionError, application.get_extensions, 'x'
+        )
+
+        return
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':

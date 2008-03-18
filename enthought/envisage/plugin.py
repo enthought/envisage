@@ -84,8 +84,8 @@ class Plugin(ExtensionProvider):
             extensions = []
 
         elif len(trait_names) == 1:
-            extensions = getattr(self, trait_names[0])
-
+            extensions = self._get_extensions_from_trait(trait_names[0])
+                
         else:
             raise self._create_multiple_traits_exception(extension_point_id)
 
@@ -228,6 +228,20 @@ class Plugin(ExtensionProvider):
         
         return exception
 
+    def _get_extensions_from_trait(self, trait_name):
+        """ Return the extensions contributed via the specified trait. """
+        
+        try:
+            extensions = getattr(self, trait_name)
+
+        except:
+            logger.exception(
+                'getting extensions from %s, trait <%s>' % (self, trait_name)
+            )
+            raise
+
+        return extensions
+    
     def _get_service_protocol(self, trait):
         """ Determine the protocol to register a service trait with. """
         
