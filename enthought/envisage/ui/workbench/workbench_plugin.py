@@ -6,10 +6,6 @@ from enthought.envisage.api import ExtensionPoint, Plugin
 from enthought.traits.api import Callable, List, Instance
 
 
-# Testing!
-TESTING = False
-
-
 class WorkbenchPlugin(Plugin):
     """ The Envisage workbench plugin.
 
@@ -59,7 +55,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IActionSet
     
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.envisage.ui.action.api:ActionSet'.
+        that derives from 'enthought.envisage.ui.action.api.ActionSet'.
     
         """
     )
@@ -77,7 +73,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IPerspective
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.pyface.workbench.api:IPerspective'.
+        that derives from 'enthought.pyface.workbench.api.IPerspective'.
 
         """
     )
@@ -95,7 +91,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IPreferencesPage
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.preferences.ui.api:IPreferencesPage'.
+        that derives from 'enthought.preferences.ui.api.IPreferencesPage'.
           
         """
     )
@@ -120,11 +116,11 @@ class WorkbenchPlugin(Plugin):
         It is also common to use a simple function (especially when a view
         is a representation of a service) e.g::
 
-            def view_factory(**traits):
+            def foo_view_factory(**traits):
                 ' Create a view that is a representation of a service. '
-                fooe = self.application.get_service('IFoo')
+                foo = self.application.get_service('IFoo')
 
-                return SomeView(foo=foo, **traits)
+                return FooView(foo=foo, **traits)
 
         """
     )
@@ -155,20 +151,13 @@ class WorkbenchPlugin(Plugin):
 
         from default_action_set import DefaultActionSet
 
-        if TESTING:
-            from test_action_set import TestActionSet
-            action_sets = [DefaultActionSet, TestActionSet]
-
-        else:
-            action_sets = [DefaultActionSet]
-
-        return action_sets
+        return [DefaultActionSet]
     
     def _workbench_preferences_pages_default(self):
         """ Trait initializer. """
         
         from workbench_preferences_page import WorkbenchPreferencesPage
-        
+
         return [WorkbenchPreferencesPage]
 
     #### Services #############################################################

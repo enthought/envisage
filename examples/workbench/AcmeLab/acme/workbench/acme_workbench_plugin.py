@@ -14,6 +14,7 @@ class AcmeWorkbenchPlugin(Plugin):
     """
 
     # Extension points Ids.
+    ACTION_SETS       = 'enthought.envisage.ui.workbench.actions'
     PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
     PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
     VIEWS             = 'enthought.envisage.ui.workbench.views'
@@ -38,14 +39,17 @@ class AcmeWorkbenchPlugin(Plugin):
     # Contributions to extension points made by this plugin.
     ###########################################################################
 
+    # Action sets.
+    action_sets = List(extension_point=ACTION_SETS)
+
     # Perspectives.
     perspectives = List(extension_point=PERSPECTIVES)
 
-    # Views.
-    views = List(extension_point=VIEWS)
-
     # Preferences pages.
     preferences_pages = List(extension_point=PREFERENCES_PAGES)
+
+    # Views.
+    views = List(extension_point=VIEWS)
 
     ###########################################################################
     # Services offered by this plugin.
@@ -57,13 +61,14 @@ class AcmeWorkbenchPlugin(Plugin):
     # 'WorkbenchPlugin' interface.
     ###########################################################################
 
-    def _views_default(self):
+    #### Extension point contributions ########################################
+
+    def _action_sets_default(self):
         """ Trait initializer. """
 
-        from acme.workbench.view.api import BlackView, BlueView, GreenView
-        from acme.workbench.view.api import RedView, YellowView
-        
-        return [BlackView, BlueView, GreenView, RedView, YellowView]
+        from test_action_set import TestActionSet
+
+        return [TestActionSet]
 
     def _perspectives_default(self):
         """ Trait initializer. """
@@ -79,5 +84,13 @@ class AcmeWorkbenchPlugin(Plugin):
         from acme_preferences_page import AcmePreferencesPage
         
         return [AcmePreferencesPage]
+
+    def _views_default(self):
+        """ Trait initializer. """
+
+        from acme.workbench.view.api import BlackView, BlueView, GreenView
+        from acme.workbench.view.api import RedView, YellowView
+        
+        return [BlackView, BlueView, GreenView, RedView, YellowView]
 
 #### EOF ######################################################################
