@@ -71,13 +71,13 @@ class WorkbenchPlugin(Plugin):
         from acme.workbench.perspective.api import FooPerspective
         from acme.workbench.perspective.api import BarPerspective
 
-        return [FooPerspective(), BarPerspective()]
+        return [FooPerspective, BarPerspective]
 
     def _preferences_pages_default(self):
         """ Trait initializer. """
 
         from acme_preferences_page import AcmePreferencesPage
         
-        return [AcmePreferencesPage()]
+        return [AcmePreferencesPage]
 
 #### EOF ######################################################################
