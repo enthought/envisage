@@ -33,7 +33,7 @@ The project is really divided into 3 sub-projects:-
    goal is to build up a set of plugins targeted towards scientific and
    engineering applications (data import/export, 2D/3D visualization etc).
 
-Before you read any futher, we should point out that Envisage is based
+Before you read any further, we should point out that Envisage is based
 *heavily* on the excellent work that has been done in the Java community on
 frameworks such as OSGi_, Eclipse_ (which is built on top of OSGi_) and
 NetBeans_. Like these other frameworks, Envisage helps you build applications
