@@ -35,11 +35,14 @@ class PluginActivator(HasTraits):
     def stop_plugin(self, plugin):
         """ Stop the specified plugin. """
 
-        # Plugin specific stop.
-        plugin.stop()
+        # Disconnect all of the plugin's extension point traits.
+        plugin.disconnect_extension_point_traits()
 
         # Unregister all service traits.
         plugin.unregister_services()
+
+        # Plugin specific stop.
+        plugin.stop()
 
         return
 

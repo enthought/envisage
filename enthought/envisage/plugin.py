@@ -154,6 +154,13 @@ class Plugin(ExtensionProvider):
         ExtensionPoint.connect_extension_point_traits(self)
 
         return
+
+    def disconnect_extension_point_traits(self):
+        """ Disconnect all of the plugin's extesnion points."""
+
+        ExtensionPoint.disconnect_extension_point_traits(self)
+
+        return
     
     def register_services(self):
         """ Register the services offered by the plugin. """

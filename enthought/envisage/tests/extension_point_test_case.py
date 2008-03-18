@@ -54,7 +54,11 @@ class ExtensionPointTestCase(unittest.TestCase):
 
                 return
             
-        f = Foo(); f.trait('x').trait_type.connect(f, 'x')
+        f = Foo()
+
+        # Connect the extension points on the object so that it can listen
+        # for changes.
+        ExtensionPoint.connect_extension_point_traits(f)
 
         # Set the extensions.
         registry.set_extensions('my.ep', [42, 'a string', True])
@@ -65,6 +69,18 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Make sure the trait change handler was called.
         self.assert_(f.x_changed_called)
+
+        # Reset the change handler flag.
+        f.x_changed_called = False
+
+        # Disconnect the extension points on the object.
+        ExtensionPoint.disconnect_extension_point_traits(f)
+
+        # Set the extensions.
+        registry.set_extensions('my.ep', [98, 99, 100])
+
+        # Make sure the trait change handler was *not* called.
+        self.assertEqual(False, f.x_changed_called)
         
         return
         

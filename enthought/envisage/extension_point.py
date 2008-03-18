@@ -48,6 +48,15 @@ class ExtensionPoint(TraitType):
             trait.trait_type.connect(obj, trait_name)
 
         return
+
+    @staticmethod
+    def disconnect_extension_point_traits(obj):
+        """ Disconnect all of the 'ExtensionPoint' traits on an object. """
+
+        for trait_name, trait in obj.traits(__extension_point__=True).items():
+            trait.trait_type.disconnect(obj, trait_name)
+
+        return
     
     ###########################################################################
     # 'object' interface.
@@ -82,7 +91,7 @@ class ExtensionPoint(TraitType):
         # point listeners alive until their associated objects are garbage
         # collected.
         #
-        # Dict(weakref.ref(Any), List(Callable))
+        # Dict(weakref.ref(Any), Dict(Str, Callable))
         self._obj_to_listeners_map = weakref.WeakKeyDictionary()
 
         return
@@ -152,8 +161,25 @@ class ExtensionPoint(TraitType):
 
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.
-        listeners = self._obj_to_listeners_map.setdefault(obj, [])
-        listeners.append(listener)
+        listeners = self._obj_to_listeners_map.setdefault(obj, {})
+        listeners[trait_name] = listener
+
+        return
+
+    def disconnect(self, obj, trait_name):
+        """ Disconnect the extension point from a trait on an object. """
+
+        # Save a reference to the listener so that it does not get garbage
+        # collected until its associated object does.
+        listener = self._obj_to_listeners_map[obj].get(trait_name)
+        if listener is not None:
+            # Remove the listener from the extension registry.
+            self.extension_registry.remove_extension_point_listener(
+                listener, self.id
+            )
+
+            # Clean up.
+            del self._obj_to_listeners_map[obj][trait_name]
 
         return
 
