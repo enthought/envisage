@@ -7,7 +7,8 @@ from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
 
 # Local imports.
-from category_class_load_hook import CategoryClassLoadHook
+##from category_class_load_hook import CategoryClassLoadHook
+from class_load_hook import ClassLoadHook
 
 
 class CorePlugin(Plugin):
@@ -164,9 +165,30 @@ class CorePlugin(Plugin):
         """ Create a category class load hook. """
 
         category_class_load_hook = CategoryClassLoadHook(
-            import_manager      = self.application.import_manager,
+            # fixme: We don't really want the import manager on the public
+            # API of the application, but then again we don't want to reach
+            # in and use it here...
+            import_manager      = self.application._import_manager,
             class_name          = category.target_class_name,
             category_class_name = category.class_name,
+        )
+
+        return category_class_load_hook
+
+    def _create_category_class_load_hook(self, category):
+        """ Create a category class load hook. """
+
+        def import_and_add_category(cls):
+            """ Import a category and add it to a class. """
+
+            category_cls = self.application.import_symbol(category.class_name)
+            cls.add_trait_category(category_cls)
+
+            return
+
+        category_class_load_hook = ClassLoadHook(
+            class_name = category.target_class_name,
+            on_load    = import_and_add_category
         )
 
         return category_class_load_hook
