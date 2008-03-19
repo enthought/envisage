@@ -41,6 +41,8 @@ class CorePlugin(Plugin):
     # Extension points offered by this plugin.
     ###########################################################################
 
+    # Categories are actually implemented via standard 'ClassLoadHooks', but
+    # for convenience we have a specific extension point.
     categories = ExtensionPoint(
         List(Instance('enthought.envisage.category.Category')),
         id   = CATEGORIES,
