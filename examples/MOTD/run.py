@@ -25,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 def main():
     """ Run the application. """
 
-    # Create an application containing the approriate plugins.
+    # Create an application containing the appropriate plugins.
     application = Application(
         id      = 'acme.motd',
         plugins = [CorePlugin(), MOTDPlugin(), SoftwareQuotesPlugin()]
