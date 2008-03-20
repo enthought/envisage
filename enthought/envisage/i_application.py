@@ -8,7 +8,6 @@ from enthought.traits.api import Event, Instance, Interface, Str, VetoableEvent
 # Local imports.
 from application_event import ApplicationEvent
 from plugin_event import PluginEvent
-from i_import_manager import IImportManager
 
 
 class IApplication(Interface):
@@ -19,9 +18,6 @@ class IApplication(Interface):
 
     # The application's globally unique identifier.
     id = Str
-
-    # The import manager.
-    import_manager = Instance(IImportManager)
 
     # The root preferences node.
     preferences = Instance(IPreferences)
