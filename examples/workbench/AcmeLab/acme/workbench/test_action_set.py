@@ -16,7 +16,7 @@ class TestActionSet(WorkbenchActionSet):
 
     menus = [
         Menu(
-            name='&Test', path='MenuBar',
+            name='&Test', path='MenuBar', before='Help',
             groups=['XGroup', 'YGroup']
         ),
 
