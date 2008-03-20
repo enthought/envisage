@@ -66,7 +66,7 @@ class ExtensionRegistry(HasTraits):
         
         return
 
-    def get_extensions(self, extension_point_id, **kw):
+    def get_extensions(self, extension_point_id):
         """ Return the extensions contributed to an extension point. """
 
         return self._get_extensions(extension_point_id)[:]

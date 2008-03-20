@@ -43,6 +43,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
+            price = Int
+
         def foo_factory(protocol, properties):
             """ A factory for foos. """
 
@@ -177,6 +179,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
+            price = Int
+            
         # Register two services.
         #
         # This one shows how the object's attributes are used when evaluating
@@ -250,6 +254,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
+            price = Int
+
         # Register two services.
         #
         # This one shows how the object's attributes are used when evaluating
@@ -291,6 +297,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         class Foo(HasTraits):
             implements(IFoo)
+
+            price = Int
 
         # Register two services.
         #
@@ -347,6 +355,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
+            price = Int
+            
         # Register two services.
         #
         # This one shows how the object's attributes are used when evaluating
@@ -405,6 +415,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
+            price = Int
+            
         # Register some objects with various prices.
         x = Foo(price=10)
         y = Foo(price=5)

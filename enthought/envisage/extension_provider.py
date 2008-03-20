@@ -24,7 +24,7 @@ class ExtensionProvider(HasTraits):
 
         return []
     
-    def get_extensions(self, extension_point):
+    def get_extensions(self, extension_point_id):
         """ Return the provider's extensions to an extension point. """
 
         return []
