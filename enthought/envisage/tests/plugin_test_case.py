@@ -276,6 +276,152 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
+    def test_contributes_to(self):
+        """ contributes to """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+            x  = List([1, 2, 3], contributes_to='x')
+
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+
+        return
+
+    def test_multiple_trait_contributions_with_contributes_to(self):
+        """ multiple trait contributions with contributes to """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+
+            x  = List([1, 2, 3], contributes_to='x')
+            y  = List([4, 5, 6], contributes_to='x')
+
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
+
+        return
+
+    def test_multiple_trait_contributions_with_mixed_metadata(self):
+        """ multiple trait contributions with mixed_metadata """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+
+            x  = List([1, 2, 3], extension_point='x')
+            y  = List([4, 5, 6], contributes_to='x')
+
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
+
+        return
+
+    def test_add_plugins_to_empty_application(self):
+        """ add plugins to empty application """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List(Int), id='x')
+            
+            def _x_items_changed(self, event):
+                self.added   = event.added
+                self.removed = event.removed
+
+                return
+
+        class PluginB(Plugin):
+            id = 'B'
+            x  = List(Int, [1, 2, 3], contributes_to='x')
+
+        class PluginC(Plugin):
+            id = 'C'
+            x  = List(Int, [4, 5, 6], contributes_to='x')
+
+        a = PluginA()
+        b = PluginB()
+        c = PluginC()
+        
+        # Create an empty application.
+        application = TestApplication()
+        application.start()
+
+        # Add the plugin that offers the extension point. 
+        application.add_plugin(a)
+
+        #######################################################################
+        # fixme: Currently, we connect up extension point traits when the
+        # plugin is started. Is this right? Should be start plugins by default
+        # when we add them (and maybe have the ability to add a plugin without
+        # starting it?).
+        #######################################################################
+
+        application.start_plugin(a)
+
+        #######################################################################
+        # fixme: Currently, we only fire changed events if an extension point
+        # has already been accessed! Is this right?
+        #######################################################################
+
+        self.assertEqual([], a.x)
+
+        # Add a plugin that contributes to the extension point.
+        application.add_plugin(b)
+
+        # Make sure that we pick up B's extensions and that the appropriate
+        # trait event was fired.
+        self.assertEqual([1, 2, 3], a.x)
+        self.assertEqual([1, 2, 3], a.added)
+
+        # Add another plugin that contributes to the extension point.
+        application.add_plugin(c)
+
+        self.assertEqual([1, 2, 3, 4, 5, 6], a.x)
+        self.assertEqual([4, 5, 6], a.added)
+
+        # Remove the first contributing plugin.
+        application.remove_plugin(b)
+
+        self.assertEqual([4, 5, 6], a.x)
+        self.assertEqual([1, 2, 3], a.removed)
+
+        # Remove the second contributing plugin.
+        application.remove_plugin(c)
+
+        self.assertEqual([], a.x)
+        self.assertEqual([4, 5, 6], a.removed)
+
+        return
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':

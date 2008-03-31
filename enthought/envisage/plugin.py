@@ -79,7 +79,7 @@ class Plugin(ExtensionProvider):
         # fixme: We make this restriction in case that in future we can wire up
         # the list traits directly. If we don't end up doing that then it is
         # fine to allow mutiple traits!
-        trait_names = self.trait_names(extension_point=extension_point_id)
+        trait_names = self._get_extension_trait_names(extension_point_id)
         if len(trait_names) == 0:
             extensions = []
 
@@ -235,6 +235,26 @@ class Plugin(ExtensionProvider):
         
         return exception
 
+    def _get_extension_trait_names(self, extension_point_id):
+        """ Return the names of traits that contribute to an extension point.
+
+        fixme: Some people were confused by using 'extension_point=' when
+        contributing to an extension point, so as an experiment we also allow
+        'contributes_to='. Hopefully, one or other will win out and we can go
+        back to having just one way of doing it!
+
+        """
+
+        trait_names = self.trait_names(extension_point=extension_point_id)
+        if len(trait_names) > 0:
+            logger.warn(
+                'DEPRECATED: Use "contributes_to=", not "extension_point="'
+            )
+            
+        trait_names += self.trait_names(contributes_to=extension_point_id)
+
+        return trait_names
+    
     def _get_extensions_from_trait(self, trait_name):
         """ Return the extensions contributed via the specified trait. """
         

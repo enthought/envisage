@@ -16,7 +16,9 @@ class ExtensionProvider(HasTraits):
 
     #### 'IExtensionProvider' interface #######################################
     
-    # The event fired when one of the provider's extension points has changed.
+    # The event fired when one of the provider's extension points has been
+    # changed (where 'changed' means that the provider has added or removed
+    # contributions to or from an extension point).
     extension_point_changed = Event(ExtensionPointChangedEvent)
 
     def get_extension_points(self):
@@ -31,8 +33,9 @@ class ExtensionProvider(HasTraits):
 
     ##### Protected 'ExtensionProvider' interface #############################
 
-    def _fire_extension_point_changed(self, extension_point_id, added, removed,
-                                      index):
+    def _fire_extension_point_changed(
+        self, extension_point_id, added, removed, index
+    ):
         """ Fire an extension point changed event. """
 
         self.extension_point_changed = ExtensionPointChangedEvent(

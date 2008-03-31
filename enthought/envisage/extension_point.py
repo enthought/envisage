@@ -1,4 +1,4 @@
-""" An extension point. """
+""" A trait type used to declare and access extension points. """
 
 
 # Standard library imports.
@@ -12,7 +12,7 @@ from i_extension_point import IExtensionPoint
 
 
 class ExtensionPoint(TraitType):
-    """ An extension point.
+    """ A trait type used to declare and access extension points.
 
     Note that this is a trait *type* and hence does *NOT* have traits itself
     (i.e. it does *not* inherit from 'HasTraits').
@@ -26,6 +26,17 @@ class ExtensionPoint(TraitType):
     #### 'ExtensionPoint' *CLASS* interface ###################################
 
     # The extension registry used by *ALL* extension points.
+    #
+    # fixme: This sneaks a global reference to the application (via its
+    # extension registry) which means you can't have more than one application
+    # per process. That may sound a bit weird, but I can see that it could come
+    # in handy. Maybe it would also be worth renaming 'Applicaton' to
+    # 'Environment', 'Context' or 'Capsule' or something to get across the
+    # point that it is just a little world that plugins can plugio into).
+    #
+    # If we restrict the scope of usage of this trait type to plugins *only*
+    # then we can find the application (and hence the extension registry) via
+    # the plugins themselves.
     extension_registry = None # Instance(IExtensionRegistry)
 
     ###########################################################################
@@ -65,7 +76,7 @@ class ExtensionPoint(TraitType):
     def __init__(self, trait_type=None, id=None, **metadata):
         """ Constructor. """
 
-        # We add '__extension_point_id__' to the metadata to make the extension
+        # We add '__extension_point__' to the metadata to make the extension
         # point traits easier to find with the 'traits' and 'trait_names'
         # methods on 'HasTraits'.
         super(ExtensionPoint, self).__init__(
@@ -117,6 +128,9 @@ class ExtensionPoint(TraitType):
     def set(self, obj, name, value):
         """ Trait type setter. """
 
+        # Note that some extension registry implementations may not support the
+        # setting of extension points (the default, plugin extension registry
+        # for exxample ;^).
         self.extension_registry.set_extensions(self.id, value)
 
         return

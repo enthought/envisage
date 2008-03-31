@@ -2,18 +2,30 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import TraitType, Undefined
-
-# Local imports.
-from i_extension_point import IExtensionPoint
+from enthought.traits.api import TraitType
 
 
 class Service(TraitType):
-    """ A trait type used to access services. """
+    """ A trait type used to access services.
+    
+    Note that this is a trait *type* and hence does *NOT* have traits itself
+    (i.e. it does *not* inherit from 'HasTraits').
+
+    """
     
     #### 'Service' *CLASS* interface ##########################################
 
     # The application used by *ALL* service traits.
+    #
+    # fixme: This sneaks a global reference to the application which means that
+    # you can't have more than one application per process. That may sound a
+    # bit weird, but I can see that it could come in handy. Maybe it would
+    # also be worth renaming 'Applicaton' to 'Environment', 'Context' or
+    # 'Capsule' or something to get across the point that it is just a little
+    # world that plugins can plugio into).
+    #
+    # If we restrict the scope of usage of this trait type to plugins *only*
+    # then we can find the application via the plugins themselves.
     application = None # Instance(IApplication)
     
     ###########################################################################
