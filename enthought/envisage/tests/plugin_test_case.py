@@ -62,6 +62,9 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual('fred', p.id)
 
         # If an Id is specified make sure we use it!
+        p = Plugin(id='wilma')
+        self.assertEqual('wilma', p.id)
+
         p = Plugin(name='fred', id='wilma')
         self.assertEqual('wilma', p.id)
 
@@ -383,6 +386,10 @@ class PluginTestCase(unittest.TestCase):
         # plugin is started. Is this right? Should be start plugins by default
         # when we add them (and maybe have the ability to add a plugin without
         # starting it?).
+        #
+        # I think we should start the plugin, otherwise you have the wierdness
+        # that the extension contributed by the plugin are available after
+        # the call to 'add_plugin', but the plugin isn't started?!?
         #######################################################################
 
         application.start_plugin(a)

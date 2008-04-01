@@ -5,10 +5,8 @@
 import sys, unittest
 
 # Enthought library imports.
+from enthought.envisage.api import ClassLoadHook
 from enthought.traits.api import HasTraits
-
-# fixme: Should these be in the api?
-from enthought.envisage.class_load_hook import ClassLoadHook
 
 
 class ClassLoadHookTestCase(unittest.TestCase):
