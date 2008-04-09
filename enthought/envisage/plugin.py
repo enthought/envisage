@@ -20,6 +20,25 @@ from plugin_activator import PluginActivator
 logger = logging.getLogger(__name__)
 
 
+def camel_case_to_words(s):
+    """ Turn a string from CamelCase into words separated by spaces.
+
+    e.g. 'CamelCase' -> 'Camel Case'
+
+    """
+
+    with_spaces = ''
+    for i in range(len(s)):
+        # We detect w word boundary if the character we are looking at is
+        # upper case, but the character preceding it is lower case.
+        if i > 0 and s[i].isupper() and s[i-1].islower():
+            with_spaces += ' '
+
+        with_spaces += s[i]
+
+    return with_spaces
+
+
 class Plugin(ExtensionProvider):
     """ The default implementation of the 'IPlugin' interface.
 
@@ -42,12 +61,17 @@ class Plugin(ExtensionProvider):
 
     # The plugin's unique identifier.
     #
-    # If no identifier is specified then the plugin's name is used. If no name
-    # is specified either then the module and class name of the plugin are used
-    # to create an Id with the form 'module_name.class_name'.
+    # If no identifier is specified then the module and class name of the
+    # plugin are used to create an Id with the form 'module_name.class_name'.
     id = Str
 
     # The plugin's name (suitable for displaying to the user).
+    #
+    # If no name is specified then the plugin's class name is used with an
+    # attempt made to turn camel-case class names into words separated by
+    # spaces (e.g. if the class name is 'MyPlugin' then the name would be
+    # 'My Plugin'). Of course, if you really care about the actual name, then
+    # just set it!
     name = Str
 
     #### Private interface ####################################################
@@ -98,17 +122,21 @@ class Plugin(ExtensionProvider):
     #### Trait initializers ###################################################
 
     def _id_default(self):
-        """ Initializer. """
+        """ Trait initializer. """
 
-        if len(self.name) > 0:
-            id = self.name
-
-        else:
-            id = '%s.%s' % (type(self).__module__, type(self).__name__)
-            logger.warn('plugin %s has no Id - using <%s>' % (self, id))
+        id = '%s.%s' % (type(self).__module__, type(self).__name__)
+        logger.warn('plugin %s has no Id - using <%s>' % (self, id))
             
         return id
-    
+
+    def _name_default(self):
+        """ Trait initializer. """
+
+        name = camel_case_to_words(type(self).__name__)
+        logger.warn('plugin %s has no name - using <%s>' % (self, name))
+
+        return name
+        
     #### Methods ##############################################################
 
     def start(self):
