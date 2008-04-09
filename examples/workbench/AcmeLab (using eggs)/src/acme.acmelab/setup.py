@@ -7,7 +7,7 @@ setup(
     author               = 'Enthought, Inc',
     author_email         = 'info@enthought.com',
     license              = 'BSD',
-    zip_safe             = True,
+    zip_safe             = False,
     packages             = find_packages(),
     include_package_data = True,
 
