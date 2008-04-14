@@ -61,6 +61,7 @@ class PluginTestCase(unittest.TestCase):
         p = Plugin(id='wilma')
         self.assertEqual('wilma', p.id)
 
+        # Make sure setting the name doesn't interfere with the Id.
         p = Plugin(name='fred', id='wilma')
         self.assertEqual('wilma', p.id)
         self.assertEqual('fred', p.name)
