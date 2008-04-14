@@ -26,17 +26,28 @@ def camel_case_to_words(s):
     e.g. 'CamelCase' -> 'Camel Case'
 
     """
-
-    with_spaces = ''
-    for i in range(len(s)):
-        # We detect w word boundary if the character we are looking at is
+    
+    def add_space_between_words(s, c):
+        # We detect a word boundary if the character we are looking at is
         # upper case, but the character preceding it is lower case.
-        if i > 0 and s[i].isupper() and s[i-1].islower():
-            with_spaces += ' '
+        if len(s) > 0 and s[-1].islower() and c.isupper():
+            return s + ' ' + c
 
-        with_spaces += s[i]
+        return s + c
 
-    return with_spaces
+    return reduce(add_space_between_words, s, '')
+
+##     # Readable but not quite as clean and handles an empty string ;^)
+##     words = ''
+##     for i in range(len(s)):
+##         # We detect a word boundary if the character we are looking at is
+##         # upper case, but the character preceding it is lower case.
+##         if i > 0 and s[i].isupper() and s[i-1].islower():
+##             words += ' '
+
+##         words += s[i]
+
+##     return words
 
 
 class Plugin(ExtensionProvider):
