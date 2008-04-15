@@ -3,6 +3,7 @@
 
 from i_application import IApplication
 from i_extension_point import IExtensionPoint
+from i_extension_point_user import IExtensionPointUser
 from i_extension_provider import IExtensionProvider
 from i_extension_registry import IExtensionRegistry
 from i_import_manager import IImportManager
@@ -27,6 +28,7 @@ from plugin_extension_registry import PluginExtensionRegistry
 from plugin_manager import PluginManager
 from provider_extension_registry import ProviderExtensionRegistry
 from service import Service
+from service_offer import ServiceOffer
 from service_registry import ServiceRegistry
 from twisted_application import TwistedApplication
 from unknown_extension import UnknownExtension

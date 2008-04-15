@@ -5,12 +5,14 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Instance, List, Str, implements
+from enthought.traits.api import Instance, List, Property, Str, implements
 
 # Local imports.
 from extension_point import ExtensionPoint
 from extension_provider import ExtensionProvider
 from i_application import IApplication
+from i_extension_point_user import IExtensionPointUser
+from i_extension_registry import IExtensionRegistry
 from i_plugin import IPlugin
 from i_plugin_activator import IPluginActivator
 from plugin_activator import PluginActivator
@@ -57,7 +59,7 @@ class Plugin(ExtensionProvider):
 
     """
 
-    implements(IPlugin)
+    implements(IPlugin, IExtensionPointUser)
 
     #### 'IPlugin' interface ##################################################
     
@@ -85,11 +87,25 @@ class Plugin(ExtensionProvider):
     # just set it!
     name = Str
 
+    #### 'IExtensionPointUser' interface ######################################
+
+    # The extension registry that the object's extension points are stored in.
+    extension_registry = Property(Instance(IExtensionRegistry))
+    
     #### Private interface ####################################################
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
 
+    ###########################################################################
+    # 'IExtensionPointUser' interface.
+    ###########################################################################
+
+    def _get_extension_registry(self):
+        """ Trait property getter. """
+
+        return self.application
+    
     ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
@@ -287,7 +303,9 @@ class Plugin(ExtensionProvider):
         trait_names = self.trait_names(extension_point=extension_point_id)
         if len(trait_names) > 0:
             logger.warn(
-                'DEPRECATED: Use "contributes_to=", not "extension_point="'
+                'DEPRECATED: Use "contributes_to=", not "extension_point=" ' \
+                'to contribute to extension point <%s> in plugin <%s>' \
+                % (extension_point_id,  self.id)
             )
             
         trait_names += self.trait_names(contributes_to=extension_point_id)
@@ -338,7 +356,7 @@ class Plugin(ExtensionProvider):
         # the first time somebody asks for a service with the same protocol
         # (this could obviously be a lambda function, but I thought it best to
         # be more explicit 8^).
-        def factory(protocol, properties):
+        def factory(**properties):
             """ A service factory. """
 
             return getattr(self, trait_name)

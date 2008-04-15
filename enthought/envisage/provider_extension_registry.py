@@ -79,6 +79,10 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # If we don't know about the extension point then it sure ain't got
         # any extensions!
         if not extension_point_id in self._extension_points:
+            logger.warn(
+                'getting extensions of unknown extension point <%s>' \
+                % extension_point_id
+            )
             extensions = []
             
         # Has this extension point already been accessed?
@@ -94,9 +98,15 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # We store the extensions as a list of lists, with each inner list
         # containing the contributions from a single provider. Here we just
         # concatenate them into a single list.
+        #
+        # You could use a likst comprehension, here:-
+        #
+        #     all = [x for y in extensions for x in y]
+        #
+        # But I'm sure sure that that makes it any clearer ;^)
         all = []
         map(all.extend, extensions)
-                
+
         return all
 
     ###########################################################################
@@ -220,43 +230,40 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     #### Trait change handlers ################################################
     
-    @on_trait_change('_providers.extension_point_changed')
+    @on_trait_change('_providers:extension_point_changed')
     def _providers_extension_point_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
-        if trait_name == 'extension_point_changed':
-            logger.debug('provider <%s> extension point changed', obj)
-
-            extension_point_id = event.extension_point_id
-            
-            # This is a list of lists where each inner list contains the
-            # contributions made to the extension point by a single
-            # provider.
-            extensions = self._extensions[extension_point_id]
-
-            # Find the index of the provider in the provider list. Its
-            # contributions are at the same index in the extensions list of
-            # lists.
-            provider_index = self._providers.index(obj)
-            
-            # Get the updated list from the provider.
-            extensions[provider_index] = obj.get_extensions(extension_point_id)
-
-            # Find where the provider's contributions are in the whole 'list'.
-            offset = sum(map(len, extensions[:provider_index]))
-                
-            # Translate the event index from one that refers to the list of
-            # contributions from the provider, to the list of contributions
-            # from all providers.
-            index = self._translate_index(event.index, offset)
-                
-            # Find out who is listening.
-            refs = self._get_listener_refs(extension_point_id)
-
-            # Let any listeners know that the extensions have been added.
-            self._call_listeners(
-                refs, extension_point_id, event.added, event.removed, index
-            )
+        logger.debug('provider <%s> extension point changed', obj)
+        
+        extension_point_id = event.extension_point_id
+        
+        # This is a list of lists where each inner list contains the
+        # contributions made to the extension point by a single provider.
+        extensions = self._extensions[extension_point_id]
+        
+        # Find the index of the provider in the provider list. Its
+        # contributions are at the same index in the extensions list of lists.
+        provider_index = self._providers.index(obj)
+        
+        # Get the updated list from the provider.
+        extensions[provider_index] = obj.get_extensions(extension_point_id)
+        
+        # Find where the provider's contributions are in the whole 'list'.
+        offset = sum(map(len, extensions[:provider_index]))
+        
+        # Translate the event index from one that refers to the list of
+        # contributions from the provider, to the list of contributions from
+        # all providers.
+        index = self._translate_index(event.index, offset)
+        
+        # Find out who is listening.
+        refs = self._get_listener_refs(extension_point_id)
+        
+        # Let any listeners know that the extensions have been added.
+        self._call_listeners(
+            refs, extension_point_id, event.added, event.removed, index
+        )
 
         return
         

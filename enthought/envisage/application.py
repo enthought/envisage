@@ -193,11 +193,11 @@ class Application(HasTraits):
 
         return self.plugin_manager.get_plugin(plugin_id)
 
-    def get_service(self, interface, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
 
         service = self.service_registry.get_service(
-            interface, query, minimize, maximize
+            protocol, query, minimize, maximize
         )
 
         return service
@@ -207,11 +207,11 @@ class Application(HasTraits):
 
         return self.service_registry.get_service_properties(service_id)
     
-    def get_services(self, interface, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
         services = self.service_registry.get_services(
-            interface, query, minimize, maximize
+            protocol, query, minimize, maximize
         )
 
         return services
@@ -221,11 +221,11 @@ class Application(HasTraits):
 
         return self._import_manager.import_symbol(symbol_path)
 
-    def register_service(self, interface, obj, properties=None):
+    def register_service(self, protocol, obj, properties=None):
         """ Register a service. """
 
         service_id = self.service_registry.register_service(
-            interface, obj, properties
+            protocol, obj, properties
         )
 
         return service_id

@@ -6,11 +6,13 @@ from enthought.preferences.api import IPreferences
 from enthought.traits.api import Event, Instance, Interface, Str, VetoableEvent
 
 # Local imports.
+from i_extension_registry import IExtensionRegistry
+from i_service_registry import IServiceRegistry
 from application_event import ApplicationEvent
 from plugin_event import PluginEvent
 
 
-class IApplication(Interface):
+class IApplication(IExtensionRegistry, IServiceRegistry):
     """ The application interface. """
 
     # A directory that the application can read and write to at will.
@@ -49,60 +51,60 @@ class IApplication(Interface):
 
         """
         
-    def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added/removed.
+##     def add_extension_point_listener(self, listener, extension_point_id=None):
+##         """ Add a listener for extensions being added/removed.
 
-        A listener is any Python callable with the following signature::
+##         A listener is any Python callable with the following signature::
 
-          def listener(extension_registry, extension_point_changed_event):
+##           def listener(extension_registry, extension_point_changed_event):
 
-                ...
+##                 ...
 
-        If an extension point is specified then the listener will only be
-        called when extensions are added to or removed from that extension
-        point (the extension point may or may not have been added to the
-        registry at the time of this call).
+##         If an extension point is specified then the listener will only be
+##         called when extensions are added to or removed from that extension
+##         point (the extension point may or may not have been added to the
+##         registry at the time of this call).
         
-        If *no* extension point is specified then the listener will be called
-        when extensions are added to or removed from *any* extension point.
+##         If *no* extension point is specified then the listener will be called
+##         when extensions are added to or removed from *any* extension point.
 
-        When extensions are added or removed all specific listeners are called
-        first (in arbitrary order), followed by all non-specific listeners
-        (again, in arbitrary order).
+##         When extensions are added or removed all specific listeners are called
+##         first (in arbitrary order), followed by all non-specific listeners
+##         (again, in arbitrary order).
         
-        """
+##         """
 
-    def add_extension_point(self, extension_point):
-        """ Add an extension point.
+##     def add_extension_point(self, extension_point):
+##         """ Add an extension point.
 
-        If an extension point already exists with this Id then it is simply
-        replaced.
+##         If an extension point already exists with this Id then it is simply
+##         replaced.
 
-        """
+##         """
 
     def add_plugin(self, plugin):
         """ Add a plugin to the application.
 
         """
 
-    def get_extensions(self, extension_point_id):
-        """ Return a list containing all contributions to an extension point.
+##     def get_extensions(self, extension_point_id):
+##         """ Return a list containing all contributions to an extension point.
 
-        Return an empty list if the extension point does not exist.
+##         Return an empty list if the extension point does not exist.
 
-        """
+##         """
 
-    def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id.
+##     def get_extension_point(self, extension_point_id):
+##         """ Return the extension point with the specified Id.
 
-        Return None if no such extension point exists.
+##         Return None if no such extension point exists.
 
-        """
+##         """
 
-    def get_extension_points(self):
-        """ Return all extension points.
+##     def get_extension_points(self):
+##         """ Return all extension points.
 
-        """
+##         """
 
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id.
@@ -111,20 +113,20 @@ class IApplication(Interface):
 
         """
 
-    def get_service(self, interface, query='', minimize='', maximize=''):
-        """ Return at most one service that matches the specified query.
+##     def get_service(self, protocol, query='', minimize='', maximize=''):
+##         """ Return at most one service that matches the specified query.
 
-        """
+##         """
 
-    def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service.
+##     def get_service_properties(self, service_id):
+##         """ Return the dictionary of properties associated with a service.
 
-        """
+##         """
         
-    def get_services(self, interface, query='', minimize='', maximize=''):
-        """ Return all services that match the specified query.
+##     def get_services(self, protocol, query='', minimize='', maximize=''):
+##         """ Return all services that match the specified query.
 
-        """
+##         """
 
     def import_symbol(self, symbol_path):
         """ Import the symbol defined by the specified symbol path.
@@ -162,28 +164,28 @@ class IApplication(Interface):
 
         """
 
-    def register_service(self, interface, obj, properties=None):
-        """ Register a service.
+##     def register_service(self, protocol, obj, properties=None):
+##         """ Register a service.
 
-        Returns a service Id that can be used to retrieve any service
-        properties, and to unregister the service.
+##         Returns a service Id that can be used to retrieve any service
+##         properties, and to unregister the service.
 
-        """
+##         """
 
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
-        """ Remove a listener for extensions being added/removed.
+##     def remove_extension_point_listener(self,listener,extension_point_id=None):
+##         """ Remove a listener for extensions being added/removed.
 
-        Raise a 'ValueError' if the listener does not exist.
+##         Raise a 'ValueError' if the listener does not exist.
 
-        """
+##         """
 
-    def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point.
+##     def remove_extension_point(self, extension_point_id):
+##         """ Remove an extension point.
 
-        Raise an 'UnknownExtensionPoint' exception if no extension point exists
-        with the specified Id.
+##         Raise an 'UnknownExtensionPoint' exception if no extension point exists
+##         with the specified Id.
 
-        """
+##         """
 
     def remove_plugin(self, plugin):
         """ Remove a plugin from the application.
@@ -200,17 +202,17 @@ class IApplication(Interface):
 
         """
 
-    def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point.
+##     def set_extensions(self, extension_point_id, extensions):
+##         """ Set the extensions contributed to an extension point.
 
-        """
+##         """
 
-    def set_service_properties(self, service_id, properties):
-        """ Set the dictionary of properties associated with a service.
+##     def set_service_properties(self, service_id, properties):
+##         """ Set the dictionary of properties associated with a service.
 
-        If no such service exists a 'ValueError' exception is raised.
+##         If no such service exists a 'ValueError' exception is raised.
         
-        """
+##         """
 
     def start(self):
         """ Start the application.
@@ -250,9 +252,9 @@ class IApplication(Interface):
 
         """
 
-    def unregister_service(self, service_id):
-        """ Unregister a service.
+##     def unregister_service(self, service_id):
+##         """ Unregister a service.
 
-        """
+##         """
 
 #### EOF ######################################################################

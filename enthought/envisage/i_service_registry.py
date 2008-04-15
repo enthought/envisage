@@ -71,6 +71,13 @@ class IServiceRegistry(Interface):
 
         Returns a service Id that can be used to retrieve any service
         properties, and to unregister the service.
+
+        If 'obj' does not implement the specified protocol then it is treated
+        as a 'service factory' that will be called the first time a service of
+        the appropriate type is requested. A 'service factory' is simply a
+        callable that takes the properties specified here as keyword arguments
+        and returns an object. For *really* lazy loading, factory can be
+        specified as a string which is used to import the callable.
         
         """
 

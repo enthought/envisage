@@ -6,7 +6,8 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
-from enthought.traits.api import HasTraits, Int, List
+from enthought.envisage.api import ServiceOffer
+from enthought.traits.api import HasTraits, Int, Interface, List
 
 
 class TestApplication(Application):
@@ -35,6 +36,50 @@ class CorePluginTestCase(unittest.TestCase):
     ###########################################################################
     # Tests.
     ###########################################################################
+
+    def test_services(self):
+        """ services """
+
+        from enthought.envisage.core_plugin import CorePlugin
+
+        class IMyService(Interface):
+            pass
+        
+        class PluginA(Plugin):
+            id = 'A'
+
+            services = List(contributes_to='enthought.envisage.services')
+
+            def _services_default(self):
+                """ Trait initializer. """
+
+                services = [
+                    ServiceOffer(
+                        protocol = IMyService,
+                        factory  = self._my_service_factory,
+                        scope    = 'application'
+                        
+                    )
+                ]
+
+                return services
+
+            def _my_service_factory(self, **properties):
+                """ Service factory. """
+
+                return 42
+
+            
+        core = CorePlugin()
+        a    = PluginA()
+        
+        application = TestApplication(plugins=[core, a])
+        application.start()
+
+        # Lookup the service.
+        self.assertEqual(42, application.get_service(IMyService))
+        
+        return
 
     def test_categories(self):
         """ categories """

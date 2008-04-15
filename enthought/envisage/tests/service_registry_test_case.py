@@ -9,6 +9,12 @@ from enthought.envisage.api import Application, ServiceRegistry
 from enthought.traits.api import HasTraits, Int, Interface, implements
 
 
+def service_factory(**properties):
+    """ A factory for foos. """
+
+    return HasTraits(**properties)
+
+
 class ServiceRegistryTestCase(unittest.TestCase):
     """ Tests for the service registry. """
 
@@ -34,6 +40,34 @@ class ServiceRegistryTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_imported_service_factory(self):
+        """ imported service factory """
+
+        class IFoo(Interface):
+            price = Int
+
+        # Register a service factory.
+        self.service_registry.register_service(
+            HasTraits,
+            'service_registry_test_case.service_factory',
+            {'price' : 100}
+        )
+        
+        # Create a query that matches the registered object.
+        service = self.service_registry.get_service(HasTraits, 'price <= 100')
+        self.assertNotEqual(None, service)
+        self.assertEqual(HasTraits, type(service))
+
+        # This shows that the properties were passed in to the factory.
+        self.assertEqual(100, service.price)
+
+        # Make sure that the object created by the factory is cached (i.e. we
+        # get the same object back from now on!).
+        service2 = self.service_registry.get_service(HasTraits, 'price <= 100')
+        self.assert_(service is service2)
+
+        return
+
     def test_function_service_factory(self):
         """ function service factory """
 
@@ -45,7 +79,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
             price = Int
 
-        def foo_factory(protocol, properties):
+        def foo_factory(**properties):
             """ A factory for foos. """
 
             return Foo(**properties)
@@ -71,7 +105,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         """ lazy function service factory """
 
         # Register a service factory by name.
-        def foo_factory(protocol, properties):
+        def foo_factory(**properties):
             """ A factory for foos. """
 
             from foo import Foo
@@ -113,7 +147,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             """
 
             # Register a service factory by name.
-            def foo_factory(self, protocol, properties):
+            def foo_factory(self, **properties):
                 """ A factory for foos. """
                 
                 from foo import Foo

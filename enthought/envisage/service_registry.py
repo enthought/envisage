@@ -76,9 +76,17 @@ class ServiceRegistry(HasTraits):
                     # arguments, the first is the protocol the second is the
                     # (possibly empty) dictionary of properties that were
                     # registered with the service.
-                    obj = obj(protocol, properties)
+                    #
+                    # If the factory is specified as a symbol path then import
+                    # it.
+                    if isinstance(obj, basestring):
+                        obj = ImportManager().import_symbol(obj)
+                    
+                    obj = obj(**properties)
                         
-                    # The resulting service object is cached.
+                    # The resulting service object replaces the factory in
+                    # the cache (i.e. the factory will not get called again
+                    # unless it is unregistered first).
                     self._services[service_id] = (name, obj, properties)
                     
                 if len(query) == 0 or self._eval_query(obj, properties, query):

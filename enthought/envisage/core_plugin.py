@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
 
@@ -26,6 +26,7 @@ class CorePlugin(Plugin):
     CATEGORIES        = 'enthought.envisage.categories'
     CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
     PREFERENCES       = 'enthought.envisage.preferences'
+    SERVICE_OFFERS    = 'enthought.envisage.services'
 
     #### 'IPlugin' interface ##################################################
 
@@ -35,14 +36,11 @@ class CorePlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'Core'
 
-    #### 'CorePlugin' interface ###############################################
-
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    #### Extension points offered by this plugin ##############################
 
     # Categories are actually implemented via standard 'ClassLoadHooks', but
-    # for convenience we have a specific extension point.
+    # for (hopefully) readability and convenience we have a specific extension
+    # point.
     categories = ExtensionPoint(
         List(Instance('enthought.envisage.category.Category')),
         id   = CATEGORIES,
@@ -52,10 +50,10 @@ class CorePlugin(Plugin):
         extra attributes, methods and events.
 
         Contributions to this extension point allow you to import categories
-        lazily when the class to be extended is imported. Each contribution
-        contains the name of the category class that you want to add
-        ('class_name') and the name of the class that you want to extend
-        ('target_class_name').
+        lazily when the class to be extended is imported or created. Each
+        contribution contains the name of the category class that you want to
+        add (the 'class_name') and the name of the class that you want to
+        extend (the 'target_class_name').
 
         e.g. To add the 'FooCategory' category to the 'Foo' class::
 
@@ -108,17 +106,32 @@ class CorePlugin(Plugin):
         """
     )
 
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
+    service_offers = ExtensionPoint(
+        List(ServiceOffer),
+        id   = SERVICE_OFFERS,
+        desc = """
 
-    # None
+        Services are simply objects that the plugin wants to make available to
+        other plugins. This extension point allows you to contribute *global*
+        services (i.e. there is exactly one service per application).
 
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
+        This extension point allows you to register services that are
+        created 'on-demand' via a call to the specified factory.
 
-    # None
+        e.g.
+
+        my_service_offer = ServiceOffer(
+            protocol   = 'acme.IMyService',
+            factory    = a_callable_that_creates_my_service,
+            properties = {'a dictionary' : 'that is passed to the factory'}
+        )
+
+        """
+    )
+
+    #### Contributions to extension points made by this plugin ################
+
+    # None.
 
     ###########################################################################
     # 'IPlugin' interface.
@@ -144,6 +157,32 @@ class CorePlugin(Plugin):
     ###########################################################################
     # Private interface.
     ###########################################################################
+
+    #### Trait change handlers ################################################
+
+    def _application_changed(self, old, new):
+        """ Static trait change handler. """
+
+        if old is not None:
+            old.on_trait_change(
+                self._on_application_started, 'started', remove=True
+            )
+
+        if new is not None:
+            new.on_trait_change(
+                self._on_application_started, 'started'
+            )
+
+        return
+    
+    def _on_application_started(self):
+        """ Dynamic trait change handler. """
+
+        self._register_application_services(self.service_offers)
+
+        return
+
+    #### Methods ##############################################################
 
     def _add_category_class_load_hooks(self, categories):
         """ Add class load hooks for a list of categories. """
@@ -199,6 +238,18 @@ class CorePlugin(Plugin):
 
             finally:
                 f.close()
+
+        return
+
+    def _register_application_services(self, service_offers):
+        """ Regoster all application-scope services. """
+
+        for service_offer in service_offers:
+            if service_offer.scope == 'application':
+                self.application.register_service(
+                    service_offer.protocol, service_offer.factory,
+                    service_offer.properties
+                )
 
         return
 

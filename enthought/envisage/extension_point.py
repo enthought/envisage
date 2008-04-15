@@ -113,8 +113,11 @@ class ExtensionPoint(TraitType):
 
     def get(self, obj, trait_name):
         """ Trait type getter. """
-        
-        extensions = self.extension_registry.get_extensions(self.id)
+
+        extension_registry = self._get_extension_registry(obj)
+
+        # Get the extensions to this extension point.
+        extensions = extension_registry.get_extensions(self.id)
 
         # fixme: Ideally, instead of checking for 'None' here, we would like to
         # make the trait type default to 'Any'. Unfortunately, the 'Any'
@@ -128,10 +131,12 @@ class ExtensionPoint(TraitType):
     def set(self, obj, name, value):
         """ Trait type setter. """
 
+        extension_registry = self._get_extension_registry(obj)
+
         # Note that some extension registry implementations may not support the
         # setting of extension points (the default, plugin extension registry
         # for exxample ;^).
-        self.extension_registry.set_extensions(self.id, value)
+        extension_registry.set_extensions(self.id, value)
 
         return
 
@@ -170,8 +175,10 @@ class ExtensionPoint(TraitType):
         
             return
 
+        extension_registry = self._get_extension_registry(obj)
+
         # Add the listener to the extension registry.
-        self.extension_registry.add_extension_point_listener(listener, self.id)
+        extension_registry.add_extension_point_listener(listener, self.id)
 
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.
@@ -183,12 +190,14 @@ class ExtensionPoint(TraitType):
     def disconnect(self, obj, trait_name):
         """ Disconnect the extension point from a trait on an object. """
 
+        extension_registry = self._get_extension_registry(obj)
+
         # Save a reference to the listener so that it does not get garbage
         # collected until its associated object does.
         listener = self._obj_to_listeners_map[obj].get(trait_name)
         if listener is not None:
             # Remove the listener from the extension registry.
-            self.extension_registry.remove_extension_point_listener(
+            extension_registry.remove_extension_point_listener(
                 listener, self.id
             )
 
@@ -197,4 +206,21 @@ class ExtensionPoint(TraitType):
 
         return
 
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _get_extension_registry(self, obj):
+        """ Return the extension registry in effect for an object. """
+
+##         extension_registry = getattr(obj, 'extension_registry', None)
+        extension_registry = self.extension_registry
+        if extension_registry is None:
+            raise 'The "ExtensionPoint" trait type can only be used within ' \
+                  'objects that have a reference to an extension registry ' \
+                  'via their "extension_registry" trait.' \
+                  'Extension point Id <%s>' % self.id
+
+        return extension_registry
+    
 #### EOF ######################################################################
