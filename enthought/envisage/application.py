@@ -46,12 +46,6 @@ class Application(HasTraits):
 
     #### Events ####
 
-    # Fired when a plugin has been added.
-    plugin_added = Delegate('plugin_manager', modify=True)
-    
-    # Fired when a plugin has been removed.
-    plugin_removed = Delegate('plugin_manager', modify=True)
-
     # Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
@@ -63,6 +57,16 @@ class Application(HasTraits):
 
     # Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
+
+    #### 'IPluginManager' interface ###########################################
+
+    #### Events ####
+
+    # Fired when a plugin has been added.
+    plugin_added = Delegate('plugin_manager', modify=True)
+    
+    # Fired when a plugin has been removed.
+    plugin_removed = Delegate('plugin_manager', modify=True)
     
     #### 'Application' interface ##############################################
 
@@ -123,11 +127,6 @@ class Application(HasTraits):
 
         return
 
-    def __iter__(self):
-        """ Return an iterator over the application's plugins. """
-
-        return iter(self.plugin_manager)
-    
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
@@ -146,6 +145,18 @@ class Application(HasTraits):
         
     #### Methods ##############################################################
 
+    def run(self):
+        """ Run the application. """
+
+        if self.start():
+            self.stop()
+
+        return
+
+    ###########################################################################
+    # 'IExtensionRegistry' interface.
+    ###########################################################################
+
     def add_extension_point_listener(self, listener, extension_point_id=None):
         """ Add a listener for extensions being added/removed. """
 
@@ -162,13 +173,6 @@ class Application(HasTraits):
 
         return
 
-    def add_plugin(self, plugin):
-        """ Add a plugin to the application. """
-
-        self.plugin_manager.add_plugin(plugin)
-
-        return
-
     def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
 
@@ -180,55 +184,13 @@ class Application(HasTraits):
         """ Return the extension point with the specified Id. """
 
         return self.extension_registry.get_extension_point(extension_point_id)
-        
+
     def get_extension_points(self):
         """ Return all extension points that have been added to the registry.
 
         """
 
         return self.extension_registry.get_extension_points()
-
-    def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id. """
-
-        return self.plugin_manager.get_plugin(plugin_id)
-
-    def get_service(self, protocol, query='', minimize='', maximize=''):
-        """ Return at most one service that matches the specified query. """
-
-        service = self.service_registry.get_service(
-            protocol, query, minimize, maximize
-        )
-
-        return service
-
-    def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service. """
-
-        return self.service_registry.get_service_properties(service_id)
-    
-    def get_services(self, protocol, query='', minimize='', maximize=''):
-        """ Return all services that match the specified query. """
-
-        services = self.service_registry.get_services(
-            protocol, query, minimize, maximize
-        )
-
-        return services
-
-    def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path. """
-
-        return self._import_manager.import_symbol(symbol_path)
-
-    def register_service(self, protocol, obj, properties=None):
-        """ Register a service. """
-
-        service_id = self.service_registry.register_service(
-            protocol, obj, properties
-        )
-
-        return service_id
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
         """ Remove a listener for extensions being added/removed. """
@@ -246,21 +208,6 @@ class Application(HasTraits):
 
         return
 
-    def remove_plugin(self, plugin):
-        """ Remove a plugin from the application. """
-
-        self.plugin_manager.remove_plugin(plugin)
-
-        return
-
-    def run(self):
-        """ Run the application. """
-
-        if self.start():
-            self.stop()
-
-        return
-
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions contributed to an extension point. """
 
@@ -268,15 +215,46 @@ class Application(HasTraits):
 
         return
 
-    def set_service_properties(self, service_id, properties):
-        """ Set the dictionary of properties associated with a service. """
+    ###########################################################################
+    # 'IImportManager' interface.
+    ###########################################################################
 
-        self.service_registry.set_service_properties(service_id, properties)
+    def import_symbol(self, symbol_path):
+        """ Import the symbol defined by the specified symbol path. """
+
+        return self._import_manager.import_symbol(symbol_path)
+
+    ###########################################################################
+    # 'IPluginManager' interface.
+    ###########################################################################
+
+    def __iter__(self):
+        """ Return an iterator over the manager's plugins. """
+
+        return iter(self.plugin_manager)
+    
+
+    def add_plugin(self, plugin):
+        """ Add a plugin to the manager. """
+
+        self.plugin_manager.add_plugin(plugin)
+
+        return
+
+    def get_plugin(self, plugin_id):
+        """ Return the plugin with the specified Id. """
+
+        return self.plugin_manager.get_plugin(plugin_id)
+
+    def remove_plugin(self, plugin):
+        """ Remove a plugin from the manager. """
+
+        self.plugin_manager.remove_plugin(plugin)
 
         return
 
     def start(self):
-        """ Start the application. """
+        """ Start the plugin manager. """
 
         logger.debug('---------- application starting ----------')
 
@@ -303,7 +281,7 @@ class Application(HasTraits):
         return self.plugin_manager.start_plugin(plugin, plugin_id)
 
     def stop(self):
-        """ Stop the application. """
+        """ Stop the plugin manager. """
 
         logger.debug('---------- application stopping ----------')
 
@@ -331,6 +309,49 @@ class Application(HasTraits):
         """ Stop the specified plugin. """
 
         return self.plugin_manager.stop_plugin(plugin, plugin_id)
+
+    ###########################################################################
+    # 'IServiceRegistry' interface.
+    ###########################################################################
+
+    def get_service(self, protocol, query='', minimize='', maximize=''):
+        """ Return at most one service that matches the specified query. """
+
+        service = self.service_registry.get_service(
+            protocol, query, minimize, maximize
+        )
+
+        return service
+
+    def get_service_properties(self, service_id):
+        """ Return the dictionary of properties associated with a service. """
+
+        return self.service_registry.get_service_properties(service_id)
+    
+    def get_services(self, protocol, query='', minimize='', maximize=''):
+        """ Return all services that match the specified query. """
+
+        services = self.service_registry.get_services(
+            protocol, query, minimize, maximize
+        )
+
+        return services
+
+    def register_service(self, protocol, obj, properties=None):
+        """ Register a service. """
+
+        service_id = self.service_registry.register_service(
+            protocol, obj, properties
+        )
+
+        return service_id
+
+    def set_service_properties(self, service_id, properties):
+        """ Set the dictionary of properties associated with a service. """
+
+        self.service_registry.set_service_properties(service_id, properties)
+
+        return
     
     def unregister_service(self, service_id):
         """ Unregister a service. """
@@ -353,7 +374,8 @@ class Application(HasTraits):
         # to override it!
         from plugin_extension_registry import PluginExtensionRegistry
 
-        return PluginExtensionRegistry(application=self)
+##         return PluginExtensionRegistry(application=self)
+        return PluginExtensionRegistry(plugin_manager=self)
     
     def _plugin_manager_default(self):
         """ Trait initializer. """
@@ -381,6 +403,20 @@ class Application(HasTraits):
 
     #### Trait change handlers ################################################
 
+    # fixme: We have this to make it easier to assign a new plugin manager
+    # at construction time, e.g.
+    #
+    #    application = Application(plugin_manager=EggPluginManager())
+    #
+    # If we didn't have this then we would have to do this:-
+    #
+    #    application = Application()
+    #    application.plugin_manager = EggPluginManager(application=application)
+    #
+    # Of course, it would be better if the plugin manager didn't require a
+    # reference to the application at all (it currently uses it to set the
+    # 'application' trait of plugin instances (which is done in a similar
+    # fashion to this).
     def _plugin_manager_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 

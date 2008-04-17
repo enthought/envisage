@@ -153,38 +153,25 @@ class CorePlugin(Plugin):
         # category will be imported and added when the associated target class
         # is imported/created.
         self._add_category_class_load_hooks(self.categories)
-        
+
+        # Register all application-scope service factories.
+        self._service_ids = self._register_service_factories(
+            self.service_factories
+        )
+
         return
     
+    def stop(self):
+        """ Stop the plugin. """
+        
+        # Unregister all application-scope service factories.
+        self._unregister_service_factories(self._service_ids)
+        
+        return
+
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    #### Trait change handlers ################################################
-
-    def _application_changed(self, old, new):
-        """ Static trait change handler. """
-
-        if old is not None:
-            old.on_trait_change(
-                self._on_application_started, 'started', remove=True
-            )
-
-        if new is not None:
-            new.on_trait_change(
-                self._on_application_started, 'started'
-            )
-
-        return
-    
-    def _on_application_started(self):
-        """ Dynamic trait change handler. """
-
-        self._register_service_factories(self.service_factories)
-
-        return
-
-    #### Methods ##############################################################
 
     def _add_category_class_load_hooks(self, categories):
         """ Add class load hooks for a list of categories. """
@@ -244,13 +231,15 @@ class CorePlugin(Plugin):
         return
 
     def _register_service_factories(self, service_factories):
-        """ Regoster all application-scope service factoriess. """
+        """ Regoster all application-scope service factories. """
 
+        service_ids = []
         for service_factory in service_factories:
             if service_factory.scope == 'application':
-                self._register_service_factory(service_factory)
-
-        return
+                service_id = self._register_service_factory(service_factory)
+                service_ids.append(service_id)
+                
+        return service_ids
 
     def _register_service_factory(self, service_factory):
         """ Register a service factory. """
@@ -260,6 +249,19 @@ class CorePlugin(Plugin):
             obj        = service_factory.factory,
             properties = service_factory.properties
         )
+
+        return
+
+    def _unregister_service_factories(self, service_ids):
+        """ Unregister all window-scope service factories. """
+
+        # Unregister the services in the reverse order that we registered
+        # them.
+        service_ids_copy = service_ids[:]
+        service_ids_copy.reverse()
+        
+        for service_id in service_ids_copy:
+            self.application.unregister_service(service_id)
 
         return
 

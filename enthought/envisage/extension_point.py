@@ -20,7 +20,8 @@ class ExtensionPoint(TraitType):
     """
 
     # Even though trait types do not themselves have traits, we can still
-    # declare that we implement an interface.
+    # declare that we implement an interface (since it is just PyProtocols
+    # underneath the covers).
     implements(IExtensionPoint)
     
     #### 'ExtensionPoint' *CLASS* interface ###################################
