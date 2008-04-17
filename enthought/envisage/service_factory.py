@@ -1,4 +1,4 @@
-""" An offer to provide a service. """
+""" The declaration of a service factory. """
 
 
 # Enthought library imports.
@@ -6,10 +6,10 @@ from enthought.traits.api import Callable, Dict, Either, HasTraits, Instance
 from enthought.traits.api import Interface, Str, Type
 
 
-class ServiceOffer(HasTraits):
-    """ An offer to provide a service. """
+class ServiceFactory(HasTraits):
+    """ The declaration of a service factory. """
     
-    #### 'ServiceOffer' interface #############################################
+    #### 'ServiceFactory' interface ###########################################
 
     # The protocol that the service provides.
     #
@@ -17,14 +17,13 @@ class ServiceOffer(HasTraits):
     # interface.
     protocol = Either(Str, Type, Instance(Interface))
 
-    # The factory that will create the service.
+    # A callable (or a string that can be used to import a callable) that is
+    # the factory that creates the actual service object.
     #
-    # This is any callable with the following signature:-
+    # e.g.
     #
-    #   callable(protocol, properties) -> Any
+    #   callable(**properties) -> Any
     #
-    # Where 'protocol' is the type of service requested and 'properties' is a
-    # dictionary of properties.
     factory = Either(Str, Callable)
 
     # An arbitrary set of properties to associate with the service offer.
@@ -34,8 +33,9 @@ class ServiceOffer(HasTraits):
     
     # The service scope.
     #
-    # The Envisage core plugin only registers 'application' scope services.
-    # Developers are free to create other scopes as they see fit.
+    # The Envisage core plugin only registers 'application' scope services, but
+    # developers are free to create other scopes as they see fit (for example
+    # in GUI applications it might be useful to have 'window' scope services).
     scope = Str('application')
 
 #### EOF ######################################################################

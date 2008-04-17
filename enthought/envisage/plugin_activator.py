@@ -24,7 +24,7 @@ class PluginActivator(HasTraits):
         # will be notified if and when contributions are added or removed.
         plugin.connect_extension_point_traits()
 
-        # Register all service traits.
+        # Register all services.
         plugin.register_services()
 
         # Plugin specific start.
@@ -35,14 +35,14 @@ class PluginActivator(HasTraits):
     def stop_plugin(self, plugin):
         """ Stop the specified plugin. """
 
-        # Disconnect all of the plugin's extension point traits.
-        plugin.disconnect_extension_point_traits()
-
-        # Unregister all service traits.
-        plugin.unregister_services()
-
         # Plugin specific stop.
         plugin.stop()
+
+        # Unregister all service.
+        plugin.unregister_services()
+
+        # Disconnect all of the plugin's extension point traits.
+        plugin.disconnect_extension_point_traits()
 
         return
 

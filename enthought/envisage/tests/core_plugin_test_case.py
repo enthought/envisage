@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
-from enthought.envisage.api import ServiceOffer
+from enthought.envisage.api import ServiceFactory
 from enthought.traits.api import HasTraits, Int, Interface, List
 
 
@@ -37,8 +37,8 @@ class CorePluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_services(self):
-        """ services """
+    def test_service_factories(self):
+        """ service factories """
 
         from enthought.envisage.core_plugin import CorePlugin
 
@@ -48,13 +48,15 @@ class CorePluginTestCase(unittest.TestCase):
         class PluginA(Plugin):
             id = 'A'
 
-            services = List(contributes_to='enthought.envisage.services')
+            service_factories = List(
+                contributes_to='enthought.envisage.service_factories'
+            )
 
-            def _services_default(self):
+            def _service_factories_default(self):
                 """ Trait initializer. """
 
-                services = [
-                    ServiceOffer(
+                service_factories = [
+                    ServiceFactory(
                         protocol = IMyService,
                         factory  = self._my_service_factory,
                         scope    = 'application'
@@ -62,7 +64,7 @@ class CorePluginTestCase(unittest.TestCase):
                     )
                 ]
 
-                return services
+                return service_factories
 
             def _my_service_factory(self, **properties):
                 """ Service factory. """

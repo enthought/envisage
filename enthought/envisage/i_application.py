@@ -7,12 +7,13 @@ from enthought.traits.api import Event, Instance, Interface, Str, VetoableEvent
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry
+from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 from application_event import ApplicationEvent
-from plugin_event import PluginEvent
+## from plugin_event import PluginEvent
 
 
-class IApplication(IExtensionRegistry, IServiceRegistry):
+class IApplication(IExtensionRegistry, IServiceRegistry, IPluginManager):
     """ The application interface. """
 
     # A directory that the application can read and write to at will.
@@ -26,11 +27,11 @@ class IApplication(IExtensionRegistry, IServiceRegistry):
 
     #### Events ####
 
-    # Fired when a plugin has been added to the application.
-    plugin_added = Event(PluginEvent)
+##     # Fired when a plugin has been added to the application.
+##     plugin_added = Event(PluginEvent)
     
-    # Fired when a plugin has been removed from the application.
-    plugin_removed = Event(PluginEvent)
+##     # Fired when a plugin has been removed from the application.
+##     plugin_removed = Event(PluginEvent)
     
     # Fired when the application is starting. This is the first thing that
     # happens when the 'start' method is called.
@@ -82,10 +83,10 @@ class IApplication(IExtensionRegistry, IServiceRegistry):
 
 ##         """
 
-    def add_plugin(self, plugin):
-        """ Add a plugin to the application.
+##     def add_plugin(self, plugin):
+##         """ Add a plugin to the application.
 
-        """
+##         """
 
 ##     def get_extensions(self, extension_point_id):
 ##         """ Return a list containing all contributions to an extension point.
@@ -106,12 +107,12 @@ class IApplication(IExtensionRegistry, IServiceRegistry):
 
 ##         """
 
-    def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id.
+##     def get_plugin(self, plugin_id):
+##         """ Return the plugin with the specified Id.
 
-        Return None if no such plugin exists.
+##         Return None if no such plugin exists.
 
-        """
+##         """
 
 ##     def get_service(self, protocol, query='', minimize='', maximize=''):
 ##         """ Return at most one service that matches the specified query.
@@ -187,10 +188,10 @@ class IApplication(IExtensionRegistry, IServiceRegistry):
 
 ##         """
 
-    def remove_plugin(self, plugin):
-        """ Remove a plugin from the application.
+##     def remove_plugin(self, plugin):
+##         """ Remove a plugin from the application.
 
-        """
+##         """
 
     def run(self):
         """ Run the application.
@@ -214,43 +215,43 @@ class IApplication(IExtensionRegistry, IServiceRegistry):
         
 ##         """
 
-    def start(self):
-        """ Start the application.
+##     def start(self):
+##         """ Start the application.
 
-        Return True if the application was started, False if the start was
-        vetoed.
+##         Return True if the application was started, False if the start was
+##         vetoed.
 
-        """
+##         """
 
-    def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin.
+##     def start_plugin(self, plugin=None, plugin_id=None):
+##         """ Start the specified plugin.
 
-        If a plugin is specified then start it.
+##         If a plugin is specified then start it.
 
-        If a plugin Id is specified then use the Id to look up the plugin and
-        then start it. If no such plugin exists then a 'SystemError' exception
-        is raised.
+##         If a plugin Id is specified then use the Id to look up the plugin and
+##         then start it. If no such plugin exists then a 'SystemError' exception
+##         is raised.
 
-        """
+##         """
 
-    def stop(self):
-        """ Stop the application.
+##     def stop(self):
+##         """ Stop the application.
 
-        Return True if the application was stopped, False if the stop was
-        vetoed.
+##         Return True if the application was stopped, False if the stop was
+##         vetoed.
 
-        """
+##         """
 
-    def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin.
+##     def stop_plugin(self, plugin=None, plugin_id=None):
+##         """ Stop the specified plugin.
 
-        If a plugin is specified then stop it.
+##         If a plugin is specified then stop it.
 
-        If a plugin Id is specified then use the Id to look up the plugin and
-        then stop it. If no such plugin exists then a 'SystemError' exception
-        is raised.
+##         If a plugin Id is specified then use the Id to look up the plugin and
+##         then stop it. If no such plugin exists then a 'SystemError' exception
+##         is raised.
 
-        """
+##         """
 
 ##     def unregister_service(self, service_id):
 ##         """ Unregister a service.

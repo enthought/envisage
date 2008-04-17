@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceFactory
 from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
 
@@ -26,7 +26,7 @@ class CorePlugin(Plugin):
     CATEGORIES        = 'enthought.envisage.categories'
     CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
     PREFERENCES       = 'enthought.envisage.preferences'
-    SERVICE_OFFERS    = 'enthought.envisage.services'
+    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
 
     #### 'IPlugin' interface ##################################################
 
@@ -50,7 +50,7 @@ class CorePlugin(Plugin):
         extra attributes, methods and events.
 
         Contributions to this extension point allow you to import categories
-        lazily when the class to be extended is imported or created. Each
+        *lazily* when the class to be extended is imported or created. Each
         contribution contains the name of the category class that you want to
         add (the 'class_name') and the name of the class that you want to
         extend (the 'target_class_name').
@@ -102,27 +102,29 @@ class CorePlugin(Plugin):
 
         - this looks for the 'preferences.ini' document on the 'some.website'
         web site!
-        
+
+        The files themselves are parsed using the excellent 'ConfigObj'
+        package. For detailed documentation please go to:-
+
+        http://www.voidspace.org.uk/python/configobj.html
+
         """
     )
 
-    service_offers = ExtensionPoint(
-        List(ServiceOffer),
-        id   = SERVICE_OFFERS,
+    service_factories = ExtensionPoint(
+        List(ServiceFactory),
+        id   = SERVICE_FACTORIES,
         desc = """
 
-        Services are simply objects that the plugin wants to make available to
-        other plugins. This extension point allows you to contribute *global*
-        services (i.e. there is exactly one service per application).
-
-        This extension point allows you to register services that are
-        created 'on-demand' via a call to the specified factory.
+        Services are simply objects that a plugin wants to make available to
+        other plugins. This extension point allows you to contribute factories
+        (i.e. callables) that create your service objects 'on-demand'.
 
         e.g.
 
-        my_service_offer = ServiceOffer(
+        my_service_factory = ServiceFactory(
             protocol   = 'acme.IMyService',
-            factory    = a_callable_that_creates_my_service,
+            factory    = an_object_or_a_callable_that_creates_one,
             properties = {'a dictionary' : 'that is passed to the factory'}
         )
 
@@ -178,7 +180,7 @@ class CorePlugin(Plugin):
     def _on_application_started(self):
         """ Dynamic trait change handler. """
 
-        self._register_application_services(self.service_offers)
+        self._register_service_factories(self.service_factories)
 
         return
 
@@ -188,8 +190,8 @@ class CorePlugin(Plugin):
         """ Add class load hooks for a list of categories. """
 
         for category in categories:
-            hook = self._create_category_class_load_hook(category)
-            hook.connect()
+            class_load_hook = self._create_category_class_load_hook(category)
+            class_load_hook.connect()
 
         return
 
@@ -241,15 +243,23 @@ class CorePlugin(Plugin):
 
         return
 
-    def _register_application_services(self, service_offers):
-        """ Regoster all application-scope services. """
+    def _register_service_factories(self, service_factories):
+        """ Regoster all application-scope service factoriess. """
 
-        for service_offer in service_offers:
-            if service_offer.scope == 'application':
-                self.application.register_service(
-                    service_offer.protocol, service_offer.factory,
-                    service_offer.properties
-                )
+        for service_factory in service_factories:
+            if service_factory.scope == 'application':
+                self._register_service_factory(service_factory)
+
+        return
+
+    def _register_service_factory(self, service_factory):
+        """ Register a service factory. """
+
+        self.application.register_service(
+            protocol   = service_factory.protocol,
+            obj        = service_factory.factory,
+            properties = service_factory.properties
+        )
 
         return
 
