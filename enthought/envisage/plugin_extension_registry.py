@@ -5,7 +5,6 @@
 from enthought.traits.api import Instance, on_trait_change
 
 # Local imports.
-from i_application import IApplication
 from i_plugin_manager import IPluginManager
 from provider_extension_registry import ProviderExtensionRegistry
 
@@ -20,49 +19,12 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
 
     #### 'PluginExtensionRegistry' interface ##################################
 
-##     # The application that the registry is part of.
-##     application = Instance(IApplication)
-
     # The plugin manager that has the plugins we are after!
     plugin_manager = Instance(IPluginManager)
 
     ###########################################################################
     # 'PluginExtensionRegistry' interface.
     ###########################################################################
-
-##     #### Trait change handlers ################################################
-
-##     def _application_changed(self, trait_name, old, new):
-##         """ Static trait change handler. """
-
-##         # In practise I can't see why you would ever want (or need) to change
-##         # the registry's application on the fly, but hey... Hence, 'old' will
-##         # probably always be 'None'!
-##         if old is not None:
-##             for plugin in old:
-##                 self.remove_provider(plugin)
-                
-##         if new is not None:
-##             for plugin in new:
-##                 self.add_provider(plugin)
-
-##         return
-
-##     @on_trait_change('application:plugin_added')
-##     def _on_plugin_added(self, obj, trait_name, old, event):
-##         """ Dynamic trait change handler. """
-
-##         self.add_provider(event.plugin)
-
-##         return
-
-##     @on_trait_change('application:plugin_removed')
-##     def _on_plugin_removed(self, obj, trait_name, old, event):
-##         """ Dynamic trait change handler. """
-
-##         self.remove_provider(event.plugin)
-
-##         return
 
     #### Trait change handlers ################################################
 
