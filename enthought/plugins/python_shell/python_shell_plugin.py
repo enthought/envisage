@@ -63,10 +63,10 @@ class PythonShellPlugin(Plugin):
     ###########################################################################
 
     # Bindings.
-    default_bindings = List(extension_point=BINDINGS)
+    default_bindings = List(contributes_to=BINDINGS)
     
     # Views.
-    views = List(extension_point=VIEWS)
+    views = List(contributes_to=VIEWS)
 
     ###########################################################################
     # Services offered by this plugin.

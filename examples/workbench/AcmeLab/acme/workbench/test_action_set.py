@@ -48,6 +48,11 @@ class TestActionSet(WorkbenchActionSet):
         ),
 
         Action(
+            path='MenuBar/Test', group='Fred',
+            class_name='acme.workbench.action.new_view_action:NewViewAction'
+        ),
+
+        Action(
             path='ToolBar',
             class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
         ),

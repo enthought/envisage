@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceFactory
 from enthought.traits.api import Callable, List, Instance
 
 
@@ -20,11 +20,17 @@ class WorkbenchPlugin(Plugin):
 
     """
 
-    # Extension point Ids.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.actions'
+    # The Ids of the extension points that this plugin offers.
+    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
     PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
     PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
     VIEWS             = 'enthought.envisage.ui.workbench.views'
+
+    # The Ids of the extension points that this plugin contributes to.
+    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
+
+    # DEPRECATED extension point Ids.
+    ACTIONS           = 'enthought.envisage.ui.workbench.actions'
     
     #### 'IPlugin' interface ##################################################
 
@@ -34,11 +40,7 @@ class WorkbenchPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'Workbench'
 
-    #### 'WorkbenchPlugin' interface ##########################################
-
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    #### Extension points offered by this plugin ##############################
 
     action_sets = ExtensionPoint(
         List(Callable), id=ACTION_SETS, desc="""
@@ -125,21 +127,33 @@ class WorkbenchPlugin(Plugin):
         """
     )
 
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
+    # DEPRECATED - use the action *sets* extension point instead.
+    actions = ExtensionPoint(
+        List(Callable), id=ACTIONS, desc="""
 
-    workbench_action_sets       = List(extension_point=ACTION_SETS)
-    workbench_preferences_pages = List(extension_point=PREFERENCES_PAGES)
-
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
-
-    workbench = Instance(
-        'enthought.envisage.ui.workbench.api.Workbench', service=True
+        An action set contains the toobars, menus, groups and actions that you
+        would like to add to top-level workbench windows (i.e. the main
+        application window). You can create new toolbars, menus and groups
+        and/or add to existing ones.
+    
+        Each contribution to this extension point must be a factory that
+        creates an action set, where 'factory' means any callable with the
+        following signature::
+    
+          callable(**traits) -> IActionSet
+    
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.envisage.ui.action.api.ActionSet'.
+    
+        """
     )
-        
+    
+    #### Contributions to extension points made by this plugin ################
+
+    workbench_action_sets       = List(contributes_to=ACTION_SETS)
+    workbench_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
+    workbench_service_factories = List(contributes_to=SERVICE_FACTORIES)
+
     ###########################################################################
     # 'WorkbenchPlugin' interface.
     ###########################################################################
@@ -160,11 +174,25 @@ class WorkbenchPlugin(Plugin):
 
         return [WorkbenchPreferencesPage]
 
-    #### Services #############################################################
-
-    def _workbench_default(self):
+    def _workbench_service_factories_default(self):
         """ Trait initializer. """
+        
+        workbench_service_factory = ServiceFactory(
+            protocol = 'enthought.envisage.ui.workbench.api.Workbench',
+            factory  = self._workbench_service_factory,
+            scope    = 'application'
+        )
 
+        return [workbench_service_factory]
+
+    #### Service factories ####################################################
+
+    def _workbench_service_factory(self, **properties):
+        """ Factory method that creates the workbench service. """
+
+        # We don't actually create the workbench here, we just register a
+        # reference to it.
+        #
         # fixme: This guard is really just for testing when we have the
         # workbench plugin as a source egg (i.e. if the egg is on our path
         # then we get the plugin for any egg-based application, even if it is

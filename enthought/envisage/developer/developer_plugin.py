@@ -2,8 +2,12 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
-from enthought.traits.api import Instance
+from enthought.envisage.api import Plugin, ServiceFactory
+from enthought.traits.api import List
+
+
+# The package that this module is in.
+PKG = '.'.join(__name__.split('.')[:-1])
 
 
 class DeveloperPlugin(Plugin):
@@ -14,6 +18,9 @@ class DeveloperPlugin(Plugin):
 
     """
 
+    # The Ids of the extension points that this plugin contributes to.
+    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
+
     #### 'IPlugin' interface ##################################################
 
     # The plugin's globally unique identifier.
@@ -22,42 +29,23 @@ class DeveloperPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'Developer'
 
-    #### 'DeveloperPlugin' interface ##########################################
+    #### Extension points offered by this plugin ##############################
 
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    # None.
 
-    # None
+    #### Contributions to extension points made by this plugin ################
+
+    service_factories = List(contributes_to=SERVICE_FACTORIES)
     
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
-
-    # None
-
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
-
-    # A code browser (used to parse Python source code).
-    code_browser = Instance(
-        'enthought.envisage.developer.code_browser.api.CodeBrowser',
-        service=True
-    )
-    
-    ###########################################################################
-    # 'DeveloperPlugin' interface.
-    ###########################################################################
-
-    def _code_browser_default(self):
+    def _service_factories_default(self):
         """ Trait initializer. """
 
-        from enthought.envisage.developer.code_browser.api import CodeBrowser
+        code_browser_service_factory = ServiceFactory(
+            protocol = PKG + '.code_browser.api.CodeBrowser',
+            factory  = PKG + '.code_browser.api.CodeBrowser',
+            scope    = 'application'
+        )
 
-        # fixme: The code browser should persist the code database in an
-        # area set-aside for the plugin (maybe 'plugin.home' to mirror
-        # 'application.home'?).
-        return CodeBrowser()
+        return [code_browser_service_factory]
     
 #### EOF ######################################################################

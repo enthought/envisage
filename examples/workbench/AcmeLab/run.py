@@ -7,7 +7,6 @@ import logging
 # Example imports.
 from acme.acmelab.api import Acmelab
 
-
 # Enthought plugins.
 from enthought.envisage.core_plugin import CorePlugin
 from enthought.envisage.developer.developer_plugin import DeveloperPlugin
@@ -18,9 +17,9 @@ from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin
 
 
-# Create a log file.
+# Do whatever you want to do with log messages! Here we create a log file.
 logger = logging.getLogger()
-logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
+#logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 

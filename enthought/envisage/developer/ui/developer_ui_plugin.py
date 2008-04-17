@@ -45,10 +45,10 @@ class DeveloperUIPlugin(Plugin):
     ###########################################################################
 
     # Perspectives.
-    perspectives = List(extension_point=PERSPECTIVES)
+    perspectives = List(contributes_to=PERSPECTIVES)
 
     # Views.
-    views = List(extension_point=VIEWS)
+    views = List(contributes_to=VIEWS)
 
     ###########################################################################
     # Services offered by this plugin.
