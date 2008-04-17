@@ -155,18 +155,13 @@ class CorePlugin(Plugin):
         self._add_category_class_load_hooks(self.categories)
 
         # Register all application-scope service factories.
-        self._service_idsss = self._register_service_factories(
+        #
+        # These services are unregistered by the default plugin activation
+        # strategy.
+        self._service_ids = self._register_service_factories(
             self.service_factories
         )
 
-        return
-    
-    def stop(self):
-        """ Stop the plugin. """
-        
-        # Unregister all application-scope service factories.
-        self._unregister_service_factories(self._service_idsss)
-        
         return
 
     ###########################################################################
@@ -251,18 +246,5 @@ class CorePlugin(Plugin):
         )
 
         return service_id
-
-    def _unregister_service_factories(self, service_ids):
-        """ Unregister all window-scope service factories. """
-
-        # Unregister the services in the reverse order that we registered
-        # them.
-        service_ids_copy = service_ids[:]
-        service_ids_copy.reverse()
-        
-        for service_id in service_ids_copy:
-            self.application.unregister_service(service_id)
-
-        return
 
 ### EOF ######################################################################
