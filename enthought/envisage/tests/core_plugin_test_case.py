@@ -80,7 +80,13 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Lookup the service.
         self.assertEqual(42, application.get_service(IMyService))
-        
+
+        # Stop the core plugin.
+        application.stop_plugin(core)
+
+        # Make sure th service has gone.
+        self.assertEqual(None, application.get_service(IMyService))
+
         return
 
     def test_categories(self):

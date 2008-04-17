@@ -155,7 +155,7 @@ class CorePlugin(Plugin):
         self._add_category_class_load_hooks(self.categories)
 
         # Register all application-scope service factories.
-        self._service_ids = self._register_service_factories(
+        self._service_idsss = self._register_service_factories(
             self.service_factories
         )
 
@@ -165,7 +165,7 @@ class CorePlugin(Plugin):
         """ Stop the plugin. """
         
         # Unregister all application-scope service factories.
-        self._unregister_service_factories(self._service_ids)
+        self._unregister_service_factories(self._service_idsss)
         
         return
 
@@ -244,13 +244,13 @@ class CorePlugin(Plugin):
     def _register_service_factory(self, service_factory):
         """ Register a service factory. """
 
-        self.application.register_service(
+        service_id = self.application.register_service(
             protocol   = service_factory.protocol,
             obj        = service_factory.factory,
             properties = service_factory.properties
         )
 
-        return
+        return service_id
 
     def _unregister_service_factories(self, service_ids):
         """ Unregister all window-scope service factories. """
