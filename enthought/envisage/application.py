@@ -233,7 +233,6 @@ class Application(HasTraits):
 
         return iter(self.plugin_manager)
     
-
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
 
@@ -374,7 +373,6 @@ class Application(HasTraits):
         # to override it!
         from plugin_extension_registry import PluginExtensionRegistry
 
-##         return PluginExtensionRegistry(application=self)
         return PluginExtensionRegistry(plugin_manager=self)
     
     def _plugin_manager_default(self):
@@ -415,8 +413,9 @@ class Application(HasTraits):
     #
     # Of course, it would be better if the plugin manager didn't require a
     # reference to the application at all (it currently uses it to set the
-    # 'application' trait of plugin instances (which is done in a similar
-    # fashion to this).
+    # 'application' trait of plugin instances - but that is only done for the
+    # same reason as this (i.e. it is nice to be able to pass plugins into the
+    # application constructor).
     def _plugin_manager_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 

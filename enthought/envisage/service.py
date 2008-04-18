@@ -60,7 +60,9 @@ class Service(TraitType):
     def get(self, obj, trait_name):
         """ Trait type getter. """
 
-        obj = self._get_service_registry(obj).get_service(
+        service_registry = self._get_service_registry(obj)
+        
+        obj = service_registry.get_service(
             self._protocol, self._query, self._minimize, self._maximize
         )
 
@@ -78,8 +80,9 @@ class Service(TraitType):
     def _get_service_registry(self, obj):
         """ Return the service registry in effect for an object. """
 
-##         service_registry = getattr(obj, 'service_registry', None)
         service_registry = self.application
+
+##         service_registry = getattr(obj, 'service_registry', None)
         if service_registry is None:
             raise 'The "Service" trait type can only be used within objects ' \
                   'that have a reference to a service registry via their ' \

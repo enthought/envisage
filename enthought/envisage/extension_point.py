@@ -214,8 +214,9 @@ class ExtensionPoint(TraitType):
     def _get_extension_registry(self, obj):
         """ Return the extension registry in effect for an object. """
 
-##         extension_registry = getattr(obj, 'extension_registry', None)
         extension_registry = self.extension_registry
+
+##         extension_registry = getattr(obj, 'extension_registry', None)
         if extension_registry is None:
             raise 'The "ExtensionPoint" trait type can only be used within ' \
                   'objects that have a reference to an extension registry ' \
