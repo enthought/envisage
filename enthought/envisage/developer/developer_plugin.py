@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, ServiceFactory
+from enthought.envisage.api import Plugin, ServiceOffer
 from enthought.traits.api import List
 
 
@@ -19,7 +19,7 @@ class DeveloperPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
+    SERVICE_OFFERS = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
@@ -35,19 +35,19 @@ class DeveloperPlugin(Plugin):
 
     #### Contributions to extension points made by this plugin ################
 
-    service_factories = List(contributes_to=SERVICE_FACTORIES)
+    service_offers = List(contributes_to=SERVICE_OFFERS)
     
-    def _service_factories_default(self):
+    def _service_offers_default(self):
         """ Trait initializer. """
 
         code_browser_class = PKG + '.code_browser.api.CodeBrowser'
         
-        code_browser_service_factory = ServiceFactory(
+        code_browser_service_offer = ServiceOffer(
             protocol = code_browser_class,
             factory  = code_browser_class,
             scope    = 'application'
         )
 
-        return [code_browser_service_factory]
+        return [code_browser_service_offer]
     
 #### EOF ######################################################################

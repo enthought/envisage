@@ -21,9 +21,6 @@ class DeveloperUIPlugin(Plugin):
     PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
     VIEWS        = 'enthought.envisage.ui.workbench.views'
 
-    # View Ids.
-    APPLICATION_BROWSER = ID + '.view.application_browser_view'
-
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
@@ -69,17 +66,5 @@ class DeveloperUIPlugin(Plugin):
         ]
 
         return views
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    def _create_application_browser(self):
-        """ Create an application browser. """
-
-        # Local imports.
-        from view.application_browser import ApplicationBrowser
-        
-        return ApplicationBrowser(application=self.application)
         
 #### EOF ######################################################################
