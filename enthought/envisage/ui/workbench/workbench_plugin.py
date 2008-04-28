@@ -29,9 +29,6 @@ class WorkbenchPlugin(Plugin):
     # The Ids of the extension points that this plugin contributes to.
     SERVICE_FACTORIES = 'enthought.envisage.service_factories'
 
-    # DEPRECATED extension point Ids.
-    ACTIONS           = 'enthought.envisage.ui.workbench.actions'
-    
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
@@ -128,6 +125,8 @@ class WorkbenchPlugin(Plugin):
     )
 
     # DEPRECATED - use the action *sets* extension point instead.
+    ACTIONS = 'enthought.envisage.ui.workbench.actions'
+    
     actions = ExtensionPoint(
         List(Callable), id=ACTIONS, desc="""
 
@@ -150,31 +149,27 @@ class WorkbenchPlugin(Plugin):
     
     #### Contributions to extension points made by this plugin ################
 
-    workbench_action_sets       = List(contributes_to=ACTION_SETS)
-    workbench_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
-    workbench_service_factories = List(contributes_to=SERVICE_FACTORIES)
+    action_sets_contributions = List(contributes_to=ACTION_SETS)
 
-    ###########################################################################
-    # 'WorkbenchPlugin' interface.
-    ###########################################################################
-
-    #### Extension point contributions ########################################
-    
-    def _workbench_action_sets_default(self):
+    def _action_sets_contributions_default(self):
         """ Trait initializer. """
 
         from default_action_set import DefaultActionSet
 
         return [DefaultActionSet]
-    
-    def _workbench_preferences_pages_default(self):
+
+    _preferences_pages_contributions = List(contributes_to=PREFERENCES_PAGES)
+
+    def _preferences_pages_contributions_default(self):
         """ Trait initializer. """
         
         from workbench_preferences_page import WorkbenchPreferencesPage
 
         return [WorkbenchPreferencesPage]
 
-    def _workbench_service_factories_default(self):
+    _service_factories_contributions = List(contributes_to=SERVICE_FACTORIES)
+
+    def _service_factories_contributions_default(self):
         """ Trait initializer. """
         
         workbench_service_factory = ServiceFactory(
@@ -185,10 +180,12 @@ class WorkbenchPlugin(Plugin):
 
         return [workbench_service_factory]
 
-    #### Service factories ####################################################
+    ###########################################################################
+    # 'Private' interface.
+    ###########################################################################
 
     def _workbench_service_factory(self, **properties):
-        """ Factory method that creates the workbench service. """
+        """ Service factory for the workbench service. """
 
         # We don't actually create the workbench here, we just register a
         # reference to it.

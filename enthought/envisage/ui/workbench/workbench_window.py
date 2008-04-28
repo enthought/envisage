@@ -283,7 +283,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _register_service_factory(self, service_factory):
         """ Register a service factory. """
 
-        # Add the window any service offer properties.
+        # Add the window to the service factory properties.
         service_factory.properties['window'] = self
 
         service_id = self.register_service(

@@ -1,7 +1,11 @@
 """ An action set is a collection of menus, groups, and actions. """
 
 
+# Standard library imports.
+import logging
+
 # Enthought library imports.
+from enthought.envisage.util import camel_case_to_words
 from enthought.traits.api import Bool, Dict, HasTraits, List, Str, implements
 
 # Local imports.
@@ -10,6 +14,10 @@ from group import Group
 from i_action_set import IActionSet
 from menu import Menu
 from tool_bar import ToolBar
+
+
+# Logging.
+logger = logging.getLogger(__name__)
 
 
 class ActionSet(HasTraits):
@@ -77,5 +85,23 @@ class ActionSet(HasTraits):
     #     ``Location(path='MenuBar/ASubMenu/AGroup')``
     #
     aliases = Dict(Str, Str)
+
+    #### Trait initializers ###################################################
+
+    def _id_default(self):
+        """ Trait initializer. """
+
+        id = '%s.%s' % (type(self).__module__, type(self).__name__)
+        logger.warn('action set %s has no Id - using <%s>' % (self, id))
+            
+        return id
+
+    def _name_default(self):
+        """ Trait initializer. """
+
+        name = camel_case_to_words(type(self).__name__)
+        logger.warn('action set %s has no name - using <%s>' % (self, name))
+
+        return name
     
 #### EOF ######################################################################

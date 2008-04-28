@@ -1,3 +1,1 @@
 from i_python_shell import IPythonShell
-
-from python_shell_plugin import PythonShellPlugin

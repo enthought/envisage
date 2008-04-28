@@ -40,9 +40,11 @@ class DeveloperPlugin(Plugin):
     def _service_factories_default(self):
         """ Trait initializer. """
 
+        code_browser_class = PKG + '.code_browser.api.CodeBrowser'
+        
         code_browser_service_factory = ServiceFactory(
-            protocol = PKG + '.code_browser.api.CodeBrowser',
-            factory  = PKG + '.code_browser.api.CodeBrowser',
+            protocol = code_browser_class,
+            factory  = code_browser_class,
             scope    = 'application'
         )
 

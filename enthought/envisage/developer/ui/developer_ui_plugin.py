@@ -34,40 +34,33 @@ class DeveloperUIPlugin(Plugin):
 
     #### 'DeveloperUIPlugin' interface ########################################
 
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    #### Extension points offered by this plugin ##############################
 
-    # None
+    # None.
 
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
+    #### Contributions to extension points made by this plugin ################
 
-    # Perspectives.
     perspectives = List(contributes_to=PERSPECTIVES)
 
-    # Views.
+    def _perspectives_default(self):
+        """ Trait initializer. """
+
+        from enthought.envisage.developer.ui.perspective.api import (
+            DeveloperPerspective
+        )
+
+        return [DeveloperPerspective]
+
     views = List(contributes_to=VIEWS)
-
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
-
-    # None
-    
-    ###########################################################################
-    # 'DeveloperUIPlugin' interface.
-    ###########################################################################
-
-    #### Extension point contributions ########################################
 
     def _views_default(self):
         """ Trait initializer. """
 
-        from view.api import \
-             ApplicationBrowserView, ExtensionRegistryBrowserView, \
-             ServiceRegistryBrowserView
+        from view.api import (
+            ApplicationBrowserView,
+            ExtensionRegistryBrowserView,
+            ServiceRegistryBrowserView
+        )
 
         views = [
             ApplicationBrowserView,
@@ -76,14 +69,6 @@ class DeveloperUIPlugin(Plugin):
         ]
 
         return views
-
-    def _perspectives_default(self):
-        """ Trait initializer. """
-
-        from enthought.envisage.developer.ui.perspective.api import \
-             DeveloperPerspective
-
-        return [DeveloperPerspective]
 
     ###########################################################################
     # Private interface.

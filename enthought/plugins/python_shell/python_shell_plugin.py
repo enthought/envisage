@@ -22,11 +22,7 @@ class PythonShellPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'Python Shell'
 
-    #### 'PythonShellPlugin' interface ########################################
-
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    #### Extension points offered by this plugin ##############################
 
     bindings = ExtensionPoint(
         List(Dict), id=BINDINGS, desc="""
@@ -58,34 +54,20 @@ class PythonShellPlugin(Plugin):
         """
     )
 
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
+    #### Contributions to extension points made by this plugin ################
 
     # Bindings.
-    default_bindings = List(contributes_to=BINDINGS)
-    
-    # Views.
-    views = List(contributes_to=VIEWS)
+    contributed_bindings = List(contributes_to=BINDINGS)
 
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
-
-    # None
-
-    ###########################################################################
-    # 'PythonShellPlugin' interface.
-    ###########################################################################
-
-    #### Trait initializers ###################################################
-
-    def _default_bindings_default(self):
+    def _contributed_bindings_default(self):
         """ Trait initializer. """
 
         return [{'application' : self.application}]
     
-    def _views_default(self):
+    # Views.
+    contributed_views = List(contributes_to=VIEWS)
+
+    def _contributed_views_default(self):
         """ Trait initializer. """
 
         # Local imports.
