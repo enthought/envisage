@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
-from enthought.envisage.api import ServiceFactory
+from enthought.envisage.api import ServiceFactory, ServiceOffer
 from enthought.traits.api import HasTraits, Int, Interface, List
 
 
@@ -65,6 +65,58 @@ class CorePluginTestCase(unittest.TestCase):
                 ]
 
                 return service_factories
+
+            def _my_service_factory(self, **properties):
+                """ Service factory. """
+
+                return 42
+
+            
+        core = CorePlugin()
+        a    = PluginA()
+        
+        application = TestApplication(plugins=[core, a])
+        application.start()
+
+        # Lookup the service.
+        self.assertEqual(42, application.get_service(IMyService))
+
+        # Stop the core plugin.
+        application.stop_plugin(core)
+
+        # Make sure th service has gone.
+        self.assertEqual(None, application.get_service(IMyService))
+
+        return
+
+    def test_service_offers(self):
+        """ service offers """
+
+        from enthought.envisage.core_plugin import CorePlugin
+
+        class IMyService(Interface):
+            pass
+        
+        class PluginA(Plugin):
+            id = 'A'
+
+            service_offers = List(
+                contributes_to='enthought.envisage.service_offers'
+            )
+
+            def _service_offers_default(self):
+                """ Trait initializer. """
+
+                service_offers = [
+                    ServiceOffer(
+                        protocol = IMyService,
+                        factory  = self._my_service_factory,
+                        scope    = 'application'
+                        
+                    )
+                ]
+
+                return service_offers
 
             def _my_service_factory(self, **properties):
                 """ Service factory. """

@@ -28,6 +28,7 @@ from plugin_extension_registry import PluginExtensionRegistry
 from plugin_manager import PluginManager
 from provider_extension_registry import ProviderExtensionRegistry
 from service import Service
+from service_offer import ServiceOffer
 from service_factory import ServiceFactory
 from service_registry import ServiceRegistry
 from twisted_application import TwistedApplication
