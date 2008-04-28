@@ -157,7 +157,8 @@ class CorePlugin(Plugin):
         # Register all application-scope service factories.
         #
         # These services are unregistered by the default plugin activation
-        # strategy.
+        # strategy (due to the fact that we store the service ids in this
+        # specific trait!).
         self._service_ids = self._register_service_factories(
             self.service_factories
         )
@@ -189,7 +190,11 @@ class CorePlugin(Plugin):
         """ Create a category class load hook. """
 
         def import_and_add_category(cls):
-            """ Import a category and add it to a class. """
+            """ Import a category and add it to a class.
+
+            This is a closure that binds 'self' and 'category'.
+
+            """
 
             category_cls = self.application.import_symbol(category.class_name)
             cls.add_trait_category(category_cls)

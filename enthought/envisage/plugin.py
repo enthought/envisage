@@ -16,40 +16,11 @@ from i_extension_registry import IExtensionRegistry
 from i_plugin import IPlugin
 from i_plugin_activator import IPluginActivator
 from plugin_activator import PluginActivator
+from util import camel_case_to_words
 
 
 # Logging.
 logger = logging.getLogger(__name__)
-
-
-def camel_case_to_words(s):
-    """ Turn a string from CamelCase into words separated by spaces.
-
-    e.g. 'CamelCase' -> 'Camel Case'
-
-    """
-    
-    def add_space_between_words(s, c):
-        # We detect a word boundary if the character we are looking at is
-        # upper case, but the character preceding it is lower case.
-        if len(s) > 0 and s[-1].islower() and c.isupper():
-            return s + ' ' + c
-
-        return s + c
-
-    return reduce(add_space_between_words, s, '')
-
-##     # Readable but not quite as clean and handles an empty string ;^)
-##     words = ''
-##     for i in range(len(s)):
-##         # We detect a word boundary if the character we are looking at is
-##         # upper case, but the character preceding it is lower case.
-##         if i > 0 and s[i].isupper() and s[i-1].islower():
-##             words += ' '
-
-##         words += s[i]
-
-##     return words
 
 
 class Plugin(ExtensionProvider):
@@ -255,10 +226,13 @@ class Plugin(ExtensionProvider):
     def _anytrait_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        # Ignore the '_items' part of the trait name (if it is there!).
+        # Ignore the '_items' part of the trait name (if it is there!), and get
+        # the actual trait.
         base_trait_name = trait_name.split('_items')[0]
         trait           = self.trait(base_trait_name)
 
+        # If the trait is one that contributes to an extension point then fire
+        # an appropriate 'extension point changed' event.
         if trait.extension_point is not None:
             if trait_name.endswith('_items'):
                 added   = new.added
