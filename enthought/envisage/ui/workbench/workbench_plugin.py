@@ -27,7 +27,7 @@ class WorkbenchPlugin(Plugin):
     VIEWS             = 'enthought.envisage.ui.workbench.views'
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
+    SERVICE_OFFERS    = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
@@ -158,7 +158,7 @@ class WorkbenchPlugin(Plugin):
 
         return [DefaultActionSet]
 
-    _preferences_pages_contributions = List(contributes_to=PREFERENCES_PAGES)
+    preferences_pages_contributions = List(contributes_to=PREFERENCES_PAGES)
 
     def _preferences_pages_contributions_default(self):
         """ Trait initializer. """
@@ -167,18 +167,18 @@ class WorkbenchPlugin(Plugin):
 
         return [WorkbenchPreferencesPage]
 
-    _service_factories_contributions = List(contributes_to=SERVICE_FACTORIES)
+    service_offers_contributions = List(contributes_to=SERVICE_OFFERS)
 
-    def _service_factories_contributions_default(self):
+    def _service_offers_contributions_default(self):
         """ Trait initializer. """
         
-        workbench_service_factory = ServiceFactory(
+        workbench_service_offer = ServiceOffer(
             protocol = 'enthought.envisage.ui.workbench.api.Workbench',
             factory  = self._workbench_service_factory,
             scope    = 'application'
         )
 
-        return [workbench_service_factory]
+        return [workbench_service_offer]
 
     ###########################################################################
     # 'Private' interface.
