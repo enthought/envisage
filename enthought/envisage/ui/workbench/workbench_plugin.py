@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceFactory
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.traits.api import Callable, List, Instance
 
 
