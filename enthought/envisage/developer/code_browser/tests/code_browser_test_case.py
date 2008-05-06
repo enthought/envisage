@@ -86,9 +86,6 @@ class CodeBrowserTestCase(unittest.TestCase):
         self.assertEqual(2, len(klass.methods))
         foo = klass.methods['foo']
         bar = klass.methods['bar']
-
-        
-        print x.lineno, y.lineno
         
         return
 

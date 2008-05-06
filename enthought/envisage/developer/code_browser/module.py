@@ -82,10 +82,6 @@ class Module(Namespace):
 
         return
 
-    ###########################################################################
-    # 'object' interface.
-    ###########################################################################
-
 
 class ModuleFactory(HasTraits):
     """ A factory for modules. """
@@ -156,6 +152,12 @@ class ModuleVisitor(ASTVisitor):
         """ Creates a new visitor. """
 
         self.module = module
+
+        # Factories used to create klasses, functions and assignments from
+        # AST nodes.
+        self._klass_factory    = KlassFactory()
+        self._function_factory = FunctionFactory()
+        self._assign_factory   = AssignFactory()
         
         return
 
@@ -166,8 +168,7 @@ class ModuleVisitor(ASTVisitor):
     def visitClass(self, node):
         """ Visits a class node. """
 
-        klass_factory = KlassFactory()
-        klass = klass_factory.from_ast(self.module, node)
+        klass = self._klass_factory.from_ast(self.module, node)
         
         self.module.locals[node.name] = klass
         self.module.klasses[node.name] = klass
@@ -177,8 +178,7 @@ class ModuleVisitor(ASTVisitor):
     def visitFunction(self, node):
         """ Visits a function node. """
 
-        function_factory = FunctionFactory()
-        function = function_factory.from_ast(self.module, node)
+        function = self._function_factory.from_ast(self.module, node)
 
         self.module.locals[node.name] = function
         self.module.functions[node.name] = function
@@ -188,8 +188,7 @@ class ModuleVisitor(ASTVisitor):
     def visitAssign(self, node):
         """ Visits an assignment node. """
 
-        assign_factory = AssignFactory()
-        assign = assign_factory.from_ast(self.module, node)
+        assign = self._assign_factory.from_ast(self.module, node)
 
         # Does the assigment look like it *might* be a trait? (i.e., it is NOT
         # an expression or a constant etc.).

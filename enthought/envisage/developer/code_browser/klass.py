@@ -142,6 +142,11 @@ class KlassVisitor(ASTVisitor):
 
         self.klass = klass
 
+        # Factories used to create klasses, functions and assignments from
+        # AST nodes.
+        self._function_factory = FunctionFactory()
+        self._assign_factory   = AssignFactory()
+
         return
 
     ###########################################################################
@@ -151,8 +156,7 @@ class KlassVisitor(ASTVisitor):
     def visitFunction(self, node):
         """ Visits a function node. """
 
-        function_factory = FunctionFactory()
-        function = function_factory.from_ast(self.klass, node)
+        function = self._function_factory.from_ast(self.klass, node)
 
         self.klass.locals[node.name] = function
         self.klass.methods[node.name] = function
@@ -162,8 +166,7 @@ class KlassVisitor(ASTVisitor):
     def visitAssign(self, node):
         """ Visits an assignment node. """
 
-        assign_factory = AssignFactory()
-        assign = assign_factory.from_ast(self.klass, node)
+        assign = self._assign_factory.from_ast(self.klass, node)
 
         # Does the assigment look like it *might* be a trait? (i.e., it is NOT
         # an expression or a constant etc.).
