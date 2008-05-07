@@ -60,6 +60,24 @@ class ServiceRegistry(HasTraits):
             
         return service
 
+##     def get_service_by_id(self, service_id):
+##         """ Return the service with the specified Id. """
+
+##         try:
+##             name, obj, properties = self._services[service_id]
+##             protocol = ImportManager().import_symbol(name)
+
+##             # If the registered service is actually a factory then use it
+##             # to create the actual object.
+##             obj = self._resolve_factory(
+##                 protocol, name, obj, properties, service_id
+##             )
+                
+##         except KeyError:
+##             obj = None
+            
+##         return obj
+
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
@@ -69,26 +87,15 @@ class ServiceRegistry(HasTraits):
                 # If the protocol is a string then we need to import it!
                 if isinstance(protocol, basestring):
                     protocol = ImportManager().import_symbol(protocol)
-            
-                # Is the registered service actually a service *factory*?
-                if self._is_service_factory(protocol, obj):
-                    # A service factory is any callable that takes two
-                    # arguments, the first is the protocol the second is the
-                    # (possibly empty) dictionary of properties that were
-                    # registered with the service.
-                    #
-                    # If the factory is specified as a symbol path then import
-                    # it.
-                    if isinstance(obj, basestring):
-                        obj = ImportManager().import_symbol(obj)
-                    
-                    obj = obj(**properties)
-                        
-                    # The resulting service object replaces the factory in
-                    # the cache (i.e. the factory will not get called again
-                    # unless it is unregistered first).
-                    self._services[service_id] = (name, obj, properties)
-                    
+
+                # If the registered service is actually a factory then use it
+                # to create the actual object.
+                obj = self._resolve_factory(
+                    protocol, name, obj, properties, service_id
+                )
+                
+                # If a query was specified then only add the service if it
+                # matches it!
                 if len(query) == 0 or self._eval_query(obj, properties, query):
                     services.append(obj)
 
@@ -125,7 +132,7 @@ class ServiceRegistry(HasTraits):
 
         service_id = self._next_service_id()
         self._services[service_id] = (protocol_name, obj, properties)
-
+        
         logger.debug('service <%d> registered %s', service_id, protocol_name)
         
         return service_id
@@ -223,5 +230,27 @@ class ServiceRegistry(HasTraits):
         self._service_id += 1
 
         return self._service_id
-    
+
+    def _resolve_factory(self, protocol, name, obj, properties, service_id):
+        """ If 'obj' is a factory then use it to create the actual service. """
+
+        # Is the registered service actually a service *factory*?
+        if self._is_service_factory(protocol, obj):
+            # A service factory is any callable that takes two arguments, the
+            # first is the protocol, the second is the (possibly empty)
+            # dictionary of properties that were registered with the service.
+            #
+            # If the factory is specified as a symbol path then import it.
+            if isinstance(obj, basestring):
+                obj = ImportManager().import_symbol(obj)
+                
+            obj = obj(**properties)
+            
+            # The resulting service object replaces the factory in the cache
+            # (i.e. the factory will not get called again unless it is
+            # unregistered first).
+            self._services[service_id] = (name, obj, properties)
+
+        return obj
+        
 #### EOF ######################################################################

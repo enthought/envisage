@@ -279,6 +279,44 @@ class ServiceRegistryTestCase(unittest.TestCase):
         
         return
 
+##     def test_get_service_by_id(self):
+##         """ get service by id """
+
+##         class IFoo(Interface):
+##             pass
+
+##         class Foo(HasTraits):
+##             implements(IFoo)
+
+##         # Register a service.
+##         foo = Foo()
+##         foo_id = self.service_registry.register_service(IFoo, foo)
+
+##         # Look it up by Id.
+##         self.assertEqual(foo, self.service_registry.get_service_by_id(foo_id))
+
+##         # Create an object to return from the factory (this is obviously not
+##         # how you would normally do it, it just makes it easy to make sure that
+##         # the factory returned what we expected).
+##         goo = Foo()
+
+##         # Register a service factory.
+##         def goo_factory(**properties):
+##             return goo
+
+##         # Look it up by Id. Should it be the service or the factory?
+##         goo_id = self.service_registry.register_service(IFoo, goo_factory)
+
+##         # i.e. this...
+##         self.assertEqual(
+##             goo_factory, self.service_registry.get_service_by_id(goo_id)
+##         )
+
+##         # or...
+##         self.assertEqual(goo, self.service_registry.get_service_by_id(goo_id))
+
+##         return
+
     def test_get_service_with_query(self):
         """ get service with query """
 

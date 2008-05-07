@@ -2,8 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceFactory
-from enthought.envisage.api import ServiceOffer
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
 
@@ -27,7 +26,6 @@ class CorePlugin(Plugin):
     CATEGORIES        = 'enthought.envisage.categories'
     CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
     PREFERENCES       = 'enthought.envisage.preferences'
-    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
     SERVICE_OFFERS    = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
@@ -113,26 +111,6 @@ class CorePlugin(Plugin):
         """
     )
 
-    service_factories = ExtensionPoint(
-        List(ServiceFactory),
-        id   = SERVICE_FACTORIES,
-        desc = """
-
-        Services are simply objects that a plugin wants to make available to
-        other plugins. This extension point allows you to contribute factories
-        (i.e. callables) that create your service objects 'on-demand'.
-
-        e.g.
-
-        my_service_factory = ServiceFactory(
-            protocol   = 'acme.IMyService',
-            factory    = an_object_or_a_callable_that_creates_one,
-            properties = {'a dictionary' : 'that is passed to the factory'}
-        )
-
-        """
-    )
-
     service_offers = ExtensionPoint(
         List(ServiceOffer),
         id   = SERVICE_OFFERS,
@@ -176,14 +154,12 @@ class CorePlugin(Plugin):
         # is imported/created.
         self._add_category_class_load_hooks(self.categories)
 
-        # Register all application-scope service offers.
+        # Register all service offers.
         #
         # These services are unregistered by the default plugin activation
         # strategy (due to the fact that we store the service ids in this
         # specific trait!).
-        self._service_ids = self._register_service_offers(
-            self.service_offers + self.service_factories
-        )
+        self._service_ids = self._register_service_offers(self.service_offers)
 
         return
 
@@ -255,13 +231,7 @@ class CorePlugin(Plugin):
     def _register_service_offers(self, service_offers):
         """ Register all application-scope service offers. """
 
-        service_ids = []
-        for service_offer in service_offers:
-            if service_offer.scope == 'application':
-                service_id = self._register_service_offer(service_offer)
-                service_ids.append(service_id)
-                
-        return service_ids
+        return map(self._register_service_offer, service_offers)
 
     def _register_service_offer(self, service_offer):
         """ Register a service offer. """

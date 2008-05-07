@@ -30,12 +30,5 @@ class ServiceOffer(HasTraits):
     #
     # This dictionary is passed as keyword arguments to the factory.
     properties = Dict
-    
-    # The service scope.
-    #
-    # The Envisage core plugin only registers 'application' scope services, but
-    # developers are free to create other scopes as they see fit (for example
-    # in GUI applications it might be useful to have 'window' scope services).
-    scope = Str('application')
 
 #### EOF ######################################################################

@@ -40,6 +40,15 @@ class IServiceRegistry(Interface):
 
         """
 
+##     def get_service_by_id(self, service_id):
+##         """ Return the service with the specified Id.
+
+##         Return None if no such service exists (this obviously means that you
+##         can't register 'None' as a service - at least if you want to look it
+##         up using this method).
+
+##         """
+        
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
@@ -67,17 +76,24 @@ class IServiceRegistry(Interface):
         """ Register a service.
 
         The protocol can be an actual class or interface, or the *name* of a
-        class or interface in the form '<module_name>.<class_name>'.
+        class or interface in the form::
 
-        Returns a service Id that can be used to retrieve any service
-        properties, and to unregister the service.
+            'foo.bar.baz'
+
+        Which is turned into the equivalent of an import statement that
+        looks like::
+
+            from foo.bar import baz
+
+        Return a service Id that can be used to unregister the service and to
+        get/set any service properties.
 
         If 'obj' does not implement the specified protocol then it is treated
         as a 'service factory' that will be called the first time a service of
         the appropriate type is requested. A 'service factory' is simply a
         callable that takes the properties specified here as keyword arguments
-        and returns an object. For *really* lazy loading, factory can be
-        specified as a string which is used to import the callable.
+        and returns an object. For *really* lazy loading, the factory can also
+        be specified as a string which is used to import the callable.
         
         """
 

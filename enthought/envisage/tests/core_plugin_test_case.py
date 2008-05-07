@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
-from enthought.envisage.api import ServiceFactory, ServiceOffer
+from enthought.envisage.api import ServiceOffer
 from enthought.traits.api import HasTraits, Int, Interface, List
 
 
@@ -37,58 +37,6 @@ class CorePluginTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_service_factories(self):
-        """ service factories """
-
-        from enthought.envisage.core_plugin import CorePlugin
-
-        class IMyService(Interface):
-            pass
-        
-        class PluginA(Plugin):
-            id = 'A'
-
-            service_factories = List(
-                contributes_to='enthought.envisage.service_factories'
-            )
-
-            def _service_factories_default(self):
-                """ Trait initializer. """
-
-                service_factories = [
-                    ServiceFactory(
-                        protocol = IMyService,
-                        factory  = self._my_service_factory,
-                        scope    = 'application'
-                        
-                    )
-                ]
-
-                return service_factories
-
-            def _my_service_factory(self, **properties):
-                """ Service factory. """
-
-                return 42
-
-            
-        core = CorePlugin()
-        a    = PluginA()
-        
-        application = TestApplication(plugins=[core, a])
-        application.start()
-
-        # Lookup the service.
-        self.assertEqual(42, application.get_service(IMyService))
-
-        # Stop the core plugin.
-        application.stop_plugin(core)
-
-        # Make sure th service has gone.
-        self.assertEqual(None, application.get_service(IMyService))
-
-        return
-
     def test_service_offers(self):
         """ service offers """
 
@@ -109,10 +57,7 @@ class CorePluginTestCase(unittest.TestCase):
 
                 service_offers = [
                     ServiceOffer(
-                        protocol = IMyService,
-                        factory  = self._my_service_factory,
-                        scope    = 'application'
-                        
+                        protocol=IMyService, factory=self._my_service_factory
                     )
                 ]
 
