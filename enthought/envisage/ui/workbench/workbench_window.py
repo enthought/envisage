@@ -29,10 +29,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     implements(IServiceRegistry, IExtensionPointUser)
     
     # Extension point Ids.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
-    VIEWS             = 'enthought.envisage.ui.workbench.views'
-    PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
-    SERVICE_FACTORIES = 'enthought.envisage.service_factories'
+    ACTION_SETS    = 'enthought.envisage.ui.workbench.action_sets'
+    VIEWS          = 'enthought.envisage.ui.workbench.views'
+    PERSPECTIVES   = 'enthought.envisage.ui.workbench.perspectives'
+    SERVICE_OFFERS = 'enthought.envisage.ui.workbench.service_offers'
 
     # DEPRECATED extension point Ids.
     ACTIONS      = 'enthought.envisage.ui.workbench.actions'
@@ -75,8 +75,8 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # Contributed perspectives.
     _perspectives = ExtensionPoint(id=PERSPECTIVES)
 
-    # Contributed service factories.
-    _service_factories = ExtensionPoint(id=SERVICE_FACTORIES)
+    # Contributed service offers.
+    _service_offers = ExtensionPoint(id=SERVICE_OFFERS)
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
@@ -114,8 +114,8 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _opening_changed(self):
         """ Static trait change handler. """
 
-        self._service_ids = self._register_service_factories(
-            self._service_factories
+        self._service_ids = self._register_service_offers(
+            self._service_offers
         )
 
         return
@@ -123,7 +123,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _closed_changed(self):
         """ Static trait change handler. """
 
-        self._unregister_service_factories(self._service_ids)
+        self._unregister_service_offers(self._service_ids)
 
         return
         
@@ -269,33 +269,27 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         return action_manager_builder
 
-    def _register_service_factories(self, service_factories):
-        """ Register all window-scope service factories. """
+    def _register_service_offers(self, service_offers):
+        """ Register all service offers. """
 
-        service_ids = []
-        for service_factory in service_factories:
-            if service_factory.scope == 'window':
-                service_id = self._register_service_factory(service_factory)
-                service_ids.append(service_id)
+        return map(self._register_service_offer, service_offers)
 
-        return service_ids
+    def _register_service_offer(self, service_offer):
+        """ Register a service offer. """
 
-    def _register_service_factory(self, service_factory):
-        """ Register a service factory. """
-
-        # Add the window to the service factory properties.
-        service_factory.properties['window'] = self
+        # Add the window to the service offer properties.
+        service_offer.properties['window'] = self
 
         service_id = self.register_service(
-            protocol   = service_factory.protocol,
-            obj        = service_factory.factory,
-            properties = service_factory.properties
+            protocol   = service_offer.protocol,
+            obj        = service_offer.factory,
+            properties = service_offer.properties
         )
 
         return service_id
 
-    def _unregister_service_factories(self, service_ids):
-        """ Unregister all window-scope service factories. """
+    def _unregister_service_offers(self, service_ids):
+        """ Unregister all service offers. """
 
         # Unregister the services in the reverse order that we registered
         # them.

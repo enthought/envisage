@@ -6,6 +6,10 @@ from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.traits.api import Callable, List, Instance
 
 
+# This module's package.
+PKG = '.'.join(__name__.split('.')[:-1])
+
+
 class WorkbenchPlugin(Plugin):
     """ The Envisage workbench plugin.
 
@@ -21,13 +25,14 @@ class WorkbenchPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin offers.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
-    PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
-    PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
-    VIEWS             = 'enthought.envisage.ui.workbench.views'
+    ACTION_SETS              = PKG + '.action_sets'
+    PERSPECTIVES             = PKG + '.perspectives'
+    PREFERENCES_PAGES        = PKG + '.preferences_pages'
+    WORKBENCH_SERVICE_OFFERS = PKG + '.service_offers'
+    VIEWS                    = PKG + '.views'
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_OFFERS    = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS        = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
@@ -92,6 +97,28 @@ class WorkbenchPlugin(Plugin):
         The easiest way to contribute such a factory is to create a class
         that derives from 'enthought.preferences.ui.api.IPreferencesPage'.
           
+        """
+    )
+
+    service_offers = ExtensionPoint(
+        List(ServiceOffer),
+        id   = WORKBENCH_SERVICE_OFFERS,
+        desc = """
+
+        Services are simply objects that a plugin wants to make available to
+        other plugins. This extension point allows you to offer 'per
+        window' services that are created 'on-demand' (i.e. every workbench
+        window is a service registry, and so the factory will get called when
+        each window is opened).
+
+        e.g.
+
+        my_service_offer = ServiceOffer(
+            protocol   = 'acme.IMyService',
+            factory    = an_object_or_a_callable_that_creates_one,
+            properties = {'a dictionary' : 'that is passed to the factory'}
+        )
+
         """
     )
     

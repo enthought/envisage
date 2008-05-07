@@ -5,11 +5,13 @@
 from enthought.envisage.ui.action.api import Action, ActionSet, Menu
 
 
+# This module's package.
+PKG = '.'.join(__name__.split('.')[:-1])
+
+
 class DefaultActionSet(ActionSet):
     """ The default workbench action set. """
 
-    id = 'enthought.envisage.ui.workbench.default'
-    
     menus = [
         Menu(
             name='&File', path='MenuBar',
@@ -35,17 +37,17 @@ class DefaultActionSet(ActionSet):
     actions = [
         Action(
             path='MenuBar/File', group='ExitGroup',
-            class_name='enthought.envisage.ui.workbench.action.api:ExitAction'
+            class_name=PKG + '.action.api:ExitAction'
         ),
 
         Action(
             path='MenuBar/Tools', group='PreferencesGroup',
-            class_name='enthought.envisage.ui.workbench.action.api:EditPreferencesAction'
+            class_name=PKG + '.action.api:EditPreferencesAction'
         ),
         
         Action(
             path='MenuBar/Help', group='AboutGroup',
-            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+            class_name=PKG + '.action.api:AboutAction'
         ),
     ]
 

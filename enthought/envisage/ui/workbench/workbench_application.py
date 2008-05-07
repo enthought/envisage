@@ -69,62 +69,11 @@ class WorkbenchApplication(Application):
     
     # The default size of the main window.
     window_size = Tuple((800, 600))
-    
+
     ###########################################################################
-    # 'WorkbenchApplication' interface.
+    # 'IApplication' interface.
     ###########################################################################
 
-    #### Initializers #########################################################
-
-    def _about_dialog_default(self):
-        """ Trait initializer. """
-
-        about_dialog = AboutDialog(
-            parent = self.workbench.active_window.control,
-            image  = ImageResource('about')
-        )
-
-        return about_dialog
-    
-    def _gui_default(self):
-        """ Trait initializer. """
-
-        return GUI(splash_screen=self.splash_screen)
-
-    def _workbench_default(self):
-        """ Trait initializer. """
-
-        return self.create_workbench()
-    
-    #### Methods ##############################################################
-
-    def about(self):
-        """ Display the about dialog. """
-
-        # fixme: We need to create a new 'about dialog' every time so that it
-        # can have the active window as its parent.
-        self.about_dialog.open()
-
-        return
-    
-    def create_workbench(self):
-        """ Create the workbench. """
-
-        logger.debug('workbench factory %s', self.workbench_factory)
-
-        return self.workbench_factory(application=self)
-
-    def exit(self):
-        """ Exit the application.
-
-        This closes all open windows and hence exits the GUI event loop.
-
-        """
-
-        self.workbench.exit()
-
-        return
-    
     def run(self):
         """ Run the application.
 
@@ -162,4 +111,56 @@ class WorkbenchApplication(Application):
         
         return
         
+    ###########################################################################
+    # 'WorkbenchApplication' interface.
+    ###########################################################################
+
+    #### Initializers #########################################################
+
+    def _about_dialog_default(self):
+        """ Trait initializer. """
+
+        return AboutDialog(image=ImageResource('about'))
+    
+    def _gui_default(self):
+        """ Trait initializer. """
+
+        return GUI(splash_screen=self.splash_screen)
+
+    def _workbench_default(self):
+        """ Trait initializer. """
+
+        return self.create_workbench()
+    
+    #### Methods ##############################################################
+
+    def about(self):
+        """ Display the about dialog. """
+
+        # fixme: We really need to create a new 'about dialog' every time so
+        # that it can have the active window as its parent.
+        self.about_dialog.open()
+
+        return
+
+    # fixme: Is this needed on the public API? Why can't we just do this in
+    # the default initializer (_workbench_default)?
+    def create_workbench(self):
+        """ Create the workbench. """
+
+        logger.debug('workbench factory %s', self.workbench_factory)
+
+        return self.workbench_factory(application=self)
+
+    def exit(self):
+        """ Exit the application.
+
+        This closes all open windows and hence exits the GUI event loop.
+
+        """
+
+        self.workbench.exit()
+
+        return
+    
 #### EOF ######################################################################
