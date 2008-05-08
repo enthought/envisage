@@ -219,7 +219,7 @@ Envisage about the messages that we have just created::
       #### Extension point contributions ########################################
 
       # Messages for the 'Message Of The Day'.
-      messages = List(extension_point='acme.motd.messages')
+      messages = List(contributes_to='acme.motd.messages')
     
       ###########################################################################
       # 'SoftwareQuotesPlugin' interface.

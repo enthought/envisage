@@ -122,7 +122,7 @@ Now we create a plugin for the acme.motd.software_quotes_ package and tell
 Envisage about the messages that we have just created. Again there are are
 two ways that a plugin can do this:
 
-1) Declaratively - using the 'extension_point' trait metadata
+1) Declaratively - using the 'contributes_to' trait metadata
 2) Programmatically - by overriding the 'get_extensions' method.
 
 The declarative version looks like this::
@@ -132,9 +132,9 @@ The declarative version looks like this::
 
         ...
 
-        # The 'extension_point' trait metadata tells Envisage the Id of the
+        # The 'contributes_to' trait metadata tells Envisage the Id of the
         # extension point that this trait contributes to.
-	messages = List(extension_point='acme.motd.messages')
+	messages = List(contributes_to='acme.motd.messages')
 
         def _messages_default(self):
             """ Trait initializer. """
@@ -148,7 +148,7 @@ The declarative version looks like this::
 	...
 
 The messages are contributed simply by creating a list trait and setting its
-"extension_point" metadata to the Id of the extension point that we want to
+"contributes_to" metadata to the Id of the extension point that we want to
 contribute to. All we have to do then is to intialize the trait with our
 messages and "Job done"!
 
