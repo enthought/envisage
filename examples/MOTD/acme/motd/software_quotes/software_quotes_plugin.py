@@ -30,7 +30,7 @@ class SoftwareQuotesPlugin(Plugin):
     ###########################################################################
 
     # Messages for the 'Message Of The Day'.
-    messages = List(extension_point='acme.motd.messages')
+    messages = List(contributes_to='acme.motd.messages')
 
     ###########################################################################
     # Services offered by this plugin.

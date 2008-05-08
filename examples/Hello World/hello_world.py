@@ -53,7 +53,7 @@ class Greetings(Plugin):
 
     # This tells us that the plugin contributes the value of this trait to the
     # 'greetings' extension point.
-    greetings = List(["Hello", "G'day"], extension_point='greetings')
+    greetings = List(["Hello", "G'day"], contributes_to='greetings')
 
 
 class MoreGreetings(Plugin):
@@ -61,7 +61,7 @@ class MoreGreetings(Plugin):
 
     # This tells us that the plugin contributes the value of this trait to the
     # 'greetings' extension point.
-    greetings = List(extension_point='greetings')
+    greetings = List(contributes_to='greetings')
 
     # This shows how you can use a standard trait initializer to populate the
     # list dynamically.
