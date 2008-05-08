@@ -13,7 +13,9 @@ from enthought.envisage.core_plugin import CorePlugin
 
 # Example plugins.
 from acme.motd.motd_plugin import MOTDPlugin
-from acme.motd.software_quotes.software_quotes_plugin import SoftwareQuotesPlugin
+from acme.motd.software_quotes.software_quotes_plugin import (
+    SoftwareQuotesPlugin
+)
 
 
 # Do whatever you want to do with log messages! Here we create a log file.
