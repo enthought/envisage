@@ -11,7 +11,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin
+from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.traits.api import Instance, List
 
 
@@ -22,6 +22,12 @@ class MOTDPlugin(Plugin):
     
     """
 
+    # The Ids of the extension points that this plugin offers.
+    MESSAGES = 'acme.motd.messages'
+
+    # The Ids of the extension points that this plugin contributes to.
+    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
@@ -30,11 +36,7 @@ class MOTDPlugin(Plugin):
     # The plugin's name (suitable for displaying to the user).
     name = 'MOTD'
 
-    #### 'MOTDPlugin' interface ###############################################
-    
-    ###########################################################################
-    # Extension points offered by this plugin.
-    ###########################################################################
+    #### Extension points offered by this plugin ##############################
 
     # The messages extension point.
     #
@@ -42,9 +44,7 @@ class MOTDPlugin(Plugin):
     # than actually importing it. This makes sure that the import only happens
     # when somebody actually gets the contributions to the extension point.
     messages = ExtensionPoint(
-        List(Instance('acme.motd.api.IMessage')),
-        id   = 'acme.motd.messages',
-        desc = """
+        List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc = """
 
         This extension point allows you to contribute messages to the 'Message
         Of The Day'.
@@ -52,22 +52,18 @@ class MOTDPlugin(Plugin):
         """
     )
 
-    ###########################################################################
-    # Contributions to extension points made by this plugin.
-    ###########################################################################
+    #### Contributions to extension points made by this plugin ################
 
-    # None
+    service_offers = List(contributes_to=SERVICE_OFFERS)
 
-    ###########################################################################
-    # Services offered by this plugin.
-    ###########################################################################
+    def _service_offers_default(self):
+        """ Trait initializer. """
+        
+        motd_service_offer = ServiceOffer(
+            protocol='acme.motd.api.IMOTD', factory=self._motd_factory,
+        )
 
-    # The 'MOTD' service.
-    #
-    # Notice that we use the string name of the 'IMOTD' interface rather than
-    # actually importing it. This makes sure that the import only happens when
-    # somebody needs an 'IMOTD' service.
-    motd = Instance('acme.motd.api.IMOTD', service=True)
+        return [motd_service_offer]
     
     ###########################################################################
     # 'IPlugin' interface.
@@ -90,11 +86,11 @@ class MOTDPlugin(Plugin):
         return
 
     ###########################################################################
-    # 'MOTDPlugin' interface.
+    # Private interface.
     ###########################################################################
 
-    def _motd_default(self):
-        """ Trait initializer. """
+    def _motd_factory(self):
+        """ Factory for the 'MOTD' service. """
 
         # Only do imports when you need to! This makes sure that the import
         # only happens when somebody needs an 'IMOTD' service.
