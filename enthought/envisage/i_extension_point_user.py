@@ -1,4 +1,4 @@
-""" The interface for objects that want to declare/access extension points. """
+""" The interface for objects using the 'ExtensionPoint' trait type. """
 
 
 # Enthought library imports.
@@ -9,9 +9,7 @@ from i_extension_registry import IExtensionRegistry
 
 
 class IExtensionPointUser(Interface):
-    """ The interface for objects that want to declare/access extension points.
-
-    """
+    """ The interface for objects using the 'ExtensionPoint' trait type. """
 
     # The extension registry that the object's extension points are stored in.
     extension_registry = Instance(IExtensionRegistry)

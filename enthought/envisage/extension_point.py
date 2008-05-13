@@ -2,13 +2,17 @@
 
 
 # Standard library imports.
-import inspect, weakref
+import inspect, logging, weakref
 
 # Enthought library imports.
 from enthought.traits.api import TraitType, Undefined, implements
 
 # Local imports.
 from i_extension_point import IExtensionPoint
+
+
+# Logging.
+logger = logging.getLogger(__name__)
 
 
 class ExtensionPoint(TraitType):
@@ -80,9 +84,8 @@ class ExtensionPoint(TraitType):
         # We add '__extension_point__' to the metadata to make the extension
         # point traits easier to find with the 'traits' and 'trait_names'
         # methods on 'HasTraits'.
-        super(ExtensionPoint, self).__init__(
-            __extension_point__=True, **metadata
-        )
+        metadata['__extension_point__'] = True
+        super(ExtensionPoint, self).__init__(**metadata)
 
         # The trait type that describes the extension point.
         #
@@ -211,17 +214,32 @@ class ExtensionPoint(TraitType):
     # Private interface.
     ###########################################################################
 
+    # fixme: When use of the sneaky global is finally removed, the method can
+    # look like this.
     def _get_extension_registry(self, obj):
         """ Return the extension registry in effect for an object. """
 
-        extension_registry = self.extension_registry
-
-##         extension_registry = getattr(obj, 'extension_registry', None)
+        extension_registry = getattr(obj, 'extension_registry', None)
         if extension_registry is None:
-            raise 'The "ExtensionPoint" trait type can only be used within ' \
+            raise 'The "ExtensionPoint" trait type can only be used in ' \
                   'objects that have a reference to an extension registry ' \
-                  'via their "extension_registry" trait.' \
+                  'via their "extension_registry" trait. ' \
                   'Extension point Id <%s>' % self.id
+
+        return extension_registry
+
+    def _get_extension_registry(self, obj):
+        """ Return the extension registry in effect for an object. """
+
+        extension_registry = getattr(obj, 'extension_registry', None)
+        if extension_registry is None:
+            extension_registry = self.extension_registry
+            logger.warn(
+                'DEPRECATED: The "ExtensionPoint" trait type can only be used '
+                'in objects that have a reference to an extension registry '
+                'via their "extension_registry" trait. '
+                'Extension point Id <%s>' % self.id
+            )
 
         return extension_registry
     

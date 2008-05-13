@@ -10,6 +10,12 @@ from enthought.envisage.api import ExtensionRegistry
 from enthought.traits.api import HasTraits, Int, List, TraitError
 
 
+class TestBase(HasTraits):
+    """ Base class for all test classes that use the 'ExtensionPoint' type. """
+    
+    extension_registry = None
+
+    
 class ExtensionPointTestCase(unittest.TestCase):
     """ Tests for extension  points. """
 
@@ -23,6 +29,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         # We do all of the testing via the application to make sure it offers
         # the same interface!
         self.registry = Application(extension_registry=ExtensionRegistry())
+
+        # Set the extension registry used by the test classes.
+        TestBase.extension_registry = self.registry
         
         return
 
@@ -44,7 +53,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.add_extension_point(self._create_extension_point('my.ep'))
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(id='my.ep')
 
             def _x_changed(self):
@@ -96,7 +105,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.set_extensions('my.ep', [42, 'a string', True])
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(id='my.ep')
 
         # Make sure that instances of the class pick up the extensions.
@@ -122,7 +131,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.set_extensions('my.ep', [42, 43, 44])
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(List(Int), id='my.ep')
 
         # Make sure that instances of the class pick up the extensions.
@@ -148,7 +157,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.set_extensions('my.ep', 'xxx')
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(List(Int), id='my.ep')
 
         # Make sure we get a trait error because the type of the extension
@@ -164,7 +173,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         def factory():
-            class Foo(HasTraits):
+            class Foo(TestBase):
                 x = ExtensionPoint(List(Int))
             
         self.failUnlessRaises(ValueError, factory)
@@ -180,7 +189,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.add_extension_point(self._create_extension_point('my.ep'))
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(id='my.ep')
 
         # Make sure that when we set the trait the extension registry gets
@@ -201,7 +210,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.add_extension_point(self._create_extension_point('my.ep'))
 
         # Declare a class that consumes the extension.
-        class Foo(HasTraits):
+        class Foo(TestBase):
             x = ExtensionPoint(List(Int), id='my.ep')
 
         # Make sure that when we set the trait the extension registry gets

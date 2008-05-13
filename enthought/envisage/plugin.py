@@ -16,6 +16,8 @@ from i_extension_registry import IExtensionRegistry
 from i_plugin import IPlugin
 from i_plugin_activator import IPluginActivator
 from plugin_activator import PluginActivator
+from i_service_registry import IServiceRegistry
+from i_service_user import IServiceUser
 from util import camel_case_to_words
 
 
@@ -30,7 +32,7 @@ class Plugin(ExtensionProvider):
 
     """
 
-    implements(IPlugin, IExtensionPointUser)
+    implements(IPlugin, IExtensionPointUser, IServiceUser)
 
     #### 'IPlugin' interface ##################################################
     
@@ -62,6 +64,11 @@ class Plugin(ExtensionProvider):
 
     # The extension registry that the object's extension points are stored in.
     extension_registry = Property(Instance(IExtensionRegistry))
+
+    #### 'IServiceUser' interface #############################################
+
+    # The service registry that the object's services are stored in.
+    service_registry = Property(Instance(IServiceRegistry))
     
     #### Private interface ####################################################
 
@@ -73,6 +80,15 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def _get_extension_registry(self):
+        """ Trait property getter. """
+
+        return self.application
+
+    ###########################################################################
+    # 'IServiceUser' interface.
+    ###########################################################################
+
+    def _get_service_registry(self):
         """ Trait property getter. """
 
         return self.application
@@ -233,6 +249,26 @@ class Plugin(ExtensionProvider):
 
         # If the trait is one that contributes to an extension point then fire
         # an appropriate 'extension point changed' event.
+        if trait.contributes_to is not None:
+            if trait_name.endswith('_items'):
+                added   = new.added
+                removed = new.removed
+                index   = new.index
+                
+            else:
+                added   = new
+                removed = old
+                index   = slice(0, max(len(old), len(new)))
+                
+            # Let the extension registry know about the change.
+            self._fire_extension_point_changed(
+                trait.contributes_to, added, removed, index
+            )
+
+        # fixme: DEPRECATED.
+        #
+        # If the trait is one that contributes to an extension point then fire
+        # an appropriate 'extension point changed' event.
         if trait.extension_point is not None:
             if trait_name.endswith('_items'):
                 added   = new.added
@@ -248,6 +284,7 @@ class Plugin(ExtensionProvider):
             self._fire_extension_point_changed(
                 trait.extension_point, added, removed, index
             )
+
 
         return
         

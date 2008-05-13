@@ -1,8 +1,15 @@
 """ A trait type used to access services. """
 
 
+# Standard library imports.
+import logging
+
 # Enthought library imports.
 from enthought.traits.api import TraitType
+
+
+# Logging.
+logger = logging.getLogger(__name__)
 
 
 class Service(TraitType):
@@ -26,7 +33,7 @@ class Service(TraitType):
     #
     # If we restrict the scope of usage of this trait type to plugins *only*
     # then we can find the application via the plugins themselves.
-    application = None # Instance(IApplication)
+    service_registry = None # Instance(IServiceRegistry)
     
     ###########################################################################
     # 'object' interface.
@@ -77,17 +84,32 @@ class Service(TraitType):
     # Private interface.
     ###########################################################################
 
+    # fixme: When use of the sneaky global is finally removed, the method can
+    # look like this.
     def _get_service_registry(self, obj):
         """ Return the service registry in effect for an object. """
 
-        service_registry = self.application
-
-##         service_registry = getattr(obj, 'service_registry', None)
+        service_registry = getattr(obj, 'service_registry', None)
         if service_registry is None:
             raise 'The "Service" trait type can only be used within objects ' \
                   'that have a reference to a service registry via their ' \
-                  '"service_registry" trait.' \
+                  '"service_registry" trait. ' \
                   'Service protocol <%s>' % self._protocol
+
+        return service_registry
+
+    def _get_service_registry(self, obj):
+        """ Return the service registry in effect for an object. """
+
+        service_registry = getattr(obj, 'service_registry', None)
+        if service_registry is None:
+            service_registry = self.application
+            logger.warn(
+                'DEPRECATED: The "Service" trait type can only be used within '
+                'objects that have a reference to a service registry via '
+                'their "service_registry" trait. '
+                'Service protocol <%s>' % self._protocol
+            )
 
         return service_registry
 

@@ -20,7 +20,7 @@ class ServiceOffer(HasTraits):
     # A callable (or a string that can be used to import a callable) that is
     # the factory that creates the actual service object.
     #
-    # e.g.
+    # e.g::
     #
     #   callable(**properties) -> Any
     #
