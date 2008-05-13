@@ -7,7 +7,7 @@ import logging
 # Enthought library imports.
 import enthought.pyface.workbench.api as pyface
 
-from enthought.envisage.api import IApplication, IExtensionPointUser
+from enthought.envisage.api import IExtensionPointUser
 from enthought.envisage.api import IExtensionRegistry, IServiceRegistry
 from enthought.envisage.api import ExtensionPoint, ServiceRegistry
 from enthought.envisage.ui.action.api import ActionSet
@@ -114,9 +114,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _opening_changed(self):
         """ Static trait change handler. """
 
-        self._service_ids = self._register_service_offers(
-            self._service_offers
-        )
+        self._service_ids = self._register_service_offers(self._service_offers)
 
         return
 

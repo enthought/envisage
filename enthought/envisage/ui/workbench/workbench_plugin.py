@@ -201,14 +201,13 @@ class WorkbenchPlugin(Plugin):
         
         workbench_service_offer = ServiceOffer(
             protocol = 'enthought.envisage.ui.workbench.api.Workbench',
-            factory  = self._workbench_service_factory,
-            scope    = 'application'
+            factory  = self._workbench_service_factory
         )
 
         return [workbench_service_offer]
 
     ###########################################################################
-    # 'Private' interface.
+    # Private interface.
     ###########################################################################
 
     def _workbench_service_factory(self, **properties):

@@ -93,21 +93,20 @@ class WorkbenchApplication(Application):
         gui = self.gui
         
         # Start the application.
-        self.start()
+        if self.start():
+            # Create and open the first workbench window.
+            window = self.workbench.create_window(
+                position=self.window_position, size=self.window_size
+            )
+            window.open()
 
-        # Create and open the first workbench window.
-        window = self.workbench.create_window(
-            position=self.window_position, size=self.window_size
-        )
-        window.open()
+            # Start the GUI event loop.
+            #
+            # THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.
+            gui.start_event_loop()
 
-        # Start the GUI event loop.
-        #
-        # THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.
-        gui.start_event_loop()
-
-        # Stop the application.
-        self.stop()
+            # Stop the application.
+            self.stop()
         
         return
         
