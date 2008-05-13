@@ -5,7 +5,7 @@
 import inspect
 
 # Enthought library imports.
-from enthought.envisage.api import IApplication, IPlugin, Service
+from enthought.envisage.api import IApplication, IPlugin
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from enthought.traits.api import Any, HasTraits, Instance
@@ -57,7 +57,7 @@ class ApplicationBrowser(HasTraits):
     code_browser = Instance(CodeBrowser)
 
     # The workbench service.
-    workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
+    workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
     
     # The object that is currently selected in the tree.
     selection = Any
@@ -75,6 +75,15 @@ class ApplicationBrowser(HasTraits):
         """ Trait initializer. """
 
         return self.application.get_service(CodeBrowser)
+
+    def _workbench_default(self):
+        """ Trait initializer. """
+
+        workbench = self.application.get_service(
+            'enthought.envisage.ui.workbench.api.Workbench'
+        )
+
+        return workbench
     
     #### Trait change handlers ################################################
 

@@ -2,8 +2,12 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Service
 from enthought.pyface.workbench.api import TraitsUIView
+from enthought.traits.api import Instance
+
+
+# The code browser protocol.
+CODE_BROWSER = 'enthought.envisage.developer.code_browser.api.CodeBrowser'
 
 
 class ApplicationBrowserView(TraitsUIView):
@@ -20,9 +24,7 @@ class ApplicationBrowserView(TraitsUIView):
     #### 'ApplicationBrowserView' interface ###################################
 
     # The code browser used to parse Python code.
-    code_browser = Service(
-        'enthought.envisage.developer.code_browser.api.CodeBrowser'
-    )
+    code_browser = Instance(CODE_BROWSER)
 
     ###########################################################################
     # 'TraitsUIView' interface.
@@ -40,5 +42,14 @@ class ApplicationBrowserView(TraitsUIView):
         )
 
         return application_browser
+
+    ###########################################################################
+    # 'ApplicationBrowserView' interface.
+    ###########################################################################
+
+    def _code_browser_default(self):
+        """ Trait initializer. """
+
+        return self.window.application.get_service(CODE_BROWSER)
 
 #### EOF ######################################################################

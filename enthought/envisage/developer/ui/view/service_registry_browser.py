@@ -6,7 +6,7 @@ import inspect
 
 # Enthought library imports.
 from enthought.envisage.api import IApplication, IExtensionPoint
-from enthought.envisage.api import IServiceRegistry, Service
+from enthought.envisage.api import IServiceRegistry
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from enthought.traits.api import Any, HasTraits, Instance
@@ -66,7 +66,7 @@ class ServiceRegistryBrowser(HasTraits):
     service_registry_model = Any#Instance(IServiceRegistry)
     
     # The workbench service.
-    workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
+    workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
     
     # The default traits UI view.
     traits_view = service_registry_browser_view
@@ -88,7 +88,16 @@ class ServiceRegistryBrowser(HasTraits):
         from service_registry_browser_tree import ServiceRegistryModel
         
         return ServiceRegistryModel(service_registry=self.service_registry)
-    
+
+    def _workbench_default(self):
+        """ Trait initializer. """
+
+        workbench = self.application.get_service(
+            'enthought.envisage.ui.workbench.api.Workbench'
+        )
+
+        return workbench
+        
     #### Methods ##############################################################
     
     def dclick(self, obj):

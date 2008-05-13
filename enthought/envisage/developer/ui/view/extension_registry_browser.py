@@ -6,7 +6,7 @@ import inspect
 
 # Enthought library imports.
 from enthought.envisage.api import IApplication, IExtensionPoint
-from enthought.envisage.api import IExtensionRegistry, Service
+from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from enthought.traits.api import HasTraits, Instance
@@ -63,7 +63,7 @@ class ExtensionRegistryBrowser(HasTraits):
     extension_registry = Instance(IExtensionRegistry)
     
     # The workbench service.
-    workbench = Service('enthought.envisage.ui.workbench.api.Workbench')
+    workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
     
     # The default traits UI view.
     traits_view = extension_registry_browser_view
@@ -77,7 +77,16 @@ class ExtensionRegistryBrowser(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
-        return self.application.extension_registry
+        return self.application
+
+    def _workbench_default(self):
+        """ Trait initializer. """
+
+        workbench = self.application.get_service(
+            'enthought.envisage.ui.workbench.api.Workbench'
+        )
+
+        return workbench
     
     #### Methods ##############################################################
     
@@ -189,7 +198,7 @@ class ExtensionRegistryBrowser(HasTraits):
 
         """
 
-        extension_traits = plugin.traits(extension_point=id)
+        extension_traits = plugin.traits(contributes_to=id)
 
         if len(extension_traits) > 0:
             # There is *at most* one extension point trait per extension point.
