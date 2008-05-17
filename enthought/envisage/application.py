@@ -253,8 +253,15 @@ class Application(HasTraits):
         return
 
     def start(self):
-        """ Start the plugin manager. """
+        """ Start the plugin manager.
 
+        Returns True unless the start was vetoed.
+
+        """
+
+        # fixme: This method is notionally on the 'IPluginManager' interface
+        # but that interface knows nothing about the vetoable events etc and
+        # hence doesn't have a return value.
         logger.debug('---------- application starting ----------')
 
         # Lifecycle event.
@@ -280,8 +287,15 @@ class Application(HasTraits):
         return self.plugin_manager.start_plugin(plugin, plugin_id)
 
     def stop(self):
-        """ Stop the plugin manager. """
+        """ Stop the plugin manager.
 
+        Returns True unless the stop was vetoed.
+
+        """
+
+        # fixme: This method is notionally on the 'IPluginManager' interface
+        # but that interface knows nothing about the vetoable events etc and
+        # hence doesn't have a return value.
         logger.debug('---------- application stopping ----------')
 
         # Lifecycle event.
