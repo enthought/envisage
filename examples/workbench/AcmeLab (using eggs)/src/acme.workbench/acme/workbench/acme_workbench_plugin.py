@@ -14,7 +14,7 @@ class AcmeWorkbenchPlugin(Plugin):
     """
 
     # Extension points Ids.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.actions'
+    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
     PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
     PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
     VIEWS             = 'enthought.envisage.ui.workbench.views'
