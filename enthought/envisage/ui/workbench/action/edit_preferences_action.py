@@ -2,7 +2,6 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.workbench.api import WorkbenchPreferencesManager
 from enthought.pyface.api import ImageResource
 from enthought.pyface.action.api import Action
 
@@ -31,7 +30,11 @@ class EditPreferencesAction(Action):
     def perform(self, event):
         """ Performs the action. """
 
-        manager = WorkbenchPreferencesManager()
+        # Lookup the preferences manager service.
+        manager = event.window.application.get_service(
+            'enthought.preferences.ui.api.PreferencesManager'
+        )
+
         manager.edit_traits(parent=event.window.control, kind='modal')
 
         return

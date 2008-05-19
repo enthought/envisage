@@ -176,40 +176,70 @@ class WorkbenchPlugin(Plugin):
     
     #### Contributions to extension points made by this plugin ################
 
-    action_sets_contributions = List(contributes_to=ACTION_SETS)
+    my_action_sets = List(contributes_to=ACTION_SETS)
 
-    def _action_sets_contributions_default(self):
+    def _my_action_sets_default(self):
         """ Trait initializer. """
 
         from default_action_set import DefaultActionSet
 
         return [DefaultActionSet]
 
-    preferences_pages_contributions = List(contributes_to=PREFERENCES_PAGES)
+    my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
-    def _preferences_pages_contributions_default(self):
+    def _my_preferences_pages_default(self):
         """ Trait initializer. """
         
         from workbench_preferences_page import WorkbenchPreferencesPage
 
         return [WorkbenchPreferencesPage]
 
-    service_offers_contributions = List(contributes_to=SERVICE_OFFERS)
+    my_service_offers = List(contributes_to=SERVICE_OFFERS)
 
-    def _service_offers_contributions_default(self):
+    def _my_service_offers_default(self):
         """ Trait initializer. """
         
+        preferences_manager_service_offer = ServiceOffer(
+            protocol = 'enthought.preferences.ui.api.PreferencesManager',
+            factory  = self._preferences_manager_service_factory
+        )
+
         workbench_service_offer = ServiceOffer(
             protocol = 'enthought.envisage.ui.workbench.api.Workbench',
             factory  = self._workbench_service_factory
         )
-
-        return [workbench_service_offer]
+        
+        return [preferences_manager_service_offer, workbench_service_offer,]
 
     ###########################################################################
     # Private interface.
     ###########################################################################
 
+    def _preferences_manager_service_factory(self, **properties):
+        """ Service factory for the preferences manager service. """
+
+        # fixme: Eventually, we should be able to get rid of the workbench
+        # specific preferences manager, and just do something like:-
+        #
+        # from enthought.preferences.ui.api import PreferencesManager
+        #
+        # preferences_manager = PreferencesManager(
+        #    pages=map(apply, self.preferences_pages)
+        # )
+        #
+        # To make this happen we just have to be sure that nobody is still
+        # contributing preferences page *instances* (which has been deprecated
+        # for some time now).
+        from enthought.envisage.ui.workbench.api import (
+            WorkbenchPreferencesManager
+        )
+
+        preferences_manager = WorkbenchPreferencesManager(
+            page_factories = self.preferences_pages
+        )
+
+        return preferences_manager
+        
     def _workbench_service_factory(self, **properties):
         """ Service factory for the workbench service. """
 

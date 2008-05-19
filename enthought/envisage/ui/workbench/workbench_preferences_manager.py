@@ -2,8 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint
 from enthought.preferences.ui.api import PreferencesManager, IPreferencesPage
+from enthought.traits.api import Callable, List
 
 
 class WorkbenchPreferencesManager(PreferencesManager):
@@ -11,11 +11,11 @@ class WorkbenchPreferencesManager(PreferencesManager):
 
     # Extension point Ids.
     PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
-    
+
     #### Private interface ####################################################
 
-    # Contributed preferences page factories.
-    _page_factories = ExtensionPoint(id=PREFERENCES_PAGES)
+    # Factories for the actual preferences pages.
+    page_factories = List(Callable)
 
     ###########################################################################
     # 'PreferencesManager' interface.
@@ -23,15 +23,21 @@ class WorkbenchPreferencesManager(PreferencesManager):
 
     def _pages_default(self):
         """ Trait initializer. """
-
+        
         pages = []
-        for factory_or_page in self._page_factories:
+        for factory_or_page in self.page_factories:
             # Is the contribution an actual preferences page, or is it a
             # factory that can create a preferences page?
             page = IPreferencesPage(factory_or_page, None)
             if page is None:
                 page = factory_or_page()
 
+            else:
+                logger.warn(
+                    'DEPRECATED: contribute preferences page classes or '
+                    'factories - not preferences page instances.'
+                )
+                
             pages.append(page)
                 
         return pages
