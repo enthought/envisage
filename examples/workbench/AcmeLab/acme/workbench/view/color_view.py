@@ -14,9 +14,27 @@ class ColorView(View):
 
     """
 
+    #### 'IView' interface ####################################################
+
+    # The category that the view belongs to.
+    category = 'Color'
+
     ###########################################################################
-    # 'IView' interface.
+    # 'IWorkbenchPart' interface.
     ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _id_default(self):
+        """ Trait initializer. """
+
+        # By making the Id the same as the name, we make it easy to specify
+        # the views in the example perspectives. Note for larger applications
+        # the Id should be globally unique, and by default we use the module
+        # name and class name. 
+        return self.name
+
+    #### Methods ##############################################################
 
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view.

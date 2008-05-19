@@ -7,7 +7,7 @@ setup(
     author               = 'Enthought, Inc',
     author_email         = 'info@enthought.com',
     license              = 'BSD',
-    zip_safe             = True,
+    zip_safe             = False,
     packages             = find_packages(),
     include_package_data = True,
 
@@ -17,10 +17,8 @@ setup(
     ],
 
     entry_points         = """
-
     [enthought.envisage.plugins]
-    workbench = acme.workbench.workbench_plugin:WorkbenchPlugin
-
+    acme_workbench = acme.workbench.acme_workbench_plugin:AcmeWorkbenchPlugin
     """
     
 )
