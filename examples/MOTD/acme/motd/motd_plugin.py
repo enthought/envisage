@@ -72,13 +72,11 @@ class MOTDPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        # This is a bit of overkill here, but it shows how other plugins can
-        # look up the MOTD service. We could, of course, just use::
-        #
-        #    message = self.motd.motd()
-        #
+        # Lookup the MOTD service.
+        motd = self.application.get_service('acme.motd.api.IMOTD')
+
         # Get the message of the day...
-        message = self.application.get_service('acme.motd.api.IMOTD').motd()
+        message = motd.motd()
 
         # ... and print it.
         print '\n"%s"\n\n- %s' % (message.text, message.author)
