@@ -20,7 +20,7 @@ import logging
 # Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
-#logger.addHandler(logging.StreamHandler())
+logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
 
@@ -71,7 +71,7 @@ def main():
         raise SystemError('cannot add eggs %s' % errors)
 
     logger.debug('added eggs %s' % distributions)
-
+    
     # Add them to the working set.
     map(working_set.add, distributions)
 
