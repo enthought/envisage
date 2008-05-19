@@ -11,6 +11,7 @@ from enthought.envisage.api import IExtensionPointUser
 from enthought.envisage.api import IExtensionRegistry, IServiceRegistry
 from enthought.envisage.api import ExtensionPoint, ServiceRegistry
 from enthought.envisage.ui.action.api import ActionSet
+from enthought.pyface.action.api import StatusBarManager
 from enthought.pyface.workbench.api import IPerspective
 from enthought.traits.api import Delegate, Instance, List, Property, implements
 
@@ -103,6 +104,11 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Trait initializer. """
         
         return self._action_manager_builder.create_menu_bar_manager('MenuBar')
+
+    def _status_bar_manager_default(self):
+        """ Trait initializer. """
+
+        return StatusBarManager()
     
     def _tool_bar_managers_default(self):
         """ Trait initializer. """
@@ -275,7 +281,9 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _register_service_offer(self, service_offer):
         """ Register a service offer. """
 
-        # Add the window to the service offer properties.
+        # Add the window to the service offer properties (this is so that it
+        # is available to the factory when it is called to create the actual
+        # service).
         service_offer.properties['window'] = self
 
         service_id = self.register_service(
