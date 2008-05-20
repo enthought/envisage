@@ -241,6 +241,14 @@ class ExtensionPoint(TraitType):
                 'Extension point Id <%s>' % self.id
             )
 
+            # If the 'DevTools' egg is present then log the call stack.
+            try:
+                from enthought.debug.api import log_called_from
+                log_called_from(10)
+
+            except:
+                pass
+
         return extension_registry
     
 #### EOF ######################################################################
