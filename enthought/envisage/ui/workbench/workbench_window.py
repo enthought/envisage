@@ -7,8 +7,8 @@ import logging
 # Enthought library imports.
 import enthought.pyface.workbench.api as pyface
 
-from enthought.envisage.api import IExtensionPointUser
-from enthought.envisage.api import IExtensionRegistry, IServiceRegistry
+from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
+from enthought.envisage.api import IServiceRegistry
 from enthought.envisage.api import ExtensionPoint, ServiceRegistry
 from enthought.envisage.ui.action.api import ActionSet
 from enthought.pyface.action.api import StatusBarManager

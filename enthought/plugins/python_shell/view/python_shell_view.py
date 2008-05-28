@@ -6,11 +6,12 @@ import logging, sys
 from sets import Set
 
 # Enthought library imports.
+from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.api import PythonShell
 from enthought.pyface.workbench.api import View
-from enthought.traits.api import Property, Event, Any, implements
+from enthought.traits.api import Any, Event, Instance, Property, implements
 
 
 # Setup a logger for this module.
@@ -65,6 +66,11 @@ class PythonShellView(View):
     # Stdout text is posted to this event
     stdout_text = Event
 
+    #### 'IExtensionPointUser' interface ######################################
+
+    # The extension registry that the object's extension points are stored in.
+    extension_registry = Property(Instance(IExtensionRegistry))
+
     #### Private interface ####################################################
 
     # Bindings.
@@ -74,23 +80,29 @@ class PythonShellView(View):
     _commands = ExtensionPoint(id='enthought.plugins.python_shell.commands')
 
     ###########################################################################
+    # 'IExtensionPointUser' interface.
+    ###########################################################################
+
+    def _get_extension_registry(self):
+        """ Trait property getter. """
+
+        return self.window.application
+
+    ###########################################################################
     # 'View' interface.
     ###########################################################################
 
     def create_control(self, parent):
-        """ Creates the toolkit-specific control that represents the view.
-
-        'parent' is the toolkit-specific control that is the view's parent.
-
-        """
-
+        """ Creates the toolkit-specific control that represents the view. """
+        
         self.shell = shell = PythonShell(parent)
         shell.on_trait_change(self._on_key_pressed, 'key_pressed')
         shell.on_trait_change(self._on_command_executed, 'command_executed')
 
         # Write application standard out to this shell instead of to DOS window
-        self.on_trait_change(self._on_write_stdout, 'stdout_text',
-                             dispatch='ui')
+        self.on_trait_change(
+            self._on_write_stdout, 'stdout_text', dispatch='ui'
+        )
         self.original_stdout = sys.stdout
         sys.stdout = PseudoFile(self._write_stdout)
 
@@ -114,12 +126,17 @@ class PythonShellView(View):
 
     def destroy_control(self):
         """ Destroys the toolkit-specific control that represents the view.
+
         """
+        
         super(PythonShellView, self).destroy_control()
 
         # Remove the sys.stdout handlers.
-        self.on_trait_change(self._on_write_stdout, 'stdout_text',
-                             remove=True)
+        self.on_trait_change(
+            self._on_write_stdout, 'stdout_text', remove=True
+        )
+
+        # Restore the original stdout.
         sys.stdout = self.original_stdout
 
         return
@@ -167,12 +184,12 @@ class PythonShellView(View):
 
     def _write_stdout(self, text):
         """ Handles text written to stdout. """
+
         self.stdout_text = text
 
+        return
+    
     #### Trait change handlers ################################################
-
-    def _on_write_stdout(self, text):
-        self.shell.control.write(text)
 
     def _on_command_executed(self, shell):
         """ Dynamic trait change handler. """
@@ -213,4 +230,11 @@ class PythonShellView(View):
 
         return
 
+    def _on_write_stdout(self, text):
+        """ Dynamic trait change handler. """
+        
+        self.shell.control.write(text)
+
+        return
+    
 #### EOF ######################################################################
