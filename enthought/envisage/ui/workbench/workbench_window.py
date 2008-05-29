@@ -12,7 +12,6 @@ from enthought.envisage.api import IServiceRegistry
 from enthought.envisage.api import ExtensionPoint, ServiceRegistry
 from enthought.envisage.ui.action.api import ActionSet
 from enthought.pyface.action.api import StatusBarManager
-from enthought.pyface.workbench.api import IPerspective
 from enthought.traits.api import Delegate, Instance, List, Property, implements
 
 # Local imports.
@@ -72,7 +71,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # Contributed perspectives (each contribution is actually a factory).
     _perspectives = ExtensionPoint(id=PERSPECTIVES)
 
-    # Contributed service offers (each contribution is actually a factory).
+    # Contributed service offers.
     _service_offers = ExtensionPoint(id=SERVICE_OFFERS)
 
     # The Ids of the services that were automatically registered.
