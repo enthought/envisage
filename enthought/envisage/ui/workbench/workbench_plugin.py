@@ -201,22 +201,22 @@ class WorkbenchPlugin(Plugin):
         
         preferences_manager_service_offer = ServiceOffer(
             protocol = 'enthought.preferences.ui.api.PreferencesManager',
-            factory  = self._preferences_manager_service_factory
+            factory  = self._create_preferences_manager_service
         )
 
         workbench_service_offer = ServiceOffer(
             protocol = 'enthought.envisage.ui.workbench.api.Workbench',
-            factory  = self._workbench_service_factory
+            factory  = self._create_workbench_service
         )
         
-        return [preferences_manager_service_offer, workbench_service_offer,]
+        return [preferences_manager_service_offer, workbench_service_offer]
 
     ###########################################################################
     # Private interface.
     ###########################################################################
 
-    def _preferences_manager_service_factory(self, **properties):
-        """ Service factory for the preferences manager service. """
+    def _create_preferences_manager_service(self, **properties):
+        """ Factory method for the preferences manager service. """
 
         # fixme: Eventually, we should be able to get rid of the workbench
         # specific preferences manager, and just do something like:-
@@ -240,10 +240,10 @@ class WorkbenchPlugin(Plugin):
 
         return preferences_manager
         
-    def _workbench_service_factory(self, **properties):
-        """ Service factory for the workbench service. """
+    def _create_workbench_service(self, **properties):
+        """ Factory method for the workbench service. """
 
-        # We don't actually create the workbench here, we just register a
+        # We don't actually create the workbench here, we just return a
         # reference to it.
         #
         # fixme: This guard is really just for testing when we have the

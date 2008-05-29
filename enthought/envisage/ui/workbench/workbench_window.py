@@ -35,9 +35,6 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     PERSPECTIVES   = 'enthought.envisage.ui.workbench.perspectives'
     SERVICE_OFFERS = 'enthought.envisage.ui.workbench.service_offers'
 
-    # DEPRECATED extension point Ids.
-    ACTIONS      = 'enthought.envisage.ui.workbench.actions'
-    
     #### 'WorkbenchWindow' interface ##########################################
 
     # The application that the view is part of.
@@ -66,24 +63,20 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # combining all of the contributed action sets.
     _action_manager_builder = Instance(WorkbenchActionManagerBuilder)
     
-    # Contributed action sets.
+    # Contributed action sets (each contribution is actually a factory).
     _action_sets = ExtensionPoint(id=ACTION_SETS)
 
-    # Contributed views (views are contributed as factories not view instances
-    # as each workbench window requires its own).
+    # Contributed views (each contribution is actually a factory).
     _views = ExtensionPoint(id=VIEWS)
 
-    # Contributed perspectives.
+    # Contributed perspectives (each contribution is actually a factory).
     _perspectives = ExtensionPoint(id=PERSPECTIVES)
 
-    # Contributed service offers.
+    # Contributed service offers (each contribution is actually a factory).
     _service_offers = ExtensionPoint(id=SERVICE_OFFERS)
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
-    
-    # DEPRECATED: Contributed action sets.
-    _actions = ExtensionPoint(id=ACTIONS)
     
     ###########################################################################
     # 'IExtensionPointUser' interface.
@@ -150,23 +143,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _perspectives_default(self):
         """ Trait initializer. """
 
-        perspectives = []
-        for factory_or_perspective in self._perspectives:
-            # Is the contribution an actual perspective, or is it a factory
-            # that can create a perspective?
-            perspective = IPerspective(factory_or_perspective, None)
-            if perspective is None:
-                perspective = factory_or_perspective()
-
-            else:
-                logger.warn(
-                    'DEPRECATED: contribute perspective classes or '
-                    'factories - not perspective instances.'
-                )
-                
-            perspectives.append(perspective)
-                
-        return perspectives
+        return [factory() for factory in self._perspectives]
 
     def _title_default(self):
         """ Trait initializer. """
@@ -185,30 +162,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _action_sets_default(self):
         """ Trait initializer. """
 
-        for item in self._actions:
-            logger.warn(
-                'DEPRECATED: ' \
-                'use "enthought.envisage.ui.workbench.action_sets" '
-                'not "enthought.envisage.ui.workbench.actions"'
-            )
-            
-        action_sets = []
-        for factory_or_action_set in self._action_sets + self._actions:
-            if not isinstance(factory_or_action_set, ActionSet):
-                action_set = factory_or_action_set(window=self)
-
-            else:
-                logger.warn(
-                    'DEPRECATED: contribute action set classes or '
-                    'factories - not action set instances.'
-                )
-                
-                action_set = factory_or_action_set
-                action_set.window = self
-                
-            action_sets.append(action_set)
-
-        return action_sets
+        return [factory(window=self) for factory in self._action_sets]
 
     ###########################################################################
     # 'IServiceRegistry' interface.
