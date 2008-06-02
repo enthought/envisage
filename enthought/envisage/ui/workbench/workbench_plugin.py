@@ -107,9 +107,10 @@ class WorkbenchPlugin(Plugin):
 
         Services are simply objects that a plugin wants to make available to
         other plugins. This extension point allows you to offer 'per
-        window' services that are created 'on-demand' (i.e. every workbench
-        window is a service registry, and so the factory will get called when
-        each window is opened).
+        window' services that are created 'on-demand' (where 'on demand' means
+        the first time somebody looks up a service of the appropriate
+        protocol).
+        .
 
         e.g.
 
@@ -119,6 +120,11 @@ class WorkbenchPlugin(Plugin):
             properties = {'a dictionary' : 'that is passed to the factory'}
         )
 
+        Any properties specified are passed as keywrod arguments to the
+        factory, i.e. the factory signature is::
+
+          callable(**properties)
+          
         """
     )
     
