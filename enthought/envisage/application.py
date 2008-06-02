@@ -91,7 +91,15 @@ class Application(HasTraits):
     ###########################################################################
 
     def __init__(self, plugins=None, **traits):
-        """ Constructor. """
+        """ Constructor.
+
+        We allow the caller to specify an initial list of plugins, but the list
+        itself is not part of the public API. To add and remove plugins after
+        after construction, use the 'add_plugin' and 'remove_plugin' methods
+        respectively. The application is also iterable, so to iterate over the
+        plugins use 'for plugin in application: ...'.
+
+        """
 
         super(Application, self).__init__(**traits)
 
@@ -104,13 +112,15 @@ class Application(HasTraits):
         # Set the default preferences node used by the preferences package.
         # This allows 'PreferencesHelper' and 'PreferenceBinding' instances to
         # be used as more convenient ways to access preferences.
+        #
+        # fixme: This is anothe sheaky global!
         set_default_preferences(self.preferences)
 
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
         # after construction, use the 'add_plugin' and 'remove_plugin' methods
         # respectively. The application is also iterable, so to iterate over
-        # the plugins use 'for plugin in application'.
+        # the plugins use 'for plugin in application: ...'.
         if plugins is not None:
             map(self.add_plugin, plugins)
 
@@ -410,7 +420,8 @@ class Application(HasTraits):
     #### Trait change handlers ################################################
 
     # fixme: We have this to make it easier to assign a new plugin manager
-    # at construction time, e.g.
+    # at construction time due to the fact that the plugin manager needs a
+    # reference to the application and vice-versa, e.g. we can do
     #
     #    application = Application(plugin_manager=EggPluginManager())
     #

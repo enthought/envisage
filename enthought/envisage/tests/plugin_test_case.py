@@ -218,8 +218,8 @@ class PluginTestCase(unittest.TestCase):
         class PluginB(Plugin):
             id = 'B'
 
-            x  = List([1, 2, 3], extension_point='x')
-            y  = List([4, 5, 6], extension_point='x')
+            x  = List([1, 2, 3], contributes_to='x')
+            y  = List([4, 5, 6], contributes_to='x')
 
         a = PluginA()
         b = PluginB()
@@ -242,7 +242,7 @@ class PluginTestCase(unittest.TestCase):
         class PluginB(Plugin):
             id = 'B'
 
-            x  = List(extension_point='x')
+            x  = List(contributes_to='x')
 
             def _x_default(self):
                 """ Trait initializer. """
@@ -281,54 +281,6 @@ class PluginTestCase(unittest.TestCase):
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
-
-        return
-
-    def test_multiple_trait_contributions_with_contributes_to(self):
-        """ multiple trait contributions with contributes to """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
-
-        class PluginB(Plugin):
-            id = 'B'
-
-            x  = List([1, 2, 3], contributes_to='x')
-            y  = List([4, 5, 6], contributes_to='x')
-
-        a = PluginA()
-        b = PluginB()
-
-        application = TestApplication(plugins=[a, b])
-
-        # We should get an error because the plugin has multiple traits
-        # contributing to the same extension point.
-        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
-
-        return
-
-    def test_multiple_trait_contributions_with_mixed_metadata(self):
-        """ multiple trait contributions with mixed_metadata """
-
-        class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
-
-        class PluginB(Plugin):
-            id = 'B'
-
-            x  = List([1, 2, 3], extension_point='x')
-            y  = List([4, 5, 6], contributes_to='x')
-
-        a = PluginA()
-        b = PluginB()
-
-        application = TestApplication(plugins=[a, b])
-
-        # We should get an error because the plugin has multiple traits
-        # contributing to the same extension point.
-        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
 
         return
 

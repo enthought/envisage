@@ -48,8 +48,8 @@ class IApplication(
 
         The same as::
 
-          application.start()
-          application.stop()
+          if application.start():
+              application.stop()
 
         """
 

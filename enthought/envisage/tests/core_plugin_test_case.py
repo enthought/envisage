@@ -102,7 +102,7 @@ class CorePluginTestCase(unittest.TestCase):
                     )
                 ],
                 
-                extension_point='enthought.envisage.categories'
+                contributes_to='enthought.envisage.categories'
             )
 
         core = CorePlugin()
@@ -143,7 +143,7 @@ class CorePluginTestCase(unittest.TestCase):
                     )
                 ],
                 
-                extension_point='enthought.envisage.class_load_hooks'
+                contributes_to='enthought.envisage.class_load_hooks'
             )
 
         core = CorePlugin()
@@ -178,7 +178,7 @@ class CorePluginTestCase(unittest.TestCase):
 
             preferences = List(
                 ['file://preferences.ini'], 
-                extension_point='enthought.envisage.preferences'
+                contributes_to='enthought.envisage.preferences'
             )
 
         core = CorePlugin()

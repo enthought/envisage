@@ -7,7 +7,7 @@ import os, random, shutil, unittest
 # Enthought library imports.
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint, IApplication
-from enthought.envisage.api import Plugin
+from enthought.envisage.api import Plugin, PluginManager
 from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 
@@ -98,14 +98,14 @@ class PluginB(Plugin):
     """ A plugin that contributes to an extension point. """
     
     id = 'B'
-    x  = List(Int, [1, 2, 3], extension_point='a.x')
+    x  = List(Int, [1, 2, 3], contributes_to='a.x')
 
 
 class PluginC(Plugin):
     """ Another plugin that contributes to an extension point! """
 
     id = 'C'
-    x  = List(Int, [98, 99, 100], extension_point='a.x')
+    x  = List(Int, [98, 99, 100], contributes_to='a.x')
 
     
 class ApplicationTestCase(unittest.TestCase):
@@ -473,7 +473,7 @@ class ApplicationTestCase(unittest.TestCase):
             id = 'A'
             preferences = List(
                 ['file://preferences.ini'],
-                extension_point='enthought.envisage.preferences'
+                contributes_to='enthought.envisage.preferences'
             )
 
         application = TestApplication(plugins=[CorePlugin(), PluginA()])
@@ -482,6 +482,29 @@ class ApplicationTestCase(unittest.TestCase):
         # Make sure we can get one of the preferences.
         self.assertEqual('42', application.preferences.get('enthought.test.x'))
 
+        return
+
+    def test_set_plugin_manager_at_contruction_time(self):
+        """ set plugin manager at construction time"""
+
+        a = PluginA()
+        b = PluginB()
+        c = PluginC()
+        
+        # Start off with just two of the plugins.
+        application = TestApplication(
+            plugin_manager=PluginManager(plugins=[a, b, c])
+        )
+        application.start()
+
+        # Make sure we can get the plugins.
+        self.assertEqual(a, application.get_plugin('A'))
+        self.assertEqual(b, application.get_plugin('B'))
+        self.assertEqual(c, application.get_plugin('C'))
+
+        # Make sure we can't get one that isn't there ;^)
+        self.assertEqual(None, application.get_plugin('BOGUS'))
+        
         return
 
 
