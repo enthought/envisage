@@ -206,12 +206,13 @@ class WorkbenchPlugin(Plugin):
         """ Trait initializer. """
         
         preferences_manager_service_offer = ServiceOffer(
-            protocol = 'enthought.preferences.ui.api.PreferencesManager',
+            protocol = 'enthought.preferences.ui.preferences_manager'
+                       '.PreferencesManager',
             factory  = self._create_preferences_manager_service
         )
 
         workbench_service_offer = ServiceOffer(
-            protocol = 'enthought.envisage.ui.workbench.api.Workbench',
+            protocol = 'enthought.envisage.ui.workbench.workbench.Workbench',
             factory  = self._create_workbench_service
         )
         

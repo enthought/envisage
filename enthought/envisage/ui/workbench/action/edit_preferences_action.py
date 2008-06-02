@@ -30,11 +30,10 @@ class EditPreferencesAction(Action):
     def perform(self, event):
         """ Performs the action. """
 
+        from enthought.preferences.ui.api import PreferencesManager
+        
         # Lookup the preferences manager service.
-        manager = event.window.application.get_service(
-            'enthought.preferences.ui.api.PreferencesManager'
-        )
-
+        manager = event.window.application.get_service(PreferencesManager)
         manager.edit_traits(parent=event.window.control, kind='modal')
 
         return
