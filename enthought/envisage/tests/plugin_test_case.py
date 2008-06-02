@@ -7,7 +7,6 @@ import random, unittest
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.envisage.api import IPluginActivator, Plugin
-from enthought.envisage.api import Service
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -135,40 +134,6 @@ class PluginTestCase(unittest.TestCase):
 
         return
     
-    def test_service_trait_type(self):
-        """ service trait type"""
-
-        class Foo(HasTraits):
-            pass
-
-        class PluginA(Plugin):
-            id = 'A'
-            foo = Instance(Foo, (), service=True)
-
-        class PluginB(Plugin):
-            id = 'B'
-            foo = Service(Foo)
-
-        a = PluginA()
-        b = PluginB()
-        
-        application = TestApplication(plugins=[a, b])
-        application.start()
-
-        # Make sure the services were registered.
-        self.assertEqual(a.foo, b.foo)
-
-        # Stop the application.
-        application.stop()
-
-        # Make sure the service was unregistered.
-        self.assertEqual(None, b.foo)
-
-        # You can't set service traits!
-        self.failUnlessRaises(SystemError, setattr, b, 'foo', 'bogus')
-        
-        return
-
     def test_service(self):
         """ service """
 

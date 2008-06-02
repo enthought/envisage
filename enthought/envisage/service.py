@@ -20,21 +20,6 @@ class Service(TraitType):
 
     """
     
-    #### 'Service' *CLASS* interface ##########################################
-
-    # The application used by *ALL* service traits.
-    #
-    # fixme: This sneaks a global reference to the application which means that
-    # you can't have more than one application per process. That may sound a
-    # bit weird, but I can see that it could come in handy. Maybe it would
-    # also be worth renaming 'Applicaton' to 'Environment', 'Context' or
-    # 'Capsule' or something to get across the point that it is just a little
-    # world that plugins can plugio into).
-    #
-    # If we restrict the scope of usage of this trait type to plugins *only*
-    # then we can find the application via the plugins themselves.
-    service_registry = None # Instance(IServiceRegistry)
-    
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -84,31 +69,16 @@ class Service(TraitType):
     # Private interface.
     ###########################################################################
 
-    # fixme: When use of the sneaky global is finally removed, the method can
-    # look like this.
     def _get_service_registry(self, obj):
         """ Return the service registry in effect for an object. """
 
         service_registry = getattr(obj, 'service_registry', None)
         if service_registry is None:
-            raise 'The "Service" trait type can only be used within objects ' \
-                  'that have a reference to a service registry via their ' \
-                  '"service_registry" trait. ' \
-                  'Service protocol <%s>' % self._protocol
-
-        return service_registry
-
-    def _get_service_registry(self, obj):
-        """ Return the service registry in effect for an object. """
-
-        service_registry = getattr(obj, 'service_registry', None)
-        if service_registry is None:
-            service_registry = self.application
-            logger.warn(
-                'DEPRECATED: The "Service" trait type can only be used within '
-                'objects that have a reference to a service registry via '
-                'their "service_registry" trait. '
-                'Service protocol <%s>' % self._protocol
+            raise ValueError(
+                'The "Service" trait type can only be used within objects ' \
+                'that have a reference to a service registry via their ' \
+                '"service_registry" trait. ' \
+                'Object <%s> Service protocol <%s>' % (obj, self._protocol)
             )
 
         return service_registry

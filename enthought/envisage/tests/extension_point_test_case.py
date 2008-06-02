@@ -43,6 +43,28 @@ class ExtensionPointTestCase(unittest.TestCase):
     ###########################################################################
     # Tests.
     ###########################################################################
+
+    def test_no_reference_to_extension_registry(self):
+        """ no reference to extension registry """
+
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Set the extensions.
+        registry.set_extensions('my.ep', 'xxx')
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = ExtensionPoint(List(Int), id='my.ep')
+
+        # We should get an exception because the object does not have an
+        # 'extension_registry' trait.
+        f = Foo()
+        self.failUnlessRaises(ValueError, getattr, f, 'x')
+        
+        return
         
     def test_extension_point_changed(self):
         """ extension point changed """

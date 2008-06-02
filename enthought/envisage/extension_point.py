@@ -27,22 +27,6 @@ class ExtensionPoint(TraitType):
     # declare that we implement an interface (since it is just PyProtocols
     # underneath the covers).
     implements(IExtensionPoint)
-    
-    #### 'ExtensionPoint' *CLASS* interface ###################################
-
-    # The extension registry used by *ALL* extension points.
-    #
-    # fixme: This sneaks a global reference to the application (via its
-    # extension registry) which means you can't have more than one application
-    # per process. That may sound a bit weird, but I can see that it could come
-    # in handy. Maybe it would also be worth renaming 'Applicaton' to
-    # 'Environment', 'Context' or 'Capsule' or something to get across the
-    # point that it is just a little world that plugins can plugio into).
-    #
-    # If we restrict the scope of usage of this trait type to plugins *only*
-    # then we can find the application (and hence the extension registry) via
-    # the plugins themselves.
-    extension_registry = None # Instance(IExtensionRegistry)
 
     ###########################################################################
     # 'ExtensionPoint' *CLASS* interface.
@@ -214,33 +198,11 @@ class ExtensionPoint(TraitType):
     # Private interface.
     ###########################################################################
 
-    # fixme: When use of the sneaky global is finally removed, the method can
-    # look like this.
     def _get_extension_registry(self, obj):
         """ Return the extension registry in effect for an object. """
 
         extension_registry = getattr(obj, 'extension_registry', None)
         if extension_registry is None:
-            raise 'The "ExtensionPoint" trait type can only be used in ' \
-                  'objects that have a reference to an extension registry ' \
-                  'via their "extension_registry" trait. ' \
-                  'Extension point Id <%s>' % self.id
-
-        return extension_registry
-
-    def _get_extension_registry(self, obj):
-        """ Return the extension registry in effect for an object. """
-
-        extension_registry = getattr(obj, 'extension_registry', None)
-        if extension_registry is None:
-            extension_registry = self.extension_registry
-            logger.warn(
-                'DEPRECATED: The "ExtensionPoint" trait type can only be used '
-                'in objects that have a reference to an extension registry '
-                'via their "extension_registry" trait. '
-                'Extension point Id <%s>' % self.id
-            )
-
             # If the 'DevTools' egg is present then log the call stack.
             try:
                 from enthought.debug.api import log_called_from
@@ -248,6 +210,13 @@ class ExtensionPoint(TraitType):
 
             except:
                 pass
+            
+            raise ValueError(
+                'The "ExtensionPoint" trait type can only be used in ' \
+                'objects that have a reference to an extension registry ' \
+                'via their "extension_registry" trait. ' \
+                'Extension point Id <%s>' % self.id
+            )
 
         return extension_registry
     

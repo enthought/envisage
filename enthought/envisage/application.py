@@ -19,9 +19,7 @@ from i_plugin_manager import IPluginManager
 from i_service_registry import IServiceRegistry
 
 from application_event import ApplicationEvent
-from extension_point import ExtensionPoint
 from import_manager import ImportManager
-from service import Service
 
 
 # Logging.
@@ -107,15 +105,6 @@ class Application(HasTraits):
         # This allows 'PreferencesHelper' and 'PreferenceBinding' instances to
         # be used as more convenient ways to access preferences.
         set_default_preferences(self.preferences)
-
-        # Set the default extension registry used by 'ExtensionPoint' and
-        # 'ExtensionPointBinding' instances. This allows them to be used as
-        # more convenient ways to use extension points.
-        ExtensionPoint.extension_registry = self
-
-        # This allows the 'Service' trait type to be used as a more convenient
-        # way to access services.
-        Service.application = self
 
         # We allow the caller to specify an initial list of plugins, but the
         # list itself is not part of the public API. To add and remove plugins
