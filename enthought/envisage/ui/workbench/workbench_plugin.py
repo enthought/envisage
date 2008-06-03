@@ -157,29 +157,6 @@ class WorkbenchPlugin(Plugin):
         """
     )
 
-    # DEPRECATED - use the action *sets* extension point instead.
-    ACTIONS = 'enthought.envisage.ui.workbench.actions'
-    
-    actions = ExtensionPoint(
-        List(Callable), id=ACTIONS, desc="""
-
-        An action set contains the toobars, menus, groups and actions that you
-        would like to add to top-level workbench windows (i.e. the main
-        application window). You can create new toolbars, menus and groups
-        and/or add to existing ones.
-    
-        Each contribution to this extension point must be a factory that
-        creates an action set, where 'factory' means any callable with the
-        following signature::
-    
-          callable(**traits) -> IActionSet
-    
-        The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.envisage.ui.action.api.ActionSet'.
-    
-        """
-    )
-    
     #### Contributions to extension points made by this plugin ################
 
     my_action_sets = List(contributes_to=ACTION_SETS)
