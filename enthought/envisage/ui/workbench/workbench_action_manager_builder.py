@@ -34,21 +34,23 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     def _create_action(self, definition):
         """ Create an action implementation from an action definition. """
 
+        traits = {'window' : self.window}
+
+        # Override any traits that can be set in the definition.
+        if len(definition.name) > 0:
+            traits['name'] = definition.name
+
         if len(definition.class_name) > 0:
             action = self._actions.get(definition.class_name)
             if action is None:
                 klass  = self._import_symbol(definition.class_name)
-                action = klass(window=self.window)
+                action = klass(**traits)
                 self._actions[definition.class_name] = action
-                
-            # Overwrite any attributes specified in the definition.
-            #
-            # fixme: Is there a better way to do this?
-            if len(definition.name) > 0:
-                action.name = definition.name
 
+        # fixme: Do we ever actually do this? It seems that in Envisage 3.x
+        # we always specify an action class!?!
         else:
-            action = Action(name=definition.name)
+            action = Action(**traits)
 
         # fixme: We need to associate the action set with the action to
         # allow for dynamic enabling/disabling etc. This is a *very* hacky
@@ -60,18 +62,19 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     def _create_group(self, definition):
         """ Create a group implementation from a group definition. """
 
+        traits = {}
+
+        # Override any traits that can be set in the definition.
+        if len(definition.id) > 0:
+            traits['id'] = definition.id
+
         if len(definition.class_name) > 0:
             klass = self._import_symbol(definition.class_name)
-            group = klass()
-
-            # Overwrite any attributes specified in the definition.
-            #
-            # fixme: Is there a better way to do this?
-            if len(definition.id) > 0:
-                group.id = definition.id
 
         else:
-            group = Group(id=definition.id)
+            klass = Group
+
+        group = klass(**traits)
 
         # fixme: We need to associate the action set with the action to
         # allow for dynamic enabling/disabling etc. This is a *very* hacky
@@ -83,26 +86,27 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     def _create_menu_manager(self, definition):
         """ Create a menu manager implementation from a menu definition. """
 
+        # fixme: 'window' is not actually a trait on 'MenuManager'! We set
+        # it here to allow the 'View' menu to be created. However, it seems
+        # that menus and actions etc should *always* have a reference to
+        # the window that they are in?!?
+        traits = {'window' : self.window}
+
+        # Override any traits that can be set in the definition.
+        if len(definition.id) > 0:
+            traits['id'] = definition.id
+
+        if len(definition.name) > 0:
+            traits['name'] = definition.name
+
         if len(definition.class_name) > 0:
             klass = self._import_symbol(definition.class_name)
 
-            # fixme: 'window' is not actually a trait on 'MenuManager'! We set
-            # it here to allow the 'View' menu to be created. However, it seems
-            # that menus and actions etc should *always* have a reference to
-            # the window that they are in?!?
-            menu_manager = klass(window=self.window)
-
-            # Overwrite any attributes specified in the definition.
-            #
-            # fixme: Is there a better way to do this?
-            if len(definition.name) > 0:
-                menu_manager.name = definition.name
-            
         else:
-            menu_manager = MenuManager(
-                window=self.window, id=definition.id, name=definition.name
-            )
+            klass = MenuManager
             
+        menu_manager = klass(**traits)
+        
         # Add any groups to the menu.
         for group in definition.groups:
             group._action_set_ = definition._action_set_
@@ -123,28 +127,29 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     def _create_tool_bar_manager(self, definition):
         """ Create a tool bar manager implementation from a definition. """
 
+        traits = {
+            'window'          : self.window,
+            'show_tool_names' : False
+        }
+
+        # Override any traits that can be set in the definition.
+        if len(definition.id) > 0:
+            traits['id'] = definition.id
+
+        if len(definition.name) > 0:
+            traits['name'] = definition.name
+        
         if len(definition.class_name) > 0:
             klass = self._import_symbol(definition.class_name)
             
-            # fixme: 'window' is not actually a trait on 'ToolBarManager'! We
-            # set it here because it is set on the 'MenuManager'! However, it
-            # seems that menus and actions etc should *always* have a reference
-            # to the window that they are in?!?
-            tool_bar_manager = klass(window=self.window)
-
-            # Overwrite any attributes specified in the definition.
-            #
-            # fixme: Is there a better way to do this?
-            if len(definition.name) > 0:
-                tool_bar_manager.name = definition.name
-            
         else:
-            tool_bar_manager = ToolBarManager(
-                id              = definition.id,
-                name            = definition.name,
-                show_tool_names = False,
-                window          = self.window
-            )
+            klass = ToolBarManager
+        
+        # fixme: 'window' is not actually a trait on 'ToolBarManager'! We
+        # set it here because it is set on the 'MenuManager'! However, it
+        # seems that menus and actions etc should *always* have a reference
+        # to the window that they are in?!?
+        tool_bar_manager = ToolBarManager(**traits)
             
         # Add any groups to the tool bar.
         for group in definition.groups:
