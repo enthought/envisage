@@ -71,6 +71,7 @@ class ExtensionPointBinding(HasTraits):
     def _extension_registry_default(self):
         """ Trait initializer. """
 
+        # fixme: Sneaky global!!!!!
         from extension_point import ExtensionPoint
         
         return ExtensionPoint.extension_registry
