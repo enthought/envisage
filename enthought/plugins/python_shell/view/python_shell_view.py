@@ -44,8 +44,11 @@ class PythonShellView(View):
     implements(IPythonShell)
 
     #### 'IView' interface ####################################################
+    
+    # The part's globally unique identifier.
+    id = 'enthought.plugins.python_shell_view'
 
-    # The view's name.
+    # The part's name (displayed to the user).
     name = 'Python'
 
     # The default position of the view relative to the item specified in the
@@ -94,7 +97,7 @@ class PythonShellView(View):
 
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view. """
-        
+
         self.shell = shell = PythonShell(parent)
         shell.on_trait_change(self._on_key_pressed, 'key_pressed')
         shell.on_trait_change(self._on_command_executed, 'command_executed')
