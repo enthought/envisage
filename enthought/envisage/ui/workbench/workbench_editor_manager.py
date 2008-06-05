@@ -23,29 +23,18 @@ class WorkbenchEditorManager(EditorManager):
 
         """
 
-        #print 'WorkbenchEditorManager.create_editor', obj, kind
-        
         if kind is None:
             kind = TraitsUIEditor
             
         return kind(window=window, obj=obj)
 
-##     def get_editor_memento(self, editor):
-##         """ Return the state of an editor suitable for pickling etc.
+    ###########################################################################
+    # 'Protected' 'EditorManager'  interface.
+    ###########################################################################
 
-##         By default we don't save the state of editors.
+    def _is_editing(self, editor, obj, kind):
+        """ Return True if the editor is editing the object. """
 
-##         """
-
-##         return None
-
-##     def set_editor_memento(self, memento):
-##         """ Restore the state of an editor from a memento.
-
-##         By default we don't try to restore the state of editors.
-
-##         """
-
-##         return None
+        return type(editor) is kind and editor.obj == obj
 
 #### EOF ######################################################################
