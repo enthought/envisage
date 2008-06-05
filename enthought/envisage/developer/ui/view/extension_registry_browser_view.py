@@ -21,6 +21,12 @@ class ExtensionRegistryBrowserView(TraitsUIView):
     # The part's name (displayed to the user).
     name = 'Extension Points'
 
+    #### 'IView' interface ####################################################
+
+    # The category that the view belongs to (this can used to group views when
+    # they are displayed to the user).
+    category = 'Developer'
+
     #### 'ExtensionRegistryBrowserView' interface #############################
 
     # The code browser used to parse Python code.

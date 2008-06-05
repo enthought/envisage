@@ -26,7 +26,13 @@ class IExtensionRegistryTreeNode(TreeNode):
     def get_children(self, obj):
         """ Get the object's children. """
 
-        return obj.get_extension_points()
+        extension_points = obj.get_extension_points()
+
+        # Tag the extension registry onto the extension points.
+        for extension_point in extension_points:
+            extension_point.__extension_registry__ = obj
+            
+        return extension_points
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
@@ -54,7 +60,7 @@ class IExtensionPointTreeNode(TreeNode):
         # fixme: This could be uglier, but I can't work out how ;^)
         index    = 0
         children = []
-        for extension in obj.extension_registry.get_extensions(obj.id):
+        for extension in obj.__extension_registry__.get_extensions(obj.id):
             parent = SingleValueTreeNodeObject(value=obj, _index=index)
             children.append(parent.node_for('', extension))
             index += 1

@@ -82,11 +82,9 @@ class ExtensionRegistryBrowser(HasTraits):
     def _workbench_default(self):
         """ Trait initializer. """
 
-        workbench = self.application.get_service(
-            'enthought.envisage.ui.workbench.api.Workbench'
-        )
+        from enthought.envisage.ui.workbench.api import Workbench
 
-        return workbench
+        return self.application.get_service(Workbench)
     
     #### Methods ##############################################################
     
@@ -139,10 +137,7 @@ class ExtensionRegistryBrowser(HasTraits):
         extension_point = obj.parent.value
         index           = obj.parent._index
 
-        # fixme: The Envisage application sets 'ExtensionPoint.er' to
-        # self, not the actual extension registry! Therefore to dig into
-        # the guts of the registry we need the extra level on indirection!
-        extension_registry = extension_point.extension_registry.extension_registry
+        extension_registry = self.extension_registry
         extensions = extension_registry._extensions
 
         total = 0
