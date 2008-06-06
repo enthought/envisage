@@ -17,7 +17,7 @@ setup(
     ],
 
     install_requires     = [
-        'enthought.envisage>=3.0a1',
+        'EnvisageCore>=3.0.0a1',
     ],
 
     entry_points = """
