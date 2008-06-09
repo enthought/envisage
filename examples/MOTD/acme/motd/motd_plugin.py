@@ -44,7 +44,7 @@ class MOTDPlugin(Plugin):
     # than actually importing it. This makes sure that the import only happens
     # when somebody actually gets the contributions to the extension point.
     messages = ExtensionPoint(
-        List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc = """
+        List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc="""
 
         This extension point allows you to contribute messages to the 'Message
         Of The Day'.
@@ -60,7 +60,8 @@ class MOTDPlugin(Plugin):
         """ Trait initializer. """
         
         motd_service_offer = ServiceOffer(
-            protocol='acme.motd.api.IMOTD', factory=self._motd_factory,
+            protocol = 'acme.motd.i_motd.IMOTD',
+            factory  = self._create_motd_service
         )
 
         return [motd_service_offer]
@@ -72,8 +73,10 @@ class MOTDPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
+        from acme.motd.api import IMOTD
+        
         # Lookup the MOTD service.
-        motd = self.application.get_service('acme.motd.api.IMOTD')
+        motd = self.application.get_service(IMOTD)
 
         # Get the message of the day...
         message = motd.motd()
@@ -87,8 +90,8 @@ class MOTDPlugin(Plugin):
     # Private interface.
     ###########################################################################
 
-    def _motd_factory(self):
-        """ Factory for the 'MOTD' service. """
+    def _create_motd_service(self):
+        """ Factory method for the 'MOTD' service. """
 
         # Only do imports when you need to! This makes sure that the import
         # only happens when somebody needs an 'IMOTD' service.
