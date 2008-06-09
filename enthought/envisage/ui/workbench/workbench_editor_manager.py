@@ -1,6 +1,9 @@
 """ An editor manager that uses contributed editors. """
 
 
+# Standard library imports.
+import weakref
+
 # Enthought library imports.
 from enthought.pyface.workbench.api import EditorManager, TraitsUIEditor
 
@@ -8,6 +11,20 @@ from enthought.pyface.workbench.api import EditorManager, TraitsUIEditor
 class WorkbenchEditorManager(EditorManager):
     """ An editor manager that uses contributed editors. """
 
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, **traits):
+        """ Constructor. """
+
+        super(WorkbenchEditorManager, self).__init__(**traits)
+
+        # A mapping from editor to editor kind (the factory that created them).
+        self._editor_to_kind_map = weakref.WeakKeyDictionary()
+
+        return
+    
     ###########################################################################
     # 'IEditorManager' interface.
     ###########################################################################
@@ -25,8 +42,14 @@ class WorkbenchEditorManager(EditorManager):
 
         if kind is None:
             kind = TraitsUIEditor
-            
-        return kind(window=window, obj=obj)
+
+        editor = kind(window=window, obj=obj)
+
+        # Save the factory that created the editor so that we can allow the
+        # same object to be edited by different editors in the same window.
+        self._editor_to_kind_map[editor] = kind
+        
+        return editor
 
     ###########################################################################
     # 'Protected' 'EditorManager'  interface.
@@ -35,6 +58,6 @@ class WorkbenchEditorManager(EditorManager):
     def _is_editing(self, editor, obj, kind):
         """ Return True if the editor is editing the object. """
 
-        return type(editor) is kind and editor.obj == obj
+        return self._editor_to_kind_map[editor] is kind and editor.obj == obj
 
 #### EOF ######################################################################
