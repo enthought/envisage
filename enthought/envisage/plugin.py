@@ -208,6 +208,11 @@ class Plugin(ExtensionProvider):
         """ Register the services offered by the plugin. """
 
         for trait_name, trait in self.traits(service=True).items():
+            logger.warn(
+                'DEPRECATED: offer services using the service offer extension'
+                ' point (enthought.envisage.service_offers)'
+            )
+            
             # Register a service factory for the trait.
             service_id = self._register_service_factory(trait_name, trait)
 
