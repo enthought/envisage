@@ -211,8 +211,11 @@ class Plugin(ExtensionProvider):
 
         for trait_name, trait in self.traits(service=True).items():
             logger.warn(
-                'DEPRECATED: offer services using the service offer extension'
-                ' point (enthought.envisage.service_offers)'
+                'DEPRECATED: Do not use the "service=True" metadata anymore. '
+                'Services should now be offered using the service '
+                'offer extension point (enthought.envisage.service_offers) '
+                'from the core plugin. '
+                'Plugin %s trait <%s>' % (self, trait_name)
             )
             
             # Register a service factory for the trait.
