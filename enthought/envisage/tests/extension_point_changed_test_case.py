@@ -62,8 +62,9 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
-        # fixme: Currently we only wire up the listeners the first time we get
-        # the extensions.
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
         self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
         
         # Append a contribution.
@@ -103,8 +104,9 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
         
-        # fixme: Currently we only wire up the listeners the first time we get
-        # the extensions.
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
         self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Remove a contribution.
@@ -144,11 +146,12 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
-        # fixme: Currently we only wire up the listeners the first time we get
-        # the extensions.
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
         self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
-        # Assign an empty list to one of the plugin's contributions
+        # Assign an empty list to one of the plugin's contributions.
         b.x = []
 
         # Make sure we pick up the correct contribution via the application.
@@ -176,6 +179,39 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         
         return
 
+    def test_assign_empty_list_no_event(self):
+        """ assign empty list no event """
+
+        a = PluginA(); a.on_trait_change(listener, 'x_items')
+        b = PluginB()
+        c = PluginC()
+        
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+
+        # Assign an empty list to one of the plugin's contributions.
+        b.x = []
+
+        # Make sure we pick up the correct contribution via the application.
+        extensions = application.get_extensions('a.x')
+        extensions.sort()
+        
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([98, 99, 100], extensions)
+
+        # Make sure we pick up the correct contribution via the plugin.
+        extensions = a.x[:]
+        extensions.sort()
+        
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([98, 99, 100], extensions)
+
+        # We shouldn't get a trait event here because we haven't accessed the
+        # extension point yet!
+        self.assertEqual(None, listener.obj)
+        
+        return
+
     def test_assign_non_empty_list(self):
         """ assign non-empty list """
 
@@ -186,8 +222,9 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
-        # fixme: Currently we only wire up the listeners the first time we get
-        # the extensions.
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
         self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
         
         # Assign a non-empty list to one of the plugin's contributions.

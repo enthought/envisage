@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import logging
+import inspect, logging
 
 # Enthought library imports.
 from enthought.traits.api import Instance, List, Property, Str, implements
@@ -119,8 +119,10 @@ class Plugin(ExtensionProvider):
         # fine to allow mutiple traits!
         trait_names = self.trait_names(contributes_to=extension_point_id)
         if len(trait_names) == 0:
-            extensions = []
-
+            # If there is no contributing trait then look for any decorated
+            # methods.
+            extensions = self._harvest_methods(extension_point_id)
+            
         elif len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
                 
@@ -319,6 +321,43 @@ class Plugin(ExtensionProvider):
 
         return protocol
 
+    def _harvest_methods(self, extension_point_id):
+        """ Harvest all method-based contributions. """
+
+        extensions = []
+        for name, value in inspect.getmembers(self):
+            if self._is_extension_method(value, extension_point_id):
+                result = getattr(self, name)()
+                if not isinstance(result, list):
+                    result = [result]
+                            
+                extensions.extend(result)
+
+        return extensions
+
+    def _is_extension_method(self, value, extension_point_id):
+        """ Return True if the value is an extension method.
+
+        i.e. If the method is one that makes a contribution to the extension
+        point. Currently there is exactly one way to make a method make a
+        contribution, and that is to mark it using the 'contributes_to'
+        decorator, e.g::
+
+          @contributes_to('acme.motd.messages')
+          def get_messages(self):
+              ...
+              messages = [...]
+              ...
+              return messages
+
+        """
+
+        if inspect.ismethod(value) \
+           and extension_point_id == getattr(value,'__extension_point__',None):
+                return True
+
+        return False
+
     def _register_service_factory(self, trait_name, trait):
         """ Register a service factory for the specified trait. """
             
@@ -335,5 +374,5 @@ class Plugin(ExtensionProvider):
             return getattr(self, trait_name)
 
         return self.application.register_service(protocol, factory)
-    
+
 #### EOF ######################################################################

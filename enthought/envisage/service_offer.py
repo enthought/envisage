@@ -2,8 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Callable, Dict, Either, HasTraits, Instance
-from enthought.traits.api import Interface, Str, Type
+from enthought.traits.api import Callable, Dict, Either, HasTraits, Str, Type
 
 
 class ServiceOffer(HasTraits):
@@ -13,9 +12,11 @@ class ServiceOffer(HasTraits):
 
     # The protocol that the service provides.
     #
-    # This can be an actual class or interface, or the name of the class or
-    # interface.
-    protocol = Either(Str, Type, Instance(Interface))
+    # This can be an actual class or interface, or a string that can be used to
+    # import a class or interface.
+    #
+    # e.g. 'foo.bar.baz.Baz' is turned into 'from foo.bar.baz import Baz'
+    protocol = Either(Str, Type)
 
     # A callable (or a string that can be used to import a callable) that is
     # the factory that creates the actual service object.
@@ -24,6 +25,7 @@ class ServiceOffer(HasTraits):
     #
     #   callable(**properties) -> Any
     #
+    # e.g. 'foo.bar.baz.Baz' is turned into 'from foo.bar.baz import Baz'
     factory = Either(Str, Callable)
 
     # An arbitrary set of properties to associate with the service offer.

@@ -99,7 +99,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # containing the contributions from a single provider. Here we just
         # concatenate them into a single list.
         #
-        # You could use a likst comprehension, here:-
+        # You could use a list comprehension, here:-
         #
         #     all = [x for y in extensions for x in y]
         #
@@ -237,9 +237,23 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         logger.debug('provider <%s> extension point changed', obj)
         
         extension_point_id = event.extension_point_id
-        
+
+        # If the extension point has not yet been accessed then we don't fire a
+        # changed event.
+        #
+        # This is because we only access extension points lazily and so we
+        # can't tell what has actually changed because we have nothing to
+        # compare it to!
+        if not extension_point_id in self._extensions:
+            return
+            
         # This is a list of lists where each inner list contains the
         # contributions made to the extension point by a single provider.
+        #
+        # fixme: This causes a problem if the extension point has not yet been
+        # accessed! The tricky thing is that if it hasn't been accessed yet
+        # how do we know what has changed?!? Maybe we should just return an
+        # empty list instead of barfing!
         extensions = self._extensions[extension_point_id]
         
         # Find the index of the provider in the provider list. Its

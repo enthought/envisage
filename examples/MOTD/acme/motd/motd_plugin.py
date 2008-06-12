@@ -12,7 +12,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import Instance, List
+from enthought.traits.api import Instance, List, on_trait_change
 
 
 class MOTDPlugin(Plugin):
@@ -58,33 +58,18 @@ class MOTDPlugin(Plugin):
 
     def _service_offers_default(self):
         """ Trait initializer. """
-        
+
+        # Register the protocol as a string containing the actual module path
+        # (do not use a module path that goes via an 'api.py' file as this does
+        # not match what Python thinks the module is!). This allows the service
+        # to be looked up by passing either the exact same string, or the
+        # actual protocol object itself.
         motd_service_offer = ServiceOffer(
             protocol = 'acme.motd.i_motd.IMOTD',
             factory  = self._create_motd_service
         )
 
         return [motd_service_offer]
-    
-    ###########################################################################
-    # 'IPlugin' interface.
-    ###########################################################################
-
-    def start(self):
-        """ Start the plugin. """
-
-        from acme.motd.api import IMOTD
-        
-        # Lookup the MOTD service.
-        motd = self.application.get_service(IMOTD)
-
-        # Get the message of the day...
-        message = motd.motd()
-
-        # ... and print it.
-        print '\n"%s"\n\n- %s' % (message.text, message.author)
-        
-        return
 
     ###########################################################################
     # Private interface.
@@ -98,5 +83,26 @@ class MOTDPlugin(Plugin):
         from motd import MOTD
 
         return MOTD(messages=self.messages)
+
+    # This plugin does all of its work in this method which gets called when
+    # the application has started all of its plugins.
+    @on_trait_change('application:started')
+    def _print_motd(self):
+        """ Print the 'Message of the Day' to stdout! """
+
+        # Note that we always offer the service via its name, but look it up
+        # via the actual protocol.
+        from acme.motd.api import IMOTD
+        
+        # Lookup the MOTD service.
+        motd = self.application.get_service(IMOTD)
+
+        # Get the message of the day...
+        message = motd.motd()
+
+        # ... and print it.
+        print '\n"%s"\n\n- %s' % (message.text, message.author)
+
+        return
     
 #### EOF ######################################################################

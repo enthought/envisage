@@ -6,7 +6,7 @@ import random, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
-from enthought.envisage.api import IPluginActivator, Plugin
+from enthought.envisage.api import IPluginActivator, Plugin, contributes_to
 from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
 from enthought.traits.api import implements
 
@@ -273,6 +273,57 @@ class PluginTestCase(unittest.TestCase):
             id = 'B'
             x  = List([1, 2, 3], contributes_to='x')
 
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+
+        return
+
+    def test_contributes_to_decorator(self):
+        """ contributes to decorator """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+
+            @contributes_to('x')
+            def _x_contributions(self):
+                return [1, 2, 3]
+            
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # We should get an error because the plugin has multiple traits
+        # contributing to the same extension point.
+        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+
+        return
+
+    def test_contributes_to_decorator_ignored_if_trait_present(self):
+        """ contributes to decorator ignored if trait present """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='x')
+
+        class PluginB(Plugin):
+            id = 'B'
+            x  = List([1, 2, 3], contributes_to='x')
+
+            @contributes_to('x')
+            def _x_contributions(self):
+                return [4, 5, 6]
+            
         a = PluginA()
         b = PluginB()
 

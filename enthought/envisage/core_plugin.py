@@ -3,11 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.envisage.resource.api import ResourceManager
 from enthought.traits.api import List, Instance, Str
-
-# Local imports.
-from class_load_hook import ClassLoadHook
 
 
 class CorePlugin(Plugin):
@@ -23,10 +19,10 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CATEGORIES        = 'enthought.envisage.categories'
-    CLASS_LOAD_HOOKS  = 'enthought.envisage.class_load_hooks'    
-    PREFERENCES       = 'enthought.envisage.preferences'
-    SERVICE_OFFERS    = 'enthought.envisage.service_offers'
+    CATEGORIES       = 'enthought.envisage.categories'
+    CLASS_LOAD_HOOKS = 'enthought.envisage.class_load_hooks'    
+    PREFERENCES      = 'enthought.envisage.preferences'
+    SERVICE_OFFERS   = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
@@ -128,6 +124,8 @@ class CorePlugin(Plugin):
             properties = {'a dictionary' : 'that is passed to the factory'}
         )
 
+        See the documentation for 'ServiceOffer' for more details.
+
         """
     )
 
@@ -187,6 +185,9 @@ class CorePlugin(Plugin):
     def _create_category_class_load_hook(self, category):
         """ Create a category class load hook. """
 
+        # Local imports.
+        from class_load_hook import ClassLoadHook
+
         def import_and_add_category(cls):
             """ Import a category and add it to a class.
 
@@ -209,6 +210,9 @@ class CorePlugin(Plugin):
     def _load_preferences(self, preferences):
         """ Load all contributed preferences into a preferences node. """
 
+        # Enthoguht library imports.
+        from enthought.envisage.resource.api import ResourceManager
+
         # We add the plugin preferences to the default scope. The default scope
         # is a transient scope which means that (quite nicely ;^) we never
         # save the actual default plugin preference values. They will only get
@@ -229,7 +233,7 @@ class CorePlugin(Plugin):
         return
 
     def _register_service_offers(self, service_offers):
-        """ Register all application-scope service offers. """
+        """ Register a list of service offers. """
 
         return map(self._register_service_offer, service_offers)
 
