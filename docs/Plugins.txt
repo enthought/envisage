@@ -88,17 +88,6 @@ of plugins that was passed into the application or b) the order of the plugins
 based on egg dependencies. When the application stops, it calls the stop()
 method of each plugin in the reverse order that they were started in.
 
-The default Plugin_ implementation of the start() method, automatically
-registers any traits marked as 'service=True', and connects up any extension
-points so that the plugin will receive notification if and when extensions are
-added/removed.
-
-The default Plugin_ implementation of the stop() method simply unregisters any
-services that were automatically registered in the start() method.
-
-Consequentlt, if you override either of these methods, you probably want to
-call the base-class methods too!
-
 As an example, here is the start() method from the acme.motd_ plugin in the
 the `Message of the Day`_ example::
 
@@ -119,9 +108,6 @@ the `Message of the Day`_ example::
             print '\n"%s"\n\n- %s' % (message.text, message.author)
         
 	    return
-
-The implementation of 'stop' in the 'Plugin' class takes care of unregistering
-all of our service traits.
 
 .. _`Extension Points`: ExtensionPoints.html
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs

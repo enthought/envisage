@@ -15,9 +15,9 @@ from i_extension_point_user import IExtensionPointUser
 from i_extension_registry import IExtensionRegistry
 from i_plugin import IPlugin
 from i_plugin_activator import IPluginActivator
-from plugin_activator import PluginActivator
 from i_service_registry import IServiceRegistry
 from i_service_user import IServiceUser
+from plugin_activator import PluginActivator
 from util import camel_case_to_words
 
 

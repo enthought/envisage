@@ -107,25 +107,33 @@ MOTDPlugin_ class::
   class MOTDPlugin(Plugin):
       """ The 'Message of the Day' plugin.
 
-      When this plugin is started it prints the 'Message of the Day' to stdout.
+      This plugin simply prints the 'Message of the Day' to stdout.
     
       """
 
+      # The Ids of the extension points that this plugin offers.
+      MESSAGES = 'acme.motd.messages'
+
+      # The Ids of the extension points that this plugin contributes to.
+      SERVICE_OFFERS = 'enthought.envisage.service_offers'
+
       #### 'IPlugin' interface ##################################################
-  
+
       # The plugin's unique identifier.
       id = 'acme.motd'
 
       # The plugin's name (suitable for displaying to the user).
       name = 'MOTD'
 
-      #### Extension points #####################################################
+      #### Extension points offered by this plugin ##############################
 
       # The messages extension point.
+      #
+      # Notice that we use the string name of the 'IMessage' interface rather
+      # than actually importing it. This makes sure that the import only happens
+      # when somebody actually gets the contributions to the extension point.
       messages = ExtensionPoint(
-          List(Instance('acme.motd.api.IMessage')),
-          id   ='acme.motd.messages',
-          desc = """
+          List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc="""
 
           This extension point allows you to contribute messages to the 'Message
           Of The Day'.
@@ -133,42 +141,58 @@ MOTDPlugin_ class::
           """
       )
 
-      #### Services #############################################################
+      #### Contributions to extension points made by this plugin ################
 
-      # The 'MOTD' service.
-      motd = Instance('acme.motd.api.IMOTD', service=True)
-    
-      ###########################################################################
-      # 'IPlugin' interface.
-      ###########################################################################
+      service_offers = List(contributes_to=SERVICE_OFFERS)
 
-      def start(self):
-          """ Start the plugin. """
-
-          # This is a bit of overkill here, but it shows how other plugins can
-          # look up the MOTD service. We could, of course, just use::
-          #
-          #    message = self.motd.motd()
-          #
-          # Get the message of the day...
-          message = self.application.get_service('acme.motd.api.IMOTD').motd()
-
-          # ... and print it.
-          print '\n"%s"\n\n- %s' % (message.text, message.author)
-        
-          return
-
-      ###########################################################################
-      # 'MOTDPlugin' interface.
-      ###########################################################################
-
-      def _motd_default(self):
+      def _service_offers_default(self):
           """ Trait initializer. """
 
-          # Only do imports when you need to!
+          # Register the protocol as a string containing the actual module path
+          # (do not use a module path that goes via an 'api.py' file as this does
+          # not match what Python thinks the module is!). This allows the service
+          # to be looked up by passing either the exact same string, or the
+          # actual protocol object itself.
+          motd_service_offer = ServiceOffer(
+              protocol = 'acme.motd.i_motd.IMOTD',
+              factory  = self._create_motd_service
+          )
+
+          return [motd_service_offer]
+
+      ###########################################################################
+      # Private interface.
+      ###########################################################################
+
+      def _create_motd_service(self):
+          """ Factory method for the 'MOTD' service. """
+
+          # Only do imports when you need to! This makes sure that the import
+          # only happens when somebody needs an 'IMOTD' service.
           from motd import MOTD
 
           return MOTD(messages=self.messages)
+
+      # This plugin does all of its work in this method which gets called when
+      # the application has started all of its plugins.
+      @on_trait_change('application:started')
+      def _print_motd(self):
+          """ Print the 'Message of the Day' to stdout! """
+
+          # Note that we always offer the service via its name, but look it up
+          # via the actual protocol.
+          from acme.motd.api import IMOTD
+        
+          # Lookup the MOTD service.
+          motd = self.application.get_service(IMOTD)
+
+          # Get the message of the day...
+          message = motd.motd()
+
+          # ... and print it.
+          print '\n"%s"\n\n- %s' % (message.text, message.author)
+
+          return
 
 Although it is obviously a bit of overkill, the example shows how we would
 take a MOTD_ object and register it a service for other parts of the
@@ -216,7 +240,7 @@ Envisage about the messages that we have just created::
       # The plugin's name (suitable for displaying to the user).
       name = 'Software Quotes'
 
-      #### Extension point contributions ########################################
+      #### Contributions to extension points made by this plugin ################
 
       # Messages for the 'Message Of The Day'.
       messages = List(contributes_to='acme.motd.messages')

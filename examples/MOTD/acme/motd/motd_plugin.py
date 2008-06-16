@@ -18,7 +18,7 @@ from enthought.traits.api import Instance, List, on_trait_change
 class MOTDPlugin(Plugin):
     """ The 'Message of the Day' plugin.
 
-    When this plugin is started it prints the 'Message of the Day' to stdout.
+    This plugin simply prints the 'Message of the Day' to stdout.
     
     """
 
@@ -60,10 +60,11 @@ class MOTDPlugin(Plugin):
         """ Trait initializer. """
 
         # Register the protocol as a string containing the actual module path
-        # (do not use a module path that goes via an 'api.py' file as this does
-        # not match what Python thinks the module is!). This allows the service
+        # and *not* a module path that goes via an 'api.py' file as this does
+        # not match what Python thinks the module is! This allows the service
         # to be looked up by passing either the exact same string, or the
-        # actual protocol object itself.
+        # actual protocol object itself (the latter is the preferred way of
+        # doing it!).
         motd_service_offer = ServiceOffer(
             protocol = 'acme.motd.i_motd.IMOTD',
             factory  = self._create_motd_service

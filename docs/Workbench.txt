@@ -24,7 +24,7 @@ Workbench user interfaces are based on 3 simple concepts:
    Editors allow the user to manipulate data and objects to perform their
    current task. Editors are really the focus of users attention with the
    views used to provide supporting information. Editors are grouped together
-   geographically in waht is known as the *editor area*.
+   geographically in what is known as the *editor area*.
 
    In an IDE application, editors would contain the source code that a 
    developer is currently working on.
