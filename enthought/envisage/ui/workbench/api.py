@@ -4,7 +4,6 @@
 from workbench import Workbench
 from workbench_action_set import WorkbenchActionSet
 from workbench_application import WorkbenchApplication
-from workbench_preferences_manager import WorkbenchPreferencesManager
 from workbench_window import WorkbenchWindow
 
 

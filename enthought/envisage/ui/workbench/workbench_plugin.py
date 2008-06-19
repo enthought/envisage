@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import Callable, List, Instance
+from enthought.traits.api import Callable, List
 
 
 # This module's package.
@@ -202,24 +202,10 @@ class WorkbenchPlugin(Plugin):
     def _create_preferences_manager_service(self, **properties):
         """ Factory method for the preferences manager service. """
 
-        # fixme: Eventually, we should be able to get rid of the workbench
-        # specific preferences manager, and just do something like:-
-        #
-        # from enthought.preferences.ui.api import PreferencesManager
-        #
-        # preferences_manager = PreferencesManager(
-        #    pages=map(apply, self.preferences_pages)
-        # )
-        #
-        # To make this happen we just have to be sure that nobody is still
-        # contributing preferences page *instances* (which has been deprecated
-        # for some time now).
-        from enthought.envisage.ui.workbench.api import (
-            WorkbenchPreferencesManager
-        )
+        from enthought.preferences.ui.api import PreferencesManager
 
-        preferences_manager = WorkbenchPreferencesManager(
-            page_factories = self.preferences_pages
+        preferences_manager = PreferencesManager(
+            pages=[factory() for factory in self.preferences_pages]
         )
 
         return preferences_manager
