@@ -138,7 +138,7 @@ class ExtensionRegistryBrowser(HasTraits):
         index           = obj.parent._index
 
         extension_registry = self.extension_registry
-        extensions = extension_registry._extensions
+        extensions = extension_registry.extension_registry._extensions
 
         total = 0
         provider_index = 0
@@ -149,7 +149,7 @@ class ExtensionRegistryBrowser(HasTraits):
             provider_index += 1
 
 
-        plugin = extension_registry._providers[provider_index]
+        plugin = extension_registry.extension_registry._providers[provider_index]
 
         # Parse the plugin source code.
         module = self._parse_plugin(plugin)

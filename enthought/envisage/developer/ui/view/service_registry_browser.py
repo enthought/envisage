@@ -93,7 +93,7 @@ class ServiceRegistryBrowser(HasTraits):
         """ Trait initializer. """
 
         workbench = self.application.get_service(
-            'enthought.envisage.ui.workbench.api.Workbench'
+            'enthought.envisage.ui.workbench.workbench.Workbench'
         )
 
         return workbench
