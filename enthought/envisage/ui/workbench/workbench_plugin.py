@@ -32,7 +32,7 @@ class WorkbenchPlugin(Plugin):
     VIEWS                    = PKG + '.views'
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_OFFERS        = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 

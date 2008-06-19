@@ -36,7 +36,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
     #### 'WorkbenchWindow' interface ##########################################
 
-    # The application that the view is part of.
+    # The application that the window is part of.
     #
     # This is equivalent to 'self.workbench.application', and is provided just
     # as a convenience since windows often want access to the application.
