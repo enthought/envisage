@@ -174,7 +174,7 @@ The programmatic version looks like this::
 	    else:
                 extensions = []
 
-            return
+            return extensions
 
 	...
 
