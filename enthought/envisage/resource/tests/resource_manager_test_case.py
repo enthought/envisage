@@ -115,27 +115,24 @@ class ResourceManagerTestCase(unittest.TestCase):
         f.write(t)
         f.close()
 
-        # Offer the file via http!
-        httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
-        thread.start_new_thread(httpd.handle_request, ())
-        
-        # Open an HTTP document resource.
-        rm = ResourceManager()
+        try:
+            # Offer the file via http!
+            httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
+            thread.start_new_thread(httpd.handle_request, ())
+            
+            # Open an HTTP document resource.
+            rm = ResourceManager()
 
-        f = rm.file('http://localhost:1234/time.dat')
-        self.assertNotEqual(f, None)
-        contents = f.read()
-        f.close()
+            f = rm.file('http://localhost:1234/time.dat')
+            self.assertNotEqual(f, None)
+            contents = f.read()
+            f.close()
 
-        self.assertEquals(contents, t)
+            self.assertEquals(contents, t)
 
-        # fixme: For some reason, when I switched from using 'urllib' to
-        # 'urllib2', this stopped working - it fails with permission denied.
-        # It looks like calling 'close' on the file-like object returned by
-        # 'urllib2.urlopen' does not close correctly?!?
-        #
-        # Cleanup.
-        #os.remove('time.dat')
+        finally:
+            # Cleanup.
+            os.remove('time.dat')
         
         return
 
