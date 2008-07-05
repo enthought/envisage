@@ -1,8 +1,6 @@
 
 from enthought.envisage.ui.action.api import Action, ActionSet, Group
 
-# Service Ids used in actions.
-ITEXT_EDITOR = 'enthought.plugins.text_editor.api.TextEditorService'
 
 class TextEditorActionSet(ActionSet):
     """ The default action set for the Text Editor plugin.

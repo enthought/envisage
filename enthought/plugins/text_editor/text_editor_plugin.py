@@ -6,8 +6,6 @@
 from enthought.traits.api import List
 from enthought.envisage.api import Plugin
 
-from enthought.plugins.text_editor.text_editor_service import TextEditorService
-
 
 # The plugin's globally unique identifier (also used as the prefix for all
 # identifiers defined in this module).

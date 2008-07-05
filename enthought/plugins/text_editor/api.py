@@ -1,3 +1,2 @@
 from text_editor_action_set import TextEditorActionSet
-from text_editor_service import TextEditorService
 from editor.text_editor import TextEditor
