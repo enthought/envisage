@@ -18,11 +18,9 @@ import sys
 
 from enthought.traits.api import push_exception_handler
 
-from enthought.envisage \
-    import Plugin
-    
-from enthought.debug.fbi \
-    import enable_fbi, fbi
+from enthought.envisage.api import Plugin
+
+from enthought.debug.fbi import enable_fbi, fbi
 
 #-------------------------------------------------------------------------------
 #  'FBIPlugin' class:  
