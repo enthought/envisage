@@ -19,7 +19,7 @@ class TextEditorActionSet(ActionSet):
     actions = [
         Action(
             id = "NewFileAction",
-            name = "New File",
+            name = "New Text File",
             class_name='enthought.plugins.text_editor.actions.NewFileAction',
             group='TextFileGroup',
             path="MenuBar/File",
@@ -27,7 +27,7 @@ class TextEditorActionSet(ActionSet):
 
         Action(
             id = 'OpenFile',
-            name = "Open File...",
+            name = "Open Text File...",
             class_name='enthought.plugins.text_editor.actions.OpenFileAction',
             group='TextFileGroup',
             path="MenuBar/File",
