@@ -88,26 +88,6 @@ of plugins that was passed into the application or b) the order of the plugins
 based on egg dependencies. When the application stops, it calls the stop()
 method of each plugin in the reverse order that they were started in.
 
-As an example, here is the start() method from the acme.motd_ plugin in the
-the `Message of the Day`_ example::
-
-::
-
-        def start(self):
-            """ Start the plugin. """
-
-            # This is a bit of overkill here, but it shows how other plugins can
-            # look up the MOTD service. We could, of course, just use::
-            #
-            #    message = self.motd.motd()
-            #
-            # Get the message of the day...
-            message = self.application.get_service('acme.motd.api.IMOTD').motd()
-
-            # ... and print it.
-            print '\n"%s"\n\n- %s' % (message.text, message.author)
-        
-	    return
 
 .. _`Extension Points`: ExtensionPoints.html
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
