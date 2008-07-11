@@ -22,7 +22,7 @@ Usually, all you have to do in here is:-
 # Standard library imports.
 import logging
 
-# Enthought linrary imports
+# Enthought library imports
 from enthought.envisage.api import Application, EggPluginManager
 from enthought.envisage.egg_utils import get_entry_points_in_egg_order
 
