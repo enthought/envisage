@@ -2,7 +2,8 @@ import os
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop
 from distutils.command.build import build as distbuild
-from pkg_resources import require
+from distutils import log
+from pkg_resources import require, DistributionNotFound
 from make_docs import HtmlBuild
 
 # Function to convert simple ETS project names and versions to a requirements
@@ -38,7 +39,7 @@ def generate_docs():
     try:
         require("Sphinx>=0.4.1")
             
-        #log.info("Auto-generating documentation...")
+        log.info("Auto-generating documentation in EnvisageCore/build/docs...")
         doc_src = doc_dir
         target = dest_dir
         try:
@@ -54,22 +55,21 @@ def generate_docs():
                 }, [])
             del build
         except:
-            #log.error("The documentation generation failed.  Falling back to the zip file.")
-            print "oops1"
-    except: #DistributionNotFound:
-        #log.error("Sphinx is not installed, so the documentation could not be generated.  Falling back to the zip file.")
-        print "oops"
+            log.error("The documentation generation failed."
+                      " RST docs located in EnvisageCore/docs.")
+    except DistributionNotFound:
+        log.error("Sphinx is not installed, so the documentation could not be "
+                  "generated.  RST docs located in EnvisageCore/docs.")
 
 class my_develop(develop):
     def run(self):
         develop.run(self)
-        print "\n############################ hello\n"
+        # Generate the documentation.
         generate_docs()
 
 class my_build(distbuild):
     def run(self):
         distbuild.run(self)
-
         # Generate the documentation.
         generate_docs()
 
