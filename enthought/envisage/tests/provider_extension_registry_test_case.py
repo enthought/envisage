@@ -472,7 +472,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(0, len(extensions))
 
         # FIXME: Tests below fail, therefore they are skipped for now
-        #raise SkipTest
+        raise SkipTest
         
         # Make sure the listener got called.
         self.assertEqual('x', listener.extension_point)
