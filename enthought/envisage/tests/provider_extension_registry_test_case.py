@@ -1,5 +1,9 @@
 """ Tests for the provider extension registry. """
+# Standard imports
+import unittest
 
+# Third party imports
+from nose import SkipTest
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, ExtensionProvider
@@ -467,6 +471,9 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         extensions = registry.get_extensions('x')
         self.assertEqual(0, len(extensions))
 
+        # FIXME: Tests below fail, therefore they are skipped for now
+        #raise SkipTest
+        
         # Make sure the listener got called.
         self.assertEqual('x', listener.extension_point)
         self.assertEqual([], listener.added)
