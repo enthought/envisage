@@ -1,7 +1,7 @@
 """ Tests for the Enthought code browser. """
 
-
 # Standard library imports.
+import os.path
 import logging
 
 # Log to stidout (for now!).
@@ -66,7 +66,8 @@ class CodeBrowserTestCase(unittest.TestCase):
     def test_has_traits(self):
         """ has traits """
 
-        module = self.code_browser.read_file('example_1.py')
+        module = self.code_browser.read_file(
+            os.path.join(os.path.dirname(__file__), 'example_1.py'))
 
         # Check the module name and documentation.
         self.assertEqual('example_1', module.name)
