@@ -57,25 +57,17 @@ def generate_docs():
             del build
         except:
             log.error("The documentation generation failed."
-                      " Looking for zip file.")
+                      " Installing from zip file.")
             
             # Unzip the docs into the 'html' folder.
-            if os.path.exists(html_zip):
-                unzip_html_docs(html_zip, dest_dir)
-                log.error("HTML documentation installed from zip.")
-            else:
-                log.error("Zip file not found. HTML documentation not yet available.")
+            unzip_html_docs(html_zip, dest_dir)
             
     except DistributionNotFound:
         log.error("Sphinx is not installed, so the documentation could not be "
-                  "generated.  Looking for zip file...")
+                  "generated.  Installing from zip file...")
         
         # Unzip the docs into the 'html' folder.
-        if os.path.exists(html_zip):
-            unzip_html_docs(html_zip, dest_dir)
-            log.error("HTML documentation installed from zip.")
-        else:
-            log.error("Zip file not found. HTML documentation not yet available.")
+        unzip_html_docs(html_zip, dest_dir)
 
 def unzip_html_docs(src_path, dest_dir):
     """Given a path to a zipfile, extract
