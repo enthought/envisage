@@ -474,7 +474,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(0, len(extensions))
 
         # Make sure the listener got called.
-        self.assertEqual(str, type(listener.extension_point))
         self.assertEqual('x', listener.extension_point)
         self.assertEqual([], listener.added)
         self.assertEqual([42], listener.removed)
