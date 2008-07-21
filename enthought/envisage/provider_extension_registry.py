@@ -208,19 +208,19 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             # Remove the extension point.
             del self._extension_points[extension_point.id]
 
-            # Remove any extensions to the extension point.
-            if extension_point.id in self._extensions:
-                old = self._extensions[extension_point.id]
-                del self._extensions[extension_point.id]
+##             # Remove any extensions to the extension point.
+##             if extension_point.id in self._extensions:
+##                 old = self._extensions[extension_point.id]
+##                 del self._extensions[extension_point.id]
 
-            else:
-                old = []
+##             else:
+##                 old = []
 
-            # Because the extension point was offered by the provider that we
-            # are removing, the  chances are that nobody else is listening to
-            # the extension point, but just to be sure.
-            refs  = self._get_listener_refs(extension_point.id)
-            events[extension_point] = (refs, old[:], 0)
+##             # Because the extension point was offered by the provider that we
+##             # are removing, the  chances are that nobody else is listening to
+##             # the extension point, but just to be sure.
+##             refs  = self._get_listener_refs(extension_point.id)
+##             events[extension_point.id] = (refs, old[:], 0)
 
         return
     

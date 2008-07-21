@@ -1,4 +1,6 @@
 """ Tests for the provider extension registry. """
+
+
 # Standard imports
 import unittest
 
@@ -471,13 +473,69 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         extensions = registry.get_extensions('x')
         self.assertEqual(0, len(extensions))
 
-        # FIXME: Tests below fail, therefore they are skipped for now
-        raise SkipTest
-        
         # Make sure the listener got called.
+        self.assertEqual(str, type(listener.extension_point))
         self.assertEqual('x', listener.extension_point)
         self.assertEqual([], listener.added)
         self.assertEqual([42], listener.removed)
+
+        return
+
+    def test_remove_provider_with_no_contributions(self):
+        """ remove provider with no contributions """
+
+        registry = self.registry
+
+        # Some providers.
+        class ProviderA(ExtensionProvider):
+            """ An extension provider. """
+
+            def get_extension_points(self):
+                """ Return the extension points offered by the provider. """
+                
+                return [ExtensionPoint(List, 'x'), ExtensionPoint(List, 'y')]
+
+            def get_extensions(self, extension_point):
+                """ Return the provider's contributions to an extension point.
+
+                """
+
+                return []
+
+        # Add the provider to the registry.
+        a = ProviderA()
+        registry.add_provider(a)
+
+        # The provider's extensions should now be in the registry.
+        extensions = registry.get_extensions('x')
+        self.assertEqual(0, len(extensions))
+
+        # Add an extension listener to the registry.
+        def listener(registry, event):
+            """ A useful trait change handler for testing! """
+
+            listener.registry = registry
+            listener.extension_point = event.extension_point_id
+            listener.added = event.added
+            listener.removed = event.removed
+
+            return
+
+        registry.add_extension_point_listener(listener, 'x')
+
+        # Remove the provider that declared the extension point.
+        registry.remove_provider(a)
+
+        # Make sure the extension point is gone.
+        self.assertEqual(None, registry.get_extension_point('x'))
+        
+        # Make sure we don't get the removed extensions.
+        extensions = registry.get_extensions('x')
+        self.assertEqual(0, len(extensions))
+
+        # Make sure the listener did not get called  (since the provider did
+        # not make any contributions anyway!).
+        self.assertEqual(None, getattr(listener, 'registry', None))
 
         return
 
