@@ -12,6 +12,6 @@ There are just 3 simple concepts at the heart of every Envisage application:
 2) Services_
 3) Plugins_
 
-.. _`Extension Points`: ExtensionPoints.html
-.. _`Plugins`: Plugins.html
-.. _`Services`: Services.html
+.. _`Extension Points`: extension_points.html
+.. _`Plugins`: plugins.html
+.. _`Services`: services.html

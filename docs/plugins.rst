@@ -89,9 +89,9 @@ based on egg dependencies. When the application stops, it calls the stop()
 method of each plugin in the reverse order that they were started in.
 
 
-.. _`Extension Points`: ExtensionPoints.html
+.. _`Extension Points`: extension_points.html
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
-.. _Services: Services.html
+.. _Services: services.html
 
 .. _acme.motd: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/setup.py
 
