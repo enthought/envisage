@@ -11,6 +11,8 @@ from enthought.envisage.resource.api import ResourceManager
 from enthought.envisage.resource.api import NoSuchResourceError
 from enthought.traits.api import HasTraits, Int, Str
 
+from enthought.util.resource import find_resource
+
 
 class ResourceManagerTestCase(unittest.TestCase):
     """ Tests for the resource manager. """
@@ -32,27 +34,30 @@ class ResourceManagerTestCase(unittest.TestCase):
     ###########################################################################
     # Tests.
     ###########################################################################
-
+    
     def test_file_resource(self):
         """ file resource """
 
         rm = ResourceManager()
-
+        
+        url = 'file://%s' % find_resource('EnvisageCore',
+                                          os.path.join('enthought', 'envisage',
+                                                       'resource', 'api.py'),
+                                          return_path=True)
         # Open a file resource.
-        f = rm.file('file://../api.py')
+        f = rm.file(url)
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
         
-        # Open the api file via the file system (we open in binary mode because
-        # that is what we do for file resources and we do it for file resources
-        # because that is what pkg_resources does!, and otherwise the line
-        # endings get converted).
-        g = file('../api.py', 'rb')
+        # Open the api file via the file system.
+        g = find_resource('EnvisageCore',
+                          os.path.join('enthought', 'envisage',
+                                       'resource', 'api.py'))
+        
         self.assertEqual(g.read(), contents)
         g.close()
-
-        return
+        
 
     def test_no_such_file_resource(self):
         """ no such file resource """
@@ -77,10 +82,11 @@ class ResourceManagerTestCase(unittest.TestCase):
         contents = f.read()
         f.close()
         
-        # Open the api file via the file system (we open in binary mode because
-        # that is what pkg_resources does, and otherwise the line endings get
-        # converted).
-        g = file('../api.py', 'rb')
+        # Open the api file via the file system.
+        g = find_resource('EnvisageCore',
+                          os.path.join('enthought', 'envisage',
+                                       'resource', 'api.py'))
+        
         self.assertEqual(g.read(), contents)
         g.close()
 
@@ -99,13 +105,15 @@ class ResourceManagerTestCase(unittest.TestCase):
         )
 
         self.failUnlessRaises(
-            NoSuchResourceError, rm.file, 'pkgfile://cpmpletely.bogus/bogus.py'
+            NoSuchResourceError, rm.file, 'pkgfile://completely.bogus/bogus.py'
         )
 
         return
 
     def test_http_resource(self):
         """ http resource """
+        # FIXME:
+        #   This test sould not write to a local file.
 
         # We will publish the current time!
         t = str(time.time())
@@ -138,6 +146,8 @@ class ResourceManagerTestCase(unittest.TestCase):
 
     def test_no_such_http_resource(self):
         """ no such http resource """
+        # FIXME:
+        #   This test fails when port 1234 is already in use.
 
         httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
         thread.start_new_thread(httpd.handle_request, ())
