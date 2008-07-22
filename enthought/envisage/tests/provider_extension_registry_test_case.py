@@ -4,9 +4,6 @@
 # Standard imports
 import unittest
 
-# Third party imports
-from nose import SkipTest
-
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, ExtensionProvider
 from enthought.envisage.api import ProviderExtensionRegistry
