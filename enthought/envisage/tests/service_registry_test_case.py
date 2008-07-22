@@ -29,6 +29,11 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # the same interface!
         self.service_registry = Application(service_registry=ServiceRegistry())
 
+        # module 'foo' need to be cleared out when this test is run by nose,
+        # because other tests also import foo.
+        if 'foo' in sys.modules:
+            del sys.modules['foo']
+
         return
 
     def tearDown(self):
@@ -103,7 +108,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
     def test_lazy_function_service_factory(self):
         """ lazy function service factory """
-
+        
         # Register a service factory by name.
         def foo_factory(**properties):
             """ A factory for foos. """
