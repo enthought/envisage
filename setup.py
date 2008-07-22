@@ -1,11 +1,11 @@
-import os
+import os, zipfile
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop
 from distutils.command.build import build as distbuild
 from distutils import log
 from pkg_resources import require, DistributionNotFound
+
 from make_docs import HtmlBuild
-import zipfile
 
 # Function to convert simple ETS project names and versions to a requirements
 # spec that works for both development builds and stable builds.  Allows
