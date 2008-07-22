@@ -11,6 +11,8 @@ from enthought.envisage.api import Plugin, PluginManager
 from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 
+from enthought.util.resource import find_resource
+
 # Local imports.
 from event_tracker import EventTracker
 
@@ -471,8 +473,14 @@ class ApplicationTestCase(unittest.TestCase):
         
         class PluginA(Plugin):
             id = 'A'
+
+            url = 'file://' + find_resource('EnvisageCore', 
+                                            os.path.join('enthought',
+                                                         'envisage', 'tests',
+                                                         'preferences.ini'),
+                                            return_path=True)
             preferences = List(
-                ['file://preferences.ini'],
+                [url],
                 contributes_to='enthought.envisage.preferences'
             )
 
