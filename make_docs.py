@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-""" Build and distribute the Mayavi documentation in an automated fashion.
+""" Build and distribute the ETS documentation in an automated fashion.
 
 The application is based on a set of actions which each accept a list of
 options. At the time of this writing, the valid actions are:
@@ -46,6 +46,8 @@ from subprocess import Popen
 import sys
 import tempfile
 import zipfile
+
+from setup_data import INFO
 
 ACTIONS = {}
 
@@ -102,7 +104,7 @@ class Process(object):
 
         p.set_defaults(doc_source=os.path.join(
                 os.path.abspath(os.path.dirname(__file__)),
-                'docs', 'mayavi', 'user_guide', 'source'))
+                'docs', 'source'))
 
         return p
 
@@ -127,7 +129,7 @@ class Build(Process):
             output_dir = os.path.join(self.target, format)
 
         self.run_command('sphinx-build -D version=%s -D release=%s -b %s %s %s'
-                        % (self.options.version, self.options.release, format, \
+                        % (INFO['version'], INFO['version'], format, \
                            self.options.doc_source, output_dir))
 
     @has_started
