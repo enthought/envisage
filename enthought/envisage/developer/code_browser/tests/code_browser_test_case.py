@@ -14,7 +14,10 @@ logger.setLevel(logging.DEBUG)
 import inspect, unittest
 
 # Enthought library imports.
+from enthought.util.resource import get_path
+
 from enthought.envisage.developer.code_browser.api import CodeBrowser
+
 
 
 class CodeBrowserTestCase(unittest.TestCase):
@@ -67,7 +70,9 @@ class CodeBrowserTestCase(unittest.TestCase):
         """ has traits """
 
         module = self.code_browser.read_file(
-            os.path.join(os.path.dirname(__file__), 'example_1.py'))
+                     os.path.join(
+                         get_path(CodeBrowserTestCase),
+                         'example_1.py'))
 
         # Check the module name and documentation.
         self.assertEqual('example_1', module.name)
