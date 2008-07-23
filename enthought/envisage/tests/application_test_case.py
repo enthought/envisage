@@ -11,8 +11,6 @@ from enthought.envisage.api import Plugin, PluginManager
 from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 
-from enthought.util.resource import find_resource
-
 # Local imports.
 from event_tracker import EventTracker
 
@@ -462,34 +460,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
         
-        return
-
-    def test_preferences(self):
-        """ preferences """
-
-        # The core plugin is the plugin that offers the preferences extension
-        # point.
-        from enthought.envisage.core_plugin import CorePlugin
-        
-        class PluginA(Plugin):
-            id = 'A'
-
-            url = 'file://' + find_resource('EnvisageCore', 
-                                            os.path.join('enthought',
-                                                         'envisage', 'tests',
-                                                         'preferences.ini'),
-                                            return_path=True)
-            preferences = List(
-                [url],
-                contributes_to='enthought.envisage.preferences'
-            )
-
-        application = TestApplication(plugins=[CorePlugin(), PluginA()])
-        application.run()
-
-        # Make sure we can get one of the preferences.
-        self.assertEqual('42', application.preferences.get('enthought.test.x'))
-
         return
 
     def test_set_plugin_manager_at_contruction_time(self):

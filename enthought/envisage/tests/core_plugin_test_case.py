@@ -5,12 +5,17 @@
 import os.path
 import unittest
 
+# Major package imports.
+from pkg_resources import resource_filename
+
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
 from enthought.envisage.api import ServiceOffer
 from enthought.traits.api import HasTraits, Int, Interface, List
 
-from enthought.util.resource import find_resource
+
+# This module's package.
+PKG = 'enthought.envisage.tests'
 
 
 class TestApplication(Application):
@@ -178,31 +183,25 @@ class CorePluginTestCase(unittest.TestCase):
     def test_preferences(self):
         """ preferences """
 
+        # The core plugin is the plugin that offers the preferences extension
+        # point.
         from enthought.envisage.core_plugin import CorePlugin
         
         class PluginA(Plugin):
             id = 'A'
+            preferences = List(contributes_to='enthought.envisage.preferences')
 
-            url = 'file://' + find_resource('EnvisageCore', 
-                                            os.path.join('enthought',
-                                                         'envisage', 'tests',
-                                                         'preferences.ini'),
-                                            return_path=True)
-            preferences = List(
-                [url],
-                contributes_to='enthought.envisage.preferences'
-            )
+            def _preferences_default(self):
+                """ Trait initializer. """
 
-        core = CorePlugin()
-        a    = PluginA()
-        
-        application = TestApplication(plugins=[core, a])
-        application.start()
+                return ['file://' + resource_filename(PKG, 'preferences.ini')]
 
-        # Make sure the preferences file was loaded.
-        x = application.preferences.get('enthought.test.x')
-        self.assertEqual('42', x)
-        
+        application = TestApplication(plugins=[CorePlugin(), PluginA()])
+        application.run()
+
+        # Make sure we can get one of the preferences.
+        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+
         return
 
 
