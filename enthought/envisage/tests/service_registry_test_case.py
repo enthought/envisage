@@ -122,36 +122,54 @@ class ServiceRegistryTestCase(unittest.TestCase):
             foo_factory.foo = Foo()
             
             return foo_factory.foo
-        
-        self.service_registry.register_service(
-            PKG + '.i_foo.IFoo', foo_factory
-        )
+
+        # If the test is being run outside of this directory then use the
+        # full Python package path.
+        if '.' in ServiceRegistryTestCase.__module__:
+            i_foo = PKG + '.i_foo.IFoo'
+            foo   = PKG + '.foo'
+
+        else:
+            i_foo = 'i_foo.IFoo'
+            foo   = 'foo'
+            
+        self.service_registry.register_service(i_foo, foo_factory)
 
         # Get rid of the 'foo' module (used in other tests).
-        if PKG + '.foo' in sys.modules:
-            del sys.modules[PKG + '.foo']
+        if foo in sys.modules:
+            del sys.modules[foo]
 
         # Make sure that we haven't imported the 'foo' module.
-        self.assert_('foo' not in sys.modules)
+        self.assert_(foo not in sys.modules)
 
         # Look up a non-existent service.
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_(PKG + '.foo' not in sys.modules)
+        self.assert_(foo not in sys.modules)
         
         # Look it up again.
-        services = self.service_registry.get_services(PKG + '.i_foo.IFoo')
+        services = self.service_registry.get_services(i_foo)
         self.assertEqual([foo_factory.foo], services)
-        self.assert_(PKG + '.foo' in sys.modules)
+        self.assert_(foo in sys.modules)
 
         # Clean up!
-        del sys.modules[PKG + '.foo']
+        del sys.modules[foo]
         
         return
 
     def test_lazy_bound_method_service_factory(self):
         """ lazy bound method service factory """
+
+        # If the test is being run outside of this directory then use the
+        # full Python package path.
+        if '.' in ServiceRegistryTestCase.__module__:
+            i_foo = PKG + '.i_foo.IFoo'
+            foo   = PKG + '.foo'
+
+        else:
+            i_foo = 'i_foo.IFoo'
+            foo   = 'foo'
 
         class ServiceProvider(HasTraits):
             """ A class that provides a service.
@@ -172,30 +190,28 @@ class ServiceRegistryTestCase(unittest.TestCase):
                 return self.foo
 
         sp = ServiceProvider()
-        self.service_registry.register_service(
-            PKG + '.i_foo.IFoo', sp.foo_factory
-        )
+        self.service_registry.register_service(i_foo, sp.foo_factory)
 
         # Get rid of the 'foo' module (used in other tests).
-        if PKG + '.foo' in sys.modules:
-            del sys.modules[PKG + '.foo']
+        if foo in sys.modules:
+            del sys.modules[foo]
 
         # Make sure that we haven't imported the 'foo' module.
-        self.assert_(PKG + '.foo' not in sys.modules)
+        self.assert_(foo not in sys.modules)
 
         # Look up a non-existent service.
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_(PKG + '.foo' not in sys.modules)
+        self.assert_(foo not in sys.modules)
         
         # Look up the service.
-        services = self.service_registry.get_services(PKG + '.i_foo.IFoo')
+        services = self.service_registry.get_services(i_foo)
         self.assertEqual([sp.foo], services)
-        self.assert_(PKG + '.foo' in sys.modules)
+        self.assert_(foo in sys.modules)
 
         # Clean up!
-        del sys.modules[PKG + '.foo']
+        del sys.modules[foo]
         
         return
         
