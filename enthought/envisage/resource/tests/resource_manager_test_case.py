@@ -4,7 +4,11 @@
 # Standard library imports.
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
-import os, thread, time, unittest
+import os, tempfile, thread, time, unittest
+from os.path import join
+
+# Major package imports.
+from pkg_resources import resource_filename
 
 # Enthought library imports.
 from enthought.envisage.resource.api import ResourceManager
@@ -12,6 +16,10 @@ from enthought.envisage.resource.api import NoSuchResourceError
 from enthought.traits.api import HasTraits, Int, Str
 
 from enthought.util.resource import find_resource
+
+
+# This module's package.
+PKG = 'enthought.envisage.resource.tests'
 
 
 class ResourceManagerTestCase(unittest.TestCase):
@@ -39,26 +47,23 @@ class ResourceManagerTestCase(unittest.TestCase):
         """ file resource """
 
         rm = ResourceManager()
+
+        # Get the filename of the 'api.py' file.
+        filename = resource_filename('enthought.envisage.resource', 'api.py')
         
-        url = 'file://%s' % find_resource('EnvisageCore',
-                                          os.path.join('enthought', 'envisage',
-                                                       'resource', 'api.py'),
-                                          return_path=True)
         # Open a file resource.
-        f = rm.file(url)
+        f = rm.file('file://' + filename)
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
         
         # Open the api file via the file system.
-        g = find_resource('EnvisageCore',
-                          os.path.join('enthought', 'envisage',
-                                       'resource', 'api.py'))
-        
+        g = file(filename, 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
         
-
+        return
+    
     def test_no_such_file_resource(self):
         """ no such file resource """
 
@@ -82,11 +87,11 @@ class ResourceManagerTestCase(unittest.TestCase):
         contents = f.read()
         f.close()
         
+        # Get the filename of the 'api.py' file.
+        filename = resource_filename('enthought.envisage.resource', 'api.py')
+
         # Open the api file via the file system.
-        g = find_resource('EnvisageCore',
-                          os.path.join('enthought', 'envisage',
-                                       'resource', 'api.py'))
-        
+        g = file(filename, 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
 
@@ -110,16 +115,22 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         return
 
+    # fixme: This test fails when port 1234 is already in use.
     def test_http_resource(self):
         """ http resource """
-        # FIXME:
-        #   This test sould not write to a local file.
+        
+        # A temporary directory that can safely be written to.
+        tmpdir = tempfile.mkdtemp()
 
+        # A temporary file.
+        tmp = join(tmpdir, 'time.dat')
+        tmp = 'time.dat'
+        
         # We will publish the current time!
         t = str(time.time())
 
         # Write the time to a file.
-        f = file('time.dat', 'w')
+        f = file(tmp, 'w')
         f.write(t)
         f.close()
 
@@ -131,7 +142,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             # Open an HTTP document resource.
             rm = ResourceManager()
 
-            f = rm.file('http://localhost:1234/time.dat')
+            f = rm.file('http://localhost:1234/%s' % tmp)
             self.assertNotEqual(f, None)
             contents = f.read()
             f.close()
@@ -140,15 +151,20 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         finally:
             # Cleanup.
-            os.remove('time.dat')
-        
+            #
+            # fixme: On Windows the file can't be removed!
+            try:
+                os.remove(tmp)
+
+            except OSError:
+                pass
+            
         return
 
+    # fixme: This test fails when port 1234 is already in use.
     def test_no_such_http_resource(self):
         """ no such http resource """
-        # FIXME:
-        #   This test fails when port 1234 is already in use.
-
+        
         httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
         thread.start_new_thread(httpd.handle_request, ())
 
