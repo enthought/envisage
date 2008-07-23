@@ -102,16 +102,18 @@ class CorePluginTestCase(unittest.TestCase):
         class PluginA(Plugin):
             id = 'A'
 
-            categories = List(
-                [
-                    Category(
-                        class_name = 'bar_category.BarCategory',
-                        target_class_name = 'core_plugin_test_case.Bar'
-                    )
-                ],
-                
-                contributes_to='enthought.envisage.categories'
-            )
+            categories = List(contributes_to='enthought.envisage.categories')
+
+            def _categories_default(self):
+                """ Trait initializer. """
+
+                bar_category = Category(
+                    class_name = 'bar_category.BarCategory',
+                    target_class_name = CorePluginTestCase.__module__ + '.Bar'
+                )
+
+                return [bar_category]
+
 
         core = CorePlugin()
         a    = PluginA()
@@ -151,7 +153,7 @@ class CorePluginTestCase(unittest.TestCase):
             class_load_hooks = List(
                 [
                     ClassLoadHook(
-                        class_name = 'core_plugin_test_case.Baz',
+                        class_name = CorePluginTestCase.__module__ + '.Baz',
                         on_load    = on_class_loaded,
                     )
                 ],

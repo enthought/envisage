@@ -9,6 +9,10 @@ from enthought.envisage.api import ClassLoadHook
 from enthought.traits.api import HasTraits
 
 
+# This module's package.
+PKG = 'enthought.envisage.tests'
+
+
 class ClassLoadHookTestCase(unittest.TestCase):
     """ Tests for class load hooks. """
 
@@ -42,7 +46,8 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
-            class_name='class_load_hook_test_case.Foo', on_load=on_class_loaded
+            class_name = ClassLoadHookTestCase.__module__ + '.Foo',
+            on_load    = on_class_loaded
         )
         hook.connect()
         
@@ -65,7 +70,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
-            class_name = 'class_load_hook_test_case.ClassLoadHookTestCase',
+            class_name = self._get_full_class_name(ClassLoadHookTestCase),
             on_load    = on_class_loaded
         )
         hook.connect()
@@ -88,7 +93,8 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
-            class_name='class_load_hook_test_case.Foo', on_load=on_class_loaded
+            class_name = ClassLoadHookTestCase.__module__ + '.Foo',
+            on_load    = on_class_loaded
         )
         hook.connect()
         
@@ -110,6 +116,15 @@ class ClassLoadHookTestCase(unittest.TestCase):
         
         return
 
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+    
+    def _get_full_class_name(self, cls):
+        """ Return the full (possibly) dotted name of a class. """
+
+        return cls.__module__ + '.' + cls.__name__
+    
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
