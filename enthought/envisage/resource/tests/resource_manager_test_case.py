@@ -119,11 +119,13 @@ class ResourceManagerTestCase(unittest.TestCase):
     def test_http_resource(self):
         """ http resource """
         
-        # A temporary directory that can safely be written to.
-        tmpdir = tempfile.mkdtemp()
+        # fixme: We should not write to the local directory here, but to use
+        # a 'tempfile' we would have to create a new request handler which
+        # seems like a bit of a pain!
+        ##tmpdir = tempfile.mkdtemp()
 
         # A temporary file.
-        tmp = join(tmpdir, 'time.dat')
+        ##tmp = join(tmpdir, 'time.dat')
         tmp = 'time.dat'
         
         # We will publish the current time!
