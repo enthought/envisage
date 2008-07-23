@@ -108,7 +108,7 @@ class CorePluginTestCase(unittest.TestCase):
                 """ Trait initializer. """
 
                 bar_category = Category(
-                    class_name = 'bar_category.BarCategory',
+                    class_name = PKG + '.bar_category.BarCategory',
                     target_class_name = CorePluginTestCase.__module__ + '.Bar'
                 )
 

@@ -9,6 +9,10 @@ from enthought.envisage.api import Application, ServiceRegistry
 from enthought.traits.api import HasTraits, Int, Interface, implements
 
 
+# This module's package.
+PKG = 'enthought.envisage.tests'
+
+
 def service_factory(**properties):
     """ A factory for foos. """
 
@@ -54,7 +58,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Register a service factory.
         self.service_registry.register_service(
             HasTraits,
-            'service_registry_test_case.service_factory',
+            PKG + '.service_registry_test_case.service_factory',
             {'price' : 100}
         )
         
@@ -120,8 +124,12 @@ class ServiceRegistryTestCase(unittest.TestCase):
             return foo_factory.foo
         
         self.service_registry.register_service(
-            'i_foo.IFoo', foo_factory
+            PKG + '.i_foo.IFoo', foo_factory
         )
+
+        # Get rid of the 'foo' module (used in other tests).
+        if PKG + '.foo' in sys.modules:
+            del sys.modules[PKG + '.foo']
 
         # Make sure that we haven't imported the 'foo' module.
         self.assert_('foo' not in sys.modules)
@@ -130,15 +138,15 @@ class ServiceRegistryTestCase(unittest.TestCase):
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_('foo' not in sys.modules)
+        self.assert_(PKG + '.foo' not in sys.modules)
         
         # Look it up again.
-        services = self.service_registry.get_services('i_foo.IFoo')
+        services = self.service_registry.get_services(PKG + '.i_foo.IFoo')
         self.assertEqual([foo_factory.foo], services)
-        self.assert_('foo' in sys.modules)
+        self.assert_(PKG + '.foo' in sys.modules)
 
         # Clean up!
-        del sys.modules['foo']
+        del sys.modules[PKG + '.foo']
         
         return
 
@@ -164,24 +172,30 @@ class ServiceRegistryTestCase(unittest.TestCase):
                 return self.foo
 
         sp = ServiceProvider()
-        self.service_registry.register_service('foo.IFoo', sp.foo_factory)
+        self.service_registry.register_service(
+            PKG + '.i_foo.IFoo', sp.foo_factory
+        )
+
+        # Get rid of the 'foo' module (used in other tests).
+        if PKG + '.foo' in sys.modules:
+            del sys.modules[PKG + '.foo']
 
         # Make sure that we haven't imported the 'foo' module.
-        self.assert_('foo' not in sys.modules)
+        self.assert_(PKG + '.foo' not in sys.modules)
 
         # Look up a non-existent service.
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_('foo' not in sys.modules)
+        self.assert_(PKG + '.foo' not in sys.modules)
         
         # Look up the service.
-        services = self.service_registry.get_services('foo.IFoo')
+        services = self.service_registry.get_services(PKG + '.i_foo.IFoo')
         self.assertEqual([sp.foo], services)
-        self.assert_('foo' in sys.modules)
+        self.assert_(PKG + '.foo' in sys.modules)
 
         # Clean up!
-        del sys.modules['foo']
+        del sys.modules[PKG + '.foo']
         
         return
         
