@@ -119,7 +119,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
             
             return foo_factory.foo
         
-        self.service_registry.register_service('foo.IFoo', foo_factory)
+        self.service_registry.register_service(
+            'i_foo.IFoo', foo_factory
+        )
 
         # Make sure that we haven't imported the 'foo' module.
         self.assert_('foo' not in sys.modules)
@@ -131,7 +133,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assert_('foo' not in sys.modules)
         
         # Look it up again.
-        services = self.service_registry.get_services('foo.IFoo')
+        services = self.service_registry.get_services('i_foo.IFoo')
         self.assertEqual([foo_factory.foo], services)
         self.assert_('foo' in sys.modules)
 
