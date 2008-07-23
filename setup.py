@@ -5,6 +5,7 @@ from distutils.command.build import build as distbuild
 from distutils import log
 from pkg_resources import require, DistributionNotFound
 
+from setup_data import INFO
 from make_docs import HtmlBuild 
 
 # Function to convert simple ETS project names and versions to a requirements
@@ -154,6 +155,6 @@ setup(
     ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/envisage',
-    version = '3.0.0b1',
+    version = INFO['version'],
     zip_safe = False,
     )
