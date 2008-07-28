@@ -2,10 +2,9 @@
 
 
 # Standard library imports.
-from BaseHTTPServer import HTTPServer
-from SimpleHTTPServer import SimpleHTTPRequestHandler
-import os, tempfile, thread, time, unittest
-from os.path import join
+import unittest
+import urllib2
+import StringIO
 
 # Major package imports.
 from pkg_resources import resource_filename
@@ -15,11 +14,23 @@ from enthought.envisage.resource.api import ResourceManager
 from enthought.envisage.resource.api import NoSuchResourceError
 from enthought.traits.api import HasTraits, Int, Str
 
-from enthought.util.resource import find_resource
-
 
 # This module's package.
 PKG = 'enthought.envisage.resource.tests'
+
+
+# mimics urllib2.urlopen for some tests.
+# In setUp it replaces urllib2.urlopen for some tests,
+# and in tearDown, the regular urlopen is put back into place.
+def stubout_urlopen(url):
+    if 'bogus' in url:
+        raise urllib2.HTTPError(url, '404', 'No such resource', '', None)
+    
+    elif 'localhost' in url:
+        return StringIO.StringIO('This is a test file.\n')
+    
+    else:
+        raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
 
 
 class ResourceManagerTestCase(unittest.TestCase):
@@ -31,11 +42,16 @@ class ResourceManagerTestCase(unittest.TestCase):
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
-
+        
+        self.stored_urlopen = urllib2.urlopen
+        urllib2.urlopen = stubout_urlopen
+        
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+        
+        urllib2.urlopen = self.stored_urlopen
         
         return
     
@@ -115,61 +131,26 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         return
 
-    # fixme: This test fails when port 1234 is already in use.
+    
     def test_http_resource(self):
         """ http resource """
         
-        # fixme: We should not write to the local directory here, but to use
-        # a 'tempfile' we would have to create a new request handler which
-        # seems like a bit of a pain!
-        ##tmpdir = tempfile.mkdtemp()
-
-        # A temporary file.
-        ##tmp = join(tmpdir, 'time.dat')
-        tmp = 'time.dat'
+        # Open an HTTP document resource.
+        rm = ResourceManager()
         
-        # We will publish the current time!
-        t = str(time.time())
-
-        # Write the time to a file.
-        f = file(tmp, 'w')
-        f.write(t)
+        f = rm.file('http://localhost:1234/file.dat')
+        self.assertNotEqual(f, None)
+        contents = f.read()
         f.close()
-
-        try:
-            # Offer the file via http!
-            httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
-            thread.start_new_thread(httpd.handle_request, ())
-            
-            # Open an HTTP document resource.
-            rm = ResourceManager()
-
-            f = rm.file('http://localhost:1234/%s' % tmp)
-            self.assertNotEqual(f, None)
-            contents = f.read()
-            f.close()
-
-            self.assertEquals(contents, t)
-
-        finally:
-            # Cleanup.
-            #
-            # fixme: On Windows the file can't be removed!
-            try:
-                os.remove(tmp)
-
-            except OSError:
-                pass
-            
+        
+        self.assertEquals(contents, 'This is a test file.\n')
+        
         return
 
-    # fixme: This test fails when port 1234 is already in use.
+
     def test_no_such_http_resource(self):
         """ no such http resource """
         
-        httpd = HTTPServer(('localhost', 1234), SimpleHTTPRequestHandler)
-        thread.start_new_thread(httpd.handle_request, ())
-
         # Open an HTTP document resource.
         rm = ResourceManager()
 
@@ -178,6 +159,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         )
 
         return
+
 
     def test_unknown_protocol(self):
         """ unknown protocol """
