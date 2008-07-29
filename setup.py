@@ -1,3 +1,31 @@
+#!/usr/bin/env python
+#
+# Copyright (c) 2008 by Enthought, Inc.
+# All rights reserved.
+#
+
+"""
+Plug-ins for the Envisage framework.
+
+The EnvisagePlugins project includes a number of plug-ins for the Envisage 
+framework that Enthought has found useful for building scientific applications.
+Envisage does not require that you use these plug-ins, but you may find them
+useful to avoid having to reinvent these particular wheels.
+
+- **Workbench**: Provides an application GUI window that supports views and 
+  perspectives, similar to the Eclipse IDE.
+- **Action**: Supports user-interaction command mechanisms, such as toolbars,
+  menus, and buttons.
+- **Single Project**: Supports a project paradigm for saving application data,
+  assuming an interaction model in which only one project can be open in the
+  application at a time.
+- **Text Editor**: Provides a rudimentary text editor interface.
+- **Python Shell**: Provides an interactive Python shell within a 
+  Workbench-based application.
+- **Debug**: Provides the Frame Based Inspector from the DevTools project as
+  an Envisage plug-in.
+
+"""
 import os, zipfile
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop
