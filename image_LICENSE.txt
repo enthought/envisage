@@ -4,27 +4,36 @@ licensed accordingly to the original license:
 Project                 License                   File
 ----------------------------------------------------------------------------
 CP (Crystal Project)    LGPL                      image_LICENSE_CP.txt
-PSF                     Python Software Fo.       *
+GV (Gael Varoquaux)     BSD-like                  LICENSE.txt
+PSF                     Python Software Fo.       see 1)
+CCL                     Creative Commons          see 2)
 
 Unless stated in this file, icons are the work of Enthought, and are
 released under a 3 clause BSD license.
 
-* The Python logo is a trademark of the Python Software Foundation.
-  Please refer to: http://www.python.org/psf/trademarks/
+1) The Python logo is a trademark of the Python Software Foundation.
+   Please refer to: http://www.python.org/psf/trademarks/
+
+2) Creative Commons Attribution ShareAlike license versions
+   3.0, 2.5, 2.0, and 1.0
+
 
 Files and orginal authors:
 ----------------------------------------------------------------------------
 enthought/envisage/ui/workbench/images:
                           about.png | PSF
-                    application.ico | ???
+                    application.ico | GV
+
 enthought/envisage/ui/workbench/action/images:
                            exit.png | CP
                     preferences.png | CP
+
 examples/workbench/AcmeLab/acme/acmelab/images:
-                          about.png | ???
-                        acmelab.ico | ???
-                         splash.jpg | ???
+                          about.png | Public domain
+                        acmelab.ico | GV
+                         splash.jpg | CCL
+
 examples/workbench/AcmeLab Using Eggs/src/acme.acmelab/acme/acmelab/images:
-                          about.png | ???
-                        acmelab.ico | ???
-                         splash.jpg | ???
+                          about.png | Public domain
+                        acmelab.ico | GV
+                         splash.jpg | CCL
