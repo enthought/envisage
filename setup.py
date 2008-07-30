@@ -48,27 +48,6 @@ import zipfile
 DOCLINES = __doc__.split("\n")
 
 
-# Function to convert simple ETS project names and versions to a requirements
-# spec that works for both development builds and stable builds.  Allows
-# a caller to specify a max version, which is intended to work along with
-# Enthought's standard versioning scheme -- see the following write up:
-#    https://svn.enthought.com/enthought/wiki/EnthoughtVersionNumbers
-def etsdep(p, min, max=None, literal=False):
-    require = '%s >=%s.dev' % (p, min)
-    if max is not None:
-        if literal is False:
-            require = '%s, <%s.a' % (require, max)
-        else:
-            require = '%s, <%s' % (require, max)
-    return require
-
-
-# Declare our ETS project dependencies.
-APPTOOLS = etsdep('AppTools', '3.0.0b1')
-ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.0b1')
-TRAITS = etsdep('Traits', '3.0.0b1')
-
-
 # Functions to generate docs from source when building this project.
 def generate_docs():
     """ If sphinx is installed, generate docs.
@@ -184,19 +163,10 @@ setup(
         [enthought.envisage.plugins]
         core = enthought.envisage.core_plugin:CorePlugin
         """,
-    extras_require = {
-        # All non-ets dependencies should be in this extra to ensure users can
-        # decide whether to require them or not.
-        'nonets': [
-            ],
-        },
+    extras_require = INFO['extras_require'],
     ext_modules = [],
     include_package_data = True,
-    install_requires = [
-        APPTOOLS,
-        ENTHOUGHTBASE,
-        TRAITS,
-        ],
+    install_requires = INFO['install_requires'],
     license = "BSD",
     long_description = '\n'.join(DOCLINES[3:]),
     maintainer = 'ETS Developers',
