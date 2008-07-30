@@ -1,0 +1,17 @@
+The icons are mostly derived work from other icons. As such they are
+licensed accordingly to the original license:
+
+    PSF (Python Software Foundation)             
+
+    CPI (Crystal Project Icons):
+      LGPL license as described in icon_CP_LICENSE.txt
+
+Unless stated in this file, icons are work of enthought, and are released
+under BSD-like license.
+
+Files and orginal authors:
+--------------------------------------------------------------------
+enthought/envisage/ui/workbench/images/about.png               PSF
+enthought/envisage/ui/workbench/images/application.ico         ???
+enthought/envisage/ui/workbench/action/images/exit.png         CPI
+enthought/envisage/ui/workbench/action/images/preferences.png  CPI
