@@ -1,0 +1,31 @@
+The icons are mostly derived work from other icons. As such they are
+licensed accordingly to the original license:
+
+Project                 License                   File
+----------------------------------------------------------------------------
+CP (Crystal Project)    LGPL                      image_LICENSE_CP.txt
+PSF                     Python Software Fo.       *
+
+Unless stated in this file, icons are the work of Enthought, and are
+released under a 3 clause BSD license.
+
+* The Python logo is a trademark of the Python Software Foundation.
+  Please refer to: http://www.python.org/psf/trademarks/
+
+Files and orginal authors:
+<<<<<<< .mine
+----------------------------------------------------------------------------
+enthought/envisage/ui/workbench/images:
+                          about.png | PSF
+                    application.ico | ???
+enthought/envisage/ui/workbench/action/images:
+                           exit.png | CP
+                    preferences.png | CP
+examples/workbench/AcmeLab/acme/acmelab/images:
+                          about.png | ???
+                        acmelab.ico | ???
+                         splash.jpg | ???
+examples/workbench/AcmeLab Using Eggs/src/acme.acmelab/acme/acmelab/images:
+                          about.png | ???
+                        acmelab.ico | ???
+                         splash.jpg | ???
