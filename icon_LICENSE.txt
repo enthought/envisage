@@ -1,7 +1,9 @@
 The icons are mostly derived work from other icons. As such they are
 licensed accordingly to the original license:
 
-    PSF (Python Software Foundation)             
+    PSF (Python Software Foundation):
+      The Python logo is a trademark of the Python Software Foundation.
+      Please refer to: http://www.python.org/psf/trademarks/
 
     CPI (Crystal Project Icons):
       LGPL license as described in icon_CP_LICENSE.txt
