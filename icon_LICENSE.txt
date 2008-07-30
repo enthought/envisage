@@ -6,14 +6,28 @@ licensed accordingly to the original license:
       Please refer to: http://www.python.org/psf/trademarks/
 
     CPI (Crystal Project Icons):
-      LGPL license as described in icon_CP_LICENSE.txt
+      LGPL license as described in icon_LICENSE_CP.txt
 
 Unless stated in this file, icons are work of enthought, and are released
 under BSD-like license.
 
 Files and orginal authors:
 --------------------------------------------------------------------
-enthought/envisage/ui/workbench/images/about.png               PSF
-enthought/envisage/ui/workbench/images/application.ico         ???
-enthought/envisage/ui/workbench/action/images/exit.png         CPI
-enthought/envisage/ui/workbench/action/images/preferences.png  CPI
+enthought/envisage/ui/workbench/action/images/exit.png          CPI
+enthought/envisage/ui/workbench/action/images/preferences.png   CPI
+enthought/envisage/ui/workbench/images/about.png                PSF
+enthought/envisage/ui/workbench/images/application.ico          ???
+
+examples/workbench/AcmeLab/acme/acmelab/images/:
+    about.png       ???
+    acmelab.ico     ???
+    splash.jpg      ???
+
+
+
+The files:
+examples/workbench/AcmeLab Using Eggs/src/acme.acmelab/acme/acmelab/images/:
+    about.png
+    acmelab.ico
+    splash.jpg
+are identical to the ones in examples/workbench/AcmeLab/acme/acmelab/images/.
