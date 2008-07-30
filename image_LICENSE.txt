@@ -13,7 +13,6 @@ released under a 3 clause BSD license.
   Please refer to: http://www.python.org/psf/trademarks/
 
 Files and orginal authors:
-<<<<<<< .mine
 ----------------------------------------------------------------------------
 enthought/envisage/ui/workbench/images:
                           about.png | PSF
