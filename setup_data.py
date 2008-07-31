@@ -16,8 +16,8 @@ def etsdep(p, min, max=None, literal=False):
 # Declare our ETS project dependencies.
 APPTOOLS = etsdep('AppTools', '3.0.0b1')
 CHACO = etsdep('Chaco', '3.0.0b1')
-DEVTOOLS_FBI = etsdep('DevTools[fbi]', '3.0.0b1')  # -- only by the debug/fbi_plugin.py
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.0b1')
+ETSDEVTOOLS_FBI = etsdep('ETSDevTools[fbi]', '3.0.0b1')  # -- only by the debug/fbi_plugin.py
 TRAITSGUI = etsdep('TraitsGUI', '3.0.0b1')
 TRAITS_UI = etsdep('Traits[ui]', '3.0.0b1')
 
@@ -29,7 +29,7 @@ INFO = {
             CHACO,
             ],
         'debug': [
-            DEVTOOLS_FBI,
+            ETSDEVTOOLS_FBI,
             ],
 
         # All non-ets dependencies should be in this extra to ensure users can

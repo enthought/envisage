@@ -22,8 +22,8 @@ useful to avoid having to reinvent these particular wheels.
 - **Text Editor**: Provides a rudimentary text editor interface.
 - **Python Shell**: Provides an interactive Python shell within a
   Workbench-based application.
-- **Debug**: Provides the Frame Based Inspector from the DevTools project as
-  an Envisage plug-in.
+- **Debug**: Provides the Frame Based Inspector from the ETSDevTools project 
+  as an Envisage plug-in.
 
 """
 
