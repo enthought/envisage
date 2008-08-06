@@ -32,6 +32,7 @@ class WorkbenchPlugin(Plugin):
     VIEWS                    = PKG + '.views'
 
     # The Ids of the extension points that this plugin contributes to.
+    PREFERENCES    = 'enthought.envisage.preferences'
     SERVICE_OFFERS = 'enthought.envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
@@ -168,6 +169,13 @@ class WorkbenchPlugin(Plugin):
 
         return [DefaultActionSet]
 
+    my_preferences = List(contributes_to=PREFERENCES)
+
+    def _my_preferences_default(self):
+        """ Trait initializer. """
+
+        return ['pkgfile://enthought.envisage.ui.workbench/preferences.ini']
+    
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     def _my_preferences_pages_default(self):
