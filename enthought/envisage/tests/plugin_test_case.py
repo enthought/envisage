@@ -302,9 +302,6 @@ class PluginTestCase(unittest.TestCase):
         b = PluginB()
 
         application = TestApplication(plugins=[a, b])
-
-        # We should get an error because the plugin has multiple traits
-        # contributing to the same extension point.
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
 
         return
@@ -328,9 +325,6 @@ class PluginTestCase(unittest.TestCase):
         b = PluginB()
 
         application = TestApplication(plugins=[a, b])
-
-        # We should get an error because the plugin has multiple traits
-        # contributing to the same extension point.
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
 
         return
@@ -369,7 +363,7 @@ class PluginTestCase(unittest.TestCase):
 
         #######################################################################
         # fixme: Currently, we connect up extension point traits when the
-        # plugin is started. Is this right? Should be start plugins by default
+        # plugin is started. Is this right? Should we start plugins by default
         # when we add them (and maybe have the ability to add a plugin without
         # starting it?).
         #
