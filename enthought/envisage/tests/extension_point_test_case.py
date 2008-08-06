@@ -44,6 +44,15 @@ class ExtensionPointTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
+    def test_invalid_extension_point_type(self):
+        """ invalid extension point type """
+
+        # Extension points currently have to be 'List's of something! The
+        # default is a list of anything.
+        self.failUnlessRaises(TypeError, ExtensionPoint, Int, 'my.ep')
+
+        return
+
     def test_no_reference_to_extension_registry(self):
         """ no reference to extension registry """
 

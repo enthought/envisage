@@ -5,7 +5,7 @@
 import inspect, logging, weakref
 
 # Enthought library imports.
-from enthought.traits.api import TraitType, Undefined, implements
+from enthought.traits.api import List, TraitType, Undefined, implements
 
 # Local imports.
 from i_extension_point import IExtensionPoint
@@ -26,6 +26,11 @@ def contributes_to(id):
         return fn
 
     return decorator
+
+
+# Exception message template.
+INVALID_TRAIT_TYPE = 'extension points must be "List"s e.g. List, List(Int)' \
+' but a value of %s was specified.'
 
 
 class ExtensionPoint(TraitType):
@@ -75,7 +80,7 @@ class ExtensionPoint(TraitType):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(self, trait_type=None, id=None, **metadata):
+    def __init__(self, trait_type=List, id=None, **metadata):
         """ Constructor. """
 
         # We add '__extension_point__' to the metadata to make the extension
@@ -90,7 +95,12 @@ class ExtensionPoint(TraitType):
         # type *instance* e.g. List() or List(Int) etc, then we instantiate it.
         if inspect.isclass(trait_type):
             trait_type = trait_type()
-                
+
+        # Currently, we only support list extension points (we may in the
+        # future want to allow other collections e.g. dictionaries etc).
+        if not isinstance(trait_type, List):
+            raise TypeError(INVALID_TRAIT_TYPE % trait_type)
+        
         self.trait_type = trait_type
 
         # The Id of the extension point.
@@ -120,14 +130,8 @@ class ExtensionPoint(TraitType):
         # Get the extensions to this extension point.
         extensions = extension_registry.get_extensions(self.id)
 
-        # fixme: Ideally, instead of checking for 'None' here, we would like to
-        # make the trait type default to 'Any'. Unfortunately, the 'Any'
-        # trait type doesn't support the 'TraitType' interface 8^( It doesn't
-        # have a 'validate' method!
-        if self.trait_type is not None:
-            extensions = self.trait_type.validate(obj, trait_name, extensions)
-
-        return extensions
+        # Make sure the contributions are of the appropriate type.
+        return self.trait_type.validate(obj, trait_name, extensions)
 
     def set(self, obj, name, value):
         """ Trait type setter. """
