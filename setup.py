@@ -25,6 +25,11 @@ useful to avoid having to reinvent these particular wheels.
 - **Debug**: Provides the Frame Based Inspector from the ETSDevTools project 
   as an Envisage plug-in.
 
+Prerequisites
+-------------
+If you want to build EnvisagePlugins from source, you must first install 
+`setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_.
+
 """
 
 
