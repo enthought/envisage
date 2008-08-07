@@ -27,7 +27,12 @@ logger = logging.getLogger(__name__)
 
 
 class Application(HasTraits):
-    """ An extensible, pluggable, application. """
+    """ An extensible, pluggable, application.
+
+    This class handles the common case for non-GUI applications, and it is
+    intended to be subclassed to change start/stop behaviour etc.
+
+    """
 
     implements(IApplication)
 
