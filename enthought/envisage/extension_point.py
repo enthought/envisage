@@ -13,7 +13,35 @@ from i_extension_point import IExtensionPoint
 
 
 def contributes_to(id):
-    """ A factory for extension point decorators! """
+    """ A factory for extension point decorators!
+
+    As an alternative to making contributions via traits, you can use this
+    decorator to mark any method on a 'Plugin' as contributing to an extension
+    point (note this is *only* used on 'Plugin' instances!).
+
+    e.g. Using a trait you might have something like::
+
+        class MyPlugin(Plugin):
+            messages = List(contributes_to='acme.messages')
+
+            def _messages_default(self):
+                return ['Hello', 'Hola']
+
+    whereas, using the decorator, it would be::
+
+        class MyPlugin(Plugin):
+            @contributes_to('acme.messages')
+            def _get_messages(self):
+                return ['Hello', 'Hola']
+
+    There is not much in it really, but the decorator version looks a little
+    less like 'magic' since it doesn't require the developer to know about
+    Traits default initializers. However, if you know that you will want to
+    dynamically change your contributions then use the trait version  because
+    all you have to do is change the value of the trait and the framework will
+    react accordingly.
+
+    """
 
     def decorator(fn):
         """ A decorator for marking methods as extension contributors. """
