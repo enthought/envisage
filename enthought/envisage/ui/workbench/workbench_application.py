@@ -34,6 +34,11 @@ class WorkbenchApplication(Application):
     i.e. a GUI application whose user interface is provided by the workbench
     plugin.
 
+    This class handles the common case for Workbench applications, and it is
+    intended to be subclassed to change start/stop behaviour etc. In fact, I
+    generally create a subclass for every Workbench application I write since
+    it is a good place to put branding information etc.
+
     """
 
     #### 'WorkbenchApplication' interface #####################################
