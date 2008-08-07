@@ -29,6 +29,11 @@ framework. This project contains no plug-ins. You are free to use:
 - plug-ins from other ETS projects that expose their functionality as plug-ins
 - plug-ins that you create yourself
 
+Prerequisites
+-------------
+If you want to build EnvisageCore from source, you must first install 
+`setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_.
+
 """
 
 
