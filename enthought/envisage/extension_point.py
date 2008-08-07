@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import inspect, logging, weakref
+import inspect, weakref
 
 # Enthought library imports.
 from enthought.traits.api import List, TraitType, Undefined, implements
@@ -11,12 +11,9 @@ from enthought.traits.api import List, TraitType, Undefined, implements
 from i_extension_point import IExtensionPoint
 
 
-# Logging.
-logger = logging.getLogger(__name__)
-
 
 def contributes_to(id):
-    """ A  factory for extension point decorators! """
+    """ A factory for extension point decorators! """
 
     def decorator(fn):
         """ A decorator for marking methods as extension contributors. """
@@ -197,8 +194,6 @@ class ExtensionPoint(TraitType):
 
         extension_registry = self._get_extension_registry(obj)
 
-        # Save a reference to the listener so that it does not get garbage
-        # collected until its associated object does.
         listener = self._obj_to_listeners_map[obj].get(trait_name)
         if listener is not None:
             # Remove the listener from the extension registry.
@@ -220,7 +215,8 @@ class ExtensionPoint(TraitType):
 
         extension_registry = getattr(obj, 'extension_registry', None)
         if extension_registry is None:
-            # If the 'DevTools' egg is present then log the call stack.
+            # If the debug package is present then log the call stack to help
+            # the developer see where the problem occurred.
             try:
                 from enthought.debug.api import log_called_from
                 log_called_from(10)
