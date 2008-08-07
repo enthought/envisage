@@ -14,9 +14,9 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-APPTOOLS = etsdep('AppTools', '3.0.0b1')
-ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.0b1')
-TRAITS = etsdep('Traits', '3.0.0b1')
+APPTOOLS = etsdep('AppTools', '3.0.0b2')
+ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.0b2')
+TRAITS = etsdep('Traits', '3.0.1b1')
 
 
 # A dictionary of the setup data information.
