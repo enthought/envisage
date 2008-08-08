@@ -105,13 +105,13 @@ class WorkbenchApplication(Application):
             )
             window.open()
 
+            # We stop the application when the workbench has exited.
+            self.workbench.on_trait_change(self._on_workbench_exited, 'exited')
+            
             # Start the GUI event loop.
             #
             # THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.
             gui.start_event_loop()
-
-            # Stop the application.
-            self.stop()
         
         return
         
@@ -166,5 +166,25 @@ class WorkbenchApplication(Application):
         self.workbench.exit()
 
         return
-    
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _on_workbench_exited(self):
+        """ Dynamic trait change handler. """
+
+        # We don't invoke 'stop' directly because:-
+        #
+        # The workbench is often exited via a user action (either by closing
+        # the last open window, or by choosing 'File/Exit'). If this happens
+        # then the workbench 'exit' method is called from within an event
+        # handler which would cause the 'stop' method to get called *before*
+        # the handling of the window 'closed' event is complete. Hance, this
+        # might mean that somebody listening for the window being closed would
+        # get the event *after* the application had already stopped!
+        self.gui.invoke_later(self.stop)
+
+        return
+        
 #### EOF ######################################################################
