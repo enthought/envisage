@@ -188,7 +188,7 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def connect_extension_point_traits(self):
-        """ Connect all of the plugin's extesnion points.
+        """ Connect all of the plugin's extension points.
 
         This means that the plugin will be notified if and when contributions
         are add or removed.
@@ -200,7 +200,7 @@ class Plugin(ExtensionProvider):
         return
 
     def disconnect_extension_point_traits(self):
-        """ Disconnect all of the plugin's extesnion points."""
+        """ Disconnect all of the plugin's extension points."""
 
         ExtensionPoint.disconnect_extension_point_traits(self)
 
@@ -355,11 +355,10 @@ class Plugin(ExtensionProvider):
 
         """
 
-        if inspect.ismethod(value) \
-           and extension_point_id == getattr(value,'__extension_point__',None):
-                return True
+        is_extension_method = inspect.ismethod(value) \
+            and extension_point_id == getattr(value,'__extension_point__',None)
 
-        return False
+        return is_extension_method
 
     def _register_service_factory(self, trait_name, trait):
         """ Register a service factory for the specified trait. """
