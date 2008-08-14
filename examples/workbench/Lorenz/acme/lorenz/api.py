@@ -1,1 +1,1 @@
-from lorenz import Lorenz
+from lorenz import DataView, Plot2DView, Lorenz

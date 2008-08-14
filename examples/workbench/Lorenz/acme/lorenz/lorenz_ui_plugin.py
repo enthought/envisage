@@ -64,7 +64,7 @@ class LorenzUIPlugin(Plugin):
     def _create_data_view(self, **traits):
         """ Factory method for the data view. """
 
-        from acme.lorenz.lorenz import DataView, Lorenz
+        from acme.lorenz.api import DataView, Lorenz
 
         data_view = TraitsUIView(
             id   = 'lorenz.data',
@@ -78,7 +78,7 @@ class LorenzUIPlugin(Plugin):
     def _create_plot2d_view(self, **traits):
         """ Factory method for the plot2D view. """
 
-        from acme.lorenz.lorenz import Lorenz, Plot2DView
+        from acme.lorenz.api import Lorenz, Plot2DView
 
         plot2d_view = TraitsUIView(
             id   = 'lorenz.plot2d',
