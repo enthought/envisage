@@ -36,10 +36,10 @@ class EditPreferencesAction(Action):
         manager = event.window.application.get_service(PreferencesManager)
         ui = manager.edit_traits(parent=event.window.control, kind='modal')
         
-        # If the UI result of the PreferencesPage was 'True', then save the preferences
-        # now in case the application crashes before it exits!
+        # If the user hit the "Ok" button, then save the preferences in case
+        # application crashes before it exits!
         if ui.result:
-            event.window.application.preferences.save()
+            self.window.application.preferences.save()
 
         return
 
