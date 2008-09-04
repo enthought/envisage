@@ -10,8 +10,8 @@ class IPythonShellPlugin(Plugin):
     """ An IPython shell plugin. """
 
     # Extension point Ids.
-    BINDINGS = 'enthought.plugins.ipython_shell.bindings'
-    COMMANDS = 'enthought.plugins.ipython_shell.commands'
+    BINDINGS = 'enthought.plugins.python_shell.bindings'
+    COMMANDS = 'enthought.plugins.python_shell.commands'
     VIEWS    = 'enthought.envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################

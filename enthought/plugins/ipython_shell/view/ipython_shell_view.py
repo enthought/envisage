@@ -10,7 +10,7 @@ from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.workbench.api import View
 from enthought.traits.api import Instance, Property, \
-    implements, Dict, Set
+    implements, Dict, Set, Str
 
 
 from IPython.frontend.wx.wx_frontend import WxController
@@ -21,6 +21,13 @@ import wx
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
+class IPythonController(WxController):
+    """ Subclas the IPython WxController as it tries to set the title and
+        fails.
+    """
+    # The title of the IPython windows (not displayed in Envisage)
+    title = Str
+
 class IPythonShellView(View):
     """ A view containing an IPython shell. """
 
@@ -29,7 +36,7 @@ class IPythonShellView(View):
     #### 'IView' interface ####################################################
     
     # The part's globally unique identifier.
-    id = 'enthought.plugins.ipython_shell_view'
+    id = 'enthought.plugins.python_shell_view'
 
     # The part's name (displayed to the user).
     name = 'IPython'
@@ -84,9 +91,8 @@ class IPythonShellView(View):
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view. """
 
-        self.shell = WxController(parent, -1, size=None, 
-                                            shell=self.interpreter,
-                                            debug=True)
+        self.shell = IPythonController(parent, -1, size=None, 
+                                            shell=self.interpreter)
 
         # Namespace contributions.
         for bindings in self._bindings:
@@ -119,6 +125,7 @@ class IPythonShellView(View):
     def bind(self, name, value):
         """ Binds a name to a value in the interpreter's namespace. """
 
+        print "Binding", name
         self.namespace[name] = value
 
         return
