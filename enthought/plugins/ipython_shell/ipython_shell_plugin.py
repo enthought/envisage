@@ -72,7 +72,7 @@ class IPythonShellPlugin(Plugin):
 
         # Local imports.
         from view.ipython_shell_view import IPythonShellView
-        from enthought.plugins.python_shell.view.namespace_view \
+        from view.namespace_view \
                     import NamespaceView
 
         return [IPythonShellView, NamespaceView]

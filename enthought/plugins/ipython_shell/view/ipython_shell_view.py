@@ -8,6 +8,7 @@ import logging
 from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
+from enthought.plugins.ipython_shell.api import INamespaceView
 from enthought.pyface.workbench.api import View
 from enthought.traits.api import Instance, Property, \
     implements, Dict, Set, Str
@@ -105,9 +106,29 @@ class IPythonShellView(View):
         # Register the view as a service.
         self.window.application.register_service(IPythonShell, self)
 
+        ns_view = self.window.application.get_service(INamespaceView)
+        if ns_view is not None:
+            self.on_trait_change(ns_view._on_names_changed, 'names')
+ 
         wx.CallAfter(self.shell.SetFocus)
         
         return self.shell
+
+
+    def destroy_control(self):
+        """ Destroys the toolkit-specific control that represents the view.
+
+        """
+        
+        super(IPythonShellView, self).destroy_control()
+
+        # Remove the namespace change handler
+        ns_view = self.window.application.get_service(INamespaceView)
+        if ns_view is not None:
+            self.on_trait_change(
+                ns_view._on_names_changed, 'names', remove=True
+            )
+
 
     ###########################################################################
     # 'PythonShellView' interface.
@@ -125,7 +146,6 @@ class IPythonShellView(View):
     def bind(self, name, value):
         """ Binds a name to a value in the interpreter's namespace. """
 
-        print "Binding", name
         self.namespace[name] = value
 
         return

@@ -72,7 +72,8 @@ class PythonShellPlugin(Plugin):
 
         # Local imports.
         from view.python_shell_view import PythonShellView
+        from view.namespace_view import NamespaceView
 
-        return [PythonShellView]
+        return [PythonShellView, NamespaceView]
         
 #### EOF ######################################################################

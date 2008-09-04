@@ -54,12 +54,15 @@ class NamespaceView(View):
             Item(
                 'bindings',
                 id     = 'table',
-                editor = table_editor
+                editor = table_editor,
+                springy = True,
+                resizable = True,
             ),
 
             show_border = True,
             show_labels = False
-        )
+        ),
+        resizable = True,
     )
 
     ###########################################################################
