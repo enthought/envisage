@@ -4,12 +4,42 @@
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.ipython_shell.api import INamespaceView
 from enthought.pyface.workbench.api import View
-from enthought.traits.api import Property, implements, Instance
-from enthought.traits.ui.api import Item, TreeEditor
+from enthought.traits.api import Property, implements, Instance, \
+    Str
+from enthought.traits.ui.api import Item, TreeEditor, Group
 from enthought.traits.ui.api import View as TraitsView
 from enthought.traits.ui.value_tree import RootNode, value_tree_nodes
 from enthought.pyface.timer.api import Timer
 from enthought.pyface.api import GUI
+
+def search_namespace(namespace, string, depth=3):
+    """ Iterator on a dictionnary-like object.
+
+        Given a namespace, search recursively for a name containing the
+        string in the enclosed modules and classes.
+    """
+    if depth==0:
+        raise StopIteration
+    for child_name in namespace:
+        child = namespace[child_name]
+        if string in child_name:
+            yield child_name, child
+        if hasattr(child, '__dict__'):
+            for suitable_child_name, suitable_child in \
+                    search_namespace(child.__dict__, 
+                                                string, depth=depth-1):
+                yield ('%s.%s' % (child_name, suitable_child_name),
+                                    suitable_child)
+
+def filter_namespace(namespace, string, depth=3):
+    """ Return a flattened dictionnary to the depth given, with
+        only the keys matching the given name.
+    """
+    out_dict = dict()
+    for key, item in search_namespace(namespace, string, depth=depth):
+        out_dict[key] = item
+    return out_dict
+
 
 class NamespaceView(View):
     """ A view containing the contents of the Python shell namespace. """
@@ -31,10 +61,14 @@ class NamespaceView(View):
     #### 'NamespaceView' interface ############################################
 
     # The different tree nodes
-    tree_nodes = Property
+    tree_nodes = Property(depends_on='search_text')
+
+    # Search text
+    search_text = Str
 
     # The default traits UI view.
     traits_view = TraitsView(
+            Group(Item('search_text', label='Search')),
             Item(
                 'tree_nodes',
                 id     = 'table',
@@ -112,13 +146,16 @@ class NamespaceView(View):
             return RootNode(name='<empty namespace>', value=[],
                             readonly=True)
         filtered_namespace = dict()
+
         for name in shell.names:
             filtered_namespace[name] = shell.lookup(name)
 
+        if not self.search_text == '':
+            filtered_namespace = filter_namespace(filtered_namespace,
+                                                        self.search_text)
+
         return RootNode(name='', value=filtered_namespace,
                             readonly=True).tno_get_children(None)[0]
-
-    
 
     def _refresh_tree_nodes(self):
         """ Callback called by a timer to refresh the UI.
@@ -138,10 +175,8 @@ class NamespaceView(View):
     def _on_names_changed(self, new):
         """ Dynamic trait change handler. """
 
-        # fixme: We might want to get a tad more granular in the event that we
-        # fire!
         if not self._refresh_tree_nodes_timer.IsRunning():
             GUI.invoke_later(self._refresh_tree_nodes_timer.Start)
 
-    
+
 #### EOF ######################################################################
