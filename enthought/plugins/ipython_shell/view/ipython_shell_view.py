@@ -4,30 +4,22 @@
 # Standard library imports.
 import logging
 
+# Major library imports
+from IPython.kernel.core.interpreter import Interpreter
+
 # Enthought library imports.
 from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.ipython_shell.api import INamespaceView
 from enthought.pyface.workbench.api import View
-from enthought.traits.api import Instance, Property, \
-    implements, Dict, Set, Str
+from enthought.pyface.ipython_widget import IPythonWidget
+from enthought.pyface.api import GUI
+from enthought.traits.api import Instance, Property, implements, Dict
 
-
-from IPython.frontend.wx.wx_frontend import WxController
-from IPython.kernel.core.interpreter import Interpreter
-
-import wx
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
-
-class IPythonController(WxController):
-    """ Subclas the IPython WxController as it tries to set the title and
-        fails.
-    """
-    # The title of the IPython windows (not displayed in Envisage)
-    title = Str
 
 class IPythonShellView(View):
     """ A view containing an IPython shell. """
@@ -92,8 +84,7 @@ class IPythonShellView(View):
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view. """
 
-        self.shell = IPythonController(parent, -1, size=None, 
-                                            shell=self.interpreter)
+        self.shell = IPythonWidget(parent, interp=self.interpreter)
 
         # Namespace contributions.
         for bindings in self._bindings:
@@ -110,9 +101,12 @@ class IPythonShellView(View):
         if ns_view is not None:
             self.on_trait_change(ns_view._on_names_changed, 'names')
  
-        wx.CallAfter(self.shell.SetFocus)
+        def set_focus():
+            self.window.application.gui.invoke_later(
+                                                self.shell.control.SetFocus) 
+        GUI.invoke_later(set_focus)
         
-        return self.shell
+        return self.shell.control
 
 
     def destroy_control(self):
@@ -139,7 +133,7 @@ class IPythonShellView(View):
     def _get_names(self):
         """ Property getter. """
 
-        return self.shell.ipython0.magic_who_ls()
+        return self.control.ipython0.magic_who_ls()
 
     #### Methods ##############################################################
 
@@ -159,6 +153,7 @@ class IPythonShellView(View):
             current_buffer = self.shell.input_buffer
             self.shell.input_buffer = command + '\n'
             self.shell._on_enter()
+            self.shell.input_buffer = current_buffer
 
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace.
