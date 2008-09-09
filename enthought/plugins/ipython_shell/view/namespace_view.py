@@ -5,7 +5,7 @@ from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.ipython_shell.api import INamespaceView
 from enthought.pyface.workbench.api import View
 from enthought.traits.api import Property, implements, Instance, \
-    Str
+    Str, HasTraits
 from enthought.traits.ui.api import Item, TreeEditor, Group
 from enthought.traits.ui.api import View as TraitsView
 from enthought.traits.ui.value_tree import RootNode, value_tree_nodes
@@ -31,6 +31,7 @@ def search_namespace(namespace, string, depth=3):
                 yield ('%s.%s' % (child_name, suitable_child_name),
                                     suitable_child)
 
+
 def filter_namespace(namespace, string, depth=3):
     """ Return a flattened dictionnary to the depth given, with
         only the keys matching the given name.
@@ -41,6 +42,27 @@ def filter_namespace(namespace, string, depth=3):
     return out_dict
 
 
+def explore(node):
+    """ Small helper function to graphically edit an object.
+    """
+    # FIXME: This is really very dumb. The view used should be made
+    # better. The logics should probably be put in the nodes themselves,
+    # subclassing them.
+    name = node.name
+    obj  = node.value
+    class MyClass(HasTraits):
+        the_object = obj
+
+        view = TraitsView(Item('the_object', style='custom', show_label=False),
+                        resizable=True, 
+                        title=name,
+                        width=600,
+                        )
+
+    return MyClass().edit_traits()
+
+
+################################################################################
 class NamespaceView(View):
     """ A view containing the contents of the Python shell namespace. """
 
@@ -77,6 +99,7 @@ class NamespaceView(View):
                                 hide_root=True,
                                 editable=False,
                                 nodes=value_tree_nodes,
+                                on_dclick='object._explore',
                                 ),
                 springy = True,
                 resizable = True,
@@ -178,5 +201,9 @@ class NamespaceView(View):
         if not self._refresh_tree_nodes_timer.IsRunning():
             GUI.invoke_later(self._refresh_tree_nodes_timer.Start)
 
+    def _explore(self, object):
+        """ Displays a view of the object.
+        """
+        explore(object)
 
 #### EOF ######################################################################
