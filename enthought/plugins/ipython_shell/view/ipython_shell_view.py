@@ -96,7 +96,8 @@ class IPythonShellView(View):
             try:
                 self.execute_command(command)
             except Exception, e:
-                logger.error("The command '%s' supplied to the Ipython shell "
+                logger.exception(
+                        "The command '%s' supplied to the Ipython shell "
                         "plugin has raised an exception:\n%s" % 
                         (command, traceback.format_exc()))
 
