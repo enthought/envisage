@@ -3,6 +3,7 @@
 
 # Standard library imports.
 import logging
+import traceback
 
 # Major library imports
 from IPython.kernel.core.interpreter import Interpreter
@@ -92,7 +93,12 @@ class IPythonShellView(View):
                 self.bind(name, value)
 
         for command in self._commands:
-            self.execute_command(command)
+            try:
+                self.execute_command(command)
+            except Exception, e:
+                logger.error("The command '%s' supplied to the Ipython shell "
+                        "plugin has raised an exception:\n%s" % 
+                        (command, traceback.format_exc()))
 
         # Register the view as a service.
         self.window.application.register_service(IPythonShell, self)
@@ -148,7 +154,7 @@ class IPythonShellView(View):
         """ Execute a command in the interpreter. """
 
         if hidden:
-            return self.interpreter.execute_python(command)
+            return self.interpreter.execute(command)
         else:
             current_buffer = self.shell.input_buffer
             self.shell.input_buffer = command + '\n'
