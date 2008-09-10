@@ -157,10 +157,12 @@ class IPythonShellView(View):
         if hidden:
             return self.interpreter.execute(command)
         else:
-            current_buffer = self.shell.input_buffer
-            self.shell.input_buffer = command + '\n'
-            self.shell._on_enter()
-            self.shell.input_buffer = current_buffer
+            current_buffer = self.shell.control.input_buffer
+            self.shell.control.input_buffer = command + '\n'
+            GUI.process_events()
+            self.shell.control._on_enter()
+            GUI.process_events()
+            self.shell.control.input_buffer = current_buffer
 
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace.
