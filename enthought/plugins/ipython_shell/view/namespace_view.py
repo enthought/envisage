@@ -8,7 +8,8 @@ from enthought.traits.api import Property, implements, Instance, \
     Str, HasTraits
 from enthought.traits.ui.api import Item, TreeEditor, Group
 from enthought.traits.ui.api import View as TraitsView
-from enthought.traits.ui.value_tree import RootNode, value_tree_nodes
+from enthought.traits.ui.value_tree import DictNode, StringNode, \
+        value_tree_nodes
 from enthought.pyface.timer.api import Timer
 from enthought.pyface.api import GUI
 
@@ -61,6 +62,34 @@ def explore(node):
 
     return MyClass().edit_traits()
 
+class NamespaceNode(DictNode):
+    """ Subclass of the DictNode for the namespace purposes.
+    """
+    
+    def tno_get_icon ( self, node, is_expanded ):
+        """ Returns the icon for a specified object.
+
+            We overwrite this method because we don't have a default icon for 
+            this object.
+        """
+        return ('@icons:dict_node')
+
+    def tno_get_children ( self, node ):
+        """ Gets the object's children.
+            
+            We overwrite this method for a nicer label on the objects.
+        """
+        node_for = self.node_for
+        items    = self.value.items()
+        items.sort( lambda l, r: cmp( l[0], r[0] ) )
+        if len( items ) > 500:
+            return ([ self.node_for( k, v ) for k, v in items[: 250 ] ] +
+                    [ StringNode( value = '...', readonly = True ) ]        +
+                    [ self.node_for( k, v ) for k, v in items[ -250: ] ])
+            
+        return [ self.node_for( k, v ) for k, v in items ]
+
+
 
 ################################################################################
 class NamespaceView(View):
@@ -88,7 +117,18 @@ class NamespaceView(View):
     # Search text
     search_text = Str
 
-    # The default traits UI view.
+    tree_editor = Property(depends_on="ui")
+
+    # The timer used to refresh the ui
+    _refresh_tree_nodes_timer = Instance(Timer)
+
+    def __refresh_tree_nodes_timer_default(self):
+        return Timer(100, self._refresh_tree_nodes)
+
+    ###########################################################################
+    # 'View' interface.
+    ###########################################################################
+
     traits_view = TraitsView(
             Group(Item('search_text', label='Search')),
             Item(
@@ -108,15 +148,6 @@ class NamespaceView(View):
             resizable = True,
         )
 
-    # The timer used to refresh the ui
-    _refresh_tree_nodes_timer = Instance(Timer)
-
-    def __refresh_tree_nodes_timer_default(self):
-        return Timer(100, self._refresh_tree_nodes)
-
-    ###########################################################################
-    # 'View' interface.
-    ###########################################################################
 
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view.
@@ -124,7 +155,6 @@ class NamespaceView(View):
         'parent' is the toolkit-specific control that is the view's parent.
 
         """
-
         self.ui = self.edit_traits(parent=parent, kind='subpanel')
 
         # Register the view as a service.
@@ -161,13 +191,12 @@ class NamespaceView(View):
 
     def _get_tree_nodes(self):
         """ Property getter. """
-        
+
         shell = self.window.application.get_service(IPythonShell)
 
         # Cater for an un-initialized python shell view
         if shell is None:
-            return RootNode(name='<empty namespace>', value=[],
-                            readonly=True)
+            return NamespaceNode(value={}, readonly=True)
         filtered_namespace = dict()
 
         for name in shell.names:
@@ -177,8 +206,17 @@ class NamespaceView(View):
             filtered_namespace = filter_namespace(filtered_namespace,
                                                         self.search_text)
 
-        return RootNode(name='', value=filtered_namespace,
-                            readonly=True).tno_get_children(None)[0]
+        return NamespaceNode(value=filtered_namespace, readonly=True)
+
+
+    def _get_tree_editor(self):
+        """ Walk the editor list to retrieve the instance of the
+            tree editor currently used.
+        """
+        for editor in self.ui._editors:
+            print editor
+        return self.ui._editors[-1]
+
 
     def _refresh_tree_nodes(self):
         """ Callback called by a timer to refresh the UI.
@@ -186,7 +224,7 @@ class NamespaceView(View):
             The UI is refreshed by a timer to buffer the refreshes,
             in order not to slow down the execution engine.
         """
-        self.trait_property_changed('tree_nodes', [], self.tree_nodes)
+        self.trait_property_changed('tree_nodes', None)
         self._refresh_tree_nodes_timer.Stop()
 
     ###########################################################################

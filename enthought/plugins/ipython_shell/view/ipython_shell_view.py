@@ -157,23 +157,10 @@ class IPythonShellView(View):
         if hidden:
             return self.interpreter.execute(command)
         else:
-            # XXX: we are not storing the input buffer previous to the
-            # execution, as this forces us to run the execution
-            # input_buffer a yield, which is not good.
-            ##current_buffer = self.shell.control.input_buffer
-            command = command.rstrip()
-            if len(command.split('\n')) > 1:
-                # The input command is several lines long, we need to
-                # force the execution to happen
-                command += '\n'
-            self.shell.control.input_buffer = command #+ '\n'
-            GUI.process_events()
-            self.shell.control.write('\n')
-            self.shell.control._on_enter()
-            #GUI.process_events()
-            ##if self.shell.control.input_buffer == '':
-            ##    # This means that the execution indeed did happen
-            ##    self.shell.control.input_buffer = current_buffer
+            self.control.execute_command(command)
+        self.trait_property_changed('namespace', [], self.namespace)
+        
+        ns_view = self.window.application.get_service(INamespaceView)
 
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace.
