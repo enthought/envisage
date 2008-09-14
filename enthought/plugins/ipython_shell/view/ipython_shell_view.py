@@ -108,9 +108,15 @@ class IPythonShellView(View):
         if ns_view is not None:
             self.on_trait_change(ns_view._on_names_changed, 'names')
  
+        def try_set_focus():
+            try:
+                self.shell.control.SetFocus()
+            except:
+                """ The window may not have been created yet. """
+
         def set_focus():
-            self.window.application.gui.invoke_later(
-                                                self.shell.control.SetFocus) 
+            self.window.application.gui.invoke_later(try_set_focus)
+                                 
         GUI.invoke_later(set_focus)
         
         return self.shell.control
