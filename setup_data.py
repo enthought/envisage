@@ -18,8 +18,8 @@ APPTOOLS = etsdep('AppTools', '3.0.1')
 CHACO = etsdep('Chaco', '3.0.1')
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.1')
 ETSDEVTOOLS_FBI = etsdep('ETSDevTools[fbi]', '3.0.1')  # -- only by the debug/fbi_plugin.py
-TRAITSGUI = etsdep('TraitsGUI', '3.0.2')
-TRAITS_UI = etsdep('Traits[ui]', '3.0.2')
+TRAITSGUI = etsdep('TraitsGUI', '3.0.3')
+TRAITS_UI = etsdep('Traits[ui]', '3.0.3')
 
 
 # A dictionary of the setup data information.
