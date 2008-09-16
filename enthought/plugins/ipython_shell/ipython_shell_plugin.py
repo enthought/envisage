@@ -10,9 +10,10 @@ class IPythonShellPlugin(Plugin):
     """ An IPython shell plugin. """
 
     # Extension point Ids.
-    BINDINGS = 'enthought.plugins.python_shell.bindings'
-    COMMANDS = 'enthought.plugins.python_shell.commands'
-    VIEWS    = 'enthought.envisage.ui.workbench.views'
+    BINDINGS        = 'enthought.plugins.python_shell.bindings'
+    COMMANDS        = 'enthought.plugins.python_shell.commands'
+    VIEWS           = 'enthought.envisage.ui.workbench.views'
+    ACTION_SETS     = 'enthought.envisage.ui.workbench.action_sets'
 
     #### 'IPlugin' interface ##################################################
 
@@ -55,6 +56,15 @@ class IPythonShellPlugin(Plugin):
     )
 
     #### Contributions to extension points made by this plugin ################
+
+    # Our action sets.
+    action_sets = List(contributes_to=ACTION_SETS)
+
+    def _action_sets_default(self):
+        """ Trait initializer. """
+        from enthought.plugins.ipython_shell.actions.ipython_shell_actions \
+            import IPythonShellActionSet
+        return [IPythonShellActionSet]
 
     # Bindings.
     contributed_bindings = List(contributes_to=BINDINGS)
