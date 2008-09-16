@@ -6,9 +6,9 @@ that do the actual work! To get the job done, services obviously need to
 interact, and so Envisage provides a way for them to find each other. This is
 where the *service registry* comes in.
 
-Don't be phased by the term *service*. In Envisage it just means any objects
+Don't be fazed by the term *service*. In Envisage it just means any objects
 in your application that you want to share between plugins. Services can be
-any Python object and do not have to inherits from any Envisage class or even
+any Python object and do not have to inherit from any Envisage class or even
 implement any particular interface!
 
 Service Registry

@@ -132,7 +132,7 @@ The declarative version looks like this::
 
         ...
 
-        # The 'contributes_to' trait metadata tells Envisage the Id of the
+        # The 'contributes_to' trait metadata tells Envisage the ID of the
         # extension point that this trait contributes to.
 	messages = List(contributes_to='acme.motd.messages')
 
@@ -148,7 +148,7 @@ The declarative version looks like this::
 	...
 
 The messages are contributed simply by creating a list trait and setting its
-"contributes_to" metadata to the Id of the extension point that we want to
+"contributes_to" metadata to the ID of the extension point that we want to
 contribute to. All we have to do then is to intialize the trait with our
 messages and "Job done"!
 

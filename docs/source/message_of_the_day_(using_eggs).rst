@@ -148,10 +148,10 @@ MOTDPlugin_ class::
     
       """
 
-      # The Ids of the extension points that this plugin offers.
+      # The IDs of the extension points that this plugin offers.
       MESSAGES = 'acme.motd.messages'
 
-      # The Ids of the extension points that this plugin contributes to.
+      # The IDs of the extension points that this plugin contributes to.
       SERVICE_OFFERS = 'enthought.envisage.service_offers'
 
       #### 'IPlugin' interface ##################################################

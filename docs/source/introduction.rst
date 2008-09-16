@@ -51,7 +51,7 @@ Getting Started
 The best way to get started is probably to take the time to read and digest the
 Core_ documentation and then work through the `Hello World`_ and
 `Message of the Day`_ examples. Despite being extremely simple, the examples
-introduces you to *all* of the fundemental concepts of Envisage, and the *real*
+introduces you to *all* of the fundamental concepts of Envisage, and the *real*
 applications that you build (which will hopefully be a lot more useful) will be
 built in exactly the same way.
 
