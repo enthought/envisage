@@ -18,7 +18,7 @@ import Editra
 old_MainLoop = Editra.Editra.MainLoop
 
 def my_MainLoop(self, *args, **kwargs):
-    from enthought.plugins.remote_editor.editor_plugins.editra.enshell_editra_plugin \
+    from enthought.plugins.remote_editor.editor_plugins.editra.editra_plugin \
             import RemoteEditorPlugin
     plugin = RemoteEditorPlugin(Editra=self)
     try:
