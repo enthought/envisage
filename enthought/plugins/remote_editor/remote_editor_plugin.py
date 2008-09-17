@@ -38,7 +38,7 @@ class RemoteEditorPlugin(Plugin):
 
     def _action_sets_default(self):
         """ Trait initializer. """
-        from enthought.plugins.remote_editor.plugin.actions import \
+        from enthought.plugins.remote_editor.actions import \
             RemoteEditorActionSet
         return [RemoteEditorActionSet]
 
