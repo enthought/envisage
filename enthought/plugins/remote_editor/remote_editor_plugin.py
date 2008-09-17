@@ -10,13 +10,16 @@ from enthought.traits.api import List, Instance, on_trait_change
 from envisage_remote_editor import EnvisageRemoteEditorController \
     as RemoteEditorController
 
+ID = 'enthought.plugins.remote_editor' 
+
 class RemoteEditorPlugin(Plugin):
     """ An IPython shell plugin. """
 
     # Extension point Ids.
-    REMOTE_EDITOR   = 'enthought.plugins.remote_editor'
-    VIEWS           = 'enthought.envisage.ui.workbench.views'
+    REMOTE_EDITOR     = ID
     ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
+    PREFERENCES       = 'enthought.envisage.preferences'
+    PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
 
     # Our remote controller for the editor
     remote_controller = Instance(RemoteEditorController)
@@ -36,11 +39,31 @@ class RemoteEditorPlugin(Plugin):
     # Our action sets.
     action_sets = List(contributes_to=ACTION_SETS)
 
+    # Preferences pages.
+    preferences_pages = List(contributes_to=PREFERENCES_PAGES)
+
+    # Preferences.
+    preferences = List(contributes_to=PREFERENCES)
+
+
     def _action_sets_default(self):
         """ Trait initializer. """
         from enthought.plugins.remote_editor.actions import \
             RemoteEditorActionSet
         return [RemoteEditorActionSet]
+
+
+    def _preferences_default(self):
+        """ Trait initializer. """
+        return ['pkgfile://%s/preferences.ini' % ID]
+
+
+    def _preferences_pages_default(self):
+        """ Trait initializer. """
+        from enthought.plugins.remote_editor.preference_pages \
+                        import RemoteEditorPreferencesPage
+        return [RemoteEditorPreferencesPage, ]
+
 
     ###########################################################################
     # Private interface.
