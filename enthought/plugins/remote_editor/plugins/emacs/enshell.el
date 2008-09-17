@@ -1,0 +1,1 @@
+(pymacs-load "enshell.communication.client")
