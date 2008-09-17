@@ -3,11 +3,11 @@ import os
 import logging
 
 # Local imports
-from enthought.plugins.remote_editor.enshell_client import \
-    EnshellClient
+from enthought.plugins.remote_editor.communication.client import \
+    Client
 
 
-class EditorPlugin(EnshellClient):
+class EditorPlugin(Client):
 
     # EditorPlugin interface
 

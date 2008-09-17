@@ -10,8 +10,9 @@ from enthought.etsconfig.api import ETSConfig
 MESSAGE_SEP = chr(7) # 'bell' character
 
 # The location of the server lock file and the communication log
-LOCK_PATH = os.path.join(ETSConfig.application_data, 'enshell_server.lock')
-LOG_PATH = os.path.join(ETSConfig.application_data, 'enshell_server.log')
+LOCK_PATH = os.path.join(ETSConfig.application_data, 
+                                'remote_editor_server.lock')
+LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
 
 def spawn_independent(command, shell=False):

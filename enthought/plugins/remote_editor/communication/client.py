@@ -1,12 +1,15 @@
 # Standard library imports
 import logging
 import sys
+import os
 import socket
 from threading import Thread
 
 # ETS imports
 from enthought.traits.api import HasTraits, Int, Str, Bool, Instance, List, \
      Tuple
+from enthought.plugins import remote_editor
+
 
 # Local imports
 from server import Server
@@ -137,7 +140,10 @@ class Client(HasTraits):
     # The preferences file path and node path to use for spawning a Server.
     # If this is not specified it will not be possible for this Client,
     # to spawn the server.
-    server_prefs = Tuple(Str, Str)
+    server_prefs = Tuple((os.path.join(remote_editor.__path__[0], 
+                                "preferences.ini"),
+                                "enthought.remote_editor"),
+                         Str, Str)
 
     # The type of this object and the type of the desired object, respectively
     self_type = Str

@@ -1,4 +1,5 @@
-""" Integrates Editra with the EnShell application
+""" Integrates Editra with the an envisage applciation with the remote editor
+plugin.
 """
 __author__ = "Enthought"
 __version__ = "0.1"
@@ -10,8 +11,8 @@ import os
 import wx
 
 # ETS imports
-from enthought.plugins import remote_editor
-from enthought.plugins.remote_editor.plugins.editor_plugin import EditorPlugin
+from enthought.plugins.remote_editor.editor_plugins.editor_plugin \
+        import EditorPlugin
 
 # Editra namespace imports
 from wx.tools.Editra.src import ed_menu
@@ -21,7 +22,7 @@ _ = wx.GetTranslation
 ID_RUN_SCRIPT = wx.NewId()
 ID_RUN_TEXT = wx.NewId()
 
-class ConcreteEditorPlugin(EditorPlugin):
+class EditraEditorPlugin(EditorPlugin):
 
     # Client interface
     wx = True
@@ -46,8 +47,9 @@ class ConcreteEditorPlugin(EditorPlugin):
         self.mainWindow.DoOpen(None, filename)
 
 
-class EnShellPlugin(object):
-    """ Editor plugin for communicating with EnShell instances.
+class RemoteEditorPlugin(object):
+    """ Editor plugin for communicating with shells programs, acting as a
+        remote editor.
     """
 
     def __init__(self, Editra=None):
@@ -57,11 +59,11 @@ class EnShellPlugin(object):
     def do_PlugIt(self):
         self.mainWindow = mainWindow = wx.GetApp().GetMainWindow()
         self.log = wx.GetApp().GetLog()
-        self.log("[enshell][info] Installing enshell plugin")
+        self.log("[remote editor][info] Installing remote editor plugin")
         menuBar= mainWindow.GetMenuBar()
 
-        # Register the EditorPlugin with the EnShell server
-        self.client = ConcreteEditorPlugin(mainWindow=self.mainWindow)
+        # Register the EditorPlugin with the enthought remote_editor server
+        self.client = EditraEditorPlugin(mainWindow=self.mainWindow)
         self.client.register()
 
         # Set up keybindings
@@ -92,8 +94,7 @@ class EnShellPlugin(object):
                          _('Execute selected text in a python shell'),
                          wx.ITEM_NORMAL)
         mnu_run_text.SetBitmap(wx.Bitmap(os.path.join(
-                                    remote_editor.__path__[0], 
-                                    'plugins', 'editra',
+                                    os.path.dirname(__file__), 
                                     'images', 'python_runsel_16x16.png')))
         toolsMenu.AppendItem(mnu_run_text, use_bmp=False)
 
@@ -101,8 +102,7 @@ class EnShellPlugin(object):
                          _('Execute script') + runScriptMenuText,
                          _('Execute file in a python shell'))
         mnu_run_script.SetBitmap(wx.Bitmap(os.path.join(
-                                    remote_editor.__path__[0], 
-                                    'plugins', 'editra',
+                                    os.path.dirname(__file__), 
                                     'images', 'python_run_16x16.png')))
         toolsMenu.AppendItem(mnu_run_script, use_bmp=False)
         
@@ -121,16 +121,14 @@ class EnShellPlugin(object):
         self.run_sel_tb = toolBar.AddLabelTool(ID_RUN_TEXT, 
                             'Execute selection', 
                             wx.Bitmap(os.path.join(
-                                    remote_editor.__path__[0], 
-                                    'plugins', 'editra',
+                                    os.path.dirname(__file__), 
                                     'images', 'python_runsel_24x24.png')),
                             shortHelp='Execute selection',
                             longHelp='Execute selection in shell',
                             )
         self.run_file_tb = toolBar.AddLabelTool(ID_RUN_SCRIPT, 'Execute', 
                             wx.Bitmap(os.path.join(
-                                    remote_editor.__path__[0], 
-                                    'plugins', 'editra',
+                                    os.path.dirname(__file__), 
                                     'images', 'python_run_24x24.png')),
                             shortHelp='Execute script',
                             longHelp='Execute whole file in shell',

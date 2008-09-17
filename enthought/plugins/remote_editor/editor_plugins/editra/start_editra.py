@@ -18,14 +18,14 @@ import Editra
 old_MainLoop = Editra.Editra.MainLoop
 
 def my_MainLoop(self, *args, **kwargs):
-    from enthought.plugins.remote_editor.plugins.editra.enshell_editra_plugin \
-            import EnShellPlugin
-    enshell_plugin = EnShellPlugin(Editra=self)
+    from enthought.plugins.remote_editor.editor_plugins.editra.enshell_editra_plugin \
+            import RemoteEditorPlugin
+    plugin = RemoteEditorPlugin(Editra=self)
     try:
-        enshell_plugin.do_PlugIt()
+        plugin.do_PlugIt()
         old_MainLoop(self, *args, **kwargs)
     finally:
-        enshell_plugin.client.unregister()
+        plugin.client.unregister()
 
 Editra.Editra.MainLoop = my_MainLoop
 
