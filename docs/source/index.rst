@@ -12,6 +12,7 @@ Envisage Core Documentation
 	message_of_the_day.rst
 	message_of_the_day_(using_eggs).rst
 	workbench.rst
+        preferences.rst
 	glossary.rst
 
 * :ref:`search`
