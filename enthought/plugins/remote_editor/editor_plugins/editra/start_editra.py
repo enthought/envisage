@@ -4,13 +4,22 @@
 
 import sys
 import os
-import wx.tools
 
-# Editra needs its src package to be on the sys.path for plugins and
-# such to work right, so put it there before we do the first import of
-# any Editra package or module.
-sys.path.insert(0, os.path.join(os.path.dirname(wx.tools.__file__),
-                                'Editra', 'src'))
+try:
+    import Editra as Editra_root
+    sys.path.insert(0, os.path.join(os.path.dirname(Editra_root.__file__),
+                    'src'))
+    # Really ugly: we need to remove the Editra name from the list of
+    # imported modules
+    sys.modules.pop('Editra')
+except ImportError:
+    import wx.tools
+
+    # Editra needs its src package to be on the sys.path for plugins and
+    # such to work right, so put it there before we do the first import of
+    # any Editra package or module.
+    sys.path.insert(0, os.path.join(os.path.dirname(wx.tools.__file__),
+                                    'Editra', 'src'))
 
 import Editra
 

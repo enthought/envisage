@@ -67,7 +67,10 @@ class RemoteEditorPlugin(object):
         self.client.register()
 
         # Set up keybindings
-        if hasattr(menuBar, 'GetKeyBinder'): # Editra version >= .3
+        try:
+            # Trying to set up keybindings in a not too ugly way. This
+            # sems to be fairly fragile and dependant on the Editra
+            # version, so we fall back to a manual way on exception
             keybinder = menuBar.GetKeyBinder()
             script, text = ("Ctrl", "Enter"), ("Shift", "Enter")
             if keybinder.GetCurrentProfile():
@@ -81,7 +84,7 @@ class RemoteEditorPlugin(object):
                 keybinder.LoadDefaults()
             runScriptMenuText = keybinder.GetBinding(ID_RUN_SCRIPT)
             runTextMenuText = keybinder.GetBinding(ID_RUN_TEXT)
-        else:
+        except:
             mainWindow.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
             runTextMenuText = _("\tShift+Enter")
             runScriptMenuText = _("\tCtrl+Enter")
