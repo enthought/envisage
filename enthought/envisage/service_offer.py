@@ -28,7 +28,7 @@ class ServiceOffer(HasTraits):
     # e.g. 'foo.bar.baz.Baz' is turned into 'from foo.bar.baz import Baz'
     factory = Either(Str, Callable)
 
-    # An arbitrary set of properties to associate with the service offer.
+    # An optional set of properties to associate with the service offer.
     #
     # This dictionary is passed as keyword arguments to the factory.
     properties = Dict
