@@ -2,7 +2,7 @@
 Preferences with Envisage
 =========================
 
-Envisage presents preferences with two different contributions:
+Envisage presents preferences with two different extension points:
 
   * PREFERENCES       = 'enthought.envisage.preferences'
 
@@ -15,7 +15,7 @@ the workbench plugin.
 Preferences
 ------------
 
-The contribution point is simply a list of URLs to the preference file, eg::
+The contribution point is simply a list of URLs to the preference file, e.g.::
 
   preferences_pages = List(
         ['pkgfile://acme.acmelab/preferences.ini'],
@@ -23,6 +23,9 @@ The contribution point is simply a list of URLs to the preference file, eg::
 
 where acme.acmelab is the python-module-like path to the package in which
 the default preferences.ini is stored.
+
+A plugin usually needs only one preferences file, regardless of how many
+preference pages or settings it has.
 
 
 Preferences pages
@@ -41,4 +44,5 @@ contributed to the workbench, as in::
                             import ACMEPreferencePages
             return [ACMEPreferencePages, ]
 
-
+A plugin needs to contribute a preferences pages class for each category
+of preferences it contributes.
