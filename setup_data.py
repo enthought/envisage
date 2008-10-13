@@ -14,7 +14,7 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-APPTOOLS = etsdep('AppTools', '3.0.1')
+APPTOOLS = etsdep('AppTools', '3.1.0')
 CHACO = etsdep('Chaco', '3.0.1')
 ENVISAGECORE = etsdep('EnvisageCore', '3.0.1')
 ETSDEVTOOLS_FBI = etsdep('ETSDevTools[fbi]', '3.0.1')  # -- only by the debug/fbi_plugin.py
