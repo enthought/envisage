@@ -1,5 +1,5 @@
 How To Create a Plugin for an Envisage Application
-==============================================
+==================================================
 
 This document describes the process of creating an Envisage plugin that works
 with a Workbench-based application.
