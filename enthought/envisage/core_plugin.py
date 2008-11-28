@@ -210,7 +210,7 @@ class CorePlugin(Plugin):
     def _load_preferences(self, preferences):
         """ Load all contributed preferences into a preferences node. """
 
-        # Enthoguht library imports.
+        # Enthought library imports.
         from enthought.envisage.resource.api import ResourceManager
 
         # We add the plugin preferences to the default scope. The default scope

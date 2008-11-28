@@ -60,24 +60,6 @@ class ServiceRegistry(HasTraits):
             
         return service
 
-##     def get_service_by_id(self, service_id):
-##         """ Return the service with the specified Id. """
-
-##         try:
-##             name, obj, properties = self._services[service_id]
-##             protocol = ImportManager().import_symbol(name)
-
-##             # If the registered service is actually a factory then use it
-##             # to create the actual object.
-##             obj = self._resolve_factory(
-##                 protocol, name, obj, properties, service_id
-##             )
-                
-##         except KeyError:
-##             obj = None
-            
-##         return obj
-
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
@@ -86,12 +68,16 @@ class ServiceRegistry(HasTraits):
             if self._get_protocol_name(protocol) == name:
                 # If the protocol is a string then we need to import it!
                 if isinstance(protocol, basestring):
-                    protocol = ImportManager().import_symbol(protocol)
+                    actual_protocol = ImportManager().import_symbol(protocol)
 
+                # Otherwise, it is an actual protocol, so just use it!
+                else:
+                    actual_protocol = protocol
+                    
                 # If the registered service is actually a factory then use it
                 # to create the actual object.
                 obj = self._resolve_factory(
-                    protocol, name, obj, properties, service_id
+                    actual_protocol, name, obj, properties, service_id
                 )
                 
                 # If a query was specified then only add the service if it

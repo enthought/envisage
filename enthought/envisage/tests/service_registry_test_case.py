@@ -224,13 +224,16 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
-        # Register a service.
+        # Register two services.
+        foo = Foo()
+        self.service_registry.register_service(IFoo, foo)
+
         foo = Foo()
         self.service_registry.register_service(IFoo, foo)
 
         # Look it up again.
         services = self.service_registry.get_services(IFoo)
-        self.assertEqual([foo], services)
+        self.assertEqual(2, len(services))
 
         class IBar(Interface):
             pass
@@ -238,6 +241,23 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Lookup a non-existent service.
         services = self.service_registry.get_services(IBar)
         self.assertEqual([], services)
+        
+        return
+
+    def test_get_services_with_strings(self):
+        """ get services with strings """
+
+        from enthought.envisage.tests.foo import Foo
+        
+        # Register a couple of services using a string protocol name.
+        protocol_name = 'enthought.envisage.tests.foo.IFoo'
+
+        self.service_registry.register_service(protocol_name, Foo())
+        self.service_registry.register_service(protocol_name, Foo())
+
+        # Look them up using the same string!
+        services = self.service_registry.get_services(protocol_name)
+        self.assertEqual(2, len(services))
         
         return
 
@@ -296,7 +316,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class Foo(HasTraits):
             implements(IFoo)
 
-        # Register two services.
+        # Register a couple of services.
         foo = Foo()
         self.service_registry.register_service(IFoo, foo)
 
@@ -509,8 +529,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(z, service)
 
         return
-
-
+    
+        
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
     unittest.main()
