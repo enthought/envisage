@@ -22,7 +22,7 @@ setup(
     entry_points = """
 
     [enthought.envisage.plugins]
-    foo = acme.foo.foo_plugin:FooPlugin
+    acme.foo = acme.foo.foo_plugin:FooPlugin
     
     """
 )

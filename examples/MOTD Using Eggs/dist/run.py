@@ -11,13 +11,15 @@ Usually, all you have to do in here is:-
    application.
 
 """
+
 # FIXME: This fix will work for now, but I believe there is a better way to do
 # this in which the loader would be smart enough to know what plugins it should
 # load without having to explicitly define them in 'include'. Also, the custom
 # __plugin_default method now looks at the entry point name instead of the
 # plugin.id, which is less specific therefore less preferable. This was done,
 # however, because the ep.name can be accessed before the ep.load() call, which
-# was causing problems when loading plugins not designed for this app. (dmartin)
+# was causing problems when loading plugins not designed for this app.
+# (dmartin)
 
 # Standard library imports.
 import logging
@@ -26,25 +28,28 @@ import logging
 from enthought.envisage.api import Application, EggPluginManager
 from enthought.envisage.egg_utils import get_entry_points_in_egg_order
 
+
 # Create a log file.
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler(file('acme_motd.log', 'w')))
 logger.setLevel(logging.DEBUG)
+
 
 # A list of the directories that contain the application's eggs (any directory
 # not specified as an absolute path is treated as being relative to the current
 # working directory).
 EGG_PATH = ['eggs']
 
+
 class MOTDPluginManager(EggPluginManager):
     """ A plugin manager that will get only the MOTD eggs """
 
-    # Only include the plugins necessary for the example
+    # Only include the plugins necessary for the example.
     include = ['core', 'motd', 'software_quotes']
 
-    # Use a custom plugin loader that will NOT attempt to execute a .load on
+    # Use a custom plugin loader that will NOT attempt to execute a 'load' on
     # every plugin, therefore avoiding any errors that unwanted plugins may
-    # cause. Only execute a .load on entry points that are given in 'include'
+    # cause. Only execute a 'load' on entry points that are given in 'include'.
     def __plugins_default(self):
         """ Trait initializer. """
 
@@ -59,12 +64,15 @@ class MOTDPluginManager(EggPluginManager):
 
         return plugins
 
+
 def run():
     """ The function that starts your application. """
 
     # Create an application that uses the egg plugin manager to find its
     # plugins.
-    application = Application(id='acme.motd',plugin_manager=MOTDPluginManager())
+    application = Application(
+        id='acme.motd',plugin_manager=MOTDPluginManager()
+    )
 
     # Run it!
     return application.run()
@@ -79,6 +87,7 @@ from pkg_resources import Environment, working_set
 
 # Logging.
 logger = logging.getLogger(__name__)
+
 
 def main():
     """ Run the application. """
@@ -97,6 +106,7 @@ def main():
 
     # Create and run the application.
     return run()
+
 
 if __name__ == '__main__':
     main()

@@ -11,6 +11,33 @@ from enthought.envisage.api import EggPluginManager
 from egg_based_test_case import EggBasedTestCase
 
 
+# The current 'best practise' is to make the entry point name the same as
+# the plugin Id. This allows us to not have to even import plugins that
+# we are not interested in.
+class MyEggPluginManager(EggPluginManager):
+    """ An egg plugin manager that relies on entry point names being plugin Ids
+
+    """
+
+    ###########################################################################
+    # Protected 'PluginManager' interface.
+    ###########################################################################
+
+    def __plugins_default(self):
+        """ Trait initializer. """
+
+        from enthought.envisage.egg_utils import get_entry_points_in_egg_order
+
+        plugins = []
+        for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
+            if len(self.include) == 0 or ep.name in self.include:
+                klass  = ep.load()
+                plugin = klass(application=self.application)
+                plugins.append(plugin)
+
+        return plugins
+
+    
 class EggPluginManagerTestCase(EggBasedTestCase):
     """ Tests for the Egg plugin manager. """
 
@@ -22,9 +49,9 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         """ Prepares the test fixture before each test method is called. """
 
         EggBasedTestCase.setUp(self)
-        
-        self.plugin_manager = EggPluginManager()
 
+        self.plugin_manager = MyEggPluginManager()
+        
         return
 
     def tearDown(self):
@@ -75,7 +102,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Ignore any other plugins that may be in the working set.
         plugins = [
-            plugin for plugin in self.plugin_manager#.get_plugins()
+            plugin for plugin in self.plugin_manager
 
             if plugin in [foo, bar, baz]
         ]

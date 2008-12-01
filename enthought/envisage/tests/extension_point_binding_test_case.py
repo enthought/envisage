@@ -10,7 +10,12 @@ from enthought.envisage.api import bind_extension_point
 from enthought.traits.api import Bool, HasTraits, Int, List, Float, Str
 
 # Local imports.
-from mutable_extension_registry import MutableExtensionRegistry
+#
+# We do these as absolute imports to allow nose to run from a different
+# working directory.
+from enthought.envisage.tests.mutable_extension_registry import (
+    MutableExtensionRegistry
+)
 
 
 def listener(obj, trait_name, old, new):

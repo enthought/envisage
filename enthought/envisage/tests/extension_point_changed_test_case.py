@@ -8,8 +8,12 @@ import unittest
 from enthought.envisage.api import ExtensionPoint
 
 # Local imports.
-from application_test_case import PluginA, PluginB, PluginC
-from application_test_case import TestApplication, listener
+#
+# We do these as absolute imports to allow nose to run from a different
+# working directory.
+from enthought.envisage.tests.application_test_case import (
+    PluginA, PluginB, PluginC, TestApplication, listener
+)
 
     
 class ExtensionPointChangedTestCase(unittest.TestCase):

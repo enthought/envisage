@@ -12,7 +12,10 @@ from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
 from enthought.traits.api import List, Str, implements
 
 # Local imports.
-from event_tracker import EventTracker
+#
+# We do these as absolute imports to allow nose to run from a different
+# working directory.
+from enthought.envisage.tests.event_tracker import EventTracker
 
 
 def listener(obj, trait_name, old, new):
