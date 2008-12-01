@@ -117,21 +117,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
         def foo_factory(**properties):
             """ A factory for foos. """
 
-            from foo import Foo
+            from enthought.envisage.tests.foo import Foo
 
             foo_factory.foo = Foo()
             
             return foo_factory.foo
 
-        # If the test is being run outside of this directory then use the
-        # full Python package path.
-        if '.' in ServiceRegistryTestCase.__module__:
-            i_foo = PKG + '.i_foo.IFoo'
-            foo   = PKG + '.foo'
-
-        else:
-            i_foo = 'i_foo.IFoo'
-            foo   = 'foo'
+        i_foo = PKG + '.i_foo.IFoo'
+        foo   = PKG + '.foo'
             
         self.service_registry.register_service(i_foo, foo_factory)
 
@@ -161,15 +154,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
     def test_lazy_bound_method_service_factory(self):
         """ lazy bound method service factory """
 
-        # If the test is being run outside of this directory then use the
-        # full Python package path.
-        if '.' in ServiceRegistryTestCase.__module__:
-            i_foo = PKG + '.i_foo.IFoo'
-            foo   = PKG + '.foo'
-
-        else:
-            i_foo = 'i_foo.IFoo'
-            foo   = 'foo'
+        i_foo = PKG + '.i_foo.IFoo'
+        foo   = PKG + '.foo'
 
         class ServiceProvider(HasTraits):
             """ A class that provides a service.
@@ -183,7 +169,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             def foo_factory(self, **properties):
                 """ A factory for foos. """
                 
-                from foo import Foo
+                from enthought.envisage.tests.foo import Foo
                 
                 self.foo = Foo()
 

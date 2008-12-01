@@ -39,15 +39,6 @@ class IServiceRegistry(Interface):
         Don't try to guess *which* one it will return - it is random!
 
         """
-
-##     def get_service_by_id(self, service_id):
-##         """ Return the service with the specified Id.
-
-##         Return None if no such service exists (this obviously means that you
-##         can't register 'None' as a service - at least if you want to look it
-##         up using this method).
-
-##         """
         
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.

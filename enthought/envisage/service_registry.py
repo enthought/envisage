@@ -27,12 +27,12 @@ class ServiceRegistry(HasTraits):
     
     # The services in the registry.
     #
-    # { service_id : (protocol, obj, properties) }
+    # { service_id : (protocol_name, obj, properties) }
     #
     # where:
     #
-    # 'protocol' is the interface, type or class that the object is registered
-    # against.
+    # 'protocol_name' is the (possible dotted) name of the interface, type or
+    # class that the object is registered against.
     #
     # 'obj' is the object that is registered (any old, Python object!).
     #
