@@ -35,8 +35,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # module 'foo' need to be cleared out when this test is run by nose,
         # because other tests also import foo.
-        if 'foo' in sys.modules:
-            del sys.modules['foo']
+        if PKG + '.foo' in sys.modules:
+            del sys.modules[PKG + '.foo']
 
         return
 
