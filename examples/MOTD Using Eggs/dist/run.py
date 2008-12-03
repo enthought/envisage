@@ -12,14 +12,6 @@ Usually, all you have to do in here is:-
 
 """
 
-# FIXME: This fix will work for now, but I believe there is a better way to do
-# this in which the loader would be smart enough to know what plugins it should
-# load without having to explicitly define them in 'include'. Also, the custom
-# __plugin_default method now looks at the entry point name instead of the
-# plugin.id, which is less specific therefore less preferable. This was done,
-# however, because the ep.name can be accessed before the ep.load() call, which
-# was causing problems when loading plugins not designed for this app.
-# (dmartin)
 
 # Standard library imports.
 import logging
@@ -42,10 +34,16 @@ EGG_PATH = ['eggs']
 
 
 class MOTDPluginManager(EggPluginManager):
-    """ A plugin manager that will get only the MOTD eggs """
+    """ A plugin manager that will only include the MOTD eggs.
+
+    i.e. It will ignore any other eggs that you have on your sys.path.
+
+    """
 
     # Only include the plugins necessary for the example.
-    include = ['core', 'motd', 'software_quotes']
+    include = [
+        'enthought.envisage.core', 'acme.motd', 'acme.motd.software_quotes'
+    ]
 
     # Use a custom plugin loader that will NOT attempt to execute a 'load' on
     # every plugin, therefore avoiding any errors that unwanted plugins may
@@ -55,7 +53,7 @@ class MOTDPluginManager(EggPluginManager):
 
         plugins = []
         for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
-            if ep.name in self.include:
+            if len(self.include) == 0 or ep.name in self.include:
                 klass  = ep.load()
                 plugin = klass(application=self.application)
                 plugins.append(plugin)
@@ -71,7 +69,7 @@ def run():
     # Create an application that uses the egg plugin manager to find its
     # plugins.
     application = Application(
-        id='acme.motd',plugin_manager=MOTDPluginManager()
+        id='acme.motd', plugin_manager=MOTDPluginManager()
     )
 
     # Run it!

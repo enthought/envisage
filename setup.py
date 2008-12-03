@@ -96,7 +96,7 @@ setup(
     description = DOCLINES[1],
     entry_points = """
         [enthought.envisage.plugins]
-        core = enthought.envisage.core_plugin:CorePlugin
+        enthought.envisage.core = enthought.envisage.core_plugin:CorePlugin
         """,
     extras_require = INFO['extras_require'],
     ext_modules = [],
