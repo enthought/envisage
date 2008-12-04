@@ -128,12 +128,18 @@ entry point in our 'setup.py' module::
         ...
 
 	[enthought.envisage.plugins]
-	motd = acme.motd.motd_plugin:MOTDPlugin
+	acme.motd = acme.motd.motd_plugin:MOTDPlugin
 
         ...
     
         """
     )
+
+The left-hand-side of the 'acme.motd = acme.motd.motd_plugin:MOTDPlugin' line
+*must* be the same as the 'id' trait as specified in the 'MOTDPlugin' class -
+in this case 'acme.motd'. While this smacks of duplication, it allows plugin
+managers such as the 'EggPluginManager' to filter unwanted plugins by id
+without the need to import and instantiate them.
 
 Notice that we don't import the plugin from an 'api.py' module. This is to
 delay importing implementation code until it is actually needed.
@@ -315,7 +321,7 @@ and tell Envisage about the plugin::
         entry_points = """
 
         [enthought.envisage.plugins]
-	software_quotes = acme.motd.software_quotes.software_quotes_plugin:SoftwareQuotesPlugin
+	acme.motd.software_quotes = acme.motd.software_quotes.software_quotes_plugin:SoftwareQuotesPlugin
 
 	...
 

@@ -49,12 +49,9 @@ class EggBasedTestCase(unittest.TestCase):
 
         return
     
-    def _add_eggs_on_path(self, path=None, working_set=None):
+    def _add_eggs_on_path(self, path, working_set=None):
         """ Add all eggs found on the path to a working set. """
 
-        if path is None:
-            path = [self.egg_dir]
-            
         if working_set is None:
             working_set = pkg_resources.working_set
 

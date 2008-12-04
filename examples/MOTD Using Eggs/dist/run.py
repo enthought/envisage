@@ -16,10 +16,6 @@ Usually, all you have to do in here is:-
 # Standard library imports.
 import logging
 
-# Enthought library imports
-from enthought.envisage.api import Application, EggPluginManager
-from enthought.envisage.egg_utils import get_entry_points_in_egg_order
-
 
 # Create a log file.
 logger = logging.getLogger()
@@ -33,43 +29,27 @@ logger.setLevel(logging.DEBUG)
 EGG_PATH = ['eggs']
 
 
-class MOTDPluginManager(EggPluginManager):
-    """ A plugin manager that will only include the MOTD eggs.
-
-    i.e. It will ignore any other eggs that you have on your sys.path.
-
-    """
-
-    # Only include the plugins necessary for the example.
-    include = [
-        'enthought.envisage.core', 'acme.motd', 'acme.motd.software_quotes'
-    ]
-
-    # Use a custom plugin loader that will NOT attempt to execute a 'load' on
-    # every plugin, therefore avoiding any errors that unwanted plugins may
-    # cause. Only execute a 'load' on entry points that are given in 'include'.
-    def __plugins_default(self):
-        """ Trait initializer. """
-
-        plugins = []
-        for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
-            if len(self.include) == 0 or ep.name in self.include:
-                klass  = ep.load()
-                plugin = klass(application=self.application)
-                plugins.append(plugin)
-
-        logger.debug('motd plugin manager found plugins <%s>', plugins)
-
-        return plugins
-
-
 def run():
     """ The function that starts your application. """
 
+    # Enthought library imports.
+    #
+    # We do the imports here in case the Enthought eggs are loaded dyanmically
+    # via the 'EGG_PATH'.
+    from enthought.envisage.api import Application, EggPluginManager
+
+    # Create a plugin manager that ignores all eggs except the ones that we
+    # need for this example.
+    plugin_manager = EggPluginManager(
+        include = [
+            'enthought.envisage.core', 'acme.motd', 'acme.motd.software_quotes'
+        ]
+    )
+    
     # Create an application that uses the egg plugin manager to find its
     # plugins.
     application = Application(
-        id='acme.motd', plugin_manager=MOTDPluginManager()
+        id='acme.motd', plugin_manager=plugin_manager, argv=sys.argv
     )
 
     # Run it!
