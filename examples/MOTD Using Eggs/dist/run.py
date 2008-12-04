@@ -48,9 +48,7 @@ def run():
     
     # Create an application that uses the egg plugin manager to find its
     # plugins.
-    application = Application(
-        id='acme.motd', plugin_manager=plugin_manager, argv=sys.argv
-    )
+    application = Application(id='acme.motd', plugin_manager=plugin_manager)
 
     # Run it!
     return application.run()
