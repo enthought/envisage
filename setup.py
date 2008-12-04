@@ -95,7 +95,7 @@ setup(
         enthought.envisage.ui.workbench = enthought.envisage.ui.workbench.workbench_plugin:WorkbenchPlugin
         enthought.plugins.python_shell = enthought.plugins.python_shell.python_shell_plugin:PythonShellPlugin
         enthought.envisage.developer = enthought.envisage.developer.developer_plugin:DeveloperPlugin
-        enthought.envisage.developer_ui = enthought.envisage.developer.ui.developer_ui_plugin:DeveloperUIPlugin
+        enthought.envisage.developer.ui = enthought.envisage.developer.ui.developer_ui_plugin:DeveloperUIPlugin
         ''',
     extras_require = INFO['extras_require'],
     ext_modules = [],
