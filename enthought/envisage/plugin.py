@@ -2,7 +2,8 @@
 
 
 # Standard library imports.
-import inspect, logging
+import inspect, logging, os
+from os.path import exists, join
 
 # Enthought library imports.
 from enthought.traits.api import Instance, List, Property, Str, implements
@@ -143,9 +144,6 @@ class Plugin(ExtensionProvider):
 
     def _home_default(self):
         """ Trait initializer. """
-
-        from os.path import exists, join
-        import os
         
         # Each plugin gets a sub-directory of a 'plugins' directory in
         # 'application.home'.
