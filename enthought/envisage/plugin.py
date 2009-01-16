@@ -45,6 +45,10 @@ class Plugin(ExtensionProvider):
     # The application that the plugin is part of.
     application = Instance(IApplication)
 
+    # The name of a directory (created for you) that the plugin can read and
+    # write to at will.
+    home = Str
+
     # The plugin's unique identifier.
     #
     # If no identifier is specified then the module and class name of the
@@ -137,6 +141,27 @@ class Plugin(ExtensionProvider):
 
     #### Trait initializers ###################################################
 
+    def _home_default(self):
+        """ Trait initializer. """
+
+        from os.path import exists, join
+        import os
+        
+        # Each plugin gets a sub-directory of a 'plugins' directory in
+        # 'application.home'.
+        #
+        # i.e. .../my.application.id/plugins/
+        plugins_dir = join(self.application.home, 'plugins')
+        if not exists(plugins_dir):
+            os.mkdir(plugins_dir)
+
+        # Now create the 'home' directory of this plugin.
+        home_dir = join(plugins_dir, self.id)
+        if not exists(home_dir):
+            os.mkdir(home_dir)
+            
+        return home_dir
+    
     def _id_default(self):
         """ Trait initializer. """
 

@@ -17,6 +17,10 @@ class IPlugin(Interface):
     # The application that the plugin is part of.
     application = Instance('enthought.envisage.api.IApplication')
 
+    # The name of a directory (created for you) that the plugin can read and
+    # write to at will.
+    home = Str
+
     # The plugin's unique identifier.
     #
     # Where 'unique' technically means 'unique within the plugin manager', but

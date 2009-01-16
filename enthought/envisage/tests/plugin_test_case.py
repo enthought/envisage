@@ -3,6 +3,7 @@
 
 # Standard library imports.
 import random, unittest
+from os.path import exists, join
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
@@ -407,6 +408,45 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual([], a.x)
         self.assertEqual([4, 5, 6], a.removed)
 
+        return
+
+    def test_home(self):
+        """ home """
+
+        class PluginA(Plugin):
+            id = 'A'
+
+        class PluginB(Plugin):
+            id = 'B'
+
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # Make sure that each plugin gets its own directory.
+        self.assertEqual(join(application.home, 'plugins', a.id), a.home)
+        self.assertEqual(join(application.home, 'plugins', b.id), b.home)
+
+        # Make sure that the directories got created.
+        self.assert_(exists(a.home))
+        self.assert_(exists(b.home))
+
+        # Create a new application with plugins with the same Id to make sure
+        # that it all works when the directories already exist.
+        a = PluginA()
+        b = PluginB()
+
+        application = TestApplication(plugins=[a, b])
+
+        # Make sure that each plugin gets its own directory.
+        self.assertEqual(join(application.home, 'plugins', a.id), a.home)
+        self.assertEqual(join(application.home, 'plugins', b.id), b.home)
+
+        # Make sure the directories got created.
+        self.assert_(exists(a.home))
+        self.assert_(exists(b.home))
+        
         return
 
 

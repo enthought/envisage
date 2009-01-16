@@ -18,7 +18,8 @@ class IApplication(
     ):
     """ The application interface. """
 
-    # A directory that the application can read and write to at will.
+    # The name of a directory (created for you) that the application can read
+    # and write to at will.
     home = Str
 
     # The application's globally unique identifier.
