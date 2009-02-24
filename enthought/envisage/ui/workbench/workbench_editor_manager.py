@@ -58,6 +58,8 @@ class WorkbenchEditorManager(EditorManager):
     def _is_editing(self, editor, obj, kind):
         """ Return True if the editor is editing the object. """
 
+        if kind is None:
+            kind = TraitsUIEditor
         return self._editor_to_kind_map[editor] is kind and editor.obj == obj
 
 #### EOF ######################################################################
