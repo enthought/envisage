@@ -63,6 +63,9 @@ class IPythonShellView(View):
 
     #### Private interface ####################################################
 
+    # Banner.
+    _banner = ExtensionPoint(id='enthought.plugins.ipython_shell.banner')
+
     # Bindings.
     _bindings = ExtensionPoint(id='enthought.plugins.python_shell.bindings')
 
@@ -85,7 +88,9 @@ class IPythonShellView(View):
     def create_control(self, parent):
         """ Creates the toolkit-specific control that represents the view. """
 
-        self.shell = IPythonWidget(parent, interp=self.interpreter)
+        self.shell = IPythonWidget(parent,
+                                   banner='\n'.join(self._banner), 
+                                   interp=self.interpreter)
 
         # Namespace contributions.
         for bindings in self._bindings:

@@ -10,6 +10,7 @@ class IPythonShellPlugin(Plugin):
     """ An IPython shell plugin. """
 
     # Extension point Ids.
+    BANNER          = 'enthought.plugins.ipython_shell.banner'
     BINDINGS        = 'enthought.plugins.python_shell.bindings'
     COMMANDS        = 'enthought.plugins.python_shell.commands'
     VIEWS           = 'enthought.envisage.ui.workbench.views'
@@ -24,6 +25,15 @@ class IPythonShellPlugin(Plugin):
     name = 'Python Shell'
 
     #### Extension points offered by this plugin ##############################
+
+    banner = ExtensionPoint(
+        List(Str), id=BANNER, desc="""
+
+        This extension point allows you to contribute a string that
+        is printed as a banner when the IPython shell is started.
+        """
+    )
+
 
     bindings = ExtensionPoint(
         List(Dict), id=BINDINGS, desc="""
