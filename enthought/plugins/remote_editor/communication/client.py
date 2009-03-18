@@ -41,7 +41,7 @@ class ClientThread(Thread):
                 port = sock.getsockname()[1]
                 args = self.client.server_prefs + ( port, )
                 code = "from enthought.plugins.remote_editor.communication.server import main;"
-                code += "main('%s', '%s', %i)" % args
+                code += "main(r'%s', '%s', %i)" % args
                 spawn_independent([sys.executable, '-c', code])
 
                 # Await a reponse from the server
@@ -52,6 +52,7 @@ class ClientThread(Thread):
                         if command == "__port__":
                             self.client._server_port = int(arguments)
                         else:
+                            sock.shutdown(socket.SHUT_RD)
                             raise socket.error
                     finally:
                         server.shutdown(socket.SHUT_RD)
@@ -60,8 +61,6 @@ class ClientThread(Thread):
                     self.client.error = True
                     self.client.unregister()
                     return
-                finally:
-                    sock.shutdown(socket.SHUT_RD)
                     
             else:
                 logger.error("Client could not contact the Server and no spawn command is defined. Unregistering...")
