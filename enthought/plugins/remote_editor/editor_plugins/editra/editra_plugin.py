@@ -113,6 +113,7 @@ class RemoteEditorPlugin(object):
         self.mainWindow._handlers['menu'].extend(
             [(ID_RUN_SCRIPT, self.OnRunScript),
                  (ID_RUN_TEXT, self.OnRunText) ])
+        
 
         # The enable/disable callback for the toolbar button (we
         # need to insert this callback at the front of the stack).
@@ -136,6 +137,14 @@ class RemoteEditorPlugin(object):
                             shortHelp='Execute script',
                             longHelp='Execute whole file in shell',
                             )
+        # For some reason, just calling AddLabelTool is not displaying the new
+        # tools in the toolbar (for Win XP at least). 
+        # Calling ReInit re-initializes all the tools and
+        # the new tools show up. This is probably related to the bitmaps we are
+        # passing in for the new tools. 
+        # Source code forEdToolBar is in: 
+        # http://www.editra.org/docs/editra_api/Editra.src.ed_toolbar-pysrc.html
+        toolBar.ReInit()
 
     def OnRunScript(self, event):
         """ Run the script, prompting for a save if necessary.
