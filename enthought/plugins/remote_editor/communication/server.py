@@ -165,9 +165,11 @@ class Server(HasTraits):
                 finally:
                     server.shutdown(socket.SHUT_RD)
             except socket.error:
+                sock.shutdown(socket.SHUT_RD)
                 return False
-        finally:
+        except:
             sock.shutdown(socket.SHUT_RD)
+
 
     def _spawn(self, object_type):
         """ Attempt to spawn an process according the specified type. Returns
