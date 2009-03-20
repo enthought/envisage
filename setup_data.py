@@ -14,9 +14,9 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-APPTOOLS = etsdep('AppTools', '3.2.0')
-ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.2')
-TRAITS = etsdep('Traits', '3.1.0')
+APPTOOLS = etsdep('AppTools', '3.2.1')
+ENTHOUGHTBASE = etsdep('EnthoughtBase', '3.0.3')
+TRAITS = etsdep('Traits', '3.1.1')
 
 
 # A dictionary of the setup data information.
@@ -33,6 +33,6 @@ INFO = {
         TRAITS,
         ],
     'name': 'EnvisageCore',
-    'version': '3.1.0',
+    'version': '3.1.1',
     }
 
