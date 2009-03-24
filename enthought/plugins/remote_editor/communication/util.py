@@ -79,31 +79,39 @@ def send_port(port, command, arguments='', timeout=None):
     except socket.error:
         return False
     finally:
-        sock.shutdown(socket.SHUT_WR)
-        
+        try:
+            sock.shutdown(socket.SHUT_WR)
+        except:
+            pass
     return True
-
-
+    
 def recieve(sock):
     """ Recieve a command with arguments from a socket that was previously
         sent information with 'send'.
     """
+    # Use select to query the socket for activity before calling sock.recv
+    # Choose a timeout of 60. seconds for now.
+    import select
     index = -1
     chunk, length = '', ''
-    while index == -1:
-        length += chunk
-        chunk = sock.recv(4096)
-        if not chunk:
-            raise socket.error
-        index = chunk.find(MESSAGE_SEP)
-    length = int(length + chunk[:index])
+    received = False
+    while not received:
+        readers, writers, in_error = select.select([sock], [], [], 60)
+        for rsock in readers:
+            while index == -1:
+                length += chunk
+                chunk = rsock.recv(4096)
+                if not chunk:
+                    raise socket.error
+                index = chunk.find(MESSAGE_SEP)
+            length = int(length + chunk[:index])
 
-    msg = chunk[index+1:]
-    while len(msg) < length:
-        chunk = sock.recv(length - len(msg))
-        if not chunk:
-            raise socket.error
-        msg += chunk
-
+            msg = chunk[index+1:]
+            while len(msg) < length:
+                chunk = rsock.recv(length - len(msg))
+                if not chunk:
+                    raise socket.error
+                msg += chunk
+            received = True
     command, sep, arguments = msg.partition(MESSAGE_SEP)
     return command, arguments
