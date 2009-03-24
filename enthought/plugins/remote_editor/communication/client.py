@@ -55,7 +55,11 @@ class ClientThread(Thread):
                             sock.shutdown(socket.SHUT_RD)
                             raise socket.error
                     finally:
-                        server.shutdown(socket.SHUT_RD)
+                        # use try..except to handle timeouts.
+                        try:
+                            server.shutdown(socket.SHUT_RD)
+                        except:
+                            pass
                 except socket.error:
                     logger.error("Client spawned a non-responsive Server! Unregistering...")
                     self.client.error = True
