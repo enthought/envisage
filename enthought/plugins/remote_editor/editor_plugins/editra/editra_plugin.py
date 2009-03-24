@@ -137,14 +137,10 @@ class RemoteEditorPlugin(object):
                             shortHelp='Execute script',
                             longHelp='Execute whole file in shell',
                             )
-        # For some reason, just calling AddLabelTool is not displaying the new
-        # tools in the toolbar (for Win XP at least). 
-        # Calling ReInit re-initializes all the tools and
-        # the new tools show up. This is probably related to the bitmaps we are
-        # passing in for the new tools. 
-        # Source code forEdToolBar is in: 
-        # http://www.editra.org/docs/editra_api/Editra.src.ed_toolbar-pysrc.html
-        toolBar.ReInit()
+        # Just calling AddLabelTool is not displaying the new
+        # tools in the toolbar (for Win XP and OS-X at least). Need to call
+        # Realize.
+        toolBar.Realize()
 
     def OnRunScript(self, event):
         """ Run the script, prompting for a save if necessary.
