@@ -163,7 +163,10 @@ class Server(HasTraits):
                     return  (command == "__status__" 
                                 and bool(int(arguments)))
                 finally:
-                    server.shutdown(socket.SHUT_RD)
+                    try:
+                        server.shutdown(socket.SHUT_RD)
+                    except:
+                        pass
             except socket.error:
                 # 'sock' may have timed out, so use try..except.
                 try:
@@ -173,9 +176,9 @@ class Server(HasTraits):
                 return False
         except:
 	    try:
-		sock.shutdown(socket.SHUT_RD)
+	        sock.shutdown(socket.SHUT_RD)
 	    except:
-		pass
+	        pass
 
     def _spawn(self, object_type):
         """ Attempt to spawn an process according the specified type. Returns
