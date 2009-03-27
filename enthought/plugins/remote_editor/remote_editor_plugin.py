@@ -40,7 +40,7 @@ class RemoteEditorPlugin(Plugin):
     action_sets = List(contributes_to=ACTION_SETS)
 
     # Preferences pages.
-    preferences_pages = List(contributes_to=PREFERENCES_PAGES)
+    #preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     # Preferences.
     preferences = List(contributes_to=PREFERENCES)
