@@ -30,7 +30,7 @@ class ClientThread(Thread):
     def run(self):
         # Get the server port, spawning it if necessary
         server_port = get_server_port()
-        if server_port == -1 or not Server.ping(server_port):
+        if server_port == -1 or not Server.ping(server_port, timeout=5):
             if len(self.client.server_prefs):
                 # Spawn the server
                 logger.info("Client spawning Server...")
@@ -87,7 +87,7 @@ class ClientThread(Thread):
         self.client.error = not send_port(self.client._server_port, 'register',
                                           arguments)
         self.client.registered = True
-
+        
         # Send queued commands (these only can exist if we spawned the server)
         for command, arguments in self.client._queue:
             self.client.error = not send_port(self.client._server_port,
@@ -107,8 +107,8 @@ class ClientThread(Thread):
                     self.client.error = False
                     command, arguments = recieve(server)
                     msg = "Client on port %s recieved: %s %s"
-                    logger.debug(msg % (port, command, arguments))
-                    if command == "__orphaned__":
+                    logger.info(msg, port, command, arguments)
+                    if command == "__orphaned__":                        
                         self.client.orphaned = bool(int(arguments))
                     elif command == "__error__":
                         error_status = arguments[0]
