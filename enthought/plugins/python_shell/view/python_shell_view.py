@@ -3,7 +3,6 @@
 
 # Standard library imports.
 import logging, sys
-from sets import Set
 
 # Enthought library imports.
 from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
@@ -12,7 +11,7 @@ from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.api import PythonShell
 from enthought.pyface.workbench.api import View
 from enthought.traits.api import Any, Event, Instance, Property, implements
-
+from enthought.util.api import Set
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
