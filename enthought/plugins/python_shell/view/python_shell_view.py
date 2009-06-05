@@ -11,7 +11,6 @@ from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.api import PythonShell
 from enthought.pyface.workbench.api import View
 from enthought.traits.api import Any, Event, Instance, Property, implements
-from enthought.util.api import Set
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
@@ -119,7 +118,7 @@ class PythonShellView(View):
         # We take note of the starting set of names bound in the interpreter's
         # namespace so that we can show the user what they have added or
         # removed in the namespace view.
-        self._names = Set(self.names)
+        self._names = set(self.names)
 
         # Register the view as a service.
         self.window.application.register_service(IPythonShell, self)
@@ -198,7 +197,7 @@ class PythonShellView(View):
 
         if self.control is not None:
             # Get the names that are now bound in the namespace.
-            names = Set(self.names)
+            names = set(self.names)
 
             # Find the differences in the namespace caused by the command
             # execution.

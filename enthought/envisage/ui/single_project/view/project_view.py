@@ -26,7 +26,6 @@ from enthought.envisage.ui.single_project.project import Project
 from enthought.envisage.ui.single_project.services import IPROJECT_MODEL, \
     IPROJECT_UI
 
-from enthought.util.api import Set
 
 # Setup a logger for this module.
 logger=logging.getLogger(__name__)
@@ -153,8 +152,8 @@ class ProjectView(HasTraits):
         otherwise.
 
         """
-        set1 = Set(list1)
-        set2 = Set(list2)
+        set1 = set(list1)
+        set2 = set(list2)
         return set1 != set2
 
 
