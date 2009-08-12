@@ -141,7 +141,6 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         
         if len(definition.class_name) > 0:
             klass = self._import_symbol(definition.class_name)
-            
         else:
             klass = ToolBarManager
         
@@ -149,7 +148,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         # set it here because it is set on the 'MenuManager'! However, it
         # seems that menus and actions etc should *always* have a reference
         # to the window that they are in?!?
-        tool_bar_manager = ToolBarManager(**traits)
+        tool_bar_manager = klass(**traits)
             
         # Add any groups to the tool bar.
         for group in definition.groups:
