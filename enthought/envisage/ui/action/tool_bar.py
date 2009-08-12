@@ -55,7 +55,7 @@ class ToolBar(Location):
     # The groups in the tool bar.
     groups = List(CGroup)
 
-    # The optional name of a class that implements the too bar. The class must
+    # The optional name of a class that implements the tool bar. The class must
     # support the **enthought.pyface.action.ToolBarManager** protocol.
     class_name = Str
 
