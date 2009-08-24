@@ -25,8 +25,8 @@ class EnvisageRemoteEditorController(RemoteEditorController):
         from the editor.
     """
 
-    # Tell the client code to play well with the wx event loop
-    wx = True
+    # Tell the Client code to play well with the wx or Qt4 event loop
+    is_ui = True
 
     # A reference to the Envisage application.
     application = Instance(Application)
@@ -34,12 +34,12 @@ class EnvisageRemoteEditorController(RemoteEditorController):
     ###########################################################################
     # EnvisageRemoteEditorController interface
     ###########################################################################
+
     def run_file(self, path):
         """ Called by the server to execute a file.
         """
         shell = self.application.get_service(IPythonShell)
         shell.execute_command('%run ' + '"%s"' % path, hidden=False)
-
 
     def run_text(self, text):
         """ Called by the server to execute text.
@@ -47,14 +47,11 @@ class EnvisageRemoteEditorController(RemoteEditorController):
         shell = self.application.get_service(IPythonShell)
         shell.execute_command(text, hidden=False)
 
-
     ###########################################################################
     # Enshell Client interface
     ###########################################################################
-    def handle_command(self, command, arguments):
-        GUI.invoke_later(self._handle_command, command, arguments)
 
-    def _handle_command(self, command, arguments):
+    def handle_command(self, command, arguments):
         """ Hande commands coming in from the server.
         """
         logger.info('Enshell client recieved message: %s %s' 
@@ -67,11 +64,9 @@ class EnvisageRemoteEditorController(RemoteEditorController):
             return True
         return False
 
-
     def send_command(self, command, *args):
         """ Sends commands to the remote server.
         """
         logger.info('Enshell client sending command: %s, %s' %
                         (command, args))
         RemoteEditorController.send_command(self, command, *args)
-

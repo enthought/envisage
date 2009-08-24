@@ -7,9 +7,8 @@ from threading import Thread
 
 # ETS imports
 from enthought.traits.api import HasTraits, Int, Str, Bool, Instance, List, \
-     Tuple
+     Tuple, Enum
 from enthought.plugins import remote_editor
-
 
 # Local imports
 from server import Server
@@ -17,6 +16,7 @@ from util import get_server_port, recieve, send_port, spawn_independent, \
      MESSAGE_SEP
 
 logger = logging.getLogger(__name__)
+
 
 class ClientThread(Thread):
     """ A thread for listening for commands from the server.
@@ -40,7 +40,8 @@ class ClientThread(Thread):
                 sock.listen(1)
                 port = sock.getsockname()[1]
                 args = self.client.server_prefs + ( port, )
-                code = "from enthought.plugins.remote_editor.communication.server import main;"
+                code = "from enthought.plugins.remote_editor.communication." \
+                    "server import main;"
                 code += "main(r'%s', '%s', %i)" % args
                 spawn_independent([sys.executable, '-c', code])
 
@@ -61,13 +62,15 @@ class ClientThread(Thread):
                         except:
                             pass
                 except socket.error:
-                    logger.error("Client spawned a non-responsive Server! Unregistering...")
+                    logger.error("Client spawned a non-responsive Server! " \
+                                     "Unregistering...")
                     self.client.error = True
                     self.client.unregister()
                     return
                     
             else:
-                logger.error("Client could not contact the Server and no spawn command is defined. Unregistering...")
+                logger.error("Client could not contact the Server and no " \
+                                 "spawn command is defined. Unregistering...")
                 self.client.error = True
                 self.client.unregister()
                 return
@@ -88,7 +91,7 @@ class ClientThread(Thread):
                                           arguments)
         self.client.registered = True
         
-        # Send queued commands (these only can exist if we spawned the server)
+        # Send queued commands (these can only exist if we spawned the server)
         for command, arguments in self.client._queue:
             self.client.error = not send_port(self.client._server_port,
                                               command, arguments)
@@ -100,14 +103,21 @@ class ClientThread(Thread):
             try:
                 while not self.finished:
                     server, address = sock.accept()
+
+                    # Reject non-local connections
                     if address[0] != '127.0.0.1':
-                        msg = "Client on port %s recieved connection from a non-local party (port %s). Ignoring..."
+                        msg = "Client on port %s recieved connection from a " \
+                            "non-local party (port %s). Ignoring..."
                         logger.warning(msg % (port, address[0]))
                         continue
+
+                    # Recieve the command from the server
                     self.client.error = False
                     command, arguments = recieve(server)
                     msg = "Client on port %s recieved: %s %s"
                     logger.info(msg, port, command, arguments)
+
+                    # Handle special commands from the server
                     if command == "__orphaned__":                        
                         self.client.orphaned = bool(int(arguments))
                     elif command == "__error__":
@@ -119,11 +129,13 @@ class ClientThread(Thread):
                             "Error status recieved from the server: %s\n%s"
                                     % (error_status, error_message))
                         self.client.error = bool(int(error_status))
+
+                    # Handle other commands through Client interface
                     else:
-                        if self.client.wx:
-                            import wx
-                            wx.CallAfter(self.client.handle_command, command,
-                                        arguments)
+                        if self.client.is_ui:
+                            from enthought.pyface.api import GUI
+                            GUI.invoke_later(self.client.handle_command,
+                                             command, arguments)
                         else:
                             self.client.handle_command(command, arguments)
             finally:
@@ -140,9 +152,9 @@ class Client(HasTraits):
     """ An object that communicates with another object through a Server.
     """
 
-    # The preferences file path and node path to use for spawning a Server.
-    # If this is not specified it will not be possible for this Client,
-    # to spawn the server.
+    # The preferences file path and node path to use for spawning a Server. If
+    # this is not specified it will not be possible for this Client to spawn
+    # the server.
     server_prefs = Tuple((os.path.join(remote_editor.__path__[0], 
                                 "preferences.ini"),
                                 "enthought.remote_editor"),
@@ -152,14 +164,13 @@ class Client(HasTraits):
     self_type = Str
     other_type = Str
 
-    # Whether or not this client will be contained in a wx application. Failure
-    # to set this variable when appropriate will likely result in crashes.
-    wx = Bool(False)
+    # Whether the Client will be contained in a Pyface/Traits UI app. Failure to
+    # set this variable as appropriate will likely result in crashes.
+    is_ui = Bool(False)
 
-    # Whether this client has been registered with the Server. Note that this
-    # is *not* set after the 'register' method is called--it is set when the
-    # Server actually recieves the register command, which happens
-    # asynchronously.
+    # Whether this client has been registered with the Server. Note that this is
+    # *not* set after the 'register' method is called--it is set when the Server
+    # actually recieves the register command, which happens asynchronously.
     registered = Bool(False)
 
     # The client's orphaned status
@@ -187,10 +198,10 @@ class Client(HasTraits):
         self._communication_thread.start()
 
     def unregister(self):
-        """ Inform the server that this Client is no longer available to
-            recieve commands. Note that it is poor etiquette not to
-            communicate when a Client is becoming unavailable. Calling
-            'unregister' when a Client is not registered has no effect.
+        """ Inform the server that this Client is no longer available to recieve
+            commands. Note that it is poor etiquette not to communicate when a
+            Client is becoming unavailable. Calling 'unregister' when a Client
+            is not registered has no effect.
         """
         if self._communication_thread is None:
             return
@@ -213,9 +224,9 @@ class Client(HasTraits):
             self._queue.append(('send', args))
         
     def handle_command(self, command, arguments):
-        """ This function should take a command string and an arguments
-            string and do something with them. It should return True if
-            the command given was understood; otherwise, False.
+        """ This function should take a command string and an arguments string
+            and do something with them. It should return True if the command
+            given was understood; otherwise, False.
         """
         raise NotImplementedError
 
