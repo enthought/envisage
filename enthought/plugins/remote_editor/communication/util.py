@@ -1,7 +1,10 @@
 # Standard library imports
-import os, sys
+from errno import EINTR
+import os
+import select
 import socket
 from subprocess import Popen
+import sys
 
 # ETS imports
 from enthought.etsconfig.api import ETSConfig
@@ -11,7 +14,7 @@ MESSAGE_SEP = chr(7) # 'bell' character
 
 # The location of the server lock file and the communication log
 LOCK_PATH = os.path.join(ETSConfig.application_data, 
-                                'remote_editor_server.lock')
+                         'remote_editor_server.lock')
 LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
 
@@ -45,10 +48,22 @@ def get_server_port():
         return -1
 
 
+def accept_no_intr(sock):
+    """ Call sock.accept such that if it is interrupted by an EINTR
+        ("Interrupted system call") signal, it is re-called.
+    """
+    while True:
+        try:
+            return sock.accept()
+        except socket.error, err:
+            if err[0] != EINTR:
+                raise
+
+
 def send(sock, command, arguments=''):
     """ Send a command with arguments (both strings) through a socket. This
-        information is encoded with length information to ensure that
-        everything is recieved.        
+        information is encoded with length information to ensure that everything
+        is received.
     """
     sent, total = 0, 0
     msg = command + MESSAGE_SEP + arguments
@@ -58,7 +73,6 @@ def send(sock, command, arguments=''):
         msg = msg[sent:]
         sent = sock.send(msg)
         if not sent:
-            print "raised by Me"
             raise socket.error
         total += sent
 
@@ -84,19 +98,21 @@ def send_port(port, command, arguments='', timeout=None):
         except:
             pass
     return True
+
     
-def recieve(sock):
-    """ Recieve a command with arguments from a socket that was previously
-        sent information with 'send'.
-    """
-    # Use select to query the socket for activity before calling sock.recv
-    # Choose a timeout of 60. seconds for now.
-    import select
+def receive(sock):
+    """ Receive a command with arguments from a socket that was previously sent
+        information with 'send'.
+    """    
     index = -1
     chunk, length = '', ''
     received = False
+
     while not received:
+        # Use select to query the socket for activity before calling sock.recv.
+        # Choose a timeout of 60 seconds for now.
         readers, writers, in_error = select.select([sock], [], [], 60)
+
         for rsock in readers:
             while index == -1:
                 length += chunk
@@ -113,5 +129,6 @@ def recieve(sock):
                     raise socket.error
                 msg += chunk
             received = True
+
     command, sep, arguments = msg.partition(MESSAGE_SEP)
     return command, arguments

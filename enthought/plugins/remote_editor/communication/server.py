@@ -9,7 +9,7 @@ from enthought.traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 
 # Local imports
-from util import recieve, send_port, spawn_independent, MESSAGE_SEP, \
+from util import receive, send_port, spawn_independent, MESSAGE_SEP, \
      LOCK_PATH, LOG_PATH
 
 logger = logging.getLogger("communication")
@@ -18,14 +18,14 @@ logging.basicConfig(filename=LOG_PATH)
 
 
 class PortInfo(HasStrictTraits):
-    """ Object to store information on how  port is used.
+    """ Object to store information on how a port is being used.
     """
     port = Int
     type = Str
     other_type = Str
 
-    def __repr__(self):
-        return "Port: %s, Type: %s, Other type: %s" % \
+    def __str__(self):
+        return "Port: %i, Type: %s, Other type: %s" % \
             (self.port, self.type, self.other_type)
 
 
@@ -84,25 +84,24 @@ class Server(HasTraits):
     def main(self, port=0):
         """ Starts the server mainloop. If 'port' is specified, the assumption
             is that this Server was spawned from an object on said port. The
-            Server will inform the Client that it has been created, and if
-            fails to contact the client, this function will return.
+            Server will inform the Client that it has been created, and if fails
+            to contact the client, this function will return.
         """
         try:
-            # Start listening *before* we (potentially) inform the spawner
-            # that we are working. This prevents means that if he tries
-            # to register, we will be ready.
+            # Start listening *before* we (potentially) inform the spawner that
+            # we are working. This means that if the spawner tries to register,
+            # we will be ready.
             logger.info("Server listening on port %i..." % self._port)
             self._sock.listen(5)
-            
-            # Inform the launcher that we have initialized correctly by
-            # telling it our port, if necessary
-            if port:
-                if not send_port(port, "__port__", str(self._port),
-                                 timeout=5):
-                    logger.warning("Server could not contact spawner. Shutting down...")
-                    return
-            
             self._sock.settimeout(300)
+            
+            # If necessary, inform the launcher that we have initialized
+            # correctly by telling it our port
+            if port:
+                if not send_port(port, "__port__", str(self._port), timeout=5):
+                    msg = "Server could not contact spawner. Shutting down..."
+                    logger.warning(msg)
+                    return
             
             # Start the mainloop
             while True:
@@ -110,24 +109,24 @@ class Server(HasTraits):
                     client, address = self._sock.accept()
                 except socket.timeout:
                     # Every 5 minutes of inactivity, we trigger a garbage
-                    # collection. We do this to make sure the server
-                    # doesn't stay on, with dead process as zombies.
+                    # collection. We do this to make sure the server doesn't
+                    # stay on, with dead process as zombies.
                     self._gc()
                     continue
                 try:
                     if address[0] != '127.0.0.1':
-                        msg = "Server recieved connection from a non-local party (port %s). Ignoring..."
-                        logger.warning(msg % address[0])
+                        msg = "Server received connection from a non-local " \
+                            "party (port %s). Ignoring..."
+                        logger.warning(msg, address[0])
                         continue
-                    command, arguments = recieve(client)
-                    logger.debug("Server recieved: %s %s" % (command, arguments))
+                    command, arguments = receive(client)
+                    logger.debug("Server received: %s %s", command, arguments)
                     if command == "send":
                         port, command, arguments = arguments.split(MESSAGE_SEP)
                         self._send_from(int(port), command, arguments)
                     elif command == "register":
                         port, type, other_type = arguments.split(MESSAGE_SEP)
-                        port = int(port)
-                        self._register(port, type, other_type)
+                        self._register(int(port), type, other_type)
                     elif command == "unregister":
                         self._unregister(int(arguments))
                     elif command == "ping":
@@ -135,8 +134,8 @@ class Server(HasTraits):
                     elif command == "spawn":
                         self._spawn(arguments)
                     else:
-                        msg = "Server recieved unknown command '%s'" % command
-                        logger.error(msg)
+                        logger.error("Server received unknown command: %s %s",
+                                     command, arguments)
                 finally:
                     client.close()
         finally:
@@ -146,8 +145,8 @@ class Server(HasTraits):
     def ping(server_port, timeout=1, error_only=False):
         """ Returns whether the server is running on 'server_port'.
 
-            If error_only, return false only if there was an error (ie
-            the socket is closed).
+            If error_only, return False only if there was an error (ie the
+            socket is closed).
         """
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
@@ -159,9 +158,8 @@ class Server(HasTraits):
             try:
                 server, address = sock.accept()
                 try:
-                    command, arguments = recieve(server)
-                    return  (command == "__status__" 
-                                and bool(int(arguments)))
+                    command, arguments = receive(server)
+                    return command == "__status__" and bool(int(arguments))
                 finally:
                     try:
                         server.shutdown(socket.SHUT_RD)
@@ -188,38 +186,43 @@ class Server(HasTraits):
             command = self.spawn_commands[object_type]
         except KeyError:
             msg = "No spawn command is defined for object type '%s'." \
-                    % object_type
+                % object_type
             logger.warning(msg)
             return msg
+
         try:
             logging.info("Server spawning Client of type '%s.'" % object_type)
             spawn_independent(command, shell=True)
         except OSError:
             msg = "Error spawning process for '%s' with command '%s'." \
-                    % (object_type, command)
+                % (object_type, command)
             logger.error(msg)
             return msg
 
         return False
 
     def _match(self, port):
-        """ Attempt to match a registered client on 'port' to another
-            registered client of the same type.
+        """ Attempt to match a registered client on 'port' to another registered
+            client of the same type.
         """
         # Try to find a compatible orphan
         info = self._port_map[port]
         for orphan in self._orphans:
             if info.other_type == orphan.type:
+
                 # Ping the orphan to see if its alive:
                 if not self._send_to(orphan.port, '__keepalive__', ''):
                     continue
-                # Save informating about the matching
+
+                # Save information about the matching
                 self._orphans.remove(orphan)
                 self._pairs[info] = orphan
                 self._pairs[orphan] = info
+
                 # Dispatch orphaned status to clients
                 self._send_to(port, "__orphaned__", "0")
                 self._send_to(orphan.port, "__orphaned__", "0")
+
                 # Check command queue and dispatch, if necessary
                 if info.type in self._queue:
                     command, arguments = self._queue.pop(info.type)
@@ -240,8 +243,7 @@ class Server(HasTraits):
         if port in self._port_map:
             return
 
-        info = PortInfo(port=port, type=object_type,
-                               other_type=other_type)
+        info = PortInfo(port=port, type=object_type, other_type=other_type)
         self._port_map[port] = info
         self._match(port)
 
@@ -262,23 +264,19 @@ class Server(HasTraits):
             self._send_to(other.port, "__orphaned__", "1")
         else:
             self._orphans.remove(info)
+
         # If we have nobody registered, terminate the server.
         if len(self._port_map) == 0:
-            logger.info("No registered clients left, server shutting down\n"
-            + 80*"_")
+            logger.info("No registered Clients left. Server shutting down...")
             sys.exit(0)
 
-
     def _gc(self):
-        """ Garbage collection of the processes.
-
-            Check that all the orphan processes are still responsive, and
-            if not, unregister them.
+        """ Garbage collection of the processes. Check that all the orphaned
+            processes are still responsive, and if not, unregister them.
         """
         for object_info in self._orphans:
             self._send_to(object_info.port, '__keepalive__', '')
             # Send_to will automatically unregister the port.
-
 
     def _send_from(self, port, command, arguments):
         """ Send a command from an object on the specified port.
@@ -286,7 +284,8 @@ class Server(HasTraits):
         try:
             object_info = self._port_map[port]
         except KeyError:
-            msg = "Server recieved a 'send' command from an unregistered object (port %s)."
+            msg = "Server received a 'send' command from an unregistered " \
+                "object (port %s)."
             logger.warning(msg % port)
             return
 
@@ -299,7 +298,6 @@ class Server(HasTraits):
                 if object_info in self._orphans:
                     self._orphans.remove(object_info)
                 other = self._match(port)
-                # If match fails, None is return and the object is orphaned.
                 if other is None:
                     try_spawn = True
                     break
@@ -321,7 +319,8 @@ class Server(HasTraits):
         """
         status = send_port(port, command, arguments)
         if not status:
-            msg = "Server failed to communicate with client on port %i. Unregistering..."
+            msg = "Server failed to communicate with client on port %i. " \
+                "Unregistering..."
             logger.warning(msg % port)
             self._unregister(port)
         return status

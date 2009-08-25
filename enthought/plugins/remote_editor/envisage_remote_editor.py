@@ -54,8 +54,6 @@ class EnvisageRemoteEditorController(RemoteEditorController):
     def handle_command(self, command, arguments):
         """ Hande commands coming in from the server.
         """
-        logger.info('Enshell client recieved message: %s %s' 
-                            % (command, arguments))
         if command == "run_file":
             self.run_file(arguments)
             return True
@@ -63,10 +61,4 @@ class EnvisageRemoteEditorController(RemoteEditorController):
             self.run_text(arguments)
             return True
         return False
-
-    def send_command(self, command, *args):
-        """ Sends commands to the remote server.
-        """
-        logger.info('Enshell client sending command: %s, %s' %
-                        (command, args))
-        RemoteEditorController.send_command(self, command, *args)
+    
