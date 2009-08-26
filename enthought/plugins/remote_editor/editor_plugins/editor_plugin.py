@@ -3,8 +3,7 @@ import os
 import logging
 
 # Local imports
-from enthought.plugins.remote_editor.communication.client import \
-    Client
+from enthought.plugins.remote_editor.communication.client import Client
 
 
 class EditorPlugin(Client):
@@ -32,11 +31,13 @@ class EditorPlugin(Client):
         if command == "new":
             self.new()
             return True
+
         elif command == "open":
             if os.path.exists(arguments):
                 self.open(arguments)
             else:
-                msg = "EditorPlugin recieved invalid path '%s' for 'open' command"
-                logging.warning(msg % arguments)
+                logging.warning("EditorPlugin recieved invalid path '%s' for "
+                                "'open' command", arguments)
             return True
+
         return False

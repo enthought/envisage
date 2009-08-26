@@ -8,7 +8,7 @@ from threading import Thread
 
 # ETS imports
 from enthought.traits.api import HasTraits, Int, Str, Bool, Instance, List, \
-     Tuple
+     Tuple, Enum
 from enthought.plugins import remote_editor
 
 # Local imports
@@ -134,12 +134,17 @@ class ClientThread(Thread):
 
                 # Handle other commands through Client interface
                 else:
-                    if self.client.is_ui:
-                        from enthought.pyface.api import GUI
+                    if self.client.ui_dispatch == 'off':
+                        self.client.handle_command(command, arguments)
+                    else:
+                        if self.client.ui_dispatch == 'auto':
+                            from enthought.pyface.gui import GUI
+                        else:
+                            exec('from enthought.pyface.ui.%s.gui import GUI' %
+                                 self.client.ui_dispatch)
                         GUI.invoke_later(self.client.handle_command,
                                          command, arguments)
-                    else:
-                        self.client.handle_command(command, arguments)
+
         finally:
             try:
                 self.client.unregister()
@@ -158,17 +163,18 @@ class Client(HasTraits):
     # this is not specified it will not be possible for this Client to spawn
     # the server.
     server_prefs = Tuple((os.path.join(remote_editor.__path__[0], 
-                                "preferences.ini"),
-                                "enthought.remote_editor"),
+                                       "preferences.ini"),
+                          "enthought.remote_editor"),
                          Str, Str)
 
     # The type of this object and the type of the desired object, respectively
     self_type = Str
     other_type = Str
 
-    # Whether the Client will be contained in a Pyface/Traits UI app. Failure to
+    # Specifies how 'handle_command' should be called. If 'auto', use the
+    # dispatch method appropriate for the toolkit Traits is using. Failure to
     # set this variable as appropriate will likely result in crashes.
-    is_ui = Bool(False)
+    ui_dispatch = Enum('off', 'auto', 'wx', 'qt4')
 
     # Whether this client has been registered with the Server. Note that this is
     # *not* set after the 'register' method is called--it is set when the Server

@@ -1,5 +1,5 @@
 """ Integrates Editra with the an envisage applciation with the remote editor
-plugin.
+    plugin.
 """
 __author__ = "Enthought"
 __version__ = "0.1"
@@ -18,14 +18,16 @@ from enthought.plugins.remote_editor.editor_plugins.editor_plugin \
 from wx.tools.Editra.src import ed_menu
 from profiler import Profile_Get
 
+# Constants
 _ = wx.GetTranslation
 ID_RUN_SCRIPT = wx.NewId()
 ID_RUN_TEXT = wx.NewId()
 
+
 class EditraEditorPlugin(EditorPlugin):
 
     # Client interface
-    wx = True
+    ui_dispatch = 'wx'
 
     # EditorPlugin interface
 

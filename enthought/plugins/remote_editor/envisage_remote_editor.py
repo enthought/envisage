@@ -1,7 +1,6 @@
-"""
-An implementation of a client controlling a remote editor, but also using
-envisage to retrieve an execution engine, and run the commands from the
-editor.
+""" An implementation of a client controlling a remote editor, but also using
+    envisage to retrieve an execution engine, and run the commands from the
+    editor.
 """
 
 # Standard library imports
@@ -19,6 +18,7 @@ from enthought.plugins.remote_editor.remote_editor_controller import \
 
 logger = logging.getLogger(__name__)
 
+
 class EnvisageRemoteEditorController(RemoteEditorController):
     """ An implementation of a client controlling a remote editor, but also 
         using envisage to retrieve an execution engine, and run the commands 
@@ -26,7 +26,7 @@ class EnvisageRemoteEditorController(RemoteEditorController):
     """
 
     # Tell the Client code to play well with the wx or Qt4 event loop
-    is_ui = True
+    ui_dispatch = 'auto'
 
     # A reference to the Envisage application.
     application = Instance(Application)
