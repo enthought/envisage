@@ -31,11 +31,12 @@ class EditraEditorPlugin(EditorPlugin):
 
     # EditorPlugin interface
 
-    # a reference to the editra mainWindow
+    # A reference to the editra mainWindow
     mainWindow = None
 
     def new(self):
-        """ Open a new file in the main window. """
+        """ Open a new file in the main window.
+        """
         notebook = self.mainWindow.GetNotebook()
         current = notebook.GetCurrentCtrl()
         if current.GetFileName() != "" or str(current.GetText()) != "":
@@ -45,7 +46,8 @@ class EditraEditorPlugin(EditorPlugin):
         current.BackSpaceUnIndents = True
 
     def open(self, filename):
-        """ Open the given filename in the main window. """
+        """ Open the given filename in the main window.
+        """
         self.mainWindow.DoOpen(None, filename)
 
 
@@ -57,45 +59,26 @@ class RemoteEditorPlugin(object):
     def __init__(self, Editra=None):
         self.Editra = Editra
 
-
     def do_PlugIt(self):
         self.mainWindow = mainWindow = wx.GetApp().GetMainWindow()
         self.log = wx.GetApp().GetLog()
         self.log("[remote editor][info] Installing remote editor plugin")
         menuBar= mainWindow.GetMenuBar()
 
-        # Register the EditorPlugin with the enthought remote_editor server
+        # Register the EditorPlugin with the Enthought remote_editor server
         self.client = EditraEditorPlugin(mainWindow=self.mainWindow)
         self.client.register()
 
-        # Set up keybindings
-        try:
-            # Trying to set up keybindings in a not too ugly way. This
-            # sems to be fairly fragile and dependant on the Editra
-            # version, so we fall back to a manual way on exception
-            keybinder = menuBar.GetKeyBinder()
-            script, text = ("Ctrl", "Enter"), ("Shift", "Enter")
-            if keybinder.GetCurrentProfile():
-                keybinder.SetBinding(ID_RUN_SCRIPT, script)
-                keybinder.SetBinding(ID_RUN_TEXT, text)
-            else:
-                # Ugh. SetBinding does nothing if no profile is loaded, as of
-                # Editra version 0.3.38.
-                ed_menu._DEFAULT_BINDING[ID_RUN_SCRIPT] = script
-                ed_menu._DEFAULT_BINDING[ID_RUN_TEXT] = text
-                keybinder.LoadDefaults()
-            runScriptMenuText = keybinder.GetBinding(ID_RUN_SCRIPT)
-            runTextMenuText = keybinder.GetBinding(ID_RUN_TEXT)
-        except:
-            mainWindow.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
-            runTextMenuText = _("\tShift+Enter")
-            runScriptMenuText = _("\tCtrl+Enter")
+        # Set up a handler for keybindings. Ideally, we would do this through an
+        # interface provided by Editra, but since this seems to change with
+        # every single Editra release, we take the brute force approach.
+        mainWindow.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
         # Insert menu items
         toolsMenu = menuBar.GetMenuByName("tools")
 
         mnu_run_text = wx.MenuItem(toolsMenu, ID_RUN_TEXT,
-                         _('Execute selection') + runTextMenuText,
+                         _('Execute selection\tShift+Enter'),
                          _('Execute selected text in a python shell'),
                          wx.ITEM_NORMAL)
         mnu_run_text.SetBitmap(wx.Bitmap(os.path.join(
@@ -104,7 +87,7 @@ class RemoteEditorPlugin(object):
         toolsMenu.AppendItem(mnu_run_text, use_bmp=False)
 
         mnu_run_script = wx.MenuItem(toolsMenu, ID_RUN_SCRIPT,
-                         _('Execute script') + runScriptMenuText,
+                         _('Execute script\tCtrl+Enter'),
                          _('Execute file in a python shell'))
         mnu_run_script.SetBitmap(wx.Bitmap(os.path.join(
                                     os.path.dirname(__file__), 
@@ -115,33 +98,31 @@ class RemoteEditorPlugin(object):
         self.mainWindow._handlers['menu'].extend(
             [(ID_RUN_SCRIPT, self.OnRunScript),
                  (ID_RUN_TEXT, self.OnRunText) ])
-        
 
-        # The enable/disable callback for the toolbar button (we
-        # need to insert this callback at the front of the stack).
+        # The enable/disable callback for the toolbar button (we need to insert
+        # this callback at the front of the stack).
         self.mainWindow._handlers['ui'].insert(0,
             (ID_RUN_TEXT, self.EnableSelection), )
 
         # Insert toolbar items
         toolBar = mainWindow.GetToolBar()
-        self.run_sel_tb = toolBar.AddLabelTool(ID_RUN_TEXT, 
-                            'Execute selection', 
-                            wx.Bitmap(os.path.join(
-                                    os.path.dirname(__file__), 
-                                    'images', 'python_runsel_24x24.png')),
-                            shortHelp='Execute selection',
-                            longHelp='Execute selection in shell',
-                            )
-        self.run_file_tb = toolBar.AddLabelTool(ID_RUN_SCRIPT, 'Execute', 
-                            wx.Bitmap(os.path.join(
-                                    os.path.dirname(__file__), 
-                                    'images', 'python_run_24x24.png')),
-                            shortHelp='Execute script',
-                            longHelp='Execute whole file in shell',
-                            )
-        # Just calling AddLabelTool is not displaying the new
-        # tools in the toolbar (for Win XP and OS-X at least). Need to call
-        # Realize.
+
+        self.run_sel_tb = toolBar.AddLabelTool(
+            ID_RUN_TEXT, 'Execute selection', 
+            wx.Bitmap(os.path.join(os.path.dirname(__file__), 
+                                   'images', 'python_runsel_24x24.png')),
+            shortHelp='Execute selection',
+            longHelp='Execute selection in shell')
+
+        self.run_file_tb = toolBar.AddLabelTool(
+            ID_RUN_SCRIPT, 'Execute', 
+            wx.Bitmap(os.path.join(os.path.dirname(__file__), 
+                                   'images', 'python_run_24x24.png')),
+            shortHelp='Execute script',
+            longHelp='Execute whole file in shell')
+
+        # Just calling AddLabelTool is not displaying the new tools in the
+        # toolbar (for Win XP and OS-X at least). Need to call Realize.
         toolBar.Realize()
 
     def OnRunScript(self, event):
