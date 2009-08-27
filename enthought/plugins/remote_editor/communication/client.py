@@ -68,7 +68,7 @@ class ClientThread(Thread):
                     self.client.unregister()
                     return
                 finally:
-                    sock.shutdown(socket.SHUT_RD)
+                    sock.close()
                     
             else:
                 logger.error("Client could not contact the Server and no " \
@@ -144,12 +144,8 @@ class ClientThread(Thread):
                                  self.client.ui_dispatch)
                         GUI.invoke_later(self.client.handle_command,
                                          command, arguments)
-
         finally:
-            try:
-                self.client.unregister()
-            finally:
-                sock.shutdown(socket.SHUT_RD)
+            self.client.unregister()
 
     def stop(self):
         self._finished = True
