@@ -39,7 +39,7 @@ class EnvisageRemoteEditorController(RemoteEditorController):
         """ Called by the server to execute a file.
         """
         shell = self.application.get_service(IPythonShell)
-        shell.execute_command('%run ' + '"%s"' % path, hidden=False)
+        shell.execute_file(path, hidden=False)
 
     def run_text(self, text):
         """ Called by the server to execute text.

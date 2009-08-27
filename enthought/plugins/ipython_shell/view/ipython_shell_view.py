@@ -117,7 +117,8 @@ class IPythonShellView(View):
             try:
                 self.shell.control.SetFocus()
             except:
-                """ The window may not have been created yet. """
+                # The window may not have been created yet.
+                pass
 
         def set_focus():
             self.window.application.gui.invoke_later(try_set_focus)
@@ -165,18 +166,17 @@ class IPythonShellView(View):
     def execute_command(self, command, hidden=True):
         """ Execute a command in the interpreter. """
 
-        if hidden:
-            return self.interpreter.execute(command)
-        else:
-            self.control.execute_command(command)
+        self.shell.execute_command(command, hidden)
         self.trait_property_changed('namespace', [], self.namespace)
         
-        ns_view = self.window.application.get_service(INamespaceView)
+    def execute_file(self, path, hidden=True):
+        """ Execute a command in the interpreter. """
 
+        self.shell.execute_file(path, hidden)
+        self.trait_property_changed('namespace', [], self.namespace)
+        
     def lookup(self, name):
-        """ Returns the value bound to a name in the interpreter's namespace.
-
-        """
+        """ Returns the value bound to a name in the interpreter's namespace."""
 
         return self.namespace[name]
 

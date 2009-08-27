@@ -18,6 +18,11 @@ class IPythonShell(Interface):
 
         """
 
+    def execute_file(self, path, hidden=True):
+        """ Execute a file in the interpreter.
+
+        """
+
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace.
 

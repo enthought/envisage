@@ -172,6 +172,11 @@ class PythonShellView(View):
 
         return self.shell.execute_command(command, hidden)
 
+    def execute_file(self, path, hidden=True):
+        """ Execute a command in the interpreter. """
+
+        return self.shell.execute_file(path, hidden)
+
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace.
 
