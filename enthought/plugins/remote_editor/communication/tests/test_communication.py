@@ -1,18 +1,17 @@
 # Standard library imports
 import os
 import unittest
-import socket
 from time import sleep
 from threading import Thread
 
 # ETS imports
-from enthought.traits.api import Str
+from enthought.traits.api import Int, Str
 
 # Local imports
-from enthought.plugins.remote_editor.communication import tests
 from enthought.plugins.remote_editor.communication.client import Client
 from enthought.plugins.remote_editor.communication.server import Server
-from enthought.plugins.remote_editor.communication.util import get_server_port, LOCK_PATH
+from enthought.plugins.remote_editor.communication.util import \
+    get_server_port, LOCK_PATH
 
 
 class TestClient(Client):
@@ -20,9 +19,15 @@ class TestClient(Client):
     command = Str
     arguments = Str
 
+    error_count = Int(0)
+
     def handle_command(self, command, arguments):
         self.command = command
         self.arguments = arguments
+
+    def _error_changed(self, error):
+        if error:
+            self.error_count += 1
 
 
 class TestThread(Thread):
@@ -102,7 +107,8 @@ class CommunicationTestCase(unittest.TestCase):
         # request
         client2.send_command("foo", "bar")
         sleep(.1)
-        self.assert_(client2.orphaned and client2.error)
+        self.assert_(client2.orphaned)
+        self.assertEqual(client2.error_count, 1)
         
 
 if __name__ == '__main__':

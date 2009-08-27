@@ -1,5 +1,4 @@
-""" A remote editor plugin. """
-
+""" A plugin for controlling a remote editor. """
 
 # Enthought library imports.
 from enthought.envisage.api import Plugin
@@ -12,8 +11,9 @@ from envisage_remote_editor import EnvisageRemoteEditorController \
 
 ID = 'enthought.plugins.remote_editor' 
 
+
 class RemoteEditorPlugin(Plugin):
-    """ An IPython shell plugin. """
+    """ A plugin for controlling a remote editor. """
 
     # Extension point Ids.
     REMOTE_EDITOR     = ID
@@ -40,30 +40,27 @@ class RemoteEditorPlugin(Plugin):
     action_sets = List(contributes_to=ACTION_SETS)
 
     # Preferences pages.
+    # FIXME: Create a UI for remote editor preferences
     #preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     # Preferences.
     preferences = List(contributes_to=PREFERENCES)
 
-
     def _action_sets_default(self):
         """ Trait initializer. """
         from enthought.plugins.remote_editor.actions import \
             RemoteEditorActionSet
-        return [RemoteEditorActionSet]
-
+        return [ RemoteEditorActionSet ]
 
     def _preferences_default(self):
         """ Trait initializer. """
-        return ['pkgfile://%s/preferences.ini' % ID]
-
+        return [ 'pkgfile://%s/preferences.ini' % ID ]
 
     def _preferences_pages_default(self):
         """ Trait initializer. """
         from enthought.plugins.remote_editor.preference_pages \
-                        import RemoteEditorPreferencesPage
-        return [RemoteEditorPreferencesPage, ]
-
+            import RemoteEditorPreferencesPage
+        return [ RemoteEditorPreferencesPage ]
 
     ###########################################################################
     # Private interface.
@@ -75,16 +72,13 @@ class RemoteEditorPlugin(Plugin):
         """ Create the central server for spawning shells and editors and
             register the controller as an envisage service.        
         """
-        # Register our client to the server. If the server does not
-        # exist, this will create it.
+        # Register our client to the server. If the server does not exist, this
+        # will create it.
         self.remote_controller = RemoteEditorController(
-                    application=self.application)
+            application=self.application)
         self.remote_controller.register()
 
-        self.application.register_service(IRemoteEditor,
-                                                self.remote_controller)
-
-        return
+        self.application.register_service(IRemoteEditor, self.remote_controller)
  
     @on_trait_change('application:stopping')
     def _unregister_from_server(self):
