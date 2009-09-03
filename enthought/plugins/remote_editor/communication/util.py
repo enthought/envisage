@@ -19,11 +19,16 @@ LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
 
 def spawn_independent(command, shell=False):
-    """ Given a command suitable for 'Popen', open the process such that when
-        this process is killed, the spawned process survives.
+    """ Given a command suitable for 'Popen', open the process such that if this
+        process is killed, the spawned process survives.
     """
     if sys.platform == 'win32':
-        Popen(command, shell=shell)
+        if isinstance(command, basestring):
+            command = 'start /b ' + command
+        else:
+            command.insert(0, 'start')
+            command.insert(1, '/b')
+        Popen(command, shell=True)
     else:
         pid = os.fork()
         if pid:
@@ -50,7 +55,8 @@ def get_server_port():
 
 def accept_no_intr(sock):
     """ Call sock.accept such that if it is interrupted by an EINTR
-        ("Interrupted system call") signal, it is re-called.
+        ("Interrupted system call") signal or a KeyboardInterrupt exception, it
+        is re-called.
     """
     while True:
         try:
@@ -58,6 +64,8 @@ def accept_no_intr(sock):
         except socket.error, err:
             if err[0] != EINTR:
                 raise
+        except KeyboardInterrupt:
+            pass
 
 
 def send(sock, command, arguments=''):

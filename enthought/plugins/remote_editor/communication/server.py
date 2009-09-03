@@ -9,8 +9,8 @@ from enthought.traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 
 # Local imports
-from util import receive, send_port, spawn_independent, MESSAGE_SEP, \
-     LOCK_PATH, LOG_PATH
+from util import accept_no_intr, receive, send_port, spawn_independent, \
+    MESSAGE_SEP, LOCK_PATH, LOG_PATH
 
 logger = logging.getLogger("communication")
 logger.setLevel(logging.DEBUG)
@@ -106,7 +106,7 @@ class Server(HasTraits):
             # Start the mainloop
             while True:
                 try:
-                    client, address = self._sock.accept()
+                    client, address = accept_no_intr(self._sock)
                 except socket.timeout:
                     # Every 5 minutes of inactivity, we trigger a garbage
                     # collection. We do this to make sure the server doesn't
@@ -156,7 +156,7 @@ class Server(HasTraits):
             port = str(sock.getsockname()[1])
             send_port(server_port, "ping", port, timeout=timeout)
             try:
-                server, address = sock.accept()
+                server, address = accept_no_intr(sock)
                 try:
                     command, arguments = receive(server)
                     return command == "__status__" and bool(int(arguments))
