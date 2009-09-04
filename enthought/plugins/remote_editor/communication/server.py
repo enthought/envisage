@@ -47,8 +47,8 @@ class Server(HasTraits):
     _pairs = Dict(Instance(PortInfo), Instance(PortInfo))
 
     # Commands that have been queued for spawned process
-    # desired_type -> (command, arguments)
-    _queue = Dict(Str, Tuple(Str, Str))
+    # desired_type -> list of (command, arguments)
+    _queue = Dict(Str, List(Tuple(Str, Str)))
 
     def init(self, pref_path='', pref_node=''):
         """ Read a configuration file and attempt to bind the server to the
@@ -224,9 +224,9 @@ class Server(HasTraits):
                 self._send_to(orphan.port, "__orphaned__", "0")
 
                 # Check command queue and dispatch, if necessary
-                if info.type in self._queue:
-                    command, arguments = self._queue.pop(info.type)
+                for command, arguments in self._queue.pop(info.type, []):
                     self._send_to(port, command, arguments)
+
                 return orphan
 
         # Otherwise, the object becomes an orphan
@@ -276,7 +276,7 @@ class Server(HasTraits):
         """
         for object_info in self._orphans:
             self._send_to(object_info.port, '__keepalive__', '')
-            # Send_to will automatically unregister the port.
+            # _send_to will automatically unregister the port.
 
     def _send_from(self, port, command, arguments):
         """ Send a command from an object on the specified port.
@@ -305,13 +305,16 @@ class Server(HasTraits):
             try_spawn = True
 
         if try_spawn:
-            error__msg = self._spawn(object_info.other_type)
-            if not error__msg:
-                self._queue[object_info.other_type] = (command, arguments)
-                self._match(port)
+            queue = self._queue.get(object_info.other_type)
+            if queue:
+                queue.append((command, arguments))
             else:
-                err_arguments = '1' + error__msg
-                self._send_to(port, "__error__", err_arguments)
+                error_msg = self._spawn(object_info.other_type)
+                if error_msg:
+                    self._send_to(port, '__error__', '1' + err_msg)
+                else:
+                    self._queue[object_info.other_type] = [(command, arguments)]
+                    self._match(port)
 
     def _send_to(self, port, command, arguments):
         """ Send a command to an object on the specified port. Returns whether
