@@ -11,6 +11,7 @@ import os
 import wx
 
 # ETS imports
+from enthought.traits.api import Any, Bool
 from enthought.plugins.remote_editor.editor_plugins.editor_plugin \
         import EditorPlugin
 
@@ -27,17 +28,26 @@ ID_RUN_TEXT = wx.NewId()
 class EditraEditorPlugin(EditorPlugin):
 
     # Client interface
+
+    # Dispatch all command events in same thread as the wx event loop
     ui_dispatch = 'wx'
 
-    # EditorPlugin interface
+    # EditraEditorPlugin interface
 
-    # A reference to the editra mainWindow
-    mainWindow = None
+    # A reference to the Editra mainWindow
+    main_window = Any
+
+    # Whether the window should be given focus when it recieves a command
+    raise_on_command = Bool(True)
+
+    #--------------------------------------------------------------------------
+    # 'EditorPlugin' interface
+    #--------------------------------------------------------------------------
 
     def new(self):
         """ Open a new file in the main window.
         """
-        notebook = self.mainWindow.GetNotebook()
+        notebook = self.main_window.GetNotebook()
         current = notebook.GetCurrentCtrl()
         if current.GetFileName() != "" or str(current.GetText()) != "":
             notebook.NewPage()
@@ -45,10 +55,16 @@ class EditraEditorPlugin(EditorPlugin):
         current.FindLexer('py')
         current.BackSpaceUnIndents = True
 
+        if self.raise_on_command:
+            self.main_window.Raise()
+
     def open(self, filename):
         """ Open the given filename in the main window.
         """
-        self.mainWindow.DoOpen(None, filename)
+        self.main_window.DoOpen(None, filename)
+
+        if self.raise_on_command:
+            self.main_window.Raise()
 
 
 class RemoteEditorPlugin(object):
@@ -66,7 +82,7 @@ class RemoteEditorPlugin(object):
         menuBar= mainWindow.GetMenuBar()
 
         # Register the EditorPlugin with the Enthought remote_editor server
-        self.client = EditraEditorPlugin(mainWindow=self.mainWindow)
+        self.client = EditraEditorPlugin(main_window=self.mainWindow)
         self.client.register()
 
         # Set up a handler for keybindings. Ideally, we would do this through an
