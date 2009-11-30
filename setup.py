@@ -106,6 +106,7 @@ setup(
     extras_require = INFO['extras_require'],
     ext_modules = [],
     include_package_data = True,
+    package_data = {'enthought': ['envisage/ui/workbench/*.ini']},
     install_requires = INFO['install_requires'],
     license = 'BSD',
     long_description = '\n'.join(DOCLINES[3:]),
