@@ -1,0 +1,36 @@
+
+
+# Standard library imports.
+import logging
+
+# Enthought library imports.
+from enthought.envisage.ui.workbench.api import WorkbenchApplication    
+from enthought.envisage.core_plugin import CorePlugin
+from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
+from enthought.epdlab.plugins.code_editor.plugin import CodeEditorPlugin
+
+# Logging.
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler(file('update_checker.log', 'w')))
+logger.setLevel(logging.DEBUG)
+
+
+def main():
+    application = Application(
+        id='Update Checker Tester', plugins=[UpdateChecker()]
+    )
+
+    application = WorkbenchApplication(
+        id='update_checker_tester', name='Update Checker',
+        plugins=[
+            CorePlugin(),
+            WorkbenchPlugin(),
+            UpdateCheckerPlugin(
+                
+                ),
+        ])
+    application.run()
+
+if __name__ == "__main__":
+    main()
+
