@@ -41,7 +41,7 @@ class UpdateCheckerPlugin(Plugin):
 
     # This event fires every time the UpdateCheckerPlugin is invoked and 
     # determines that an application update is available.
-    update_needed = Event(ApplicationEvent)
+    update_needed = Event()  #Event(ApplicationEvent)
 
     #========================================================================
     # Plugin interface
@@ -57,13 +57,13 @@ class UpdateCheckerPlugin(Plugin):
         """ Clean up
         """
 
-        self.applciation.on_trait_change("started", self._check_for_update, remove=True)
+        self.application.on_trait_change("started", self._check_for_update, remove=True)
 
     #========================================================================
     # Public methods
     #========================================================================
 
     def _check_for_update(self):
-
+        pass
         
 
