@@ -10,7 +10,7 @@ from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.api import PythonShell
 from enthought.pyface.workbench.api import View
-from enthought.traits.api import Any, Event, Instance, Property, implements
+from enthought.traits.api import Any, Event, Instance, Property, DictStrAny, implements
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class PythonShellView(View):
     #### 'PythonShellView' interface ##########################################
 
     # The interpreter's namespace.
-    namespace = Property
+    namespace = Property(DictStrAny)
 
     # The names bound in the interpreter's namespace.
     names = Property
@@ -115,10 +115,11 @@ class PythonShellView(View):
         for command in self._commands:
             self.execute_command(command)
 
-        # We take note of the starting set of names bound in the interpreter's
-        # namespace so that we can show the user what they have added or
-        # removed in the namespace view.
-        self._names = set(self.names)
+        # We take note of the starting set of names and types bound in the
+        # interpreter's namespace so that we can show the user what they have
+        # added or removed in the namespace view.
+        self._namespace_types = set((name, type(value)) for name, value in \
+                                                            self.namespace.items())
 
         # Register the view as a service.
         self.window.application.register_service(IPythonShell, self)
@@ -201,23 +202,18 @@ class PythonShellView(View):
         """ Dynamic trait change handler. """
 
         if self.control is not None:
-            # Get the names that are now bound in the namespace.
-            names = set(self.names)
-
-            # Find the differences in the namespace caused by the command
-            # execution.
-            added   = names.difference(self._names)
-            removed = self._names.difference(names)
-
-            # Remember the new state of the namespace.
-            self._names = names
-
-            # Trait event notification.
+            # Get the set of tuples of names and types in the current namespace.
+            namespace_types = set((name, type(value)) for name, value in \
+                                                        self.namespace.items())
+            # Figure out the changes in the namespace, if any.
+            added = namespace_types.difference(self._namespace_types)
+            removed = self._namespace_types.difference(namespace_types)
+            # Cache the new list, to use for comparison next time.
+            self._namespace_types = namespace_types
+            # Fire events if there are change.
             if len(added) > 0 or len(removed) > 0:
-                # fixme: We might want to get a tad more granular in the event
-                # that we fire!
                 self.trait_property_changed('namespace', {}, self.namespace)
-                self.trait_property_changed('names', [], self.names)
+                self.trait_property_changed('names', [], self.names)                
 
         return
 
