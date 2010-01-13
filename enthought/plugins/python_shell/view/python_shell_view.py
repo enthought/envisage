@@ -5,7 +5,7 @@
 import logging, sys
 
 # Enthought library imports.
-from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
+from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.pyface.api import PythonShell
