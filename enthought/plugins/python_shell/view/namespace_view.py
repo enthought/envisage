@@ -1,13 +1,18 @@
 """ A view containing the contents of a Python shell namespace. """
 
-
 # Enthought library imports.
+
 from enthought.plugins.python_shell.api import IPythonShell
+from enthought.plugins.python_shell.view.python_shell_view import PythonShellView
+
 from enthought.pyface.workbench.api import View
-from enthought.traits.api import HasTraits, Str, Property
+
+from enthought.traits.api import HasTraits, Str, Property, List, Instance, \
+        DelegatesTo, cached_property
+
 from enthought.traits.ui.api import Item, TableEditor, VGroup
 from enthought.traits.ui.api import View as TraitsView
-from enthought.traits.ui.table_column import ListColumn, ObjectColumn
+from enthought.traits.ui.table_column import ObjectColumn
 from enthought.traits.ui.table_filter import RuleTableFilter
 from enthought.traits.ui.table_filter import MenuFilterTemplate
 from enthought.traits.ui.table_filter import EvalFilterTemplate
@@ -20,7 +25,8 @@ filters = [EvalFilterTemplate, MenuFilterTemplate, RuleFilterTemplate]
 table_editor = TableEditor(
     columns     = [
         ObjectColumn(name='name'),
-        ObjectColumn(name='type')
+        ObjectColumn(name='type'),
+        ObjectColumn(name='module'),
     ],
     editable    = False,
     deletable   = False,
@@ -30,7 +36,30 @@ table_editor = TableEditor(
     search      = RuleTableFilter(),
 )
 
-    
+
+def type_to_str(obj):
+    """
+    Make a string out `obj`'s type.  If str(type(obj)) has the pattern
+    "<type 'some_type'>",  the string that is returned is "some_type".
+    Otherwise the string that is returned is str(type(obj)).
+    """ 
+    s = str(type(obj))
+    if s.startswith("<type '") and s.endswith("'>"):
+        s = s[7:-2]
+    return s
+
+
+def module_to_str(obj):
+    """
+    Return the string representation of `obj`s __module__ attribute, or an
+    empty string if there is no such attribute.
+    """
+    if hasattr(obj, '__module__'):
+        return str(obj.__module__)
+    else:
+        return ''
+
+
 class NamespaceView(View):
     """ A view containing the contents of the Python shell namespace. """
 
@@ -45,8 +74,14 @@ class NamespaceView(View):
 
     #### 'NamespaceView' interface ############################################
 
-    # The bindings in the namespace.
-    bindings = Property
+    # The bindings in the namespace.  This is a list of HasTraits objects with
+    # 'name', 'type' and 'module' string attributes.
+    bindings = Property(List, depends_on=['namespace'])
+
+    shell_view = Instance(PythonShellView)
+
+    namespace = DelegatesTo('shell_view')
+
 
     # The default traits UI view.
     traits_view = TraitsView(
@@ -78,9 +113,10 @@ class NamespaceView(View):
 
         self.ui = self.edit_traits(parent=parent, kind='subpanel')
 
-        shell = self.window.application.get_service(IPythonShell)
-        shell.on_trait_change(self._on_names_changed, 'names')
-        
+        self.shell_view = self.window.application.get_service(IPythonShell)
+        # 'shell_view' is an instance of the class PythonShellView from the module
+        # enthought.plugins.python_shell.view.python_shell_view.
+
         return self.ui.control
 
     ###########################################################################
@@ -89,37 +125,19 @@ class NamespaceView(View):
 
     #### Properties ###########################################################
 
+    @cached_property
     def _get_bindings(self):
         """ Property getter. """
-        
-        shell = self.window.application.get_service(IPythonShell)
 
-        # fixme: We should be able to use a list of lists instead of having
-        # to create these objects!
+        if self.shell_view is None:
+            return []
+
         class item(HasTraits):
             name = Str
             type = Str
+            module = Str
 
-        data = [
-            item(name=name, type=str(type(shell.lookup(name))))
-            for name in shell.names
-        ]
+        data = [item(name=name, type=type_to_str(value), module=module_to_str(value))
+                    for name, value in self.shell_view.namespace.items()] 
 
         return data
-    
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    #### Trait change handlers ################################################
-    
-    def _on_names_changed(self, new):
-        """ Dynamic trait change handler. """
-
-        # fixme: We might want to get a tad more granular in the event that we
-        # fire!
-        self.trait_property_changed('bindings', [], self.bindings)
-        
-        return
-    
-#### EOF ######################################################################
