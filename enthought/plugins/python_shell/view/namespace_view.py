@@ -1,5 +1,7 @@
 """ A view containing the contents of a Python shell namespace. """
 
+import types
+
 # Enthought library imports.
 
 from enthought.plugins.python_shell.api import IPythonShell
@@ -39,14 +41,13 @@ table_editor = TableEditor(
 
 def type_to_str(obj):
     """
-    Make a string out `obj`'s type.  If str(type(obj)) has the pattern
-    "<type 'some_type'>",  the string that is returned is "some_type".
-    Otherwise the string that is returned is str(type(obj)).
+    Make a string out `obj`'s type robustly.
     """ 
-    s = str(type(obj))
-    if s.startswith("<type '") and s.endswith("'>"):
-        s = s[7:-2]
-    return s
+    typ = type(obj)
+    if typ.__name__ == 'vtkobject' or typ is types.InstanceType:
+        typ = obj.__class__
+    name = '%s.%s' % (typ.__module__, typ.__name__)
+    return name
 
 
 def module_to_str(obj):
