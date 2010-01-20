@@ -46,8 +46,12 @@ def type_to_str(obj):
     typ = type(obj)
     if typ.__name__ == 'vtkobject' or typ is types.InstanceType:
         typ = obj.__class__
-    name = '%s.%s' % (typ.__module__, typ.__name__)
-    return name
+    if type.__module__ == '__builtin__':
+        # Make things like int and str easier to read.
+        return typ.__name__
+    else:
+        name = '%s.%s' % (typ.__module__, typ.__name__)
+        return name
 
 
 def module_to_str(obj):
