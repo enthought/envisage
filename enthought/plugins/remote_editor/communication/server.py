@@ -311,7 +311,7 @@ class Server(HasTraits):
             else:
                 error_msg = self._spawn(object_info.other_type)
                 if error_msg:
-                    self._send_to(port, '__error__', '1' + err_msg)
+                    self._send_to(port, '__error__', '1' + error_msg)
                 else:
                     self._queue[object_info.other_type] = [(command, arguments)]
                     self._match(port)
