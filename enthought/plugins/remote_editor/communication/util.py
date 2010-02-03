@@ -6,6 +6,9 @@ import socket
 from subprocess import Popen
 import sys
 
+import csv
+import StringIO
+
 # ETS imports
 from enthought.etsconfig.api import ETSConfig
 
@@ -18,9 +21,20 @@ LOCK_PATH = os.path.join(ETSConfig.application_data,
 LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
 
+def quoted_split(s):
+    f = StringIO.StringIO(s)
+    split = csv.reader(f, delimiter=' ', quotechar='"').next()
+    return split
+
+
 def spawn_independent(command, shell=False):
     """ Given a command suitable for 'Popen', open the process such that if this
         process is killed, the spawned process survives.
+        
+        `command` is either a list of strings, with the first item in the list being
+        the executable and the rest being its arguments, or a single string containing
+        the executable and its arguments.  In the latter case, and argument that
+        containts spaces must be delimited with double-quotes.
     """
     if sys.platform == 'win32':
         if isinstance(command, basestring):
@@ -29,6 +43,17 @@ def spawn_independent(command, shell=False):
             command.insert(0, 'start')
             command.insert(1, '/b')
         Popen(command, shell=True)
+    elif sys.platform == 'darwin':
+        pid = os.fork()
+        if pid:
+            return
+        else:
+            os.setpgrp()
+            if isinstance(command, basestring):
+                tmp = quoted_split(command)
+            else:
+                tmp = command
+            os.execv(tmp[0], tmp)
     else:
         pid = os.fork()
         if pid:
@@ -37,7 +62,6 @@ def spawn_independent(command, shell=False):
             os.setpgrp()
             Popen(command, shell=shell)
             sys.exit(0)
-
 
 def get_server_port():
     """ Reads the server port from the lock file. If the file does not exist
