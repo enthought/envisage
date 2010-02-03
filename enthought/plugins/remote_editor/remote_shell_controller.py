@@ -15,15 +15,19 @@ class RemoteShellController(Client):
     """
     implements(IRemoteShell)
 
+    #------------------------------------------------------
     # Client interface
+    #------------------------------------------------------
 
     self_type = "python_editor"
     other_type = "python_shell"
+    
+    #------------------------------------------------------
+    # RemoteShell interface
+    #------------------------------------------------------
 
     def run_file(self, path):
         self.send_command('run_file', path)
 
     def run_text(self, text):
         self.send_command('run_text', text)
-
-
