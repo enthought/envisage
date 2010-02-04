@@ -33,8 +33,8 @@ def spawn_independent(command, shell=False):
         
         `command` is either a list of strings, with the first item in the list being
         the executable and the rest being its arguments, or a single string containing
-        the executable and its arguments.  In the latter case, and argument that
-        containts spaces must be delimited with double-quotes.
+        the executable and its arguments.  In the latter case, any argument that
+        contains spaces must be delimited with double-quotes.
     """
     if sys.platform == 'win32':
         if isinstance(command, basestring):
