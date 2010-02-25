@@ -14,12 +14,12 @@ def etsdep(p, min, max=None, literal=False):
 
 
 # Declare our ETS project dependencies.
-APPTOOLS = etsdep('AppTools', '3.3.1')
-CHACO = etsdep('Chaco', '3.3.0')
-ENVISAGECORE = etsdep('EnvisageCore', '3.1.2')
-ETSDEVTOOLS_FBI = etsdep('ETSDevTools[fbi]', '3.0.4')  # -- only by the debug/fbi_plugin.py
-TRAITSGUI = etsdep('TraitsGUI', '3.3.0')
-TRAITS_UI = etsdep('Traits[ui]', '3.3.0')
+APPTOOLS = etsdep('AppTools', '3.3.2')
+CHACO = etsdep('Chaco', '3.3.1')
+ENVISAGECORE = etsdep('EnvisageCore', '3.1.3')
+ETSDEVTOOLS_FBI = etsdep('ETSDevTools[fbi]', '3.0.5')  # -- only by the debug/fbi_plugin.py
+TRAITSGUI = etsdep('TraitsGUI', '3.3.1')
+TRAITS_UI = etsdep('Traits[ui]', '3.3.1')
 
 
 # A dictionary of the setup data information.
@@ -45,6 +45,5 @@ INFO = {
         TRAITS_UI,
         ],
     'name': 'EnvisagePlugins',
-    'version': '3.1.2',
+    'version': '3.1.3',
     }
-
