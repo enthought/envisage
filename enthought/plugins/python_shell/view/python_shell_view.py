@@ -119,10 +119,11 @@ class PythonShellView(View):
         # interpreter's namespace so that we can show the user what they have
         # added or removed in the namespace view.
         self._namespace_types = set((name, type(value)) for name, value in \
-                                                            self.namespace.items())
+                                        self.namespace.items())
 
         # Register the view as a service.
-        self.window.application.register_service(IPythonShell, self)
+        app = self.window.application
+        self._service_id = app.register_service(IPythonShell, self)
 
         return self.shell.control
 
@@ -132,6 +133,9 @@ class PythonShellView(View):
         """
         
         super(PythonShellView, self).destroy_control()
+
+        # Unregister the view as a service.
+        self.window.application.unregister_service(self._service_id)
 
         # Remove the sys.stdout handlers.
         self.on_trait_change(
@@ -213,7 +217,7 @@ class PythonShellView(View):
             # Fire events if there are change.
             if len(added) > 0 or len(removed) > 0:
                 self.trait_property_changed('namespace', {}, self.namespace)
-                self.trait_property_changed('names', [], self.names)                
+                self.trait_property_changed('names', [], self.names)
 
         return
 
