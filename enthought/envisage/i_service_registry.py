@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Interface
+from enthought.traits.api import Event, Interface
 
 
 class IServiceRegistry(Interface):
@@ -23,6 +23,12 @@ class IServiceRegistry(Interface):
     (unlike the *real* one)!
     
     """
+
+    # An event that is fired when a service is registered.
+    registered = Event
+
+    # An event that is fired when a service is unregistered.
+    unregistered = Event
 
     def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.

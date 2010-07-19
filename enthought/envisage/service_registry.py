@@ -5,8 +5,8 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, Int, Interface, Undefined
-from enthought.traits.api import implements
+from enthought.traits.api import Dict, Event, HasTraits, Int, Interface, \
+    Undefined, implements
 from enthought.traits.protocols.interfaces import Protocol
 
 # Local imports.
@@ -23,6 +23,14 @@ class ServiceRegistry(HasTraits):
 
     implements(IServiceRegistry)
 
+    ####  IServiceRegistry interface ##########################################
+
+    # An event that is fired when a service is registered.
+    registered = Event
+
+    # An event that is fired when a service is unregistered.
+    unregistered = Event
+    
     ####  Private interface ###################################################
     
     # The services in the registry.
@@ -118,6 +126,7 @@ class ServiceRegistry(HasTraits):
 
         service_id = self._next_service_id()
         self._services[service_id] = (protocol_name, obj, properties)
+        self.registered = protocol
         
         logger.debug('service <%d> registered %s', service_id, protocol_name)
         
@@ -139,7 +148,8 @@ class ServiceRegistry(HasTraits):
         """ Unregister a service. """
 
         try:
-            del self._services[service_id]
+            protocol, obj, properties = self._services.pop(service_id)
+            self.unregistered = protocol
 
             logger.debug('service <%d> unregistered', service_id)
 
