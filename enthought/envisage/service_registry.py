@@ -68,6 +68,17 @@ class ServiceRegistry(HasTraits):
             
         return service
 
+    def get_service_from_id(self, service_id):
+        """ Return the service with the specified id. """
+
+        try:
+            protocol, obj, properties = self._services[service_id]
+                
+        except KeyError:
+            raise ValueError('no service with id <%d>' % service_id)
+            
+        return obj
+
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
@@ -126,7 +137,7 @@ class ServiceRegistry(HasTraits):
 
         service_id = self._next_service_id()
         self._services[service_id] = (protocol_name, obj, properties)
-        self.registered = protocol
+        self.registered = service_id
         
         logger.debug('service <%d> registered %s', service_id, protocol_name)
         
@@ -149,7 +160,7 @@ class ServiceRegistry(HasTraits):
 
         try:
             protocol, obj, properties = self._services.pop(service_id)
-            self.unregistered = protocol
+            self.unregistered = service_id
 
             logger.debug('service <%d> unregistered', service_id)
 

@@ -341,6 +341,11 @@ class Application(HasTraits):
 
         return service
 
+    def get_service_from_id(self, service_id):
+        """ Return the service with the specified id. """
+
+        return self.service_registry.get_service_from_id(service_id)
+
     def get_service_properties(self, service_id):
         """ Return the dictionary of properties associated with a service. """
 

@@ -45,6 +45,13 @@ class IServiceRegistry(Interface):
         Don't try to guess *which* one it will return - it is random!
 
         """
+
+    def get_service_from_id(self, service_id):
+        """ Return the service with the specified id.
+
+        If no such service exists a 'ValueError' exception is raised.
+        
+        """
         
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
