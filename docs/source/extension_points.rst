@@ -27,8 +27,8 @@ distribution. This example shows how to build a very simple application that
 prints a (hopefully witty, educational, or inspiring) "Message of the Day"
 chosen at random from a list of contributed messages.
 
-1) Declaring an Extension Point
--------------------------------
+Declaring an Extension Point
+----------------------------
 
 Plugins declare their extension points in one of two ways:
 
@@ -87,8 +87,8 @@ Either way, this tells us three things about the extension point:
    implement the IMessage_ interface.
 3) That the extension point allows you to contribute messages!
 
-2) Making contributions to an Extension Point
----------------------------------------------
+Making contributions to an Extension Point
+------------------------------------------
 
 The `Message of the Day`_ example has a second plugin,
 acme.motd.software_quotes_ that contributes some pithy quotes about software
@@ -183,8 +183,8 @@ is not automatically notified if the plugin wants to change its contributions
 to an extension point. To do this manually fire an 'extension_point_changed'
 event.
 
-3) Retrieving the contributions to an Extension Point
------------------------------------------------------
+Retrieving the contributions to an Extension Point
+--------------------------------------------------
 
 OK, here's where we are so far: One plugin (acme.motd_) has advertised the fact
 that it has an extension point called "acme.motd.messages", and that the

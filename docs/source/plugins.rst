@@ -55,8 +55,8 @@ the Day`_ example::
         # The plugin's name (suitable for displaying to the user).
         name = 'MOTD'
 
-Plugin Lifecyle
----------------
+Plugin Lifecycle
+----------------
 
 Plugins have a lifecycle in the context of an application. There are currently
 two key lifecycle methods on the IPlugin_ interface::

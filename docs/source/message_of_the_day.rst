@@ -74,8 +74,8 @@ Not So Plain Ol' MOTD
 Now lets look at the steps that we have to go through to use this code and
 turn it into an extensible, pluggable Envisage application.
 
-1) Create the main Application class
-------------------------------------
+Create the main Application class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we need to create an object that represents the application
 itself. In Envisage, this can be any object that implements the IApplication_
@@ -98,8 +98,8 @@ Envisage ships with two plugin managers by default, one that simply takes a
 list of plugins as in the above example, and one that finds all plugins
 offered via the 'enthought.envisage.plugins' entry point in Python Eggs.
 
-2) The 'acme.motd' plugin
--------------------------
+The 'acme.motd' plugin
+~~~~~~~~~~~~~~~~~~~~~~
 
 As showm above, the corresponding plugin implementation is in the
 MOTDPlugin_ class::
@@ -199,8 +199,8 @@ take a MOTD_ object and register it a service for other parts of the
 application to use. Sadly, in this example, there are no other parts of the
 application, so we just lookup and use the service ourselves!
 
-3) The 'acme.motd.software_quotes' plugin
------------------------------------------
+The 'acme.motd.software_quotes' plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we have to create the messages that we want to add. Remember that
 when the acme.motd_ plugin advertised the extension point, it told us that

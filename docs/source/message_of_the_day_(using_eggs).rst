@@ -86,8 +86,8 @@ Not So Plain Ol' MOTD
 Now lets look at the steps that we have to go through to use this code and
 turn it into an extensible, pluggable Envisage application.
 
-1) Create the main Application class
-------------------------------------
+Create the main Application class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we need to create an object that represents the application
 itself. In Envisage, this can be any object that implements the IApplication_
@@ -108,8 +108,8 @@ Note that the run.py_ file also contains some boilerplate code to add the
 application's `Python Eggs`_ to the ``sys.path``, but this is not specific
 to Envisage - that code would be required for any egg-based application.
 
-2) Create the 'acme.motd' plugin
---------------------------------
+Create the 'acme.motd' plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This is the plugin that will deliver the "Message of the Day" functionality
 into the application. It will do this by declaring an extension point to
@@ -242,8 +242,8 @@ take a MOTD_ object and register it a service for other parts of the
 application to use. Sadly, in this example, there are no other parts of the
 application, so we just lookup and use the service ourselves!
 
-3) Build the 'acme.motd' egg.
------------------------------
+Build the 'acme.motd' egg
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To deploy the plugin into an application, we have to build it as an egg (this
 is only because we are using eggs as our deployment mechanism, if you do not
@@ -256,8 +256,8 @@ If we run the application now , we will be told to work hard and be good to our
 Mothers. Good advice indeed, but what it really shows is that we haven't yet
 contributed any messages to the application. Lets do this next.
 
-4) Create the 'acme.motd.software_quotes' plugin
-------------------------------------------------
+Create the 'acme.motd.software_quotes' plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we have to create the messages that we want to add. Remember that
 when the acme.motd_ plugin advertised the extension point, it told us that
@@ -328,8 +328,8 @@ and tell Envisage about the plugin::
         """
     )
 
-5) Build the 'acme.motd.software_quotes' egg.
----------------------------------------------
+Build the 'acme.motd.software_quotes' egg
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To deploy the plugin into an application, we have to build it as an egg::
 

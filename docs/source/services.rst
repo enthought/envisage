@@ -96,8 +96,8 @@ following interface and implementation::
 
 	    ... code that actually fixes it! ...
 
-1) Registering a service
-------------------------
+Registering a service
+---------------------
 
 To register a service, create an object and call the register_service() method,
 passing it the protocol (interface or type) to publish the object under
@@ -133,8 +133,8 @@ can be written as::
 This comes in handy when using service factories (see later) to make sure that
 implementation classes are imported only when necessary.
 
-2) Looking up a service
------------------------
+Looking up a service
+--------------------
 
 Looking up a service is just as easy -- call get_service() specifiying the
 protocol of the service required::
@@ -156,8 +156,8 @@ can be written as::
 This comes in handy when using service factories (see later) to make sure that
 implementation classes are imported only when necessary.
 
-3) Looking up a list of services
---------------------------------
+Looking up a list of services
+-----------------------------
 
 You can also look up *all* services of a particular protocol::
 
@@ -166,8 +166,8 @@ You can also look up *all* services of a particular protocol::
 Assuming the registrations in Section 1, this returns a list containing
 both *fred* and *wilma*, again in arbitrary order.
 
-4) Using queries
-----------------
+Using queries
+-------------
 
 The get_service() and get_services() methods both take optional arguments
 that allow more control over the selection of an appropriate service. The first
@@ -202,8 +202,8 @@ in which case only one of the services that matches the query is returned::
 
 This query would return *either* *fred* or *wilma*.	
 
-5) Using *minimize* and *maximize*
-----------------------------------
+Using *minimize* and *maximize*
+-------------------------------
 
 The *minimize* and *maximize* (optional) arguments to the get_service() and
 get_services() methods allow the services returned to be sorted by an
@@ -224,8 +224,8 @@ query. For example to find the cheapest plumber in my area::
 
 This query would definitely give the job to *wilma*!
 
-6) Unregistering a service
---------------------------
+Unregistering a service
+-----------------------
 
 When you register a service, Envisage returns a value that uniquely
 identifies the service within the current process (i.e., it is not suitable for
@@ -239,8 +239,8 @@ call the unregister_service() method, passing in the appropriate identifier::
 
     application.unregister_service(fred_id)
 
-7) Getting any additional service properties
---------------------------------------------
+Getting any additional service properties
+-----------------------------------------
 
 If you associate an arbitrary dictionary of properties with an object when
 you register it, you can retrieve those properties by calling the
@@ -270,8 +270,8 @@ Not however, that in practise, it is more common to use the actual attributes
 of a service object for the purposes of querying, but this is useful if you
 want additional properties that aren't part of the object's type.
 
-8) Service Factories
---------------------
+Service Factories
+-----------------
 
 Last, but not least, we will look at an important feature of the service
 registry, namely, service factories.
@@ -301,4 +301,3 @@ Now, the first time somebody tries to get any 'IPlumber' service, the factory
 is called and the returned plumber object replaces the factory in the registry.
 
 .. _IApplication: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_application.py
-
