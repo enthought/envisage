@@ -101,7 +101,7 @@ offered via the 'enthought.envisage.plugins' entry point in Python Eggs.
 The 'acme.motd' plugin
 ~~~~~~~~~~~~~~~~~~~~~~
 
-As showm above, the corresponding plugin implementation is in the
+As shown above, the corresponding plugin implementation is in the
 MOTDPlugin_ class::
 
   class MOTDPlugin(Plugin):
