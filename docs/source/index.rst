@@ -9,6 +9,7 @@ Envisage Core Documentation
 	extension_points.rst
 	services.rst
 	plugins.rst
+    howto_create_a_plugin.rst
 	message_of_the_day.rst
 	message_of_the_day_(using_eggs).rst
 	workbench.rst
