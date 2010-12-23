@@ -54,4 +54,10 @@ In keeping with the Envisage philosophy of making code as reuseable as
 possible, the workbench plugin is just a thin layer over the PyFace Workbench
 widget to allow views, editors and perspectives to be contributed via plugins.
 
+
+.. toctree::
+    :maxdepth: 2
+
+    preferences.rst
+
 .. _enthought.envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py
