@@ -3,7 +3,6 @@
 # Copyright (c) 2008-2011 by Enthought, Inc.
 # All rights reserved.
 
-
 """
 Extensible Application Framework
 
@@ -76,7 +75,6 @@ setup(
         [enthought.envisage.plugins]
         enthought.envisage.core = enthought.envisage.core_plugin:CorePlugin
         """,
-    extras_require = INFO['extras_require'],
     ext_modules = [],
     include_package_data = True,
     install_requires = INFO['install_requires'],
