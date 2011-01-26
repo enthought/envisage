@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2008-2009 by Enthought, Inc.
+# Copyright (c) 2008-2011 by Enthought, Inc.
 # All rights reserved.
-
 
 """
 Plug-ins for the Envisage framework.
@@ -22,24 +21,17 @@ useful to avoid having to reinvent these particular wheels.
 - **Text Editor**: Provides a rudimentary text editor interface.
 - **Python Shell**: Provides an interactive Python shell within a
   Workbench-based application.
-- **Debug**: Provides the Frame Based Inspector from the ETSDevTools project 
+- **Debug**: Provides the Frame Based Inspector from the ETSDevTools project
   as an Envisage plug-in.
 
 Prerequisites
 -------------
-If you want to build EnvisagePlugins from source, you must first install 
+If you want to build EnvisagePlugins from source, you must first install
 `setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_.
 
 """
 
-import traceback
-import sys
-
-from distutils import log
-from distutils.command.build import build as distbuild
 from setuptools import setup, find_packages
-from setuptools.command.develop import develop
-
 
 # FIXME: This works around a setuptools bug which gets setup_data.py metadata
 # from incorrect packages. Ticket #1592
@@ -87,7 +79,13 @@ setup(
     include_package_data = True,
     package_data = {'enthought': [
             'envisage/ui/workbench/*.ini',
-            'envisage/ui/workbench/action/images/*.png']},
+            'envisage/ui/workbench/action/images/*.png',
+            'envisage/ui/single_project/action/images/*.png',
+            'envisage/ui/single_project/*.ini',
+            'envisage/ui/workbench/images/*.png',
+            'envisage/ui/workbench/images/*.ico',
+            'plugins/remote_editor/*.ini',
+            ]},
     install_requires = INFO['install_requires'],
     license = 'BSD',
     long_description = '\n'.join(DOCLINES[3:]),
@@ -108,5 +106,4 @@ setup(
     url = 'http://code.enthought.com/projects/envisage_plugins.php',
     version = INFO['version'],
     zip_safe = False,
-    )
-
+)
