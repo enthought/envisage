@@ -74,7 +74,6 @@ setup(
         enthought.envisage.developer = enthought.envisage.developer.developer_plugin:DeveloperPlugin
         enthought.envisage.developer.ui = enthought.envisage.developer.ui.developer_ui_plugin:DeveloperUIPlugin
         ''',
-    extras_require = INFO['extras_require'],
     ext_modules = [],
     include_package_data = True,
     package_data = {'enthought': [
