@@ -59,8 +59,8 @@ class Project(HasTraits):
 
     # Current envisage application.
     application = Instance(Application, transient=True)
-    
-    
+
+
     #### protected 'Project' class interface #################################
 
     # Format used to create a unique name from a location and a counter.
@@ -229,23 +229,23 @@ class Project(HasTraits):
         # fallback on application_home.
         if application is None:
             return ETSConfig.application_home
-            
+
         app_preferences = application.preferences
         path_id = 'enthought.envisage.ui.' \
             'single_project.preferred_path'
         path = app_preferences.get(path_id)
-            
+
         # If the 'preferred_path' variable isn't set in the user's preferences,
         # then we set to the the application home by default.
         if len(path) == 0:
             app_home = ETSConfig.application_home
             app_preferences.set(path_id, app_home)
             return app_home
-        
+
         return path
-    
+
     get_default_path = classmethod(get_default_path)
-    
+
     def get_default_name(self):
         """
         Return the default name for a new project.
@@ -273,7 +273,7 @@ class Project(HasTraits):
             result = os.path.join(location, 'project')
 
         return result
-        
+
     get_pickle_filename = classmethod(get_pickle_filename)
 
     def get_pickle_package(cls):
@@ -290,7 +290,7 @@ class Project(HasTraits):
         """
 
         return enthought.sweet_pickle
-        
+
     get_pickle_package = classmethod(get_pickle_package)
 
     def load(cls, location, application):
@@ -304,7 +304,7 @@ class Project(HasTraits):
         An exception will be raised to indicate a failure.
 
         """
-        
+
         # Load the project in a manner that derived classes can modify.
         project = cls._load(location)
 
@@ -312,12 +312,12 @@ class Project(HasTraits):
         # from and that the dirty flag is not set.
         project.location = location
         project.dirty = False
-        
+
         # Set the project's 'application' to the running application passed in.
         project.application = application
 
         return project
-        
+
     load = classmethod(load)
 
     def register_editor(self, resource, editor, remove=False):

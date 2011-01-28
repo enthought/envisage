@@ -31,7 +31,7 @@ class ColorView(View):
         # By making the Id the same as the name, we make it easy to specify
         # the views in the example perspectives. Note for larger applications
         # the Id should be globally unique, and by default we use the module
-        # name and class name. 
+        # name and class name.
         return self.name
 
     #### Methods ##############################################################
@@ -59,7 +59,7 @@ class ColorView(View):
         """ Create a wx version of the control. """
 
         import wx
-        
+
         panel = wx.Panel(parent, -1)
         panel.SetBackgroundColour(color)
 
@@ -69,7 +69,7 @@ class ColorView(View):
         """ Create a Qt4 version of the control. """
 
         from PyQt4 import QtGui
-        
+
         widget = QtGui.QWidget(parent)
 
         palette = widget.palette()
@@ -78,5 +78,5 @@ class ColorView(View):
         widget.setAutoFillBackground(True)
 
         return widget
-    
+
 #### EOF ######################################################################

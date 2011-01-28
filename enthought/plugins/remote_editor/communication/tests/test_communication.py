@@ -36,7 +36,7 @@ class TestThread(Thread):
         self.server = Server()
         self.server.init()
         self.server.main()
-        
+
 
 class CommunicationTestCase(unittest.TestCase):
 
@@ -57,7 +57,7 @@ class CommunicationTestCase(unittest.TestCase):
             appropriately?
         """
         # Test server set up
-        
+
         # Does the ping operation work when the Server is not running?
         self.assert_(not Server.ping(get_server_port()))
 
@@ -71,7 +71,7 @@ class CommunicationTestCase(unittest.TestCase):
         # Test normal operation
 
         self.assert_(Server.ping(get_server_port()))
-        
+
         client1 = TestClient(self_type='client1', other_type='client2')
         client1.register()
         client2 = TestClient(self_type='client2', other_type='client1')
@@ -83,7 +83,7 @@ class CommunicationTestCase(unittest.TestCase):
         sleep(.1)
         self.assertEqual(client2.command, "foo")
         self.assertEqual(client2.arguments, "bar")
-        
+
         client1.unregister()
         sleep(.1)
         self.assert_(client1.orphaned and client2.orphaned)
@@ -109,7 +109,7 @@ class CommunicationTestCase(unittest.TestCase):
         sleep(.1)
         self.assert_(client2.orphaned)
         self.assertEqual(client2.error_count, 1)
-        
+
 
 if __name__ == '__main__':
     """ Run the unittest, but redirect the log to stderr for convenience.

@@ -23,13 +23,13 @@ class CloseProjectAction(ProjectAction):
     """ An action to close the current project.  This is only enabled when
         there is a current project.
     """
-    
+
     # The universal object locator (UOL).
     uol = 'enthought.envisage.ui.single_project.ui_service.UiService'
 
     # The name of the method to invoke on the object.
     method_name = 'close'
-    
+
     # A longer description of the action.
     description = 'Close the current project'
 

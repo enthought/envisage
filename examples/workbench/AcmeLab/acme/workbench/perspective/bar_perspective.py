@@ -19,5 +19,5 @@ class BarPerspective(Perspective):
         PerspectiveItem(id='Green'),
         PerspectiveItem(id='Black', position='bottom', relative_to='Green')
     ]
-    
+
 #### EOF ######################################################################

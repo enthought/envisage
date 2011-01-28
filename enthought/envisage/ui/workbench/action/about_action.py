@@ -9,7 +9,7 @@ class AboutAction(Action):
     """ An action that shows the 'About' dialog. """
 
     #### 'Action' interface ###################################################
-    
+
     # A longer description of the action.
     description = 'Display information about the application'
 
@@ -29,5 +29,5 @@ class AboutAction(Action):
         self.window.application.about()
 
         return
-    
+
 #### EOF ######################################################################

@@ -64,10 +64,10 @@ class ServiceRegistryBrowser(HasTraits):
 
     # The extension registry that we are browsing.
     service_registry_model = Any#Instance(IServiceRegistry)
-    
+
     # The workbench service.
     workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
-    
+
     # The default traits UI view.
     traits_view = service_registry_browser_view
 
@@ -86,7 +86,7 @@ class ServiceRegistryBrowser(HasTraits):
         """ Trait initializer. """
 
         from service_registry_browser_tree import ServiceRegistryModel
-        
+
         return ServiceRegistryModel(service_registry=self.service_registry)
 
     def _workbench_default(self):
@@ -97,9 +97,9 @@ class ServiceRegistryBrowser(HasTraits):
         )
 
         return workbench
-        
+
     #### Methods ##############################################################
-    
+
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
@@ -117,7 +117,7 @@ class ServiceRegistryBrowser(HasTraits):
                 self.workbench.information(
                     'Service not created by a plugin (%s)' % repr(service)
                 )
-            
+
         return
 
     def dclick_service(self, plugin, protocol, obj):
@@ -153,7 +153,7 @@ class ServiceRegistryBrowser(HasTraits):
         editor.select_line(lineno)
 
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -168,7 +168,7 @@ class ServiceRegistryBrowser(HasTraits):
         service_traits = plugin.traits(service=True)
 
         protocol = self.application.import_symbol(protocol)
-        
+
         for trait_name, trait in service_traits.items():
             if protocol == self._get_service_protocol(trait):
                 break
@@ -180,7 +180,7 @@ class ServiceRegistryBrowser(HasTraits):
 
     def _get_service_protocol(self, trait):
         """ Determine the protocol to register a service trait with. """
-        
+
         # If a specific protocol was specified then use it.
         if trait.service_protocol is not None:
             protocol = trait.service_protocol
@@ -200,19 +200,19 @@ class ServiceRegistryBrowser(HasTraits):
 
     def _get_plugin_klass(self, module, plugin):
         """ Get the klass that defines the plugin. """
-        
+
         for name, klass in module.klasses.items():
             if name == type(plugin).__name__:
                 break
 
         else:
             klass = None
-            
+
         return klass
-    
+
     def _get_file_object(self, obj):
         """ Return a 'File' object for the object's source file. """
-        
+
         return File(path=inspect.getsourcefile(type(obj)))
 
     def _parse_plugin(self, plugin):
@@ -221,5 +221,5 @@ class ServiceRegistryBrowser(HasTraits):
         filename = self._get_file_object(plugin).path
 
         return self.code_browser.read_file(filename)
-    
+
 #### EOF ######################################################################

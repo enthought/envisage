@@ -38,5 +38,5 @@ class LorenzPlugin(Plugin):
         )
 
         return [lorenz_service_offer]
-    
+
 #### EOF ######################################################################

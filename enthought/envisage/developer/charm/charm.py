@@ -8,7 +8,7 @@ from enthought.traits.api import Event, HasTraits, Instance, Str
 
 class Charm(HasTraits):
     """ Charm - the model for a simple Python IDE. """
-    
+
     #### 'Charm' interface ####################################################
 
     # The code browser.
@@ -16,7 +16,7 @@ class Charm(HasTraits):
 
     # The filename of the code database.
     filename = Str('code_database.pickle')
-    
+
     # The current module.
     module = Instance(Module)
 
@@ -27,7 +27,7 @@ class Charm(HasTraits):
 
     # Fired when a module has been parsed.
     parsed_module = Event
-    
+
     ###########################################################################
     # 'Charm' interface.
     ###########################################################################
@@ -57,7 +57,7 @@ class Charm(HasTraits):
         self.code_browser.save()
 
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -82,7 +82,7 @@ class Charm(HasTraits):
         )
 
         return
-    
+
     #### Trait change handlers ################################################
 
     def _code_browser_changed(self, old, new):
@@ -102,7 +102,7 @@ class Charm(HasTraits):
         self.code_browser.filename = new
 
         return
-    
+
     def _on_parsing_module(self, event):
         """ Dysnamic trait change handler. """
 
@@ -116,5 +116,5 @@ class Charm(HasTraits):
         self.parsed_module = event
 
         return
-    
+
 #### EOF ######################################################################

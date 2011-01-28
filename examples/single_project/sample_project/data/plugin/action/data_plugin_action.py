@@ -78,7 +78,7 @@ class DataPluginAction(ProjectAction):
     ##########################################################################
 
     #### protected methods ###################################################
-    
+
     def _get_target_data(self, event, show_error=True):
         """
         Return the data this action should import into.

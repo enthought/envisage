@@ -10,7 +10,7 @@ from enthought.traits.api import List
 
 class LorenzPerspective(Perspective):
     """ A perspective containing the default Lorenz views. """
-    
+
     name             = 'Lorenz'
     show_editor_area = False
 
@@ -54,7 +54,7 @@ class LorenzUIPlugin(Plugin):
 
     def _views_default(self):
         """ Trait initializer. """
-        
+
         return [self._create_data_view, self._create_plot2d_view]
 
     ###########################################################################
@@ -74,7 +74,7 @@ class LorenzUIPlugin(Plugin):
         )
 
         return data_view
-    
+
     def _create_plot2d_view(self, **traits):
         """ Factory method for the plot2D view. """
 
@@ -88,5 +88,5 @@ class LorenzUIPlugin(Plugin):
         )
 
         return plot2d_view
-    
+
 #### EOF ######################################################################

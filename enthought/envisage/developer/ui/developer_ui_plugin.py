@@ -16,7 +16,7 @@ class DeveloperUIPlugin(Plugin):
 
     # The plugin Id.
     ID = 'enthought.envisage.developer.ui'
-    
+
     # Extension points Ids.
     PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
     VIEWS        = 'enthought.envisage.ui.workbench.views'
@@ -66,5 +66,5 @@ class DeveloperUIPlugin(Plugin):
         ]
 
         return views
-        
+
 #### EOF ######################################################################

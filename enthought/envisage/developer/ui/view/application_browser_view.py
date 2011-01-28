@@ -14,7 +14,7 @@ class ApplicationBrowserView(TraitsUIView):
     """ A view that allows a developer to browse the current application. """
 
     #### 'IWorkbenchPart' interface ###########################################
-    
+
     # The part's globally unique identifier.
     id = 'enthought.envisage.developer.ui.view.application_browser_view'
 
@@ -26,7 +26,7 @@ class ApplicationBrowserView(TraitsUIView):
     # The category that the view belongs to (this can used to group views when
     # they are displayed to the user).
     category = 'Developer'
-    
+
     #### 'ApplicationBrowserView' interface ###################################
 
     # The code browser used to parse Python code.

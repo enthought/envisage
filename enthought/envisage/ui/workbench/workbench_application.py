@@ -47,7 +47,7 @@ class WorkbenchApplication(Application):
     # parts of the application to get a reference to the GUI so they can get
     # system metrics, etc.
     gui = Instance(GUI)
-    
+
     # The workbench.
     workbench = Instance(IWorkbench)
 
@@ -59,19 +59,19 @@ class WorkbenchApplication(Application):
     #
     # The 'About' dialog.
     about_dialog = Instance(Dialog)
-    
+
     # The icon used on window title bars etc.
     icon = Instance(ImageResource, ImageResource('application.ico'))
-    
+
     # The name of the application (also used on window title bars etc).
     name = Str('Workbench')
-    
+
     # The splash screen (None, the default, if no splash screen is required).
     splash_screen = Instance(SplashScreen)
 
     # The default position of the main window.
     window_position = Tuple((200, 200))
-    
+
     # The default size of the main window.
     window_size = Tuple((800, 600))
 
@@ -96,7 +96,7 @@ class WorkbenchApplication(Application):
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).
         gui = self.gui
-        
+
         # Start the application.
         if self.start():
             # Create and open the first workbench window.
@@ -107,14 +107,14 @@ class WorkbenchApplication(Application):
 
             # We stop the application when the workbench has exited.
             self.workbench.on_trait_change(self._on_workbench_exited, 'exited')
-            
+
             # Start the GUI event loop.
             #
             # THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.
             gui.start_event_loop()
-        
+
         return
-        
+
     ###########################################################################
     # 'WorkbenchApplication' interface.
     ###########################################################################
@@ -125,7 +125,7 @@ class WorkbenchApplication(Application):
         """ Trait initializer. """
 
         return AboutDialog(image=ImageResource('about'))
-    
+
     def _gui_default(self):
         """ Trait initializer. """
 
@@ -135,7 +135,7 @@ class WorkbenchApplication(Application):
         """ Trait initializer. """
 
         return self.create_workbench()
-    
+
     #### Methods ##############################################################
 
     def about(self):
@@ -186,5 +186,5 @@ class WorkbenchApplication(Application):
         self.gui.invoke_later(self.stop)
 
         return
-        
+
 #### EOF ######################################################################

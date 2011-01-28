@@ -13,7 +13,7 @@ from enthought.envisage.ui.action.api import Action, ActionSet, Group, Menu
 # Local imports.
 from dummy_action_manager_builder import DummyActionManagerBuilder
 
-    
+
 class ActionManagerBuilderTestCase(unittest.TestCase):
     """ Tests for the action manager builder. """
 
@@ -28,9 +28,9 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -48,7 +48,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     ),
                 ]
             ),
-            
+
         ]
 
         # Create a builder containing the action set.
@@ -74,7 +74,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     ),
                 ]
             ),
-            
+
         ]
 
         # Create a builder containing the action set.
@@ -100,7 +100,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         # Create a builder containing the action set.
         builder = DummyActionManagerBuilder(action_sets=action_sets)
-        
+
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
@@ -121,7 +121,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         # Create a builder containing the action set.
         builder = DummyActionManagerBuilder(action_sets=action_sets)
-        
+
         # Create a menu bar manager for the 'MenuBar'.
         self.failUnlessRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
@@ -146,7 +146,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     ),
                 ]
             ),
-            
+
         ]
 
         # Create a builder containing the action set.
@@ -158,7 +158,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         )
 
         return
-    
+
     def test_single_top_level_menu_with_no_group(self):
         """ single top level menu with no group """
 
@@ -315,7 +315,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                 groups = [
                     Group(id='FileMenuGroup', path='MenuBar')
                 ],
-                
+
                 menus = [
                     Menu(name='&File', path='MenuBar', group='FileMenuGroup'),
                 ],
@@ -355,7 +355,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(name='&Help', path='MenuBar')
                 ],
             ),
-        
+
             ActionSet(
                 menus = [
                     Menu(name='&New', path='MenuBar/File'),
@@ -572,7 +572,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
                 ]
             ),
-            
+
         ]
 
         # Create a builder containing the action set.
@@ -598,7 +598,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(
             ['NewGroup', 'SaveGroup', 'ExitGroup', 'additions'], ids
         )
-        
+
         # Make sure the 'New' sub-menu got added to the 'NewGroup' group
         # of the 'File' menu.
         menu = menu_manager.find_item('File')
@@ -648,7 +648,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     ),
                 ]
             ),
-            
+
         ]
 
         # Create a builder containing the action set.
@@ -672,7 +672,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         ids = [group.id for group in menu.groups]
         self.assertEqual(['NewGroup', 'ExitGroup', 'additions'], ids)
-        
+
         # Make sure the 'New' sub-menu got added to the 'NewGroup' group
         # of the 'File' menu.
         menu = menu_manager.find_item('File')

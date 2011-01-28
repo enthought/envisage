@@ -8,11 +8,11 @@ under BSD-like license.
 
 Files and orginal authors:
 ----------------------------------------------------------------
-		   python_run_16x16.png | Enthought
-		   python_run_24x24.png | Enthought
-		   python_run_32x32.png | Enthought
-		   python_run_48x48.png | Enthought
-		python_runsel_16x16.png | Enthought
-		python_runsel_24x24.png | Enthought
-		python_runsel_32x32.png | Enthought
-		python_runsel_48x48.png | Enthought
+                   python_run_16x16.png | Enthought
+                   python_run_24x24.png | Enthought
+                   python_run_32x32.png | Enthought
+                   python_run_48x48.png | Enthought
+                python_runsel_16x16.png | Enthought
+                python_runsel_24x24.png | Enthought
+                python_runsel_32x32.png | Enthought
+                python_runsel_48x48.png | Enthought

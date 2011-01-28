@@ -27,7 +27,7 @@ def search_namespace(namespace, string, depth=3):
             yield child_name, child
         if hasattr(child, '__dict__'):
             for suitable_child_name, suitable_child in \
-                    search_namespace(child.__dict__, 
+                    search_namespace(child.__dict__,
                                                 string, depth=depth-1):
                 yield ('%s.%s' % (child_name, suitable_child_name),
                                     suitable_child)
@@ -55,7 +55,7 @@ def explore(node):
         the_object = obj
 
         view = TraitsView(Item('the_object', style='custom', show_label=False),
-                        resizable=True, 
+                        resizable=True,
                         title=name,
                         width=600,
                         )
@@ -65,18 +65,18 @@ def explore(node):
 class NamespaceNode(DictNode):
     """ Subclass of the DictNode for the namespace purposes.
     """
-    
+
     def tno_get_icon ( self, node, is_expanded ):
         """ Returns the icon for a specified object.
 
-            We overwrite this method because we don't have a default icon for 
+            We overwrite this method because we don't have a default icon for
             this object.
         """
         return ('@icons:dict_node')
 
     def tno_get_children ( self, node ):
         """ Gets the object's children.
-            
+
             We overwrite this method for a nicer label on the objects.
         """
         node_for = self.node_for
@@ -86,7 +86,7 @@ class NamespaceNode(DictNode):
             return ([ self.node_for( k, v ) for k, v in items[: 250 ] ] +
                     [ StringNode( value = '...', readonly = True ) ]        +
                     [ self.node_for( k, v ) for k, v in items[ -250: ] ])
-            
+
         return [ self.node_for( k, v ) for k, v in items ]
 
 
@@ -134,7 +134,7 @@ class NamespaceView(View):
             Item(
                 'tree_nodes',
                 id     = 'table',
-                editor = TreeEditor( 
+                editor = TreeEditor(
                                 auto_open=1,
                                 hide_root=True,
                                 editable=False,
@@ -172,7 +172,7 @@ class NamespaceView(View):
         """ Destroys the toolkit-specific control that represents the view.
 
         """
-        
+
         super(NamespaceView, self).destroy_control()
 
         # Remove the namespace change handler
@@ -232,7 +232,7 @@ class NamespaceView(View):
     ###########################################################################
 
     #### Trait change handlers ################################################
-    
+
     def _on_names_changed(self, new):
         """ Dynamic trait change handler. """
 

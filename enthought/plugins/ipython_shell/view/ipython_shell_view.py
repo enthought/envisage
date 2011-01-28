@@ -28,7 +28,7 @@ class IPythonShellView(View):
     implements(IPythonShell)
 
     #### 'IView' interface ####################################################
-    
+
     # The part's globally unique identifier.
     id = 'enthought.plugins.python_shell_view'
 
@@ -89,7 +89,7 @@ class IPythonShellView(View):
         """ Creates the toolkit-specific control that represents the view. """
 
         self.shell = IPythonWidget(parent,
-                                   banner='\n'.join(self._banner), 
+                                   banner='\n'.join(self._banner),
                                    interp=self.interpreter)
 
         # Namespace contributions.
@@ -103,7 +103,7 @@ class IPythonShellView(View):
             except Exception, e:
                 logger.exception(
                         "The command '%s' supplied to the Ipython shell "
-                        "plugin has raised an exception:\n%s" % 
+                        "plugin has raised an exception:\n%s" %
                         (command, traceback.format_exc()))
 
         # Register the view as a service.
@@ -112,7 +112,7 @@ class IPythonShellView(View):
         ns_view = self.window.application.get_service(INamespaceView)
         if ns_view is not None:
             self.on_trait_change(ns_view._on_names_changed, 'names')
- 
+
         def try_set_focus():
             try:
                 self.shell.control.SetFocus()
@@ -122,9 +122,9 @@ class IPythonShellView(View):
 
         def set_focus():
             self.window.application.gui.invoke_later(try_set_focus)
-                                 
+
         GUI.invoke_later(set_focus)
-        
+
         return self.shell.control
 
 
@@ -132,7 +132,7 @@ class IPythonShellView(View):
         """ Destroys the toolkit-specific control that represents the view.
 
         """
-        
+
         super(IPythonShellView, self).destroy_control()
 
         # Remove the namespace change handler
@@ -168,13 +168,13 @@ class IPythonShellView(View):
 
         self.shell.execute_command(command, hidden)
         self.trait_property_changed('namespace', [], self.namespace)
-        
+
     def execute_file(self, path, hidden=True):
         """ Execute a command in the interpreter. """
 
         self.shell.execute_file(path, hidden)
         self.trait_property_changed('namespace', [], self.namespace)
-        
+
     def lookup(self, name):
         """ Returns the value bound to a name in the interpreter's namespace."""
 

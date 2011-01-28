@@ -10,16 +10,16 @@ from enthought.pyface.api import ImageResource
 
 class SaveProjectAction(ProjectAction):
     """ An action that saves the current project. """
-    
+
     # The universal object locator (UOL).
     uol = 'enthought.envisage.ui.single_project.ui_service.UiService'
 
     # The name of the method to invoke on the object.
     method_name = 'save'
-    
+
     # A longer description of the action.
     description = 'Save the current project'
-    
+
     # The action's image (displayed on tool bar tools etc).
     image = ImageResource('save_project')
 
@@ -28,7 +28,7 @@ class SaveProjectAction(ProjectAction):
 
     # A short description of the action used for tooltip text etc.
     tooltip = 'Save this project'
-    
+
     #### public interface ####################################################
 
     def refresh(self):
@@ -109,4 +109,3 @@ class SaveProjectAction(ProjectAction):
         self.refresh()
 
         return
-        

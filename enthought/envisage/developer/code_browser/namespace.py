@@ -22,17 +22,17 @@ class Namespace(HasTraits):
     # fixme: This is a dict from name -> bool indicating whether a name in
     # locals is a trait or not.  Should locals be a dict containing a tuple?
     _is_trait = Dict
-    
+
     ###########################################################################
     # 'Namespace' interface.
     ###########################################################################
-    
+
     def is_trait(self, name):
         """ Attempt to resolve a name to see if it is a trait. """
 
         # fixme: We might want to be a bit cleverer than this ;^)
         return True
-    
+
         # Try the namespace's locals first.
         if name in self.locals:
             # These are the definitive traits markers!
@@ -43,7 +43,7 @@ class Namespace(HasTraits):
             # defined by an assignment i.e., it is a class or function!
             elif not self._is_trait.get(name, False):
                 is_trait = False
-                
+
             else:
                 next = self.locals[name]
                 if len(next.source) > 0:
@@ -71,7 +71,7 @@ class Namespace(HasTraits):
         # Otherwise give up!
         else:
             is_trait = False
-                
+
         return is_trait
 
     def is_imported(self, name):
@@ -87,10 +87,10 @@ class Namespace(HasTraits):
         components = symbol.split('.')
         if len(components) == 1:
             module_name = self.imports[symbol]
-            
+
         else:
             path = []
-            
+
             # The first component MUST have been imported.
             #
             # An empty string means 'import' as opposed to 'from' used.
@@ -101,9 +101,9 @@ class Namespace(HasTraits):
                 module_name = '.'.join(path)
 
                 return module_name
-                
+
             path.append(components[0])
-            
+
             for component in components[1:-1]:
                 path.append(component)
 
@@ -125,7 +125,7 @@ class Namespace(HasTraits):
         # Try to find the module that the symbol came from.
         dirname = os.path.dirname(self.filename)
         filename = find_module(module_name, [dirname] + sys.path)
-        
+
         if filename is not None:
             # If the filename refers to a directory then it must be a
             # package.
@@ -151,5 +151,5 @@ class Namespace(HasTraits):
             module = None
 
         return module
-    
+
 #### EOF ######################################################################

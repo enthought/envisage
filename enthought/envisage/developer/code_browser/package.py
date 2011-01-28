@@ -25,7 +25,7 @@ class Package(Namespace):
 
     # The package contents (modules and sub-packages).
     contents = List
-    
+
     # The absolute filename of the package.
     filename = Str
 

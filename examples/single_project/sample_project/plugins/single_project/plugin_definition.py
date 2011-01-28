@@ -29,15 +29,15 @@ ID = 'plugins.single_project'
 # `EnvProjectPlugin` class.
 ###############################################################################
 class EnvProjectPlugin(Plugin):
-    
+
     # Extension point Ids.
     FACTORY_DEFINITIONS = 'enthought.envisage.ui.single_project.factory_definitions'
-    
+
     # The plugin's name.
     name = 'Env Project Plugin'
-    
+
     ###### Contributions to extension points made by this plugin ######
-    
+
     # Factory definition we contribute to.
     factory_definitions = List(contributes_to=FACTORY_DEFINITIONS)
 
@@ -49,5 +49,5 @@ class EnvProjectPlugin(Plugin):
             priority = 10,
         )
         return [factory_definition]
-        
+
     # TODO: Add contributions project action set.

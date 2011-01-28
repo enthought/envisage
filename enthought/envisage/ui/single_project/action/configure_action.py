@@ -11,7 +11,7 @@ class ConfigureAction(ProjectAction):
     """ An action that configures an item in the project tree.
 
     'Configures' in this sense means pop up a trait sheet!
-    
+
     """
 
     ###########################################################################

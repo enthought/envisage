@@ -39,18 +39,18 @@ class IActionSet(Interface):
 
     # The tool bars in this set.
     tool_bars = List(ToolBar)
-    
+
     # A mapping from human-readable names to globally unique IDs.
     #
     # This mapping is used when interpreting the first item in a location path
     # (i.e., the **path** trait of a **Location** instance).
     #
-    # When the path is intepreted, the first component (i.e., the first item 
+    # When the path is intepreted, the first component (i.e., the first item
     # before any '/') is checked to see if it is in the mapping, and if so it
     # is replaced with the value in the map.
     #
-    # This technique allows paths to start with human readable names, as 
-    # opposed to IDs (which are required in order to manage the namespace of 
+    # This technique allows paths to start with human readable names, as
+    # opposed to IDs (which are required in order to manage the namespace of
     # all action sets).
     #
     # For example, in the Envisage workbench, the menu bar ID is:

@@ -13,7 +13,7 @@ class Acmelab(WorkbenchApplication):
     """ The Acme Lab application. """
 
     #### 'IApplication' interface #############################################
-    
+
     # The application's globally unique Id.
     id = 'acme.acmelab'
 
@@ -23,10 +23,10 @@ class Acmelab(WorkbenchApplication):
     #
     # The icon used on window title bars etc.
     icon = ImageResource('acmelab.ico')
-    
+
     # The name of the application (also used on window title bars etc).
     name = 'Acme Lab'
-    
+
     ###########################################################################
     # 'WorkbenchApplication' interface.
     ###########################################################################
@@ -40,7 +40,7 @@ class Acmelab(WorkbenchApplication):
         )
 
         return about_dialog
-    
+
     def _splash_screen_default(self):
         """ Trait initializer. """
 
@@ -49,9 +49,9 @@ class Acmelab(WorkbenchApplication):
             show_log_messages = True,
             log_level         = DEBUG
         )
-        
+
         return splash_screen
-    
+
 #### EOF ######################################################################
 
 

@@ -4,7 +4,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.envisage.ui.workbench.api import WorkbenchApplication    
+from enthought.envisage.ui.workbench.api import WorkbenchApplication
 from enthought.envisage.core_plugin import CorePlugin
 from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 from enthought.epdlab.plugins.code_editor.plugin import CodeEditorPlugin
@@ -26,7 +26,7 @@ def main():
             CorePlugin(),
             WorkbenchPlugin(),
             UpdateCheckerPlugin(
-                
+
                 ),
         ])
     application.run()

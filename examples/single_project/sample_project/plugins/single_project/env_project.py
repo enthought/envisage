@@ -48,8 +48,8 @@ class EnvProject(Project, NumericContext):
     #
     # Overridden here to a File to use the File dialog since we're saving
     # projects as files.
-    
-    
+
+
     # Set up the naming environment.
 #    klass_name = "enthought.naming.InitialContextFactory"
 #    environment = {Context.INITIAL_CONTEXT_FACTORY : klass_name}
@@ -59,7 +59,7 @@ class EnvProject(Project, NumericContext):
 
     # The list of names bound in this context:
     list_names = Property(List)
-    
+
     # The list of items bound in this context:
     list_items = Property(List)
 
@@ -95,7 +95,7 @@ class EnvProject(Project, NumericContext):
 
         # Obtain state from base class(es)
         state =  super(EnvProject, self).__getstate__()
-    
+
         # Add in our current version number.  Note use a different attribute
         # name from any base or derived class so that our numbers don't
         # override theirs.
@@ -141,7 +141,7 @@ class EnvProject(Project, NumericContext):
     ##########################################################################
 
     #### property implementaions #############################################
-    
+
     @property_depends_on('dict_modified')
     def _get_list_names(self):
         """
@@ -186,13 +186,13 @@ class EnvProject(Project, NumericContext):
             'name (%s)', data, self, name)
 
         return data
-        
+
 
 class EnvProjectAdapter(ITreeNodeAdapter):
     """ EnvProjectAdapter for our custom project. """
-    
+
     adapts(EnvProject, ITreeNode)
-    
+
     #-- ITreeNodeAdapter Method Overrides --------------------------------------
 
     def allows_children(self):
@@ -214,15 +214,15 @@ class EnvProjectAdapter(ITreeNodeAdapter):
         """ Gets the object's children identifier.
         """
         return 'list_items'
-        
+
     def append_child(self, child=None):
         """ Appends a child to the object's children.
         """
         data = self.adaptee.create_data()
-        
+
     def confirm_delete(self):
         """ Checks whether a specified object can be deleted.
-        
+
         Returns
         -------
         * **True** if the object should be deleted with no further prompting.
@@ -231,26 +231,26 @@ class EnvProjectAdapter(ITreeNodeAdapter):
           include prompting the user to confirm deletion).
         """
         return False
-        
+
     def delete_child(self, index):
         """ Deletes a child at a specified index from the object's children.
         """
         # Remove the child at the specified index.
         child = self.adaptee.list_items[index]
         self.adaptee._unbind_dynamic(child, 'context_name')
-        
+
     def when_children_replaced(self, listener, remove):
-        """ Sets up or removes a listener for children being replaced on a 
+        """ Sets up or removes a listener for children being replaced on a
             specified object.
         """
-        self.adaptee.on_trait_change(listener, 'list_items', 
+        self.adaptee.on_trait_change(listener, 'list_items',
                               remove=remove, dispatch='ui')
-        
+
     def get_label(self):
         """ Gets the label to display for a specified object.
         """
         return self.adaptee.name
-        
+
     def get_menu(self):
         """ Returns the right-click context menu for an object.
         """
@@ -259,17 +259,17 @@ class EnvProjectAdapter(ITreeNodeAdapter):
                 action='node.adapter.append_child',
             )]
         )
-        
+
     def get_tooltip(self):
         """ Gets the tooltip to display for a specified object.
         """
         return "Project"
-        
+
     def get_icon(self, is_expanded):
         """ Returns the icon for a specified object.
         """
         return '<open>'
-        
+
     def can_rename(self):
         """ Returns whether the object's children can be renamed.
         """
@@ -279,20 +279,20 @@ class EnvProjectAdapter(ITreeNodeAdapter):
         """ Returns whether the object's children can be copied.
         """
         return True
-        
+
     def can_delete(self):
         """ Returns whether the object's children can be deleted.
         """
         return True
-        
+
     def can_auto_open(self):
-        """ Returns whether the object's children should be automatically 
+        """ Returns whether the object's children should be automatically
             opened.
         """
         return True
-        
+
     def can_auto_close(self):
-        """ Returns whether the object's children should be automatically 
+        """ Returns whether the object's children should be automatically
             closed.
         """
         return False

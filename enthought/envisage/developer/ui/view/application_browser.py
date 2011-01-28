@@ -58,10 +58,10 @@ class ApplicationBrowser(HasTraits):
 
     # The workbench service.
     workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
-    
+
     # The object that is currently selected in the tree.
     selection = Any
-    
+
     # The default traits UI view.
     traits_view = application_browser_view
 
@@ -80,9 +80,9 @@ class ApplicationBrowser(HasTraits):
         """ Trait initializer. """
 
         from enthought.envisage.ui.workbench.api import Workbench
-        
+
         return self.application.get_service(Workbench)
-    
+
     #### Trait change handlers ################################################
 
     def _selection_changed(self, trait_name, old, new):
@@ -93,7 +93,7 @@ class ApplicationBrowser(HasTraits):
         return
 
     #### Methods ##############################################################
-    
+
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
@@ -111,7 +111,7 @@ class ApplicationBrowser(HasTraits):
 
             # Move to the class definition.
             editor.select_line(klass.lineno)
-            
+
         return
 
     ###########################################################################
@@ -120,19 +120,19 @@ class ApplicationBrowser(HasTraits):
 
     def _get_file_object(self, obj):
         """ Return a 'File' object for an object's source file. """
-        
+
         return File(path=inspect.getsourcefile(type(obj)))
 
     def _get_plugin_klass(self, module, plugin):
         """ Get the klass that defines the plugin. """
-        
+
         for name, klass in module.klasses.items():
             if name == type(plugin).__name__:
                 break
 
         else:
             klass = None
-            
+
         return klass
 
     def _parse_plugin(self, plugin):
@@ -141,5 +141,5 @@ class ApplicationBrowser(HasTraits):
         filename = self._get_file_object(plugin).path
 
         return self.code_browser.read_file(filename)
-    
+
 #### EOF ######################################################################

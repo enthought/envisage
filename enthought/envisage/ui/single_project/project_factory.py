@@ -46,7 +46,7 @@ class ProjectFactory(HasTraits):
     #
     # This value is meant to be constant for the lifetime of this class!
     PROJECT_CLASS = Project
-    
+
     # Current envisage application.
     application = Instance(IApplication)
 

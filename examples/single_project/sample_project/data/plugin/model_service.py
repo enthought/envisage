@@ -45,7 +45,7 @@ class ModelService(ApplicationObject):
     ##########################################################################
 
     #### public methods ######################################################
-    
+
     def delete_context_item(self, context, item_name):
         """ Deleting an item from a numeric context
 

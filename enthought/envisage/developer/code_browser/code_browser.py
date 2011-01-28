@@ -39,7 +39,7 @@ class CodeBrowser(HasTraits):
 
     # Fired when a module has been parsed.
     parsed_module = Event
-    
+
     #### Private interface ####################################################
 
     # The code 'database' that contains every module that has been parsed.
@@ -47,7 +47,7 @@ class CodeBrowser(HasTraits):
 
     # Has the code database been changed (i.e., do we need to save it)?
     _database_changed = Bool(False)
-    
+
     ###########################################################################
     # 'CodeBrowser' interface.
     ###########################################################################
@@ -76,13 +76,13 @@ class CodeBrowser(HasTraits):
 
         if self._database_changed:
             logger.debug('saving code database...')
-        
+
             f = file(self.filename, 'wb')
             cPickle.dump(self._database, f, 1)
             f.close()
 
             self._database_changed = False
-            
+
             logger.debug('code database saved.')
 
         else:
@@ -148,7 +148,7 @@ class CodeBrowser(HasTraits):
             # Event notification.
             self.parsing_module = filename
             logger.debug('parsing module %s' % filename)
-            
+
             module_factory = ModuleFactory()
             try:
                 module = module_factory.from_file(filename, namespace)
@@ -208,12 +208,12 @@ class CodeBrowser(HasTraits):
     ###########################################################################
 
     #### Trait initializers ###################################################
-    
+
     def __database_default(self):
         """ Trait initializer. """
 
         return {}
-    
+
     #### Trait change handlers ################################################
 
     def _filename_changed(self):
@@ -223,7 +223,7 @@ class CodeBrowser(HasTraits):
         self.load()
 
         return
-    
+
 #### EOF ######################################################################
 
 

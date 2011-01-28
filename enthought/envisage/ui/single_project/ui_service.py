@@ -93,7 +93,7 @@ class UiService(HasTraits):
         except:
             logger.exception('Failed to bind autosave_interval in [%s] to '
                              'preferences.' % self)
-        
+
         return
 
 
@@ -108,7 +108,7 @@ class UiService(HasTraits):
         Close the current project.
 
         """
-        
+
         # Ensure any current project is ready for this change.
         if self.is_current_project_saved(event.window.control):
 
@@ -215,7 +215,7 @@ class UiService(HasTraits):
                 else:
                     logger.debug('Node type reports selection item [%s] is '
                         'not deletable.', nt)
-                        
+
             if deletables != []:
                 # Confirm the delete operation with the user
                 names = '\n\t'.join([b.name for b in deletables])
@@ -225,7 +225,7 @@ class UiService(HasTraits):
                 title = 'Delete Selected Items?'
                 action = confirm(None, message, title)
                 if action == YES:
-    
+
                     # Unbind all the deletable nodes
                     if len(deletables) > 0:
                         self._unbind_nodes(context, deletables)
@@ -310,7 +310,7 @@ class UiService(HasTraits):
 
         return
 
-    
+
     def save(self, event):
         """
         Save a project.
@@ -338,14 +338,14 @@ class UiService(HasTraits):
 
 
     #### protected interface #################################################
-                    
+
     def _auto_save(self, project):
         """
 
         Called periodically by the timer's Notify function to automatically
         save the current project.
         The auto-saved project has the extension '.autosave'.
-        
+
         """
         # Save the project only if it has been modified.
         if project.dirty and project.is_save_as_allowed:
@@ -378,7 +378,7 @@ class UiService(HasTraits):
         if os.path.exists(autosave_loc):
             self.model_service.clean_location(autosave_loc)
         return
-        
+
 
     def _get_autosave_location(self, location):
         """
@@ -387,7 +387,7 @@ class UiService(HasTraits):
         """
         return os.path.join(os.path.dirname(location),
                             os.path.basename(location) + '.autosave')
-    
+
 
     def _get_context_for_object(self, obj):
         """
@@ -427,7 +427,7 @@ class UiService(HasTraits):
         False and all autosaved versions have been deleted from the filesystem.
 
         """
-        
+
         result = True
         if project is not None:
             autosave_loc = self._get_autosave_location(
@@ -435,8 +435,8 @@ class UiService(HasTraits):
             if project.dirty or os.path.exists(autosave_loc):
                 result = False
         return result
-        
-        
+
+
     def _get_user_location(self, project, parent_window):
         """
         Prompt the user for a new location for the specified project.
@@ -508,7 +508,7 @@ class UiService(HasTraits):
         """ Restores the project from the version saved in autosave_loc.
 
         """
-        
+
         workbench = self.model_service.application.get_service(
             'enthought.envisage.ui.workbench.workbench.Workbench')
         window = workbench.active_window
@@ -539,7 +539,7 @@ class UiService(HasTraits):
                     'Unable to restore project from [%s]' %
                     autosave_loc)
         self._start_timer(self.model_service.project)
-            
+
         return
 
 
@@ -552,11 +552,11 @@ class UiService(HasTraits):
         Returns True if the project was saved successfully, False if not.
 
         """
-        
+
         location = project.location.strip()
 
         # If the project's existing location is valid, check if there are any
-        # autosaved versions. 
+        # autosaved versions.
         autosave_loc = ''
         if location is not None and os.path.exists(location):
             autosave_loc = self._get_autosave_location(location)
@@ -572,7 +572,7 @@ class UiService(HasTraits):
                 new_autosave_loc = self._get_autosave_location(location)
                 if os.path.exists(autosave_loc):
                     shutil.move(autosave_loc, new_autosave_loc)
-                                        
+
         # If we have a location to save to, try saving the project.
         if location is not None and len(location) > 0:
             try:
@@ -588,7 +588,7 @@ class UiService(HasTraits):
                 error(parent_window, str(e), title='Save Error')
         else:
             saved = False
-        
+
         # If the save operation was successful, delete any autosaved files that
         # exist.
         if saved:
@@ -630,10 +630,10 @@ class UiService(HasTraits):
                 path = None
 
         return path
-    
+
 
     def _start_timer(self, project):
-        """ 
+        """
         Resets the timer to work on auto-saving the current project.
 
         """
@@ -753,15 +753,15 @@ class UiService(HasTraits):
         if new > 0 and self.model_service.project is not None:
             self._start_timer(self.model_service.project)
         return
-    
-        
+
+
     def _project_changed_for_model_service(self, object, name, old, new):
         """
         Detects if an autosaved version exists for the project, and displays
         a dialog to confirm restoring the project from the autosaved version.
 
         """
-        
+
         if old is not None:
             self.timer = None
         if new is not None:
@@ -781,6 +781,6 @@ class UiService(HasTraits):
             else:
                 self._start_timer(new)
         return
-    
+
 #### EOF #####################################################################
 

@@ -57,7 +57,7 @@ class AcmeWorkbenchPlugin(Plugin):
         """ Trait initializer. """
 
         from acme_preferences_page import AcmePreferencesPage
-        
+
         return [AcmePreferencesPage]
 
     # Views.
@@ -68,7 +68,7 @@ class AcmeWorkbenchPlugin(Plugin):
 
         from acme.workbench.view.api import BlackView, BlueView, GreenView
         from acme.workbench.view.api import RedView, YellowView
-        
+
         return [BlackView, BlueView, GreenView, RedView, YellowView]
 
 #### EOF ######################################################################

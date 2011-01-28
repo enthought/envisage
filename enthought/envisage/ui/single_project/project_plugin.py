@@ -26,9 +26,9 @@ logger = logging.getLogger(__name__)
 # `ProjectPerspective` class.
 ###############################################################################
 class ProjectPerspective(Perspective):
-    """ 
+    """
     A default perspective for the single_project plugin.
-    
+
     """
 
     # The perspective's name.
@@ -43,21 +43,21 @@ class ProjectPerspective(Perspective):
     # The contents of the perspective.
     # TODO: Setup the PerspectiveItems based on the areas in our perspective.
     #contents = []
-    
+
 ##############################################################################
 # 'ProjectPlugin' class.
 ##############################################################################
 class ProjectPlugin(Plugin):
-    """ 
+    """
     The single-project plugin.
-    
+
     """
 
     # The Ids of the extension points that this plugin offers.
     ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
     FACTORY_DEFINITIONS = 'enthought.envisage.ui.single_project.factory_definitions'
     UI_SERVICE_FACTORY = 'enthought.envisage.ui.single_project.ui_service_factory'
-    
+
     # The Ids of the extension points that this plugin contributes to.
     PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
     PREFERENCES = 'enthought.envisage.preferences'
@@ -74,11 +74,11 @@ class ProjectPlugin(Plugin):
     name = 'Single Project'
 
     #### Extension points offered by this plugin ##############################
-    
+
     # Factory definitions.
     factory_definitions = ExtensionPoint(
         List(Callable), id=FACTORY_DEFINITIONS, desc="""
-        
+
         A project factory definition.
 
         An instance of the specified class is used to open and/or create new
@@ -89,11 +89,11 @@ class ProjectPlugin(Plugin):
 
         """
     )
-    
+
     # Ui service factories.
     ui_service_factory = ExtensionPoint(
         List(Callable), id=UI_SERVICE_FACTORY, desc="""
-        
+
         A ui service factory definition.
 
         """
@@ -103,51 +103,51 @@ class ProjectPlugin(Plugin):
 
     # Action sets.
     action_sets = List(contributes_to=ACTION_SETS)
-    
+
     def _action_sets_default(self):
         """
         Default project actions.
-        
+
         """
 
         return [ProjectActionSet]
-        
+
     # Factory definitions.
     my_factory_definitions = List(contributes_to=FACTORY_DEFINITIONS)
-    
+
     def _my_factory_definitions_default(self):
         """
         Default factory definition.
-        
+
         """
-        
+
         factory_definition = FactoryDefinition(
             class_name = PKG + '.project_factory.ProjectFactory',
             priority = 0,
         )
 
         return [factory_definition]
-        
+
     # Perspectives.
     perspectives = List(contributes_to=PERSPECTIVES)
 
     def _perspectives_default(self):
         """
         Default project perspective.
-        
+
         """
-        
+
         return [ProjectPerspective]
-        
+
     # Service offers.
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
     def _service_offers_default(self):
-        """ 
-        Our service contributions.
-        
         """
-        
+        Our service contributions.
+
+        """
+
         model_service = ServiceOffer(
             protocol = IPROJECT_MODEL,
             factory  = self._create_model_service
@@ -157,64 +157,64 @@ class ProjectPlugin(Plugin):
             protocol = IPROJECT_UI,
             factory  = self._create_ui_service
         )
-        
+
         # FIXME: Eventually we will register the services here intead
         # of in the plugin's start() method.
         #return [model_service, ui_service]
         return []
-        
+
     # Ui service factories.
     my_ui_service_factory = List(contributes_to=UI_SERVICE_FACTORY)
-    
+
     def _my_ui_service_factory_default(self):
         """
         Default ui service factory.
-        
+
         """
-        
+
         ui_service_factory = UIServiceFactory(
             class_name = PKG + '.ui_service_factory.UIServiceFactory',
             priority = 0,
         )
 
         return [ui_service_factory]
-        
+
     # Preferences.
     my_preferences = List(contributes_to=PREFERENCES)
 
     def _my_preferences_default(self):
         """
         Default preferences.
-        
+
         """
         return ['pkgfile://%s/preferences.ini' % PKG]
-        
+
     # Preference pages.
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     def _my_preferences_pages_default(self):
         """
         Default preference page.
-        
+
         """
-        
+
         from default_path_preference_page import DefaultPathPreferencePage
 
         return [DefaultPathPreferencePage]
-    
+
     # Views.
     views = List(contributes_to=VIEWS)
 
     def _views_default(self):
         """
         Add our project views.
-        
+
         """
-        
+
         return [self._project_view_factory]
-        
+
     ### protected interface ##################################################
-    
+
     def start(self):
         """
         Starts the plugin.
@@ -275,7 +275,7 @@ class ProjectPlugin(Plugin):
 
         # Determine which contributed project factory to use.
         factory = self._get_contributed_project_factory()
-        
+
         # Make sure the factory has a reference to our Envisage application.
         factory.application = self.application
 
@@ -323,7 +323,7 @@ class ProjectPlugin(Plugin):
         for extension in extensions:
             if not definition or extension.priority > definition.priority:
                 definition = extension
-                
+
         # Create an instance of the winning project factory
         logger.info("Using ProjectFactory [%s]", definition.class_name)
         klass = self.application.import_symbol(definition.class_name)
@@ -460,5 +460,5 @@ class ProjectPlugin(Plugin):
         model_service.on_trait_change(handler, 'selection_items')
 
         return
-        
+
 ### EOF ######################################################################

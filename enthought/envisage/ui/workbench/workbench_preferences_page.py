@@ -19,7 +19,7 @@ class WorkbenchPreferencesPage(PreferencesPage):
     # The page's help identifier (optional). If a help Id *is* provided then
     # there will be a 'Help' button shown on the preference page.
     help_id = ''
-    
+
     # The page name (this is what is shown in the preferences dialog.
     name = 'General'
 
@@ -27,7 +27,7 @@ class WorkbenchPreferencesPage(PreferencesPage):
     preferences_path = 'enthought.envisage.ui.workbench'
 
     #### Preferences ##########################################################
-    
+
     # Should the user be prompted before exiting the workbench?
     prompt_on_exit = Bool(True)
 

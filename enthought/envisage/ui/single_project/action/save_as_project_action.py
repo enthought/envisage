@@ -10,27 +10,27 @@ from enthought.pyface.api import ImageResource
 
 class SaveAsProjectAction(ProjectAction):
     """ An action that saves the current project to a
-    different location. 
+    different location.
     """
-    
+
     # The universal object locator (UOL).
     uol = 'enthought.envisage.ui.single_project.ui_service.UiService'
 
     # The name of the method to invoke on the object.
     method_name = 'save_as'
-    
+
     # A longer description of the action.
     description = 'Save the current project to a different location'
 
     # The action's image (displayed on tool bar tools etc).
     image = ImageResource('save_as_project')
-    
+
     # The action's name (displayed on menus/tool bar tools etc).
     name = 'Save As...'
 
     # A short description of the action used for tooltip text etc.
     tooltip = 'Save this project to a different location'
-    
+
     #### public interface ####################################################
 
     def refresh(self):
@@ -111,4 +111,3 @@ class SaveAsProjectAction(ProjectAction):
         self.refresh()
 
         return
-        

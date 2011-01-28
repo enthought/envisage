@@ -42,7 +42,7 @@ class PythonShellView(View):
     implements(IPythonShell)
 
     #### 'IView' interface ####################################################
-    
+
     # The part's globally unique identifier.
     id = 'enthought.plugins.python_shell_view'
 
@@ -131,7 +131,7 @@ class PythonShellView(View):
         """ Destroys the toolkit-specific control that represents the view.
 
         """
-        
+
         super(PythonShellView, self).destroy_control()
 
         # Unregister the view as a service.
@@ -199,7 +199,7 @@ class PythonShellView(View):
         self.stdout_text = text
 
         return
-    
+
     #### Trait change handlers ################################################
 
     def _on_command_executed(self, shell):
@@ -238,9 +238,9 @@ class PythonShellView(View):
 
     def _on_write_stdout(self, text):
         """ Dynamic trait change handler. """
-        
+
         self.shell.control.write(text)
 
         return
-    
+
 #### EOF ######################################################################

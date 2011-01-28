@@ -46,10 +46,10 @@ class ProjectAction(Action):
     # The application that the action is part of. This is a convenience
     # property and is equivalent to 'self.window.application'.
     application = Instance(Application)
-    
+
     # The project model service we refresh our state against.
     model_service = Instance(IPROJECT_MODEL)
-    
+
     # The universal object locator (UOL). This string is used to locate an
     # instance to invoke a method on.
     #
@@ -67,7 +67,7 @@ class ProjectAction(Action):
     ##########################################################################
     # 'object' interface
     ##########################################################################
-    
+
     def __init__(self, *args, **kws):
         """
         Constructor.
@@ -132,7 +132,7 @@ class ProjectAction(Action):
         self.enabled = self._refresh_project_exists()
 
         return
-        
+
     def perform(self, event):
         """ Performs the action.
 

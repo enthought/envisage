@@ -50,7 +50,7 @@ class PythonShellPlugin(Plugin):
 
         Yes, I know this is insecure but it follows the usual Python rule of
         'we are all consenting adults'.
-          
+
         """
     )
 
@@ -63,7 +63,7 @@ class PythonShellPlugin(Plugin):
         """ Trait initializer. """
 
         return [{'application' : self.application}]
-    
+
     # Views.
     contributed_views = List(contributes_to=VIEWS)
 
@@ -75,5 +75,5 @@ class PythonShellPlugin(Plugin):
         from view.namespace_view import NamespaceView
 
         return [PythonShellView, NamespaceView]
-        
+
 #### EOF ######################################################################

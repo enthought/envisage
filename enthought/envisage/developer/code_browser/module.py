@@ -25,7 +25,7 @@ class Module(Namespace):
     # package then this will be the appropriate 'Package' instance, otherwise
     # it will be None.
     namespace = Instance(Namespace)
-    
+
     # The absolute filename of the module.
     filename = Str
 
@@ -39,10 +39,10 @@ class Module(Namespace):
 
     # The module-level attributes.
     attributes = Dict
-    
+
     # The classes defined in the module.
     klasses = Dict
-    
+
     # The module-level functions.
     functions = Dict
 
@@ -106,7 +106,7 @@ class ModuleFactory(HasTraits):
 
         # Walk the AST picking out the things we care about!
         compiler.walk(node, ModuleVisitor(module))
-        
+
         return module
 
     ###########################################################################
@@ -123,7 +123,7 @@ class ModuleFactory(HasTraits):
         we would return:-
 
         'enthought.envisage.core.core_plugin_definition'
-        
+
         """
 
         # Get the name of the module minus the '.py'
@@ -158,7 +158,7 @@ class ModuleVisitor(ASTVisitor):
         self._klass_factory    = KlassFactory()
         self._function_factory = FunctionFactory()
         self._assign_factory   = AssignFactory()
-        
+
         return
 
     ###########################################################################
@@ -169,10 +169,10 @@ class ModuleVisitor(ASTVisitor):
         """ Visits a class node. """
 
         klass = self._klass_factory.from_ast(self.module, node)
-        
+
         self.module.locals[node.name] = klass
         self.module.klasses[node.name] = klass
-        
+
         return
 
     def visitFunction(self, node):
@@ -182,7 +182,7 @@ class ModuleVisitor(ASTVisitor):
 
         self.module.locals[node.name] = function
         self.module.functions[node.name] = function
-        
+
         return
 
     def visitAssign(self, node):
@@ -221,7 +221,7 @@ class ModuleVisitor(ASTVisitor):
             # the imports dictionary to tell the difference later on between
             # 'import' and 'from import'.
             self.module.imports[name] = ''
-            
+
         return
 
 #### EOF ######################################################################

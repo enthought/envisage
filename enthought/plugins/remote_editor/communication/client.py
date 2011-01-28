@@ -69,7 +69,7 @@ class ClientThread(Thread):
                     return
                 finally:
                     sock.close()
-                    
+
             else:
                 logger.error("Client could not contact the Server and no " \
                                  "spawn command is defined. Unregistering...")
@@ -84,7 +84,7 @@ class ClientThread(Thread):
         sock.bind(('localhost', 0))
         sock.listen(1)
         self.client._port = sock.getsockname()[1]
-        
+
         # Register with the server
         port = str(self.client._port)
         arguments = MESSAGE_SEP.join((port, self.client.self_type,
@@ -120,7 +120,7 @@ class ClientThread(Thread):
                 logger.debug(msg, port, command, arguments)
 
                 # Handle special commands from the server
-                if command == "__orphaned__":                        
+                if command == "__orphaned__":
                     self.client.orphaned = bool(int(arguments))
 
                 elif command == "__error__":
@@ -149,7 +149,7 @@ class ClientThread(Thread):
 
     def stop(self):
         self._finished = True
-        
+
 
 class Client(HasTraits):
     """ An object that communicates with another object through a Server.
@@ -158,7 +158,7 @@ class Client(HasTraits):
     # The preferences file path and node path to use for spawning a Server. If
     # this is not specified it will not be possible for this Client to spawn
     # the server.
-    server_prefs = Tuple((os.path.join(remote_editor.__path__[0], 
+    server_prefs = Tuple((os.path.join(remote_editor.__path__[0],
                                        "preferences.ini"),
                           "enthought.remote_editor"),
                          Str, Str)
@@ -232,7 +232,7 @@ class Client(HasTraits):
             self.error = not send_port(self._server_port, 'send', args)
         else:
             self._queue.append((command, arguments))
-        
+
     def handle_command(self, command, arguments):
         """ This function should take a command string and an arguments string
             and do something with them. It should return True if the command
@@ -240,6 +240,6 @@ class Client(HasTraits):
         """
         raise NotImplementedError
 
-            
 
-            
+
+

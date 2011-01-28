@@ -9,7 +9,7 @@ Usually, all you have to do in here is:-
 
 3) Edit the 'run' function to do whatever you need to do to start your
    application.
-   
+
 """
 
 
@@ -62,16 +62,16 @@ logger = logging.getLogger(__name__)
 
 def main():
     """ Run the application. """
-    
+
     # Find all additional eggs.
     environment = Environment(EGG_PATH)
-    
+
     distributions, errors = working_set.find_plugins(environment)
     if len(errors) > 0:
         raise SystemError('cannot add eggs %s' % errors)
 
     logger.debug('added eggs %s' % distributions)
-    
+
     # Add them to the working set.
     map(working_set.add, distributions)
 

@@ -19,7 +19,7 @@ class UpdateCheckerPlugin(Plugin):
     # typically it will be a URL.
     location = Str("localhost")
 
-    # Update 
+    # Update
 
     # Should the plugin automatically check for updates?
     check_automatically = Bool(True)
@@ -35,22 +35,22 @@ class UpdateCheckerPlugin(Plugin):
     display_dialog = Bool(True)
 
     # The UpdateInfo object that contains the actual update information.
-    # Regardless of whether or not a dialog is displayed to the user, this 
+    # Regardless of whether or not a dialog is displayed to the user, this
     # attribute will be populated with the appropriate information.
     update_info = Instance(UpdateInfo)
 
-    # This event fires every time the UpdateCheckerPlugin is invoked and 
+    # This event fires every time the UpdateCheckerPlugin is invoked and
     # determines that an application update is available.
     update_needed = Event()  #Event(ApplicationEvent)
 
     #========================================================================
     # Plugin interface
     #========================================================================
-    
+
     def start(self):
         """ Make the appropriate contributions
         """
-        
+
         self.application.on_trait_change("started", self._check_for_update)
 
     def stop(self):
@@ -65,5 +65,5 @@ class UpdateCheckerPlugin(Plugin):
 
     def _check_for_update(self):
         pass
-        
+
 

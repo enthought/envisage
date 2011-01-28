@@ -80,7 +80,7 @@ class Server(HasTraits):
         else:
             msg = "Server given non-existent preference path '%s'."
             logger.error(msg % pref_path)
-                
+
     def main(self, port=0):
         """ Starts the server mainloop. If 'port' is specified, the assumption
             is that this Server was spawned from an object on said port. The
@@ -94,7 +94,7 @@ class Server(HasTraits):
             logger.info("Server listening on port %i..." % self._port)
             self._sock.listen(5)
             self._sock.settimeout(300)
-            
+
             # If necessary, inform the launcher that we have initialized
             # correctly by telling it our port
             if port:
@@ -102,7 +102,7 @@ class Server(HasTraits):
                     msg = "Server could not contact spawner. Shutting down..."
                     logger.warning(msg)
                     return
-            
+
             # Start the mainloop
             while True:
                 try:
@@ -173,10 +173,10 @@ class Server(HasTraits):
                     pass
                 return False
         except:
-	    try:
-	        sock.shutdown(socket.SHUT_RD)
-	    except:
-	        pass
+            try:
+                sock.shutdown(socket.SHUT_RD)
+            except:
+                pass
 
     def _spawn(self, object_type):
         """ Attempt to spawn an process according the specified type. Returns
@@ -255,7 +255,7 @@ class Server(HasTraits):
             info = self._port_map.pop(port)
         except KeyError:
             return
-        
+
         if info in self._pairs:
             other = self._pairs.pop(info)
             if other in self._pairs:

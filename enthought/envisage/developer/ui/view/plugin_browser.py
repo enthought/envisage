@@ -34,7 +34,7 @@ class ExtensionModel(Hastraits):
 
     # The contributions to the extension point.
     contributions = List
-    
+
     ###########################################################################
     # 'ApplicationModel' interface.
     ###########################################################################
@@ -45,7 +45,7 @@ class ExtensionModel(Hastraits):
         """ Trait initializer. """
 
         return plugin.application.get_extensions(self.extension_point_id)
-    
+
 
 class PluginModel(HasTraits):
     """ A model for browsing a plugin.  """
@@ -94,7 +94,7 @@ class PluginModel(HasTraits):
         ]
 
         return extension_point_models
-    
+
 
 class ApplicationModel(HasTraits):
     """ A model for browsing an application. """
@@ -125,7 +125,7 @@ extension_point_table_editor = TableEditor(
         ObjectColumn(name='id'),
         #ObjectColumn(name='desc')
     ],
-    
+
 #   selected = 'extension_point_selected',
     editable  = True,
     edit_view = View(Item(name='desc', show_label=False), style='custom')
@@ -147,7 +147,7 @@ plugin_browser_view = View(
 
         label='Extension Points',
     ),
-    
+
     width  = .8,
     height = .6
 )
@@ -188,11 +188,11 @@ class ExtensionPointBrowser(HasTraits):
         desc = self.extension_point.desc.strip()
 
         lines = [line.replace('    ', '', 2) for line in desc.splitlines()]
-            
+
         return '\n'.join(lines)
 
-        
-# Convenience trait to delegate an attribute to a plugin.    
+
+# Convenience trait to delegate an attribute to a plugin.
 DelegatedToPlugin = Delegate('plugin', modify=True)
 
 
@@ -216,17 +216,17 @@ class PluginBrowser(HasTraits):
 
     # The extension points offered by the plugin.
     extension_points = Property(List)
-    
+
     # The plugin that we are browsing.
     plugin = Instance(IPlugin)
-    
+
     # The default traits UI view.
     traits_view = plugin_browser_view
 
     ###########################################################################
     # 'PluginBrowser' interface.
     ###########################################################################
-    
+
     def _get_extension_points(self):
         """ Property getter. """
 
@@ -238,7 +238,7 @@ class PluginBrowser(HasTraits):
 
         return extension_points
 
-    
+
 def browse_plugin(plugin):
     """ Browse a plugin. """
 
@@ -246,7 +246,7 @@ def browse_plugin(plugin):
 
     if inspect.isclass(plugin):
         plugin = plugin()
-        
+
     plugin_browser = PluginBrowser(plugin=plugin)
     plugin_browser.configure_traits(view=plugin_browser_view)
 

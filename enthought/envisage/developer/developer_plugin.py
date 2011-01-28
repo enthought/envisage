@@ -36,12 +36,12 @@ class DeveloperPlugin(Plugin):
     #### Contributions to extension points made by this plugin ################
 
     service_offers = List(contributes_to=SERVICE_OFFERS)
-    
+
     def _service_offers_default(self):
         """ Trait initializer. """
 
         code_browser_class = PKG + '.code_browser.api.CodeBrowser'
-        
+
         code_browser_service_offer = ServiceOffer(
             protocol = code_browser_class,
             factory  = code_browser_class,
@@ -49,5 +49,5 @@ class DeveloperPlugin(Plugin):
         )
 
         return [code_browser_service_offer]
-    
+
 #### EOF ######################################################################

@@ -14,7 +14,7 @@ from enthought.traits.ui.api import Item, HGroup, VGroup, View
 
 class Lorenz(HasTraits):
     """ The Lorenz model. """
-    
+
     prandtl = Float(10.0, auto_set = False, enter_set = True)
     rayleigh = Float(28.0, auto_set = False, enter_set = True)
     beta = Float(8.0 / 3.0, auto_set = False, enter_set = True)

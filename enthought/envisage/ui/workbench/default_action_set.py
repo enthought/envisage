@@ -27,7 +27,7 @@ class DefaultActionSet(ActionSet):
             name='&Tools', path='MenuBar',
             groups=['PreferencesGroup']
         ),
-        
+
         Menu(
             name='&Help', path='MenuBar',
             groups=['AboutGroup']
@@ -44,7 +44,7 @@ class DefaultActionSet(ActionSet):
             path='MenuBar/Tools', group='PreferencesGroup',
             class_name=PKG + '.action.api:EditPreferencesAction'
         ),
-        
+
         Action(
             path='MenuBar/Help', group='AboutGroup',
             class_name=PKG + '.action.api:AboutAction'

@@ -10,7 +10,7 @@ class TestActionSet(WorkbenchActionSet):
     """ An action test useful for testing. """
 
     #### 'ActionSet' interface ################################################
-    
+
     # The action set's globally unique identifier.
     id = 'enthought.envisage.ui.workbench.test'
 
@@ -34,13 +34,13 @@ class TestActionSet(WorkbenchActionSet):
     groups = [
         Group(id='Fred', path='MenuBar/Test')
     ]
-        
+
     tool_bars = [
         ToolBar(name='Fred', groups=['AToolBarGroup']),
         ToolBar(name='Wilma'),
         ToolBar(name='Barney')
     ]
-        
+
     actions = [
         Action(
             path='MenuBar/Test', group='Fred',
@@ -56,7 +56,7 @@ class TestActionSet(WorkbenchActionSet):
             path='ToolBar',
             class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
         ),
-        
+
         Action(
             path='ToolBar',
             class_name='enthought.envisage.ui.workbench.action.api:ExitAction'
@@ -71,7 +71,7 @@ class TestActionSet(WorkbenchActionSet):
             path='ToolBar/Wilma',
             class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
         ),
-        
+
         Action(
             path='ToolBar/Barney',
             class_name='enthought.envisage.ui.workbench.action.api:ExitAction'
@@ -91,5 +91,5 @@ class TestActionSet(WorkbenchActionSet):
 
     # The Ids of the views that the action set is visible for.
     #visible_for_views = ['Red']
-    
+
 #### EOF ######################################################################

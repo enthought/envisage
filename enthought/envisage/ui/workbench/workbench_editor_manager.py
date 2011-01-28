@@ -10,7 +10,7 @@ class WorkbenchEditorManager(EditorManager):
     ###########################################################################
     # 'IEditorManager' interface.
     ###########################################################################
-    
+
     def create_editor(self, window, obj, kind):
         """ Create an editor for an object.
 
@@ -26,7 +26,7 @@ class WorkbenchEditorManager(EditorManager):
         editor = kind(window=window, obj=obj)
 
         self.add_editor(editor, kind)
-        
+
         return editor
 
     ###########################################################################

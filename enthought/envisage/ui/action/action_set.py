@@ -24,7 +24,7 @@ class ActionSet(HasTraits):
     """ An action set is a collection of menus, groups, and actions. """
 
     implements(IActionSet)
-    
+
     # The action set's globally unique identifier.
     id = Str
 
@@ -54,18 +54,18 @@ class ActionSet(HasTraits):
 
     # Are the actions, menus and tool bars in this set visible?
     visible = Bool(True)
-    
+
     # A mapping from human-readable names to globally unique IDs.
     #
     # This mapping is used when interpreting the first item in a location path
     # (i.e., the **path** trait of a **Location** instance).
     #
-    # When the path is intepreted, the first component (i.e., the first item 
+    # When the path is intepreted, the first component (i.e., the first item
     # before any '/') is checked to see if it is in the mapping, and if so it
     # is replaced with the value in the map.
     #
-    # This technique allows paths to start with human readable names, as 
-    # opposed to IDs (which are required in order to manage the namespace of 
+    # This technique allows paths to start with human readable names, as
+    # opposed to IDs (which are required in order to manage the namespace of
     # all action sets).
     #
     # For example, in the Envisage workbench, the menu bar ID is:
@@ -93,7 +93,7 @@ class ActionSet(HasTraits):
 
         id = '%s.%s' % (type(self).__module__, type(self).__name__)
         logger.warn('action set %s has no Id - using <%s>' % (self, id))
-            
+
         return id
 
     def _name_default(self):
@@ -103,5 +103,5 @@ class ActionSet(HasTraits):
         logger.warn('action set %s has no name - using <%s>' % (self, name))
 
         return name
-    
+
 #### EOF ######################################################################

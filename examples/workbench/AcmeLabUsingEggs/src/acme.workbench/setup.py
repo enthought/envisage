@@ -20,5 +20,5 @@ setup(
     [enthought.envisage.plugins]
     acme_workbench = acme.workbench.acme_workbench_plugin:AcmeWorkbenchPlugin
     """
-    
+
 )

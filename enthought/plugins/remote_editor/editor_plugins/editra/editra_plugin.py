@@ -98,7 +98,7 @@ class RemoteEditorPlugin(object):
                          _('Execute selected text in a python shell'),
                          wx.ITEM_NORMAL)
         mnu_run_text.SetBitmap(wx.Bitmap(os.path.join(
-                                    os.path.dirname(__file__), 
+                                    os.path.dirname(__file__),
                                     'images', 'python_runsel_16x16.png')))
         toolsMenu.AppendItem(mnu_run_text, use_bmp=False)
 
@@ -106,10 +106,10 @@ class RemoteEditorPlugin(object):
                          _('Execute script\tCtrl+Enter'),
                          _('Execute file in a python shell'))
         mnu_run_script.SetBitmap(wx.Bitmap(os.path.join(
-                                    os.path.dirname(__file__), 
+                                    os.path.dirname(__file__),
                                     'images', 'python_run_16x16.png')))
         toolsMenu.AppendItem(mnu_run_script, use_bmp=False)
-        
+
         # Bind the events.
         self.mainWindow._handlers['menu'].extend(
             [(ID_RUN_SCRIPT, self.OnRunScript),
@@ -124,15 +124,15 @@ class RemoteEditorPlugin(object):
         toolBar = mainWindow.GetToolBar()
 
         self.run_sel_tb = toolBar.AddLabelTool(
-            ID_RUN_TEXT, 'Execute selection', 
-            wx.Bitmap(os.path.join(os.path.dirname(__file__), 
+            ID_RUN_TEXT, 'Execute selection',
+            wx.Bitmap(os.path.join(os.path.dirname(__file__),
                                    'images', 'python_runsel_24x24.png')),
             shortHelp='Execute selection',
             longHelp='Execute selection in shell')
 
         self.run_file_tb = toolBar.AddLabelTool(
-            ID_RUN_SCRIPT, 'Execute', 
-            wx.Bitmap(os.path.join(os.path.dirname(__file__), 
+            ID_RUN_SCRIPT, 'Execute',
+            wx.Bitmap(os.path.join(os.path.dirname(__file__),
                                    'images', 'python_run_24x24.png')),
             shortHelp='Execute script',
             longHelp='Execute whole file in shell')
@@ -196,5 +196,5 @@ class RemoteEditorPlugin(object):
         else:
             evt.Skip()
 
- 
-   
+
+

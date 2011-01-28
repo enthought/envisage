@@ -7,4 +7,4 @@ about.png      Wikipedia: This image is in the public domain because it
 
 acmelab.ico    Gael Varoquaux
 
-splash.jpg     Bryce Hendrix 
+splash.jpg     Bryce Hendrix

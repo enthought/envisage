@@ -18,7 +18,7 @@ from text_editor_handler import TextEditorHandler
 
 def _id_generator():
     """ A generator that returns the next number for untitled files. """
-    
+
     i = 1
     while True:
         yield(i)
@@ -36,7 +36,7 @@ class TextEditor(TraitsUIEditor):
 
     # The key bindings used by the editor.
     key_bindings = Instance(KeyBindings)
-    
+
     # The text being edited.
     text = Code
 
@@ -82,7 +82,7 @@ class TextEditor(TraitsUIEditor):
             self.save()
 
         return
-    
+
     ###########################################################################
     # 'TraitsUIEditor' interface.
     ###########################################################################
@@ -95,7 +95,7 @@ class TextEditor(TraitsUIEditor):
         )
 
         return ui
-    
+
     ###########################################################################
     # 'TextEditor' interface.
     ###########################################################################
@@ -105,7 +105,7 @@ class TextEditor(TraitsUIEditor):
 
         # The file must be saved first!
         self.save()
-        
+
         # Execute the code.
         if len(self.obj.path) > 0:
             view = self.window.get_view_by_id(
@@ -116,9 +116,9 @@ class TextEditor(TraitsUIEditor):
                 view.execute_command(
                     'execfile(r"%s")' % self.obj.path, hidden=False
                 )
-            
+
         return
-    
+
     def select_line(self, lineno):
         """ Selects the specified line. """
 
@@ -150,7 +150,7 @@ class TextEditor(TraitsUIEditor):
         )
 
         return key_bindings
-        
+
     #### Trait change handlers ################################################
 
     def _obj_changed(self, new):
@@ -161,7 +161,7 @@ class TextEditor(TraitsUIEditor):
         if len(new.path) == 0:
             self.id   = self._get_unique_id()
             self.name = self.id
-            
+
         else:
             self.id   = new.path
             self.name = basename(new.path)
@@ -169,7 +169,7 @@ class TextEditor(TraitsUIEditor):
             f = file(new.path, 'r')
             self.text = f.read()
             f.close()
-        
+
         return
 
     def _text_changed(self, trait_name, old, new):
@@ -179,19 +179,19 @@ class TextEditor(TraitsUIEditor):
             self.dirty = True
 
         return
-    
+
     def _dirty_changed(self, dirty):
         """ Static trait change handler. """
 
         if len(self.obj.path) > 0:
             if dirty:
                 self.name = basename(self.obj.path) + '*'
-                
+
             else:
                 self.name = basename(self.obj.path)
-            
+
         return
-    
+
     #### Methods ##############################################################
 
     def _create_traits_ui_view(self):
@@ -210,7 +210,7 @@ class TextEditor(TraitsUIEditor):
                 ),
                 show_labels = False
             ),
-        
+
             id        = 'enthought.envisage.editor.text_editor',
             handler   = TextEditorHandler(),
             kind      = 'live',
@@ -218,10 +218,10 @@ class TextEditor(TraitsUIEditor):
             width     = 1.0,
             height    = 1.0,
             buttons   = NoButtons,
-        )    
+        )
 
         return view
-    
+
     def _get_unique_id(self, prefix='Untitled '):
         """ Return a unique id for a new file. """
 
@@ -230,5 +230,5 @@ class TextEditor(TraitsUIEditor):
             id = prefix + str(_id_generator.next())
 
         return id
-    
+
 #### EOF ######################################################################

@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 
 
 class EnvisageRemoteEditorController(RemoteEditorController):
-    """ An implementation of a client controlling a remote editor, but also 
-        using envisage to retrieve an execution engine, and run the commands 
+    """ An implementation of a client controlling a remote editor, but also
+        using envisage to retrieve an execution engine, and run the commands
         from the editor.
     """
 
@@ -61,4 +61,4 @@ class EnvisageRemoteEditorController(RemoteEditorController):
             self.run_text(arguments)
             return True
         return False
-    
+

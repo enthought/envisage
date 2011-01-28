@@ -23,7 +23,7 @@ class UIServiceFactory(HasTraits):
     The default UI service factory.
 
     """
-    
+
     # The name of the class that implements the factory.
     class_name = Str
 

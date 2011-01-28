@@ -11,11 +11,11 @@ def get_server(window):
     return window.application.get_service(IRemoteEditor)
 
 ################################################################################
-# Groups 
+# Groups
 ################################################################################
 file_group = Group(
     id='RemoteEditorFileGroup',
-    path='MenuBar/File', 
+    path='MenuBar/File',
     before='ExitGroup'
 )
 
@@ -40,7 +40,7 @@ class OpenScript(PyfaceAction):
         server = get_server(self.window)
 
         wildcard = 'Python files (*.py)|*.py'
-         
+
         parent = self.window.control
         dialog = FileDialog(parent=parent,
                             title='Open Python script in separate editor',

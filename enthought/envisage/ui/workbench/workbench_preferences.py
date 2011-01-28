@@ -15,8 +15,8 @@ class WorkbenchPreferences(PreferencesHelper):
     preferences_path = 'enthought.envisage.ui.workbench'
 
     #### Preferences ##########################################################
-    
+
     # Should the user be prompted before exiting the workbench?
     prompt_on_exit = Bool(True)
-    
+
 #### EOF ######################################################################

@@ -35,10 +35,10 @@ def save_cache(filename):
 
     global MODULES
     global MODULES_CHANGED
-    
+
     if MODULES_CHANGED:
         logger.debug('saving cache...')
-        
+
         f = file(filename, 'wb')
         cPickle.dump(MODULES, f, 1)
         f.close()
@@ -66,7 +66,7 @@ def load_cache(filename):
         MODULES = {}
 
     return
-    
+
 
 def read_package(package_name):
     """ Parse every module in the specified package. """
@@ -77,7 +77,7 @@ def read_package(package_name):
 
     package = Package(filename=filename, name=package_name)
     read_directory(filename, package)
-    
+
     return package
 
 
@@ -119,11 +119,11 @@ def read_file(filename, namespace=None):
 
     global MODULES
     global MODULES_CHANGED
-    
+
     module, mod_time = MODULES.get(filename, (None, None))
     if module is None or mod_time != os.stat(filename)[stat.ST_MTIME]:
         logger.debug('parsing module %s' % filename)
-        
+
         module_factory = ModuleFactory()
         try:
             module = module_factory.from_file(filename, namespace)
@@ -134,7 +134,7 @@ def read_file(filename, namespace=None):
 
         except:
             logger.exception('error parsing file %s' % filename)
-        
+
     return module
 
 
@@ -147,7 +147,7 @@ def read_module(module_name):
 
     else:
         module = None
-        
+
     return module
 
 
@@ -160,7 +160,7 @@ def find_module(module_name, path=None):
         # Look up the first component of the module name (of course it could be
         # the *only* component).
         f, filename, description = imp.find_module(components[0], path)
-    
+
         # If the module is in a package then go down each level in the package
         # hierarchy in turn.
         if len(components) > 0:
@@ -169,7 +169,7 @@ def find_module(module_name, path=None):
 
     except ImportError:
         filename = None
-        
+
     return filename
 
 #### EOF ######################################################################

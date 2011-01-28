@@ -10,7 +10,7 @@ class ExitAction(Action):
     """ An action that exits the workbench. """
 
     #### 'Action' interface ###################################################
-    
+
     # A longer description of the action.
     description = 'Exit the application'
 
@@ -33,5 +33,5 @@ class ExitAction(Action):
         self.window.application.exit()
 
         return
-    
+
 #### EOF ######################################################################

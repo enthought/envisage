@@ -23,7 +23,7 @@ class CGroup(Instance):
 
     def __init__(self, **kw):
         """ Constructor. """
-        
+
         super(CGroup, self).__init__(klass=Group, **kw)
 
         return
@@ -40,7 +40,7 @@ class CGroup(Instance):
 
         return super(CGroup, self).validate(object, name, value)
 
-    
+
 class Menu(Location):
     """ The *definition* of a menu in a menu bar or menu. """
 
@@ -61,7 +61,7 @@ class Menu(Location):
     ###########################################################################
     # 'object' interface
     ###########################################################################
-    
+
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
@@ -75,7 +75,7 @@ class Menu(Location):
 
     def _id_default(self):
         """ Trait initializer. """
-        
+
         return self.name.strip('&')
-    
+
 #### EOF ######################################################################

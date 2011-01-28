@@ -26,7 +26,7 @@ from services import IDATA_MODEL
 # Setup a logger for this module
 logger = logging.getLogger(__name__)
 
-    
+
 class UiService(ApplicationObject):
     """
     The UI service for the Data plugin.

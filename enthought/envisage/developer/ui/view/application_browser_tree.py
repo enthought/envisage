@@ -21,7 +21,7 @@ class Container(HasTraits):
 
     # The label.
     label = Str
-    
+
 
 class IApplicationTreeNode(TreeNode):
     """ A tree node for an Envisage application. """
@@ -42,7 +42,7 @@ class IApplicationTreeNode(TreeNode):
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return IApplication(obj, Undefined) is obj
@@ -68,18 +68,18 @@ class IPluginTreeNode(TreeNode):
             parent   = obj,
             contents = obj.get_extension_points()
         )
-        
+
         extensions   = Container(
             label    = 'Extensions',
             parent   = obj,
             contents = self._get_extensions(obj)
         )
-        
+
         return [extension_points, extensions]
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return IPlugin(obj, Undefined) is obj
@@ -94,16 +94,16 @@ class IPluginTreeNode(TreeNode):
             label = Str
             def format_value(self, value):
                 return self.label
-            
+
         extensions = []
         for trait_name, trait in plugin.traits().items():
             if trait.extension_point is not None:
                 node = MyListNode(label=trait.extension_point, value=plugin.get_extensions(trait.extension_point))
-                
+
                 extensions.append(node)
-                
+
         return extensions
-    
+
 class IExtensionPointTreeNode(TreeNode):
     """ A tree node for an extension point. """
 
@@ -128,10 +128,10 @@ class IExtensionPointTreeNode(TreeNode):
 
     def when_label_changed(self, obj, callback, remove):
         return
-    
+
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return IExtensionPoint(obj, Undefined) is obj
@@ -156,7 +156,7 @@ class ContainerTreeNode(TreeNode):
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return isinstance(obj, Container)
@@ -190,7 +190,7 @@ application_browser_tree_nodes  = [
         insert    = False,
         menu      = None,
     ),
-    
+
     ContainerTreeNode(
         label     = 'label',
         rename    = False,

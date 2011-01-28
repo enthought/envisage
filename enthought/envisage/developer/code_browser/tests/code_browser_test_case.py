@@ -31,14 +31,14 @@ class CodeBrowserTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         self.code_browser = CodeBrowser()
-        
+
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -83,7 +83,7 @@ class CodeBrowserTestCase(unittest.TestCase):
 
         # Check the class' base class.
         self.assertEqual(['HasTraits'], klass.bases)
-        
+
         # Check that the class has the appropriate traits and methods.
         self.assertEqual(2, len(klass.traits))
         x = klass.traits['x']
@@ -92,7 +92,7 @@ class CodeBrowserTestCase(unittest.TestCase):
         self.assertEqual(2, len(klass.methods))
         foo = klass.methods['foo']
         bar = klass.methods['bar']
-        
+
         return
 
 

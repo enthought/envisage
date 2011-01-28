@@ -11,7 +11,7 @@ class RefreshCodePlugin(Plugin):
 
     # Extension point Ids.
     ACTION_SETS = 'enthought.envisage.ui.workbench.action_sets'
-    
+
     #### Extension points offered by this plugin ##############################
 
     # None.
@@ -26,7 +26,7 @@ class RefreshCodePlugin(Plugin):
         from enthought.plugins.refresh_code.refresh_code_action_set import (
             RefreshCodeActionSet
         )
-        
+
         return [RefreshCodeActionSet]
 
 #### EOF ######################################################################

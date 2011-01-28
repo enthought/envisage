@@ -44,7 +44,7 @@ class EnvProjectFactory(ProjectFactory):
     #
     # This value is meant to be constant for the lifetime of this class!
     PROJECT_CLASS = EnvProject
-    
+
     # Current envisage application.
     application = Instance(IApplication)
 

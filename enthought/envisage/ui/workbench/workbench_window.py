@@ -27,7 +27,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     """ An extensible workbench window. """
 
     implements(IServiceRegistry, IExtensionPointUser)
-    
+
     # Extension point Ids.
     ACTION_SETS    = 'enthought.envisage.ui.workbench.action_sets'
     VIEWS          = 'enthought.envisage.ui.workbench.views'
@@ -61,7 +61,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # The builder is used to create the window's tool bar and menu bar by
     # combining all of the contributed action sets.
     _action_manager_builder = Instance(WorkbenchActionManagerBuilder)
-    
+
     # Contributed action sets (each contribution is actually a factory).
     _action_sets = ExtensionPoint(id=ACTION_SETS)
 
@@ -76,7 +76,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
     # The Ids of the services that were automatically registered.
     _service_ids = List
-    
+
     ###########################################################################
     # 'IExtensionPointUser' interface.
     ###########################################################################
@@ -91,17 +91,17 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     ###########################################################################
 
     #### Trait initializers ###################################################
-    
+
     def _menu_bar_manager_default(self):
         """ Trait initializer. """
-        
+
         return self._action_manager_builder.create_menu_bar_manager('MenuBar')
 
     def _status_bar_manager_default(self):
         """ Trait initializer. """
 
         return StatusBarManager()
-    
+
     def _tool_bar_managers_default(self):
         """ Trait initializer. """
 
@@ -122,7 +122,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         self._unregister_service_offers(self._service_ids)
 
         return
-        
+
     ###########################################################################
     # 'pyface.WorkbenchWindow' interface.
     ###########################################################################
@@ -133,12 +133,12 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Trait initializer. """
 
         return WorkbenchEditorManager(window=self)
-    
+
     def _icon_default(self):
         """ Trait initializer. """
 
         return self.workbench.application.icon
-    
+
     def _perspectives_default(self):
         """ Trait initializer. """
 
@@ -153,7 +153,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Trait initializer. """
 
         return [factory(window=self) for factory in self._views]
-    
+
     ###########################################################################
     # 'WorkbenchWindow' interface.
     ###########################################################################
@@ -180,7 +180,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         """ Return the dictionary of properties associated with a service. """
 
         return self.service_registry.get_service_properties(service_id)
-    
+
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
@@ -254,10 +254,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         # them.
         service_ids_copy = service_ids[:]
         service_ids_copy.reverse()
-        
+
         for service_id in service_ids_copy:
             self.unregister_service(service_id)
 
         return
-    
+
 #### EOF ######################################################################

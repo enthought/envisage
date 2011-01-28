@@ -61,7 +61,7 @@ class IPythonShellPlugin(Plugin):
 
         Yes, I know this is insecure but it follows the usual Python rule of
         'we are all consenting adults'.
-          
+
         """
     )
 
@@ -83,7 +83,7 @@ class IPythonShellPlugin(Plugin):
         """ Trait initializer. """
 
         return [{'application' : self.application}]
-    
+
     # Views.
     contributed_views = List(contributes_to=VIEWS)
 
@@ -96,5 +96,5 @@ class IPythonShellPlugin(Plugin):
                     import NamespaceView
 
         return [IPythonShellView, NamespaceView]
-        
+
 #### EOF ######################################################################

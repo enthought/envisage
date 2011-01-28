@@ -12,7 +12,7 @@ class Base(HasTraits):
     # Some traits that explicitly specify a trait type.
     x = Int
     y = Int
-    
+
     def foo(self):
         """ A method. """
 

@@ -12,7 +12,7 @@ class RenameAction(ProjectAction):
 
     # The action's name (displayed on menus/tool bar tools etc).
     name = 'Rename'
-    
+
     ###########################################################################
     # 'Action' interface.
     ###########################################################################
@@ -29,7 +29,7 @@ class RenameAction(ProjectAction):
 ##     ###########################################################################
 ##     # 'Action' interface.
 ##     ###########################################################################
-    
+
 ##     def refresh(self):
 ##         """ Refresh the enabled/disabled state of the action etc.
 
@@ -41,7 +41,7 @@ class RenameAction(ProjectAction):
 ##         resource_manager = self.window.application.get_service(
 ##             'enthought.envisage.resource.IResourceManager'
 ##         )
-        
+
 ##         # fixme: It seems there is a glitch in the tree selection handling.
 ##         # When the selection changes we get an empty selection first, then
 ##         # the new selection.
@@ -58,7 +58,7 @@ class RenameAction(ProjectAction):
 
 ##             else:
 ##                 self.enabled = True
-        
+
 ##         return
 
 #### EOF ######################################################################

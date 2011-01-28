@@ -61,10 +61,10 @@ class ExtensionRegistryBrowser(HasTraits):
 
     # The extension registry that we are browsing.
     extension_registry = Instance(IExtensionRegistry)
-    
+
     # The workbench service.
     workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
-    
+
     # The default traits UI view.
     traits_view = extension_registry_browser_view
 
@@ -85,20 +85,20 @@ class ExtensionRegistryBrowser(HasTraits):
         from enthought.envisage.ui.workbench.api import Workbench
 
         return self.application.get_service(Workbench)
-    
+
     #### Methods ##############################################################
-    
+
     def dclick(self, obj):
         """ Called when an object in the tree is double-clicked. """
 
         # Double-click on an extension point.
         if IExtensionPoint(obj, None) is not None:
             self.dclick_extension_point(obj)
-            
+
         # Double-click on an extension.
         elif IExtensionPoint(obj.parent.value, None) is not None:
             self.dclick_extension(obj)
-            
+
         return
 
     def dclick_extension_point(self, obj):
@@ -106,18 +106,18 @@ class ExtensionRegistryBrowser(HasTraits):
 
         # Find the plugin that offered the extension point.
         plugin = self._get_plugin(obj)
-            
+
         # Parse the plugin source code.
         module = self._parse_plugin(plugin)
 
         # Get the plugin klass.
         klass = self._get_plugin_klass(module, plugin)
-            
+
         # Edit the plugin.
         editor = self.workbench.edit(
             self._get_file_object(plugin), kind=TextEditor
         )
-            
+
         # Was the extension point offered declaratively via a trait?
         trait_name = self._get_extension_point_trait(plugin, obj.id)
         if trait_name is not None:
@@ -126,7 +126,7 @@ class ExtensionRegistryBrowser(HasTraits):
 
         else:
             lineno = klass.lineno
-            
+
         editor.select_line(lineno)
 
         return
@@ -181,7 +181,7 @@ class ExtensionRegistryBrowser(HasTraits):
         editor.select_line(lineno)
 
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -212,7 +212,7 @@ class ExtensionRegistryBrowser(HasTraits):
         """
 
         extension_point_traits = plugin.traits(__extension_point__=True)
-        
+
         for trait_name, trait in extension_point_traits.items():
             if trait.trait_type.id == id:
                 break
@@ -221,7 +221,7 @@ class ExtensionRegistryBrowser(HasTraits):
             trait_name = None
 
         return trait_name
-        
+
     def _get_plugin(self, extension_point):
         """ Return the plugin that offered an extension point. """
 
@@ -236,19 +236,19 @@ class ExtensionRegistryBrowser(HasTraits):
 
     def _get_plugin_klass(self, module, plugin):
         """ Get the klass that defines the plugin. """
-        
+
         for name, klass in module.klasses.items():
             if name == type(plugin).__name__:
                 break
 
         else:
             klass = None
-            
+
         return klass
-    
+
     def _get_file_object(self, obj):
         """ Return a 'File' object for the object's source file. """
-        
+
         return File(path=inspect.getsourcefile(type(obj)))
 
     def _parse_plugin(self, plugin):
@@ -257,5 +257,5 @@ class ExtensionRegistryBrowser(HasTraits):
         filename = self._get_file_object(plugin).path
 
         return self.code_browser.read_file(filename)
-    
+
 #### EOF ######################################################################

@@ -22,12 +22,12 @@ class Action(Location):
     ###########################################################################
     # 'object' interface
     ###########################################################################
-    
+
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
         return 'Action(%s)' % self.name
 
     __repr__ = __str__
-    
+
 #### EOF ######################################################################

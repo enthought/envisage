@@ -34,7 +34,7 @@ The original single_project plugin used resources and resource types to adapt
 domain-objects to add certain behaviours to them that various Envisage plugins
 expected.  However, this approach restricted the addition of new behaviours to
 resource types, as well as added a lot of cruft to the process of registering
-new resources/resource types.  
+new resources/resource types.
 
 The E3 single_project plugin uses Traits Adapters and takes advantage of the new
 ITreeNode interface.  The new TreeEditor has been extended to support handling

@@ -25,11 +25,11 @@ class Location(HasTraits):
     path = Str
 
     #### Placement of the action within the menu specified by the path ########
-    
+
     # The ID of the group to add the action or menu to (you can't have nested
     # groups).
     group = Str
-    
+
     # The item appears after the item with this ID.
     #
     # - for groups, this is the ID of another group.

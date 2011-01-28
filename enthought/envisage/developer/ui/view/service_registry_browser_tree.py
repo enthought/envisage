@@ -18,14 +18,14 @@ class ServiceModel(HasTraits):
 
     # The service Id.
     id = Int
-    
+
     # The service object.
     obj = Any
 
     # The service properties.
     properties = Dict
 
-    
+
 class ProtocolModel(HasTraits):
     """ A model of all of the services of a single protocol. """
 
@@ -60,7 +60,7 @@ class ServiceRegistryModel(HasTraits):
         # only works for the default implementation. Need to make this kind
         # of information available via the public API.
         all_services = self.service_registry._services.items()
-        
+
         protocols = {}
         for service_id, (protocol_name, obj, properties) in all_services:
             protocol = protocols.get(protocol_name)
@@ -73,9 +73,9 @@ class ServiceRegistryModel(HasTraits):
                 obj        = obj,
                 properties = properties
             )
-            
+
             protocol.services.append(service_model)
-            
+
         return protocols.values()
 
 

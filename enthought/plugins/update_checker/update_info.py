@@ -5,21 +5,21 @@ from enthought.traits.api import Callable, HasTraits, List, Str
 
 
 class VersionInfo(HasTraits):
-    """ Represents the information about a particular version of an 
+    """ Represents the information about a particular version of an
     application.
     """
-    
-    # The version string that this 
+
+    # The version string that this
     version = Str()
 
     # Customer-facing notes about this version.  Typically this is an
-    # HTML document containing the changelog between this version and 
+    # HTML document containing the changelog between this version and
     # the previous version
     notes = Str()
 
     # The location of where to obtain this version.  Typically this will
     # be an HTTP URL, but this can be a URI for a local or LAN item, or
-    # it can be a 
+    # it can be a
     location = Str()
 
     # A function that takes a string (self.version) and returns something

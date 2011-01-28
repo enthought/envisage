@@ -36,4 +36,4 @@ class OpenFileAction(Action):
             title='Open File')
         if dialog.open() == OK:
             self.window.workbench.edit(File(dialog.path), kind=TextEditor)
-    
+

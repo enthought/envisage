@@ -52,29 +52,29 @@ class WorkbenchPlugin(Plugin):
         would like to add to top-level workbench windows (i.e. the main
         application window). You can create new toolbars, menus and groups
         and/or add to existing ones.
-    
+
         Each contribution to this extension point must be a factory that
         creates an action set, where 'factory' means any callable with the
         following signature::
-    
+
           callable(**traits) -> IActionSet
-    
+
         The easiest way to contribute such a factory is to create a class
         that derives from 'enthought.envisage.ui.action.api.ActionSet'.
-    
+
         """
     )
-    
+
     perspectives = ExtensionPoint(
         List(Callable), id=PERSPECTIVES, desc="""
-        
+
         A perspective is simply an arrangment of views around the (optionally
         hidden) editor area.
 
         Each contribution to this extension point must be a factory that
         creates a perspective, where 'factory' means any callable with the
         following signature::
-    
+
           callable(**traits) -> IPerspective
 
         The easiest way to contribute such a factory is to create a class
@@ -92,12 +92,12 @@ class WorkbenchPlugin(Plugin):
         Each contribution to this extension point must be a factory that
         creates a preferences page, where 'factory' means any callable with the
         following signature::
-    
+
           callable(**traits) -> IPreferencesPage
 
         The easiest way to contribute such a factory is to create a class
         that derives from 'enthought.preferences.ui.api.IPreferencesPage'.
-          
+
         """
     )
 
@@ -125,10 +125,10 @@ class WorkbenchPlugin(Plugin):
         factory, i.e. the factory signature is::
 
           callable(**properties)
-          
+
         """
     )
-    
+
     views = ExtensionPoint(
         List(Callable), id=VIEWS, desc="""
 
@@ -140,7 +140,7 @@ class WorkbenchPlugin(Plugin):
         Each contribution to this extension point must be a factory that
         creates a view, where 'factory' means any callable with the following
         signature::
-    
+
           callable(**traits) -> IView
 
         The easiest way to contribute such a factory is to create a class
@@ -175,12 +175,12 @@ class WorkbenchPlugin(Plugin):
         """ Trait initializer. """
 
         return ['pkgfile://enthought.envisage.ui.workbench/preferences.ini']
-    
+
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     def _my_preferences_pages_default(self):
         """ Trait initializer. """
-        
+
         from workbench_preferences_page import WorkbenchPreferencesPage
 
         return [WorkbenchPreferencesPage]
@@ -189,7 +189,7 @@ class WorkbenchPlugin(Plugin):
 
     def _my_service_offers_default(self):
         """ Trait initializer. """
-        
+
         preferences_manager_service_offer = ServiceOffer(
             protocol = 'enthought.preferences.ui.preferences_manager'
                        '.PreferencesManager',
@@ -200,7 +200,7 @@ class WorkbenchPlugin(Plugin):
             protocol = 'enthought.envisage.ui.workbench.workbench.Workbench',
             factory  = self._create_workbench_service
         )
-        
+
         return [preferences_manager_service_offer, workbench_service_offer]
 
     ###########################################################################
@@ -217,7 +217,7 @@ class WorkbenchPlugin(Plugin):
         )
 
         return preferences_manager
-        
+
     def _create_workbench_service(self, **properties):
         """ Factory method for the workbench service. """
 

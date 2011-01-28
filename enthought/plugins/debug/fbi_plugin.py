@@ -1,17 +1,17 @@
 #-------------------------------------------------------------------------------
-#  
-#  wxPython Test Plugin. 
-#  
+#
+#  wxPython Test Plugin.
+#
 #  Written by: David C. Morrill
-#  
+#
 #  Date: 10/18/2005
-#  
+#
 #  (c) Copyright 2005 by Enthought, Inc.
-#  
+#
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-#  Imports:  
+#  Imports:
 #-------------------------------------------------------------------------------
 
 import sys
@@ -23,18 +23,18 @@ from enthought.envisage.api import Plugin
 from enthought.debug.fbi import enable_fbi, fbi
 
 #-------------------------------------------------------------------------------
-#  'FBIPlugin' class:  
+#  'FBIPlugin' class:
 #-------------------------------------------------------------------------------
-    
+
 class FBIPlugin ( Plugin ):
     """ FBIPython plugin. """
-    
+
     #---------------------------------------------------------------------------
-    #  'Plugin' interface:  
+    #  'Plugin' interface:
     #---------------------------------------------------------------------------
 
     def start ( self, application ):
-        """ Starts the plugin. 
+        """ Starts the plugin.
         """
         # Tell the FBI to wiretap all unauthorized exceptions:
         enable_fbi()
@@ -43,7 +43,7 @@ class FBIPlugin ( Plugin ):
                                 main    = True )
 
     def stop ( self, application ):
-        """ Stops the plugin. 
+        """ Stops the plugin.
         """
         pass
 

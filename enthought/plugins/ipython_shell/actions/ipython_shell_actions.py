@@ -9,11 +9,11 @@ def get_shell(window):
     return window.application.get_service(IPythonShell)
 
 ################################################################################
-# Groups 
+# Groups
 ################################################################################
 ipython_shell_group = Group(
     id='IPythonShellGroup',
-    path='MenuBar/Tools', 
+    path='MenuBar/Tools',
     #before='ExitGroup'
 )
 

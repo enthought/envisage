@@ -23,7 +23,7 @@ class DataView(HasTraits):
     temperature = Range(low=-50.0,high=50.0,value=50.0)
     r_constant= Float(8.314472)
     plot_type = Enum("line", "scatter")
-    
+
     data_view = View(Chaco2PlotItem("volume", "pressure",
                                type_trait="plot_type",
                                resizable=True,
@@ -41,24 +41,24 @@ class DataView(HasTraits):
                                padding_bg_color="lightgray"),
                        Item(name='attraction'),
                        Item(name='totVolume'),
-                       Item(name='temperature'),   
+                       Item(name='temperature'),
                        Item(name='r_constant',style='readonly'),
                        Item(name='plot_type'),
                        resizable = True,
                        buttons = ["OK"],
                        title='Van der waal Equation',
                        width=900, height=500)
-        
+
     def _volume_default(self):
       return arange(.1, 100)
 
     # Pressure is calculated whenever one of the elements the property depends on changes.
     def _get_pressure(self):
       return ((self.r_constant*self.temperature)/(self.volume - self.totVolume)) - (self.attraction/(self.volume*self.volume))
-    
-    
-    
-    
+
+
+
+
 class Data(NumericContext):
     name = Property(depends_on = ['context_name'])
     # data_parameters = Property
@@ -130,7 +130,7 @@ class Data(NumericContext):
     ############################################################################
     # Protected Methods
     ############################################################################
-    
+
 #    def _get_data_parameters(self):
 #        return self['data_parameters']
 
@@ -148,24 +148,24 @@ class Data(NumericContext):
 
 class DataAdapter(ITreeNodeAdapter):
     """ ITreeNodeAdapter for our custom Data object. """
-    
+
     adapts(Data, ITreeNode)
-    
+
     #-- ITreeNodeAdapter Method Overrides --------------------------------------
 
     def allows_children(self):
         """ Returns whether this object can have children.
         """
         return False
-        
+
     def get_label(self):
         """ Gets the label to display for a specified object.
         """
         return self.adaptee.name
-        
+
     def confirm_delete(self):
         """ Checks whether a specified object can be deleted.
-        
+
         Returns
         -------
         * **True** if the object should be deleted with no further prompting.
@@ -174,19 +174,19 @@ class DataAdapter(ITreeNodeAdapter):
           include prompting the user to confirm deletion).
         """
         return None
-        
+
     def when_label_changed(self, listener, remove):
-        """ Sets up or removes a listener for the label being changed on a 
+        """ Sets up or removes a listener for the label being changed on a
             specified object.
         """
         self.adaptee.on_trait_change(listener, 'list_items',
             remove=remove, dispatch='ui')
-        
+
     def get_tooltip(self):
         """ Gets the tooltip to display for a specified object.
         """
         return "Data"
-        
+
     def get_icon(self, is_expanded):
         """ Returns the icon for a specified object.
         """
@@ -197,12 +197,12 @@ class DataAdapter(ITreeNodeAdapter):
             closed.
         """
         return True
-        
+
     def can_rename_me(self):
         """ Returns whether the object can be renamed.
         """
         return True
-        
+
     def can_delete_me(self):
         """ Returns whether the object can be deleted.
         """

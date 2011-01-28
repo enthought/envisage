@@ -51,9 +51,9 @@ class EmptyProjectAdapter(ITreeNodeAdapter):
 
 class ProjectAdapter(ITreeNodeAdapter):
     """ Base ProjectAdapter for the root of the tree. """
-    
+
     adapts(Project, ITreeNode)
-    
+
     #-- ITreeNodeAdapter Method Overrides --------------------------------------
 
     def allows_children(self):
@@ -70,24 +70,24 @@ class ProjectAdapter(ITreeNodeAdapter):
         """ Gets the object's children.
         """
         return []
-        
+
     def get_label(self):
         """ Gets the label to display for a specified object.
         """
         return self.adaptee.name
-        
+
     def get_tooltip(self):
         """ Gets the tooltip to display for a specified object.
         """
         return "Project"
-        
+
     def get_icon(self, is_expanded):
         """ Returns the icon for a specified object.
         """
         return '<open>'
 
     def can_auto_close(self):
-        """ Returns whether the object's children should be automatically 
+        """ Returns whether the object's children should be automatically
             closed.
         """
         return True
@@ -106,7 +106,7 @@ class ProjectView(HasTraits):
 
     # The Envisage application that this service is part of.
     application = Instance(IApplication)
-    
+
     # The suffix currently applied to our name
     name_suffix = Str('')
 
@@ -123,7 +123,7 @@ class ProjectView(HasTraits):
         ),
         resizable = True
     )
-    
+
     ##########################################################################
     # 'View' interface.
     ##########################################################################
@@ -135,7 +135,7 @@ class ProjectView(HasTraits):
         model_service.on_trait_change(self._on_project_changed, 'project')
         model_service.on_trait_change(self._on_project_selection_changed,
             'selection')
-            
+
         # Make sure our control is initialized to the current project.
         self._switch_projects(EmptyProject(), model_service.project)
 
@@ -162,7 +162,7 @@ class ProjectView(HasTraits):
         Clears out all indications of any project state from this view.
 
         """
-        
+
         #self.name_suffix = ''
         # Set the root to an EmptyProject.
         self.root = EmptyProject()
@@ -175,7 +175,7 @@ class ProjectView(HasTraits):
         Return a reference to the single project plugin's model service.
 
         """
-        
+
         return self.application.get_service(IPROJECT_MODEL)
 
 
@@ -221,10 +221,10 @@ class ProjectView(HasTraits):
 
         logger.debug('Syncing ProjectView [%s] to project state [%s]', self,
             project)
-        
+
         # Update our Project reference.
         self.root = project
-        
+
         # Update our name suffix based on the dirty state of the project.
         #self.name_suffix = (project.dirty and self.title_suffix) or ''
 

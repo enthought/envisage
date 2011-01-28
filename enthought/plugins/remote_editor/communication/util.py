@@ -16,7 +16,7 @@ from enthought.etsconfig.api import ETSConfig
 MESSAGE_SEP = chr(7) # 'bell' character
 
 # The location of the server lock file and the communication log
-LOCK_PATH = os.path.join(ETSConfig.application_data, 
+LOCK_PATH = os.path.join(ETSConfig.application_data,
                          'remote_editor_server.lock')
 LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
@@ -30,7 +30,7 @@ def quoted_split(s):
 def spawn_independent(command, shell=False):
     """ Given a command suitable for 'Popen', open the process such that if this
         process is killed, the spawned process survives.
-        
+
         `command` is either a list of strings, with the first item in the list being
         the executable and the rest being its arguments, or a single string containing
         the executable and its arguments.  In the latter case, any argument that
@@ -119,7 +119,7 @@ def send_port(port, command, arguments='', timeout=None):
     if errno:
         sock.close()
         return False
-    
+
     try:
         send(sock, command, arguments)
     except socket.error:
@@ -131,11 +131,11 @@ def send_port(port, command, arguments='', timeout=None):
             pass
     return True
 
-    
+
 def receive(sock):
     """ Receive a command with arguments from a socket that was previously sent
         information with 'send'.
-    """    
+    """
     index = -1
     chunk, length = '', ''
     received = False

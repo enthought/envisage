@@ -21,7 +21,7 @@ from enthought.traits.ui.table_filter import EvalFilterTemplate
 from enthought.traits.ui.table_filter import RuleFilterTemplate
 
 
-# Table editor definition:  
+# Table editor definition:
 filters = [EvalFilterTemplate, MenuFilterTemplate, RuleFilterTemplate]
 
 table_editor = TableEditor(
@@ -42,7 +42,7 @@ table_editor = TableEditor(
 def type_to_str(obj):
     """
     Make a string out `obj`'s type robustly.
-    """ 
+    """
     typ = type(obj)
     if typ.__name__ == 'vtkobject' or typ is types.InstanceType:
         typ = obj.__class__
@@ -143,6 +143,6 @@ class NamespaceView(View):
             module = Str
 
         data = [item(name=name, type=type_to_str(value), module=module_to_str(value))
-                    for name, value in self.shell_view.namespace.items()] 
+                    for name, value in self.shell_view.namespace.items()]
 
         return data

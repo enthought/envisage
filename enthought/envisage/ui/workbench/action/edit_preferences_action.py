@@ -10,7 +10,7 @@ class EditPreferencesAction(Action):
     """ An action that displays the preferences dialog. """
 
     #### 'Action' interface ###################################################
-    
+
     # A longer description of the action.
     description = 'Manage Preferences'
 
@@ -31,11 +31,11 @@ class EditPreferencesAction(Action):
         """ Performs the action. """
 
         from enthought.preferences.ui.api import PreferencesManager
-        
+
         # Lookup the preferences manager service.
         manager = event.window.application.get_service(PreferencesManager)
         ui = manager.edit_traits(parent=event.window.control, kind='modal')
-        
+
         # If the user hit the "Ok" button, then save the preferences in case
         # application crashes before it exits!
         if ui.result:

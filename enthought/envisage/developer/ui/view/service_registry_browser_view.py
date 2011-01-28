@@ -14,7 +14,7 @@ class ServiceRegistryBrowserView(TraitsUIView):
     """ A view that allows a developer to browse the service registry. """
 
     #### 'IWorkbenchPart' interface ###########################################
-    
+
     # The part's globally unique identifier.
     id = 'enthought.envisage.developer.ui.view.service_registry_browser_view'
 
@@ -31,7 +31,7 @@ class ServiceRegistryBrowserView(TraitsUIView):
 
     # The code browser used to parse Python code.
     code_browser = Instance(CODE_BROWSER)
-    
+
     ###########################################################################
     # 'TraitsUIView' interface.
     ###########################################################################

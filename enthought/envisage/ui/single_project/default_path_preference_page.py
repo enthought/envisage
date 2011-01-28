@@ -23,15 +23,15 @@ ID = 'enthought.envisage.ui.single_project'
 class DefaultPathPreferencePage(PreferencesPage):
     """ Preference page for default path for a plugin.
     """
-    
+
     # The page name (this is what is shown in the preferences dialog.
     name = 'Single Project'
 
     # The path to the preferences node that contains the preferences.
     preferences_path = 'enthought.envisage.ui.single_project'
-    
+
     #### Preferences ##########################################################
-    
+
     # Choose the unit system that needs to be used for the project
     preferred_path = Directory('')
 

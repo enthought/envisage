@@ -45,7 +45,7 @@ ID = 'data.plugin'
 class RenameDataAction(DefaultAction):
     description = 'Rename this data.'
     name = '&Rename'
-    
+
 class EditDataAction(DefaultAction):
     description = 'Edit data properties.'
     name = '&Edit Data Properties'

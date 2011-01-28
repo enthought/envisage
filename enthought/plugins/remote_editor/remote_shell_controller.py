@@ -21,7 +21,7 @@ class RemoteShellController(Client):
 
     self_type = "python_editor"
     other_type = "python_shell"
-    
+
     #------------------------------------------------------
     # RemoteShell interface
     #------------------------------------------------------

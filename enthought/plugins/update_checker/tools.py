@@ -23,7 +23,7 @@ def files2xml(filenames):
 
     There are no constraints or restrictions on the names or extensions
     of the input files.  They just need to be accompanied by a sidecar
-    file named similarly, but with a ".info" extension, that can be 
+    file named similarly, but with a ".info" extension, that can be
     loaded by the InfoFile class.
     """
     return

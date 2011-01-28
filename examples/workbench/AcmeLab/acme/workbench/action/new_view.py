@@ -9,7 +9,7 @@ class NewViewAction(Action):
     """ An action that dynamically creates and adds a view. """
 
     #### 'Action' interface ###################################################
-    
+
     # A longer description of the action.
     description = 'Create and add a new view'
 
@@ -33,5 +33,5 @@ class NewViewAction(Action):
         self.window.add_view(view)
 
         return
-    
+
 #### EOF ######################################################################

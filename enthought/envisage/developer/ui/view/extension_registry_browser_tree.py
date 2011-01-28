@@ -31,12 +31,12 @@ class IExtensionRegistryTreeNode(TreeNode):
         # Tag the extension registry onto the extension points.
         for extension_point in extension_points:
             extension_point.__extension_registry__ = obj
-            
+
         return extension_points
 
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return IExtensionRegistry(obj, Undefined) is obj
@@ -64,17 +64,17 @@ class IExtensionPointTreeNode(TreeNode):
             parent = SingleValueTreeNodeObject(value=obj, _index=index)
             children.append(parent.node_for('', extension))
             index += 1
-                            
+
         return children
 
     def get_label(self, obj):
         """ Get the object's label. """
 
         return obj.id
-    
+
     def is_node_for(self, obj):
         """ Return whether this is the node that handles a specified object.
-        
+
         """
 
         return IExtensionPoint(obj, Undefined) is obj
@@ -89,7 +89,7 @@ class IExtensionPointTreeNode(TreeNode):
     # fixme: If we make this node readonly will these go away?!?
     def when_label_changed(self, obj, callback, remove):
         """ Set up or remove listeners for label changes. """
-        
+
         return
 
     def when_children_replaced(self, obj, callback, remove):
@@ -99,7 +99,7 @@ class IExtensionPointTreeNode(TreeNode):
 
     def when_children_changed(self, obj, callback, remove):
         """ Set up or remove listenrs for children being changed. """
-        
+
         return
 
 

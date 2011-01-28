@@ -11,7 +11,7 @@ class ProjectActionSet(WorkbenchActionSet):
 
     # The action set's globally unique identifier.
     id = 'enthought.envisage.ui.single_project.action_set'
-    
+
     # List of menus we provide.
     menus = [
         Menu(
@@ -21,7 +21,7 @@ class ProjectActionSet(WorkbenchActionSet):
             group='ProjectGroup',
         ),
     ]
-    
+
     # List of groups we provide.
     groups = [
         Group(
@@ -42,7 +42,7 @@ class ProjectActionSet(WorkbenchActionSet):
             before='ExitGroup'
         ),
     ]
-    
+
     # List of toolbars we provide.
     tool_bars = [
         ToolBar(
@@ -50,7 +50,7 @@ class ProjectActionSet(WorkbenchActionSet):
             groups=['PerspectiveGroup', 'ProjectGroup']
         ),
     ]
-    
+
     # List of actions we provide.
     actions = [
         # File menu actions.
@@ -79,7 +79,7 @@ class ProjectActionSet(WorkbenchActionSet):
             group='CloseGroup',
             path='MenuBar/File/ProjectMenu',
         ),
-        
+
         # Toolbar actions.
         Action(
             class_name=PKG + '.action.api:SwitchToAction',
@@ -112,11 +112,11 @@ class ProjectActionSet(WorkbenchActionSet):
             path='ToolBar/Project',
         ),
     ]
-    
+
     #### 'WorkbenchActionSet' interface #######################################
 
     # The Ids of the perspectives that the action set is enabled in.
     enabled_for_perspectives = ['Project']
-    
+
     # The Ids of the perspectives that the action set is visible in.
     visible_for_perspectives = ['Project']

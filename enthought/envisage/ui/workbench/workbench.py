@@ -12,7 +12,7 @@ from enthought.traits.api import Delegate, Instance
 from workbench_preferences import WorkbenchPreferences
 from workbench_window import WorkbenchWindow
 
-    
+
 class Workbench(pyface.Workbench):
     """ The Envisage workbench.
 
@@ -33,7 +33,7 @@ class Workbench(pyface.Workbench):
 
     # Should the user be prompted before exiting the workbench?
     prompt_on_exit = Delegate('_preferences')
-    
+
     #### Private interface ####################################################
 
     # The workbench preferences.
@@ -42,7 +42,7 @@ class Workbench(pyface.Workbench):
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _exiting_changed(self, event):
         """ Called when the workbench is exiting. """
 

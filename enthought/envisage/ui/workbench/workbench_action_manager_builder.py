@@ -56,7 +56,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         # allow for dynamic enabling/disabling etc. This is a *very* hacky
         # way to do it!
         action._action_set_ = definition._action_set_
-        
+
         return action
 
     def _create_group(self, definition):
@@ -104,9 +104,9 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
 
         else:
             klass = MenuManager
-            
+
         menu_manager = klass(**traits)
-        
+
         # Add any groups to the menu.
         for group in definition.groups:
             group._action_set_ = definition._action_set_
@@ -123,7 +123,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         """ Create a menu bar manager from the builder's action sets. """
 
         return MenuBarManager(window=self.window)
-        
+
     def _create_tool_bar_manager(self, definition):
         """ Create a tool bar manager implementation from a definition. """
 
@@ -138,18 +138,18 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
 
         if len(definition.name) > 0:
             traits['name'] = definition.name
-        
+
         if len(definition.class_name) > 0:
             klass = self._import_symbol(definition.class_name)
         else:
             klass = ToolBarManager
-        
+
         # fixme: 'window' is not actually a trait on 'ToolBarManager'! We
         # set it here because it is set on the 'MenuManager'! However, it
         # seems that menus and actions etc should *always* have a reference
         # to the window that they are in?!?
         tool_bar_manager = klass(**traits)
-            
+
         # Add any groups to the tool bar.
         for group in definition.groups:
             group._action_set_ = definition._action_set_
@@ -175,5 +175,5 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         """ Import a symbol. """
 
         return self.window.application.import_symbol(symbol_path)
-    
+
 #### EOF ######################################################################

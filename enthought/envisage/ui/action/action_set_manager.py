@@ -76,7 +76,7 @@ class ActionSetManager(HasTraits):
 
         If the first component of the path matches an alias, then we return
         the value of the alias.
-        
+
         e.g. If the aliases are::
 
             {'MenuBar' : 'enthought.envisage.ui.workbench.menubar'}
@@ -103,7 +103,7 @@ class ActionSetManager(HasTraits):
         Then the effective root is::
 
             'MenuBar'
-        
+
         """
 
         components = path.split('/')

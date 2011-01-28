@@ -15,7 +15,7 @@ class WorkbenchActionSet(ActionSet):
 
     It also adds a simple way for the action set to be enabled and/or visible
     in specific perspectives.
-    
+
     """
 
     ###########################################################################
@@ -41,7 +41,7 @@ class WorkbenchActionSet(ActionSet):
     # 'initialize' method.
     enabled_for_views = List(Str)
     visible_for_views = List(Str)
-    
+
     # The workbench window that the action set is in.
     #
     # The framework sets this trait when the action set is first added to a
@@ -94,13 +94,13 @@ class WorkbenchActionSet(ActionSet):
         self.window.on_trait_change(self._refresh, 'active_perspective')
 
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
 
     #### Trait change handlers ################################################
-    
+
     def _window_changed(self):
         """ Static trait change handler. """
 
@@ -110,7 +110,7 @@ class WorkbenchActionSet(ActionSet):
         self.initialize()
 
         return
-    
+
     #### Methods ##############################################################
 
     def _refresh(self):
@@ -141,9 +141,9 @@ class WorkbenchActionSet(ActionSet):
                            and window.active_part is not None \
                            and window.active_part.id in \
                            self.visible_for_views
-        
+
         return
-    
+
     def _update_actions(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
 
@@ -160,7 +160,7 @@ class WorkbenchActionSet(ActionSet):
                     setattr(item, trait_name, value)
 
             return
-        
+
         # Update actions on the menu bar.
         window.menu_bar_manager.walk(visitor)
 
@@ -169,7 +169,7 @@ class WorkbenchActionSet(ActionSet):
             tool_bar_manager.walk(visitor)
 
         return
-    
+
     def _update_tool_bars(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
 

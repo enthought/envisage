@@ -22,7 +22,7 @@ class Assign(HasTraits):
     # The line number within the module at which the assignment statement
     # appears.
     lineno = Int
-    
+
     # The names being assigned to (in Python there can be more than one).
     targets = List(Str)
 
@@ -32,10 +32,10 @@ class Assign(HasTraits):
     # We only care about assignments to trait types, not literals or
     # expressions etc.
     source = Str
-    
+
     # Is this a trait assignment?
     is_trait = Bool(False)
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -68,7 +68,7 @@ class AssignFactory(HasTraits):
 
         return assign
 
-    
+
 class AssignVisitor(ASTVisitor):
     """ An AST visitor for assigment statements. """
 
@@ -82,7 +82,7 @@ class AssignVisitor(ASTVisitor):
         self.assign = assign
 
         return
-    
+
     ###########################################################################
     # 'ASTVisitor' interface.
     ###########################################################################
@@ -91,7 +91,7 @@ class AssignVisitor(ASTVisitor):
         """ Visits an assignment node. """
 
         self.assign.targets.append(node.name)
-        
+
         return
 
     def visitCallFunc(self, node):
@@ -99,14 +99,14 @@ class AssignVisitor(ASTVisitor):
 
         function_name = self._get_name(node.node)
         self.assign.source = function_name
-            
+
         return
 
     def visitName(self, node):
         """ Visits a name node. """
-        
+
         self.assign.source = node.name
-        
+
         return
 
     def visitGetattr(self, node):
@@ -119,7 +119,7 @@ class AssignVisitor(ASTVisitor):
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _get_name(self, node):
         """ Returns the (possibly dotted) name from a node. """
 
@@ -142,7 +142,7 @@ class AssignVisitor(ASTVisitor):
 
         else:
             name = ''
-            
+
         return name
 
 #### EOF ######################################################################

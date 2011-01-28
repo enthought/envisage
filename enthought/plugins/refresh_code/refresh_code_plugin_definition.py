@@ -12,7 +12,7 @@ USING_WORKBENCH = get_using_workbench()
 if USING_WORKBENCH:
     from enthought.envisage.workbench.action.action_plugin_definition import \
          Action, Group, Location, Menu, WorkbenchActionSet
-    
+
 else:
     from enthought.envisage.ui.ui_plugin_definition import \
          Action, Group, Menu, UIActions
@@ -30,7 +30,7 @@ ID = "enthought.plugins.refresh_code"
 if USING_WORKBENCH:
     refresh_code = Action(
         name          = "Refresh Code",
-        description   = "Refresh application to reflect python code changes", 
+        description   = "Refresh application to reflect python code changes",
         accelerator   = "Ctrl+Shift+R",
         function_name = "enthought.util.refresh.refresh",
 
@@ -38,11 +38,11 @@ if USING_WORKBENCH:
             Location(path="MenuBar/FileMenu/ExitGroup")
         ]
     )
-    
+
     actions = WorkbenchActionSet(
         id   = ID + ".refresh_code_action_set",
         name = "Refresh Code",
-        
+
         # fixme: This menus stuff should go away once we get ticket:312
         # resolved.
         #groups = [
@@ -55,51 +55,51 @@ if USING_WORKBENCH:
         #        location = Location(path="MenuBar/ToolsMenu")
         #    ),
         #],
-            
+
         #menus = [
         #    Menu(
         #        id = "ToolMenu",
         #        name = "&Tools",
-        #        location = Location(path="MenuBar/ToolsMenuGroup"),                
+        #        location = Location(path="MenuBar/ToolsMenuGroup"),
         #        groups = []
         #    ),
-        #],    
+        #],
 
         actions = [refresh_code]
     )
-    
+
     requires = "enthought.envisage.workbench.action"
-    
+
 else:
     refresh_code = Action(
         name          = "Refresh Code", # fixme: this should change
-        description   = "Refresh application to reflect python code changes", 
+        description   = "Refresh application to reflect python code changes",
         menu_bar_path = "ToolsMenu/additions", # fixme: this should change
         accelerator   = "Ctrl+Shift+R",
-        function_name = "enthought.util.refresh.refresh"    
+        function_name = "enthought.util.refresh.refresh"
     )
-    
+
     actions =  UIActions(
         # fixme: This menus stuff should go away once we get ticket:312
         # resolved.
         menus = [
-            Menu( 
+            Menu(
                 id     = "ToolsMenu",
                 name   = "&Tools",
                 path   = "ToolsGroup",
-    
+
                 groups = [
                     Group(id = "Start"),
                     Group(id = "End"),
                 ]
             ),
         ],
-        
+
         actions = [refresh_code]
     )
 
     requires = "enthought.envisage.ui"
-    
+
 ###############################################################################
 # The plugin definition!
 ###############################################################################
@@ -120,7 +120,7 @@ class RefreshCodePluginDefinition(PluginDefinition):
 
     # The extension points offered by this plugin,
     extension_points = []
-    
+
     # The contributions that this plugin makes to extension points offered by
     # either itself or other plugins.
     extensions = [actions]
