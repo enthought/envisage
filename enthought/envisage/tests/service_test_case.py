@@ -14,7 +14,7 @@ class TestApplication(Application):
 
     id = 'test'
 
-    
+
 class ServiceTestCase(unittest.TestCase):
     """ Tests for the 'Service' trait type. """
 
@@ -29,13 +29,13 @@ class ServiceTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
-    
+
     def test_service_trait_type(self):
         """ service trait type"""
 
@@ -52,7 +52,7 @@ class ServiceTestCase(unittest.TestCase):
 
         a = PluginA()
         b = PluginB()
-        
+
         application = TestApplication(plugins=[a, b])
         application.start()
 
@@ -67,7 +67,7 @@ class ServiceTestCase(unittest.TestCase):
 
         # You can't set service traits!
         self.failUnlessRaises(SystemError, setattr, b, 'foo', 'bogus')
-        
+
         return
 
     def test_service_trait_type_with_no_service_registry(self):
@@ -83,7 +83,7 @@ class ServiceTestCase(unittest.TestCase):
         # 'service_registry' trait.
         b = Bar()
         self.failUnlessRaises(ValueError, getattr, b, 'foo')
-        
+
         return
 
 

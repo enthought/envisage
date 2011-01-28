@@ -19,7 +19,7 @@ def make_reST_docs(stylesheet):
     # Put all the generated documents in here.
     try:
         os.mkdir('html')
-        
+
     except:
         pass
 
@@ -42,7 +42,7 @@ def make_api_docs():
 
     except:
         pass
-    
+
     # Now make the API documentation.
     print 'Making API documentation...',
     os.system('endo --rst -d html/api -r %s' % os.path.join('..', 'enthought'))
@@ -58,17 +58,17 @@ def copy_images():
         print 'Copying images...',
         try:
             os.mkdir('html/images')
-            
+
         except:
             pass
 
         for filename in os.listdir('images'):
             if filename == '.svn':
                 continue
-        
+
             shutil.copyfile('images/%s' % filename,'html/images/%s' % filename)
         print 'Done.'
-        
+
     return
 
 def create_index(filename):
@@ -77,7 +77,7 @@ def create_index(filename):
     shutil.copyfile(os.path.join('html', filename+'.html'), 'html/index.html')
 
     return
-    
+
 def main(argv=sys.argv):
     """ Application entry point. """
 
@@ -93,7 +93,7 @@ def main(argv=sys.argv):
     make_api_docs()
     copy_images()
     create_index('Introduction')
-    
+
     return
 
 

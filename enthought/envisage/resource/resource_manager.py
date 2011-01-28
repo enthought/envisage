@@ -15,7 +15,7 @@ class ResourceManager(HasTraits):
     implements(IResourceManager)
 
     #### 'IResourceManager' interface #########################################
-    
+
     # The protocols used by the manager to resolve resource URLs.
     resource_protocols = Dict(Str, IResourceProtocol)
 
@@ -41,18 +41,18 @@ class ResourceManager(HasTraits):
         }
 
         return resource_protocols
-    
+
     #### Methods ##############################################################
 
     def file(self, url):
         """ Return a readable file-like object for the specified url. """
 
         protocol_name, address = url.split('://')
-        
+
         protocol = self.resource_protocols.get(protocol_name)
         if protocol is None:
             raise ValueError('unknown protocol in URL %s' % url)
-        
+
         return protocol.file(address)
 
 #### EOF ######################################################################

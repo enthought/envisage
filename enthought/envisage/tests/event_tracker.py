@@ -20,7 +20,7 @@ class EventTracker(HasTraits):
     # This is useful if you just care about the order of the events, not the
     # contents.
     event_names = List(Str)
-                    
+
     # The trait event subscriptions used by the tracker.
     #
     # This is a list of tuples in the form:-
@@ -30,7 +30,7 @@ class EventTracker(HasTraits):
     # Where 'obj' is the object to listen to, and 'trait_name' is the name of
     # the trait to listen to, or None to listen for all trait events.
     subscriptions = List(Tuple)
-                
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -44,7 +44,7 @@ class EventTracker(HasTraits):
         map(self._add_subscription, new)
 
         return
-        
+
     def _subscriptions_items_changed(self, event):
         """ Static trait change handler. """
 
@@ -58,11 +58,11 @@ class EventTracker(HasTraits):
 
         self.events.append((obj, trait_name, old, new))
         self.event_names.append(trait_name)
-        
+
         return
 
     #### Methods ##############################################################
-    
+
     def _add_subscription(self, subscription):
         """ Add a subscription. """
 
@@ -88,5 +88,5 @@ class EventTracker(HasTraits):
             obj.on_trait_change(self._listener, remove=True)
 
         return
-        
+
 #### EOF ######################################################################

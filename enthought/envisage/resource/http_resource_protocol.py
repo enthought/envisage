@@ -13,7 +13,7 @@ class HTTPResourceProtocol(HasTraits):
     """ A resource protocol for HTTP documents. """
 
     implements(IResourceProtocol)
-    
+
     ###########################################################################
     # 'IResourceProtocol' interface.
     ###########################################################################
@@ -24,7 +24,7 @@ class HTTPResourceProtocol(HasTraits):
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.
         import urllib2
-        
+
         try:
             f = urllib2.urlopen('http://' + address)
 

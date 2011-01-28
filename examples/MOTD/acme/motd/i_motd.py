@@ -14,5 +14,5 @@ class IMOTD(Interface):
         Returns an object that implements the 'IMessage' interface.
 
         """
-    
+
 #### EOF ######################################################################

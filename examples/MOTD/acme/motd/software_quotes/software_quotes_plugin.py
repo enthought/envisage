@@ -20,7 +20,7 @@ class SoftwareQuotesPlugin(Plugin):
     #### Extension points offered by this plugin ##############################
 
     # None
-    
+
     #### Contributions to extension points made by this plugin ################
 
     # Messages for the 'Message Of The Day'.

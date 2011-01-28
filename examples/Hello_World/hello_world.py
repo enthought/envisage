@@ -44,7 +44,7 @@ class HelloWorld(Plugin):
         import random
 
         print random.choice(self.greetings), 'World!'
-        
+
         return
 
 
@@ -73,13 +73,13 @@ class MoreGreetings(Plugin):
 
             for greeting in ['Bonjour', 'Hola']
         ]
-                             
+
         return extensions
 
 
 # Application entry point.
 if __name__ == '__main__':
-    
+
     # Create the application.
     #
     # An application is simply a collection of plugins. In this case we

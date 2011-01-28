@@ -100,7 +100,7 @@ class ExtensionPoint(TraitType):
             trait.trait_type.disconnect(obj, trait_name)
 
         return
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -125,13 +125,13 @@ class ExtensionPoint(TraitType):
         # future want to allow other collections e.g. dictionaries etc).
         if not isinstance(trait_type, List):
             raise TypeError(INVALID_TRAIT_TYPE % trait_type)
-        
+
         self.trait_type = trait_type
 
         # The Id of the extension point.
         if id is None:
             raise ValueError('an extension point must have an Id')
-        
+
         self.id = id
 
         # A dictionary that is used solely to keep a reference to all extension
@@ -202,7 +202,7 @@ class ExtensionPoint(TraitType):
                 new  = event.added
 
             obj.trait_property_changed(name, old, new)
-        
+
             return
 
         extension_registry = self._get_extension_registry(obj)
@@ -251,7 +251,7 @@ class ExtensionPoint(TraitType):
 
             except:
                 pass
-            
+
             raise ValueError(
                 'The "ExtensionPoint" trait type can only be used in ' \
                 'objects that have a reference to an extension registry ' \
@@ -260,5 +260,5 @@ class ExtensionPoint(TraitType):
             )
 
         return extension_registry
-    
+
 #### EOF ######################################################################

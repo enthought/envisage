@@ -31,7 +31,7 @@ def listener(obj, trait_name, old, new):
 
 def vetoer(event):
     """ A function that will veto an event. """
-    
+
     event.veto = True
 
     return
@@ -45,27 +45,27 @@ class TestApplication(Application):
 
 class SimplePlugin(Plugin):
     """ A simple plugin. """
-            
+
     #### 'SimplePlugin' interface #############################################
 
     started = Bool(False)
     stopped = Bool(False)
-            
+
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
         """ Start the plugin. """
-        
+
         self.started = True
         self.stopped = False
 
         return
-            
+
     def stop(self):
         """ Stop the plugin. """
-        
+
         self.started = False
         self.stopped = True
 
@@ -74,32 +74,32 @@ class SimplePlugin(Plugin):
 
 class BadPlugin(Plugin):
     """ A plugin that just causes trouble ;^). """
-    
+
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
         """ Start the plugin. """
-        
-        raise 1/0
-    
-    def stop(self):
-        """ Stop the plugin. """
-        
+
         raise 1/0
 
-    
+    def stop(self):
+        """ Stop the plugin. """
+
+        raise 1/0
+
+
 class PluginA(Plugin):
     """ A plugin that offers an extension point. """
-    
+
     id = 'A'
     x  = ExtensionPoint(List, id='a.x')
 
 
 class PluginB(Plugin):
     """ A plugin that contributes to an extension point. """
-    
+
     id = 'B'
     x  = List(Int, [1, 2, 3], contributes_to='a.x')
 
@@ -110,7 +110,7 @@ class PluginC(Plugin):
     id = 'C'
     x  = List(Int, [98, 99, 100], contributes_to='a.x')
 
-    
+
 class ApplicationTestCase(unittest.TestCase):
     """ Tests for applications and plugins. """
 
@@ -126,14 +126,14 @@ class ApplicationTestCase(unittest.TestCase):
         listener.trait_name = None
         listener.old = None
         listener.new = None
-        
+
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -157,14 +157,14 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Delete the directory.
         shutil.rmtree(application.home)
-        
+
         return
-    
+
     def test_no_plugins(self):
         """ no plugins """
 
         application = TestApplication()
-        
+
         tracker = EventTracker(
             subscriptions = [
                 (application, 'starting'),
@@ -178,7 +178,7 @@ class ApplicationTestCase(unittest.TestCase):
         started = application.start()
         self.assertEqual(True, started)
         self.assertEqual(['starting', 'started'], tracker.event_names)
-        
+
         # Stop the application.
         stopped = application.stop()
         self.assertEqual(True, stopped)
@@ -216,7 +216,7 @@ class ApplicationTestCase(unittest.TestCase):
         """ veto stopping """
 
         application = TestApplication()
-        
+
         # This listener will veto the 'stopping' event.
         application.on_trait_change(vetoer, 'stopping')
 
@@ -233,7 +233,7 @@ class ApplicationTestCase(unittest.TestCase):
         started = application.start()
         self.assertEqual(['starting', 'started'], tracker.event_names)
         self.assertEqual(True, started)
-        
+
         # Stop the application.
         stopped = application.stop()
         self.assertEqual(False, stopped)
@@ -250,7 +250,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Try to start the application - the bad plugin should barf.
         self.failUnlessRaises(ZeroDivisionError, application.start)
- 
+
         # Try to stop the application - the bad plugin should barf.
         self.failUnlessRaises(ZeroDivisionError, application.stop)
 
@@ -268,14 +268,14 @@ class ApplicationTestCase(unittest.TestCase):
 
     def test_extension_point(self):
         """ extension point """
-        
+
         a = PluginA()
         b = PluginB()
         c = PluginC()
 
         application = TestApplication(plugins=[a, b, c])
         application.start()
-        
+
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         self.assertEqual(6, len(extensions))
@@ -285,7 +285,7 @@ class ApplicationTestCase(unittest.TestCase):
         extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
-        
+
         return
 
     def test_add_extension_point_listener(self):
@@ -294,7 +294,7 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Start off with just two of the plugins.
         application = TestApplication(plugins=[a, b])
         application.start()
@@ -323,7 +323,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual('a.x', listener.extension_point_id)
         self.assertEqual([], listener.removed)
         self.assertEqual([98, 99, 100], listener.added)
-        
+
         return
 
     def test_remove_extension_point_listener(self):
@@ -332,7 +332,7 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Start off with just one of the plugins.
         application = TestApplication(plugins=[a])
         application.start()
@@ -370,7 +370,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure the listener was *not* called.
         self.assertEqual(None, listener.extension_point_id)
-        
+
         return
 
     def test_add_plugin(self):
@@ -379,7 +379,7 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Start off with just two of the plugins.
         application = TestApplication(plugins=[a, b])
         application.start()
@@ -406,7 +406,7 @@ class ApplicationTestCase(unittest.TestCase):
         extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
-        
+
         return
 
     def test_get_plugin(self):
@@ -415,7 +415,7 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Start off with just two of the plugins.
         application = TestApplication(plugins=[a, b, c])
         application.start()
@@ -427,7 +427,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can't get one that isn't there ;^)
         self.assertEqual(None, application.get_plugin('BOGUS'))
-        
+
         return
 
     def test_remove_plugin(self):
@@ -436,10 +436,10 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         application = TestApplication(plugins=[a, b, c])
         application.start()
-        
+
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         self.assertEqual(6, len(extensions))
@@ -462,7 +462,7 @@ class ApplicationTestCase(unittest.TestCase):
         extensions = a.x
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
-        
+
         return
 
     def test_set_plugin_manager_at_contruction_time(self):
@@ -471,7 +471,7 @@ class ApplicationTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Start off with just two of the plugins.
         application = TestApplication(
             plugin_manager=PluginManager(plugins=[a, b, c])
@@ -485,7 +485,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can't get one that isn't there ;^)
         self.assertEqual(None, application.get_plugin('BOGUS'))
-        
+
         return
 
 

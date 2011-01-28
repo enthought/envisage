@@ -24,6 +24,6 @@ setup(
 
     [enthought.envisage.plugins]
     acme.bar = acme.bar.bar_plugin:BarPlugin
-    
+
     """
 )

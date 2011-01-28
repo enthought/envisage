@@ -31,7 +31,7 @@ def get_entry_points_in_egg_order(working_set, entry_point_name):
 
 def get_distributions_with_entry_point(working_set, entry_point_name):
     """ Return all distributions that contribute to an entry point.
-    
+
     """
 
     distributions = []
@@ -49,7 +49,7 @@ def get_distributions_in_egg_order(working_set, distributions=None):
     # distributions in the working set.
     if distributions is None:
         distributions = working_set
-        
+
     # Build a dependency graph.
     graph = {}
     for distribution in distributions:
@@ -58,13 +58,13 @@ def get_distributions_in_egg_order(working_set, distributions=None):
 
     distributions = topological_sort(graph)
     distributions.reverse()
-    
+
     return distributions
 
-    
+
 def get_requires(working_set, distribution):
     """ Return all of the other distributions that a distribution requires. """
-    
+
     requires = []
     for requirement in distribution.requires():
         required = working_set.find(requirement)

@@ -23,7 +23,7 @@ class TestApplication(Application):
 
     id = 'core.plugin.test'
 
-    
+
 class CorePluginTestCase(unittest.TestCase):
     """ Tests for the core plugin. """
 
@@ -38,9 +38,9 @@ class CorePluginTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -52,7 +52,7 @@ class CorePluginTestCase(unittest.TestCase):
 
         class IMyService(Interface):
             pass
-        
+
         class PluginA(Plugin):
             id = 'A'
 
@@ -76,10 +76,10 @@ class CorePluginTestCase(unittest.TestCase):
 
                 return 42
 
-            
+
         core = CorePlugin()
         a    = PluginA()
-        
+
         application = TestApplication(plugins=[core, a])
         application.start()
 
@@ -98,7 +98,7 @@ class CorePluginTestCase(unittest.TestCase):
         """ categories """
 
         from enthought.envisage.core_plugin import CorePlugin
-        
+
         class PluginA(Plugin):
             id = 'A'
 
@@ -117,7 +117,7 @@ class CorePluginTestCase(unittest.TestCase):
 
         core = CorePlugin()
         a    = PluginA()
-        
+
         application = TestApplication(plugins=[core, a])
         application.start()
 
@@ -132,7 +132,7 @@ class CorePluginTestCase(unittest.TestCase):
         # just completely removed the benefits of having tests in the first
         # place! This test works for me on Python 2.4!
         self.assert_('y' in Bar.class_traits())
-        
+
         return
 
     def test_class_load_hooks(self):
@@ -157,13 +157,13 @@ class CorePluginTestCase(unittest.TestCase):
                         on_load    = on_class_loaded,
                     )
                 ],
-                
+
                 contributes_to='enthought.envisage.class_load_hooks'
             )
 
         core = CorePlugin()
         a    = PluginA()
-        
+
         application = TestApplication(plugins=[core, a])
         application.start()
 
@@ -173,11 +173,11 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure the class load hook was *ignored*.
         self.assert_(not hasattr(on_class_loaded, 'cls'))
-        
+
         # Create the target class.
         class Baz(HasTraits):
             pass
- 
+
         # Make sure the class load hook was called.
         #
         # fixme: The following assertion was commented out. Please don't do
@@ -185,7 +185,7 @@ class CorePluginTestCase(unittest.TestCase):
         # just completely removed the benefits of having tests in the first
         # place! This test works for me on Python 2.4!
         self.assertEqual(Baz, on_class_loaded.cls)
-       
+
         return
 
     def test_preferences(self):
@@ -194,7 +194,7 @@ class CorePluginTestCase(unittest.TestCase):
         # The core plugin is the plugin that offers the preferences extension
         # point.
         from enthought.envisage.core_plugin import CorePlugin
-        
+
         class PluginA(Plugin):
             id = 'A'
             preferences = List(contributes_to='enthought.envisage.preferences')

@@ -16,7 +16,7 @@ class FileResourceProtocol(HasTraits):
     """ A resource protocol for a local file system. """
 
     implements(IResourceProtocol)
-    
+
     ###########################################################################
     # 'IResourceProtocol' interface.
     ###########################################################################
@@ -35,7 +35,7 @@ class FileResourceProtocol(HasTraits):
 
             else:
                 raise
-            
+
         return f
 
 #### EOF ######################################################################

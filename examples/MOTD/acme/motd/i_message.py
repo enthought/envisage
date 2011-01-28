@@ -10,7 +10,7 @@ class IMessage(Interface):
 
     # The author of the message.
     author = Str
-    
+
     # The text of the message.
     text = Str
 

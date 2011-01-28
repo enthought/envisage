@@ -22,14 +22,14 @@ class PackageResourceProtocol(HasTraits):
         'package/resource'
 
     e.g::
-    
+
         'acme.ui.workbench/preferences.ini'
 
-        
+
     """
 
     implements(IResourceProtocol)
-    
+
     ###########################################################################
     # 'IResourceProtocol' interface.
     ###########################################################################
@@ -38,7 +38,7 @@ class PackageResourceProtocol(HasTraits):
         """ Return a readable file-like object for the specified address. """
 
         first_forward_slash = address.index('/')
-        
+
         package       = address[:first_forward_slash]
         resource_name = address[first_forward_slash+1:]
 
@@ -54,7 +54,7 @@ class PackageResourceProtocol(HasTraits):
 
         except ImportError:
             raise NoSuchResourceError(address)
-        
+
         return f
 
 #### EOF ######################################################################

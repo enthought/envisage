@@ -37,7 +37,7 @@ class EggPluginManager(PluginManager):
     PLUGINS = 'enthought.envisage.plugins'
 
     #### 'EggPluginManager' interface #########################################
-    
+
     # The working set that contains the eggs that contain the plugins that
     # live in the house that Jack built ;^) By default we use the global
     # working set.
@@ -57,7 +57,7 @@ class EggPluginManager(PluginManager):
     # Each item in the list is actually a regular expression as used by the
     # 're' module.
     include = List(Str)
-    
+
     ###########################################################################
     # Protected 'PluginManager' interface.
     ###########################################################################

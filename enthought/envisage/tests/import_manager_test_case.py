@@ -26,9 +26,9 @@ class ImportManagerTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -38,7 +38,7 @@ class ImportManagerTestCase(unittest.TestCase):
 
         symbol = self.import_manager.import_symbol('unittest.TestCase')
         self.assertEqual(symbol, unittest.TestCase)
-        
+
         return
 
     def test_import_nested_symbol(self):
@@ -56,7 +56,7 @@ class ImportManagerTestCase(unittest.TestCase):
             'enthought.envisage.api:ImportManager'
         )
         self.assertEqual(symbol, ImportManager)
-        
+
         return
 
 

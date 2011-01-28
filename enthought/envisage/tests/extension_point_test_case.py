@@ -12,10 +12,10 @@ from enthought.traits.api import HasTraits, Int, List, TraitError
 
 class TestBase(HasTraits):
     """ Base class for all test classes that use the 'ExtensionPoint' type. """
-    
+
     extension_registry = None
 
-    
+
 class ExtensionPointTestCase(unittest.TestCase):
     """ Tests for extension  points. """
 
@@ -32,14 +32,14 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Set the extension registry used by the test classes.
         TestBase.extension_registry = self.registry
-        
+
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -72,9 +72,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         # 'extension_registry' trait.
         f = Foo()
         self.failUnlessRaises(ValueError, getattr, f, 'x')
-        
+
         return
-        
+
     def test_extension_point_changed(self):
         """ extension point changed """
 
@@ -93,7 +93,7 @@ class ExtensionPointTestCase(unittest.TestCase):
                 self.x_changed_called = True
 
                 return
-            
+
         f = Foo()
 
         # Connect the extension points on the object so that it can listen
@@ -121,9 +121,9 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Make sure the trait change handler was *not* called.
         self.assertEqual(False, f.x_changed_called)
-        
+
         return
-        
+
     def test_untyped_extension_point(self):
         """ untyped extension point """
 
@@ -147,7 +147,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         g = Foo()
         self.assertEqual(3, len(g.x))
         self.assertEqual([42, 'a string', True],  g.x)
-        
+
         return
 
     def test_typed_extension_point(self):
@@ -195,7 +195,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         # doesn't match that of the extension point.
         f = Foo()
         self.failUnlessRaises(TraitError, getattr, f, 'x')
-        
+
         return
 
     def test_extension_point_with_no_id(self):
@@ -206,9 +206,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         def factory():
             class Foo(TestBase):
                 x = ExtensionPoint(List(Int))
-            
+
         self.failUnlessRaises(ValueError, factory)
-            
+
         return
 
     def test_set_untyped_extension_point(self):
@@ -227,9 +227,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         # updated.
         f = Foo()
         f.x = [42]
-        
+
         self.assertEqual([42], registry.get_extensions('my.ep'))
-        
+
         return
 
     def test_set_typed_extension_point(self):
@@ -248,9 +248,9 @@ class ExtensionPointTestCase(unittest.TestCase):
         # updated.
         f = Foo()
         f.x = [42]
-        
+
         self.assertEqual([42], registry.get_extensions('my.ep'))
-        
+
         return
 
     ###########################################################################
@@ -260,7 +260,7 @@ class ExtensionPointTestCase(unittest.TestCase):
     def _create_extension_point(self, id, trait_type=List, desc=''):
         """ Create an extension point. """
 
-        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc) 
+        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
 
 
 # Entry point for stand-alone testing.

@@ -13,7 +13,7 @@ class IPlugin(Interface):
 
     # The activator used to start and stop the plugin.
     activator = Instance(IPluginActivator)
-    
+
     # The application that the plugin is part of.
     application = Instance('enthought.envisage.api.IApplication')
 

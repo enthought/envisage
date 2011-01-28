@@ -30,9 +30,9 @@ class ServiceRegistry(HasTraits):
 
     # An event that is fired when a service is unregistered.
     unregistered = Event
-    
+
     ####  Private interface ###################################################
-    
+
     # The services in the registry.
     #
     # { service_id : (protocol_name, obj, properties) }
@@ -55,7 +55,7 @@ class ServiceRegistry(HasTraits):
     ###########################################################################
     # 'IServiceRegistry' interface.
     ###########################################################################
-    
+
     def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
 
@@ -65,7 +65,7 @@ class ServiceRegistry(HasTraits):
 
         else:
             service = None
-            
+
         return service
 
     def get_service_from_id(self, service_id):
@@ -73,10 +73,10 @@ class ServiceRegistry(HasTraits):
 
         try:
             protocol, obj, properties = self._services[service_id]
-                
+
         except KeyError:
             raise ValueError('no service with id <%d>' % service_id)
-            
+
         return obj
 
     def get_services(self, protocol, query='', minimize='', maximize=''):
@@ -92,13 +92,13 @@ class ServiceRegistry(HasTraits):
                 # Otherwise, it is an actual protocol, so just use it!
                 else:
                     actual_protocol = protocol
-                    
+
                 # If the registered service is actually a factory then use it
                 # to create the actual object.
                 obj = self._resolve_factory(
                     actual_protocol, name, obj, properties, service_id
                 )
-                
+
                 # If a query was specified then only add the service if it
                 # matches it!
                 if len(query) == 0 or self._eval_query(obj, properties, query):
@@ -108,7 +108,7 @@ class ServiceRegistry(HasTraits):
         # of services by the specified attribute/property.
         if minimize != '':
             services.sort(None, lambda x: getattr(x, minimize))
-            
+
         elif maximize != '':
             services.sort(None, lambda x: getattr(x, maximize), reverse=True)
 
@@ -120,17 +120,17 @@ class ServiceRegistry(HasTraits):
         try:
             protocol, obj, properties = self._services[service_id]
             properties = properties.copy()
-                
+
         except KeyError:
             raise ValueError('no service with id <%d>' % service_id)
-            
+
         return properties
-        
+
     def register_service(self, protocol, obj, properties=None):
         """ Register a service. """
 
         protocol_name = self._get_protocol_name(protocol)
-        
+
         # Make sure each service gets its own properties dictionary.
         if properties is None:
             properties = {}
@@ -138,9 +138,9 @@ class ServiceRegistry(HasTraits):
         service_id = self._next_service_id()
         self._services[service_id] = (protocol_name, obj, properties)
         self.registered = service_id
-        
+
         logger.debug('service <%d> registered %s', service_id, protocol_name)
-        
+
         return service_id
 
     def set_service_properties(self, service_id, properties):
@@ -149,10 +149,10 @@ class ServiceRegistry(HasTraits):
         try:
             protocol, obj, old_properties = self._services[service_id]
             self._services[service_id] = protocol, obj, properties.copy()
-                
+
         except KeyError:
             raise ValueError('no service with id <%d>' % service_id)
-           
+
         return
 
     def unregister_service(self, service_id):
@@ -166,7 +166,7 @@ class ServiceRegistry(HasTraits):
 
         except KeyError:
             raise ValueError('no service with id <%d>' % service_id)
-            
+
         return
 
     ###########################################################################
@@ -192,7 +192,7 @@ class ServiceRegistry(HasTraits):
         namespace = self._create_namespace(service, properties)
         try:
             result = eval(query, namespace)
-            
+
         except:
             result = False
 
@@ -230,7 +230,7 @@ class ServiceRegistry(HasTraits):
             is_service_factory = not isinstance(obj, protocol)
 
         return is_service_factory
-    
+
     def _next_service_id(self):
         """ Returns the next service ID. """
 
@@ -250,14 +250,14 @@ class ServiceRegistry(HasTraits):
             # If the factory is specified as a symbol path then import it.
             if isinstance(obj, basestring):
                 obj = ImportManager().import_symbol(obj)
-                
+
             obj = obj(**properties)
-            
+
             # The resulting service object replaces the factory in the cache
             # (i.e. the factory will not get called again unless it is
             # unregistered first).
             self._services[service_id] = (name, obj, properties)
 
         return obj
-        
+
 #### EOF ######################################################################

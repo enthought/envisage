@@ -15,12 +15,12 @@ class CorePlugin(Plugin):
 
     The core plugin should be started before any other plugin. It is up to
     the plugin manager to do this.
-    
+
     """
 
     # Extension point Ids.
     CATEGORIES       = 'enthought.envisage.categories'
-    CLASS_LOAD_HOOKS = 'enthought.envisage.class_load_hooks'    
+    CLASS_LOAD_HOOKS = 'enthought.envisage.class_load_hooks'
     PREFERENCES      = 'enthought.envisage.preferences'
     SERVICE_OFFERS   = 'enthought.envisage.service_offers'
 
@@ -60,7 +60,7 @@ class CorePlugin(Plugin):
 
         """
     )
-    
+
     class_load_hooks = ExtensionPoint(
         List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
         id   = CLASS_LOAD_HOOKS,
@@ -73,7 +73,7 @@ class CorePlugin(Plugin):
 
         """
     )
-    
+
     preferences = ExtensionPoint(
         List(Str),
         id   = PREFERENCES,
@@ -143,10 +143,10 @@ class CorePlugin(Plugin):
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences(self.application.preferences)
-        
+
         # Connect all class load hooks.
         self._connect_class_load_hooks(self.class_load_hooks)
-        
+
         # Add class load hooks for all of the contributed categories. The
         # category will be imported and added when the associated target class
         # is imported/created.
@@ -181,7 +181,7 @@ class CorePlugin(Plugin):
             class_load_hook.connect()
 
         return
-    
+
     def _create_category_class_load_hook(self, category):
         """ Create a category class load hook. """
 
@@ -206,7 +206,7 @@ class CorePlugin(Plugin):
         )
 
         return category_class_load_hook
-        
+
     def _load_preferences(self, preferences):
         """ Load all contributed preferences into a preferences node. """
 

@@ -16,7 +16,7 @@ class IPluginManager(Interface):
 
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
-    
+
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
@@ -41,12 +41,12 @@ class IPluginManager(Interface):
         """ Remove a plugin from the manager.
 
         """
-        
+
     def start(self):
         """ Start the plugin manager.
 
         This starts all of the manager's plugins.
-        
+
         """
 
     def start_plugin(self, plugin=None, plugin_id=None):
@@ -78,5 +78,5 @@ class IPluginManager(Interface):
         is raised.
 
         """
-        
+
 #### EOF ######################################################################

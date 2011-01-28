@@ -32,7 +32,7 @@ class ExtensionRegistry(HasTraits):
 
     # The extension points that have been added *explicitly*.
     _extension_points = Dict
-    
+
     # Extension listeners.
     #
     # These are called when extensions are added to or removed from an
@@ -45,7 +45,7 @@ class ExtensionRegistry(HasTraits):
     # def listener(extension_registry, extension_point_changed_event):
     #     ...
     _listeners = Dict
-    
+
     ###########################################################################
     # 'IExtensionRegistry' interface.
     ###########################################################################
@@ -63,7 +63,7 @@ class ExtensionRegistry(HasTraits):
 
         self._extension_points[extension_point.id] = extension_point
         logger.debug('extension point <%s> added', extension_point.id)
-        
+
         return
 
     def get_extensions(self, extension_point_id):
@@ -104,12 +104,12 @@ class ExtensionRegistry(HasTraits):
 
         else:
             old = []
-            
+
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], old, 0)
 
         logger.debug('extension point <%s> removed', extension_point_id)
-        
+
         return
 
     def set_extensions(self, extension_point_id, extensions):
@@ -143,7 +143,7 @@ class ExtensionRegistry(HasTraits):
             listener = ref()
             if listener is not None:
                 listener(self, event)
-                
+
         return
 
     def _check_extension_point(self, extension_point_id):
@@ -152,7 +152,7 @@ class ExtensionRegistry(HasTraits):
         Raise an 'UnknownExtensionPoint' if it does not.
 
         """
-        
+
         if not extension_point_id in self._extension_points:
             raise UnknownExtensionPoint(extension_point_id)
 

@@ -18,7 +18,7 @@ class ImportManager(HasTraits):
     """
 
     implements(IImportManager)
-    
+
     ###########################################################################
     # 'IImportManager' interface.
     ###########################################################################
@@ -52,7 +52,7 @@ class ImportManager(HasTraits):
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _import_module(self, module_name):
         """ Import the module with the specified (and possibly dotted) name.
 
@@ -60,11 +60,11 @@ class ImportManager(HasTraits):
 
         This method is copied from the documentation of the '__import__'
         function in the Python Library Reference Manual.
-        
+
         """
-        
+
         module = __import__(module_name)
-        
+
         components = module_name.split('.')
         for component in components[1:]:
             module = getattr(module, component)

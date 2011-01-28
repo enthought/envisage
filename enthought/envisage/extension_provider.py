@@ -15,7 +15,7 @@ class ExtensionProvider(HasTraits):
     implements(IExtensionProvider)
 
     #### 'IExtensionProvider' interface #######################################
-    
+
     # The event fired when one of the provider's extension points has been
     # changed (where 'changed' means that the provider has added or removed
     # contributions to or from an extension point).
@@ -25,7 +25,7 @@ class ExtensionProvider(HasTraits):
         """ Return the extension points offered by the provider. """
 
         return []
-    
+
     def get_extensions(self, extension_point_id):
         """ Return the provider's extensions to an extension point. """
 
@@ -46,5 +46,5 @@ class ExtensionProvider(HasTraits):
         )
 
         return
-    
+
 #### EOF ######################################################################

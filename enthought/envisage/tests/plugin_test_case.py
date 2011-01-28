@@ -28,7 +28,7 @@ class TestApplication(Application):
 
     id = 'test'
 
-    
+
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
 
@@ -43,9 +43,9 @@ class PluginTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -85,9 +85,9 @@ class PluginTestCase(unittest.TestCase):
 
         p = ThisIsMyPlugin()
         self.assertEqual('This Is My Plugin', p.name)
-        
+
         return
-    
+
     def test_plugin_activator(self):
         """ plugin activator. """
 
@@ -95,17 +95,17 @@ class PluginTestCase(unittest.TestCase):
             """ A plugin activator that does nothing! """
 
             implements(IPluginActivator)
-            
+
             def start_plugin(self, plugin):
                 """ Start a plugin. """
 
                 self.started = plugin
 
                 return
-            
+
             def stop_plugin(self, plugin):
                 """ Stop a plugin. """
-                
+
                 self.stopped = plugin
 
                 return
@@ -134,7 +134,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(a, plugin_activator.stopped)
 
         return
-    
+
     def test_service(self):
         """ service """
 
@@ -146,7 +146,7 @@ class PluginTestCase(unittest.TestCase):
 
         class Baz(HasTraits):
             pass
-        
+
         class PluginA(Plugin):
             id = 'A'
             foo = Instance(Foo, (), service=True)
@@ -185,16 +185,16 @@ class PluginTestCase(unittest.TestCase):
 
         class IBar(Interface):
             pass
-        
+
         class Foo(HasTraits):
             implements(IFoo, IBar)
 
         class PluginA(Plugin):
             id = 'A'
             foo = Instance(Foo, (), service=True, service_protocol=IBar)
-            
+
         a = PluginA()
-        
+
         application = TestApplication(plugins=[a])
         application.start()
 
@@ -298,7 +298,7 @@ class PluginTestCase(unittest.TestCase):
             @contributes_to('x')
             def _x_contributions(self):
                 return [1, 2, 3]
-            
+
         a = PluginA()
         b = PluginB()
 
@@ -321,7 +321,7 @@ class PluginTestCase(unittest.TestCase):
             @contributes_to('x')
             def _x_contributions(self):
                 return [4, 5, 6]
-            
+
         a = PluginA()
         b = PluginB()
 
@@ -336,7 +336,7 @@ class PluginTestCase(unittest.TestCase):
         class PluginA(Plugin):
             id = 'A'
             x  = ExtensionPoint(List(Int), id='x')
-            
+
             def _x_items_changed(self, event):
                 self.added   = event.added
                 self.removed = event.removed
@@ -354,12 +354,12 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
         c = PluginC()
-        
+
         # Create an empty application.
         application = TestApplication()
         application.start()
 
-        # Add the plugin that offers the extension point. 
+        # Add the plugin that offers the extension point.
         application.add_plugin(a)
 
         #######################################################################
@@ -446,7 +446,7 @@ class PluginTestCase(unittest.TestCase):
         # Make sure the directories got created.
         self.assert_(exists(a.home))
         self.assert_(exists(b.home))
-        
+
         return
 
 

@@ -29,7 +29,7 @@ class IApplication(
     preferences = Instance(IPreferences)
 
     #### Events ####
-    
+
     # Fired when the application is starting. This is the first thing that
     # happens when the 'start' method is called.
     starting = VetoableEvent(ApplicationEvent)

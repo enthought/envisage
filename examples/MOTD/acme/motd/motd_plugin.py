@@ -19,7 +19,7 @@ class MOTDPlugin(Plugin):
     """ The 'Message of the Day' plugin.
 
     This plugin simply prints the 'Message of the Day' to stdout.
-    
+
     """
 
     # The Ids of the extension points that this plugin offers.
@@ -94,7 +94,7 @@ class MOTDPlugin(Plugin):
         # Note that we always offer the service via its name, but look it up
         # via the actual protocol.
         from acme.motd.api import IMOTD
-        
+
         # Lookup the MOTD service.
         motd = self.application.get_service(IMOTD)
 
@@ -105,5 +105,5 @@ class MOTDPlugin(Plugin):
         print '\n"%s"\n\n- %s' % (message.text, message.author)
 
         return
-    
+
 #### EOF ######################################################################

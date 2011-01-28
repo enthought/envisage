@@ -24,6 +24,6 @@ To run the application::
 
   ``cd .../dist``
   ``python run.py``
-  
+
   or equivalent, depending on your operating system and shell.
-  
+

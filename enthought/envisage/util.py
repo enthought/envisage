@@ -7,7 +7,7 @@ def camel_case_to_words(s):
     e.g. 'CamelCase' -> 'Camel Case'
 
     """
-    
+
     def add_space_between_words(s, c):
         # We detect a word boundary if the character we are looking at is
         # upper case, but the character preceding it is lower case.
@@ -17,5 +17,5 @@ def camel_case_to_words(s):
         return s + c
 
     return reduce(add_space_between_words, s, '')
-    
+
 #### EOF ######################################################################

@@ -19,14 +19,14 @@ class EggBasedTestCase(unittest.TestCase):
 
         # The location of the 'eggs' directory.
         self.egg_dir = join(dirname(__file__), 'eggs')
-        
+
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -48,7 +48,7 @@ class EggBasedTestCase(unittest.TestCase):
         map(working_set.add, distributions)
 
         return
-    
+
     def _add_eggs_on_path(self, path, working_set=None):
         """ Add all eggs found on the path to a working set. """
 
@@ -56,7 +56,7 @@ class EggBasedTestCase(unittest.TestCase):
             working_set = pkg_resources.working_set
 
         environment = pkg_resources.Environment(path)
-        
+
         # 'find_plugins' identifies those distributions that *could* be added
         # to the working set without version conflicts or missing requirements.
         distributions, errors = working_set.find_plugins(environment)

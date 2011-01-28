@@ -10,5 +10,5 @@ class NoSuchResourceError(Exception):
         Exception.__init__(self, message)
 
         return
-    
+
 #### EOF ######################################################################

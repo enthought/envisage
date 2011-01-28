@@ -42,9 +42,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -61,7 +61,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             PKG + '.service_registry_test_case.service_factory',
             {'price' : 100}
         )
-        
+
         # Create a query that matches the registered object.
         service = self.service_registry.get_service(HasTraits, 'price <= 100')
         self.assertNotEqual(None, service)
@@ -92,12 +92,12 @@ class ServiceRegistryTestCase(unittest.TestCase):
             """ A factory for foos. """
 
             return Foo(**properties)
-        
+
         # Register a service factory.
         self.service_registry.register_service(
             IFoo, foo_factory, {'price' : 100}
         )
-        
+
         # Create a query that matches the registered object.
         service = self.service_registry.get_service(IFoo, 'price <= 100')
         self.assertNotEqual(None, service)
@@ -112,7 +112,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
     def test_lazy_function_service_factory(self):
         """ lazy function service factory """
-        
+
         # Register a service factory by name.
         def foo_factory(**properties):
             """ A factory for foos. """
@@ -120,12 +120,12 @@ class ServiceRegistryTestCase(unittest.TestCase):
             from enthought.envisage.tests.foo import Foo
 
             foo_factory.foo = Foo()
-            
+
             return foo_factory.foo
 
         i_foo = PKG + '.i_foo.IFoo'
         foo   = PKG + '.foo'
-            
+
         self.service_registry.register_service(i_foo, foo_factory)
 
         # Get rid of the 'foo' module (used in other tests).
@@ -140,7 +140,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Make sure that we *still* haven't imported the 'foo' module.
         self.assert_(foo not in sys.modules)
-        
+
         # Look it up again.
         services = self.service_registry.get_services(i_foo)
         self.assertEqual([foo_factory.foo], services)
@@ -148,7 +148,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Clean up!
         del sys.modules[foo]
-        
+
         return
 
     def test_lazy_bound_method_service_factory(self):
@@ -168,9 +168,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
             # Register a service factory by name.
             def foo_factory(self, **properties):
                 """ A factory for foos. """
-                
+
                 from enthought.envisage.tests.foo import Foo
-                
+
                 self.foo = Foo()
 
                 return self.foo
@@ -190,7 +190,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Make sure that we *still* haven't imported the 'foo' module.
         self.assert_(foo not in sys.modules)
-        
+
         # Look up the service.
         services = self.service_registry.get_services(i_foo)
         self.assertEqual([sp.foo], services)
@@ -198,9 +198,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Clean up!
         del sys.modules[foo]
-        
+
         return
-        
+
     def test_get_services(self):
         """ get services """
 
@@ -227,14 +227,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Lookup a non-existent service.
         services = self.service_registry.get_services(IBar)
         self.assertEqual([], services)
-        
+
         return
 
     def test_get_services_with_strings(self):
         """ get services with strings """
 
         from enthought.envisage.tests.foo import Foo
-        
+
         # Register a couple of services using a string protocol name.
         protocol_name = 'enthought.envisage.tests.foo.IFoo'
 
@@ -244,7 +244,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Look them up using the same string!
         services = self.service_registry.get_services(protocol_name)
         self.assertEqual(2, len(services))
-        
+
         return
 
     def test_get_services_with_query(self):
@@ -257,7 +257,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             implements(IFoo)
 
             price = Int
-            
+
         # Register two services.
         #
         # This one shows how the object's attributes are used when evaluating
@@ -283,7 +283,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assert_(foo in services)
         self.assert_(goo in services)
         self.assertEqual(2, len(services))
-        
+
         class IBar(Interface):
             pass
 
@@ -319,7 +319,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Lookup a non-existent service.
         service = self.service_registry.get_service(IBar)
         self.assertEqual(None, service)
-        
+
         return
 
     def test_get_service_with_query(self):
@@ -356,7 +356,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Create a query that matches both registered objects.
         service = self.service_registry.get_service(IFoo, 'price >= 100')
         self.assert_(foo is service or goo is service)
-        
+
         class IBar(Interface):
             pass
 
@@ -403,7 +403,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Set the properties.
         self.service_registry.set_service_properties(foo_id, foo_properties)
         self.service_registry.set_service_properties(goo_id, goo_properties)
-        
+
         # Get the properties again.
         foo_properties = self.service_registry.get_service_properties(foo_id)
         self.assertEqual(300, foo_properties['price'])
@@ -420,9 +420,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.failUnlessRaises(
             ValueError, self.service_registry.set_service_properties, -1, {}
         )
-        
+
         return
-        
+
     def test_unregister_service(self):
         """ unregister service """
 
@@ -433,7 +433,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             implements(IFoo)
 
             price = Int
-            
+
         # Register two services.
         #
         # This one shows how the object's attributes are used when evaluating
@@ -464,14 +464,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Unregister 'foo'.
         self.service_registry.unregister_service(foo_id)
-        
+
         # This query should no longer match any of the registered objects.
         service = self.service_registry.get_service(IFoo, 'price <= 100')
         self.assertEqual(None, service)
 
         # Unregister 'goo'.
         self.service_registry.unregister_service(goo_id)
-        
+
         # This query should no longer match any of the registered objects.
         service = self.service_registry.get_service(IFoo, 'price >= 100')
         self.assertEqual(None, service)
@@ -493,7 +493,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             implements(IFoo)
 
             price = Int
-            
+
         # Register some objects with various prices.
         x = Foo(price=10)
         y = Foo(price=5)
@@ -501,7 +501,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         for foo in [x, y, z]:
             self.service_registry.register_service(IFoo, foo)
-        
+
         # Find the service with the lowest price.
         service = self.service_registry.get_service(IFoo, minimize='price')
         self.assertNotEqual(None, service)
@@ -515,8 +515,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(z, service)
 
         return
-    
-        
+
+
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
     unittest.main()

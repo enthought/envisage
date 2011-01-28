@@ -38,7 +38,7 @@ def listener(obj, trait_name, old, event):
 
         else:
             clone.insert(event.index, event.added[0])
-        
+
     # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
     # category).
     else:
@@ -46,8 +46,8 @@ def listener(obj, trait_name, old, event):
             clone[event.index] = event.added[0]
 
         else:
-            clone[event.index : event.index + len(event.added)] = event.added 
-    
+            clone[event.index : event.index + len(event.added)] = event.added
+
     listener.clone = clone
 
     return
@@ -76,9 +76,9 @@ class SliceTestCase(unittest.TestCase):
 
         # Make sure we successfully recreated the operation.
         self.assertEqual(self.f.l, listener.clone)
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -138,7 +138,7 @@ class SliceTestCase(unittest.TestCase):
         del self.f.l[:]
 
         return
-    
+
     def test_assign_item(self):
         """ assign item """
 

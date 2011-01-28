@@ -10,7 +10,7 @@ from enthought.envisage.api import EggPluginManager
 # Local imports.
 from egg_based_test_case import EggBasedTestCase
 
-    
+
 class EggPluginManagerTestCase(EggBasedTestCase):
     """ Tests for the Egg plugin manager. """
 
@@ -25,7 +25,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
-        
+
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager()
 
@@ -48,12 +48,12 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ['acme.foo', 'acme.bar']
-        
+
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
         include = ['acme\.foo', 'acme\.bar']
-        
+
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager(include=include)
 
@@ -71,12 +71,12 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ['acme.foo', 'acme.bar', 'acme.baz']
-        
+
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
         include = ['acme.*']
-        
+
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager(include=include)
 
@@ -91,7 +91,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
-        
+
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ['acme.bar']
 
@@ -102,7 +102,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Now exclude all but 'acme.bar'...
         exclude = ['acme\.foo', 'acme\.baz']
-        
+
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)
 
@@ -117,7 +117,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
-        
+
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ['acme.foo']
 
@@ -128,7 +128,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
         # Now exclude every plugin that starts with 'acme.b'.
         exclude = ['acme\.b.*']
-        
+
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)
 
@@ -153,7 +153,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
         plugin_manager.start()
-            
+
         # Make sure all of the the plugins were started.
         for id in expected:
             plugin = plugin_manager.get_plugin(id)
@@ -171,7 +171,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
             self.assertEqual(True, plugin.stopped)
 
         return
-    
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':

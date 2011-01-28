@@ -68,10 +68,10 @@ class Application(HasTraits):
 
     # Fired when a plugin has been added.
     plugin_added = Delegate('plugin_manager', modify=True)
-    
+
     # Fired when a plugin has been removed.
     plugin_removed = Delegate('plugin_manager', modify=True)
-    
+
     #### 'Application' interface ##############################################
 
     # These traits allow application developers to build completely different
@@ -83,15 +83,15 @@ class Application(HasTraits):
 
     # The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
-    
+
     # The service registry.
     service_registry = Instance(IServiceRegistry)
 
     #### Private interface ####################################################
-    
+
     # The import manager.
     _import_manager = Instance(IImportManager, factory=ImportManager)
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -114,7 +114,7 @@ class Application(HasTraits):
         # preferences uses 'ETSConfig.application' home as the name of the
         # default preferences file.
         self._initialize_application_home()
-        
+
         # Set the default preferences node used by the preferences package.
         # This allows 'PreferencesHelper' and 'PreferenceBinding' instances to
         # be used as more convenient ways to access preferences.
@@ -147,7 +147,7 @@ class Application(HasTraits):
         """ Trait initializer. """
 
         return ScopedPreferences()
-        
+
     #### Methods ##############################################################
 
     def run(self):
@@ -237,7 +237,7 @@ class Application(HasTraits):
         """ Return an iterator over the manager's plugins. """
 
         return iter(self.plugin_manager)
-    
+
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
 
@@ -275,7 +275,7 @@ class Application(HasTraits):
             # Start the plugin manager (this starts all of the manager's
             # plugins).
             self.plugin_manager.start()
-            
+
             # Lifecycle event.
             self.started = self._create_application_event()
 
@@ -312,7 +312,7 @@ class Application(HasTraits):
 
             # Save all preferences.
             self.preferences.save()
-            
+
             # Lifecycle event.
             self.stopped = self._create_application_event()
 
@@ -320,7 +320,7 @@ class Application(HasTraits):
 
         else:
             logger.debug('---------- application stop vetoed ----------')
-            
+
         return not event.veto
 
     def stop_plugin(self, plugin=None, plugin_id=None):
@@ -350,7 +350,7 @@ class Application(HasTraits):
         """ Return the dictionary of properties associated with a service. """
 
         return self.service_registry.get_service_properties(service_id)
-    
+
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query. """
 
@@ -375,14 +375,14 @@ class Application(HasTraits):
         self.service_registry.set_service_properties(service_id, properties)
 
         return
-    
+
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
         self.service_registry.unregister_service(service_id)
 
         return
-        
+
     ###########################################################################
     # 'Application' interface.
     ###########################################################################
@@ -398,7 +398,7 @@ class Application(HasTraits):
         from plugin_extension_registry import PluginExtensionRegistry
 
         return PluginExtensionRegistry(plugin_manager=self)
-    
+
     def _plugin_manager_default(self):
         """ Trait initializer. """
 
@@ -416,9 +416,9 @@ class Application(HasTraits):
         # default implementation and that the application developer is free
         # to override it!
         from service_registry import ServiceRegistry
-        
+
         return ServiceRegistry()
-        
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -451,9 +451,9 @@ class Application(HasTraits):
             new.application = self
 
         return
-    
+
     #### Methods ##############################################################
-    
+
     def _create_application_event(self):
         """ Create an application event. """
 
@@ -461,7 +461,7 @@ class Application(HasTraits):
 
     def _initialize_application_home(self):
         """ Initialize the application home directory. """
-        
+
         ETSConfig.application_home = os.path.join(
             ETSConfig.application_data, self.id
         )

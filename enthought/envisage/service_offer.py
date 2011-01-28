@@ -7,7 +7,7 @@ from enthought.traits.api import Callable, Dict, Either, HasTraits, Str, Type
 
 class ServiceOffer(HasTraits):
     """ An offer to provide a service. """
-    
+
     #### 'ServiceOffer' interface #############################################
 
     # The protocol that the service provides.

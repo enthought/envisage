@@ -21,14 +21,14 @@ class IExtensionRegistry(Interface):
         called when extensions are added to or removed from that extension
         point (the extension point may or may not have been added to the
         registry at the time of this call).
-        
+
         If *no* extension point is specified then the listener will be called
         when extensions are added to or removed from *any* extension point.
 
         When extensions are added or removed all specific listeners are called
         first (in arbitrary order), followed by all non-specific listeners
         (again, in arbitrary order).
-        
+
         """
 
     def add_extension_point(self, extension_point):

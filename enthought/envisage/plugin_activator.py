@@ -12,7 +12,7 @@ class PluginActivator(HasTraits):
     """ The default plugin activator. """
 
     implements(IPluginActivator)
-    
+
     ###########################################################################
     # 'IPluginActivator' interface.
     ###########################################################################
@@ -29,7 +29,7 @@ class PluginActivator(HasTraits):
 
         # Plugin specific start.
         plugin.start()
-        
+
         return
 
     def stop_plugin(self, plugin):

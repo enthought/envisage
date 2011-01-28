@@ -13,7 +13,7 @@ class IExtensionProvider(Interface):
 
     # The event fired when one of the provider's extension points has changed.
     extension_point_changed = Event(ExtensionPointChangedEvent)
-    
+
     def get_extension_points(self):
         """ Return the extension points offered by the provider.
 

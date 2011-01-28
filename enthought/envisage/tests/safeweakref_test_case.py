@@ -8,7 +8,7 @@ import unittest
 from enthought.envisage.safeweakref import ref
 from enthought.traits.api import HasTraits
 
-    
+
 class SafeWeakrefTestCase(unittest.TestCase):
     """ Tests for safe weakrefs. """
 
@@ -23,9 +23,9 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -52,7 +52,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # The reference should now return None.
         self.assertEqual(None, r())
-        
+
         return
 
     def test_cmp(self):
@@ -72,7 +72,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # Make sure that a reference compares as unequal to non-references!
         self.assert_(not r1 == 99)
-        
+
         return
 
     def test_hash(self):
@@ -97,7 +97,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         self.assert_(r1 is not r2)
         self.assertEqual(hash(r1), hash(r2))
-        
+
         return
 
     def test_non_bound_method(self):
@@ -117,7 +117,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # The reference should now return None.
         self.assertEqual(None, r())
-        
+
         return
 
 

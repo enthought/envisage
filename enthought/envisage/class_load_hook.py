@@ -17,7 +17,7 @@ class ClassLoadHook(HasTraits):
     """
 
     #### 'ClassLoadHook' interface ############################################
-    
+
     # The name of the class. When this class is loaded the 'on_class_loaded'
     # method is called.
     class_name = Str
@@ -42,7 +42,7 @@ class ClassLoadHook(HasTraits):
         cls = self._get_class(self.class_name)
         if cls is not None:
             self.on_class_loaded(cls)
-            
+
         return
 
     def disconnect(self):

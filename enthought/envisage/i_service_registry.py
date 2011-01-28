@@ -21,7 +21,7 @@ class IServiceRegistry(Interface):
     registry does exactly the same thing as the 'Yellow Pages', only with
     objects, and it even allows you to publish your own entries for free
     (unlike the *real* one)!
-    
+
     """
 
     # An event that is fired when a service is registered.
@@ -40,7 +40,7 @@ class IServiceRegistry(Interface):
 
         If no query is specified then a service that provides the specified
         protocol is returned (if one exists).
-        
+
         NOTE: If more than one service exists that match the criteria then
         Don't try to guess *which* one it will return - it is random!
 
@@ -50,9 +50,9 @@ class IServiceRegistry(Interface):
         """ Return the service with the specified id.
 
         If no such service exists a 'ValueError' exception is raised.
-        
+
         """
-        
+
     def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
@@ -65,7 +65,7 @@ class IServiceRegistry(Interface):
         protocol are returned (if any exist).
 
         """
-        
+
     def get_service_properties(self, service_id):
         """ Return the dictionary of properties associated with a service.
 
@@ -73,7 +73,7 @@ class IServiceRegistry(Interface):
 
         The properties returned are 'live' i.e. changing them immediately
         changes the service registration.
-        
+
         """
 
     def register_service(self, protocol, obj, properties=None):
@@ -98,16 +98,16 @@ class IServiceRegistry(Interface):
         callable that takes the properties specified here as keyword arguments
         and returns an object. For *really* lazy loading, the factory can also
         be specified as a string which is used to import the callable.
-        
+
         """
 
     def set_service_properties(self, service_id, properties):
         """ Set the dictionary of properties associated with a service.
 
         If no such service exists a 'ValueError' exception is raised.
-        
+
         """
-        
+
     def unregister_service(self, service_id):
         """ Unregister a service.
 

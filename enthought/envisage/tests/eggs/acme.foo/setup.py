@@ -23,6 +23,6 @@ setup(
 
     [enthought.envisage.plugins]
     acme.foo = acme.foo.foo_plugin:FooPlugin
-    
+
     """
 )

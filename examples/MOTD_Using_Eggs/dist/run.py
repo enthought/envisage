@@ -45,7 +45,7 @@ def run():
             'enthought.envisage.core', 'acme.motd', 'acme.motd.software_quotes'
         ]
     )
-    
+
     # Create an application that uses the egg plugin manager to find its
     # plugins.
     application = Application(id='acme.motd', plugin_manager=plugin_manager)

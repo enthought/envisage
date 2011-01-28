@@ -18,12 +18,12 @@ class IProviderExtensionRegistry(IExtensionRegistry):
         """ Return all of the providers in the registry.
 
         """
-        
+
     def remove_provider(self, provider):
         """ Remove an extension provider.
 
         Raise a 'ValueError' if the provider is not in the registry.
 
         """
-    
+
 #### EOF ######################################################################

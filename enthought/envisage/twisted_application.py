@@ -28,8 +28,8 @@ class TwistedApplication(Application):
         # Don't start the event loop if the start was vetoed.
         if started:
             from twisted.internet import reactor
-                    
-            logger.debug('---------- reactor starting ----------')        
+
+            logger.debug('---------- reactor starting ----------')
             reactor.run()
 
         return started
@@ -42,10 +42,10 @@ class TwistedApplication(Application):
         # Don't stop the event loop if the stop was vetoed.
         if stopped:
             from twisted.internet import reactor
-            
+
             logger.debug('---------- reactor stopping ----------')
             reactor.stop()
-            
+
         return stopped
 
 #### EOF ######################################################################

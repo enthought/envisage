@@ -24,14 +24,14 @@ class ref(object):
             self._cls = obj.im_class
             self._fn  = obj.im_func
             self._ref = weakref.ref(obj.im_self)
-            
+
         # Otherwise, it is an arbitrary object (unbound methods and plain ol'
         # functions fall into this category too!).
         else:
             self._cls = None
             self._fn  = None
             self._ref = weakref.ref(obj)
-            
+
         return
 
     def __call__(self):
@@ -52,7 +52,7 @@ class ref(object):
 
         if type(self) is not type(other):
             return -1
-        
+
         return cmp(self._ref, other._ref)
 
     def __hash__(self):
@@ -63,7 +63,7 @@ class ref(object):
 
         else:
             hashable = self._ref
-            
+
         return hash(hashable)
 
 #### EOF ######################################################################

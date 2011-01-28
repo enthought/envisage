@@ -36,7 +36,7 @@ class Plugin(ExtensionProvider):
     implements(IPlugin, IExtensionPointUser, IServiceUser)
 
     #### 'IPlugin' interface ##################################################
-    
+
     # The activator used to start and stop the plugin.
     #
     # By default the *same* activator instance is used for *all* plugins of
@@ -74,7 +74,7 @@ class Plugin(ExtensionProvider):
 
     # The service registry that the object's services are stored in.
     service_registry = Property(Instance(IServiceRegistry))
-    
+
     #### Private interface ####################################################
 
     # The Ids of the services that were automatically registered.
@@ -97,7 +97,7 @@ class Plugin(ExtensionProvider):
         """ Trait property getter. """
 
         return self.application
-    
+
     ###########################################################################
     # 'IExtensionProvider' interface.
     ###########################################################################
@@ -110,7 +110,7 @@ class Plugin(ExtensionProvider):
 
             for trait in self.traits(__extension_point__=True).values()
         ]
-        
+
         return extension_points
 
     def get_extensions(self, extension_point_id):
@@ -127,10 +127,10 @@ class Plugin(ExtensionProvider):
             # If there is no contributing trait then look for any decorated
             # methods.
             extensions = self._harvest_methods(extension_point_id)
-            
+
         elif len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
-                
+
         else:
             raise self._create_multiple_traits_exception(extension_point_id)
 
@@ -144,7 +144,7 @@ class Plugin(ExtensionProvider):
 
     def _home_default(self):
         """ Trait initializer. """
-        
+
         # Each plugin gets a sub-directory of a 'plugins' directory in
         # 'application.home'.
         #
@@ -157,15 +157,15 @@ class Plugin(ExtensionProvider):
         home_dir = join(plugins_dir, self.id)
         if not exists(home_dir):
             os.mkdir(home_dir)
-            
+
         return home_dir
-    
+
     def _id_default(self):
         """ Trait initializer. """
 
         id = '%s.%s' % (type(self).__module__, type(self).__name__)
         logger.warn('plugin %s has no Id - using <%s>' % (self, id))
-            
+
         return id
 
     def _name_default(self):
@@ -175,7 +175,7 @@ class Plugin(ExtensionProvider):
         logger.warn('plugin %s has no name - using <%s>' % (self, name))
 
         return name
-        
+
     #### Methods ##############################################################
 
     def start(self):
@@ -228,7 +228,7 @@ class Plugin(ExtensionProvider):
         ExtensionPoint.disconnect_extension_point_traits(self)
 
         return
-    
+
     def register_services(self):
         """ Register the services offered by the plugin. """
 
@@ -240,7 +240,7 @@ class Plugin(ExtensionProvider):
                 'from the core plugin. '
                 'Plugin %s trait <%s>' % (self, trait_name)
             )
-            
+
             # Register a service factory for the trait.
             service_id = self._register_service_factory(trait_name, trait)
 
@@ -257,13 +257,13 @@ class Plugin(ExtensionProvider):
         # them.
         service_ids = self._service_ids[:]
         service_ids.reverse()
-        
+
         for service_id in service_ids:
             self.application.unregister_service(service_id)
 
         # Just in case the plugin is started again!
         self._service_ids = []
-        
+
         return
 
     ###########################################################################
@@ -287,19 +287,19 @@ class Plugin(ExtensionProvider):
                 added   = new.added
                 removed = new.removed
                 index   = new.index
-                
+
             else:
                 added   = new
                 removed = old
                 index   = slice(0, max(len(old), len(new)))
-                
+
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(
                 trait.contributes_to, added, removed, index
             )
 
         return
-        
+
     #### Methods ##############################################################
 
     def _create_multiple_traits_exception(self, extension_point_id):
@@ -310,12 +310,12 @@ class Plugin(ExtensionProvider):
                 extension_point_id, self.id
             )
         )
-        
+
         return exception
 
     def _get_extensions_from_trait(self, trait_name):
         """ Return the extensions contributed via the specified trait. """
-        
+
         try:
             extensions = getattr(self, trait_name)
 
@@ -326,10 +326,10 @@ class Plugin(ExtensionProvider):
             raise
 
         return extensions
-    
+
     def _get_service_protocol(self, trait):
         """ Determine the protocol to register a service trait with. """
-        
+
         # If a specific protocol was specified then use it.
         if trait.service_protocol is not None:
             protocol = trait.service_protocol
@@ -356,7 +356,7 @@ class Plugin(ExtensionProvider):
                 result = getattr(self, name)()
                 if not isinstance(result, list):
                     result = [result]
-                            
+
                 extensions.extend(result)
 
         return extensions
@@ -385,10 +385,10 @@ class Plugin(ExtensionProvider):
 
     def _register_service_factory(self, trait_name, trait):
         """ Register a service factory for the specified trait. """
-            
+
         # Determine the protocol that the service should be registered with.
         protocol = self._get_service_protocol(trait)
-            
+
         # Register a factory for the service so that it will be lazily loaded
         # the first time somebody asks for a service with the same protocol
         # (this could obviously be a lambda function, but I thought it best to

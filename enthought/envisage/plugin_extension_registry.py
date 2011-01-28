@@ -37,7 +37,7 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
         if old is not None:
             for plugin in old:
                 self.remove_provider(plugin)
-                
+
         if new is not None:
             for plugin in new:
                 self.add_provider(plugin)

@@ -29,26 +29,26 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
-        
+
     def test_empty_registry(self):
         """ empty registry """
 
         registry = self.registry
-        
+
         # Make sure there are no extensions.
         extensions = registry.get_extensions('my.ep')
         self.assertEqual(0, len(extensions))
-        
+
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
-        
+
         return
 
     def test_add_extension_point(self):
@@ -84,7 +84,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         self.assertEqual('my.ep', extension_point.id)
 
         return
-    
+
     def test_remove_empty_extension_point(self):
         """ remove empty_extension point """
 
@@ -95,11 +95,11 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # ...and remove it!
         registry.remove_extension_point('my.ep')
-        
+
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
-        
+
         return
 
     def test_remove_non_empty_extension_point(self):
@@ -112,17 +112,17 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # ... with some extensions...
         registry.set_extensions('my.ep', [42])
-        
+
         # ...and remove it!
         registry.remove_extension_point('my.ep')
-        
+
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
         # And that the extensions are gone too.
         self.assertEqual([], registry.get_extensions('my.ep'))
-        
+
         return
 
     def test_remove_non_existent_extension_point(self):
@@ -140,7 +140,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ remove non existent listener """
 
         registry = self.registry
-        
+
         def listener(registry, extension_point, added, removed, index):
             """ Called when an extension point has changed. """
 
@@ -164,12 +164,12 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Set some extensions.
         registry.set_extensions('my.ep', [1, 2, 3])
-        
+
         # Make sure we can get them.
         self.assertEqual([1, 2, 3], registry.get_extensions('my.ep'))
 
         return
-        
+
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -177,7 +177,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
     def _create_extension_point(self, id, trait_type=List, desc=''):
         """ Create an extension point. """
 
-        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc) 
+        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
 
 
 # Entry point for stand-alone testing.

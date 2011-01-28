@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 class Service(TraitType):
     """ A trait type used to access services.
-    
+
     Note that this is a trait *type* and hence does *NOT* have traits itself
     (i.e. it does *not* inherit from 'HasTraits').
 
     """
-    
+
     ###########################################################################
     # 'object' interface.
     ###########################################################################
@@ -53,7 +53,7 @@ class Service(TraitType):
         """ Trait type getter. """
 
         service_registry = self._get_service_registry(obj)
-        
+
         obj = service_registry.get_service(
             self._protocol, self._query, self._minimize, self._maximize
         )

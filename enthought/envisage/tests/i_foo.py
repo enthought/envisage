@@ -4,7 +4,7 @@
 # Enthought library imports.
 from enthought.traits.api import Interface
 
-    
+
 class IFoo(Interface):
     pass
 

@@ -12,7 +12,7 @@ class Category(HasTraits):
 
     # The name of the category class (the class that you want to add).
     class_name = Str
-    
+
     # The name of the class that you want to add the category to.
     target_class_name = Str
 

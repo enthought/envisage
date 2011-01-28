@@ -27,9 +27,9 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -50,12 +50,12 @@ class ClassLoadHookTestCase(unittest.TestCase):
             on_load    = on_class_loaded
         )
         hook.connect()
-        
+
         class Foo(HasTraits):
             pass
 
         self.assertEqual(Foo, on_class_loaded.cls)
-        
+
         return
 
     def test_class_already_loaded(self):
@@ -78,7 +78,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
         # Make sure the 'on_load' got called immediately because the class is
         # already loaded.
         self.assertEqual(ClassLoadHookTestCase, on_class_loaded.cls)
-        
+
         return
 
     def test_disconnect(self):
@@ -97,7 +97,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
             on_load    = on_class_loaded
         )
         hook.connect()
-        
+
         class Foo(HasTraits):
             pass
 
@@ -105,7 +105,7 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         # 'Reset' the listener,
         on_class_loaded.cls = None
-        
+
         # Now disconnect.
         hook.disconnect()
 
@@ -113,21 +113,21 @@ class ClassLoadHookTestCase(unittest.TestCase):
             pass
 
         self.assertEqual(None, on_class_loaded.cls)
-        
+
         return
 
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _get_full_class_name(self, cls):
         """ Return the full (possibly) dotted name of a class. """
 
         return cls.__module__ + '.' + cls.__name__
-    
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
     unittest.main()
-    
+
 #### EOF ######################################################################

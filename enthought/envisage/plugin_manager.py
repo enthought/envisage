@@ -29,7 +29,7 @@ class PluginManager(HasTraits):
 
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
-    
+
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
@@ -66,7 +66,7 @@ class PluginManager(HasTraits):
         """ Return an iterator over the manager's plugins. """
 
         return iter(self._plugins)
-    
+
     ###########################################################################
     # 'IPluginManager' interface.
     ###########################################################################
@@ -78,7 +78,7 @@ class PluginManager(HasTraits):
         self.plugin_added = PluginEvent(plugin=plugin)
 
         return
-    
+
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id. """
 
@@ -90,7 +90,7 @@ class PluginManager(HasTraits):
             plugin = None
 
         return plugin
-    
+
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager. """
 
@@ -98,12 +98,12 @@ class PluginManager(HasTraits):
         self.plugin_removed = PluginEvent(plugin=plugin)
 
         return
-    
+
     def start(self):
         """ Start the plugin manager. """
 
         map(lambda plugin: self.start_plugin(plugin), self._plugins)
-        
+
         return
 
     def start_plugin(self, plugin=None, plugin_id=None):
@@ -117,7 +117,7 @@ class PluginManager(HasTraits):
 
         else:
             raise SystemError('no such plugin %s' % plugin_id)
-        
+
         return
 
     def stop(self):
@@ -126,11 +126,11 @@ class PluginManager(HasTraits):
         # We stop the plugins in the reverse order that they were started.
         stop_order = self._plugins[:]
         stop_order.reverse()
-        
+
         map(lambda plugin: self.stop_plugin(plugin), stop_order)
 
         return
-    
+
     def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin. """
 
@@ -144,7 +144,7 @@ class PluginManager(HasTraits):
             raise SystemError('no such plugin %s' % plugin_id)
 
         return
-        
+
     ###########################################################################
     # 'PluginManager' interface.
     ###########################################################################

@@ -24,6 +24,6 @@ setup(
 
     [enthought.envisage.plugins]
     acme.baz = acme.baz.baz_plugin:BazPlugin
-    
+
     """
 )

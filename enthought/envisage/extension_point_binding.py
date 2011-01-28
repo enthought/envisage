@@ -19,12 +19,12 @@ class ExtensionPointBinding(HasTraits):
     # We keep a reference to each binding alive until its associated object
     # is garbage collected.
     _bindings = weakref.WeakKeyDictionary()
-    
+
     #### 'ExtensionPointBinding' interface ####################################
 
     # The object that we are binding the extension point to.
     obj = Any
-    
+
     # The Id of the extension point.
     extension_point_id = Str
 
@@ -35,7 +35,7 @@ class ExtensionPointBinding(HasTraits):
 
     # The name of the trait that we are binding the extension point to.
     trait_name = Str
-    
+
     #### Private interface ####################################################
 
     # A flag that prevents us from setting a trait twice.
@@ -73,7 +73,7 @@ class ExtensionPointBinding(HasTraits):
 
         # fixme: Sneaky global!!!!!
         from extension_point import ExtensionPoint
-        
+
         return ExtensionPoint.extension_registry
 
     ###########################################################################
@@ -99,14 +99,14 @@ class ExtensionPointBinding(HasTraits):
         return
 
     #### Other observer pattern listeners #####################################
-    
+
     def _extension_point_listener(self, extension_registry, event):
         """ Listener called when an extension point is changed. """
 
         self._event_handled = True
         if event.index is not None:
             self._update_trait(event)
-            
+
         else:
             self._set_trait(notify=True)
         self._event_handled = False
@@ -188,7 +188,7 @@ def bind_extension_point(
         'trait_name'         : trait_name,
         'extension_point_id' : extension_point_id
     }
-    
+
     if extension_registry is not None:
         traits['extension_registry'] = extension_registry
 

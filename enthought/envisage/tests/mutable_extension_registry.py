@@ -8,7 +8,7 @@ from enthought.traits.api import implements
 
 class MutableExtensionRegistry(ExtensionRegistry):
     """ A mutable, manually populated extension registry used for testing. """
-    
+
     ###########################################################################
     # 'MutableExtensionRegistry' interface.
     ###########################################################################
@@ -24,7 +24,7 @@ class MutableExtensionRegistry(ExtensionRegistry):
         """ Contribute a list of extensions to an extension point. """
 
         self._check_extension_point(extension_point_id)
-            
+
         old   = self._get_extensions(extension_point_id)
         index = len(old)
         old.extend(extensions)
@@ -32,14 +32,14 @@ class MutableExtensionRegistry(ExtensionRegistry):
         # Let any listeners know that the extensions have been added.
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, extensions, [], index)
-        
+
         return
-    
+
     def remove_extension(self, extension_point_id, extension):
         """ Remove a contribution from an extension point. """
 
         self.remove_extensions(extension_point_id, [extension])
-        
+
         return
 
     def remove_extensions(self, extension_point_id, extensions):

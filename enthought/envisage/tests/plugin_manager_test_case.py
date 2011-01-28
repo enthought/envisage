@@ -11,27 +11,27 @@ from enthought.traits.api import Bool
 
 class SimplePlugin(Plugin):
     """ A simple plugin. """
-            
+
     #### 'SimplePlugin' interface #############################################
 
     started = Bool(False)
     stopped = Bool(False)
-            
+
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
         """ Start the plugin. """
-        
+
         self.started = True
         self.stopped = False
 
         return
-            
+
     def stop(self):
         """ Stop the plugin. """
-        
+
         self.started = False
         self.stopped = True
 
@@ -40,19 +40,19 @@ class SimplePlugin(Plugin):
 
 class BadPlugin(Plugin):
     """ A plugin that just causes trouble ;^). """
-    
+
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
         """ Start the plugin. """
-        
+
         raise 1/0
-    
+
     def stop(self):
         """ Stop the plugin. """
-        
+
         raise 1/0
 
 
@@ -70,9 +70,9 @@ class PluginManagerTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        
+
         return
-    
+
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -116,7 +116,7 @@ class PluginManagerTestCase(unittest.TestCase):
 
         simple_plugin = SimplePlugin()
         bad_plugin    = BadPlugin()
-        
+
         plugin_manager = PluginManager(plugins=[simple_plugin, bad_plugin])
 
         # Iterate over the plugin manager's plugins.
@@ -128,7 +128,7 @@ class PluginManagerTestCase(unittest.TestCase):
         self.assertEqual([simple_plugin, bad_plugin], plugins)
 
         return
-    
+
     def test_start_and_stop(self):
         """ start and stop """
 
@@ -161,7 +161,7 @@ class PluginManagerTestCase(unittest.TestCase):
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
         self.failUnlessRaises(ZeroDivisionError, plugin_manager.start)
- 
+
         # Stop the plugin manager. This stops all of the plugin manager's
         # plugins.
         self.failUnlessRaises(ZeroDivisionError, plugin_manager.stop)
