@@ -1,3 +1,5 @@
+.. _introduction:
+
 ==============
  Introduction
 ==============
@@ -18,11 +20,16 @@ to the Tasks API Reference.
 What is a Task?
 ---------------
 
+.. index:: task, pane
+.. _what-is-a-task:
+
 For the purposes of this document, a *task* is a collection of user interface
 elements, called *panes*, which are present in a single window, unified by a
 specific purpose, and possessed of a certain structure. In addition, a task may
 provide menus, toolbars, and configuration options appropriate for these 
 elements.
+
+.. index:: central pane
 
 At the heart of every task is its *central pane*, which exposes its core
 functionality. The central pane is always visible and occupies the center of the
@@ -31,6 +38,8 @@ writing code. A code editing widget would constitute the central pane for this
 task. If the IDE also provided a GUI construction task (i.e., a WYSIWYG user
 interface builder ala Glade or Qt Designer), the central pane would consist of
 the "canvas" upon which the user arranges UI elements.
+
+.. index:: dock pane
 
 In addition to the central pane, a task may include any number of subsidiary
 panes. These panes are arranged around the central pane in various *dock areas*,
@@ -44,6 +53,9 @@ window.
 
 Historical Background
 ---------------------
+
+.. index:: background, Workbench
+.. _historical-background:
 
 Many of the ideas behind Tasks plugin originate in another Envisage plugin,
 called the Workbench (which, in turn, took considerable inspiration from

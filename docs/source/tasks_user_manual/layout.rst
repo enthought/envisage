@@ -1,3 +1,5 @@
+.. _layout:
+
 =======================
  Window Layout
 =======================
@@ -6,8 +8,12 @@ First and foremost, the Tasks plugin is designed to facilitate the layout of
 modern, customizable user interfaces. Accordingly, we shall begin by learning
 how to use Tasks to perform basic window layout.
 
+.. index:: task; lifecycle
+
 Lifecycle of a Task
 -------------------
+
+.. index:: model-view-controller pattern, MVC
 
 The Tasks plugin adheres to the model-view-controller (MVC) design pattern [1]_,
 for which the ``Task`` class functions as the controller and the ``TaskWindow``
@@ -31,6 +37,8 @@ the ``TaskWindow``---will its panes be destroyed. This marks the end of the
 ``Task``'s lifecycle. If the ``Task`` is to be re-used, a new instance must be
 constructed.
 
+.. index:: task; defining
+
 Defining a Task
 ---------------
 
@@ -47,9 +55,13 @@ pane. For example, we define a task for editing Python scripts [3]_::
         def create_center_pane(self):
             return PythonEditorPane()
 
+.. index:: ID, name
+
 The ``id`` attribute is a unique internal identifier for the task, whereas
 ``name`` is a user-visible descriptor for the task. We shall see that this is a
 common pattern in the Tasks framework.
+
+.. index:: central pane; defining
 
 All tasks must implement ``create_center_pane()`` and return a TaskPane
 instance. We might define the ``PythonEditorPane`` pane above as follows, making
@@ -81,6 +93,8 @@ constructs a toolkit-specific control for the pane and assigns its to the pane's
 control and clearing ``control`` attribute. These methods give one full control
 over how a pane is constructed, but as we shall see below there are other, more
 convenient methods for defining a pane.
+
+.. index:: dock pane; defining
 
 Defining a Dock Pane
 --------------------
@@ -152,6 +166,8 @@ which we connect to the dock pane's ``activated`` event::
             """ Open the file with the specified path in the central pane.
             """
             self.window.central_pane.editor.path = filename
+
+.. index:: task; layout
 
 Providing a Default Layout
 --------------------------

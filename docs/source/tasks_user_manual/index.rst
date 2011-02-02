@@ -8,6 +8,7 @@ Tasks User Manual
     intro.rst
     layout.rst
     menus.rst
+    extensibility.rst
 
 Indices and tables
 ==================
