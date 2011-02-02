@@ -1,16 +1,23 @@
 ==============
  Introduction
 ==============
-The Tasks plugin for Envisage is an extensible, toolkit-independent framework
-for building scriptable, task-oriented user interfaces. This document describes
-its concepts and design principles, surveys the classes in its API, and provides
-a brief tutorial illustrating its use.
+
+Tasks is an extensible, toolkit-independent framework for building scriptable,
+task-oriented user interfaces. This document describes its concepts and design
+principles, surveys the classes in its API, and provides a brief tutorial
+illustrating its use.
+
+We assume that the reader has a basic familiarity with the concepts of Traits
+and Traits UI. These packages are well documented in their respective user
+manuals. In the Extensibility section of this document, some additional
+knowledge of the Envisage plugin framework is assumed.
 
 For more detailed information concerning the Tasks API, the reader is referred
 to the Tasks API Reference.
 
 What is a Task?
 ---------------
+
 For the purposes of this document, a *task* is a collection of user interface
 elements, called *panes*, which are present in a single window, unified by a
 specific purpose, and possessed of a certain structure. In addition, a task may
@@ -27,7 +34,7 @@ the "canvas" upon which the user arranges UI elements.
 
 In addition to the central pane, a task may include any number of subsidiary
 panes. These panes are arranged around the central pane in various *dock areas*,
-for which reason they are called *dock panes* [1]_. Dock panes provide
+for which reason they are called *dock panes*. Dock panes provide
 functionality that is relevant but unessential to the task at hand. For
 example, in the code editing task described above, the list of dock panes might
 include a file browser, a context-sensitive documentation window, a compilation
@@ -35,8 +42,9 @@ log, and a debugger. In general, dock panes can be moved from one dock area to
 another, can be made visible or hidden, and can be detached from the main
 window.
 
-Background
-----------------
+Historical Background
+---------------------
+
 Many of the ideas behind Tasks plugin originate in another Envisage plugin,
 called the Workbench (which, in turn, took considerable inspiration from
 Eclipse). Indeed, the Tasks plugin has been created largely to serve as a
@@ -68,8 +76,3 @@ Workbench include:
 - An inflexible API for exposing user-configurable preferences
 
 Tasks has been designed specifically to avoid these issues.
-
-.. rubric:: Footnotes
-.. [1] It is also possible to omit the central pane entirely, in which case the
-       window will consist entirely of dock panes. This use case is, however,
-       highly non-standard and of dubious value.

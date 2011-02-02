@@ -7,6 +7,7 @@ Tasks User Manual
     front.rst
     intro.rst
     layout.rst
+    menus.rst
 
 Indices and tables
 ==================
