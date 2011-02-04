@@ -1,6 +1,6 @@
 # Enthought library imports.
 from enthought.pyface.tasks.action.api import SchemaAddition
-from enthought.traits.api import Callable, HasTraits, Str
+from enthought.traits.api import Callable, HasTraits, List, Str
 
 
 class TaskExtension(HasTraits):
