@@ -20,9 +20,8 @@ class Plot2dPane(TraitsTaskPane):
 
     active_model = Instance(IPlottable2d)
     models = List(IPlottable2d)
-    
-    plot_type = Enum('line', 'scatter')
 
+    plot_type = Property(Unicode, depends_on='active_model.plot_type')
     title = Property(Unicode, depends_on='active_model.title')
     x_data = Property(depends_on='active_model.x_data')
     y_data = Property(depends_on='active_model.y_data')
@@ -37,6 +36,8 @@ class Plot2dPane(TraitsTaskPane):
                               show_label      = False,
                               resizable       = True,
                               orientation     = 'h',
+                              marker          = 'pixel',
+                              marker_size     = 1,
                               type_trait      = 'plot_type',
                               title           = '',
                               x_label_trait   = 'x_label',
@@ -56,6 +57,9 @@ class Plot2dPane(TraitsTaskPane):
     ###########################################################################
 
     #### Trait property getters/setters #######################################
+
+    def _get_plot_type(self):
+        return self.active_model.plot_type if self.active_model else 'line'
 
     def _get_title(self):
         return self.active_model.title if self.active_model else ''

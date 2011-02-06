@@ -53,9 +53,10 @@ class AttractorsTask(Task):
     #### Trait initializers ###################################################
 
     def _models_default(self):
+        from model.henon import Henon
         from model.lorenz import Lorenz
         from model.rossler import Rossler
-        return [ Lorenz(), Rossler() ]
+        return [ Henon(), Lorenz(), Rossler() ]
 
     #### Trait change handlers ################################################
 

@@ -4,7 +4,7 @@ from scipy.integrate import odeint
 
 # Enthought libary imports.
 from enthought.traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Unicode, adapts, cached_property, implements
+     Property, Str, Unicode, adapts, cached_property, implements
 from enthought.traits.ui.api import View, Item
 
 # Local imports
@@ -61,6 +61,8 @@ class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
     implements(IPlottable2d)
     
     adaptee = Instance(Rossler)
+
+    plot_type = Str('line')
     title = Unicode('Rossler Attractor')
 
 adapts(RosslerIPlottable2dAdapter, Rossler, IPlottable2d)
