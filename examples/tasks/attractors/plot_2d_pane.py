@@ -1,8 +1,9 @@
 # Enthought library imports.
 from enthought.chaco.chaco_plot_editor import ChacoPlotItem
 from enthought.pyface.tasks.api import TraitsTaskPane
-from enthought.traits.api import Enum, DelegatesTo, Instance
-from enthought.traits.ui.api import View
+from enthought.traits.api import Dict, Enum, Instance, List, Property, \
+     Unicode, on_trait_change
+from enthought.traits.ui.api import EnumEditor, HGroup, Item, Label, View
 
 # Local imports.
 from model.i_plottable_2d import IPlottable2D
@@ -10,18 +11,29 @@ from model.i_plottable_2d import IPlottable2D
 
 class Plot2DPane(TraitsTaskPane):
 
-    model = Instance(IPlottable2D, adapt='yes')
+    #### 'ITaskPane' interface ################################################
+
+    id = 'example.attractors.plot_pane'
+    name = 'Plot Pane'
+
+    #### 'Plot2DPane' interface ###############################################
+
+    active_model = Instance(IPlottable2D)
+    models = List(IPlottable2D)
     
     plot_type = Enum('line', 'scatter')
 
-    title = DelegatesTo('model')
-    x_data = DelegatesTo('model')
-    y_data = DelegatesTo('model')
-    x_label = DelegatesTo('model')
-    y_label = DelegatesTo('model')
+    title = Property(Unicode, depends_on='active_model.title')
+    x_data = Property(depends_on='active_model.x_data')
+    y_data = Property(depends_on='active_model.y_data')
+    x_label = Property(Unicode, depends_on='active_model.x_label')
+    y_label = Property(Unicode, depends_on='active_model.y_label')
 
-    # FIXME: Replace with ComponentEditor for 'title' support.
-    view = View(ChacoPlotItem('x_data', 'y_data',
+    view = View(HGroup(Label('Model: '),
+                       Item('active_model',
+                            editor = EnumEditor(name='_enum_map')),
+                       show_labels=False),
+                ChacoPlotItem('x_data', 'y_data',
                               show_label      = False,
                               resizable       = True,
                               orientation     = 'h',
@@ -34,3 +46,39 @@ class Plot2DPane(TraitsTaskPane):
                               border_visible  = False ,
                               border_width    = 1),
                 resizable = True)
+
+    #### Private traits #######################################################
+
+    _enum_map = Dict(IPlottable2D, Unicode)
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
+
+    #### Trait property getters/setters #######################################
+
+    def _get_title(self):
+        return self.active_model.title if self.active_model else ''
+
+    def _get_x_data(self):
+        return self.active_model.x_data if self.active_model else []
+
+    def _get_y_data(self):
+        return self.active_model.y_data if self.active_model else []
+
+    def _get_x_label(self):
+        return self.active_model.x_label if self.active_model else ''
+
+    def _get_y_label(self):
+        return self.active_model.y_label if self.active_model else ''
+
+    #### Trait change handlers ################################################
+
+    @on_trait_change('models[]')
+    def _update_models(self):
+        # Make sure that the active model is valid with the new model list.
+        if self.active_model not in self.models:
+            self.active_model = self.models[0] if self.models else None
+            
+        # Refresh the EnumEditor map.
+        self._enum_map = dict((model, model.title) for model in self.models)

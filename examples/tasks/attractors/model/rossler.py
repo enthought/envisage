@@ -12,14 +12,14 @@ from enthought.traits.ui.api import View, Item
 from i_plottable_2d import IPlottable2D
 
 
-class Lorenz(HasTraits):
-    """ The model object for the Lorenz attractor.
+class Rossler(HasTraits):
+    """ The model object for the Rossler attractor.
     """
 
     # Equation parameters.
-    prandtl = Float(10.0, auto_set=False, enter_set=True)
-    rayleigh = Float(28.0, auto_set=False, enter_set=True)
-    beta = Float(8.0 / 3.0, auto_set=False, enter_set=True)
+    a = Float(0.2, auto_set=False, enter_set=True)
+    b = Float(0.2, auto_set=False, enter_set=True)
+    c = Float(5.7, auto_set=False, enter_set=True)
 
     # Integration parameters.
     initial_point = Array(value=[0.0, 1.0, 0.0])
@@ -29,15 +29,15 @@ class Lorenz(HasTraits):
     time_points = Property(Array, depends_on='time_start, time_stop, time_step')
 
     # Integration results.
-    data = Property(Array, depends_on=['prandtl', 'rayleigh', 'beta',
+    data = Property(Array, depends_on=['a', 'b', 'c',
                                        'initial_point', 'time_points'])
     data_slice = Property(Array, depends_on='data, data_slice_dimension')
     data_slice_dimension = Trait('x', { 'x':0, 'y':1, 'z':2 })
 
     # Configuration view.
-    view = View(Item('prandtl'),
-                Item('rayleigh'),
-                Item('beta'),
+    view = View(Item('a'),
+                Item('b'),
+                Item('c'),
                 Item('initial_point'),
                 Item('time_start'),
                 Item('time_stop'),
@@ -46,9 +46,7 @@ class Lorenz(HasTraits):
 
     def compute_step(self, point, time):
         x, y, z = point
-        return array([ self.prandtl * (y - x),
-                       x * (self.rayleigh - z) - y,
-                       x * y - self.beta * z ])
+        return array([ -y - z, x + self.a * y, self.b + z * (x - self.c) ])
 
     @cached_property
     def _get_data(self):
@@ -63,16 +61,16 @@ class Lorenz(HasTraits):
         return arange(self.time_start, self.time_stop, self.time_step)
 
 
-class LorenzIPlottable2DAdapter(Adapter):
+class RosslerIPlottable2DAdapter(Adapter):
 
     implements(IPlottable2D)
     
-    adaptee = Instance(Lorenz)
+    adaptee = Instance(Rossler)
 
     x_data = DelegatesTo('adaptee', 'time_points')
     y_data = DelegatesTo('adaptee', 'data_slice')
 
-    title = Unicode('Lorenz Attractor')
+    title = Unicode('Rossler Attractor')
     x_label = Unicode('time')
     y_label = DelegatesTo('adaptee', 'data_slice_dimension')
 
@@ -80,4 +78,4 @@ class LorenzIPlottable2DAdapter(Adapter):
                      style='custom',
                      show_label=False))
 
-adapts(LorenzIPlottable2DAdapter, Lorenz, IPlottable2D)
+adapts(RosslerIPlottable2DAdapter, Rossler, IPlottable2D)
