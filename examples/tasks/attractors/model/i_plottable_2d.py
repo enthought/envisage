@@ -1,11 +1,11 @@
 # Enthought library imports.
-from enthought.traits.api import Array, Interface, Unicode
+from enthought.traits.api import Unicode
+
+# Local imports.
+from i_model_2d import IModel2d
 
 
-class IPlottable2D(Interface):
-
-    x_data = Array
-    y_data = Array
+class IPlottable2d(IModel2d):
 
     title = Unicode
     x_label = Unicode

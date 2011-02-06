@@ -4,9 +4,9 @@ from enthought.pyface.tasks.api import Task
 from enthought.traits.api import Any, List
 
 # Local imports.
-from model.i_plottable_2d import IPlottable2D
+from model.i_plottable_2d import IPlottable2d
 from model_config_pane import ModelConfigPane
-from plot_2d_pane import Plot2DPane
+from plot_2d_pane import Plot2dPane
 
 
 class AttractorsTask(Task):
@@ -36,7 +36,7 @@ class AttractorsTask(Task):
         """ Create a plot pane with a list of models. Keep track of which model
             is active so that dock panes can introspect it.
         """
-        pane = Plot2DPane(models=self.models)
+        pane = Plot2dPane(models=self.models)
         
         self.active_model = pane.active_model
         pane.on_trait_change(self._update_active_model, 'active_model')

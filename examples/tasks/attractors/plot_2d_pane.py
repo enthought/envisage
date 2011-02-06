@@ -6,20 +6,20 @@ from enthought.traits.api import Dict, Enum, Instance, List, Property, \
 from enthought.traits.ui.api import EnumEditor, HGroup, Item, Label, View
 
 # Local imports.
-from model.i_plottable_2d import IPlottable2D
+from model.i_plottable_2d import IPlottable2d
 
 
-class Plot2DPane(TraitsTaskPane):
+class Plot2dPane(TraitsTaskPane):
 
     #### 'ITaskPane' interface ################################################
 
     id = 'example.attractors.plot_pane'
     name = 'Plot Pane'
 
-    #### 'Plot2DPane' interface ###############################################
+    #### 'Plot2dPane' interface ###############################################
 
-    active_model = Instance(IPlottable2D)
-    models = List(IPlottable2D)
+    active_model = Instance(IPlottable2d)
+    models = List(IPlottable2d)
     
     plot_type = Enum('line', 'scatter')
 
@@ -49,7 +49,7 @@ class Plot2DPane(TraitsTaskPane):
 
     #### Private traits #######################################################
 
-    _enum_map = Dict(IPlottable2D, Unicode)
+    _enum_map = Dict(IPlottable2d, Unicode)
 
     ###########################################################################
     # Protected interface.
