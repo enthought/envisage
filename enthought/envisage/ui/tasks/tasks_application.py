@@ -210,7 +210,7 @@ class TasksApplication(Application):
             for task_id in window_layout.task_ids:
                 task = self.create_task(task_id)
                 window.add_task(task)
-            window.set_layout(window_layout)
+            window.set_window_layout(window_layout)
             window.open()
 
     def _load_state(self):
