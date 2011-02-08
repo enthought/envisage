@@ -30,6 +30,7 @@ class ModelHelpPane(TraitsDockPane):
     view = View(Item('html',
                      editor = HTMLEditor(base_url=HELP_PATH),
                      show_label = False),
+                width = 300,
                 resizable = True)
 
     ###########################################################################

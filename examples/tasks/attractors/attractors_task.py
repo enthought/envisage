@@ -1,10 +1,9 @@
 # Enthought library imports.
 from enthought.pyface.tasks.action.api import SMenu, SMenuBar
-from enthought.pyface.tasks.api import Task
+from enthought.pyface.tasks.api import Task, TaskLayout
 from enthought.traits.api import Any, List
 
 # Local imports.
-from model.i_plottable_2d import IPlottable2d
 from model_config_pane import ModelConfigPane
 from model_help_pane import ModelHelpPane
 from plot_2d_pane import Plot2dPane
@@ -53,6 +52,10 @@ class AttractorsTask(Task):
     ###########################################################################
 
     #### Trait initializers ###################################################
+
+    def _default_layout_default(self):
+        return TaskLayout(left_panes=[['example.attractors.model_config_pane',
+                                       'example.attractors.model_help_pane']])
 
     def _models_default(self):
         from model.henon import Henon

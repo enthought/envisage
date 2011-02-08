@@ -31,6 +31,6 @@ class AttractorsPlugin(Plugin):
     ###########################################################################
 
     def _tasks_default(self):
-        return [ TaskFactory(id = 'example.attractors_task',
+        return [ TaskFactory(id = 'example.attractors.task',
                              name = 'Attractors',
                              factory = AttractorsTask) ]
