@@ -38,10 +38,10 @@ class Henon(HasTraits):
 
     #### 'IPlottable2D' interface #############################################
 
+    name = Unicode('Henon Map')
     plot_type = Str('scatter')
     x_data = Property(Array, depends_on='points')
     y_data = Property(Array, depends_on='points')
-    title = Unicode('Henon Map')
     x_label = Unicode('x')
     y_label = Unicode('y')
 

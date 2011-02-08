@@ -9,6 +9,5 @@ class IPlottable2d(IModel2d):
 
     plot_type = Enum('line', 'scatter')
 
-    title = Unicode
     x_label = Unicode
     y_label = Unicode

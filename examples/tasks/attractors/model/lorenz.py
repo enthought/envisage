@@ -18,6 +18,14 @@ class Lorenz(HasTraits):
 
     implements(IModel3d)
 
+    #### 'IModel3d' interface #################################################
+
+    name = Unicode('Lorenz Attractor')
+    points = Property(Array, depends_on=['prandtl', 'rayleigh', 'beta',
+                                         'initial_point', 'times'])
+
+    #### 'Lorenz' interface ###################################################
+
     # Equation parameters.
     prandtl = Float(10.0, auto_set=False, enter_set=True)
     rayleigh = Float(28.0, auto_set=False, enter_set=True)
@@ -30,10 +38,6 @@ class Lorenz(HasTraits):
     time_step = Float(0.01)
     times = Property(Array, depends_on='time_start, time_stop, time_step')
 
-    # Integration results.
-    points = Property(Array, depends_on=['prandtl', 'rayleigh', 'beta',
-                                         'initial_point', 'times'])
-
     # Configuration view.
     view = View(Item('prandtl'),
                 Item('rayleigh'),
@@ -44,11 +48,19 @@ class Lorenz(HasTraits):
                 Item('time_step'),
                 resizable=True)
 
+    ###########################################################################
+    # 'Lorenz' interface.
+    ###########################################################################
+
     def compute_step(self, point, time):
         x, y, z = point
         return array([ self.prandtl * (y - x),
                        x * (self.rayleigh - z) - y,
                        x * y - self.beta * z ])
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
 
     @cached_property
     def _get_points(self):
@@ -66,6 +78,5 @@ class LorenzIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
     adaptee = Instance(Lorenz)
 
     plot_type = Str('line')
-    title = Unicode('Lorenz Attractor')
 
 adapts(LorenzIPlottable2dAdapter, Lorenz, IPlottable2d)

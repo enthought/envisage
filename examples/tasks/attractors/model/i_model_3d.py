@@ -1,12 +1,15 @@
 # Enthought library imports.
-from enthought.traits.api import Array, HasTraits, Interface, Instance, \
-     Property, Trait, cached_property
+from enthought.traits.api import Array, DelegatesTo, HasTraits, Interface, \
+    Instance, Property, Trait, Unicode, cached_property
 from enthought.traits.ui.api import Group, Item, View
 
 
 class IModel3d(Interface):
     """ A model object that produces an array of 3D points.
     """
+
+    # The user-visible name of the model.
+    name = Unicode
 
     # An n-by-3 array.
     points = Array
@@ -21,6 +24,8 @@ class IModel3dIPlottable2dMixin(HasTraits):
     adaptee = Instance(IModel3d)
 
     #### 'IPlottable2D' interface #############################################
+
+    name = DelegatesTo('adaptee')
 
     x_data = Property(Array, depends_on='adaptee.points, x_label')
     y_data = Property(Array, depends_on='adaptee.points, y_label')

@@ -13,8 +13,8 @@ class Plot2dPane(TraitsTaskPane):
 
     #### 'ITaskPane' interface ################################################
 
-    id = 'example.attractors.plot_pane'
-    name = 'Plot Pane'
+    id = 'example.attractors.plot_2d_pane'
+    name = 'Plot 2D Pane'
 
     #### 'Plot2dPane' interface ###############################################
 
@@ -22,7 +22,7 @@ class Plot2dPane(TraitsTaskPane):
     models = List(IPlottable2d)
 
     plot_type = Property(Unicode, depends_on='active_model.plot_type')
-    title = Property(Unicode, depends_on='active_model.title')
+    title = Property(Unicode, depends_on='active_model.name')
     x_data = Property(depends_on='active_model.x_data')
     y_data = Property(depends_on='active_model.y_data')
     x_label = Property(Unicode, depends_on='active_model.x_label')
@@ -62,7 +62,7 @@ class Plot2dPane(TraitsTaskPane):
         return self.active_model.plot_type if self.active_model else 'line'
 
     def _get_title(self):
-        return self.active_model.title if self.active_model else ''
+        return self.active_model.name if self.active_model else ''
 
     def _get_x_data(self):
         return self.active_model.x_data if self.active_model else []
@@ -85,4 +85,4 @@ class Plot2dPane(TraitsTaskPane):
             self.active_model = self.models[0] if self.models else None
             
         # Refresh the EnumEditor map.
-        self._enum_map = dict((model, model.title) for model in self.models)
+        self._enum_map = dict((model, model.name) for model in self.models)

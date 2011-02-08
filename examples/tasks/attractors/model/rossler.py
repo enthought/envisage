@@ -18,6 +18,13 @@ class Rossler(HasTraits):
 
     implements(IModel3d)
 
+    #### 'IModel3d' interface #################################################
+
+    name = Unicode('Rossler Attractor')
+    points = Property(Array, depends_on=['a, b, c, initial_point, times'])
+
+    #### 'Rossler' interface ##################################################
+
     # Equation parameters.
     a = Float(0.2, auto_set=False, enter_set=True)
     b = Float(0.2, auto_set=False, enter_set=True)
@@ -30,9 +37,6 @@ class Rossler(HasTraits):
     time_step = Float(0.01)
     times = Property(Array, depends_on='time_start, time_stop, time_step')
 
-    # Integration results.
-    points = Property(Array, depends_on=['a, b, c, initial_point, times'])
-
     # Configuration view.
     view = View(Item('a'),
                 Item('b'),
@@ -43,9 +47,17 @@ class Rossler(HasTraits):
                 Item('time_step'),
                 resizable=True)
 
+    ###########################################################################
+    # 'Rossler' interface.
+    ###########################################################################
+    
     def compute_step(self, point, time):
         x, y, z = point
         return array([ -y - z, x + self.a * y, self.b + z * (x - self.c) ])
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
 
     @cached_property
     def _get_points(self):
@@ -63,6 +75,5 @@ class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
     adaptee = Instance(Rossler)
 
     plot_type = Str('line')
-    title = Unicode('Rossler Attractor')
 
 adapts(RosslerIPlottable2dAdapter, Rossler, IPlottable2d)

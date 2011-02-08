@@ -5,6 +5,7 @@ from enthought.traits.api import List
 
 # Local imports.
 from visualize_2d_task import Visualize2dTask
+from visualize_3d_task import Visualize3dTask
 
 
 class AttractorsPlugin(Plugin):
@@ -33,4 +34,8 @@ class AttractorsPlugin(Plugin):
     def _tasks_default(self):
         return [ TaskFactory(id = 'example.attractors.task_2d',
                              name = '2D Visualization',
-                             factory = Visualize2dTask) ]
+                             factory = Visualize2dTask),
+
+                 TaskFactory(id = 'example.attractors.task_3d',
+                             name = '3D Visualization',
+                             factory = Visualize3dTask) ]
