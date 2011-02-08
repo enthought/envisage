@@ -20,7 +20,7 @@ class AttractorsApplication(TasksApplication):
     #### 'TasksApplication' interface #########################################
 
     # The default window-level layout for the application.
-    default_layout = [ TaskWindowLayout(tasks=['example.attractors.task'],
+    default_layout = [ TaskWindowLayout(tasks=['example.attractors.task_2d'],
                                         size=(800, 600)) ]
 
 

@@ -9,18 +9,19 @@ from model_help_pane import ModelHelpPane
 from plot_2d_pane import Plot2dPane
 
 
-class AttractorsTask(Task):
-    """ A task for viewing and tweaking attractors.
+class Visualize2dTask(Task):
+    """ A task for visualizing attractors in 2D.
     """
 
     #### 'Task' interface #####################################################
 
-    id = 'example.attractors.task'
-    name = 'Attractors'
+    id = 'example.attractors.task_2d'
+    name = '2D Visualization'
 
-    menu_bar = SMenuBar(SMenu(id='View', name='View'))
+    menu_bar = SMenuBar(SMenu(id='File', name='&File'),
+                        SMenu(id='View', name='&View'))
 
-    #### 'AttractorsTask' interface ###########################################
+    #### 'Visualize2dTask' interface ##########################################
 
     # The attractor model that is currently active (visible in the center pane).
     active_model = Any
@@ -69,4 +70,3 @@ class AttractorsTask(Task):
         self.active_model = self.window.central_pane.active_model
         for dock_pane in self.window.dock_panes:
             dock_pane.model = self.active_model
-
