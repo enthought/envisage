@@ -7,6 +7,7 @@ import os.path
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.pyface.api import GUI, SplashScreen
+from enthought.pyface.tasks.action.api import SchemaAddition
 from enthought.pyface.tasks.api import TaskLayout, TaskWindowLayout
 from enthought.traits.api import Bool, Callable, Dict, Event, File, Instance, \
      List, Property, Str
@@ -34,6 +35,10 @@ class TasksApplication(Application):
 
     # The active task window (the last one to get focus).
     active_window = Instance(TaskWindow)
+
+    # A list of schema additions that will be added to all tasks. By default,
+    # this list consists of an 'Exit' item for the 'File' menu.
+    global_actions = List(SchemaAddition)
 
     # The PyFace GUI for the application.
     gui = Instance(GUI)
@@ -133,6 +138,7 @@ class TasksApplication(Application):
         # Create the task using suitable task extensions.
         extensions = [ ext for ext in self._task_extensions if ext.id == id ]
         task = factory.create_with_extensions(extensions)
+        task.extra_actions.extend(self.global_actions)
         task.id = factory.id
         return task
 
@@ -247,6 +253,10 @@ class TasksApplication(Application):
         if self._task_factories:
             window_layout.task_ids = [ self._task_factories[0].id ]
         return [ window_layout ]
+
+    def _global_actions_default(self):
+        from action.exit_action import ExitAction
+        return [ SchemaAddition(path='MenuBar/File', item=ExitAction()) ]
 
     def _gui_default(self):
         return GUI(splash_screen=self.splash_screen)
