@@ -119,7 +119,8 @@ class TasksApplication(Application):
     ###########################################################################
 
     def create_task(self, id):
-        """ Creates the Task with the specified ID.
+        """ Creates the Task with the specified ID. Returns None if there is no
+            suitable TaskFactory.
         """
         # Get the factory for the task.
         for factory in self._task_factories:
@@ -207,9 +208,12 @@ class TasksApplication(Application):
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
             window = self.create_window()
-            for task_id in window_layout.task_ids:
+            for task_id in window_layout.tasks:
                 task = self.create_task(task_id)
-                window.add_task(task)
+                if task:
+                    window.add_task(task)
+                else:
+                    logger.error('No task with ID %r', task_id)
             window.set_window_layout(window_layout)
             window.open()
 
