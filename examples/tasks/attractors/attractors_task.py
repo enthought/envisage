@@ -6,6 +6,7 @@ from enthought.traits.api import Any, List
 # Local imports.
 from model.i_plottable_2d import IPlottable2d
 from model_config_pane import ModelConfigPane
+from model_help_pane import ModelHelpPane
 from plot_2d_pane import Plot2dPane
 
 
@@ -44,7 +45,8 @@ class AttractorsTask(Task):
         return pane
 
     def create_dock_panes(self):
-        return [ ModelConfigPane(model=self.active_model) ]
+        return [ ModelConfigPane(model=self.active_model),
+                 ModelHelpPane(model=self.active_model) ]
 
     ###########################################################################
     # Protected interface.

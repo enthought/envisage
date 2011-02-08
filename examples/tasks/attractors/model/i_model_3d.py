@@ -1,7 +1,7 @@
 # Enthought library imports.
 from enthought.traits.api import Array, HasTraits, Interface, Instance, \
      Property, Trait, cached_property
-from enthought.traits.ui.api import View, Item
+from enthought.traits.ui.api import Group, Item, View
 
 
 class IModel3d(Interface):
@@ -28,13 +28,15 @@ class IModel3dIPlottable2dMixin(HasTraits):
     x_label = Trait('x', { 'x':0, 'y':1, 'z':2 })
     y_label = Trait('y', { 'x':0, 'y':1, 'z':2 })
 
-    view = View(Item('adaptee',
-                     style = 'custom',
-                     show_label = False),
-                Item('x_label',
-                     label = 'X axis'),
-                Item('y_label',
-                     label = 'Y axis'))
+    view = View(Group(Group(Item('adaptee',
+                                 style = 'custom',
+                                 show_label = False),
+                            label = 'Model'),
+                      Group(Item('x_label',
+                                 label = 'X axis'),
+                            Item('y_label',
+                                 label = 'Y axis'),
+                            label = 'Plot')))
 
     ###########################################################################
     # Protected interface.
