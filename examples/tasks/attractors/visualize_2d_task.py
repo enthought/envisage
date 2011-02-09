@@ -1,5 +1,6 @@
 # Enthought library imports.
-from enthought.pyface.tasks.action.api import SMenu, SMenuBar
+from enthought.pyface.tasks.action.api import SGroup, SMenu, SMenuBar, \
+    TaskChangeMenuManager
 from enthought.pyface.tasks.api import Task, TaskLayout
 from enthought.traits.api import Any, List
 
@@ -19,7 +20,9 @@ class Visualize2dTask(Task):
     name = '2D Visualization'
 
     menu_bar = SMenuBar(SMenu(id='File', name='&File'),
-                        SMenu(id='View', name='&View'))
+                        SMenu(SGroup(TaskChangeMenuManager(),
+                                     id='TaskGroup'),
+                              id='View', name='&View'))
 
     #### 'Visualize2dTask' interface ##########################################
 
