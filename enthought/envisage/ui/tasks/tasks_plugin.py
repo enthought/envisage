@@ -3,6 +3,7 @@ from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.traits.api import Callable, List
 
 # Local imports.
+from preferences_category import PreferencesCategory
 from task_factory import TaskFactory
 from task_extension import TaskExtension
 
@@ -18,11 +19,10 @@ class TasksPlugin(Plugin):
     """
 
     # The IDs of the extension point that this plugin offers.
-    TASKS           = PKG + '.tasks'
-    TASK_EXTENSIONS = PKG + '.task_extensions'
-
-    # THE IDs of extension points that this plugin contributes to.
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    PREFERENCES_CATEGORIES = PKG + '.preferences_categories'
+    PREFERENCES_PANES      = PKG + '.preferences_panes'
+    TASKS                  = PKG + '.tasks'
+    TASK_EXTENSIONS        = PKG + '.task_extensions'
 
     #### 'IPlugin' interface ##################################################
 
@@ -33,6 +33,32 @@ class TasksPlugin(Plugin):
     name = 'Tasks'
 
     #### Extension points offered by this plugin ##############################
+
+    preferences_categories = ExtensionPoint(
+        List(PreferencesCategory), id=PREFERENCES_CATEGORIES, desc="""
+
+        This extension point makes preference categories available to the
+        application. Note that preference categories will be created
+        automatically if necessary; this extension point is useful when one
+        wants to ensure that a category is inserted at a specific location.
+
+        """)
+
+    preferences_panes = ExtensionPoint(
+        List(Callable), id=PREFERENCES_PANES, desc="""
+
+        A preferences pane appears in the preferences dialog to allow the user 
+        manipulate certain preference values.
+
+        Each contribution to this extension point must be a factory that
+        creates a preferences pane, where 'factory' means any callable with the
+        following signature::
+
+          callable(**traits) -> PreferencesPane
+
+        The easiest way to contribute such a factory is to create a class
+        that derives from 'enthought.envisage.ui.tasks.api.PreferencesPane'.
+        """)
 
     tasks = ExtensionPoint(
         List(TaskFactory), id=TASKS, desc="""
