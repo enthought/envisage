@@ -20,6 +20,7 @@ class Visualize2dTask(Task):
     name = '2D Visualization'
 
     menu_bar = SMenuBar(SMenu(id='File', name='&File'),
+                        SMenu(id='Edit', name='&Edit'),
                         SMenu(SGroup(TaskChangeMenuManager(),
                                      id='TaskGroup'),
                               id='View', name='&View'))

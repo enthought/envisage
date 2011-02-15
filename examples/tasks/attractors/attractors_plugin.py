@@ -1,11 +1,10 @@
+# Standard library imports.
+import os.path
+
 # Enthought library imports.
 from enthought.envisage.api import Plugin
 from enthought.envisage.ui.tasks.api import TaskFactory
 from enthought.traits.api import List
-
-# Local imports.
-from visualize_2d_task import Visualize2dTask
-from visualize_3d_task import Visualize3dTask
 
 
 class AttractorsPlugin(Plugin):
@@ -13,7 +12,9 @@ class AttractorsPlugin(Plugin):
     """
 
     # Extension point IDs.
-    TASKS = 'enthought.envisage.ui.tasks.tasks'
+    PREFERENCES       = 'enthought.envisage.preferences'
+    PREFERENCES_PANES = 'enthought.envisage.ui.tasks.preferences_panes'
+    TASKS             = 'enthought.envisage.ui.tasks.tasks'
 
     #### 'IPlugin' interface ##################################################
 
@@ -25,13 +26,30 @@ class AttractorsPlugin(Plugin):
 
     #### Contributions to extension points made by this plugin ################
 
+    preferences = List(contributes_to=PREFERENCES)
+    preferences_panes = List(contributes_to=PREFERENCES_PANES)
     tasks = List(contributes_to=TASKS)
 
     ###########################################################################
     # Protected interface.
     ###########################################################################
 
+    def _preferences_default(self):
+        filename = os.path.join(os.path.dirname(__file__), 'preferences.ini')
+        return [ 'file://' + filename ]
+
+    def _preferences_panes_default(self):
+        from attractors_preferences import AttractorsPreferencesPane
+
+        factory = lambda: AttractorsPreferencesPane(
+            model = self.application.preferences_helper,
+            task_factories = self.tasks)
+        return [ factory ]
+
     def _tasks_default(self):
+        from visualize_2d_task import Visualize2dTask
+        from visualize_3d_task import Visualize3dTask
+
         return [ TaskFactory(id = 'example.attractors.task_2d',
                              name = '2D Visualization',
                              factory = Visualize2dTask),

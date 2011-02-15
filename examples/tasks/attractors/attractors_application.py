@@ -1,6 +1,11 @@
 # Enthought library imports.
 from enthought.envisage.ui.tasks.api import TasksApplication
 from enthought.pyface.tasks.api import TaskWindowLayout
+from enthought.traits.api import Bool, Instance, List, Property
+
+# Local imports.
+from attractors_preferences import AttractorsPreferences, \
+    AttractorsPreferencesPane
 
 
 class AttractorsApplication(TasksApplication):
@@ -18,6 +23,33 @@ class AttractorsApplication(TasksApplication):
     #### 'TasksApplication' interface #########################################
 
     # The default window-level layout for the application.
-    default_layout = [ TaskWindowLayout(tasks=['example.attractors.task_2d',
-                                               'example.attractors.task_3d'],
-                                        size=(800, 600)) ]
+    default_layout = List(TaskWindowLayout)
+
+    # Whether to restore the previous application-level layout when the
+    # applicaton is started.
+    restore_layout = Property(Bool)
+
+    #### 'AttractorsApplication' interface ####################################
+
+    preferences_helper = Instance(AttractorsPreferences)
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    #### Trait initializers ###################################################
+
+    def _default_layout_default(self):
+        active_task = self.preferences_helper.default_task
+        tasks = [ factory.id for factory in self._task_factories ]
+        return [ TaskWindowLayout(active_task = active_task, 
+                                  tasks = tasks, 
+                                  size = (800, 600)) ]
+
+    def _preferences_helper_default(self):
+        return AttractorsPreferences(preferences = self.preferences)
+
+    #### Trait property getter/setters ########################################
+
+    def _get_restore_layout(self):
+        return self.preferences_helper.restore_layout
