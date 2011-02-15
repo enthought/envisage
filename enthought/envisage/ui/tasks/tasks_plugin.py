@@ -24,6 +24,9 @@ class TasksPlugin(Plugin):
     TASKS                  = PKG + '.tasks'
     TASK_EXTENSIONS        = PKG + '.task_extensions'
 
+    # The IDs of the extension points that this plugin contributes to.
+    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
@@ -41,7 +44,6 @@ class TasksPlugin(Plugin):
         application. Note that preference categories will be created
         automatically if necessary; this extension point is useful when one
         wants to ensure that a category is inserted at a specific location.
-
         """)
 
     preferences_panes = ExtensionPoint(
@@ -78,3 +80,27 @@ class TasksPlugin(Plugin):
         Each contribution to the extension point must be an instance of
         'enthought.envisage.tasks.api.TaskExtension'.
         """)
+
+    #### Contributions to extension points made by this plugin ################
+
+    my_service_offers = List(contributes_to=SERVICE_OFFERS)
+
+    def _my_service_offers_default(self):
+        preferences_dialog_service_offer = ServiceOffer(
+            protocol = 'enthought.envisage.ui.tasks.preferences_dialog.'
+                       'PreferencesDialog',
+            factory  = self._create_preferences_dialog_service)
+        return [ preferences_dialog_service_offer ]
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _create_preferences_dialog_service(self):
+        """ Factory method for preferences dialog service.
+        """
+        from preferences_dialog import PreferencesDialog
+
+        return PreferencesDialog(
+            categories = self.preferences_categories,
+            panes = [ factory() for factory in self.preferences_panes ])

@@ -1,9 +1,12 @@
 # Enthought library imports.
 from enthought.traits.api import HasTraits, Str
+from enthought.traits.ui.api import Controller
 
 
-class PreferencesPane(HasTraits):
-    """
+class PreferencesPane(Controller):
+    """ A panel for configuring application preferences.
+    
+    Usually the 'model' attribute should be a PreferencesHelper.
     """
 
     # An identifier for the pane (unique within a category).

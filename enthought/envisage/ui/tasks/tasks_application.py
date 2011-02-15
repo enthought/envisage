@@ -68,7 +68,7 @@ class TasksApplication(Application):
     # will be created with the first available task factory.
     default_layout = List(TaskWindowLayout)
 
-    # Whether to restore the default *application level* layout when the
+    # Whether to restore the previous *application level* layout when the
     # application is started. Even if this is False, the layout state of
     # individual tasks will be restored.
     restore_layout = Bool(True)
@@ -90,7 +90,7 @@ class TasksApplication(Application):
     # Fired when a task window has been closed.
     window_closed = Event(TaskWindowEvent)
 
-    #### Private interface ####################################################
+    #### Protected interface ##################################################
 
     # An 'explicit' exit is when the the 'exit' method is called.
     # An 'implicit' exit is when the user closes the last open window.
@@ -261,10 +261,16 @@ class TasksApplication(Application):
 
     def _global_actions_default(self):
         from action.exit_action import ExitAction
+        from action.preferences_action import PreferencesAction
         from enthought.pyface.tasks.action.api import DockPaneToggleGroup
-        return [ SchemaAddition(factory=ExitAction, 
+        return [ SchemaAddition(id='Exit',
+                                factory=ExitAction, 
                                 path='MenuBar/File'),
-                 SchemaAddition(factory=DockPaneToggleGroup,
+                 SchemaAddition(id='Preferences',
+                                factory=PreferencesAction,
+                                path='MenuBar/Edit'),
+                 SchemaAddition(id='DockPaneToggleGroup',
+                                factory=DockPaneToggleGroup,
                                 path='MenuBar/View') ]
 
     def _gui_default(self):
