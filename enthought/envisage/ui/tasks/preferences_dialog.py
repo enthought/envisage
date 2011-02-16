@@ -1,7 +1,6 @@
 # Enthought library imports.
-from enthought.traits.api import Bool, HasTraits, List, Property, Unicode, \
-    cached_property
-from enthought.traits.ui.api import Item, ListEditor, View 
+from enthought.traits.api import Bool, HasTraits, List, Unicode, on_trait_change
+from enthought.traits.ui.api import Item, Handler, ListEditor, View
 from enthought.pyface.tasks.topological_sort import before_after_sort
 
 # Local imports.
@@ -23,7 +22,7 @@ class PreferencesTab(HasTraits):
                 resizable = True)
 
 
-class PreferencesDialog(HasTraits):
+class PreferencesDialog(Handler):
     """ A dialog for editing preferences.
     """
 
@@ -40,11 +39,17 @@ class PreferencesDialog(HasTraits):
 
     #### Private interface ####################################################
     
-    _tabs = Property(List(PreferencesTab), depends_on='categories, panes')
+    _tabs = List(PreferencesTab)
 
     ###########################################################################
     # 'HasTraits' interface.
     ###########################################################################
+
+    def trait_context ( self ):
+        """ Returns the default context to use for editing or configuring
+            traits.
+        """
+        return { 'object': self, 'handler': self }
     
     def traits_view(self):
         """ Build the dynamic dialog view.
@@ -63,16 +68,34 @@ class PreferencesDialog(HasTraits):
                          show_label = False,
                          style = tabs_style),
                     buttons = buttons,
-                    kind = 'modal',
+                    kind = 'livemodal',
                     resizable = True,
                     title = 'Preferences')
+
+    ###########################################################################
+    # 'Handler' interface.
+    ###########################################################################
+
+    def apply(self, info=None):
+        """ Handles the Apply button being clicked.
+        """
+        for tab in self._tabs:
+            for pane in tab.panes:
+                pane.apply()
+
+    def close(self, info, is_ok):
+        """ Handles the user attempting to close a dialog-based user interface.
+        """
+        if is_ok:
+            self.apply()
+        return super(PreferencesDialog, self).close(info, is_ok)
 
     ###########################################################################
     # Protected interface.
     ###########################################################################
     
-    @cached_property
-    def _get__tabs(self):
+    @on_trait_change('categories, panes')
+    def _update_tabs(self):
         # Build a { category id -> [ PreferencePane ] } map.
         categories = self.categories[:]
         category_map = dict((category.id, []) for category in categories)
@@ -84,6 +107,8 @@ class PreferencesDialog(HasTraits):
                 category_map[pane.category] = [ pane ]
 
         # Construct the appropriately sorted list of preference tabs.
-        return [ PreferencesTab(name = cat.name,
-                                panes = before_after_sort(category_map[cat.id]))
-                 for cat in before_after_sort(categories) ]
+        tabs = []
+        for category in before_after_sort(categories):
+            panes = before_after_sort(category_map[category.id])
+            tabs.append(PreferencesTab(name = category.name, panes=panes))
+        self._tabs = tabs
