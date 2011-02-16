@@ -66,9 +66,9 @@ inflexible. The most significant of these issues include:
 
 - **A lack of distinction between the semantics of UI elements and the layout of
   those elements.** A perspective (the Workbench analogue of a task) has very
-  little responsibility besides saving the state the user interface. A views
-  (the analogues of a dock pane) is added directly to the Workbench, which means
-  that views cannot be restricted to certain perspectives, nor can a perspective
+  little responsibility besides saving the state the user interface. Views
+  (the analogues of dock panes) are added directly to the Workbench, which means
+  that they cannot be restricted to certain perspectives, nor can a perspective
   exercise meaningful control over the layout of its views. Furthermore,
   recourse must often be made to application-level globals when communicating
   between views, as there is no structure imposed on them by the active

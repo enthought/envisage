@@ -20,7 +20,7 @@ for which the ``Task`` class functions as the controller and the ``TaskWindow``
 class as the view, with the model being application-specific [2]_. Insofar as a
 ``Task`` is a controller, it does not itself instantiate or contain any GUI
 controls, although it does provide factories and a default layout for the
-controls it that manages. Controls are instantiated when a ``Task`` is assigned
+controls that it manages. Controls are instantiated when a ``Task`` is assigned
 to a ``TaskWindow``. Specifically, the following actions are taken at this time:
 
 1. The task's central pane is constructed and attached to the window
@@ -34,7 +34,7 @@ pane nor its dock panes will be destroyed. If the user "closes" a dock pane, the
 pane will be merely hidden, and can be re-activated via the application's View
 menu. Only when the ``Task`` itself is closed---that is, when it is removed from
 the ``TaskWindow``---will its panes be destroyed. This marks the end of the
-``Task``'s lifecycle. If the ``Task`` is to be re-used, a new instance must be
+``Task``'s lifecycle. If the task is to be re-used, a new instance should be
 constructed.
 
 .. index:: task; defining
@@ -42,7 +42,7 @@ constructed.
 Defining a Task
 ---------------
 
-Minimally, a task is defined by subclassing ``Task`` and providing a center
+Minimally, a task is defined by subclassing ``Task`` and providing a central
 pane. For example, we define a task for editing Python scripts [3]_::
 
     from enthought.pyface.tasks.api import Task
@@ -52,7 +52,7 @@ pane. For example, we define a task for editing Python scripts [3]_::
         id = 'example.example_task'
         name = 'Python Script Editor'
 
-        def create_center_pane(self):
+        def create_central_pane(self):
             return PythonEditorPane()
 
 .. index:: ID, name
@@ -63,9 +63,9 @@ common pattern in the Tasks framework.
 
 .. index:: central pane; defining
 
-All tasks must implement ``create_center_pane()`` and return a TaskPane
+All tasks must implement ``create_central_pane()`` and return a TaskPane
 instance. We might define the ``PythonEditorPane`` pane above as follows, making
-use of the PythonEditor available in PyFace::
+use of the ``PythonEditor`` available in PyFace::
 
     from enthought.pyface.api import PythonEditor
     from enthought.pyface.tasks.api import TaskPane
@@ -142,7 +142,7 @@ When a control is needed for the pane, it will be constructed using the standard
 Traits UI mechanisms. There exist additional options, not described here, for
 specifying a model object, which is often important when building a complex
 application. There is also a ``TraitsTaskPane`` class that provides similar
-functionality for defining Traits-based center panes. As always, the reader is
+functionality for defining Traits-based central panes. As always, the reader is
 referred to the Tasks API documentation for more information.
 
 Now let us ammend the example task defined above with a ``create_dock_panes()``
