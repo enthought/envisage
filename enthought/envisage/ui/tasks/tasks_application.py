@@ -214,7 +214,7 @@ class TasksApplication(Application):
             # layouts of individual tasks.
             window_layouts = self.default_layout
             for window_layout in window_layouts:
-                window_layouts.layout_state.update(saved_task_layouts)
+                window_layout.layout_state.update(saved_task_layouts)
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
