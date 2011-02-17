@@ -162,14 +162,49 @@ plugins provides a few built-in extensions for implementing common behaviors.
 Creating a Preferences Dialog
 =============================
 
+TODO
+
 .. _extending-a-task:
 
 Extending an Existing Task
 ==========================
 
+Contributions are made to an existing task via the ``TaskExtension`` class,
+which was briefly introduced above. ``TaskExtension`` is a simple class with
+three attributes:
+
+1. ``task_id``: The ID of the task to extend.
+2. ``actions``: A list of ``SchemaAddition`` objects.
+3. ``dock_panes_factories``: A list of callables for creating dock panes.
+
+The second attributes requires further discussion. In the previous section, we
+remarked that a task's menu and tool bars are defined using schemas; the
+``SchemaAddition`` class provides a mechanism for inserting new items into these
+schemas. 
+
+A schema implicitly defines a *path* for each of its elements. For example, in
+the schema::
+
+    SMenuBar(SMenu(SGroup([ ... ],
+                          id = 'SaveGroup'),
+                   [ ... ],
+                   id = 'File', name = '&File),
+             SMenu([ ... ],
+                   id = 'Edit', name = '&Edit'))
+
+the edit menu has the path 'MenuBar/Edit'. Likewise, the save group in the file
+menu has path the 'MenuBar/File/SaveGroup'. We might define a ``SchemaAddition``
+for this menu as follows::
+
+    SchemaAddition(factory = MyContributedGroup,
+                   path = 'MenuBar/File')
+
+TODO: Finish this section. Among other things, discuss the default extensions
+provided by TasksApplication.
+
 .. rubric:: Footnotes
 
-.. [1] In this section, we will be referencing--often with considerable
+.. [1] In this section, we shall be referencing--often with considerable
        simplification--the Attractors example code in the EnvisagePlugins
        package, available `online
        <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
