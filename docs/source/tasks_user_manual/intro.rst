@@ -11,7 +11,7 @@ illustrating its use.
 
 We assume that the reader has a basic familiarity with the concepts of Traits
 and Traits UI. These packages are well documented in their respective user
-manuals. In the Extensibility section of this document, some additional
+manuals. In the :ref:`extensibility` section of this document, some additional
 knowledge of the Envisage plugin framework is assumed.
 
 For more detailed information concerning the Tasks API, the reader is referred

@@ -1,5 +1,7 @@
 .. _extensibility:
 
+.. index:: Envisage
+
 ===============
  Extensibility
 ===============
@@ -12,7 +14,9 @@ imports in this section will be from the ``enthought.envisage.ui.tasks``
 package.
 
 As remarked in the :ref:`introduction`, some familiarity with the Envisage
-plugin framework is assumed in this section.
+plugin framework is assumed. For more information about Envisage, the reader is
+referred to the project's `documentation 
+<http://enthought.github.com/envisagecore/>`_.
 
 .. _tasks-plugin:
 
@@ -40,7 +44,7 @@ cases. These extensions points are:
 
 .. index:: TaskFactory
 
-1. 'enthought.envisage.ui.tasks.tasks':
+1. ``enthought.envisage.ui.tasks.tasks``:
 
    A list of ``TaskFactory`` instances. ``TaskFactory`` is a lightweight class
    for associating a task factory with a name and an ID. We shall see an example
@@ -48,19 +52,125 @@ cases. These extensions points are:
 
 .. index:: TaskExtension
 
-2. 'enthought.envisage.ui.tasks.task_extensions':
+2. ``enthought.envisage.ui.tasks.task_extensions``:
 
    A list of ``TaskExtension`` instances. A ``TaskExtension`` is a bundle of
    menu bar, tool bar, and dock pane additions to an existing task. This class
    is discussed in detail in the subsection on :ref:`extending-a-task`.
 
+The Tasks plugin also provides two extensions points that permit the
+creation of extensible preferences dialogs. We defer discussion of this
+functionality to the subsection on :ref:`creating-a-preferences-dialog`.
+
 .. _tasks-applications:
+
+.. index:: application, TasksApplication
 
 Creating a Tasks Application
 ============================
+
+Let us imagine that we are building a (slightly whimsical) application for
+visualizing `strange attractors <http://en.wikipedia.org/wiki/Attractor>`_, in
+two and three dimensions [1]_. We take for granted the existence of tasks
+for performing each of these two kinds of visualization.
+
+Like any Envisage application, our application will contain a ``Plugin``
+instance to expose functionality to other plugins. In this case, we will
+contribute our two tasks to the Tasks plugin. Because the Tasks plugin is
+responsible for creating tasks and the windows that contain them, it expects to
+receive *factories* for creating ``Task`` instances rather than the instances
+themselves. The ``TaskFactory`` class fulfills this role.
+
+With this in mind, we can define a ``Plugin`` for our application::
+
+    class AttractorsPlugin(Plugin):
+
+        #### 'IPlugin' interface ##############################################
+
+        # The plugin's unique identifier.
+        id = 'example.attractors'
+
+        # The plugin's name (suitable for displaying to the user).
+        name = 'Attractors'
+
+        #### Contributions to extension points made by this plugin ############
+
+        tasks = List(contributes_to='enthought.envisage.ui.tasks.tasks')
+
+        def _tasks_default(self):
+            return [ TaskFactory(id = 'example.attractors.task_2d',
+                                 name = '2D Visualization',
+                                 factory = Visualize2dTask),
+                     TaskFactory(id = 'example.attractors.task_3d',
+                                 name = '3D Visualization',
+                                 factory = Visualize3dTask) ]
+
+.. index:: application; layout, TaskWindowLayout
+
+Having contributed tasks to the Tasks plugin, we must now specify how the tasks
+shall be added to windows to constitute our application. We call this
+specification the *application-level layout* to distinguish it from the
+lower-level layout attached to a task. Concretely, an application-level layout
+consists of a set of ``TaskWindowLayout`` objects, each of which indicates which
+tasks are attached to the window, which task is active in window, and,
+optionally, the size and position of the window.
+
+The default application-level layout is defined inside our application class,
+which must inherit ``TasksApplication``::
+
+    class AttractorsApplication(TasksApplication):
+
+        #### 'IApplication' interface #########################################
+
+        # The application's globally unique identifier.
+        id = 'example.attractors'
+
+        # The application's user-visible name.
+        name = 'Attractors'
+
+        #### 'TasksApplication' interface #####################################
+
+        # The default application-level layout for the application.
+        default_layout = [ TaskWindowLayout(tasks=['example.attractors.task_2d',
+                                                  'example.attractors.task_3d'],
+                                            size=(800, 600)) ]
+
+Observe that each of the IDs specified in the layout must correspond to the ID
+of a ``TaskFactory`` that has been contributed to the Tasks plugin. Also note
+that the ``TaskWindowLayout`` class has an ``active_task`` attribute; by
+omitting it, we indicate that the first task in the task list is to be active by
+default.
+
+.. index:: application; state restoration
+
+By default, the Tasks framework will restore application-level layout when the
+application is restarted. That is, the set of windows and tasks attached to
+those windows that is extant when application exits will be restored when
+application is started again. If, however, the ``restore_default`` attribute of
+the application is enabled, the default application-layout will be restored when
+the application is restarted. (Regardless of this setting, the UI layout
+*within* individual tasks will be persisted.)
+
+Apart from this functionality, the Tasks plugin provides no additional *default*
+behavior for managing tasks and their windows, permitting users to switch tasks
+within a window, etc. This is to be expected, as these behaviors are
+fundamentally application-specific. That said, we shall see later that the Tasks
+plugins provides a few built-in extensions for implementing common behaviors.
+
+.. _creating-a-preferences-dialog:
+
+Creating a Preferences Dialog
+=============================
 
 .. _extending-a-task:
 
 Extending an Existing Task
 ==========================
 
+.. rubric:: Footnotes
+
+.. [1] In this section, we will be referencing--often with considerable
+       simplification--the Attractors example code in the EnvisagePlugins
+       package, available `online
+       <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
+       and in the ETS distribution.
