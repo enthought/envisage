@@ -211,8 +211,10 @@ appears multiple times in a layout.
 
 .. rubric:: Footnotes
 
-.. [1] For more information about the MVC pattern as used in ETS, the reader is 
-       referred to the Introduction of the Traits UI User Guide.
+.. [1] For more information about the MVC pattern as used in ETS, the reader is
+       referred to the `Introduction
+       <http://enthought.github.com/traits/TUIUG/intro.html>`_ of the Traits UI
+       User Guide.
 
 .. [2] Throughout this document, "``Task``" will refer to the class of that name
        in the Tasks API, while "task" will be reserved for the general UI

@@ -24,17 +24,18 @@ extensibility use cases:
 
 1. **Contributing to an existing task:**
 
-   In this case, we wish to add some combination of dock panes, menu items,
-   and tool bar buttons to an existing task. In other words, we wish to extend
-   a task's functionality without changing its fundamental purpose.
+   In this case, the user wishes to add some combination of dock panes, menu
+   items, and tool bar buttons to an existing task. In other words, the user
+   would like to extend a task's functionality without changing its fundamental
+   purpose.
 
 2. **Contributing a new task:**
 
-   Alternatively, we may find that the none of the existing tasks are suitable
-   for the functonality we wish to implement. Thus we decide to contribute an
-   entirely new task.
+   Alternatively, the user may find that the none of the existing tasks are
+   suitable for the functonality that he or she wishes to implement. Thus the
+   user decides to contribute an entirely new task.
    
-The Tasks plugin has an extension point corresponding to each of these use
+The Tasks plugin has an extension point corresponding to each of these two use
 cases. These extensions points are:
 
 .. index:: TaskFactory
@@ -42,8 +43,8 @@ cases. These extensions points are:
 1. 'enthought.envisage.ui.tasks.tasks':
 
    A list of ``TaskFactory`` instances. ``TaskFactory`` is a lightweight class
-   for associating a task factory with a name and ID. We shall see an example of
-   its use in the following subsection.
+   for associating a task factory with a name and an ID. We shall see an example
+   of its use in the following subsection.
 
 .. index:: TaskExtension
 
@@ -51,7 +52,7 @@ cases. These extensions points are:
 
    A list of ``TaskExtension`` instances. A ``TaskExtension`` is a bundle of
    menu bar, tool bar, and dock pane additions to an existing task. This class
-   is discussed in detail in :ref:`extending-a-task`.
+   is discussed in detail in the subsection on :ref:`extending-a-task`.
 
 .. _tasks-applications:
 
