@@ -20,6 +20,8 @@ on :ref:`extensibility`.
 Defining a Menu Bar
 -------------------
 
+.. index:: Action
+
 Resuming our example of the script editing task from the previous section, we
 shall define some menu items for opening and saving files. As in Traits UI and
 PyFace, individual menu items are instances of the ``Action`` class [1]_. We
@@ -98,6 +100,34 @@ define separately the ``OpenAction`` and ``SaveAction`` classes::
 
 Defining a Tool Bar
 -------------------
+
+.. index:: ToolBarSchema, SToolBar
+
+Like a menu bar, a tool bar uses the ``Action`` class to represent individual
+items. A tool bar, however, is defined with a different set of schemas:
+
+:``ToolBarSchema``: The root of a tool bar hierarchy. Contains some number of 
+                    group schemas and actions.
+:``GroupSchema``:   A group of tool bar buttons that are logically related and
+                    that may or may not require separators from other groups.
+
+As above, these classes are often abbreviated as ``SToolBar`` and ``SGroup``,
+respectively. Let us now add a tool bar with buttons for opening and saving
+files to our script editing task::
+
+    from enthought.pyface.api import ImageResource
+    from enthought.pyface.tasks.action.api import SToolBar, TaskAction
+
+    class ExampleTask(Task):
+        
+        [ ... ]
+
+        tool_bars = [ SToolBar(TaskAction(method='open',
+                                          tooltip='Open a file',
+                                          image=ImageResource('document_open')),
+                               TaskAction(method='save',
+                                          tooltip='Save the current file',
+                                          image=ImageResource('document_save'))) ]
 
 .. rubric:: Footnotes
 
