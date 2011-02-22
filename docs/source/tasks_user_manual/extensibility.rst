@@ -163,7 +163,153 @@ extensions for implementing common behaviors.
 Creating a Preferences Dialog
 =============================
 
-TODO
+.. index:: preferences
+
+There are three extensions points associated with preferences. One of these
+extension points is built into the Envisage core plugin, while the other two
+belong to the Tasks plugin. Let us survey each of them in turn.
+
+1. ``enthought.envisage.preferences``:
+
+   A list of locators for default preferences files (INI files). This extension
+   point is at the model level in the preferences system.
+
+.. index:: preferences; category
+
+2. ``enthought.envisage.ui.tasks.preferences_categories``:
+
+   A list of ``PreferencesCategory`` instances. Preference categories have name
+   and ID attributes. To each category with a given name corresponds a tab with
+   that name in the preferences dialog, unless there is only a single category,
+   in which the case the tab bar will not be shown.
+
+.. index:: preferences; pane
+
+3. ``enthought.envisage.ui.tasks.preferences_panes``:
+
+   A list of ``PreferencesPane`` instances. A preferences pane defines a set of
+   user interface elements for changing application preferences via a model
+   object called a ``PreferencesHelper``. A preferences pane has a name and an
+   ID, as well as a ``category`` attribute for specifying the ID of the category
+   to which it belongs. Preferences panes are stacked vertically among the other
+   panes in their category. By default, the category of a pane is "General".
+   As a convenience, if a category with the specified ID does not exist, it
+   will be created automatically.
+
+Note that both preference panes and categories have ``before`` and ``after``
+attributes for specifying their order, if this is necessary. See the next
+subsection for more information about this idiom.
+
+We shall now expand the example from the previous subsection by adding a
+preferences dialog for changing the default task and the application-level state
+restoration behavior. By doing so, we shall see concretely how to use the
+preferences system in Tasks, as well as reinforce our knowledge about
+application-level layout.
+
+We begin by defining "preferences.ini", our default preferences file::
+
+    [example.attractors]
+    default_task = example.attractors.task_2d
+    restore_layout = True
+
+and contributing it to the Envisage core plugin::
+
+    class AttractorsPlugin(Plugin):
+    
+        [ ... ]
+
+        preferences = List(contributes_to='enthought.envisage.preferences')
+
+        def _preferences_default(self):
+            return [ 'pkgfile://example.attractors/preferences.ini' ]
+
+This construction assumes that attractors example is in Python's path (in the
+``example.attractors`` package). Alternatively, we could have used the "file://"
+prefix in conjunction with an absolute path on the local filesystem.
+
+We can now define two classes: a preferences helper and preferences pane. The
+preferences helper is a model-level class that makes accessing the keys in the
+preferences file convenient and type safe. The preferences pane, introduced
+above, exposes a Traits UI view for this helper object::
+
+    from enthought.envisage.ui.tasks.api import PreferencesPane, TaskFactory
+    from enthought.preferences.api import PreferencesHelper
+
+    class AttractorsPreferences(PreferencesHelper):
+
+        #### 'PreferencesHelper' interface ####################################
+    
+        # The path to the preference node that contains the preferences.
+        # Notice that this corresponds to the section header in our preferences 
+        # file above.
+        preferences_path = 'example.attractors'
+
+        #### Preferences ######################################################
+
+        default_task = Str
+        restore_layout = Bool
+
+    class AttractorsPreferencesPane(PreferencesPane):
+
+        task_factories = List(TaskFactory)
+        task_map = Property(Dict(Str, Unicode), depends_on='task_factories')
+
+        # Notice that the default context for trait names is that of the model 
+        # object, and that we must prefix names for this object with 'handler.'.
+        view = View(Group(Item('restore_layout'),
+                          Item('default_task',
+                               editor = EnumEditor(name='handler.task_map'),
+                               enabled_when = 'not restore_layout'),
+                          label='Application startup'),
+                    resizable=True)
+
+        @cached_property
+        def _get_task_map(self):
+            return dict((factory.id, factory.name) 
+                        for factory in self.task_factories)
+
+Finally, we modify our application to make use of this new functionality::
+
+    class AttractorsApplication(TasksApplication):
+
+        [ ... ]
+
+        #### 'TasksApplication' interface #####################################
+
+        default_layout = List(TaskWindowLayout)
+        restore_layout = Property(Bool)
+
+        #### 'AttractorsApplication' interface ################################
+
+        preferences_helper = Instance(AttractorsPreferences)
+
+        def _default_layout_default(self):
+            active_task = self.preferences_helper.default_task
+            tasks = [ factory.id for factory in self._task_factories ]
+            return [ TaskWindowLayout(active_task = active_task, 
+                                      tasks = tasks, 
+                                      size = (800, 600)) ]
+
+        def _get_restore_layout(self):
+            return self.preferences_helper.restore_layout
+
+        def _preferences_helper_default(self):
+            return AttractorsPreferences(preferences = self.preferences)
+
+and contribute the preferences pane to the Tasks plugin::
+
+    class AttractorsPlugin(Plugin):
+
+        [ ... ]
+        
+        preferences_panes = List(
+            contributes_to='enthought.envisage.ui.tasks.preferences_panes')
+
+        def _preferences_panes_default(self):
+            factory = lambda: AttractorsPreferencesPane(
+                model = self.application.preferences_helper,
+                task_factories = self.tasks)
+            return [ factory ]
 
 .. _extending-a-task:
 
@@ -264,7 +410,7 @@ builtin task switcher as its factory (see
        <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
        and in the ETS distribution.
 
-.. [2] Note that although schemas are expanded into PyFace action items, they
+.. [2] Note that although they are expanded into PyFace action items, schemas
        belong to a distinct API. It is beyond the scope of this document to
        describe the PyFace action API. For lack of more complete documentation,
        the reader is referred to the `source code
