@@ -112,7 +112,7 @@ shall be added to windows to constitute our application. We call this
 specification the *application-level layout* to distinguish it from the
 lower-level layout attached to a task. Concretely, an application-level layout
 consists of a set of ``TaskWindowLayout`` objects, each of which indicates which
-tasks are attached to the window, which task is active in window, and,
+tasks are attached to the window, which task is active in the window, and,
 optionally, the size and position of the window.
 
 The default application-level layout is defined inside our application class,
@@ -154,8 +154,9 @@ the application is restarted. (Regardless of this setting, the UI layout
 Apart from this functionality, the Tasks plugin provides no additional *default*
 behavior for managing tasks and their windows, permitting users to switch tasks
 within a window, etc. This is to be expected, as these behaviors are
-fundamentally application-specific. That said, we shall see later that the Tasks
-plugins provides a few built-in extensions for implementing common behaviors.
+fundamentally application-specific. That said, we shall see in
+:ref:`global-task-extensions` that the Tasks plugins provides a few built-in
+extensions for implementing common behaviors.
 
 .. _creating-a-preferences-dialog:
 
@@ -177,10 +178,14 @@ three attributes:
 2. ``actions``: A list of ``SchemaAddition`` objects.
 3. ``dock_panes_factories``: A list of callables for creating dock panes.
 
+.. index:: SchemaAddition
+
 The second attributes requires further discussion. In the previous section, we
 remarked that a task's menu and tool bars are defined using schemas; the
 ``SchemaAddition`` class provides a mechanism for inserting new items into these
-schemas. 
+schemas.
+
+.. index:: path
 
 A schema implicitly defines a *path* for each of its elements. For example, in
 the schema::
@@ -192,15 +197,64 @@ the schema::
              SMenu([ ... ],
                    id = 'Edit', name = '&Edit'))
 
-the edit menu has the path 'MenuBar/Edit'. Likewise, the save group in the file
-menu has path the 'MenuBar/File/SaveGroup'. We might define a ``SchemaAddition``
-for this menu as follows::
+the edit menu has the path "MenuBar/Edit". Likewise, the save group in the file
+menu has the path "MenuBar/File/SaveGroup". We might define an addition for this
+menu as follows::
 
     SchemaAddition(factory = MyContributedGroup,
                    path = 'MenuBar/File')
 
-TODO: Finish this section. Among other things, discuss the default extensions
-provided by TasksApplication.
+where ``factory`` is a callable that produces an object from the PyFace action
+API, in this case a custom subclass of ``Group`` [2]_.
+
+.. index:: before, after
+
+The group created from the schema addition above would be inserted at the bottom
+of the file menu. The ``SchemaAddition`` class provides two further attributes
+for specifying with greater precision the location of the insertion: ``before``
+and ``after``. Setting one of these attributes to the ID of a schema with the
+same path ensures that the insertion will be made before or after, respectively,
+that schema. For example, in the expanded addition::
+
+     SchemaAddition(factory = MyContributedGroup,
+                    before = 'SaveGroup',
+                    path = 'MenuBar/File')
+
+the created group would be inserted before the save group. If both ``before``
+and ``after`` are set, Tasks will attempt to honor them [3]_. In the event that
+Tasks cannot, the menu order is undefined (although the insertions are
+guaranteed to made somewhere) and an error is logged.
+
+.. _global-task-extensions:
+
+Global Task Extensions
+=======================
+
+.. index:: global action
+
+When creating an application with several tasks it is frequently the case that
+certain menu bar or tool bar actions should be present in all tasks. Such
+actions might include an "Exit" item in the "File" menu or an "About" item in
+the "Help" menu. One can, of course, include these items in the schemas of each
+task; indeed, if the actions require task-specific behavior, this is the only
+reasonable approach to take. But for actions that are truly global in nature
+Tasks provides an alternative that may be more convenient.
+
+The ``global_actions`` attribute of the ``TasksApplication`` class is a list of
+schema additions that will be make to *all* tasks. By default, Tasks provides
+the following additions:
+
+- A group of actions in the menu with ID "View" for toggling the visibility of
+  dock panes (see ``enthought.pyface.tasks.action.api.DockPaneToggleGroup``)
+- A "Preferences" action in the menu with ID "Edit", if the application has any
+  preferences panes
+- An "Exit" action in the menu with ID "File"
+
+The user is free to override this list, either to supplement it with new schema
+additions or to replace it entirely. For example, to provide a simple mechanism
+for changing tasks, one might add an addition to the "View" menu with the
+builtin task switcher as its factory (see
+``enthought.pyface.tasks.action.api.TaskChangeMenuManager``).
 
 .. rubric:: Footnotes
 
@@ -209,3 +263,11 @@ provided by TasksApplication.
        package, available `online
        <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
        and in the ETS distribution.
+
+.. [2] Note that although schemas are expanded into PyFace action items, they
+       belong to a distinct API. It is beyond the scope of this document to
+       describe the PyFace action API. For lack of more complete documentation,
+       the reader is referred to the `source code
+       <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/>`_.
+
+.. [3] Tasks differs from the Workbench on this point.
