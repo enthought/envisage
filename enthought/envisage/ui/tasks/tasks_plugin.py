@@ -101,6 +101,8 @@ class TasksPlugin(Plugin):
         """
         from preferences_dialog import PreferencesDialog
 
-        return PreferencesDialog(
-            categories = self.preferences_categories,
-            panes = [ factory() for factory in self.preferences_panes ])
+        dialog = PreferencesDialog(application = self.application)
+        dialog.trait_set(categories = self.preferences_categories,
+                         panes = [ factory(dialog = dialog) 
+                                   for factory in self.preferences_panes ])
+        return dialog

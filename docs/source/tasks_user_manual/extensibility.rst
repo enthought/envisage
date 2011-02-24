@@ -251,6 +251,13 @@ above, exposes a Traits UI view for this helper object::
 
     class AttractorsPreferencesPane(PreferencesPane):
 
+        #### 'PreferencesPane' interface ######################################
+
+        # The factory to use for creating the preferences model object.
+        model_factory = AttractorsPreferences
+
+        #### 'AttractorsPreferencesPane' interface ############################
+
         task_factories = List(TaskFactory)
         task_map = Property(Dict(Str, Unicode), depends_on='task_factories')
 
@@ -306,9 +313,8 @@ and contribute the preferences pane to the Tasks plugin::
             contributes_to='enthought.envisage.ui.tasks.preferences_panes')
 
         def _preferences_panes_default(self):
-            factory = lambda: AttractorsPreferencesPane(
-                model = self.application.preferences_helper,
-                task_factories = self.tasks)
+            factory = lambda **traits: AttractorsPreferencesPane(
+                task_factories = self.tasks, **traits)
             return [ factory ]
 
 .. _extending-a-task:

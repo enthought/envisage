@@ -1,5 +1,6 @@
 # Enthought library imports.
-from enthought.traits.api import Bool, HasTraits, List, Unicode, on_trait_change
+from enthought.traits.api import Bool, HasTraits, Instance, List, Unicode, \
+    on_trait_change
 from enthought.traits.ui.api import Item, Handler, ListEditor, View
 from enthought.pyface.tasks.topological_sort import before_after_sort
 
@@ -27,6 +28,9 @@ class PreferencesDialog(Handler):
     """
 
     #### 'PreferencesDialog' interface ########################################
+
+    # The application that created and is managing this dialog.
+    application = Instance('enthought.envisage.ui.tasks.api.TasksApplication')
 
     # The list of categories to use when building the dialog.
     categories = List(PreferencesCategory)

@@ -41,9 +41,8 @@ class AttractorsPlugin(Plugin):
     def _preferences_panes_default(self):
         from attractors_preferences import AttractorsPreferencesPane
 
-        factory = lambda: AttractorsPreferencesPane(
-            model = self.application.preferences_helper,
-            task_factories = self.tasks)
+        factory = lambda **traits: AttractorsPreferencesPane(
+            task_factories = self.tasks, **traits)
         return [ factory ]
 
     def _tasks_default(self):

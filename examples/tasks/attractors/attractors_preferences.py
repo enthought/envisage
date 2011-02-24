@@ -30,6 +30,13 @@ class AttractorsPreferencesPane(PreferencesPane):
     """ The preferences pane for the Attractors application.
     """
 
+    #### 'PreferencesPane' interface ##########################################
+
+    # The factory to use for creating the preferences model object.
+    model_factory = AttractorsPreferences
+
+    #### 'AttractorsPreferencesPane' interface ################################
+
     task_factories = List(TaskFactory)
     task_map = Property(Dict(Str, Unicode), depends_on='task_factories')
 

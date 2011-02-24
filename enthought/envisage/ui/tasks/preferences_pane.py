@@ -1,6 +1,6 @@
 # Enthought library imports.
 from enthought.preferences.api import IPreferences, PreferencesHelper
-from enthought.traits.api import Dict, HasTraits, Instance, Str
+from enthought.traits.api import Callable, Dict, HasTraits, Instance, Str
 from enthought.traits.ui.api import Controller
 
 
@@ -27,6 +27,15 @@ class PreferencesPane(Controller):
     # The pane appears after the pane with this ID.
     after = Str
 
+    # The preferences dialog to which the pane belongs. Set by the framework.
+    dialog = Instance(
+        'enthought.envisage.ui.tasks.preferences_dialog.PreferencesDialog')
+
+    # # The factory to use for creating the preferences model object, of form:
+    #     callable(**traits) -> PreferencesHelper
+    # If not specified, the preferences helper must be supplied manually.
+    model_factory = Callable
+
     #### Private interface ####################################################
 
     _model = Instance(PreferencesHelper)
@@ -39,6 +48,13 @@ class PreferencesPane(Controller):
         """ Re-implemented to use a copy of the model that is not connected to
             the preferences node.
         """
+        if self.model is None:
+            if self.model_factory is not None:
+                preferences = self.dialog.application.preferences
+                self.model = self.model_factory(preferences = preferences)
+            else:
+                raise ValueError('A preferences pane must have a model!')
+
         self._model = self.model.clone_traits()
         self._model.preferences = None
         return { 'object': self._model, 'controller': self, 'handler': self }
