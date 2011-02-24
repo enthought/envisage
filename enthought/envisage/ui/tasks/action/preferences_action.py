@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.pyface.action.api import Action
+from enthought.pyface.action.api import Action, Group
 
 
 class PreferencesAction(Action):
@@ -31,3 +31,20 @@ class PreferencesAction(Action):
         
         if ui.result:
             window.application.preferences.save()
+
+
+class PreferencesGroup(Group):
+    """ A group that contains the preferences action.
+    """
+
+    #### 'Action' interface ###################################################
+
+    # The group's identifier (unique within action manager).
+    id = 'PreferencesGroup'
+
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __init__(self, **traits):
+        super(PreferencesGroup, self).__init__(PreferencesAction(), **traits)

@@ -262,13 +262,13 @@ class TasksApplication(Application):
 
     def _global_actions_default(self):
         from action.exit_action import ExitAction
-        from action.preferences_action import PreferencesAction
+        from action.preferences_action import PreferencesGroup
         from enthought.pyface.tasks.action.api import DockPaneToggleGroup
         return [ SchemaAddition(id='Exit',
                                 factory=ExitAction, 
                                 path='MenuBar/File'),
                  SchemaAddition(id='Preferences',
-                                factory=PreferencesAction,
+                                factory=PreferencesGroup,
                                 path='MenuBar/Edit'),
                  SchemaAddition(id='DockPaneToggleGroup',
                                 factory=DockPaneToggleGroup,
