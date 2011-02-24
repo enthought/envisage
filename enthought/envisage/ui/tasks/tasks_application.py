@@ -141,7 +141,8 @@ class TasksApplication(Application):
             return None
 
         # Create the task using suitable task extensions.
-        extensions = [ ext for ext in self._task_extensions if ext.id == id ]
+        extensions = [ ext for ext in self._task_extensions 
+                       if ext.task_id == id ]
         task = factory.create_with_extensions(extensions)
         task.extra_actions.extend(self.global_actions)
         task.id = factory.id
@@ -256,7 +257,7 @@ class TasksApplication(Application):
     def _default_layout_default(self):
         window_layout = TaskWindowLayout()
         if self._task_factories:
-            window_layout.task_ids = [ self._task_factories[0].id ]
+            window_layout.tasks = [ self._task_factories[0].id ]
         return [ window_layout ]
 
     def _global_actions_default(self):

@@ -44,7 +44,7 @@ Of course, we must also implement the ``open()`` method on our task::
     
         [ ... ]
 
-        def open(self, event=None):
+        def open(self):
             """ Shows a dialog to open a file.
             """
             dialog = FileDialog(parent=self.window.control, wildcard='*.py')
