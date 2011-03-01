@@ -9,8 +9,8 @@ from enthought.envisage.api import Application, ExtensionPoint
 from enthought.pyface.api import GUI, SplashScreen
 from enthought.pyface.tasks.action.api import SchemaAddition
 from enthought.pyface.tasks.api import TaskLayout, TaskWindowLayout
-from enthought.traits.api import Bool, Callable, Dict, Event, File, Instance, \
-     List, Property, Str, Unicode
+from enthought.traits.api import Bool, Callable, Dict, Event, File, \
+    HasStrictTraits, Instance, List, Property, Str, Unicode
 
 # Local imports
 from task_window import TaskWindow
@@ -18,6 +18,18 @@ from task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 
 # Logging.
 logger = logging.getLogger(__name__)
+
+
+class TasksApplicationState(HasStrictTraits):
+    """ A class used internally by TasksApplication for saving and restoring 
+        application state.
+    """
+    
+    # A mapping from task IDs to task layouts.
+    task_layouts = Dict(Str, Instance(TaskLayout))
+
+    # Layouts for the windows extant at application exit.
+    window_layouts = List(TaskWindowLayout)
 
 
 class TasksApplication(Application):
@@ -96,15 +108,14 @@ class TasksApplication(Application):
     # An 'implicit' exit is when the user closes the last open window.
     _explicit_exit = Bool(False)
 
+    # Task and window state.
+    _state = Instance(TasksApplicationState, ())
+
     # Contributed TaskFactories.
     _task_factories = ExtensionPoint(id=TASK_FACTORIES)
 
     # Contributed TaskExtensions.
     _task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
-
-    # Layout state.
-    _task_layouts = Dict(Str, TaskLayout)
-    _window_layouts = Property(List(TaskWindowLayout))
 
     ###########################################################################
     # 'IApplication' interface.
@@ -177,9 +188,9 @@ class TasksApplication(Application):
         """
         self._explicit_exit = True
         try:
-            # Fetch the window layouts before closing the windows! If we succeed
-            # in closing all the windows, we will write these to disk.
-            window_layouts = self._window_layouts
+            # Fetch the window layouts *before* closing the windows. If we
+            # succeed in closing all the windows, we will write these to disk.
+            window_layouts = [ w.get_window_layout() for w in self.windows ]
 
             # Attempt to close all open windows.
             success = True
@@ -187,10 +198,11 @@ class TasksApplication(Application):
                 if not window.close():
                     success = False
                     break
-            else:
-                # FIXME: Without the copy() call we get a pickling error. Is
-                # this a Traits bug?
-                self._save_state((self._task_layouts.copy(), window_layouts))
+            
+            # Save the state, if necesssary.
+            if success:
+                self._state.window_layouts = window_layouts
+                self._save_state(self._state)
         finally:
             self._explicit_exit = False
         return success
@@ -204,10 +216,10 @@ class TasksApplication(Application):
             application layout.
         """
         # Build a list of TaskWindowLayouts.
-        saved_task_layouts, saved_window_layouts = self._load_state()
+        restored_state = self._load_state()
         if self.restore_layout:
-            if saved_window_layouts:
-                window_layouts = saved_window_layouts
+            if restored_state.window_layouts:
+                window_layouts = restored_state.window_layouts
             else:
                 window_layouts = self.default_layout
         else:
@@ -215,7 +227,7 @@ class TasksApplication(Application):
             # layouts of individual tasks.
             window_layouts = self.default_layout
             for window_layout in window_layouts:
-                window_layout.layout_state.update(saved_task_layouts)
+                window_layout.layout_state.update(restored_state.task_layouts)
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
@@ -232,7 +244,7 @@ class TasksApplication(Application):
     def _load_state(self):
         """ Loads saved application state, if possible.
         """
-        state = ({}, [])
+        state = TasksApplicationState()
         filename = os.path.join(self.state_location, 'application_memento')
         if os.path.exists(filename):
             # Attempt to unpickle the saved application layout.
@@ -287,11 +299,6 @@ class TasksApplication(Application):
 
         return state_location
 
-    #### Trait property getter/setters ########################################
-
-    def _get__window_layouts(self):
-        return [ window.get_window_layout() for window in self.windows ]
-
     #### Trait change handlers ################################################
 
     def _on_window_activated(self, window, trait_name, event):
@@ -327,13 +334,13 @@ class TasksApplication(Application):
         else:
             # Store the TaskLayouts for the window.
             window_layout = window.get_window_layout()
-            self._task_layouts.update(window_layout.layout_state)
+            self._state.task_layouts.update(window_layout.layout_state)
             
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                # FIXME: See comment above for other _save_state call.
-                self._save_state((self._task_layouts.copy(), [window_layout]))
+                self._state.window_layouts = [ window_layout ]
+                self._save_state(self._state)
 
     def _on_window_closed(self, window, trait_name, event):
         self.windows.remove(window)
