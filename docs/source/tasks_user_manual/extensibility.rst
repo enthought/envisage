@@ -1,10 +1,10 @@
 .. _extensibility:
 
-.. index:: Envisage
-
 ===============
  Extensibility
 ===============
+
+.. index:: Envisage
 
 The foregoing sections have described those elements of the Tasks framework that
 belong to the PyFace project; as such, our imports have been from the
@@ -146,10 +146,11 @@ default.
 By default, the Tasks framework will restore application-level layout when the
 application is restarted. That is, the set of windows and tasks attached to
 those windows that is extant when application exits will be restored when
-application is started again. If, however, the ``restore_default`` attribute of
-the application is enabled, the default application-layout will be restored when
-the application is restarted. (Regardless of this setting, the UI layout
-*within* individual tasks will be persisted.)
+application is started again. If, however, the ``always_use_default_layout``
+attribute of the application is set, the default application-layout will be
+applied when the application is restarted. Tasks will still attempt to restore
+as much user interface state as possible, including window positions and task
+layouts. This setting is partcularly useful for multi-window applications.
 
 Apart from this functionality, the Tasks plugin provides no additional *default*
 behavior for managing tasks and their windows, permitting users to switch tasks
@@ -210,7 +211,7 @@ We begin by defining "preferences.ini", our default preferences file::
 
     [example.attractors]
     default_task = example.attractors.task_2d
-    restore_layout = True
+    always_use_default_layout = False
 
 and contributing it to the Envisage core plugin::
 
@@ -247,7 +248,7 @@ above, exposes a Traits UI view for this helper object::
         #### Preferences ######################################################
 
         default_task = Str
-        restore_layout = Bool
+        always_use_default_layout = Bool
 
     class AttractorsPreferencesPane(PreferencesPane):
 
@@ -263,10 +264,10 @@ above, exposes a Traits UI view for this helper object::
 
         # Notice that the default context for trait names is that of the model 
         # object, and that we must prefix names for this object with 'handler.'.
-        view = View(Group(Item('restore_layout'),
+        view = View(Group(Item('always_use_default_layout'),
                           Item('default_task',
                                editor = EnumEditor(name='handler.task_map'),
-                               enabled_when = 'not restore_layout'),
+                               enabled_when = 'always_use_default_layout'),
                           label='Application startup'),
                     resizable=True)
 
@@ -284,7 +285,7 @@ Finally, we modify our application to make use of this new functionality::
         #### 'TasksApplication' interface #####################################
 
         default_layout = List(TaskWindowLayout)
-        restore_layout = Property(Bool)
+        always_use_default_layout = Property(Bool)
 
         #### 'AttractorsApplication' interface ################################
 
@@ -297,8 +298,8 @@ Finally, we modify our application to make use of this new functionality::
                                       tasks = tasks, 
                                       size = (800, 600)) ]
 
-        def _get_restore_layout(self):
-            return self.preferences_helper.restore_layout
+        def _get_always_use_default_layout(self):
+            return self.preferences_helper.always_use_default_layout
 
         def _preferences_helper_default(self):
             return AttractorsPreferences(preferences = self.preferences)

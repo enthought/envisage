@@ -27,7 +27,7 @@ class AttractorsApplication(TasksApplication):
 
     # Whether to restore the previous application-level layout when the
     # applicaton is started.
-    restore_layout = Property(Bool)
+    always_use_default_layout = Property(Bool)
 
     #### 'AttractorsApplication' interface ####################################
 
@@ -51,5 +51,5 @@ class AttractorsApplication(TasksApplication):
 
     #### Trait property getter/setters ########################################
 
-    def _get_restore_layout(self):
-        return self.preferences_helper.restore_layout
+    def _get_always_use_default_layout(self):
+        return self.preferences_helper.always_use_default_layout

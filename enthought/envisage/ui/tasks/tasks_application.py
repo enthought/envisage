@@ -28,7 +28,9 @@ class TasksApplicationState(HasStrictTraits):
     # A mapping from task IDs to task layouts.
     task_layouts = Dict(Str, Instance(TaskLayout))
 
-    # Layouts for the windows extant at application exit.
+    # If 'always_use_default_layout' is set, a list of layouts accumulated
+    # throughout the application's lifecycle. Otherwise, the layouts for the
+    # windows extant at application exit.
     window_layouts = List(TaskWindowLayout)
 
 
@@ -80,10 +82,10 @@ class TasksApplication(Application):
     # will be created with the first available task factory.
     default_layout = List(TaskWindowLayout)
 
-    # Whether to restore the previous *application level* layout when the
+    # Whether to always apply the default *application level* layout when the
     # application is started. Even if this is False, the layout state of
     # individual tasks will be restored.
-    restore_layout = Bool(True)
+    always_use_default_layout = Bool(False)
 
     #### Window lifecycle events ##############################################
 
@@ -190,7 +192,8 @@ class TasksApplication(Application):
         try:
             # Fetch the window layouts *before* closing the windows. If we
             # succeed in closing all the windows, we will write these to disk.
-            window_layouts = [ w.get_window_layout() for w in self.windows ]
+            if not self.always_use_default_layout:
+                window_layouts = [ w.get_window_layout() for w in self.windows ]
 
             # Attempt to close all open windows.
             success = True
@@ -201,8 +204,9 @@ class TasksApplication(Application):
             
             # Save the state, if necesssary.
             if success:
-                self._state.window_layouts = window_layouts
-                self._save_state(self._state)
+                if not self.always_use_default_layout:
+                    self._state.window_layouts = window_layouts
+                self._save_state()
         finally:
             self._explicit_exit = False
         return success
@@ -217,17 +221,25 @@ class TasksApplication(Application):
         """
         # Build a list of TaskWindowLayouts.
         restored_state = self._load_state()
-        if self.restore_layout:
+        if self.always_use_default_layout:
+            # For each window layout in the default layout, restore the maximum
+            # amount of UI state possible. First, try to find an equivalent
+            # saved window layout. If that fails, at least try to restore the
+            # layouts of individual tasks.
+            window_layouts = []
+            for layout in self.default_layout:
+                for restored_layout in restored_state.window_layouts:
+                    if layout.is_equivalent_to(restored_layout):
+                        window_layouts.append(restored_layout)
+                        break
+                else:
+                    layout.layout_state.update(restored_state.task_layouts)
+                    window_layouts.append(layout)
+        else:
             if restored_state.window_layouts:
                 window_layouts = restored_state.window_layouts
             else:
                 window_layouts = self.default_layout
-        else:
-            # Even if we are not restoring the window layout, we restore the
-            # layouts of individual tasks.
-            window_layouts = self.default_layout
-            for window_layout in window_layouts:
-                window_layout.layout_state.update(restored_state.task_layouts)
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
@@ -257,12 +269,12 @@ class TasksApplication(Application):
                                  filename)
         return state
 
-    def _save_state(self, state):
+    def _save_state(self):
         """ Saves the specified application state.
         """
         filename = os.path.join(self.state_location, 'application_memento')
         with open(filename, 'w') as f:
-            cPickle.dump(state, f)
+            cPickle.dump(self._state, f)
 
     #### Trait initializers ###################################################
 
@@ -332,15 +344,18 @@ class TasksApplication(Application):
         if window_event.veto:
             event.veto = True
         else:
-            # Store the TaskLayouts for the window.
+            # Store the layouts for the window.
             window_layout = window.get_window_layout()
             self._state.task_layouts.update(window_layout.layout_state)
+            if self.always_use_default_layout:
+                self._state.window_layouts.insert(0, window_layout)
             
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                self._state.window_layouts = [ window_layout ]
-                self._save_state(self._state)
+                if not self.always_use_default_layout:
+                    self._state.window_layouts = [ window_layout ]
+                self._save_state()
 
     def _on_window_closed(self, window, trait_name, event):
         self.windows.remove(window)
