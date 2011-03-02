@@ -357,8 +357,11 @@ menu as follows::
     SchemaAddition(factory = MyContributedGroup,
                    path = 'MenuBar/File')
 
-where ``factory`` is a callable that produces an object from the PyFace action
-API, in this case a custom subclass of ``Group`` [2]_.
+where ``factory`` is a callable that produces either a schema or an object from
+the PyFace action API [2]_. A schema addition that produces a schema can in turn
+be extended by another schema addition. If it produces a PyFace object, it
+cannot be further extended. In this case we have opted for latter, using a
+custom subclass of ``Group``.
 
 .. index:: before, after
 
@@ -374,9 +377,9 @@ that schema. For example, in the expanded addition::
                     path = 'MenuBar/File')
 
 the created group would be inserted before the save group. If both ``before``
-and ``after`` are set, Tasks will attempt to honor them [3]_. In the event that
-Tasks cannot, the menu order is undefined (although the insertions are
-guaranteed to made somewhere) and an error is logged.
+and ``after`` are set, Tasks will attempt to honor both of them [3]_. In the
+event that Tasks cannot, the menu order is undefined (although the insertions
+are guaranteed to made) and an error is logged.
 
 .. _global-task-extensions:
 
@@ -417,10 +420,10 @@ builtin task switcher as its factory (see
        <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
        and in the ETS distribution.
 
-.. [2] Note that although they are expanded into PyFace action items, schemas
-       belong to a distinct API. It is beyond the scope of this document to
-       describe the PyFace action API. For lack of more complete documentation,
-       the reader is referred to the `source code
+.. [2] Although they are expanded into PyFace action items, schemas belong to a
+       distinct API. It is beyond the scope of this document to describe the
+       PyFace action API. For lack of more complete documentation, the reader is
+       referred to the `source code
        <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/>`_.
 
-.. [3] Tasks differs from the Workbench on this point.
+.. [3] Tasks differs from the Workbench in this regard.
