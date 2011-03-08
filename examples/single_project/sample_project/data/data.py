@@ -6,7 +6,7 @@
 #-----------------------------------------------------------------------------
 
 # Enthought library imports.
-from enthought.chaco2.chaco2_plot_editor import Chaco2PlotItem
+from enthought.chaco.chaco_plot_editor import ChacoPlotItem
 from enthought.numerical_modeling.numeric_context.api import NumericContext
 from enthought.traits.api import adapts, Array, Enum, Float, HasTraits, \
     Instance, Range, Property
@@ -24,7 +24,7 @@ class DataView(HasTraits):
     r_constant= Float(8.314472)
     plot_type = Enum("line", "scatter")
 
-    data_view = View(Chaco2PlotItem("volume", "pressure",
+    data_view = View(ChacoPlotItem("volume", "pressure",
                                type_trait="plot_type",
                                resizable=True,
                                x_label="Volume",
