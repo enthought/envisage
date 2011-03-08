@@ -77,7 +77,11 @@ class SafeWeakrefTestCase(unittest.TestCase):
                 self.method_called = True
 
         f = Foo()
+
+        # Get the length of the cache before we create the weak reference.
+        len_cache = len(ref._cache)
         r = ref(f.method)
+        self.assertEqual(len_cache+1, len(ref._cache))
         
         # Delete the instance!
         del f
@@ -85,10 +89,10 @@ class SafeWeakrefTestCase(unittest.TestCase):
         # Our `ref` should now reference nothing...
         self.assertEqual(None, r())
 
-        # ... and the cache should be empty!
+        # ... and the cache should be back to its original size!
         #
         # fixme: Reaching into internals to test!
-        self.assertEqual(0, len(ref._cache))
+        self.assertEqual(len_cache, len(ref._cache))
         
         return
 
