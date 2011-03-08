@@ -1,10 +1,12 @@
 """ An implementation of weak references that works for bound methods.
 
-This code is based on the code in the Python Cookbook, but uses weak references
-for everything that is *not* a bound method too. It also adds comparison and
-hash methods to allow the weak references to be compared just like standard
-weak references. It is therefore intended to be used as a drop-in replacement
-for 'weakref.ref'.
+This code is based on the code in the Python Cookbook, but you can call `ref`
+for objects that are *not* bound methods too, in which case it just returns a
+standard `weakref.ref`.
+
+Weak references to bound methods are cached so that `ref(x) is ref(x)` as for
+standard weakrefs, and the `ref` class defined here is therefore intended to be
+used as a drop-in replacement for 'weakref.ref'.
 
 """
 
@@ -16,22 +18,53 @@ import new, weakref
 class ref(object):
     """ An implementation of weak references that works for bound methods. """
 
-    def __init__(self, obj):
-        """ Create a weak reference to an object. """
+    # A cache containing the weak references we have already created.
+    #
+    # We cache the weak references by the object containing the associated
+    # bound methods, hence this is a dictionary of dictionaries in the form:-
+    #
+    # { bound_method.im_self : { bound_method.im_func : ref } }
+    #
+    # This makes sure that when the object is garbage collected, any cached
+    # weak references are garbage collected too.
+    _cache = weakref.WeakKeyDictionary()
+    
+    def __new__(cls, obj, *args, **kw):
+        """ Create a new instance of the class. """
 
-        # Is the object a bound method?
+        # If the object is a bound method then either get from the cache, or
+        # create an instance of *this* class to behave like a regular weakref.
         if hasattr(obj, 'im_self'):
-            self._cls = obj.im_class
-            self._fn  = obj.im_func
-            self._ref = weakref.ref(obj.im_self)
-
-        # Otherwise, it is an arbitrary object (unbound methods and plain ol'
-        # functions fall into this category too!).
+            func_cache = ref._cache.setdefault(obj.im_self, {})
+            
+            # If we haven't created a weakref to this bound method before, then
+            # create one and cache it.
+            instance = func_cache.get(obj.im_func)
+            if instance is None:
+                instance = object.__new__(cls, obj, *args, **kw)
+                func_cache[obj.im_func] = instance
+                
+        # Otherwise, just return a regular weakref (because we aren't
+        # returning an instance of *this* class our constructor does not get
+        # called).
         else:
-            self._cls = None
-            self._fn  = None
-            self._ref = weakref.ref(obj)
+            instance = weakref.ref(obj)
 
+        return instance
+        
+    def __init__(self, obj):
+        """ Create a weak reference to a bound method object.
+
+        'obj' is *always* a bound method because in the '__new__' method we
+        don't return an instance of this class if it is not, and hence this
+        constructor doesn't get called.
+
+        """
+
+        self._cls = obj.im_class
+        self._fn  = obj.im_func
+        self._ref = weakref.ref(obj.im_self)
+            
         return
 
     def __call__(self):
@@ -42,28 +75,9 @@ class ref(object):
         """
 
         obj = self._ref()
-        if obj is not None and self._cls is not None:
+        if obj is not None:
             obj = new.instancemethod(self._fn, obj, self._cls)
 
         return obj
-
-    def __cmp__(self, other):
-        """ Compare two objects. """
-
-        if type(self) is not type(other):
-            return -1
-
-        return cmp(self._ref, other._ref)
-
-    def __hash__(self):
-        """ Return a hash value for the object. """
-
-        if self._cls is not None:
-            hashable = (self._ref, self._fn)
-
-        else:
-            hashable = self._ref
-
-        return hash(hashable)
 
 #### EOF ######################################################################

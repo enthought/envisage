@@ -8,7 +8,7 @@ import unittest
 from enthought.envisage.safeweakref import ref
 from enthought.traits.api import HasTraits
 
-
+    
 class SafeWeakrefTestCase(unittest.TestCase):
     """ Tests for safe weakrefs. """
 
@@ -23,9 +23,9 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-
+        
         return
-
+    
     ###########################################################################
     # Tests.
     ###########################################################################
@@ -52,7 +52,44 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # The reference should now return None.
         self.assertEqual(None, r())
+        
+        return
 
+    def test_is(self):
+        """ is """
+
+        class Foo(HasTraits):
+            def method(self):
+                self.method_called = True
+
+        f = Foo()
+
+        # Make sure that two references to the same method are identical.
+        self.assert_(ref(f.method) is ref(f.method))
+        
+        return
+
+    def test_cache_is_weak_too(self):
+        """ cache is weak too """
+
+        class Foo(HasTraits):
+            def method(self):
+                self.method_called = True
+
+        f = Foo()
+        r = ref(f.method)
+        
+        # Delete the instance!
+        del f
+
+        # Our `ref` should now reference nothing...
+        self.assertEqual(None, r())
+
+        # ... and the cache should be empty!
+        #
+        # fixme: Reaching into internals to test!
+        self.assertEqual(0, len(ref._cache))
+        
         return
 
     def test_cmp(self):
@@ -67,12 +104,11 @@ class SafeWeakrefTestCase(unittest.TestCase):
         # Make sure that two references to the same method compare as equal.
         r1 = ref(f.method)
         r2 = ref(f.method)
-        self.assert_(r1 is not r2)
         self.assertEqual(r1, r2)
 
         # Make sure that a reference compares as unequal to non-references!
         self.assert_(not r1 == 99)
-
+        
         return
 
     def test_hash(self):
@@ -88,16 +124,14 @@ class SafeWeakrefTestCase(unittest.TestCase):
         r1 = ref(f.method)
         r2 = ref(f.method)
 
-        self.assert_(r1 is not r2)
         self.assertEqual(hash(r1), hash(r2))
 
         # Make sure we can hash non-bound methods.
         r1 = ref(Foo)
         r2 = ref(Foo)
 
-        self.assert_(r1 is not r2)
         self.assertEqual(hash(r1), hash(r2))
-
+        
         return
 
     def test_non_bound_method(self):
@@ -117,7 +151,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # The reference should now return None.
         self.assertEqual(None, r())
-
+        
         return
 
 
