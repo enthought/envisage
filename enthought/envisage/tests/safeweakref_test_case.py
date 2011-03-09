@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import unittest
+import unittest, weakref
 
 # Enthought library imports.
 from enthought.envisage.safeweakref import ref
@@ -30,9 +30,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
     # Tests.
     ###########################################################################
 
-    def test_bound_method(self):
-        """ bound method """
-
+    def test_can_create_weakref_to_bound_method(self):
         class Foo(HasTraits):
             def method(self):
                 self.method_called = True
@@ -55,33 +53,39 @@ class SafeWeakrefTestCase(unittest.TestCase):
         
         return
 
-    def test_is(self):
-        """ is """
-
+    def test_two_weakrefs_to_bound_method_are_identical(self):
         class Foo(HasTraits):
             def method(self):
-                self.method_called = True
+                pass
 
         f = Foo()
-
-        # Make sure that two references to the same method are identical.
         self.assert_(ref(f.method) is ref(f.method))
         
         return
 
-    def test_cache_is_weak_too(self):
-        """ cache is weak too """
-
+    def test_internal_cache_is_weak_too(self):
+        # smell: Fragile test because we are reaching into the internals of the
+        # object under test.
+        #
+        # I can't see a (clean!) way around this without adding something to
+        # the public API that would only exist for testing, but in terms of
+        # 'bang for the buck' I think this is good enough despite the
+        # fragility.
+        cache = ref._cache
+        
         class Foo(HasTraits):
             def method(self):
-                self.method_called = True
+                pass
 
         f = Foo()
 
-        # Get the length of the cache before we create the weak reference.
-        len_cache = len(ref._cache)
+        # Get the length of the cache before we do anything.
+        len_cache = len(cache)
+
+        # Create a weak reference to the bound method and make sure that
+        # exactly one item has been added to the cache.
         r = ref(f.method)
-        self.assertEqual(len_cache+1, len(ref._cache))
+        self.assertEqual(len_cache + 1, len(cache))
         
         # Delete the instance!
         del f
@@ -90,18 +94,14 @@ class SafeWeakrefTestCase(unittest.TestCase):
         self.assertEqual(None, r())
 
         # ... and the cache should be back to its original size!
-        #
-        # fixme: Reaching into internals to test!
-        self.assertEqual(len_cache, len(ref._cache))
+        self.assertEqual(len_cache, len(cache))
         
         return
 
-    def test_cmp(self):
-        """ cmp """
-
+    def test_two_weakrefs_to_bound_method_are_equal(self):
         class Foo(HasTraits):
             def method(self):
-                self.method_called = True
+                pass
 
         f = Foo()
 
@@ -115,12 +115,10 @@ class SafeWeakrefTestCase(unittest.TestCase):
         
         return
 
-    def test_hash(self):
-        """ hash """
-
+    def test_two_weakrefs_to_bound_method_hash_equally(self):
         class Foo(HasTraits):
             def method(self):
-                self.method_called = True
+                pass
 
         f = Foo()
 
@@ -138,9 +136,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
         
         return
 
-    def test_non_bound_method(self):
-        """ non bound method """
-
+    def test_get_builtin_weakref_for_non_bound_method(self):
         class Foo(HasTraits):
             pass
 
@@ -148,13 +144,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # Get a weak reference to something that is not a bound method.
         r = ref(f)
-        self.assertNotEqual(None, r())
-
-        # Delete the object.
-        del f
-
-        # The reference should now return None.
-        self.assertEqual(None, r())
+        self.assertEqual(weakref.ref, type(r))
         
         return
 
