@@ -14,6 +14,11 @@ used as a drop-in replacement for 'weakref.ref'.
 # Standard library imports.
 import new, weakref
 
+# Because this module is intended as a drop-in replacement for weakref, we
+# import everything from that module here (so the user can do things like
+# "import safeweakref as weakref" etc).
+from weakref import *
+
 
 class ref(object):
     """ An implementation of weak references that works for bound methods. """
@@ -33,24 +38,24 @@ class ref(object):
         """ Create a new instance of the class. """
 
         # If the object is a bound method then either get from the cache, or
-        # create an instance of *this* class to behave like a regular weakref.
+        # create an instance of *this* class.
         if hasattr(obj, 'im_self'):
             func_cache = ref._cache.setdefault(obj.im_self, {})
             
             # If we haven't created a weakref to this bound method before, then
             # create one and cache it.
-            instance = func_cache.get(obj.im_func)
-            if instance is None:
-                instance = object.__new__(cls, obj, *args, **kw)
-                func_cache[obj.im_func] = instance
+            self = func_cache.get(obj.im_func)
+            if self is None:
+                self = object.__new__(cls, obj, *args, **kw)
+                func_cache[obj.im_func] = self
                 
         # Otherwise, just return a regular weakref (because we aren't
         # returning an instance of *this* class our constructor does not get
         # called).
         else:
-            instance = weakref.ref(obj)
-
-        return instance
+            self = weakref.ref(obj)
+        
+        return self
         
     def __init__(self, obj):
         """ Create a weak reference to a bound method object.
