@@ -1,12 +1,12 @@
 """ The default implementation of the 'IPlugin' interface. """
 
-
 # Standard library imports.
 import inspect, logging, os
 from os.path import exists, join
 
 # Enthought library imports.
 from enthought.traits.api import Instance, List, Property, Str, implements
+from enthought.util.camel_case import camel_case_to_words
 
 # Local imports.
 from extension_point import ExtensionPoint
@@ -19,8 +19,6 @@ from i_plugin_activator import IPluginActivator
 from i_service_registry import IServiceRegistry
 from i_service_user import IServiceUser
 from plugin_activator import PluginActivator
-from util import camel_case_to_words
-
 
 # Logging.
 logger = logging.getLogger(__name__)
