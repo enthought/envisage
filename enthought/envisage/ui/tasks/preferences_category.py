@@ -5,7 +5,7 @@ from enthought.traits.api import HasTraits, Str, Unicode
 class PreferencesCategory(HasTraits):
     """ The description for a container of PreferencesPanes.
     """
-    
+
     # The globally unique identifier for the category.
     id = Str
 

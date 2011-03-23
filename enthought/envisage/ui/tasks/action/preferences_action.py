@@ -28,7 +28,7 @@ class PreferencesAction(Action):
         window = event.task.window
         dialog = window.application.get_service(PreferencesDialog)
         ui = dialog.edit_traits(parent=window.control, kind='livemodal')
-        
+
         if ui.result:
             window.application.preferences.save()
 

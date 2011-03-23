@@ -50,7 +50,7 @@ class Rossler(HasTraits):
     ###########################################################################
     # 'Rossler' interface.
     ###########################################################################
-    
+
     def compute_step(self, point, time):
         x, y, z = point
         return array([ -y - z, x + self.a * y, self.b + z * (x - self.c) ])
@@ -71,7 +71,7 @@ class Rossler(HasTraits):
 class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
 
     implements(IPlottable2d)
-    
+
     adaptee = Instance(Rossler)
 
     plot_type = Str('line')

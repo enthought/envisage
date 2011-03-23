@@ -42,10 +42,10 @@ class Visualize3dTask(Task):
             is active so that dock panes can introspect it.
         """
         pane = Plot3dPane(models=self.models)
-        
+
         self.active_model = pane.active_model
         pane.on_trait_change(self._update_active_model, 'active_model')
-        
+
         return pane
 
     def create_dock_panes(self):

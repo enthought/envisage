@@ -58,4 +58,4 @@ class ModelHelpPane(TraitsDockPane):
                 return f.read()
         else:
             return 'No information available for model.'
-        
+

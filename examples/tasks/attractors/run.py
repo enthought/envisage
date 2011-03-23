@@ -13,8 +13,8 @@ def main(argv):
     plugins = [ CorePlugin(), TasksPlugin(), AttractorsPlugin() ]
     app = AttractorsApplication(plugins=plugins)
     app.run()
-    
-    
+
+
 if __name__ == '__main__':
     import sys
     main(sys.argv)

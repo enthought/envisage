@@ -16,5 +16,5 @@ class TaskWindowEvent(HasTraits):
 class VetoableTaskWindowEvent(TaskWindowEvent, Vetoable):
     """ A vetoable task window lifecycle event.
     """
-    
+
     pass

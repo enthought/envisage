@@ -21,10 +21,10 @@ logger = logging.getLogger(__name__)
 
 
 class TasksApplicationState(HasStrictTraits):
-    """ A class used internally by TasksApplication for saving and restoring 
+    """ A class used internally by TasksApplication for saving and restoring
         application state.
     """
-    
+
     # A mapping from task IDs to task layouts.
     task_layouts = Dict(Str, Instance(TaskLayout))
 
@@ -38,7 +38,7 @@ class TasksApplication(Application):
     """ The entry point for an Envisage Tasks application.
 
     This class handles the common case for Tasks applications and is intended to
-    be subclassed to modify its start/stop behavior, etc. 
+    be subclassed to modify its start/stop behavior, etc.
     """
 
     # Extension point IDs.
@@ -154,7 +154,7 @@ class TasksApplication(Application):
             return None
 
         # Create the task using suitable task extensions.
-        extensions = [ ext for ext in self._task_extensions 
+        extensions = [ ext for ext in self._task_extensions
                        if ext.task_id == id ]
         task = factory.create_with_extensions(extensions)
         task.extra_actions.extend(self.global_actions)
@@ -201,7 +201,7 @@ class TasksApplication(Application):
                 if not window.close():
                     success = False
                     break
-            
+
             # Save the state, if necesssary.
             if success:
                 if not self.always_use_default_layout:
@@ -289,7 +289,7 @@ class TasksApplication(Application):
         from action.preferences_action import PreferencesGroup
         from enthought.pyface.tasks.action.api import DockPaneToggleGroup
         return [ SchemaAddition(id='Exit',
-                                factory=ExitAction, 
+                                factory=ExitAction,
                                 path='MenuBar/File'),
                  SchemaAddition(id='Preferences',
                                 factory=PreferencesGroup,
@@ -321,7 +321,7 @@ class TasksApplication(Application):
         # Event notification.
         self.window_opening = window_event = VetoableTaskWindowEvent(
             window=window)
-        
+
         if window_event.veto:
             event.veto = True
 
@@ -340,7 +340,7 @@ class TasksApplication(Application):
         # Event notification.
         self.window_closing = window_event = VetoableTaskWindowEvent(
             window=window)
-        
+
         if window_event.veto:
             event.veto = True
         else:
@@ -349,7 +349,7 @@ class TasksApplication(Application):
             self._state.task_layouts.update(window_layout.layout_state)
             if self.always_use_default_layout:
                 self._state.window_layouts.insert(0, window_layout)
-            
+
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:

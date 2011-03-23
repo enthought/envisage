@@ -56,6 +56,6 @@ class Plot3dPane(TraitsTaskPane):
         # Make sure that the active model is valid with the new model list.
         if self.active_model not in self.models:
             self.active_model = self.models[0] if self.models else None
-            
+
         # Refresh the EnumEditor map.
         self._enum_map = dict((model, model.name) for model in self.models)

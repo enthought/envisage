@@ -12,7 +12,7 @@ from preferences_pane import PreferencesPane
 class PreferencesTab(HasTraits):
     """ An object used internally by PreferencesDialog.
     """
-    
+
     name = Unicode
     panes = List(PreferencesPane)
 
@@ -42,7 +42,7 @@ class PreferencesDialog(Handler):
     show_apply = Bool(False)
 
     #### Private interface ####################################################
-    
+
     _tabs = List(PreferencesTab)
 
     ###########################################################################
@@ -54,7 +54,7 @@ class PreferencesDialog(Handler):
             traits.
         """
         return { 'object': self, 'handler': self }
-    
+
     def traits_view(self):
         """ Build the dynamic dialog view.
         """
@@ -66,7 +66,7 @@ class PreferencesDialog(Handler):
         tabs_style = 'custom' if len(self._tabs) > 1 else 'readonly'
 
         return View(Item('_tabs',
-                         editor = ListEditor(page_name = '.name', 
+                         editor = ListEditor(page_name = '.name',
                                              style ='custom',
                                              use_notebook = True),
                          show_label = False,
@@ -97,7 +97,7 @@ class PreferencesDialog(Handler):
     ###########################################################################
     # Protected interface.
     ###########################################################################
-    
+
     @on_trait_change('categories, panes')
     def _update_tabs(self):
         # Build a { category id -> [ PreferencePane ] } map.

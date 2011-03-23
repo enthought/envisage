@@ -49,7 +49,7 @@ class TasksPlugin(Plugin):
     preferences_panes = ExtensionPoint(
         List(Callable), id=PREFERENCES_PANES, desc="""
 
-        A preferences pane appears in the preferences dialog to allow the user 
+        A preferences pane appears in the preferences dialog to allow the user
         manipulate certain preference values.
 
         Each contribution to this extension point must be a factory that
@@ -103,6 +103,6 @@ class TasksPlugin(Plugin):
 
         dialog = PreferencesDialog(application = self.application)
         dialog.trait_set(categories = self.preferences_categories,
-                         panes = [ factory(dialog = dialog) 
+                         panes = [ factory(dialog = dialog)
                                    for factory in self.preferences_panes ])
         return dialog

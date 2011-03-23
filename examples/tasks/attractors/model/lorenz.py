@@ -74,7 +74,7 @@ class Lorenz(HasTraits):
 class LorenzIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
 
     implements(IPlottable2d)
-    
+
     adaptee = Instance(Lorenz)
 
     plot_type = Str('line')

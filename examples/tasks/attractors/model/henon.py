@@ -25,7 +25,7 @@ class Henon(HasTraits):
     # Iteration parameters.
     initial_point = Array(value=[0.1, 0.1])
     steps = Int(10000)
-    
+
     # Iteration results.
     points = Property(Array, depends_on='a, b, initial_point, steps')
 
@@ -48,7 +48,7 @@ class Henon(HasTraits):
     ###########################################################################
     # Protected interface.
     ###########################################################################
-    
+
     @cached_property
     def _get_points(self):
         point = self.initial_point

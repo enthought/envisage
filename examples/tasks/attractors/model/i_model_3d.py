@@ -20,7 +20,7 @@ class IModel3dIPlottable2dMixin(HasTraits):
     """
 
     #### 'Adapter' interface ##################################################
-    
+
     adaptee = Instance(IModel3d)
 
     #### 'IPlottable2D' interface #############################################

@@ -12,7 +12,7 @@ class AttractorsPreferences(PreferencesHelper):
     """
 
     #### 'PreferencesHelper' interface ########################################
-    
+
     # The path to the preference node that contains the preferences.
     preferences_path = 'example.attractors'
 
@@ -20,7 +20,7 @@ class AttractorsPreferences(PreferencesHelper):
 
     # The task to activate on app startup if not restoring an old layout.
     default_task = Str
-    
+
     # Whether to always apply the default application-level layout.
     # See TasksApplication for more information.
     always_use_default_layout = Bool
@@ -58,5 +58,5 @@ class AttractorsPreferencesPane(PreferencesPane):
 
     @cached_property
     def _get_task_map(self):
-        return dict((factory.id, factory.name) 
+        return dict((factory.id, factory.name)
                     for factory in self.task_factories)
