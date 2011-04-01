@@ -12,9 +12,6 @@ class ExitAction(Action):
     # A longer description of the action.
     description = 'Exit the application'
 
-    # The action's image (displayed on tool bar tools etc).
-    image = ImageResource('exit')
-
     # The action's name (displayed on menus/tool bar tools etc).
     name = 'Exit'
 
