@@ -328,11 +328,6 @@ class TasksApplication(Application):
     def _on_window_opened(self, window, trait_name, event):
         self.windows.append(window)
 
-        # This is necessary because the activated event is not fired when a
-        # window is first opened and gets focus. It is only fired when the
-        # window comes from lower in the stack to be the active window.
-        self.active_window = window
-
         # Event notification.
         self.window_opened = TaskWindowEvent(window=window)
 
