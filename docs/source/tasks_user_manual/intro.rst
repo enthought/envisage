@@ -57,24 +57,23 @@ Historical Background
 .. index:: background, Workbench
 .. _historical-background:
 
-Many of the ideas behind Tasks plugin originate in another Envisage plugin,
+Many of the ideas behind the Tasks plugin originate in another Envisage plugin,
 called the Workbench (which, in turn, took considerable inspiration from
-Eclipse). Indeed, the Tasks plugin has been created largely to serve as a
-replacement for the Workbench, borrowing its more useful features while
-replacing those which experience has indicated to be cumbersome or
-inflexible. The most significant of these issues include:
+Eclipse). While the Workbench is useful for creating IDE-style
+applications---it was designed for this purpose---there is a large class
+of applications for which it is too inflexible. Significant issues
+include:
 
 - **A lack of distinction between the semantics of UI elements and the layout of
   those elements.** A perspective (the Workbench analogue of a task) has very
-  little responsibility besides saving the state the user interface. Views
-  (the analogues of dock panes) are added directly to the Workbench, which means
-  that they cannot be restricted to certain perspectives, nor can a perspective
-  exercise meaningful control over the layout of its views. Furthermore,
-  recourse must often be made to application-level globals when communicating
-  between views, as there is no structure imposed on them by the active
-  perspective. Finally, since the application menus are not connected to
-  perspectives, there can be only a single set of menu items during the entire
-  application lifecycle.
+  little responsibility besides saving the state the user interface. Views (the
+  analogues of dock panes) are added directly to the Workbench, which means that
+  they cannot be restricted to certain perspectives, nor can a perspective
+  exercise meaningful control over the layout of its views. Furthermore, since
+  there is no structure imposed on views by the active perspective, there is no
+  mechanism for coupling UI components, if this becomes necessary. Finally,
+  since the application menus are not connected to perspectives, it is very
+  difficult to maintain multiple sets of menus over the application lifecycle.
 
 - **A non-customizable central pane.** The notion of editors is inextricably
   connected to the Workbench; the central pane must be a notebook-style
@@ -84,7 +83,10 @@ The above are design considerations that could not be remedied without a vast
 degree of backwards-incompatible change. Less systemic deficiencies of the
 Workbench include:
 
-- A lack of robust support for multi-window applications
-- An inflexible API for exposing user-configurable preferences
+- **A lack of robust support for multi-window applications.** The Workbench
+  does not correctly persist layout state for multiple windows.
 
-Tasks has been designed specifically to avoid these issues.
+- **An inflexible API for exposing user-configurable preferences.** The
+  preferences dialog does not permit fine-grained layout of UI elements.
+
+Tasks has been designed specifically to address these issues.
