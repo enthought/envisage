@@ -102,11 +102,11 @@ Defining a Dock Pane
 Now we imagine that we are building a very primitive Python IDE and that we
 would like to add a dock pane for browsing the local filesystem. We could create
 a ``DockPane`` subclass similarly to the ``TaskPane`` above, implementing the
-``create_contents()`` method of ``DockPane`` to provide the toolkit-specific
-control for the file browser. But if we are familiar with Traits UI we see that
-it would be more convenient to use the Traits UI ``FileEditor`` for this
-purpose. The Tasks framework provides the ``TraitsDockPane`` class to
-facilitate this. We define the pane as follows::
+``create_contents(parent)`` method of ``DockPane`` to provide the
+toolkit-specific control for the file browser. But if we are familiar with
+Traits UI we see that it would be more convenient to use the Traits UI
+``FileEditor`` for this purpose. The Tasks framework provides the
+``TraitsDockPane`` class to facilitate this. We define the pane as follows::
 
     from enthought.pyface.tasks.api import TraitsDockPane
     from enthought.traits.api import Event, File, List, Str
