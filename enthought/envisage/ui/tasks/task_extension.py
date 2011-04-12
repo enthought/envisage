@@ -7,7 +7,8 @@ class TaskExtension(HasTraits):
     """ A bundle of items for extending a Task.
     """
 
-    # The ID of the task to extend.
+    # The ID of the task to extend. If the ID is omitted, the extension applies
+    # to all tasks.
     task_id = Str
 
     # A list of menu bar and tool bar items to add to the set provided

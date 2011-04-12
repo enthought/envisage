@@ -90,7 +90,28 @@ class TasksPlugin(Plugin):
             protocol = 'enthought.envisage.ui.tasks.preferences_dialog.'
                        'PreferencesDialog',
             factory  = self._create_preferences_dialog_service)
+        
         return [ preferences_dialog_service_offer ]
+
+    my_task_extensions = List(contributes_to=TASK_EXTENSIONS)
+
+    def _my_task_extensions_default(self):
+        from action.exit_action import ExitAction
+        from action.preferences_action import PreferencesGroup
+        from enthought.pyface.tasks.action.api import DockPaneToggleGroup, \
+             SchemaAddition
+        
+        actions = [ SchemaAddition(id='Exit',
+                                   factory=ExitAction,
+                                   path='MenuBar/File'),
+                    SchemaAddition(id='Preferences',
+                                   factory=PreferencesGroup,
+                                   path='MenuBar/Edit'),
+                    SchemaAddition(id='DockPaneToggleGroup',
+                                   factory=DockPaneToggleGroup,
+                                   path='MenuBar/View') ]
+
+        return [ TaskExtension(actions=actions) ]
 
     ###########################################################################
     # Private interface.

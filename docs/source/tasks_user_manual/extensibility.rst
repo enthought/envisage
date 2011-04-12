@@ -386,7 +386,7 @@ are guaranteed to made) and an error is logged.
 Global Task Extensions
 =======================
 
-.. index:: global action
+.. index:: TaskExtension; global
 
 When creating an application with several tasks it is frequently the case that
 certain menu bar or tool bar actions should be present in all tasks. Such
@@ -396,9 +396,9 @@ task; indeed, if the actions require task-specific behavior, this is the only
 reasonable approach to take. But for actions that are truly global in nature
 Tasks provides an alternative that may be more convenient.
 
-The ``global_actions`` attribute of the ``TasksApplication`` class is a list of
-schema additions that will be make to *all* tasks. By default, Tasks provides
-the following additions:
+To create a ``TaskExtension`` that applies to all tasks, simply omit the
+``task_id`` attribute. Tasks itself contributes a global task extension with the
+following menu items:
 
 - A group of actions in the menu with ID "View" for toggling the visibility of
   dock panes (see ``enthought.pyface.tasks.action.api.DockPaneToggleGroup``)
@@ -406,11 +406,10 @@ the following additions:
   preferences panes
 - An "Exit" action in the menu with ID "File"
 
-The user is free to override this list, either to supplement it with new schema
-additions or to replace it entirely. For example, to provide a simple mechanism
-for changing tasks, one might add an addition to the "View" menu with the
-builtin task switcher as its factory (see
-``enthought.pyface.tasks.action.api.TaskChangeMenuManager``).
+The user is free to supplement these items by contributing additional global
+task extensions. For example, to provide a simple mechanism for changing tasks,
+one might add an addition to the "View" menu with the builtin task switcher as
+its factory (see ``enthought.pyface.tasks.action.api.TaskChangeMenuManager``).
 
 .. rubric:: Footnotes
 

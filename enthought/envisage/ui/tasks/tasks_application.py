@@ -7,7 +7,6 @@ import os.path
 from enthought.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.pyface.api import GUI, SplashScreen
-from enthought.pyface.tasks.action.api import SchemaAddition
 from enthought.pyface.tasks.api import TaskLayout, TaskWindowLayout
 from enthought.traits.api import Bool, Callable, Dict, Event, File, \
     HasStrictTraits, Instance, List, Property, Str, Unicode
@@ -49,12 +48,6 @@ class TasksApplication(Application):
 
     # The active task window (the last one to get focus).
     active_window = Instance(TaskWindow)
-
-    # A list of schema additions that will be added to all tasks. The following
-    # items are provided by default:
-    #  - An Exit item in the File menu
-    #  - A Group in the View menu for toggling the visibility of dock panes
-    global_actions = List(SchemaAddition)
 
     # The PyFace GUI for the application.
     gui = Instance(GUI)
@@ -155,9 +148,8 @@ class TasksApplication(Application):
 
         # Create the task using suitable task extensions.
         extensions = [ ext for ext in self._task_extensions
-                       if ext.task_id == id ]
+                       if ext.task_id == id or not ext.task_id ]
         task = factory.create_with_extensions(extensions)
-        task.extra_actions.extend(self.global_actions)
         task.id = factory.id
         return task
 
@@ -283,20 +275,6 @@ class TasksApplication(Application):
         if self._task_factories:
             window_layout.tasks = [ self._task_factories[0].id ]
         return [ window_layout ]
-
-    def _global_actions_default(self):
-        from action.exit_action import ExitAction
-        from action.preferences_action import PreferencesGroup
-        from enthought.pyface.tasks.action.api import DockPaneToggleGroup
-        return [ SchemaAddition(id='Exit',
-                                factory=ExitAction,
-                                path='MenuBar/File'),
-                 SchemaAddition(id='Preferences',
-                                factory=PreferencesGroup,
-                                path='MenuBar/Edit'),
-                 SchemaAddition(id='DockPaneToggleGroup',
-                                factory=DockPaneToggleGroup,
-                                path='MenuBar/View') ]
 
     def _gui_default(self):
         return GUI(splash_screen=self.splash_screen)
