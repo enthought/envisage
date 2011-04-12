@@ -23,5 +23,5 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            title = u'%s - %s' % (self.application.name, title)
+            title = u'%s - %s' % (title, self.application.name)
         return title
