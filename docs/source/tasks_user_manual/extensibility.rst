@@ -408,8 +408,12 @@ following menu items:
 
 The user is free to supplement these items by contributing additional global
 task extensions. For example, to provide a simple mechanism for changing tasks,
-one might add an addition to the "View" menu with the builtin task switcher as
-its factory (see ``enthought.pyface.tasks.action.api.TaskChangeMenuManager``).
+one might add include the built-in task switching group in the "View" menu,
+either at the toplevel or as a sub-menu (see
+``enthought.pyface.tasks.action.api.TaskToggleGroup``). For switching between
+windows, Tasks includes the ``TaskWindowToggleGroup``. This class, as well as
+several other menu-related conveniences, can be found in
+``enthought.envisage.ui.tasks.action.api``.
 
 .. rubric:: Footnotes
 
