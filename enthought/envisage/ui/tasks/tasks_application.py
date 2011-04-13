@@ -110,7 +110,8 @@ class TasksApplication(Application):
     # An 'implicit' exit is when the user closes the last open window.
     _explicit_exit = Bool(False)
 
-    # Task and window state.
+    # Application state.
+    _initialized = Bool(False)
     _state = Instance(TasksApplicationState, ())
 
     ###########################################################################
@@ -176,6 +177,14 @@ class TasksApplication(Application):
                 window.add_task(task)
 
         return window
+
+    def initialized(self):
+        """ Called after the windows have been created at start time.
+
+        Implement this method to perform any final initialization after the
+        event loop has been started.
+        """
+        pass
 
     def exit(self):
         """ Exits the application, closing all open task windows.
@@ -295,6 +304,10 @@ class TasksApplication(Application):
     def _on_window_activated(self, window, trait_name, event):
         logger.debug('Task window %s activated', window)
         self.active_window = window
+
+        if not self._initialized:
+            self.initialized()
+            self._initialized = True
 
     def _on_window_opening(self, window, trait_name, event):
         # Event notification.
