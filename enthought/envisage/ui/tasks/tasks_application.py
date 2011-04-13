@@ -154,10 +154,10 @@ class TasksApplication(Application):
         task.id = factory.id
         return task
 
-    def create_window(self, **kw):
+    def create_window(self, *ids, **traits):
         """ Creates a new TaskWindow and attaches it to the application.
         """
-        window = self.window_factory(application=self, **kw)
+        window = self.window_factory(application=self, **traits)
 
         # Listen for the window events.
         window.on_trait_change(self._on_window_activated, 'activated')
@@ -168,6 +168,12 @@ class TasksApplication(Application):
 
         # Event notification.
         self.window_created = TaskWindowEvent(window=window)
+
+        # Create tasks.
+        for task_id in ids:
+            task = self.create_task(task_id)
+            if task:
+                window.add_task(task)
 
         return window
 
@@ -236,13 +242,7 @@ class TasksApplication(Application):
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
-            window = self.create_window()
-            for task_id in window_layout.tasks:
-                task = self.create_task(task_id)
-                if task:
-                    window.add_task(task)
-                else:
-                    logger.error('No task with ID %r', task_id)
+            window = self.create_window(*window_layout.tasks)
             window.set_window_layout(window_layout)
             window.open()
 
