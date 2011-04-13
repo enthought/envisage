@@ -1,8 +1,7 @@
 # Enthought library imports.
 from enthought.envisage.ui.tasks.api import PreferencesPane, TaskFactory
 from enthought.preferences.api import PreferencesHelper
-from enthought.traits.api import Bool, Dict, Enum, List, Property, Str, \
-    Unicode, cached_property
+from enthought.traits.api import Bool, Dict, Enum, List, Str, Unicode
 from enthought.traits.ui.api import EnumEditor, HGroup, VGroup, Item, Label, \
     View
 
@@ -37,8 +36,7 @@ class AttractorsPreferencesPane(PreferencesPane):
 
     #### 'AttractorsPreferencesPane' interface ################################
 
-    task_factories = List(TaskFactory)
-    task_map = Property(Dict(Str, Unicode), depends_on='task_factories')
+    task_map = Dict(Str, Unicode)
 
     view = View(
         VGroup(HGroup(Item('always_use_default_layout'),
@@ -56,7 +54,6 @@ class AttractorsPreferencesPane(PreferencesPane):
     # Private interface.
     ###########################################################################
 
-    @cached_property
-    def _get_task_map(self):
+    def _task_map_default(self):
         return dict((factory.id, factory.name)
-                    for factory in self.task_factories)
+                    for factory in self.dialog.application.task_factories)

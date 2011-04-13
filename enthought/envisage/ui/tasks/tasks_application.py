@@ -56,12 +56,19 @@ class TasksApplication(Application):
     name = Unicode
 
     # The splash screen for the application. By default, there is no splash
-    # scren.
+    # screen.
     splash_screen = Instance(SplashScreen)
 
     # The directory on the local file system used to persist window layout
     # information.
     state_location = File
+
+    # Contributed task factories. This attribute is primarily for run-time
+    # inspection; to instantiate a task, use the 'create_task' method.
+    task_factories = ExtensionPoint(id=TASK_FACTORIES)
+
+    # Contributed task extensions.
+    task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
 
     # The list of task windows created by the application.
     windows = List(TaskWindow)
@@ -106,12 +113,6 @@ class TasksApplication(Application):
     # Task and window state.
     _state = Instance(TasksApplicationState, ())
 
-    # Contributed TaskFactories.
-    _task_factories = ExtensionPoint(id=TASK_FACTORIES)
-
-    # Contributed TaskExtensions.
-    _task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
-
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
@@ -139,7 +140,7 @@ class TasksApplication(Application):
             suitable TaskFactory.
         """
         # Get the factory for the task.
-        for factory in self._task_factories:
+        for factory in self.task_factories:
             if factory.id == id:
                 break
         else:
@@ -147,7 +148,7 @@ class TasksApplication(Application):
             return None
 
         # Create the task using suitable task extensions.
-        extensions = [ ext for ext in self._task_extensions
+        extensions = [ ext for ext in self.task_extensions
                        if ext.task_id == id or not ext.task_id ]
         task = factory.create_with_extensions(extensions)
         task.id = factory.id
@@ -272,8 +273,8 @@ class TasksApplication(Application):
 
     def _default_layout_default(self):
         window_layout = TaskWindowLayout()
-        if self._task_factories:
-            window_layout.tasks = [ self._task_factories[0].id ]
+        if self.task_factories:
+            window_layout.tasks = [ self.task_factories[0].id ]
         return [ window_layout ]
 
     def _gui_default(self):

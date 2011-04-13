@@ -40,10 +40,7 @@ class AttractorsPlugin(Plugin):
 
     def _preferences_panes_default(self):
         from attractors_preferences import AttractorsPreferencesPane
-
-        factory = lambda **traits: AttractorsPreferencesPane(
-            task_factories = self.tasks, **traits)
-        return [ factory ]
+        return [ AttractorsPreferencesPane ]
 
     def _tasks_default(self):
         from visualize_2d_task import Visualize2dTask

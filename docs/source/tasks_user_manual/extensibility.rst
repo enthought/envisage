@@ -259,8 +259,7 @@ above, exposes a Traits UI view for this helper object::
 
         #### 'AttractorsPreferencesPane' interface ############################
 
-        task_factories = List(TaskFactory)
-        task_map = Property(Dict(Str, Unicode), depends_on='task_factories')
+        task_map = Dict(Str, Unicode)
 
         # Notice that the default context for trait names is that of the model 
         # object, and that we must prefix names for this object with 'handler.'.
@@ -271,10 +270,9 @@ above, exposes a Traits UI view for this helper object::
                           label='Application startup'),
                     resizable=True)
 
-        @cached_property
-        def _get_task_map(self):
+        def _task_map_default(self):
             return dict((factory.id, factory.name) 
-                        for factory in self.task_factories)
+                        for factory in self.dialog.application.task_factories)
 
 Finally, we modify our application to make use of this new functionality::
 
@@ -314,9 +312,7 @@ and contribute the preferences pane to the Tasks plugin::
             contributes_to='enthought.envisage.ui.tasks.preferences_panes')
 
         def _preferences_panes_default(self):
-            factory = lambda **traits: AttractorsPreferencesPane(
-                task_factories = self.tasks, **traits)
-            return [ factory ]
+           return [ AttractorsPreferencesPane ]
 
 .. _extending-a-task:
 
