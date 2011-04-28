@@ -1,0 +1,55 @@
+# Standard library imports.
+import os.path
+
+# Enthought library imports.
+from enthought.envisage.api import Plugin
+from enthought.envisage.ui.tasks.api import TaskFactory
+from enthought.traits.api import List
+
+
+class AttractorsPlugin(Plugin):
+    """ The chaotic attractors plugin.
+    """
+
+    # Extension point IDs.
+    PREFERENCES       = 'enthought.envisage.preferences'
+    PREFERENCES_PANES = 'enthought.envisage.ui.tasks.preferences_panes'
+    TASKS             = 'enthought.envisage.ui.tasks.tasks'
+
+    #### 'IPlugin' interface ##################################################
+
+    # The plugin's unique identifier.
+    id = 'example.attractors'
+
+    # The plugin's name (suitable for displaying to the user).
+    name = 'Attractors'
+
+    #### Contributions to extension points made by this plugin ################
+
+    preferences = List(contributes_to=PREFERENCES)
+    preferences_panes = List(contributes_to=PREFERENCES_PANES)
+    tasks = List(contributes_to=TASKS)
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
+
+    def _preferences_default(self):
+        filename = os.path.join(os.path.dirname(__file__), 'preferences.ini')
+        return [ 'file://' + filename ]
+
+    def _preferences_panes_default(self):
+        from attractors_preferences import AttractorsPreferencesPane
+        return [ AttractorsPreferencesPane ]
+
+    def _tasks_default(self):
+        from visualize_2d_task import Visualize2dTask
+        from visualize_3d_task import Visualize3dTask
+
+        return [ TaskFactory(id = 'example.attractors.task_2d',
+                             name = '2D Visualization',
+                             factory = Visualize2dTask),
+
+                 TaskFactory(id = 'example.attractors.task_3d',
+                             name = '3D Visualization',
+                             factory = Visualize3dTask) ]

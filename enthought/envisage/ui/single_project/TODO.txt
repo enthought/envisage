@@ -1,0 +1,9 @@
+To-Do List:
+
+ * Update README and other documentation/examples.
+ * Implement a way to publish the ITreeNodeAdapters so that they don't have to
+   be in the same file as the class which they adapt.
+ * Improve the way we are binding dynamic objects and how they are being
+   retrieved.
+ * Improve the handling of children in the adapters to remove redudancy.
+ * Lots of cleanup left.

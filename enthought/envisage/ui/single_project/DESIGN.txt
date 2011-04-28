@@ -1,0 +1,47 @@
+These are some design notes for the E3 version of the single_project plugin,
+including a rough background adapated from the README of the E2 single_project
+plugin, and plans for implementing various aspects of the new plugin.
+*Note: This is very much a WIP and will probably be updated/modified heavily
+in a short period of time.
+
+
+BACKGROUND:
+-----------
+This plugin is designed to work with a single project at a time and build
+up 'state' within that project until the user explicitly saves the project.
+
+The plugin contributes two services to an Envisage application -- one for the
+model and one for the UI.  Additionally, the plugin contributes a 'Project'
+perspective, 'Project' view, and a number of actions to the UI so that the
+user can create, open, save, save as, and close projects.  Finally, it should
+be noted that the plugin manages an indicator applied to the application
+window(s) titlebar as a representation that the current project has unsaved
+modifications.
+
+The current project is visualized by a TreeEditor by default, but the user can
+contribute additional Views.  By contributing your own Project factory, the
+user can define your own custom projects.
+
+
+E2 single_projects vs. E3 single_projects:
+-----------------------------------------
+As described by Martin Chilvers:
+    "domain-objects" are at the highest level of abstraction in your design and
+hence are the objects that are understood by the user (e.g. Book, Person, Log,
+LogSuite, Well etc).
+
+The original single_project plugin used resources and resource types to adapt
+domain-objects to add certain behaviours to them that various Envisage plugins
+expected.  However, this approach restricted the addition of new behaviours to
+resource types, as well as added a lot of cruft to the process of registering
+new resources/resource types.
+
+The E3 single_project plugin uses Traits Adapters and takes advantage of the new
+ITreeNode interface.  The new TreeEditor has been extended to support handling
+unknown domain-objects by adapting them to the ITreeNode interface.  An
+ITreeNodeAdapter needs to be defined for any object that you want to be
+displayed in the TreeEditor, such as your Project class and it's sub-nodes.
+The Adapter exposes certain key ITreeNode interface methods, such as
+get_children, when_children_changed, get_lable, etc...  This eliminates the
+extra cruft that was necessary in the E2 single_project plugin, such as the
+node monitor, node resource type, etc...

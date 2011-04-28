@@ -1,0 +1,18 @@
+The icons are mostly derived work from other icons. As such they are
+licensed accordingly to the original license:
+
+    Enthought: BSD-like
+
+Unless stated in this file, icons are work of enthought, and are released
+under BSD-like license.
+
+Files and orginal authors:
+----------------------------------------------------------------
+                   python_run_16x16.png | Enthought
+                   python_run_24x24.png | Enthought
+                   python_run_32x32.png | Enthought
+                   python_run_48x48.png | Enthought
+                python_runsel_16x16.png | Enthought
+                python_runsel_24x24.png | Enthought
+                python_runsel_32x32.png | Enthought
+                python_runsel_48x48.png | Enthought
