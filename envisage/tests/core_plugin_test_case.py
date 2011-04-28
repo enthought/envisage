@@ -9,13 +9,13 @@ import unittest
 from pkg_resources import resource_filename
 
 # Enthought library imports.
-from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
-from enthought.envisage.api import ServiceOffer
+from envisage.api import Application, Category, ClassLoadHook, Plugin
+from envisage.api import ServiceOffer
 from traits.api import HasTraits, Int, Interface, List
 
 
 # This module's package.
-PKG = 'enthought.envisage.tests'
+PKG = 'envisage.tests'
 
 
 class TestApplication(Application):
@@ -48,7 +48,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_service_offers(self):
         """ service offers """
 
-        from enthought.envisage.core_plugin import CorePlugin
+        from envisage.core_plugin import CorePlugin
 
         class IMyService(Interface):
             pass
@@ -57,7 +57,7 @@ class CorePluginTestCase(unittest.TestCase):
             id = 'A'
 
             service_offers = List(
-                contributes_to='enthought.envisage.service_offers'
+                contributes_to='envisage.service_offers'
             )
 
             def _service_offers_default(self):
@@ -97,12 +97,12 @@ class CorePluginTestCase(unittest.TestCase):
     def test_categories(self):
         """ categories """
 
-        from enthought.envisage.core_plugin import CorePlugin
+        from envisage.core_plugin import CorePlugin
 
         class PluginA(Plugin):
             id = 'A'
 
-            categories = List(contributes_to='enthought.envisage.categories')
+            categories = List(contributes_to='envisage.categories')
 
             def _categories_default(self):
                 """ Trait initializer. """
@@ -138,7 +138,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_class_load_hooks(self):
         """ class load hooks """
 
-        from enthought.envisage.core_plugin import CorePlugin
+        from envisage.core_plugin import CorePlugin
 
         def on_class_loaded(cls):
             """ Called when a class has been loaded. """
@@ -158,7 +158,7 @@ class CorePluginTestCase(unittest.TestCase):
                     )
                 ],
 
-                contributes_to='enthought.envisage.class_load_hooks'
+                contributes_to='envisage.class_load_hooks'
             )
 
         core = CorePlugin()
@@ -193,11 +193,11 @@ class CorePluginTestCase(unittest.TestCase):
 
         # The core plugin is the plugin that offers the preferences extension
         # point.
-        from enthought.envisage.core_plugin import CorePlugin
+        from envisage.core_plugin import CorePlugin
 
         class PluginA(Plugin):
             id = 'A'
-            preferences = List(contributes_to='enthought.envisage.preferences')
+            preferences = List(contributes_to='envisage.preferences')
 
             def _preferences_default(self):
                 """ Trait initializer. """

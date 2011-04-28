@@ -5,12 +5,12 @@
 import sys, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ClassLoadHook
+from envisage.api import ClassLoadHook
 from traits.api import HasTraits
 
 
 # This module's package.
-PKG = 'enthought.envisage.tests'
+PKG = 'envisage.tests'
 
 
 class ClassLoadHookTestCase(unittest.TestCase):

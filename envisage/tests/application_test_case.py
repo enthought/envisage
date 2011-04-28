@@ -6,8 +6,8 @@ import os, random, shutil, unittest
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from enthought.envisage.api import Application, ExtensionPoint, IApplication
-from enthought.envisage.api import Plugin, PluginManager
+from envisage.api import Application, ExtensionPoint, IApplication
+from envisage.api import Plugin, PluginManager
 from traits.api import Bool, HasTraits, Instance, Int, Interface
 from traits.api import List, Str, implements
 
@@ -15,7 +15,7 @@ from traits.api import List, Str, implements
 #
 # We do these as absolute imports to allow nose to run from a different
 # working directory.
-from enthought.envisage.tests.event_tracker import EventTracker
+from envisage.tests.event_tracker import EventTracker
 
 
 def listener(obj, trait_name, old, new):

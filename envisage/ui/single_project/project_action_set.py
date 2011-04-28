@@ -1,7 +1,7 @@
 """ Single project action set. """
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, Group, Menu, ToolBar
-from enthought.envisage.ui.workbench.api import WorkbenchActionSet
+from envisage.ui.action.api import Action, Group, Menu, ToolBar
+from envisage.ui.workbench.api import WorkbenchActionSet
 
 # This module's package.
 PKG = '.'.join(__name__.split('.')[:-1])
@@ -10,7 +10,7 @@ class ProjectActionSet(WorkbenchActionSet):
     """ Action set of a default Project. """
 
     # The action set's globally unique identifier.
-    id = 'enthought.envisage.ui.single_project.action_set'
+    id = 'envisage.ui.single_project.action_set'
 
     # List of menus we provide.
     menus = [

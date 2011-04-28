@@ -4,8 +4,8 @@ import types
 
 # Enthought library imports.
 
-from enthought.plugins.python_shell.api import IPythonShell
-from enthought.plugins.python_shell.view.python_shell_view import PythonShellView
+from envisage.plugins.python_shell.api import IPythonShell
+from envisage.plugins.python_shell.view.python_shell_view import PythonShellView
 
 from pyface.workbench.api import View
 
@@ -120,7 +120,7 @@ class NamespaceView(View):
 
         self.shell_view = self.window.application.get_service(IPythonShell)
         # 'shell_view' is an instance of the class PythonShellView from the module
-        # enthought.plugins.python_shell.view.python_shell_view.
+        # envisage.plugins.python_shell.view.python_shell_view.
 
         return self.ui.control
 

@@ -5,7 +5,7 @@
 import unittest, weakref
 
 # Enthought library imports.
-from enthought.envisage.safeweakref import ref
+from envisage.safeweakref import ref
 from traits.api import HasTraits
 
     

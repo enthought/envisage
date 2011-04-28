@@ -1,6 +1,6 @@
 
 # Enthought library imports
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from traits.api import Bool, Callable, Event, Int, Instance, Str, Trait
 
 # Local, relative imports
@@ -8,7 +8,7 @@ from update_info import UpdateInfo
 
 
 # The globally unique ID of this plugin
-ID = "enthought.plugins.update_checker"
+ID = "envisage.plugins.update_checker"
 
 
 class UpdateCheckerPlugin(Plugin):

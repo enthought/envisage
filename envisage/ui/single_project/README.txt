@@ -25,12 +25,12 @@ capability to define your own custom projects.
 
 PRE-REQUISITES:
 ---------------
-This plugin requires the use of the enthought.envisage framework and the
+This plugin requires the use of the envisage framework and the
 following plugins:
-        - enthought.envisage.core
-        - enthought.envisage.resource
-        - enthought.envisage.workbench
-        - enthought.plugins.python_shell
+        - envisage.core
+        - envisage.resource
+        - envisage.workbench
+        - envisage.plugins.python_shell
 
 
 HOW TO USE:

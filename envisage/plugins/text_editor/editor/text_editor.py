@@ -109,7 +109,7 @@ class TextEditor(TraitsUIEditor):
         # Execute the code.
         if len(self.obj.path) > 0:
             view = self.window.get_view_by_id(
-                'enthought.plugins.python_shell_view'
+                'envisage.plugins.python_shell_view'
             )
 
             if view is not None:
@@ -211,7 +211,7 @@ class TextEditor(TraitsUIEditor):
                 show_labels = False
             ),
 
-            id        = 'enthought.envisage.editor.text_editor',
+            id        = 'envisage.editor.text_editor',
             handler   = TextEditorHandler(),
             kind      = 'live',
             resizable = True,

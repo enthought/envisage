@@ -13,7 +13,7 @@ project.
 
 
 # Enthought library imports.
-from enthought.envisage.single_project.plugin_definition import \
+from envisage.single_project.plugin_definition import \
     NO_SELECTION_MENU_ID, PROJECT_MENU_ID, SingleProjectActionSet
 
 

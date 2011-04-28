@@ -15,7 +15,7 @@ import logging
 import numpy
 
 # Enthought library imports.
-from enthought.envisage.api import ApplicationObject
+from envisage.api import ApplicationObject
 from enthought.naming.unique_name import make_unique_name
 from enthought.numerical_modeling.numeric_context.api import NumericContext
 from enthought.numerical_modeling.units.unit_array import UnitArray

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin
+from envisage.api import ExtensionPoint, Plugin
 from traits.api import Dict, List, Str
 
 
@@ -10,14 +10,14 @@ class PythonShellPlugin(Plugin):
     """ The interactive Python shell plugin. """
 
     # Extension point Ids.
-    BINDINGS = 'enthought.plugins.python_shell.bindings'
-    COMMANDS = 'enthought.plugins.python_shell.commands'
-    VIEWS    = 'enthought.envisage.ui.workbench.views'
+    BINDINGS = 'envisage.plugins.python_shell.bindings'
+    COMMANDS = 'envisage.plugins.python_shell.commands'
+    VIEWS    = 'envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.plugins.python_shell'
+    id = 'envisage.plugins.python_shell'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Python Shell'

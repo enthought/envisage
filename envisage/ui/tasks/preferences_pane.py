@@ -29,7 +29,7 @@ class PreferencesPane(Controller):
 
     # The preferences dialog to which the pane belongs. Set by the framework.
     dialog = Instance(
-        'enthought.envisage.ui.tasks.preferences_dialog.PreferencesDialog')
+        'envisage.ui.tasks.preferences_dialog.PreferencesDialog')
 
     # # The factory to use for creating the preferences model object, of form:
     #     callable(**traits) -> PreferencesHelper

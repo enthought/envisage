@@ -6,8 +6,8 @@ import random, unittest
 from os.path import exists, join
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ExtensionPoint
-from enthought.envisage.api import IPluginActivator, Plugin, contributes_to
+from envisage.api import Application, ExtensionPoint
+from envisage.api import IPluginActivator, Plugin, contributes_to
 from traits.api import HasTraits, Instance, Int, Interface, List, Str
 from traits.api import implements
 
@@ -55,7 +55,7 @@ class PluginTestCase(unittest.TestCase):
 
         # If no Id is specified then use 'module_name.class_name'.
         p = Plugin()
-        self.assertEqual('enthought.envisage.plugin.Plugin', p.id)
+        self.assertEqual('envisage.plugin.Plugin', p.id)
 
         # If an Id is specified make sure we use it!
         p = Plugin(id='wilma')

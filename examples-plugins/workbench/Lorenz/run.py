@@ -5,8 +5,8 @@
 import logging
 
 # Enthought plugins.
-from enthought.envisage.core_plugin import CorePlugin
-from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
+from envisage.core_plugin import CorePlugin
+from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Example imports.
 from acme.lorenz.lorenz_application import LorenzApplication

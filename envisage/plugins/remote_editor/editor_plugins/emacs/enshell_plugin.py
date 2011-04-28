@@ -5,7 +5,7 @@
 from Pymacs import lisp
 
 # ETS imports
-from enthought.plugins.remote_editor.plugins.editor_plugin import \
+from envisage.plugins.remote_editor.plugins.editor_plugin import \
         EditorPlugin
 
 

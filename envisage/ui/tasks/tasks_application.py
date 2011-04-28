@@ -5,7 +5,7 @@ import os.path
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from enthought.envisage.api import Application, ExtensionPoint
+from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
 from traits.api import Bool, Callable, Dict, Event, File, \
@@ -41,8 +41,8 @@ class TasksApplication(Application):
     """
 
     # Extension point IDs.
-    TASK_FACTORIES  = 'enthought.envisage.ui.tasks.tasks'
-    TASK_EXTENSIONS = 'enthought.envisage.ui.tasks.task_extensions'
+    TASK_FACTORIES  = 'envisage.ui.tasks.tasks'
+    TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
     #### 'TasksApplication' interface #########################################
 

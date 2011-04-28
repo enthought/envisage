@@ -16,7 +16,7 @@ A base class for project factories.
 import logging
 
 # Enthought library imports
-from enthought.envisage.api import IApplication
+from envisage.api import IApplication
 from traits.api import HasTraits, Instance
 
 # Local imports.

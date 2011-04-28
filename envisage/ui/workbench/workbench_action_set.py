@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import ActionSet
+from envisage.ui.action.api import ActionSet
 from traits.api import Instance, List, Str
 
 
@@ -46,7 +46,7 @@ class WorkbenchActionSet(ActionSet):
     #
     # The framework sets this trait when the action set is first added to a
     # window.
-    window = Instance('enthought.envisage.ui.workbench.api.WorkbenchWindow')
+    window = Instance('envisage.ui.workbench.api.WorkbenchWindow')
 
     ###########################################################################
     # 'ActionSet' interface.

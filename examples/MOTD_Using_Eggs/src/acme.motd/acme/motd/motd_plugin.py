@@ -4,14 +4,14 @@
 # In the interest of lazy loading you should only import from the following
 # packages at the module level of a plugin::
 #
-# - enthought.envisage
+# - envisage
 # - traits
 #
 # Eveything else should be imported when it is actually required.
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Instance, List, on_trait_change
 
 
@@ -26,7 +26,7 @@ class MOTDPlugin(Plugin):
     MESSAGES = 'acme.motd.messages'
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 

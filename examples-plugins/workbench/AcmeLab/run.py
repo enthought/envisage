@@ -8,10 +8,10 @@ import logging
 from acme.acmelab.api import Acmelab
 
 # Enthought plugins.
-from enthought.envisage.core_plugin import CorePlugin
-from enthought.envisage.developer.developer_plugin import DeveloperPlugin
-from enthought.envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
-from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
+from envisage.core_plugin import CorePlugin
+from envisage.developer.developer_plugin import DeveloperPlugin
+from envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
+from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Example plugins.
 from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin

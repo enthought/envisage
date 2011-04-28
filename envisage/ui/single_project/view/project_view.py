@@ -21,9 +21,9 @@ from traitsui.api import Item, Group, TreeEditor, ITreeNode, \
     ITreeNodeAdapter, View
 
 # Application specific imports.
-from enthought.envisage.api import IApplication
-from enthought.envisage.ui.single_project.project import Project
-from enthought.envisage.ui.single_project.services import IPROJECT_MODEL, \
+from envisage.api import IApplication
+from envisage.ui.single_project.project import Project
+from envisage.ui.single_project.services import IPROJECT_MODEL, \
     IPROJECT_UI
 
 

@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, PluginManager
+from envisage.api import Plugin, PluginManager
 from traits.api import Bool
 
 

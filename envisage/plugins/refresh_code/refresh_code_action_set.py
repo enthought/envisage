@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, ActionSet
+from envisage.ui.action.api import Action, ActionSet
 
 
 # This package

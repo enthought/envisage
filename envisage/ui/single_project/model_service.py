@@ -17,7 +17,7 @@ import os
 import shutil
 
 # Enthought library imports
-from enthought.envisage.api import IApplication
+from envisage.api import IApplication
 from enthought.preferences.api import IPreferences
 from traits.api import Any, HasTraits, Instance, List
 
@@ -43,14 +43,14 @@ class ModelService(HasTraits):
     application = Instance(IApplication)
 
     # The factory to use for creating new projects
-    factory = Instance('enthought.envisage.ui.single_project.project_factory.'
+    factory = Instance('envisage.ui.single_project.project_factory.'
         'ProjectFactory')
 
     # The preferences to be exposed through this service.
     preferences = Instance(IPreferences)
 
     # The currently open project
-    project = Instance('enthought.envisage.ui.single_project.project.Project')
+    project = Instance('envisage.ui.single_project.project.Project')
 
     # The current selection within the current project.
     selection = List(Any)

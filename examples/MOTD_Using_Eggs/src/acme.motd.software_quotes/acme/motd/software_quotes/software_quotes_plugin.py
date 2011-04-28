@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from traits.api import List
 
 

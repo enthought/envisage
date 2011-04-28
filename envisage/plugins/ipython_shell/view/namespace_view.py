@@ -1,8 +1,8 @@
 """ A view containing the contents of a Python shell namespace. """
 
 # Enthought library imports.
-from enthought.plugins.python_shell.api import IPythonShell
-from enthought.plugins.ipython_shell.api import INamespaceView
+from envisage.plugins.python_shell.api import IPythonShell
+from envisage.plugins.ipython_shell.api import INamespaceView
 from pyface.workbench.api import View
 from traits.api import Property, implements, Instance, \
     Str, HasTraits
@@ -100,7 +100,7 @@ class NamespaceView(View):
     #### 'IView' interface ####################################################
 
     # The part's globally unique identifier.
-    id = 'enthought.plugins.ipython_shell.namespace_view'
+    id = 'envisage.plugins.ipython_shell.namespace_view'
 
     # The view's name.
     name = 'Namespace'

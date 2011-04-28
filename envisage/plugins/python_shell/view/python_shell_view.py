@@ -5,9 +5,9 @@
 import logging, sys
 
 # Enthought library imports.
-from enthought.envisage.api import IExtensionRegistry
-from enthought.envisage.api import ExtensionPoint
-from enthought.plugins.python_shell.api import IPythonShell
+from envisage.api import IExtensionRegistry
+from envisage.api import ExtensionPoint
+from envisage.plugins.python_shell.api import IPythonShell
 from pyface.api import PythonShell
 from pyface.workbench.api import View
 from traits.api import Any, Event, Instance, Property, DictStrAny, implements
@@ -44,7 +44,7 @@ class PythonShellView(View):
     #### 'IView' interface ####################################################
 
     # The part's globally unique identifier.
-    id = 'enthought.plugins.python_shell_view'
+    id = 'envisage.plugins.python_shell_view'
 
     # The part's name (displayed to the user).
     name = 'Python'
@@ -75,10 +75,10 @@ class PythonShellView(View):
     #### Private interface ####################################################
 
     # Bindings.
-    _bindings = ExtensionPoint(id='enthought.plugins.python_shell.bindings')
+    _bindings = ExtensionPoint(id='envisage.plugins.python_shell.bindings')
 
     # Commands.
-    _commands = ExtensionPoint(id='enthought.plugins.python_shell.commands')
+    _commands = ExtensionPoint(id='envisage.plugins.python_shell.commands')
 
     ###########################################################################
     # 'IExtensionPointUser' interface.

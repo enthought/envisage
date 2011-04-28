@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from traits.api import List
 
 
@@ -14,10 +14,10 @@ class AcmeWorkbenchPlugin(Plugin):
     """
 
     # Extension points Ids.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
-    PERSPECTIVES      = 'enthought.envisage.ui.workbench.perspectives'
-    PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
-    VIEWS             = 'enthought.envisage.ui.workbench.views'
+    ACTION_SETS       = 'envisage.ui.workbench.action_sets'
+    PERSPECTIVES      = 'envisage.ui.workbench.perspectives'
+    PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
+    VIEWS             = 'envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################
 

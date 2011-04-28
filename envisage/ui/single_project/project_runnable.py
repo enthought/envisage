@@ -16,8 +16,8 @@ A runnable that restores the last opened project.
 import logging
 
 # Enthought library imports.
-from enthought.envisage import Runnable
-from enthought.envisage.workbench.services import IWORKBENCH
+from envisage import Runnable
+from envisage.workbench.services import IWORKBENCH
 from pyface.api import information
 
 # Application imports

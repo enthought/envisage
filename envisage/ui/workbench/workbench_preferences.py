@@ -12,7 +12,7 @@ class WorkbenchPreferences(PreferencesHelper):
     #### 'PreferencesHelper' interface ########################################
 
     # The path to the preferences node that contains the preferences.
-    preferences_path = 'enthought.envisage.ui.workbench'
+    preferences_path = 'envisage.ui.workbench'
 
     #### Preferences ##########################################################
 

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, IPlugin
+from envisage.api import ExtensionPoint, IPlugin
 from traits.api import Delegate, HasTraits, Instance, List, Property
 from traits.api import Code, Str
 from traitsui.api import Item, TableEditor, View, VGroup

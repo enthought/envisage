@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.envisage.ui.tasks.api import TasksApplication
+from envisage.ui.tasks.api import TasksApplication
 from pyface.tasks.api import TaskWindowLayout
 from traits.api import Bool, Instance, List, Property
 

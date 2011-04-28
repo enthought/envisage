@@ -5,14 +5,14 @@
 import inspect
 
 # Enthought library imports.
-from enthought.envisage.api import IApplication, IPlugin
-from enthought.envisage.developer.code_browser.api import CodeBrowser
+from envisage.api import IApplication, IPlugin
+from envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from traits.api import Any, HasTraits, Instance
 from traitsui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
-from enthought.plugins.text_editor.editor.text_editor import TextEditor
+from envisage.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
 from application_browser_tree import application_browser_tree_nodes
@@ -57,7 +57,7 @@ class ApplicationBrowser(HasTraits):
     code_browser = Instance(CodeBrowser)
 
     # The workbench service.
-    workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
+    workbench = Instance('envisage.ui.workbench.api.Workbench')
 
     # The object that is currently selected in the tree.
     selection = Any
@@ -79,7 +79,7 @@ class ApplicationBrowser(HasTraits):
     def _workbench_default(self):
         """ Trait initializer. """
 
-        from enthought.envisage.ui.workbench.api import Workbench
+        from envisage.ui.workbench.api import Workbench
 
         return self.application.get_service(Workbench)
 

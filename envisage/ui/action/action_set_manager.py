@@ -79,7 +79,7 @@ class ActionSetManager(HasTraits):
 
         e.g. If the aliases are::
 
-            {'MenuBar' : 'enthought.envisage.ui.workbench.menubar'}
+            {'MenuBar' : 'envisage.ui.workbench.menubar'}
 
         and the path is::
 
@@ -87,14 +87,14 @@ class ActionSetManager(HasTraits):
 
         Then the effective root is::
 
-            'enthought.envisage.ui.workbench.menubar'
+            'envisage.ui.workbench.menubar'
 
         If the first component of the path does *not* match an alias, then it
         is returned as is.
 
         e.g. If the aliases are::
 
-            {'ToolBar' : 'enthought.envisage.ui.workbench.toolbar'}
+            {'ToolBar' : 'envisage.ui.workbench.toolbar'}
 
         and the path is::
 

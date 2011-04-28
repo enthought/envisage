@@ -5,8 +5,8 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionProvider
-from enthought.envisage.api import ProviderExtensionRegistry
+from envisage.api import ExtensionPoint, ExtensionProvider
+from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.

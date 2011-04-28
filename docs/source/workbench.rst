@@ -1,7 +1,7 @@
 Workbench
 =========
 
-The workbench plugin, found in the enthought.envisage.ui.workbench_ package,
+The workbench plugin, found in the envisage.ui.workbench_ package,
 provides a style of user interface that is often (but not exclusively) found in
 integrated development environments (IDEs). Note that this does not mean that
 all of your user interfaces must fit this pattern -- just that if they do, then
@@ -60,4 +60,4 @@ widget to allow views, editors and perspectives to be contributed via plugins.
 
     preferences.rst
 
-.. _enthought.envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py
+.. _envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py

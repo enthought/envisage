@@ -1,5 +1,5 @@
 
-from enthought.envisage.ui.action.api import Action, ActionSet, Group
+from envisage.ui.action.api import Action, ActionSet, Group
 
 
 class TextEditorActionSet(ActionSet):
@@ -18,7 +18,7 @@ class TextEditorActionSet(ActionSet):
         Action(
             id = "NewFileAction",
             name = "New Text File",
-            class_name='enthought.plugins.text_editor.actions.NewFileAction',
+            class_name='envisage.plugins.text_editor.actions.NewFileAction',
             group='TextFileGroup',
             path="MenuBar/File",
         ),
@@ -26,7 +26,7 @@ class TextEditorActionSet(ActionSet):
         Action(
             id = 'OpenFile',
             name = "Open Text File...",
-            class_name='enthought.plugins.text_editor.actions.OpenFileAction',
+            class_name='envisage.plugins.text_editor.actions.OpenFileAction',
             group='TextFileGroup',
             path="MenuBar/File",
         ),

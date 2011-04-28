@@ -7,7 +7,7 @@ from traits.api import Instance
 
 
 # The code browser protocol.
-CODE_BROWSER = 'enthought.envisage.developer.code_browser.api.CodeBrowser'
+CODE_BROWSER = 'envisage.developer.code_browser.api.CodeBrowser'
 
 
 class ExtensionRegistryBrowserView(TraitsUIView):
@@ -16,7 +16,7 @@ class ExtensionRegistryBrowserView(TraitsUIView):
     #### 'IWorkbenchPart' interface ###########################################
 
     # The part's globally unique identifier.
-    id = 'enthought.envisage.developer.ui.view.extension_registry_browser_view'
+    id = 'envisage.developer.ui.view.extension_registry_browser_view'
 
     # The part's name (displayed to the user).
     name = 'Extension Points'

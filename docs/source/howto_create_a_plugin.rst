@@ -80,7 +80,7 @@ on. In this case, you offer the Tetris library as a service that implements the
 for your Tetris class to the IGame interface, but we'll ignore that.)
 
 You can manually register a service, but a simple way to do it is to contribute
-to the 'enthought.envisage.services_offers' extension point of the Core plugin.
+to the 'envisage.services_offers' extension point of the Core plugin.
 This ensures that the plugin is registered, and is created when it is needed.
 
 You also want to allow users to contribute their own Tetris shapes, so you
@@ -110,10 +110,10 @@ and entry point.
 More concretely, you want to specify default colors for the foreground and
 background colors of the game, but allow users to change them and save their
 changes across sessions. For specifying default preference values and saving
-changed values, you can contribute to the 'enthought.envisage.preferences'
+changed values, you can contribute to the 'envisage.preferences'
 extension point offered by the Envisage core plugin; for a UI to change
 preferences, you can contribute to the
-'enthought.envisage.ui.workbench.preferences_pages' extension point offered by
+'envisage.ui.workbench.preferences_pages' extension point offered by
 the Workbench plugin. (A game application probably wouldn't use the Workbench
 plugin, but we'll assume it does to avoid using a fictional plugin.)
 
@@ -192,20 +192,20 @@ The complete plugin for the Tetris game might look like this::
                               description='Classic shape-fitting puzzle game',
                               entry_point=self._start_game) ]
         
-        preferences = List(contributes_to='enthought.envisage.preferences')
+        preferences = List(contributes_to='envisage.preferences')
         def _preferences_default(self):
             """ Trait initializer for 'preferences' contribution. """
             return ['pkgfile://acme.tetris.plugin/preferences.ini']
             
         preferences_pages = List(contributes_to=
-            'enthought.envisage.ui.workbench.preferences_pages')
+            'envisage.ui.workbench.preferences_pages')
         def _preferences_pages_default(self):
             """ Trait initializer for 'preferences_pages' contribution. """
             from acme.tetris.plugin.preferences_pages import \
                 TetrisPreferencesPages
             return [ TetrisPreferencesPages ]
             
-        services_offers = List(contributes_to='enthought.envisages.service_offers')
+        services_offers = List(contributes_to='envisages.service_offers')
         def _service_offers_default(self):
             """ Trait initializer for 'service_offers' contribution. """
             return [ ServiceOffer(protocol=IGame, 

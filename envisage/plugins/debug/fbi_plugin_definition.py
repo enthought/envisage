@@ -14,7 +14,7 @@
 #  Imports:
 #-------------------------------------------------------------------------------
 
-from enthought.envisage.core.core_plugin_definition \
+from envisage.core.core_plugin_definition \
     import PluginDefinition
 
 #-------------------------------------------------------------------------------
@@ -23,10 +23,10 @@ from enthought.envisage.core.core_plugin_definition \
 
 PluginDefinition(
     # The plugin's globally unique identifier:
-    id = "enthought.plugins.debug.fbi",
+    id = "envisage.plugins.debug.fbi",
 
     # The name of the class that implements the plugin:
-    class_name = "enthought.plugins.debug.fbi_plugin.FBIPlugin",
+    class_name = "envisage.plugins.debug.fbi_plugin.FBIPlugin",
 
     # General information about the plugin:
     name          = "FBI Plugin",
@@ -38,7 +38,7 @@ PluginDefinition(
 
     # The Id's of the plugins that this plugin requires:
     requires = [
-        "enthought.envisage.core",
+        "envisage.core",
     ]
 )
 

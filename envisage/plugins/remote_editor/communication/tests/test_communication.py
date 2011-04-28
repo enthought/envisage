@@ -8,9 +8,9 @@ from threading import Thread
 from traits.api import Int, Str
 
 # Local imports
-from enthought.plugins.remote_editor.communication.client import Client
-from enthought.plugins.remote_editor.communication.server import Server
-from enthought.plugins.remote_editor.communication.util import \
+from envisage.plugins.remote_editor.communication.client import Client
+from envisage.plugins.remote_editor.communication.server import Server
+from envisage.plugins.remote_editor.communication.util import \
     get_server_port, LOCK_PATH
 
 

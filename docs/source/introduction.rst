@@ -10,7 +10,7 @@ The project is really divided into 3 sub-projects:-
 
 1) Core_
 
-   The Envisage Core, found in the top-level enthought.envisage_ package,
+   The Envisage Core, found in the top-level envisage_ package,
    defines the basic application architecture including the plugin and
    extension mechanisms. All of the other sub-projects are simply collections
    of plugins that are built on top of the core.
@@ -19,11 +19,11 @@ The project is really divided into 3 sub-projects:-
 
    This is small (but hopefully expanding) set of plugins useful for building
    applications with (graphical) User Interfaces. It is found in the
-   *enthought.envisage.ui* package (and its subpackages), and aims to provide
+   *envisage.ui* package (and its subpackages), and aims to provide
    functionality commonly required in this type of application including
    actions, menubars, toolbars, user preferences, wizards etc. One of the most
    useful plugins in this project is the Workbench_ plugin (found in the
-   enthought.envisage.ui.workbench_ package) that helps you build a style of
+   envisage.ui.workbench_ package) that helps you build a style of
    user interface that is often (but not exclusively) found in integrated
    development environments (IDEs).
 
@@ -70,6 +70,6 @@ documentation and examples first).
 
 .. _`Hello World`: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/Hello%20World/hello_world.py
 
-.. _enthought.envisage: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/api.py
+.. _envisage: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/api.py
 
-.. _enthought.envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py
+.. _envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py

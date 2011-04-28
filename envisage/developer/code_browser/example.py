@@ -5,7 +5,7 @@
 import sys, time
 
 # Enthought library imports.
-from enthought.envisage.developer.code_browser.api import CodeBrowser
+from envisage.developer.code_browser.api import CodeBrowser
 
 
 def main(argv):

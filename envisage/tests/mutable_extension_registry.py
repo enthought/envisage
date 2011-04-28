@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionRegistry, UnknownExtension
+from envisage.api import ExtensionRegistry, UnknownExtension
 from traits.api import implements
 
 

@@ -16,13 +16,13 @@ The entry point for an Envisage application.
 import logging
 
 # Enthought plugins.
-from enthought.envisage.core_plugin import CorePlugin
-from enthought.envisage.developer.developer_plugin import DeveloperPlugin
-from enthought.envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
-from enthought.envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
-from enthought.envisage.ui.single_project.project_plugin import ProjectPlugin
-from enthought.envisage.ui.workbench.api import WorkbenchApplication
-from enthought.plugins.python_shell.python_shell_plugin import PythonShellPlugin
+from envisage.core_plugin import CorePlugin
+from envisage.developer.developer_plugin import DeveloperPlugin
+from envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
+from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
+from envisage.ui.single_project.project_plugin import ProjectPlugin
+from envisage.ui.workbench.api import WorkbenchApplication
+from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
 
 # Local imports.
 from plugins.single_project.plugin_definition import EnvProjectPlugin

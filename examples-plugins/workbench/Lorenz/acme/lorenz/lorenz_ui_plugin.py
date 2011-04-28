@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from pyface.workbench.api import Perspective, PerspectiveItem
 from pyface.workbench.api import TraitsUIView
 from traits.api import List
@@ -28,8 +28,8 @@ class LorenzUIPlugin(Plugin):
     """
 
     # Extension points Ids.
-    PERSPECTIVES   = 'enthought.envisage.ui.workbench.perspectives'
-    VIEWS          = 'enthought.envisage.ui.workbench.views'
+    PERSPECTIVES   = 'envisage.ui.workbench.perspectives'
+    VIEWS          = 'envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################
 

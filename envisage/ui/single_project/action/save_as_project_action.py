@@ -1,7 +1,7 @@
 """ An action that saves the current project to a different location. """
 
 # Enthought library imports.
-from enthought.envisage.ui.single_project.project_action import ProjectAction
+from envisage.ui.single_project.project_action import ProjectAction
 from pyface.api import ImageResource
 
 ##############################################################################
@@ -14,7 +14,7 @@ class SaveAsProjectAction(ProjectAction):
     """
 
     # The universal object locator (UOL).
-    uol = 'enthought.envisage.ui.single_project.ui_service.UiService'
+    uol = 'envisage.ui.single_project.ui_service.UiService'
 
     # The name of the method to invoke on the object.
     method_name = 'save_as'

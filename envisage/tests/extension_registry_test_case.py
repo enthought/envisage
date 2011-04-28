@@ -5,9 +5,9 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ExtensionPoint
-from enthought.envisage.api import ExtensionRegistry, UnknownExtensionPoint
-from enthought.envisage.api import UnknownExtension
+from envisage.api import Application, ExtensionPoint
+from envisage.api import ExtensionRegistry, UnknownExtensionPoint
+from envisage.api import UnknownExtension
 from traits.api import List
 
 

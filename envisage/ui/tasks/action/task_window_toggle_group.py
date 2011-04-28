@@ -16,7 +16,7 @@ class TaskWindowToggleAction(Action):
     #### 'TaskWindowToggleAction' interface ###################################
 
     # The window to use for this action.
-    window = Instance('enthought.envisage.ui.tasks.task_window.TaskWindow')
+    window = Instance('envisage.ui.tasks.task_window.TaskWindow')
 
     ###########################################################################
     # 'Action' interface.
@@ -56,7 +56,7 @@ class TaskWindowToggleGroup(Group):
     #### 'TaskWindowToggleGroup' interface ####################################
 
     # The application that contains the group.
-    application = Instance('enthought.envisage.ui.tasks.tasks_application.'
+    application = Instance('envisage.ui.tasks.tasks_application.'
                            'TasksApplication')
 
     # The ActionManager to which the group belongs.

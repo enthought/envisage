@@ -18,13 +18,13 @@ import logging
 import inspect
 
 # Enthought library imports
-from enthought.envisage.api import Application
-from enthought.envisage.ui.workbench.api import WorkbenchWindow
+from envisage.api import Application
+from envisage.ui.workbench.api import WorkbenchWindow
 from pyface.action.api import Action
 from traits.api import Instance, Str
 
 # Local imports.
-from enthought.envisage.ui.single_project.services import IPROJECT_MODEL
+from envisage.ui.single_project.services import IPROJECT_MODEL
 
 
 # Setup a logger for this module.

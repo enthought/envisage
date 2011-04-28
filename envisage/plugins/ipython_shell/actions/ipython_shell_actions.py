@@ -1,6 +1,6 @@
-from enthought.envisage.ui.action.api import Action, ActionSet, Group
+from envisage.ui.action.api import Action, ActionSet, Group
 from pyface.action.api import Action as PyfaceAction
-from enthought.plugins.python_shell.api import IPythonShell
+from envisage.plugins.python_shell.api import IPythonShell
 
 
 def get_shell(window):

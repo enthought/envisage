@@ -1,15 +1,15 @@
 """ A plugin for controlling a remote editor. """
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
-from enthought.plugins.remote_editor.api import IRemoteEditor
+from envisage.api import Plugin
+from envisage.plugins.remote_editor.api import IRemoteEditor
 from traits.api import List, Instance, Any, on_trait_change
 
 # Local imports
 from envisage_remote_editor import EnvisageRemoteEditorController \
     as RemoteEditorController
 
-ID = 'enthought.plugins.remote_editor'
+ID = 'envisage.plugins.remote_editor'
 
 
 class RemoteEditorPlugin(Plugin):
@@ -17,9 +17,9 @@ class RemoteEditorPlugin(Plugin):
 
     # Extension point Ids.
     REMOTE_EDITOR     = ID
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
-    PREFERENCES       = 'enthought.envisage.preferences'
-    PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
+    ACTION_SETS       = 'envisage.ui.workbench.action_sets'
+    PREFERENCES       = 'envisage.preferences'
+    PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
 
     # Our remote controller for the editor
     remote_controller = Instance(RemoteEditorController)
@@ -30,7 +30,7 @@ class RemoteEditorPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.plugins.remote_editor'
+    id = 'envisage.plugins.remote_editor'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Remote editor'
@@ -51,7 +51,7 @@ class RemoteEditorPlugin(Plugin):
 
     def _action_sets_default(self):
         """ Trait initializer. """
-        from enthought.plugins.remote_editor.actions import \
+        from envisage.plugins.remote_editor.actions import \
             RemoteEditorActionSet
         return [ RemoteEditorActionSet ]
 
@@ -61,7 +61,7 @@ class RemoteEditorPlugin(Plugin):
 
     def _preferences_pages_default(self):
         """ Trait initializer. """
-        from enthought.plugins.remote_editor.preference_pages \
+        from envisage.plugins.remote_editor.preference_pages \
             import RemoteEditorPreferencesPage
         return [ RemoteEditorPreferencesPage ]
 

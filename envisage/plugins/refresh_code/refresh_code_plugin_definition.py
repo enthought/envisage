@@ -2,7 +2,7 @@
 
 
 # Plugin extension-point imports.
-from enthought.envisage import PluginDefinition, get_using_workbench
+from envisage import PluginDefinition, get_using_workbench
 
 
 # Are we using the old UI plugin, or the shiny new Workbench plugin?
@@ -10,17 +10,17 @@ USING_WORKBENCH = get_using_workbench()
 
 # Enthought plugin definition imports.
 if USING_WORKBENCH:
-    from enthought.envisage.workbench.action.action_plugin_definition import \
+    from envisage.workbench.action.action_plugin_definition import \
          Action, Group, Location, Menu, WorkbenchActionSet
 
 else:
-    from enthought.envisage.ui.ui_plugin_definition import \
+    from envisage.ui.ui_plugin_definition import \
          Action, Group, Menu, UIActions
 
 
 # The plugin's globally unique identifier (also used as the prefix for all
 # identifiers defined in this module).
-ID = "enthought.plugins.refresh_code"
+ID = "envisage.plugins.refresh_code"
 
 
 ###############################################################################
@@ -68,7 +68,7 @@ if USING_WORKBENCH:
         actions = [refresh_code]
     )
 
-    requires = "enthought.envisage.workbench.action"
+    requires = "envisage.workbench.action"
 
 else:
     refresh_code = Action(
@@ -98,7 +98,7 @@ else:
         actions = [refresh_code]
     )
 
-    requires = "enthought.envisage.ui"
+    requires = "envisage.ui"
 
 ###############################################################################
 # The plugin definition!

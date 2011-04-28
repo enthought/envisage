@@ -6,7 +6,7 @@ A client controlling a remote editor.
 from traits.api import implements
 
 # Local imports
-from enthought.plugins.remote_editor.communication.client import Client
+from envisage.plugins.remote_editor.communication.client import Client
 from i_remote_editor import IRemoteEditor
 
 

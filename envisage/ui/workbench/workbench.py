@@ -4,7 +4,7 @@
 # Enthought library imports.
 import pyface.workbench.api as pyface
 
-from enthought.envisage.api import IApplication
+from envisage.api import IApplication
 from pyface.api import YES
 from traits.api import Delegate, Instance
 

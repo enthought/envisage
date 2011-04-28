@@ -14,9 +14,9 @@ A customization of the single project factory to make EnvProjects.
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import IApplication
+from envisage.api import IApplication
 from traits.api import Instance
-from enthought.envisage.ui.single_project.api import ProjectFactory
+from envisage.ui.single_project.api import ProjectFactory
 
 # Application imports.
 from plugins.single_project.env_project import EnvProject

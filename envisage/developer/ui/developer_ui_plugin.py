@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from traits.api import List
 
 
@@ -15,11 +15,11 @@ class DeveloperUIPlugin(Plugin):
     """
 
     # The plugin Id.
-    ID = 'enthought.envisage.developer.ui'
+    ID = 'envisage.developer.ui'
 
     # Extension points Ids.
-    PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
-    VIEWS        = 'enthought.envisage.ui.workbench.views'
+    PERSPECTIVES = 'envisage.ui.workbench.perspectives'
+    VIEWS        = 'envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################
 
@@ -42,7 +42,7 @@ class DeveloperUIPlugin(Plugin):
     def _perspectives_default(self):
         """ Trait initializer. """
 
-        from enthought.envisage.developer.ui.perspective.api import (
+        from envisage.developer.ui.perspective.api import (
             DeveloperPerspective
         )
 

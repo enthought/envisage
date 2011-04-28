@@ -10,13 +10,13 @@ import StringIO
 from pkg_resources import resource_filename
 
 # Enthought library imports.
-from enthought.envisage.resource.api import ResourceManager
-from enthought.envisage.resource.api import NoSuchResourceError
+from envisage.resource.api import ResourceManager
+from envisage.resource.api import NoSuchResourceError
 from traits.api import HasTraits, Int, Str
 
 
 # This module's package.
-PKG = 'enthought.envisage.resource.tests'
+PKG = 'envisage.resource.tests'
 
 
 # mimics urllib2.urlopen for some tests.
@@ -65,7 +65,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Get the filename of the 'api.py' file.
-        filename = resource_filename('enthought.envisage.resource', 'api.py')
+        filename = resource_filename('envisage.resource', 'api.py')
 
         # Open a file resource.
         f = rm.file('file://' + filename)
@@ -98,13 +98,13 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a package resource.
-        f = rm.file('pkgfile://enthought.envisage.resource/api.py')
+        f = rm.file('pkgfile://envisage.resource/api.py')
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
 
         # Get the filename of the 'api.py' file.
-        filename = resource_filename('enthought.envisage.resource', 'api.py')
+        filename = resource_filename('envisage.resource', 'api.py')
 
         # Open the api file via the file system.
         g = file(filename, 'rb')
@@ -122,7 +122,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         self.failUnlessRaises(
             NoSuchResourceError,
             rm.file,
-            'pkgfile://enthought.envisage.resource/bogus.py'
+            'pkgfile://envisage.resource/bogus.py'
         )
 
         self.failUnlessRaises(

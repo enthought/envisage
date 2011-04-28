@@ -167,11 +167,11 @@ class UiService(HasTraits):
         # Determine the current workbench window.  This should be safe since
         # we're only building a context menu when the user clicked on a
         # control that is contained in a window.
-        workbench = self.model_service.application.get_service('enthought.envisage.ui.workbench.workbench.Workbench')
+        workbench = self.model_service.application.get_service('envisage.ui.workbench.workbench.Workbench')
         window = workbench.active_window
 
         # Build our menu
-        from enthought.envisage.workbench.action.action_controller import \
+        from envisage.workbench.action.action_controller import \
             ActionController
         menu = self.default_context_menu_manager.create_menu(parent,
             controller = ActionController(window=window))
@@ -281,7 +281,7 @@ class UiService(HasTraits):
 
         """
 
-        workbench = self.model_service.application.get_service('enthought.envisage.ui.workbench.workbench.Workbench')
+        workbench = self.model_service.application.get_service('envisage.ui.workbench.workbench.Workbench')
         workbench.on_trait_change(self._workbench_exiting, 'exiting')
 
         return
@@ -510,7 +510,7 @@ class UiService(HasTraits):
         """
 
         workbench = self.model_service.application.get_service(
-            'enthought.envisage.ui.workbench.workbench.Workbench')
+            'envisage.ui.workbench.workbench.Workbench')
         window = workbench.active_window
         app_name = workbench.branding.application_name
         message = ('The app quit unexpectedly when [%s] was being modified.\n'
@@ -720,7 +720,7 @@ class UiService(HasTraits):
         if not(self._get_project_state(current)):
             # Find the active workbench window to be our dialog parent and
             # the application name to use in our dialog title.
-            workbench = self.model_service.application.get_service('enthought.envisage.ui.workbench.workbench.Workbench')
+            workbench = self.model_service.application.get_service('envisage.ui.workbench.workbench.Workbench')
             window = workbench.active_window
             app_name = workbench.branding.application_name
 

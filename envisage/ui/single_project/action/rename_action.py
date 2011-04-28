@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.single_project.project_action import ProjectAction
+from envisage.ui.single_project.project_action import ProjectAction
 
 
 class RenameAction(ProjectAction):
@@ -39,7 +39,7 @@ class RenameAction(ProjectAction):
 ##         """
 
 ##         resource_manager = self.window.application.get_service(
-##             'enthought.envisage.resource.IResourceManager'
+##             'envisage.resource.IResourceManager'
 ##         )
 
 ##         # fixme: It seems there is a glitch in the tree selection handling.

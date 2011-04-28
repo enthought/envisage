@@ -22,7 +22,7 @@ setup(
 
     entry_points = """
 
-    [enthought.envisage.plugins]
+    [envisage.plugins]
     acme.baz = acme.baz.baz_plugin:BazPlugin
 
     """

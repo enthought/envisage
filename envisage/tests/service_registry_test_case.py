@@ -5,12 +5,12 @@
 import sys, unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ServiceRegistry
+from envisage.api import Application, ServiceRegistry
 from traits.api import HasTraits, Int, Interface, implements
 
 
 # This module's package.
-PKG = 'enthought.envisage.tests'
+PKG = 'envisage.tests'
 
 
 def service_factory(**properties):
@@ -117,7 +117,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         def foo_factory(**properties):
             """ A factory for foos. """
 
-            from enthought.envisage.tests.foo import Foo
+            from envisage.tests.foo import Foo
 
             foo_factory.foo = Foo()
 
@@ -169,7 +169,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             def foo_factory(self, **properties):
                 """ A factory for foos. """
 
-                from enthought.envisage.tests.foo import Foo
+                from envisage.tests.foo import Foo
 
                 self.foo = Foo()
 
@@ -233,10 +233,10 @@ class ServiceRegistryTestCase(unittest.TestCase):
     def test_get_services_with_strings(self):
         """ get services with strings """
 
-        from enthought.envisage.tests.foo import Foo
+        from envisage.tests.foo import Foo
 
         # Register a couple of services using a string protocol name.
-        protocol_name = 'enthought.envisage.tests.foo.IFoo'
+        protocol_name = 'envisage.tests.foo.IFoo'
 
         self.service_registry.register_service(protocol_name, Foo())
         self.service_registry.register_service(protocol_name, Foo())

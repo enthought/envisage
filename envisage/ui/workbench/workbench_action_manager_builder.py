@@ -5,7 +5,7 @@
 import weakref
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
+from envisage.ui.action.api import AbstractActionManagerBuilder
 from pyface.action.api import Action, Group, MenuManager
 from pyface.workbench.action.api import MenuBarManager
 from pyface.workbench.action.api import ToolBarManager
@@ -20,7 +20,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     #### 'WorkbenchActionManagerBuilder' interface ############################
 
     # The workbench window that we build the menu and tool bars for.
-    window = Instance('enthought.envisage.ui.workbench.api.WorkbenchWindow')
+    window = Instance('envisage.ui.workbench.api.WorkbenchWindow')
 
     #### Private interface ####################################################
 

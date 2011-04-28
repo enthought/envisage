@@ -14,11 +14,11 @@ A base class for editors that can be tracked by single project plugin projects.
 import logging
 
 # Enthought library imports
-from enthought.envisage.workbench import DecoratedEditor
+from envisage.workbench import DecoratedEditor
 from traits.api import Instance
 
 # Application specific imports.
-from enthought.envisage.single_project.services import IPROJECT_MODEL
+from envisage.single_project.services import IPROJECT_MODEL
 
 
 # Setup a logger for this module.
@@ -39,7 +39,7 @@ class ProjectEditor(DecoratedEditor):
     ### public 'ProjectEditor' interface ####################################
 
     # The project containing the resource we're editing
-    project = Instance('enthought.envisage.single_project.project.Project')
+    project = Instance('envisage.single_project.project.Project')
 
 
     #########################################################################

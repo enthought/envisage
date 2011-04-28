@@ -55,15 +55,15 @@ class IActionSet(Interface):
     #
     # For example, in the Envisage workbench, the menu bar ID is:
     #
-    # ``'enthought.envisage.workbench.menubar'``
+    # ``'envisage.workbench.menubar'``
     #
     # Without aliases, you must specify a location like this:
     #
-    # ``Location(path='enthought.envisage.workbench.menubar/ASubMenu/AGroup')``
+    # ``Location(path='envisage.workbench.menubar/ASubMenu/AGroup')``
     #
     # This is a bit long-winded! Instead, you can define an alias:
     #
-    #     ``aliases = { 'MenuBar' : 'enthought.envisage.workbench.menubar' }``
+    #     ``aliases = { 'MenuBar' : 'envisage.workbench.menubar' }``
     #
     # In that case, you can specify a location like this:
     #

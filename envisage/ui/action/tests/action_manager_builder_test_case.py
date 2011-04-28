@@ -8,7 +8,7 @@ import unittest
 import traitsui.wx
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, ActionSet, Group, Menu
+from envisage.ui.action.api import Action, ActionSet, Group, Menu
 
 # Local imports.
 from dummy_action_manager_builder import DummyActionManagerBuilder

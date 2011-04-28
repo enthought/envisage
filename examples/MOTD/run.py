@@ -5,11 +5,11 @@
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import Application
+from envisage.api import Application
 
 
 # Enthought plugins.
-from enthought.envisage.core_plugin import CorePlugin
+from envisage.core_plugin import CorePlugin
 
 # Example plugins.
 from acme.motd.motd_plugin import MOTDPlugin

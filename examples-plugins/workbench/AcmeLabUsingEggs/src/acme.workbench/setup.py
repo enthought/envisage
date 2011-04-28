@@ -17,7 +17,7 @@ setup(
     ],
 
     entry_points         = """
-    [enthought.envisage.plugins]
+    [envisage.plugins]
     acme_workbench = acme.workbench.acme_workbench_plugin:AcmeWorkbenchPlugin
     """
 

@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
+from envisage.ui.action.api import AbstractActionManagerBuilder
 from pyface.action.api import Action, Group, MenuManager
 from pyface.action.api import MenuBarManager
 

@@ -14,7 +14,7 @@ The UI service for the Data plugin.
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import ApplicationObject, UOL
+from envisage.api import ApplicationObject, UOL
 from pyface.api import confirm, error, FileDialog, information, YES
 
 # Data library imports.
@@ -115,7 +115,7 @@ class UiService(ApplicationObject):
 
             # Attempt to identify the current application window.
             parent_window = None
-            workbench = self.application.get_service('enthought.envisage.'
+            workbench = self.application.get_service('envisage.'
                 'workbench.IWorkbench')
             if workbench is not None:
                 parent_window = workbench.active_window.control

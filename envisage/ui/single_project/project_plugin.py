@@ -4,8 +4,8 @@
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.envisage.ui.single_project.api import FactoryDefinition
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.ui.single_project.api import FactoryDefinition
 from pyface.action.api import MenuManager
 from pyface.workbench.api import Perspective
 from traits.api import Callable, List
@@ -54,21 +54,21 @@ class ProjectPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin offers.
-    ACTION_SETS       = 'enthought.envisage.ui.workbench.action_sets'
-    FACTORY_DEFINITIONS = 'enthought.envisage.ui.single_project.factory_definitions'
-    UI_SERVICE_FACTORY = 'enthought.envisage.ui.single_project.ui_service_factory'
+    ACTION_SETS       = 'envisage.ui.workbench.action_sets'
+    FACTORY_DEFINITIONS = 'envisage.ui.single_project.factory_definitions'
+    UI_SERVICE_FACTORY = 'envisage.ui.single_project.ui_service_factory'
 
     # The Ids of the extension points that this plugin contributes to.
-    PERSPECTIVES = 'enthought.envisage.ui.workbench.perspectives'
-    PREFERENCES = 'enthought.envisage.preferences'
-    PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
-    VIEWS = 'enthought.envisage.ui.workbench.views'
+    PERSPECTIVES = 'envisage.ui.workbench.perspectives'
+    PREFERENCES = 'envisage.preferences'
+    PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
+    SERVICE_OFFERS = 'envisage.service_offers'
+    VIEWS = 'envisage.ui.workbench.views'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.envisage.ui.single_project'
+    id = 'envisage.ui.single_project'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Single Project'
@@ -254,12 +254,12 @@ class ProjectPlugin(Plugin):
         """
         from pyface.workbench.traits_ui_view import \
                 TraitsUIView
-        from enthought.envisage.ui.single_project.api import \
+        from envisage.ui.single_project.api import \
                             ProjectView
 
         project_view = ProjectView(application=window.application)
         tui_project_view = TraitsUIView(obj=project_view,
-                                       id='enthought.envisage.ui.single_project.view.project_view.ProjectView',
+                                       id='envisage.ui.single_project.view.project_view.ProjectView',
                                        name='Project View',
                                        window=window,
                                        position='left',
@@ -316,7 +316,7 @@ class ProjectPlugin(Plugin):
         """
 
         # Retrieve all the factory definition contributions
-        extensions = self.application.get_extensions('enthought.envisage.ui.single_project.factory_definitions')
+        extensions = self.application.get_extensions('envisage.ui.single_project.factory_definitions')
 
         # Find the winning contribution
         definition = None
@@ -343,7 +343,7 @@ class ProjectPlugin(Plugin):
         """
 
         # Retrieve all the factory definition contributions
-        extensions = self.get_extensions('enthought.envisage.ui.single_project.ui_service_factory')
+        extensions = self.get_extensions('envisage.ui.single_project.ui_service_factory')
 
         # Find the winning contribution
         definition = None

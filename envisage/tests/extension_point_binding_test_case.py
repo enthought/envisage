@@ -5,15 +5,15 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, ExtensionPointBinding
-from enthought.envisage.api import bind_extension_point
+from envisage.api import ExtensionPoint, ExtensionPointBinding
+from envisage.api import bind_extension_point
 from traits.api import Bool, HasTraits, Int, List, Float, Str
 
 # Local imports.
 #
 # We do these as absolute imports to allow nose to run from a different
 # working directory.
-from enthought.envisage.tests.mutable_extension_registry import (
+from envisage.tests.mutable_extension_registry import (
     MutableExtensionRegistry
 )
 

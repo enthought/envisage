@@ -4,12 +4,12 @@
 
 # Enthought library imports.
 from traits.api import List
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 
 
 # The plugin's globally unique identifier (also used as the prefix for all
 # identifiers defined in this module).
-ID = "enthought.plugins.text_editor"
+ID = "envisage.plugins.text_editor"
 
 
 class TextEditorPlugin(Plugin):
@@ -20,11 +20,11 @@ class TextEditorPlugin(Plugin):
 
     #### Contributions made by this plugin #####################################
 
-    ACTION_SETS = 'enthought.envisage.ui.workbench.action_sets'
+    ACTION_SETS = 'envisage.ui.workbench.action_sets'
     action_sets = List(contributes_to=ACTION_SETS)
 
 
     def _action_sets_default(self):
-        from enthought.plugins.text_editor.text_editor_action_set import \
+        from envisage.plugins.text_editor.text_editor_action_set import \
             TextEditorActionSet
         return [TextEditorActionSet]

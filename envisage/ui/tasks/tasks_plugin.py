@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, List
 
 # Local imports.
@@ -25,12 +25,12 @@ class TasksPlugin(Plugin):
     TASK_EXTENSIONS        = PKG + '.task_extensions'
 
     # The IDs of the extension points that this plugin contributes to.
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.envisage.ui.tasks'
+    id = 'envisage.ui.tasks'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Tasks'
@@ -59,7 +59,7 @@ class TasksPlugin(Plugin):
           callable(**traits) -> PreferencesPane
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.envisage.ui.tasks.api.PreferencesPane'.
+        that derives from 'envisage.ui.tasks.api.PreferencesPane'.
         """)
 
     tasks = ExtensionPoint(
@@ -68,7 +68,7 @@ class TasksPlugin(Plugin):
         This extension point makes tasks avaiable to the application.
 
         Each contribution to the extension point must be an instance of
-        'enthought.envisage.tasks.api.TaskFactory.
+        'envisage.tasks.api.TaskFactory.
         """)
 
     task_extensions = ExtensionPoint(
@@ -78,7 +78,7 @@ class TasksPlugin(Plugin):
         to existing tasks (without creating a new task).
 
         Each contribution to the extension point must be an instance of
-        'enthought.envisage.tasks.api.TaskExtension'.
+        'envisage.tasks.api.TaskExtension'.
         """)
 
     #### Contributions to extension points made by this plugin ################
@@ -87,7 +87,7 @@ class TasksPlugin(Plugin):
 
     def _my_service_offers_default(self):
         preferences_dialog_service_offer = ServiceOffer(
-            protocol = 'enthought.envisage.ui.tasks.preferences_dialog.'
+            protocol = 'envisage.ui.tasks.preferences_dialog.'
                        'PreferencesDialog',
             factory  = self._create_preferences_dialog_service)
         

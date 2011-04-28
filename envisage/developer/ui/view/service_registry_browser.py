@@ -5,15 +5,15 @@
 import inspect
 
 # Enthought library imports.
-from enthought.envisage.api import IApplication, IExtensionPoint
-from enthought.envisage.api import IServiceRegistry
-from enthought.envisage.developer.code_browser.api import CodeBrowser
+from envisage.api import IApplication, IExtensionPoint
+from envisage.api import IServiceRegistry
+from envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
 from traits.api import Any, HasTraits, Instance
 from traitsui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
-from enthought.plugins.text_editor.editor.text_editor import TextEditor
+from envisage.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
 from service_registry_browser_tree import \
@@ -66,7 +66,7 @@ class ServiceRegistryBrowser(HasTraits):
     service_registry_model = Any#Instance(IServiceRegistry)
 
     # The workbench service.
-    workbench = Instance('enthought.envisage.ui.workbench.api.Workbench')
+    workbench = Instance('envisage.ui.workbench.api.Workbench')
 
     # The default traits UI view.
     traits_view = service_registry_browser_view
@@ -93,7 +93,7 @@ class ServiceRegistryBrowser(HasTraits):
         """ Trait initializer. """
 
         workbench = self.application.get_service(
-            'enthought.envisage.ui.workbench.workbench.Workbench'
+            'envisage.ui.workbench.workbench.Workbench'
         )
 
         return workbench

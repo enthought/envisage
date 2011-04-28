@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, List
 
 
@@ -32,13 +32,13 @@ class WorkbenchPlugin(Plugin):
     VIEWS                    = PKG + '.views'
 
     # The Ids of the extension points that this plugin contributes to.
-    PREFERENCES    = 'enthought.envisage.preferences'
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    PREFERENCES    = 'envisage.preferences'
+    SERVICE_OFFERS = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.envisage.ui.workbench'
+    id = 'envisage.ui.workbench'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Workbench'
@@ -60,7 +60,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IActionSet
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.envisage.ui.action.api.ActionSet'.
+        that derives from 'envisage.ui.action.api.ActionSet'.
 
         """
     )
@@ -174,7 +174,7 @@ class WorkbenchPlugin(Plugin):
     def _my_preferences_default(self):
         """ Trait initializer. """
 
-        return ['pkgfile://enthought.envisage.ui.workbench/preferences.ini']
+        return ['pkgfile://envisage.ui.workbench/preferences.ini']
 
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
@@ -197,7 +197,7 @@ class WorkbenchPlugin(Plugin):
         )
 
         workbench_service_offer = ServiceOffer(
-            protocol = 'enthought.envisage.ui.workbench.workbench.Workbench',
+            protocol = 'envisage.ui.workbench.workbench.Workbench',
             factory  = self._create_workbench_service
         )
 

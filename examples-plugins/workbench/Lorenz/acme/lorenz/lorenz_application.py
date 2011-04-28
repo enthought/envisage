@@ -5,7 +5,7 @@
 from logging import DEBUG
 
 # Enthought library imports.
-from enthought.envisage.ui.workbench.api import WorkbenchApplication
+from envisage.ui.workbench.api import WorkbenchApplication
 from pyface.api import AboutDialog, ImageResource, SplashScreen
 
 

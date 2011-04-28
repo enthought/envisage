@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import EggPluginManager
+from envisage.api import EggPluginManager
 
 # Local imports.
 from egg_based_test_case import EggBasedTestCase

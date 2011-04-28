@@ -2,8 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.envisage.ui.action.api import Action, Group, Menu, ToolBar
-from enthought.envisage.ui.workbench.api import WorkbenchActionSet
+from envisage.ui.action.api import Action, Group, Menu, ToolBar
+from envisage.ui.workbench.api import WorkbenchActionSet
 
 
 class TestActionSet(WorkbenchActionSet):
@@ -12,7 +12,7 @@ class TestActionSet(WorkbenchActionSet):
     #### 'ActionSet' interface ################################################
 
     # The action set's globally unique identifier.
-    id = 'enthought.envisage.ui.workbench.test'
+    id = 'envisage.ui.workbench.test'
 
     menus = [
         Menu(
@@ -44,32 +44,32 @@ class TestActionSet(WorkbenchActionSet):
     actions = [
         Action(
             path='MenuBar/Test', group='Fred',
-            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+            class_name='envisage.ui.workbench.action.api:AboutAction'
         ),
 
         Action(
             path='ToolBar',
-            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+            class_name='envisage.ui.workbench.action.api:AboutAction'
         ),
 
         Action(
             path='ToolBar',
-            class_name='enthought.envisage.ui.workbench.action.api:ExitAction'
+            class_name='envisage.ui.workbench.action.api:ExitAction'
         ),
 
         Action(
             path='ToolBar/Fred', group='AToolBarGroup',
-            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+            class_name='envisage.ui.workbench.action.api:AboutAction'
         ),
 
         Action(
             path='ToolBar/Wilma',
-            class_name='enthought.envisage.ui.workbench.action.api:AboutAction'
+            class_name='envisage.ui.workbench.action.api:AboutAction'
         ),
 
         Action(
             path='ToolBar/Barney',
-            class_name='enthought.envisage.ui.workbench.action.api:ExitAction'
+            class_name='envisage.ui.workbench.action.api:ExitAction'
         )
     ]
 

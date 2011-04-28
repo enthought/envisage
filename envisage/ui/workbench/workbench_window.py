@@ -7,10 +7,10 @@ import logging
 # Enthought library imports.
 import pyface.workbench.api as pyface
 
-from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
-from enthought.envisage.api import IServiceRegistry
-from enthought.envisage.api import ExtensionPoint, ServiceRegistry
-from enthought.envisage.ui.action.api import ActionSet
+from envisage.api import IExtensionPointUser, IExtensionRegistry
+from envisage.api import IServiceRegistry
+from envisage.api import ExtensionPoint, ServiceRegistry
+from envisage.ui.action.api import ActionSet
 from pyface.action.api import StatusBarManager
 from traits.api import Delegate, Instance, List, Property, implements
 
@@ -29,10 +29,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     implements(IServiceRegistry, IExtensionPointUser)
 
     # Extension point Ids.
-    ACTION_SETS    = 'enthought.envisage.ui.workbench.action_sets'
-    VIEWS          = 'enthought.envisage.ui.workbench.views'
-    PERSPECTIVES   = 'enthought.envisage.ui.workbench.perspectives'
-    SERVICE_OFFERS = 'enthought.envisage.ui.workbench.service_offers'
+    ACTION_SETS    = 'envisage.ui.workbench.action_sets'
+    VIEWS          = 'envisage.ui.workbench.views'
+    PERSPECTIVES   = 'envisage.ui.workbench.perspectives'
+    SERVICE_OFFERS = 'envisage.ui.workbench.service_offers'
 
     #### 'WorkbenchWindow' interface ##########################################
 

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin
+from envisage.api import Plugin
 from traits.api import List
 
 
@@ -10,7 +10,7 @@ class RefreshCodePlugin(Plugin):
     """ A plugin that offers the 'refresh code' functionality. """
 
     # Extension point Ids.
-    ACTION_SETS = 'enthought.envisage.ui.workbench.action_sets'
+    ACTION_SETS = 'envisage.ui.workbench.action_sets'
 
     #### Extension points offered by this plugin ##############################
 
@@ -23,7 +23,7 @@ class RefreshCodePlugin(Plugin):
     def _action_sets_default(self):
         """ Trait initializer. """
 
-        from enthought.plugins.refresh_code.refresh_code_action_set import (
+        from envisage.plugins.refresh_code.refresh_code_action_set import (
             RefreshCodeActionSet
         )
 

@@ -11,7 +11,7 @@ An action set for contributing actions to Data.
 """
 
 # Enthought library imports.
-from enthought.envisage.action.action_plugin_definition import ActionSet
+from envisage.action.action_plugin_definition import ActionSet
 
 
 ##############################################################################

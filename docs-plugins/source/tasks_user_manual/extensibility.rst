@@ -10,7 +10,7 @@ The foregoing sections have described those elements of the Tasks framework that
 belong to the PyFace project; as such, our imports have been from the
 ``pyface.tasks`` package. We now discuss how Tasks can be used in
 conjunction with Envisage to build extensible applications. Accordingly, our
-imports in this section will be from the ``enthought.envisage.ui.tasks``
+imports in this section will be from the ``envisage.ui.tasks``
 package.
 
 As remarked in the :ref:`introduction`, some familiarity with the Envisage
@@ -44,7 +44,7 @@ cases. These extensions points are:
 
 .. index:: TaskFactory
 
-1. ``enthought.envisage.ui.tasks.tasks``:
+1. ``envisage.ui.tasks.tasks``:
 
    A list of ``TaskFactory`` instances. ``TaskFactory`` is a lightweight class
    for associating a task factory with a name and an ID. We shall see an example
@@ -52,7 +52,7 @@ cases. These extensions points are:
 
 .. index:: TaskExtension
 
-2. ``enthought.envisage.ui.tasks.task_extensions``:
+2. ``envisage.ui.tasks.task_extensions``:
 
    A list of ``TaskExtension`` instances. A ``TaskExtension`` is a bundle of
    menu bar, tool bar, and dock pane additions to an existing task. This class
@@ -95,7 +95,7 @@ With this in mind, we can define a ``Plugin`` for our application::
 
         #### Contributions to extension points made by this plugin ############
 
-        tasks = List(contributes_to='enthought.envisage.ui.tasks.tasks')
+        tasks = List(contributes_to='envisage.ui.tasks.tasks')
 
         def _tasks_default(self):
             return [ TaskFactory(id = 'example.attractors.task_2d',
@@ -170,14 +170,14 @@ There are three extensions points associated with preferences. One of these
 extension points is built into the Envisage core plugin, while the other two
 belong to the Tasks plugin. Let us survey each of them in turn.
 
-1. ``enthought.envisage.preferences``:
+1. ``envisage.preferences``:
 
    A list of locators for default preferences files (INI files). This extension
    point is at the model level in the preferences system.
 
 .. index:: preferences; category
 
-2. ``enthought.envisage.ui.tasks.preferences_categories``:
+2. ``envisage.ui.tasks.preferences_categories``:
 
    A list of ``PreferencesCategory`` instances. Preference categories have name
    and ID attributes. To each category with a given name corresponds a tab with
@@ -186,7 +186,7 @@ belong to the Tasks plugin. Let us survey each of them in turn.
 
 .. index:: preferences; pane
 
-3. ``enthought.envisage.ui.tasks.preferences_panes``:
+3. ``envisage.ui.tasks.preferences_panes``:
 
    A list of ``PreferencesPane`` instances. A preferences pane defines a set of
    user interface elements for changing application preferences via a model
@@ -219,7 +219,7 @@ and contributing it to the Envisage core plugin::
     
         [ ... ]
 
-        preferences = List(contributes_to='enthought.envisage.preferences')
+        preferences = List(contributes_to='envisage.preferences')
 
         def _preferences_default(self):
             return [ 'pkgfile://example.attractors/preferences.ini' ]
@@ -233,7 +233,7 @@ preferences helper is a model-level class that makes accessing the keys in the
 preferences file convenient and type safe. The preferences pane, introduced
 above, exposes a Traits UI view for this helper object::
 
-    from enthought.envisage.ui.tasks.api import PreferencesPane, TaskFactory
+    from envisage.ui.tasks.api import PreferencesPane, TaskFactory
     from enthought.preferences.api import PreferencesHelper
 
     class AttractorsPreferences(PreferencesHelper):
@@ -309,7 +309,7 @@ and contribute the preferences pane to the Tasks plugin::
         [ ... ]
         
         preferences_panes = List(
-            contributes_to='enthought.envisage.ui.tasks.preferences_panes')
+            contributes_to='envisage.ui.tasks.preferences_panes')
 
         def _preferences_panes_default(self):
            return [ AttractorsPreferencesPane ]
@@ -409,7 +409,7 @@ either at the toplevel or as a sub-menu (see
 ``pyface.tasks.action.api.TaskToggleGroup``). For switching between
 windows, Tasks includes the ``TaskWindowToggleGroup``. This class, as well as
 several other menu-related conveniences, can be found in
-``enthought.envisage.ui.tasks.action.api``.
+``envisage.ui.tasks.action.api``.
 
 .. rubric:: Footnotes
 

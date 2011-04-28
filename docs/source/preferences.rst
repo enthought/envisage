@@ -4,9 +4,9 @@ Preferences with Envisage
 
 Envisage presents preferences with two different extension points:
 
-  * PREFERENCES       = 'enthought.envisage.preferences'
+  * PREFERENCES       = 'envisage.preferences'
 
-  * PREFERENCES_PAGES = 'enthought.envisage.ui.workbench.preferences_pages'
+  * PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
 
 The first one is only model-related and is for programmatic access to
 preferences, whereas the second one is for displaying UIs to the user in

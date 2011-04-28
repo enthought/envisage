@@ -16,7 +16,7 @@ import inspect, unittest
 # Enthought library imports.
 from traits.util.resource import get_path
 
-from enthought.envisage.developer.code_browser.api import CodeBrowser
+from envisage.developer.code_browser.api import CodeBrowser
 
 
 

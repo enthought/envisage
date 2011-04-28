@@ -20,7 +20,7 @@ class IExtensionPoint(Interface):
     # from external sources, this really means 'globally unique'! Using the
     # Python package path might be useful here ;^)
     #
-    # e.g. 'enthought.envisage.ui.workbench.views'
+    # e.g. 'envisage.ui.workbench.views'
     id = Str
 
     # A trait type that describes what can be contributed to the extension

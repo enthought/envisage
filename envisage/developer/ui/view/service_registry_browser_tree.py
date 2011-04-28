@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import IExtensionPoint, IServiceRegistry
+from envisage.api import IExtensionPoint, IServiceRegistry
 from traits.api import Any, Dict, HasTraits, Instance, Int, List
 from traits.api import Property, Str, Undefined
 from traitsui.api import TreeNode

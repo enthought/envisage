@@ -28,9 +28,9 @@ from traitsui.api import Group, View
 from traits.util.clean_strings import clean_filename
 
 # Local imports.
-#from enthought.envisage.ui.single_project.editor.project_editor import \
+#from envisage.ui.single_project.editor.project_editor import \
 #    ProjectEditor
-from enthought.envisage.api import Application
+from envisage.api import Application
 
 
 # Setup a logger for this module.
@@ -96,7 +96,7 @@ class Project(HasTraits):
     traits_view = View(
         Group('location'),
         title = 'New Project',
-        id = 'enthought.envisage.single_project.project.Project',
+        id = 'envisage.single_project.project.Project',
         buttons = [ 'OK', 'Cancel' ],
         width = 0.33,
 
@@ -231,7 +231,7 @@ class Project(HasTraits):
             return ETSConfig.application_home
 
         app_preferences = application.preferences
-        path_id = 'enthought.envisage.ui.' \
+        path_id = 'envisage.ui.' \
             'single_project.preferred_path'
         path = app_preferences.get(path_id)
 

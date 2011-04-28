@@ -22,7 +22,7 @@ class EggPluginManager(PluginManager):
     To declare a plugin (or plugins) in your egg use an entry point in your
     'setup.py' file, e.g.
 
-    [enthought.envisage.plugins]
+    [envisage.plugins]
     acme.foo = acme.foo.foo_plugin:FooPlugin
 
     The left hand side of the entry point declaration must be the same as the
@@ -34,7 +34,7 @@ class EggPluginManager(PluginManager):
     """
 
     # Entry point Id.
-    PLUGINS = 'enthought.envisage.plugins'
+    PLUGINS = 'envisage.plugins'
 
     #### 'EggPluginManager' interface #########################################
 

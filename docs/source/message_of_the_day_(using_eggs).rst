@@ -100,7 +100,7 @@ In the MOTD_ example, we create the class in the run.py_ module as follows::
         """ The function that starts your application. """
 
         # Create and run the application.
-        from enthought.envisage.api import Application
+        from envisage.api import Application
 
         return Application(id='acme.motd').run()
 
@@ -117,7 +117,7 @@ allow other plugins to contribute messages, and by using contributions to
 create an instance of the MOTD_ class and to publish it as a service.
 
 By default, Envisage finds plugins via Python eggs, so all we have to do is
-to declare the existence of our plugin using the "enthought.envisage.plugins"
+to declare the existence of our plugin using the "envisage.plugins"
 entry point in our 'setup.py' module::
 
     setup(
@@ -127,7 +127,7 @@ entry point in our 'setup.py' module::
 
         ...
 
-	[enthought.envisage.plugins]
+	[envisage.plugins]
 	acme.motd = acme.motd.motd_plugin:MOTDPlugin
 
         ...
@@ -158,7 +158,7 @@ MOTDPlugin_ class::
       MESSAGES = 'acme.motd.messages'
 
       # The IDs of the extension points that this plugin contributes to.
-      SERVICE_OFFERS = 'enthought.envisage.service_offers'
+      SERVICE_OFFERS = 'envisage.service_offers'
 
       #### 'IPlugin' interface ##################################################
 
@@ -320,7 +320,7 @@ and tell Envisage about the plugin::
     setup(
         entry_points = """
 
-        [enthought.envisage.plugins]
+        [envisage.plugins]
 	acme.motd.software_quotes = acme.motd.software_quotes.software_quotes_plugin:SoftwareQuotesPlugin
 
 	...

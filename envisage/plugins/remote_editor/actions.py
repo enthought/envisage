@@ -1,7 +1,7 @@
-from enthought.envisage.ui.action.api import Action, ActionSet, Group
+from envisage.ui.action.api import Action, ActionSet, Group
 from pyface.api import FileDialog, OK
 from pyface.action.api import Action as PyfaceAction
-from enthought.plugins.remote_editor.api import IRemoteEditor
+from envisage.plugins.remote_editor.api import IRemoteEditor
 
 
 

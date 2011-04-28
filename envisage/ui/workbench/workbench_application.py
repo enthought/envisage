@@ -14,7 +14,7 @@ import logging
 import traitsui
 
 # Enthought library imports.
-from enthought.envisage.api import Application
+from envisage.api import Application
 from pyface.api import AboutDialog, Dialog, GUI, ImageResource
 from pyface.api import SplashScreen
 from pyface.workbench.api import IWorkbench

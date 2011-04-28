@@ -36,13 +36,13 @@ def run():
     #
     # We do the imports here in case the Enthought eggs are loaded dyanmically
     # via the 'EGG_PATH'.
-    from enthought.envisage.api import Application, EggPluginManager
+    from envisage.api import Application, EggPluginManager
 
     # Create a plugin manager that ignores all eggs except the ones that we
     # need for this example.
     plugin_manager = EggPluginManager(
         include = [
-            'enthought.envisage.core', 'acme.motd', 'acme.motd.software_quotes'
+            'envisage.core', 'acme.motd', 'acme.motd.software_quotes'
         ]
     )
 

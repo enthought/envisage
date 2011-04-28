@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, ServiceOffer
+from envisage.api import Plugin, ServiceOffer
 from traits.api import List
 
 
@@ -19,12 +19,12 @@ class DeveloperPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's globally unique identifier.
-    id = 'enthought.envisage.developer'
+    id = 'envisage.developer'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Developer'

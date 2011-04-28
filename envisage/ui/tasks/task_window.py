@@ -8,7 +8,7 @@ class TaskWindow(PyfaceTaskWindow):
     """
 
     # The application that created and is managing this window.
-    application = Instance('enthought.envisage.ui.tasks.api.TasksApplication')
+    application = Instance('envisage.ui.tasks.api.TasksApplication')
 
     ###########################################################################
     # Protected 'TaskWindow' interface.

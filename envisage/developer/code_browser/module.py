@@ -122,7 +122,7 @@ class ModuleFactory(HasTraits):
 
         we would return:-
 
-        'enthought.envisage.core.core_plugin_definition'
+        'envisage.core.core_plugin_definition'
 
         """
 

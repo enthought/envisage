@@ -10,7 +10,7 @@ module can safely live in the Envisage core without twisted being installed.
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import Application
+from envisage.api import Application
 
 
 # Logging.

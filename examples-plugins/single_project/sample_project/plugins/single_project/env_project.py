@@ -15,7 +15,7 @@ Test envisage project.
 import logging
 
 # Enthought library imports.
-from enthought.envisage.ui.single_project.api import Project
+from envisage.ui.single_project.api import Project
 from enthought.naming.unique_name import make_unique_name
 from enthought.numerical_modeling.numeric_context.numeric_context import \
     NumericContext

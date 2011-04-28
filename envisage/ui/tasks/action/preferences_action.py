@@ -22,7 +22,7 @@ class PreferencesAction(Action):
     ###########################################################################
 
     def perform(self, event):
-        from enthought.envisage.ui.tasks.preferences_dialog import \
+        from envisage.ui.tasks.preferences_dialog import \
             PreferencesDialog
 
         window = event.task.window

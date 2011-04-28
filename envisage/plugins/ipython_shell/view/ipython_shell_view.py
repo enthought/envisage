@@ -9,10 +9,10 @@ import traceback
 from IPython.kernel.core.interpreter import Interpreter
 
 # Enthought library imports.
-from enthought.envisage.api import IExtensionRegistry
-from enthought.envisage.api import ExtensionPoint
-from enthought.plugins.python_shell.api import IPythonShell
-from enthought.plugins.ipython_shell.api import INamespaceView
+from envisage.api import IExtensionRegistry
+from envisage.api import ExtensionPoint
+from envisage.plugins.python_shell.api import IPythonShell
+from envisage.plugins.ipython_shell.api import INamespaceView
 from pyface.workbench.api import View
 from pyface.ipython_widget import IPythonWidget
 from pyface.api import GUI
@@ -30,7 +30,7 @@ class IPythonShellView(View):
     #### 'IView' interface ####################################################
 
     # The part's globally unique identifier.
-    id = 'enthought.plugins.python_shell_view'
+    id = 'envisage.plugins.python_shell_view'
 
     # The part's name (displayed to the user).
     name = 'IPython'
@@ -64,13 +64,13 @@ class IPythonShellView(View):
     #### Private interface ####################################################
 
     # Banner.
-    _banner = ExtensionPoint(id='enthought.plugins.ipython_shell.banner')
+    _banner = ExtensionPoint(id='envisage.plugins.ipython_shell.banner')
 
     # Bindings.
-    _bindings = ExtensionPoint(id='enthought.plugins.python_shell.bindings')
+    _bindings = ExtensionPoint(id='envisage.plugins.python_shell.bindings')
 
     # Commands.
-    _commands = ExtensionPoint(id='enthought.plugins.python_shell.commands')
+    _commands = ExtensionPoint(id='envisage.plugins.python_shell.commands')
 
     ###########################################################################
     # 'IExtensionPointUser' interface.

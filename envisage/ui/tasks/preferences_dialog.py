@@ -30,7 +30,7 @@ class PreferencesDialog(Handler):
     #### 'PreferencesDialog' interface ########################################
 
     # The application that created and is managing this dialog.
-    application = Instance('enthought.envisage.ui.tasks.api.TasksApplication')
+    application = Instance('envisage.ui.tasks.api.TasksApplication')
 
     # The list of categories to use when building the dialog.
     categories = List(PreferencesCategory)

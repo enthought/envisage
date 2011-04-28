@@ -5,7 +5,7 @@
 import unittest
 
 # Enthought library imports.
-from enthought.envisage.api import Application, ImportManager
+from envisage.api import Application, ImportManager
 
 
 class ImportManagerTestCase(unittest.TestCase):
@@ -53,7 +53,7 @@ class ImportManagerTestCase(unittest.TestCase):
         """ import dotted modulel """
 
         symbol = self.import_manager.import_symbol(
-            'enthought.envisage.api:ImportManager'
+            'envisage.api:ImportManager'
         )
         self.assertEqual(symbol, ImportManager)
 

@@ -234,7 +234,7 @@ class Plugin(ExtensionProvider):
             logger.warn(
                 'DEPRECATED: Do not use the "service=True" metadata anymore. '
                 'Services should now be offered using the service '
-                'offer extension point (enthought.envisage.service_offers) '
+                'offer extension point (envisage.service_offers) '
                 'from the core plugin. '
                 'Plugin %s trait <%s>' % (self, trait_name)
             )

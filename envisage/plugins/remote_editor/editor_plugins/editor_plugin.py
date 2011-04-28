@@ -3,7 +3,7 @@ import os
 import logging
 
 # Local imports
-from enthought.plugins.remote_editor.communication.client import Client
+from envisage.plugins.remote_editor.communication.client import Client
 
 
 class EditorPlugin(Client):

@@ -15,8 +15,8 @@ A base class for actions that use the data plugin's services.
 import logging
 
 # Enthought library imports.
-from enthought.envisage.api import UOL
-from enthought.envisage.single_project.api import ProjectAction
+from envisage.api import UOL
+from envisage.single_project.api import ProjectAction
 
 # Data library imports.
 from data.data import Data

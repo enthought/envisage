@@ -14,6 +14,6 @@ Surely there must be a better way to do this? I'm not an egg expert!
 
 To run the example:-
 
-     cd .../enthought.envisage.ui.workbench_3.0/examples/AcmeLab/dist
+     cd .../envisage.ui.workbench_3.0/examples/AcmeLab/dist
      python run.py
 

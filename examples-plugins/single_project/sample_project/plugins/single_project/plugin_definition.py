@@ -15,8 +15,8 @@ import os
 import sys
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, ServiceOffer
-from enthought.envisage.ui.single_project.api import FactoryDefinition
+from envisage.api import Plugin, ServiceOffer
+from envisage.ui.single_project.api import FactoryDefinition
 from traits.api import List
 
 # This module's package.
@@ -31,7 +31,7 @@ ID = 'plugins.single_project'
 class EnvProjectPlugin(Plugin):
 
     # Extension point Ids.
-    FACTORY_DEFINITIONS = 'enthought.envisage.ui.single_project.factory_definitions'
+    FACTORY_DEFINITIONS = 'envisage.ui.single_project.factory_definitions'
 
     # The plugin's name.
     name = 'Env Project Plugin'

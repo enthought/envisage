@@ -24,7 +24,7 @@ class WorkbenchPreferencesPage(PreferencesPage):
     name = 'General'
 
     # The path to the preferences node that contains the preferences.
-    preferences_path = 'enthought.envisage.ui.workbench'
+    preferences_path = 'envisage.ui.workbench'
 
     #### Preferences ##########################################################
 

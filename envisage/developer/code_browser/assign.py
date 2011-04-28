@@ -16,7 +16,7 @@ class Assign(HasTraits):
 
     # The namespace that the assignment statement is in.
     namespace = Instance(
-        'enthought.envisage.developer.code_browser.namespace.Namespace'
+        'envisage.developer.code_browser.namespace.Namespace'
     )
 
     # The line number within the module at which the assignment statement

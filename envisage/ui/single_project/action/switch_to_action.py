@@ -1,7 +1,7 @@
 """ An action that switches the project perspective. """
 
 # Enthought library imports.
-from enthought.envisage.ui.single_project.project_action import ProjectAction
+from envisage.ui.single_project.project_action import ProjectAction
 from pyface.api import ImageResource
 
 

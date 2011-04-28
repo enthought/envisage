@@ -1,7 +1,7 @@
 """ An action that configures an item in the project tree. """
 
 # Enthought library imports.
-from enthought.envisage.ui.single_project.project_action import ProjectAction
+from envisage.ui.single_project.project_action import ProjectAction
 
 ##############################################################################
 # class 'ConfigureAction'

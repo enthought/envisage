@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import Plugin, ServiceOffer
+from envisage.api import Plugin, ServiceOffer
 from traits.api import List
 
 
@@ -14,7 +14,7 @@ class LorenzPlugin(Plugin):
     """
 
     # Extension points Ids.
-    SERVICE_OFFERS = 'enthought.envisage.service_offers'
+    SERVICE_OFFERS = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 

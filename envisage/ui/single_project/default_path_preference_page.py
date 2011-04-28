@@ -14,7 +14,7 @@ from traits.api import Directory, Str
 from traitsui.api import View, Item
 
 # Global assignment of ID
-ID = 'enthought.envisage.ui.single_project'
+ID = 'envisage.ui.single_project'
 
 #-------------------------------------------------------------------------------
 #   DefaultPathPreferencePage Class
@@ -28,7 +28,7 @@ class DefaultPathPreferencePage(PreferencesPage):
     name = 'Single Project'
 
     # The path to the preferences node that contains the preferences.
-    preferences_path = 'enthought.envisage.ui.single_project'
+    preferences_path = 'envisage.ui.single_project'
 
     #### Preferences ##########################################################
 

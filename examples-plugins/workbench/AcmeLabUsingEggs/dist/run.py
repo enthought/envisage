@@ -35,7 +35,7 @@ def run():
 
     # We do the imports here because the modules may well be in eggs that get
     # added to the path in 'main'.
-    from enthought.envisage.api import EggPluginManager
+    from envisage.api import EggPluginManager
     from acme.acmelab.api import Acmelab
 
     # Create an application that uses the egg plugin manager to find its

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin
+from envisage.api import ExtensionPoint, Plugin
 from traits.api import Dict, List, Str
 
 
@@ -10,16 +10,16 @@ class IPythonShellPlugin(Plugin):
     """ An IPython shell plugin. """
 
     # Extension point Ids.
-    BANNER          = 'enthought.plugins.ipython_shell.banner'
-    BINDINGS        = 'enthought.plugins.python_shell.bindings'
-    COMMANDS        = 'enthought.plugins.python_shell.commands'
-    VIEWS           = 'enthought.envisage.ui.workbench.views'
-    ACTION_SETS     = 'enthought.envisage.ui.workbench.action_sets'
+    BANNER          = 'envisage.plugins.ipython_shell.banner'
+    BINDINGS        = 'envisage.plugins.python_shell.bindings'
+    COMMANDS        = 'envisage.plugins.python_shell.commands'
+    VIEWS           = 'envisage.ui.workbench.views'
+    ACTION_SETS     = 'envisage.ui.workbench.action_sets'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.plugins.python_shell'
+    id = 'envisage.plugins.python_shell'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Python Shell'
@@ -72,7 +72,7 @@ class IPythonShellPlugin(Plugin):
 
     def _action_sets_default(self):
         """ Trait initializer. """
-        from enthought.plugins.ipython_shell.actions.ipython_shell_actions \
+        from envisage.plugins.ipython_shell.actions.ipython_shell_actions \
             import IPythonShellActionSet
         return [IPythonShellActionSet]
 

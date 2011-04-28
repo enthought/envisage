@@ -2,8 +2,8 @@
 import os
 
 # Local imports
-from enthought.plugins import remote_editor
-from enthought.plugins.remote_editor.communication.client import Client
+from envisage.plugins import remote_editor
+from envisage.plugins.remote_editor.communication.client import Client
 
 
 class EnshellClient(Client):

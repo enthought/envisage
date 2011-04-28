@@ -22,7 +22,7 @@ setup(
 
     entry_points = """
 
-    [enthought.envisage.plugins]
+    [envisage.plugins]
     acme.bar = acme.bar.bar_plugin:BarPlugin
 
     """

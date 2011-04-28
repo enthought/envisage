@@ -14,7 +14,7 @@ class DeveloperPerspective(Perspective):
     """
 
     # The root of all view Ids in this package.
-    ROOT = 'enthought.envisage.developer.ui.view'
+    ROOT = 'envisage.developer.ui.view'
 
     # View Ids.
     APPLICATION_BROWSER_VIEW = ROOT + '.application_browser_view'

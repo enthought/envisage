@@ -12,7 +12,7 @@ import wx
 
 # ETS imports
 from traits.api import Any, Bool
-from enthought.plugins.remote_editor.editor_plugins.editor_plugin \
+from envisage.plugins.remote_editor.editor_plugins.editor_plugin \
         import EditorPlugin
 
 # Editra namespace imports

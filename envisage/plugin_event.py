@@ -9,6 +9,6 @@ class PluginEvent(Vetoable):
     """ A plugin event. """
 
     # The plugin that the event is for.
-    plugin = Instance('enthought.envisage.api.IPlugin')
+    plugin = Instance('envisage.api.IPlugin')
 
 #### EOF ######################################################################

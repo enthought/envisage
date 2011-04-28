@@ -9,7 +9,7 @@ from threading import Thread
 # ETS imports
 from traits.api import HasTraits, Int, Str, Bool, Instance, List, \
      Tuple, Enum
-from enthought.plugins import remote_editor
+from envisage.plugins import remote_editor
 
 # Local imports
 from server import Server
@@ -41,7 +41,7 @@ class ClientThread(Thread):
                 sock.listen(1)
                 port = sock.getsockname()[1]
                 args = self.client.server_prefs + ( port, )
-                code = "from enthought.plugins.remote_editor.communication." \
+                code = "from envisage.plugins.remote_editor.communication." \
                     "server import main; main(r'%s', '%s', %i)" % args
                 spawn_independent([sys.executable, '-c', code])
 

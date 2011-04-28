@@ -11,14 +11,14 @@ A Data resource type plugin.
 """
 
 # Enthought library imports.
-from enthought.envisage import PluginDefinition
-from enthought.envisage.action.action_plugin_definition import \
+from envisage import PluginDefinition
+from envisage.action.action_plugin_definition import \
     Group, Location, Menu
-from enthought.envisage.action.default_action import DefaultAction
-from enthought.envisage.core.core_plugin_definition import ApplicationObject
-from enthought.envisage.resource.resource_plugin_definition \
+from envisage.action.default_action import DefaultAction
+from envisage.core.core_plugin_definition import ApplicationObject
+from envisage.resource.resource_plugin_definition \
     import ResourceType, ResourceManager
-from enthought.plugins.python_shell.python_shell_plugin_definition import \
+from envisage.plugins.python_shell.python_shell_plugin_definition import \
     Namespace
 
 # Local imports.
@@ -107,8 +107,8 @@ ui_service = ApplicationObject(
 #### Resource Types ##########################################################
 
 # References to other plugin's resource types
-FOLDER = 'enthought.envisage.resource.folder_resource_type.FolderResourceType'
-INSTANCE = ('enthought.envisage.resource.instance_resource_type.'
+FOLDER = 'envisage.resource.folder_resource_type.FolderResourceType'
+INSTANCE = ('envisage.resource.instance_resource_type.'
     'InstanceResourceType')
 
 # References to our resource types

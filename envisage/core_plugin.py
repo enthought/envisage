@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import List, Instance, Str
 
 
@@ -19,15 +19,15 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CATEGORIES       = 'enthought.envisage.categories'
-    CLASS_LOAD_HOOKS = 'enthought.envisage.class_load_hooks'
-    PREFERENCES      = 'enthought.envisage.preferences'
-    SERVICE_OFFERS   = 'enthought.envisage.service_offers'
+    CATEGORIES       = 'envisage.categories'
+    CLASS_LOAD_HOOKS = 'envisage.class_load_hooks'
+    PREFERENCES      = 'envisage.preferences'
+    SERVICE_OFFERS   = 'envisage.service_offers'
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'enthought.envisage.core'
+    id = 'envisage.core'
 
     # The plugin's name (suitable for displaying to the user).
     name = 'Core'
@@ -38,7 +38,7 @@ class CorePlugin(Plugin):
     # for (hopefully) readability and convenience we have a specific extension
     # point.
     categories = ExtensionPoint(
-        List(Instance('enthought.envisage.category.Category')),
+        List(Instance('envisage.category.Category')),
         id   = CATEGORIES,
         desc = """
 
@@ -62,7 +62,7 @@ class CorePlugin(Plugin):
     )
 
     class_load_hooks = ExtensionPoint(
-        List(Instance('enthought.envisage.class_load_hook.ClassLoadHook')),
+        List(Instance('envisage.class_load_hook.ClassLoadHook')),
         id   = CLASS_LOAD_HOOKS,
         desc = """
 
@@ -85,9 +85,9 @@ class CorePlugin(Plugin):
 
         e.g.
 
-        'pkgfile://enthought.envisage/preferences.ini'
+        'pkgfile://envisage/preferences.ini'
 
-        - this looks for the 'preferences.ini' file in the 'enthought.envisage'
+        - this looks for the 'preferences.ini' file in the 'envisage'
         package.
 
         'file://C:/tmp/preferences.ini'
@@ -211,7 +211,7 @@ class CorePlugin(Plugin):
         """ Load all contributed preferences into a preferences node. """
 
         # Enthought library imports.
-        from enthought.envisage.resource.api import ResourceManager
+        from envisage.resource.api import ResourceManager
 
         # We add the plugin preferences to the default scope. The default scope
         # is a transient scope which means that (quite nicely ;^) we never
