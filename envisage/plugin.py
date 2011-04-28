@@ -121,10 +121,27 @@ class Plugin(ExtensionProvider):
         # the list traits directly. If we don't end up doing that then it is
         # fine to allow mutiple traits!
         trait_names = self.trait_names(contributes_to=extension_point_id)
+
+        # FIXME: This is a temporary fix, which was necessary due to the
+        #        namespace refactor, but should be removed at some point.
+        if len(trait_names) == 0:
+            old_id = 'enthought.' + extension_point_id
+            trait_names = self.trait_names(contributes_to=old_id)
+            if trait_names:
+                print 'deprecated:', old_id
+
         if len(trait_names) == 0:
             # If there is no contributing trait then look for any decorated
             # methods.
             extensions = self._harvest_methods(extension_point_id)
+
+            # FIXME: This is a temporary fix, which was necessary due to the
+            #        namespace refactor, but should be removed at some point.
+            if not extensions:
+                old_id = 'enthought.' + extension_point_id
+                extensions = self._harvest_methods(old_id)
+                if extensions:
+                    print 'deprecated:', old_id
 
         elif len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
