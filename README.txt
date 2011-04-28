@@ -1,2 +1,1 @@
-The EnvisageCore project, a part of the Enthought Tool Suite.
-
+The envisage project, a part of the Enthought Tool Suite.

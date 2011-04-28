@@ -1,5 +1,5 @@
 INFO = {
-    'name': 'EnvisageCore',
+    'name': 'envisage',
     'version': '3.2.1',
     'install_requires': [
         'AppTools >= 3.4.1.dev',

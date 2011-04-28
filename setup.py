@@ -21,7 +21,7 @@ Each plug-in is able to:
 - Create and share the objects that perform the real work of the application
   ("services").
 
-The EnvisageCore project provides the basic machinery of the Envisage
+The Envisage project provides the basic machinery of the Envisage
 framework. This project contains no plug-ins. You are free to use:
 
 - plug-ins from the EnvisagePlugins project
@@ -30,7 +30,7 @@ framework. This project contains no plug-ins. You are free to use:
 
 Prerequisites
 -------------
-If you want to build EnvisageCore from source, you must first install
+If you want to build Envisage from source, you must first install
 `setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_.
 
 """
@@ -51,9 +51,8 @@ DOCLINES = __doc__.split("\n")
 setup(
     author = "Martin Chilvers, et. al.",
     author_email = "info@enthought.com",
-    download_url = (
-        'http://www.enthought.com/repo/ETS/EnvisageCore-%s.tar.gz' %
-        INFO['version']),
+    download_url = ('http://www.enthought.com/repo/ets/envisage-%s.tar.gz' %
+                    INFO['version']),
     classifiers = [c.strip() for c in """\
         Development Status :: 5 - Production/Stable
         Intended Audience :: Developers
@@ -71,8 +70,8 @@ setup(
         """.splitlines() if len(c.strip()) > 0],
     description = DOCLINES[1],
     entry_points = """
-        [enthought.envisage.plugins]
-        enthought.envisage.core = enthought.envisage.core_plugin:CorePlugin
+        [envisage.plugins]
+        envisage.core = envisage.core_plugin:CorePlugin
         """,
     ext_modules = [],
     include_package_data = True,
@@ -81,11 +80,7 @@ setup(
     long_description = '\n'.join(DOCLINES[3:]),
     maintainer = 'ETS Developers',
     maintainer_email = 'enthought-dev@enthought.com',
-    name = "EnvisageCore",
-    namespace_packages   = [
-        "enthought",
-        "enthought.envisage"
-        ],
+    name = "envisage",
     packages = find_packages(),
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     tests_require = [
