@@ -20,11 +20,11 @@ released under a 3 clause BSD license.
 
 Files and orginal authors:
 ----------------------------------------------------------------------------
-enthought/envisage/ui/workbench/images:
+envisage/ui/workbench/images:
                           about.png | PSF
                     application.ico | GV
 
-enthought/envisage/ui/workbench/action/images:
+envisage/ui/workbench/action/images:
                            exit.png | CP
                     preferences.png | CP
 
@@ -33,7 +33,7 @@ examples/workbench/AcmeLab/acme/acmelab/images:
                         acmelab.ico | GV
                          splash.jpg | CCL
 
-examples/workbench/AcmeLab Using Eggs/src/acme.acmelab/acme/acmelab/images:
+examples/workbench/AcmeLabUsingEggs/src/acme.acmelab/acme/acmelab/images:
                           about.png | Public domain
                         acmelab.ico | GV
                          splash.jpg | CCL
