@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, implements
+from traits.api import Dict, HasTraits, implements
 
 # Local imports.
 from extension_point_changed_event import ExtensionPointChangedEvent

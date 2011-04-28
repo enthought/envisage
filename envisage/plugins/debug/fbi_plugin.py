@@ -16,7 +16,7 @@
 
 import sys
 
-from enthought.traits.api import push_exception_handler
+from traits.api import push_exception_handler
 
 from enthought.envisage.api import Plugin
 

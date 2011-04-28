@@ -5,7 +5,7 @@
 import inspect, weakref
 
 # Enthought library imports.
-from enthought.traits.api import List, TraitType, Undefined, implements
+from traits.api import List, TraitType, Undefined, implements
 
 # Local imports.
 from i_extension_point import IExtensionPoint

@@ -6,7 +6,7 @@ import unittest, weakref
 
 # Enthought library imports.
 from enthought.envisage.safeweakref import ref
-from enthought.traits.api import HasTraits
+from traits.api import HasTraits
 
     
 class SafeWeakrefTestCase(unittest.TestCase):

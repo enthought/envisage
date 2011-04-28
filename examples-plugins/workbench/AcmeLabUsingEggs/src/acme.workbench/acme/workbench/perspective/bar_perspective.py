@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.pyface.workbench.api import Perspective, PerspectiveItem
+from pyface.workbench.api import Perspective, PerspectiveItem
 
 
 class BarPerspective(Perspective):

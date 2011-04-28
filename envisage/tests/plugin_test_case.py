@@ -8,8 +8,8 @@ from os.path import exists, join
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.envisage.api import IPluginActivator, Plugin, contributes_to
-from enthought.traits.api import HasTraits, Instance, Int, Interface, List, Str
-from enthought.traits.api import implements
+from traits.api import HasTraits, Instance, Int, Interface, List, Str
+from traits.api import implements
 
 
 def listener(obj, trait_name, old, new):

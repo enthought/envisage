@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.developer.api import CodeBrowser, Module
-from enthought.traits.api import Event, HasTraits, Instance, Str
+from traits.api import Event, HasTraits, Instance, Str
 
 
 class Charm(HasTraits):

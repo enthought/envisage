@@ -17,7 +17,7 @@ import sys
 # Enthought library imports.
 from enthought.envisage.api import Plugin, ServiceOffer
 from enthought.envisage.ui.single_project.api import FactoryDefinition
-from enthought.traits.api import List
+from traits.api import List
 
 # This module's package.
 PKG = '.'.join(__name__.split('.')[:-1])

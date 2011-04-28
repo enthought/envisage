@@ -19,11 +19,11 @@ import shutil
 from enthought.preferences.api import bind_preference
 from enthought.io.api import File
 from enthought.naming.api import Context
-from enthought.pyface.api import CANCEL, confirm, ConfirmationDialog, \
+from pyface.api import CANCEL, confirm, ConfirmationDialog, \
     DirectoryDialog, error, FileDialog, information, NO, OK, YES
-from enthought.pyface.action.api import MenuManager
-from enthought.pyface.timer.api import do_later, Timer
-from enthought.traits.api import Any, Event, HasTraits, Instance, Int
+from pyface.action.api import MenuManager
+from pyface.timer.api import do_later, Timer
+from traits.api import Any, Event, HasTraits, Instance, Int
 
 # Local imports.
 from model_service import ModelService

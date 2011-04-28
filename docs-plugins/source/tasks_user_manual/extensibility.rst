@@ -8,7 +8,7 @@
 
 The foregoing sections have described those elements of the Tasks framework that
 belong to the PyFace project; as such, our imports have been from the
-``enthought.pyface.tasks`` package. We now discuss how Tasks can be used in
+``pyface.tasks`` package. We now discuss how Tasks can be used in
 conjunction with Envisage to build extensible applications. Accordingly, our
 imports in this section will be from the ``enthought.envisage.ui.tasks``
 package.
@@ -397,7 +397,7 @@ To create a ``TaskExtension`` that applies to all tasks, simply omit the
 following menu items:
 
 - A group of actions in the menu with ID "View" for toggling the visibility of
-  dock panes (see ``enthought.pyface.tasks.action.api.DockPaneToggleGroup``)
+  dock panes (see ``pyface.tasks.action.api.DockPaneToggleGroup``)
 - A "Preferences" action in the menu with ID "Edit", if the application has any
   preferences panes
 - An "Exit" action in the menu with ID "File"
@@ -406,7 +406,7 @@ The user is free to supplement these items by contributing additional global
 task extensions. For example, to provide a simple mechanism for changing tasks,
 one might add include the built-in task switching group in the "View" menu,
 either at the toplevel or as a sub-menu (see
-``enthought.pyface.tasks.action.api.TaskToggleGroup``). For switching between
+``pyface.tasks.action.api.TaskToggleGroup``). For switching between
 windows, Tasks includes the ``TaskWindowToggleGroup``. This class, as well as
 several other menu-related conveniences, can be found in
 ``enthought.envisage.ui.tasks.action.api``.

@@ -3,13 +3,13 @@
 
 # Enthought library imports.
 from enthought.envisage.api import IExtensionPoint, IServiceRegistry
-from enthought.traits.api import Any, Dict, HasTraits, Instance, Int, List
-from enthought.traits.api import Property, Str, Undefined
-from enthought.traits.ui.api import TreeNode
+from traits.api import Any, Dict, HasTraits, Instance, Int, List
+from traits.api import Property, Str, Undefined
+from traitsui.api import TreeNode
 
 # fixme: non-api imports.
-from enthought.traits.ui.value_tree import SingleValueTreeNodeObject
-from enthought.traits.ui.value_tree import value_tree_nodes
+from traitsui.value_tree import SingleValueTreeNodeObject
+from traitsui.value_tree import value_tree_nodes
 
 
 

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.ui.api import Handler
+from traitsui.api import Handler
 
 
 class TextEditorHandler(Handler):

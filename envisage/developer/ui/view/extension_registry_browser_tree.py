@@ -3,12 +3,12 @@
 
 # Enthought library imports.
 from enthought.envisage.api import IExtensionPoint, IExtensionRegistry
-from enthought.traits.api import Undefined
-from enthought.traits.ui.api import TreeNode
+from traits.api import Undefined
+from traitsui.api import TreeNode
 
 # fixme: non-api imports.
-from enthought.traits.ui.value_tree import SingleValueTreeNodeObject
-from enthought.traits.ui.value_tree import value_tree_nodes
+from traitsui.value_tree import SingleValueTreeNodeObject
+from traitsui.value_tree import value_tree_nodes
 
 
 class IExtensionRegistryTreeNode(TreeNode):

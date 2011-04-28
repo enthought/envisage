@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Str
+from traits.api import Str
 
 # Local imports.
 from location import Location

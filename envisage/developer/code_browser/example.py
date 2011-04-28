@@ -14,7 +14,7 @@ def main(argv):
     if len(argv) != 2:
         print 'Usage: python example.py module_name'
         print
-        print 'e.g., python example.py enthought.traits'
+        print 'e.g., python example.py traits'
 
     else:
         # Create a code browser.

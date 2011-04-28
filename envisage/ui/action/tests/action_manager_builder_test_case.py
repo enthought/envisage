@@ -5,7 +5,7 @@
 import unittest
 
 # fixme: Workaround for traits bug introduced by themes.
-import enthought.traits.ui.wx
+import traitsui.wx
 
 # Enthought library imports.
 from enthought.envisage.ui.action.api import Action, ActionSet, Group, Menu

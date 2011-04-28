@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import List, implements, on_trait_change
+from traits.api import List, implements, on_trait_change
 
 # Local imports.
 from extension_registry import ExtensionRegistry

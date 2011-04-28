@@ -10,7 +10,7 @@ import csv
 import StringIO
 
 # ETS imports
-from enthought.etsconfig.api import ETSConfig
+from traits.etsconfig.api import ETSConfig
 
 # An obscure ASCII character that we used as separators in socket streams
 MESSAGE_SEP = chr(7) # 'bell' character

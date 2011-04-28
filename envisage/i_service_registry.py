@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface
+from traits.api import Event, Interface
 
 
 class IServiceRegistry(Interface):

@@ -5,7 +5,7 @@ import socket
 
 # ETS imports
 from enthought.preferences.api import Preferences
-from enthought.traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
+from traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 
 # Local imports

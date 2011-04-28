@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.pyface.action.api import Action, Group
+from pyface.action.api import Action, Group
 
 
 class PreferencesAction(Action):

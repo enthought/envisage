@@ -1,5 +1,5 @@
 
-from enthought.traits.ui.api import View
+from traitsui.api import View
 
 
 class UpdateInfoView(View):

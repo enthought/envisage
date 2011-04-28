@@ -11,7 +11,7 @@ import os
 import wx
 
 # ETS imports
-from enthought.traits.api import Any, Bool
+from traits.api import Any, Bool
 from enthought.plugins.remote_editor.editor_plugins.editor_plugin \
         import EditorPlugin
 

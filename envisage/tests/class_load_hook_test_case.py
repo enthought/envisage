@@ -6,7 +6,7 @@ import sys, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import ClassLoadHook
-from enthought.traits.api import HasTraits
+from traits.api import HasTraits
 
 
 # This module's package.

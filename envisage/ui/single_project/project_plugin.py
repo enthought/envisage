@@ -6,9 +6,9 @@ import logging
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from enthought.envisage.ui.single_project.api import FactoryDefinition
-from enthought.pyface.action.api import MenuManager
-from enthought.pyface.workbench.api import Perspective
-from enthought.traits.api import Callable, List
+from pyface.action.api import MenuManager
+from pyface.workbench.api import Perspective
+from traits.api import Callable, List
 
 # Local imports.
 from model_service import ModelService
@@ -252,7 +252,7 @@ class ProjectPlugin(Plugin):
         Factory method for project views.
 
         """
-        from enthought.pyface.workbench.traits_ui_view import \
+        from pyface.workbench.traits_ui_view import \
                 TraitsUIView
         from enthought.envisage.ui.single_project.api import \
                             ProjectView

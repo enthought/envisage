@@ -1,6 +1,6 @@
 # Enthought library imports.
-from enthought.pyface.action.api import Action, ActionItem, Group
-from enthought.traits.api import Any, Bool, Instance, List, Property, Unicode, \
+from pyface.action.api import Action, ActionItem, Group
+from traits.api import Any, Bool, Instance, List, Property, Unicode, \
      on_trait_change
 
 

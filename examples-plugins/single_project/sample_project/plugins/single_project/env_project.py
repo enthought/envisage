@@ -19,9 +19,9 @@ from enthought.envisage.ui.single_project.api import Project
 from enthought.naming.unique_name import make_unique_name
 from enthought.numerical_modeling.numeric_context.numeric_context import \
     NumericContext
-from enthought.traits.api import adapts, property_depends_on, Property, List
-from enthought.traits.ui.api import Group, ITreeNode, ITreeNodeAdapter, View
-from enthought.traits.ui.menu import Action, Menu
+from traits.api import adapts, property_depends_on, Property, List
+from traitsui.api import Group, ITreeNode, ITreeNodeAdapter, View
+from traitsui.menu import Action, Menu
 
 # Data import
 from data.data import Data

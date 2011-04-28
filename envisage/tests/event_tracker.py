@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, List, Str, Tuple
+from traits.api import HasTraits, List, Str, Tuple
 
 
 class EventTracker(HasTraits):

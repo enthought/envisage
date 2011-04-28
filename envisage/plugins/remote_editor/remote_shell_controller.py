@@ -3,7 +3,7 @@ A client controlling a remote shell.
 """
 
 # Enthought library imports
-from enthought.traits.api import implements
+from traits.api import implements
 
 # Local imports
 from enthought.plugins.remote_editor.communication.client import Client

@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Str, Unicode
+from traits.api import HasTraits, Str, Unicode
 
 
 class PreferencesCategory(HasTraits):

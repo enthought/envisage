@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Interface, Str
+from traits.api import Interface, Str
 
 
 class IMessage(Interface):

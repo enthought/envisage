@@ -5,7 +5,7 @@
 import sys
 
 # Enthought library imports.
-from enthought.traits.api import Callable, HasTraits, MetaHasTraits, Str
+from traits.api import Callable, HasTraits, MetaHasTraits, Str
 
 
 class ClassLoadHook(HasTraits):

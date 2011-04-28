@@ -3,11 +3,11 @@
 
 # Enthought library imports.
 from enthought.envisage.api import IApplication, IExtensionPoint, IPlugin
-from enthought.traits.api import Any, HasTraits, List, Str, Undefined
-from enthought.traits.ui.api import TreeEditor, TreeNode
+from traits.api import Any, HasTraits, List, Str, Undefined
+from traitsui.api import TreeEditor, TreeNode
 
 # fixme: non-api imports.
-from enthought.traits.ui.value_tree import value_tree_nodes
+from traitsui.value_tree import value_tree_nodes
 
 
 class Container(HasTraits):
@@ -88,7 +88,7 @@ class IPluginTreeNode(TreeNode):
 
     def _get_extensions(self, plugin):
 
-        from enthought.traits.ui.value_tree import ListNode, StringNode
+        from traitsui.value_tree import ListNode, StringNode
 
         class MyListNode(ListNode):
             label = Str

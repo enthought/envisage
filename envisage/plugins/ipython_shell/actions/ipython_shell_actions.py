@@ -1,5 +1,5 @@
 from enthought.envisage.ui.action.api import Action, ActionSet, Group
-from enthought.pyface.action.api import Action as PyfaceAction
+from pyface.action.api import Action as PyfaceAction
 from enthought.plugins.python_shell.api import IPythonShell
 
 

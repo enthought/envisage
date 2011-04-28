@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Instance, Vetoable
+from traits.api import HasTraits, Instance, Vetoable
 
 # Local imports.
 from task_window import TaskWindow

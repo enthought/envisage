@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import TraitType
+from traits.api import TraitType
 
 
 # Logging.

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import Action
+from pyface.action.api import Action
 
 
 class AboutAction(Action):

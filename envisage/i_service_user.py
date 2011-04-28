@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, Interface
+from traits.api import Instance, Interface
 
 # Local imports.
 from i_service_registry import IServiceRegistry

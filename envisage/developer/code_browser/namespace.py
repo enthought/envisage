@@ -5,7 +5,7 @@
 import os, sys
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits
+from traits.api import Dict, HasTraits
 
 
 class Namespace(HasTraits):

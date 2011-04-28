@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Bool, Str
+from traits.api import Bool, Str
 
 # Local imports.
 from location import Location
@@ -19,7 +19,7 @@ class Group(Location):
     separator = Bool(True)
 
     # The optional name of a class that implements the group. The class must
-    # support the **enthought.pyface.action.Group** protocol.
+    # support the **pyface.action.Group** protocol.
     class_name = Str
 
     ###########################################################################

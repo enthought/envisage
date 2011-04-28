@@ -2,11 +2,11 @@
 
 
 # Enthought library imports.
-import enthought.pyface.workbench.api as pyface
+import pyface.workbench.api as pyface
 
 from enthought.envisage.api import IApplication
-from enthought.pyface.api import YES
-from enthought.traits.api import Delegate, Instance
+from pyface.api import YES
+from traits.api import Delegate, Instance
 
 # Local imports.
 from workbench_preferences import WorkbenchPreferences

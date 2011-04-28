@@ -5,9 +5,9 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Dict, Event, HasTraits, Int, Interface, \
+from traits.api import Dict, Event, HasTraits, Int, Interface, \
     Undefined, implements
-from enthought.traits.protocols.interfaces import Protocol
+from traits.protocols.interfaces import Protocol
 
 # Local imports.
 from i_service_registry import IServiceRegistry

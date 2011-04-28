@@ -7,10 +7,10 @@
 import logging
 
 # Enthought library imports
-from enthought.traits.api import Instance
+from traits.api import Instance
 from enthought.envisage.api import Application
 from enthought.plugins.python_shell.api import IPythonShell
-from enthought.pyface.api import GUI
+from pyface.api import GUI
 
 # Local imports
 from enthought.plugins.remote_editor.remote_editor_controller import \

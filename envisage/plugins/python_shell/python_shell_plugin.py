@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin
-from enthought.traits.api import Dict, List, Str
+from traits.api import Dict, List, Str
 
 
 class PythonShellPlugin(Plugin):
@@ -46,7 +46,7 @@ class PythonShellPlugin(Plugin):
         e.g. Each item in the list is a string of arbitrary Python code::
 
           'import os, sys'
-          'from enthought.traits.api import *'
+          'from traits.api import *'
 
         Yes, I know this is insecure but it follows the usual Python rule of
         'we are all consenting adults'.

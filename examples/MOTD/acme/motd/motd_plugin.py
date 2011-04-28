@@ -5,14 +5,14 @@
 # packages at the module level of a plugin::
 #
 # - enthought.envisage
-# - enthought.traits
+# - traits
 #
 # Eveything else should be imported when it is actually required.
 
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import Instance, List, on_trait_change
+from traits.api import Instance, List, on_trait_change
 
 
 class MOTDPlugin(Plugin):

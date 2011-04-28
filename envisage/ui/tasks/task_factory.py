@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.traits.api import Callable, HasTraits, Str, Unicode
+from traits.api import Callable, HasTraits, Str, Unicode
 
 
 class TaskFactory(HasTraits):

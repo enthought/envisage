@@ -5,7 +5,7 @@
 import errno, pkg_resources
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, implements
+from traits.api import HasTraits, implements
 
 # Local imports.
 from i_resource_protocol import IResourceProtocol

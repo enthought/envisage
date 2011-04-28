@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Plugin, PluginManager
-from enthought.traits.api import Bool
+from traits.api import Bool
 
 
 class SimplePlugin(Plugin):

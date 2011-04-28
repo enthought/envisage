@@ -7,18 +7,18 @@ import types
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.python_shell.view.python_shell_view import PythonShellView
 
-from enthought.pyface.workbench.api import View
+from pyface.workbench.api import View
 
-from enthought.traits.api import HasTraits, Str, Property, List, Instance, \
+from traits.api import HasTraits, Str, Property, List, Instance, \
         DelegatesTo, cached_property
 
-from enthought.traits.ui.api import Item, TableEditor, VGroup
-from enthought.traits.ui.api import View as TraitsView
-from enthought.traits.ui.table_column import ObjectColumn
-from enthought.traits.ui.table_filter import RuleTableFilter
-from enthought.traits.ui.table_filter import MenuFilterTemplate
-from enthought.traits.ui.table_filter import EvalFilterTemplate
-from enthought.traits.ui.table_filter import RuleFilterTemplate
+from traitsui.api import Item, TableEditor, VGroup
+from traitsui.api import View as TraitsView
+from traitsui.table_column import ObjectColumn
+from traitsui.table_filter import RuleTableFilter
+from traitsui.table_filter import MenuFilterTemplate
+from traitsui.table_filter import EvalFilterTemplate
+from traitsui.table_filter import RuleFilterTemplate
 
 
 # Table editor definition:

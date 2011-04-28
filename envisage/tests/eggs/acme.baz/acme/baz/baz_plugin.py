@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import Plugin
-from enthought.traits.api import Bool
+from traits.api import Bool
 
 
 class BazPlugin(Plugin):

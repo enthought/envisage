@@ -2,8 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import ActionManager, MenuManager
-from enthought.traits.api import HasTraits, Instance, List, implements
+from pyface.action.api import ActionManager, MenuManager
+from traits.api import HasTraits, Instance, List, implements
 
 # Local imports.
 from action_set import ActionSet

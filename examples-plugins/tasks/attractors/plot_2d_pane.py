@@ -1,9 +1,9 @@
 # Enthought library imports.
-from enthought.chaco.chaco_plot_editor import ChacoPlotItem
-from enthought.pyface.tasks.api import TraitsTaskPane
-from enthought.traits.api import Dict, Enum, Instance, List, Property, \
+from chaco.chaco_plot_editor import ChacoPlotItem
+from pyface.tasks.api import TraitsTaskPane
+from traits.api import Dict, Enum, Instance, List, Property, \
      Unicode, on_trait_change
-from enthought.traits.ui.api import EnumEditor, HGroup, Item, Label, View
+from traitsui.api import EnumEditor, HGroup, Item, Label, View
 
 # Local imports.
 from model.i_plottable_2d import IPlottable2d

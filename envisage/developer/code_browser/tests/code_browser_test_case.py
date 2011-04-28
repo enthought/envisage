@@ -14,7 +14,7 @@ logger.setLevel(logging.DEBUG)
 import inspect, unittest
 
 # Enthought library imports.
-from enthought.util.resource import get_path
+from traits.util.resource import get_path
 
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 

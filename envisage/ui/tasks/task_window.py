@@ -1,6 +1,6 @@
 # Enthought library imports.
-from enthought.pyface.tasks.api import TaskWindow as PyfaceTaskWindow
-from enthought.traits.api import Instance, Property, Unicode
+from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
+from traits.api import Instance, Property, Unicode
 
 
 class TaskWindow(PyfaceTaskWindow):

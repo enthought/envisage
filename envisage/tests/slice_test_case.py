@@ -10,7 +10,7 @@ we try to mimic trait list events when extensions are added or removed.
 import unittest
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, List
+from traits.api import HasTraits, List
 
 
 # The starting list for all tests.

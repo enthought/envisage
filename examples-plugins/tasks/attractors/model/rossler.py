@@ -3,9 +3,9 @@ from scipy import arange, array
 from scipy.integrate import odeint
 
 # Enthought libary imports.
-from enthought.traits.api import Adapter, Array, Float, HasTraits, Instance, \
+from traits.api import Adapter, Array, Float, HasTraits, Instance, \
      Property, Str, Unicode, adapts, cached_property, implements
-from enthought.traits.ui.api import View, Item
+from traitsui.api import View, Item
 
 # Local imports
 from i_model_3d import IModel3d, IModel3dIPlottable2dMixin

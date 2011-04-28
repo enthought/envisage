@@ -20,8 +20,8 @@ import inspect
 # Enthought library imports
 from enthought.envisage.api import Application
 from enthought.envisage.ui.workbench.api import WorkbenchWindow
-from enthought.pyface.action.api import Action
-from enthought.traits.api import Instance, Str
+from pyface.action.api import Action
+from traits.api import Instance, Str
 
 # Local imports.
 from enthought.envisage.ui.single_project.services import IPROJECT_MODEL

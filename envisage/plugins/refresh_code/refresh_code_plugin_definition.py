@@ -32,7 +32,7 @@ if USING_WORKBENCH:
         name          = "Refresh Code",
         description   = "Refresh application to reflect python code changes",
         accelerator   = "Ctrl+Shift+R",
-        function_name = "enthought.util.refresh.refresh",
+        function_name = "traits.util.refresh.refresh",
 
         locations     = [
             Location(path="MenuBar/FileMenu/ExitGroup")
@@ -76,7 +76,7 @@ else:
         description   = "Refresh application to reflect python code changes",
         menu_bar_path = "ToolsMenu/additions", # fixme: this should change
         accelerator   = "Ctrl+Shift+R",
-        function_name = "enthought.util.refresh.refresh"
+        function_name = "traits.util.refresh.refresh"
     )
 
     actions =  UIActions(

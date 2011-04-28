@@ -11,14 +11,14 @@ import logging
 # instances might want to have 'edit_traits' called on them.
 #
 # fixme: Just importing the package is enought (see above).
-import enthought.traits.ui
+import traitsui
 
 # Enthought library imports.
 from enthought.envisage.api import Application
-from enthought.pyface.api import AboutDialog, Dialog, GUI, ImageResource
-from enthought.pyface.api import SplashScreen
-from enthought.pyface.workbench.api import IWorkbench
-from enthought.traits.api import Callable, Instance, Str, Tuple
+from pyface.api import AboutDialog, Dialog, GUI, ImageResource
+from pyface.api import SplashScreen
+from pyface.workbench.api import IWorkbench
+from traits.api import Callable, Instance, Str, Tuple
 
 # Local imports.
 from workbench import Workbench

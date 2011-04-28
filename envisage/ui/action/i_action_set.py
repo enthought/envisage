@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Dict, Interface, List, Str
+from traits.api import Dict, Interface, List, Str
 
 # Local imports.
 from action import Action

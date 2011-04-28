@@ -6,8 +6,8 @@ import compiler
 from compiler.visitor import ASTVisitor
 
 # Enthought library imports.
-from enthought.traits.api import Any, Dict, HasTraits, Instance, Int, List
-from enthought.traits.api import Property, Str
+from traits.api import Any, Dict, HasTraits, Instance, Int, List
+from traits.api import Property, Str
 
 # Local imports.
 from assign import AssignFactory

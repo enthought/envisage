@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import TraitListEvent
+from traits.api import TraitListEvent
 
 
 class ExtensionPointChangedEvent(TraitListEvent):

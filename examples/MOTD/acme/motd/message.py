@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Str, implements
+from traits.api import HasTraits, Str, implements
 
 # Local imports.
 from i_message import IMessage

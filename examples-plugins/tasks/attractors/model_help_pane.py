@@ -3,10 +3,10 @@ import codecs
 import os.path
 
 # Enthought library imports.
-from enthought.pyface.tasks.api import TraitsDockPane
-from enthought.traits.api import HasTraits, Instance, Property, Unicode, \
+from pyface.tasks.api import TraitsDockPane
+from traits.api import HasTraits, Instance, Property, Unicode, \
      cached_property
-from enthought.traits.ui.api import HTMLEditor, Item, View
+from traitsui.api import HTMLEditor, Item, View
 
 # Constants.
 HELP_PATH = os.path.join(os.path.dirname(__file__), 'help')

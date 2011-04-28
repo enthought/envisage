@@ -5,8 +5,8 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Bool, Dict, HasTraits, List, Str, implements
-from enthought.util.camel_case import camel_case_to_words
+from traits.api import Bool, Dict, HasTraits, List, Str, implements
+from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
 from action import Action

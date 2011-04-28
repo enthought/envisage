@@ -5,11 +5,11 @@
 import os, random, shutil, unittest
 
 # Enthought library imports.
-from enthought.etsconfig.api import ETSConfig
+from traits.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint, IApplication
 from enthought.envisage.api import Plugin, PluginManager
-from enthought.traits.api import Bool, HasTraits, Instance, Int, Interface
-from enthought.traits.api import List, Str, implements
+from traits.api import Bool, HasTraits, Instance, Int, Interface
+from traits.api import List, Str, implements
 
 # Local imports.
 #

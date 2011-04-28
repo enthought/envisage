@@ -5,7 +5,7 @@
 import pkg_resources
 
 # Enthought library imports.
-from enthought.util.graph import topological_sort
+from traits.util.graph import topological_sort
 
 
 

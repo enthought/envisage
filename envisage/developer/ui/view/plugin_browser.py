@@ -3,10 +3,10 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, IPlugin
-from enthought.traits.api import Delegate, HasTraits, Instance, List, Property
-from enthought.traits.api import Code, Str
-from enthought.traits.ui.api import Item, TableEditor, View, VGroup
-from enthought.traits.ui.table_column import ObjectColumn # fixme: non-api!
+from traits.api import Delegate, HasTraits, Instance, List, Property
+from traits.api import Code, Str
+from traitsui.api import Item, TableEditor, View, VGroup
+from traitsui.table_column import ObjectColumn # fixme: non-api!
 
 class ExtensionPointModel(Hastraits):
     """ A model for browsing an extension point. """

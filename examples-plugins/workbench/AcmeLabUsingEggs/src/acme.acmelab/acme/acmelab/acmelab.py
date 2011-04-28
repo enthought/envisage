@@ -6,7 +6,7 @@ from logging import DEBUG
 
 # Enthought library imports.
 from enthought.envisage.ui.workbench.api import WorkbenchApplication
-from enthought.pyface.api import AboutDialog, ImageResource, SplashScreen
+from pyface.api import AboutDialog, ImageResource, SplashScreen
 
 
 class Acmelab(WorkbenchApplication):

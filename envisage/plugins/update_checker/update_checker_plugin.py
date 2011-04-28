@@ -1,7 +1,7 @@
 
 # Enthought library imports
 from enthought.envisage.api import Plugin
-from enthought.traits.api import Bool, Callable, Event, Int, Instance, Str, Trait
+from traits.api import Bool, Callable, Event, Int, Instance, Str, Trait
 
 # Local, relative imports
 from update_info import UpdateInfo

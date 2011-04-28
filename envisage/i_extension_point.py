@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, Interface, Str, TraitType
+from traits.api import Instance, Interface, Str, TraitType
 
 
 class IExtensionPoint(Interface):

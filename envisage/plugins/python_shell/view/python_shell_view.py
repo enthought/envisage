@@ -8,9 +8,9 @@ import logging, sys
 from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
-from enthought.pyface.api import PythonShell
-from enthought.pyface.workbench.api import View
-from enthought.traits.api import Any, Event, Instance, Property, DictStrAny, implements
+from pyface.api import PythonShell
+from pyface.workbench.api import View
+from traits.api import Any, Event, Instance, Property, DictStrAny, implements
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)

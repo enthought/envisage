@@ -6,7 +6,7 @@ import compiler
 from compiler.visitor import ASTVisitor
 
 # Enthought library imports.
-from enthought.traits.api import Any, Bool, HasTraits, Instance, Int, List, Str
+from traits.api import Any, Bool, HasTraits, Instance, Int, List, Str
 
 
 class Assign(HasTraits):

@@ -7,7 +7,7 @@ import unittest
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, ExtensionPointBinding
 from enthought.envisage.api import bind_extension_point
-from enthought.traits.api import Bool, HasTraits, Int, List, Float, Str
+from traits.api import Bool, HasTraits, Int, List, Float, Str
 
 # Local imports.
 #

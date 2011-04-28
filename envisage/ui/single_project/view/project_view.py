@@ -16,8 +16,8 @@ from string import rfind
 
 # Enthought library imports
 from enthought.naming.api import Binding
-from enthought.traits.api import adapts, Any, HasTraits, Instance, Str
-from enthought.traits.ui.api import Item, Group, TreeEditor, ITreeNode, \
+from traits.api import adapts, Any, HasTraits, Instance, Str
+from traitsui.api import Item, Group, TreeEditor, ITreeNode, \
     ITreeNodeAdapter, View
 
 # Application specific imports.

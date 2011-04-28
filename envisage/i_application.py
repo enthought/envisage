@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.preferences.api import IPreferences
-from enthought.traits.api import Event, Instance, Str, VetoableEvent
+from traits.api import Event, Instance, Str, VetoableEvent
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry

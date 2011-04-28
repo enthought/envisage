@@ -10,8 +10,8 @@
 
 # Enthought library imports
 from enthought.preferences.ui.api import PreferencesPage
-from enthought.traits.api import Directory, Str
-from enthought.traits.ui.api import View, Item
+from traits.api import Directory, Str
+from traitsui.api import View, Item
 
 # Global assignment of ID
 ID = 'enthought.envisage.ui.single_project'

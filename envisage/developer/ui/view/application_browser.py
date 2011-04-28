@@ -8,8 +8,8 @@ import inspect
 from enthought.envisage.api import IApplication, IPlugin
 from enthought.envisage.developer.code_browser.api import CodeBrowser
 from enthought.io.api import File
-from enthought.traits.api import Any, HasTraits, Instance
-from enthought.traits.ui.api import Item, TreeEditor, View
+from traits.api import Any, HasTraits, Instance
+from traitsui.api import Item, TreeEditor, View
 
 # fixme: non-api import.
 from enthought.plugins.text_editor.editor.text_editor import TextEditor

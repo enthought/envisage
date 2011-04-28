@@ -4,11 +4,11 @@ import logging
 import os.path
 
 # Enthought library imports.
-from enthought.etsconfig.api import ETSConfig
+from traits.etsconfig.api import ETSConfig
 from enthought.envisage.api import Application, ExtensionPoint
-from enthought.pyface.api import GUI, SplashScreen
-from enthought.pyface.tasks.api import TaskLayout, TaskWindowLayout
-from enthought.traits.api import Bool, Callable, Dict, Event, File, \
+from pyface.api import GUI, SplashScreen
+from pyface.tasks.api import TaskLayout, TaskWindowLayout
+from traits.api import Bool, Callable, Dict, Event, File, \
     HasStrictTraits, Instance, List, Property, Str, Unicode
 
 # Local imports

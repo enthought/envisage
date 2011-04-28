@@ -19,13 +19,13 @@ import os
 import sys
 
 # Enthought library imports
-from enthought.etsconfig.api import ETSConfig
+from traits.etsconfig.api import ETSConfig
 import enthought.sweet_pickle
 from enthought.io.api import File
-from enthought.traits.api import Any, Bool, Dict, Directory, HasTraits, \
+from traits.api import Any, Bool, Dict, Directory, HasTraits, \
     Instance, Property, Str
-from enthought.traits.ui.api import Group, View
-from enthought.util.clean_strings import clean_filename
+from traitsui.api import Group, View
+from traits.util.clean_strings import clean_filename
 
 # Local imports.
 #from enthought.envisage.ui.single_project.editor.project_editor import \

@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import Callable, List
+from traits.api import Callable, List
 
 
 # This module's package.
@@ -78,7 +78,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IPerspective
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.pyface.workbench.api.IPerspective'.
+        that derives from 'pyface.workbench.api.IPerspective'.
 
         """
     )
@@ -144,7 +144,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IView
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.pyface.workbench.api.View'.
+        that derives from 'pyface.workbench.api.View'.
 
         It is also common to use a simple function (especially when a view
         is a representation of a service) e.g::

@@ -6,7 +6,7 @@ from os.path import join
 
 # Enthought library imports.
 from enthought.io.api import File
-from enthought.traits.api import Instance, List, Str
+from traits.api import Instance, List, Str
 
 # Local imports.
 from namespace import Namespace

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface
+from traits.api import Event, Interface
 
 # Local imports.
 from extension_point_changed_event import ExtensionPointChangedEvent

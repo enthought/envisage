@@ -6,7 +6,7 @@ import sys, unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ServiceRegistry
-from enthought.traits.api import HasTraits, Int, Interface, implements
+from traits.api import HasTraits, Int, Interface, implements
 
 
 # This module's package.

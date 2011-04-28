@@ -4,7 +4,7 @@ import os.path
 # Enthought library imports.
 from enthought.envisage.api import Plugin
 from enthought.envisage.ui.tasks.api import TaskFactory
-from enthought.traits.api import List
+from traits.api import List
 
 
 class AttractorsPlugin(Plugin):

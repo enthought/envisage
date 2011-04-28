@@ -27,7 +27,7 @@ shall define some menu items for opening and saving files. As in Traits UI and
 PyFace, individual menu items are instances of the ``Action`` class [1]_. We
 might define the 'Open' action as follows::
 
-    from enthought.pyface.action.api import Action
+    from pyface.action.api import Action
 
     class OpenAction(Action):
         name = 'Open'
@@ -38,7 +38,7 @@ might define the 'Open' action as follows::
 
 Of course, we must also implement the ``open()`` method on our task::
 
-    from enthought.pyface.api import FileDialog, OK
+    from pyface.api import FileDialog, OK
 
     class ExampleTask(Task):
     
@@ -68,7 +68,7 @@ For convenience, these classes also have the abbreviated names ``SMenuBar``,
 ``SMenu``, and ``SGroup``, respectively. We can implement the menu bar for our
 task using these abbreviations::
 
-    from enthought.pyface.tasks.action.api import SMenu, SMenuBar
+    from pyface.tasks.action.api import SMenu, SMenuBar
 
     class ExampleTask(Task):
 
@@ -84,7 +84,7 @@ that there is a predefined class for this purpose. We can use this
 ``TaskAction`` class to implement the above menu more simply, without having to
 define separately the ``OpenAction`` and ``SaveAction`` classes::
 
-    from enthought.pyface.tasks.action.api import SMenu, SMenuBar, TaskAction
+    from pyface.tasks.action.api import SMenu, SMenuBar, TaskAction
 
     class ExampleTask(Task):
 
@@ -115,8 +115,8 @@ As above, these classes are often abbreviated as ``SToolBar`` and ``SGroup``,
 respectively. Let us now add a tool bar with buttons for opening and saving
 files to our script editing task::
 
-    from enthought.pyface.api import ImageResource
-    from enthought.pyface.tasks.action.api import SToolBar, TaskAction
+    from pyface.api import ImageResource
+    from pyface.tasks.action.api import SToolBar, TaskAction
 
     class ExampleTask(Task):
         

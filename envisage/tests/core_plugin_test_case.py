@@ -11,7 +11,7 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from enthought.envisage.api import Application, Category, ClassLoadHook, Plugin
 from enthought.envisage.api import ServiceOffer
-from enthought.traits.api import HasTraits, Int, Interface, List
+from traits.api import HasTraits, Int, Interface, List
 
 
 # This module's package.

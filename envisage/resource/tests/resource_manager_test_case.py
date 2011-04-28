@@ -12,7 +12,7 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from enthought.envisage.resource.api import ResourceManager
 from enthought.envisage.resource.api import NoSuchResourceError
-from enthought.traits.api import HasTraits, Int, Str
+from traits.api import HasTraits, Int, Str
 
 
 # This module's package.

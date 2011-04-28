@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.traits.api import Array, Interface, Unicode
+from traits.api import Array, Interface, Unicode
 
 
 class IModel2d(Interface):

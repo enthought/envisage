@@ -12,7 +12,7 @@ The default UI service factory.
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Int, Str
+from traits.api import HasTraits, Int, Str
 
 # Local imports.
 from ui_service import UiService

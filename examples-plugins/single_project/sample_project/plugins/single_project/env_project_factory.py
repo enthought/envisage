@@ -15,7 +15,7 @@ import logging
 
 # Enthought library imports.
 from enthought.envisage.api import IApplication
-from enthought.traits.api import Instance
+from traits.api import Instance
 from enthought.envisage.ui.single_project.api import ProjectFactory
 
 # Application imports.

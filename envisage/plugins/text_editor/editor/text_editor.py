@@ -5,12 +5,12 @@
 from os.path import basename
 
 # Enthought library imports.
-from enthought.pyface.workbench.api import TraitsUIEditor
-from enthought.pyface.api import FileDialog, CANCEL
-from enthought.traits.api import Code, Instance
-from enthought.traits.ui.api import CodeEditor, Group, Item, View
-from enthought.traits.ui.key_bindings import KeyBinding, KeyBindings
-from enthought.traits.ui.menu import NoButtons
+from pyface.workbench.api import TraitsUIEditor
+from pyface.api import FileDialog, CANCEL
+from traits.api import Code, Instance
+from traitsui.api import CodeEditor, Group, Item, View
+from traitsui.key_bindings import KeyBinding, KeyBindings
+from traitsui.menu import NoButtons
 
 # Local imports.
 from text_editor_handler import TextEditorHandler

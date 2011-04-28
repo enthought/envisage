@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from enthought.traits.api import Event, HasTraits, Instance, List, implements
+from traits.api import Event, HasTraits, Instance, List, implements
 
 # Local imports.
 from i_application import IApplication

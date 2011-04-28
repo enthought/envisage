@@ -2,9 +2,9 @@
 from scipy import array, zeros
 
 # Enthought library imports.
-from enthought.traits.api import Array, Float, HasTraits, Int, Property, Str, \
+from traits.api import Array, Float, HasTraits, Int, Property, Str, \
      Unicode, cached_property, implements
-from enthought.traits.ui.api import Item, View
+from traitsui.api import Item, View
 
 # Local imports.
 from i_plottable_2d import IPlottable2d

@@ -15,7 +15,7 @@ import logging
 
 # Enthought library imports
 from enthought.envisage.workbench import DecoratedEditor
-from enthought.traits.api import Instance
+from traits.api import Instance
 
 # Application specific imports.
 from enthought.envisage.single_project.services import IPROJECT_MODEL

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, Str
+from traits.api import HasTraits, Str
 
 
 class Category(HasTraits):

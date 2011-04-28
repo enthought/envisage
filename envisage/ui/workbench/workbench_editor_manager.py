@@ -1,7 +1,7 @@
 """ An editor manager that uses contributed editors. """
 
 # Enthought library imports.
-from enthought.pyface.workbench.api import EditorManager, TraitsUIEditor
+from pyface.workbench.api import EditorManager, TraitsUIEditor
 
 
 class WorkbenchEditorManager(EditorManager):

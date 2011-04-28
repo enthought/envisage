@@ -3,15 +3,15 @@
 # Enthought library imports.
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.ipython_shell.api import INamespaceView
-from enthought.pyface.workbench.api import View
-from enthought.traits.api import Property, implements, Instance, \
+from pyface.workbench.api import View
+from traits.api import Property, implements, Instance, \
     Str, HasTraits
-from enthought.traits.ui.api import Item, TreeEditor, Group
-from enthought.traits.ui.api import View as TraitsView
-from enthought.traits.ui.value_tree import DictNode, StringNode, \
+from traitsui.api import Item, TreeEditor, Group
+from traitsui.api import View as TraitsView
+from traitsui.value_tree import DictNode, StringNode, \
         value_tree_nodes
-from enthought.pyface.timer.api import Timer
-from enthought.pyface.api import GUI
+from pyface.timer.api import Timer
+from pyface.api import GUI
 
 def search_namespace(namespace, string, depth=3):
     """ Iterator on a dictionnary-like object.

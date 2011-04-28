@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, List
+from traits.api import HasTraits, List
 
 # Local imports.
 from action_set import ActionSet

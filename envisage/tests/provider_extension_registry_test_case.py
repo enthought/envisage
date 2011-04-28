@@ -7,7 +7,7 @@ import unittest
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, ExtensionProvider
 from enthought.envisage.api import ProviderExtensionRegistry
-from enthought.traits.api import Int, List
+from traits.api import Int, List
 
 # Local imports.
 from extension_registry_test_case import ExtensionRegistryTestCase

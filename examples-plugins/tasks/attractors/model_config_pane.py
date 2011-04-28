@@ -1,7 +1,7 @@
 # Enthought library imports.
-from enthought.pyface.tasks.api import TraitsDockPane
-from enthought.traits.api import HasTraits, Instance
-from enthought.traits.ui.api import Item, View
+from pyface.tasks.api import TraitsDockPane
+from traits.api import HasTraits, Instance
+from traitsui.api import Item, View
 
 
 class ModelConfigPane(TraitsDockPane):

@@ -2,8 +2,8 @@
 
 
 # Enthought library imports.
-from enthought.pyface.workbench.api import TraitsUIView
-from enthought.traits.api import Instance
+from pyface.workbench.api import TraitsUIView
+from traits.api import Instance
 
 
 # The code browser protocol.

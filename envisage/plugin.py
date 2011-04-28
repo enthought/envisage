@@ -5,8 +5,8 @@ import inspect, logging, os
 from os.path import exists, join
 
 # Enthought library imports.
-from enthought.traits.api import Instance, List, Property, Str, implements
-from enthought.util.camel_case import camel_case_to_words
+from traits.api import Instance, List, Property, Str, implements
+from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
 from extension_point import ExtensionPoint

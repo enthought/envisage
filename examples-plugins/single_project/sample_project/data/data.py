@@ -6,11 +6,11 @@
 #-----------------------------------------------------------------------------
 
 # Enthought library imports.
-from enthought.chaco.chaco_plot_editor import ChacoPlotItem
+from chaco.chaco_plot_editor import ChacoPlotItem
 from enthought.numerical_modeling.numeric_context.api import NumericContext
-from enthought.traits.api import adapts, Array, Enum, Float, HasTraits, \
+from traits.api import adapts, Array, Enum, Float, HasTraits, \
     Instance, Range, Property
-from enthought.traits.ui.api import Group, Item, RangeEditor, ITreeNode, \
+from traitsui.api import Group, Item, RangeEditor, ITreeNode, \
     ITreeNodeAdapter, View
 from numpy import arange
 

@@ -45,7 +45,7 @@ Defining a Task
 Minimally, a task is defined by subclassing ``Task`` and providing a central
 pane. For example, we define a task for editing Python scripts [3]_::
 
-    from enthought.pyface.tasks.api import Task
+    from pyface.tasks.api import Task
 
     class ExampleTask(Task):
 
@@ -67,9 +67,9 @@ All tasks must implement ``create_central_pane()`` and return a TaskPane
 instance. We might define the ``PythonEditorPane`` pane above as follows, making
 use of the ``PythonEditor`` available in PyFace::
 
-    from enthought.pyface.api import PythonEditor
-    from enthought.pyface.tasks.api import TaskPane
-    from enthought.traits.api import Instance
+    from pyface.api import PythonEditor
+    from pyface.tasks.api import TaskPane
+    from traits.api import Instance
 
     class PythonEditorPane(TaskPane):
 
@@ -108,9 +108,9 @@ Traits UI we see that it would be more convenient to use the Traits UI
 ``FileEditor`` for this purpose. The Tasks framework provides the
 ``TraitsDockPane`` class to facilitate this. We define the pane as follows::
 
-    from enthought.pyface.tasks.api import TraitsDockPane
-    from enthought.traits.api import Event, File, List, Str
-    from enthought.traits.ui.api import View, Item, FileEditor
+    from pyface.tasks.api import TraitsDockPane
+    from traits.api import Event, File, List, Str
+    from traitsui.api import View, Item, FileEditor
 
     class FileBrowserPane(TraitsDockPane):
 

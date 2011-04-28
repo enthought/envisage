@@ -1,7 +1,7 @@
 """ Interface definition for the Remote editor """
 
 # Enthought library imports.
-from enthought.traits.api import Interface
+from traits.api import Interface
 
 class IRemoteEditor(Interface):
     """ Interface definition for the Namespace view """

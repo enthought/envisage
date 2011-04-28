@@ -5,14 +5,14 @@
 import logging
 
 # Enthought library imports.
-import enthought.pyface.workbench.api as pyface
+import pyface.workbench.api as pyface
 
 from enthought.envisage.api import IExtensionPointUser, IExtensionRegistry
 from enthought.envisage.api import IServiceRegistry
 from enthought.envisage.api import ExtensionPoint, ServiceRegistry
 from enthought.envisage.ui.action.api import ActionSet
-from enthought.pyface.action.api import StatusBarManager
-from enthought.traits.api import Delegate, Instance, List, Property, implements
+from pyface.action.api import StatusBarManager
+from traits.api import Delegate, Instance, List, Property, implements
 
 # Local imports.
 from workbench_action_manager_builder import WorkbenchActionManagerBuilder

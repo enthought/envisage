@@ -6,7 +6,7 @@ import cPickle, imp, logging, os, stat, warnings
 
 # Enthought library imports.
 from enthought.io.api import File
-from enthought.traits.api import Any, Bool, Event, HasTraits, Str
+from traits.api import Any, Bool, Event, HasTraits, Str
 
 # Local imports.
 from module import ModuleFactory

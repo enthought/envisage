@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.pyface.action.api import Action
+from pyface.action.api import Action
 
 
 class RefreshCode(Action):
@@ -17,7 +17,7 @@ class RefreshCode(Action):
     def perform(self, event):
         """ Perform the action. """
 
-        from enthought.util.refresh import refresh
+        from traits.util.refresh import refresh
 
         refresh()
 

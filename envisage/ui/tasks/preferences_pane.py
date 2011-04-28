@@ -1,7 +1,7 @@
 # Enthought library imports.
 from enthought.preferences.api import IPreferences, PreferencesHelper
-from enthought.traits.api import Callable, Dict, HasTraits, Instance, Str
-from enthought.traits.ui.api import Controller
+from traits.api import Callable, Dict, HasTraits, Instance, Str
+from traitsui.api import Controller
 
 
 class PreferencesPane(Controller):

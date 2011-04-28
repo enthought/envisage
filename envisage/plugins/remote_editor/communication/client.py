@@ -7,7 +7,7 @@ import sys
 from threading import Thread
 
 # ETS imports
-from enthought.traits.api import HasTraits, Int, Str, Bool, Instance, List, \
+from traits.api import HasTraits, Int, Str, Bool, Instance, List, \
      Tuple, Enum
 from enthought.plugins import remote_editor
 
@@ -138,9 +138,9 @@ class ClientThread(Thread):
                         self.client.handle_command(command, arguments)
                     else:
                         if self.client.ui_dispatch == 'auto':
-                            from enthought.pyface.gui import GUI
+                            from pyface.gui import GUI
                         else:
-                            exec('from enthought.pyface.ui.%s.gui import GUI' %
+                            exec('from pyface.ui.%s.gui import GUI' %
                                  self.client.ui_dispatch)
                         GUI.invoke_later(self.client.handle_command,
                                          command, arguments)

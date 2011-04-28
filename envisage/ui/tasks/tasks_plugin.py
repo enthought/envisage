@@ -1,6 +1,6 @@
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import Callable, List
+from traits.api import Callable, List
 
 # Local imports.
 from preferences_category import PreferencesCategory
@@ -98,7 +98,7 @@ class TasksPlugin(Plugin):
     def _my_task_extensions_default(self):
         from action.exit_action import ExitAction
         from action.preferences_action import PreferencesGroup
-        from enthought.pyface.tasks.action.api import DockPaneToggleGroup, \
+        from pyface.tasks.action.api import DockPaneToggleGroup, \
              SchemaAddition
         
         actions = [ SchemaAddition(id='Exit',

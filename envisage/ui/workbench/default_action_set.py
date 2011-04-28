@@ -20,7 +20,7 @@ class DefaultActionSet(ActionSet):
 
         Menu(
             path='MenuBar',
-            class_name='enthought.pyface.workbench.action.api:ViewMenuManager'
+            class_name='pyface.workbench.action.api:ViewMenuManager'
         ),
 
         Menu(

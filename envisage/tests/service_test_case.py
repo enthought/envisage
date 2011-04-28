@@ -6,7 +6,7 @@ import unittest
 
 # Enthought library imports.
 from enthought.envisage.api import Application, Plugin, Service
-from enthought.traits.api import HasTraits, Instance
+from traits.api import HasTraits, Instance
 
 
 class TestApplication(Application):

@@ -8,7 +8,7 @@ import unittest
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.envisage.api import ExtensionRegistry, UnknownExtensionPoint
 from enthought.envisage.api import UnknownExtension
-from enthought.traits.api import List
+from traits.api import List
 
 
 class ExtensionRegistryTestCase(unittest.TestCase):

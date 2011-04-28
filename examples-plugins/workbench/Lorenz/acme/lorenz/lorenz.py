@@ -6,10 +6,10 @@ from scipy import array, arange
 from scipy.integrate import odeint
 
 # Enthought library imports.
-from enthought.chaco.chaco_plot_editor import ChacoPlotItem
-from enthought.traits.api import Array, DelegatesTo, Float, HasTraits
-from enthought.traits.api import Instance, List, Trait
-from enthought.traits.ui.api import Item, HGroup, VGroup, View
+from chaco.chaco_plot_editor import ChacoPlotItem
+from traits.api import Array, DelegatesTo, Float, HasTraits
+from traits.api import Instance, List, Trait
+from traitsui.api import Item, HGroup, VGroup, View
 
 
 class Lorenz(HasTraits):

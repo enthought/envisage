@@ -1,8 +1,8 @@
 # Enthought library imports.
-from enthought.traits.api import Bool, HasTraits, Instance, List, Unicode, \
+from traits.api import Bool, HasTraits, Instance, List, Unicode, \
     on_trait_change
-from enthought.traits.ui.api import Item, Handler, ListEditor, View
-from enthought.pyface.tasks.topological_sort import before_after_sort
+from traitsui.api import Item, Handler, ListEditor, View
+from pyface.tasks.topological_sort import before_after_sort
 
 # Local imports.
 from preferences_category import PreferencesCategory

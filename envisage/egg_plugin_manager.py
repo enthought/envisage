@@ -5,7 +5,7 @@
 import logging, pkg_resources, re
 
 # Enthought library imports.
-from enthought.traits.api import Instance, List, Str
+from traits.api import Instance, List, Str
 
 # Local imports.
 from egg_utils import get_entry_points_in_egg_order

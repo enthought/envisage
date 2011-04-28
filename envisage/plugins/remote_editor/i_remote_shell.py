@@ -1,7 +1,7 @@
 """ Interface definition for the Remote shell """
 
 # Enthought library imports.
-from enthought.traits.api import Interface
+from traits.api import Interface
 
 class IRemoteShell(Interface):
     """ Interface definition for the remote shell """

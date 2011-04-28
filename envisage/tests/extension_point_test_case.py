@@ -7,7 +7,7 @@ import unittest
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint
 from enthought.envisage.api import ExtensionRegistry
-from enthought.traits.api import HasTraits, Int, List, TraitError
+from traits.api import HasTraits, Int, List, TraitError
 
 
 class TestBase(HasTraits):

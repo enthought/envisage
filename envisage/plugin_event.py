@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, Vetoable
+from traits.api import Instance, Vetoable
 
 
 class PluginEvent(Vetoable):

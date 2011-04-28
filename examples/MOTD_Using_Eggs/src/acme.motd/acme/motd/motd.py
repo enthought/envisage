@@ -5,7 +5,7 @@
 from random import choice
 
 # Enthought library imports.
-from enthought.traits.api import HasTraits, List, implements
+from traits.api import HasTraits, List, implements
 
 # Local imports.
 from i_message import IMessage

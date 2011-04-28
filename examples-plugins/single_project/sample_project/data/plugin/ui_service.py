@@ -15,7 +15,7 @@ import logging
 
 # Enthought library imports.
 from enthought.envisage.api import ApplicationObject, UOL
-from enthought.pyface.api import confirm, error, FileDialog, information, YES
+from pyface.api import confirm, error, FileDialog, information, YES
 
 # Data library imports.
 

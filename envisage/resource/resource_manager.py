@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Dict, HasTraits, Str, implements
+from traits.api import Dict, HasTraits, Str, implements
 
 # Local imports.
 from i_resource_manager import IResourceManager

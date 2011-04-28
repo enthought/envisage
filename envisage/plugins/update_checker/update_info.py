@@ -1,6 +1,6 @@
 
 
-from enthought.traits.api import Callable, HasTraits, List, Str
+from traits.api import Callable, HasTraits, List, Str
 
 
 

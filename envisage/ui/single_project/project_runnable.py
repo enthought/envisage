@@ -18,7 +18,7 @@ import logging
 # Enthought library imports.
 from enthought.envisage import Runnable
 from enthought.envisage.workbench.services import IWORKBENCH
-from enthought.pyface.api import information
+from pyface.api import information
 
 # Application imports
 from services import IPROJECT_MODEL, IPROJECT_UI

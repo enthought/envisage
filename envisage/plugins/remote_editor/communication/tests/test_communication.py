@@ -5,7 +5,7 @@ from time import sleep
 from threading import Thread
 
 # ETS imports
-from enthought.traits.api import Int, Str
+from traits.api import Int, Str
 
 # Local imports
 from enthought.plugins.remote_editor.communication.client import Client

@@ -1,7 +1,7 @@
 """ Interface definition for the Namespace view """
 
 # Enthought library imports.
-from enthought.traits.api import Interface
+from traits.api import Interface
 
 class INamespaceView(Interface):
     """ Interface definition for the Namespace view """

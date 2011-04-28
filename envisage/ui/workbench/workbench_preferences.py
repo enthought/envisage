@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.preferences.api import PreferencesHelper
-from enthought.traits.api import Bool
+from traits.api import Bool
 
 
 class WorkbenchPreferences(PreferencesHelper):

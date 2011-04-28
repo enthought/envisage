@@ -17,7 +17,7 @@ import logging
 
 # Enthought library imports
 from enthought.envisage.api import IApplication
-from enthought.traits.api import HasTraits, Instance
+from traits.api import HasTraits, Instance
 
 # Local imports.
 from project import Project

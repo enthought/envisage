@@ -13,10 +13,10 @@ from enthought.envisage.api import IExtensionRegistry
 from enthought.envisage.api import ExtensionPoint
 from enthought.plugins.python_shell.api import IPythonShell
 from enthought.plugins.ipython_shell.api import INamespaceView
-from enthought.pyface.workbench.api import View
-from enthought.pyface.ipython_widget import IPythonWidget
-from enthought.pyface.api import GUI
-from enthought.traits.api import Instance, Property, implements, Dict
+from pyface.workbench.api import View
+from pyface.ipython_widget import IPythonWidget
+from pyface.api import GUI
+from traits.api import Instance, Property, implements, Dict
 
 
 # Setup a logger for this module.

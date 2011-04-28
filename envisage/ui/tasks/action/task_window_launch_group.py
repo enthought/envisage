@@ -1,6 +1,6 @@
 # Enthought library imports.
-from enthought.pyface.action.api import Action, ActionItem, Group
-from enthought.traits.api import List, Str
+from pyface.action.api import Action, ActionItem, Group
+from traits.api import List, Str
 
 
 class TaskWindowLaunchAction(Action):

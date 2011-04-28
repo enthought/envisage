@@ -13,7 +13,7 @@
 
 # Enthought library imports
 from enthought.envisage.ui.single_project.project_action import ProjectAction
-from enthought.pyface.api import ImageResource
+from pyface.api import ImageResource
 
 ##############################################################################
 # class 'CloseProjectAction'

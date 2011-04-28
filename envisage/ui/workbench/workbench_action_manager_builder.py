@@ -6,10 +6,10 @@ import weakref
 
 # Enthought library imports.
 from enthought.envisage.ui.action.api import AbstractActionManagerBuilder
-from enthought.pyface.action.api import Action, Group, MenuManager
-from enthought.pyface.workbench.action.api import MenuBarManager
-from enthought.pyface.workbench.action.api import ToolBarManager
-from enthought.traits.api import Any, Instance
+from pyface.action.api import Action, Group, MenuManager
+from pyface.workbench.action.api import MenuBarManager
+from pyface.workbench.action.api import ToolBarManager
+from traits.api import Any, Instance
 
 
 class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Instance, List, Str
+from traits.api import Instance, List, Str
 
 # Local imports.
 from group import Group
@@ -55,7 +55,7 @@ class Menu(Location):
     groups = List(CGroup)
 
     # The optional name of a class that implements the menu. The class must
-    # support the **enthought.pyface.action.MenuManager** protocol.
+    # support the **pyface.action.MenuManager** protocol.
     class_name = Str
 
     ###########################################################################

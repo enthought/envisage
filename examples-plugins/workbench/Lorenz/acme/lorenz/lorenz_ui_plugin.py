@@ -3,9 +3,9 @@
 
 # Enthought library imports.
 from enthought.envisage.api import Plugin
-from enthought.pyface.workbench.api import Perspective, PerspectiveItem
-from enthought.pyface.workbench.api import TraitsUIView
-from enthought.traits.api import List
+from pyface.workbench.api import Perspective, PerspectiveItem
+from pyface.workbench.api import TraitsUIView
+from traits.api import List
 
 
 class LorenzPerspective(Perspective):

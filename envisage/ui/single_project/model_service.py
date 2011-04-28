@@ -19,7 +19,7 @@ import shutil
 # Enthought library imports
 from enthought.envisage.api import IApplication
 from enthought.preferences.api import IPreferences
-from enthought.traits.api import Any, HasTraits, Instance, List
+from traits.api import Any, HasTraits, Instance, List
 
 
 # Setup a logger for this module.

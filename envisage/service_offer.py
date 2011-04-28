@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Callable, Dict, Either, HasTraits, Str, Type
+from traits.api import Callable, Dict, Either, HasTraits, Str, Type
 
 
 class ServiceOffer(HasTraits):

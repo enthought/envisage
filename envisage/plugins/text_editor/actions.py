@@ -1,9 +1,9 @@
 import logging
 
 from enthought.io.api import File
-from enthought.pyface.api import FileDialog, OK
-from enthought.pyface.action.api import Action
-from enthought.traits.api import Any
+from pyface.api import FileDialog, OK
+from pyface.action.api import Action
+from traits.api import Any
 
 from editor.text_editor import TextEditor
 

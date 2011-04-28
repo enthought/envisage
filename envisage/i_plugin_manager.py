@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Event, Interface
+from traits.api import Event, Interface
 
 # Local imports.
 from i_plugin import IPlugin

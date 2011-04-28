@@ -5,7 +5,7 @@
 import weakref
 
 # Enthought library imports.
-from enthought.traits.api import Any, HasTraits, Instance, Str, Undefined
+from traits.api import Any, HasTraits, Instance, Str, Undefined
 
 # Local imports.
 from i_extension_registry import IExtensionRegistry

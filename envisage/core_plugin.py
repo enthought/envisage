@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from enthought.envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from enthought.traits.api import List, Instance, Str
+from traits.api import List, Instance, Str
 
 
 class CorePlugin(Plugin):

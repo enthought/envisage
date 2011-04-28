@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.traits.api import Any, HasTraits, Instance, Int, Str
+from traits.api import Any, HasTraits, Instance, Int, Str
 
 # Local imports.
 from namespace import Namespace

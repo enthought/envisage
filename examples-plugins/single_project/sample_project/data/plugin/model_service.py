@@ -24,7 +24,7 @@ from enthought.units.mass import gram
 from enthought.units.volume import cc
 from enthought.units.length import meter
 from enthought.units.geo_units import ppg, psi
-from enthought.util.wx.clipboard import clipboard
+from traits.util.wx.clipboard import clipboard
 
 # Data library imports.
 

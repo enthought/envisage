@@ -6,7 +6,7 @@ import logging
 
 # Enthought library imports.
 from enthought.envisage.api import Application, ExtensionPoint, Plugin
-from enthought.traits.api import List, Str
+from traits.api import List, Str
 
 
 # Create a log file.
