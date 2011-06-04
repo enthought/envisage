@@ -74,7 +74,6 @@ setup(
         envisage.core = envisage.core_plugin:CorePlugin
         """,
     ext_modules = [],
-    include_package_data = True,
     install_requires = INFO['install_requires'],
     license = "BSD",
     long_description = '\n'.join(DOCLINES[3:]),
@@ -82,6 +81,7 @@ setup(
     maintainer_email = 'enthought-dev@enthought.com',
     name = "envisage",
     packages = find_packages(),
+    package_data = {'': ['images/*']},
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     tests_require = [
         'nose >= 0.10.3',
