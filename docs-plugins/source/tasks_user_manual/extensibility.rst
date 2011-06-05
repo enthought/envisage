@@ -234,7 +234,7 @@ preferences file convenient and type safe. The preferences pane, introduced
 above, exposes a Traits UI view for this helper object::
 
     from envisage.ui.tasks.api import PreferencesPane, TaskFactory
-    from enthought.preferences.api import PreferencesHelper
+    from apptools.preferences.api import PreferencesHelper
 
     class AttractorsPreferences(PreferencesHelper):
 

@@ -16,14 +16,14 @@ import numpy
 
 # Enthought library imports.
 from envisage.api import ApplicationObject
-from enthought.naming.unique_name import make_unique_name
-from enthought.numerical_modeling.numeric_context.api import NumericContext
-from enthought.numerical_modeling.units.unit_array import UnitArray
-from enthought.units.api import convert,unit_manager
-from enthought.units.mass import gram
-from enthought.units.volume import cc
-from enthought.units.length import meter
-from enthought.units.geo_units import ppg, psi
+from apptools.naming.unique_name import make_unique_name
+from blockcanvas.numerical_modeling.numeric_context.api import NumericContext
+from blockcanvas.numerical_modeling.units.unit_array import UnitArray
+from scimath.units.api import convert,unit_manager
+from scimath.units.mass import gram
+from scimath.units.volume import cc
+from scimath.units.length import meter
+from scimath.units.geo_units import ppg, psi
 from traits.util.wx.clipboard import clipboard
 
 # Data library imports.

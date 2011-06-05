@@ -5,7 +5,7 @@
 import cPickle, imp, logging, os, stat, warnings
 
 # Enthought library imports.
-from enthought.io.api import File
+from apptools.io.api import File
 from traits.api import Any, Bool, Event, HasTraits, Str
 
 # Local imports.

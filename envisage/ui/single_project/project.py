@@ -20,8 +20,8 @@ import sys
 
 # Enthought library imports
 from traits.etsconfig.api import ETSConfig
-import enthought.sweet_pickle
-from enthought.io.api import File
+import apptools.sweet_pickle
+from apptools.io.api import File
 from traits.api import Any, Bool, Dict, Directory, HasTraits, \
     Instance, Property, Str
 from traitsui.api import Group, View
@@ -284,12 +284,12 @@ class Project(HasTraits):
         Implementors can override this to customize the way in which
         projects are pickled and unpickled.
 
-        This implementation returns the enthought.sweet_pickle package which
+        This implementation returns the apptools.sweet_pickle package which
         supports versioning and refactoring of classes.
 
         """
 
-        return enthought.sweet_pickle
+        return apptools.sweet_pickle
 
     get_pickle_package = classmethod(get_pickle_package)
 

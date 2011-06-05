@@ -6,8 +6,8 @@ import logging, os
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from enthought.preferences.api import IPreferences, ScopedPreferences
-from enthought.preferences.api import set_default_preferences
+from apptools.preferences.api import IPreferences, ScopedPreferences
+from apptools.preferences.api import set_default_preferences
 from traits.api import Delegate, Event, HasTraits, Instance, Str
 from traits.api import VetoableEvent, implements
 

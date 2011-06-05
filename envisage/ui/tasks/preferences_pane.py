@@ -1,5 +1,5 @@
 # Enthought library imports.
-from enthought.preferences.api import IPreferences, PreferencesHelper
+from apptools.preferences.api import IPreferences, PreferencesHelper
 from traits.api import Callable, Dict, HasTraits, Instance, Str
 from traitsui.api import Controller
 

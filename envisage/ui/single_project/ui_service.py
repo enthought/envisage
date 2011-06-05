@@ -16,9 +16,9 @@ import os
 import shutil
 
 # Enthought library imports
-from enthought.preferences.api import bind_preference
-from enthought.io.api import File
-from enthought.naming.api import Context
+from apptools.preferences.api import bind_preference
+from apptools.io.api import File
+from apptools.naming.api import Context
 from pyface.api import CANCEL, confirm, ConfirmationDialog, \
     DirectoryDialog, error, FileDialog, information, NO, OK, YES
 from pyface.action.api import MenuManager

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.preferences.api import IPreferences
+from apptools.preferences.api import IPreferences
 from traits.api import Event, Instance, Str, VetoableEvent
 
 # Local imports.

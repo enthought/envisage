@@ -5,7 +5,7 @@
 from os.path import join
 
 # Enthought library imports.
-from enthought.io.api import File
+from apptools.io.api import File
 from traits.api import Instance, List, Str
 
 # Local imports.

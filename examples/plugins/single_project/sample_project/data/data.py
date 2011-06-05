@@ -7,7 +7,7 @@
 
 # Enthought library imports.
 from chaco.chaco_plot_editor import ChacoPlotItem
-from enthought.numerical_modeling.numeric_context.api import NumericContext
+from blockcanvas.numerical_modeling.numeric_context.api import NumericContext
 from traits.api import adapts, Array, Enum, Float, HasTraits, \
     Instance, Range, Property
 from traitsui.api import Group, Item, RangeEditor, ITreeNode, \

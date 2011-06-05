@@ -18,7 +18,7 @@ import shutil
 
 # Enthought library imports
 from envisage.api import IApplication
-from enthought.preferences.api import IPreferences
+from apptools.preferences.api import IPreferences
 from traits.api import Any, HasTraits, Instance, List
 
 

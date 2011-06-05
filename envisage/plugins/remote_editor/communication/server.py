@@ -4,7 +4,7 @@ import logging
 import socket
 
 # ETS imports
-from enthought.preferences.api import Preferences
+from apptools.preferences.api import Preferences
 from traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 

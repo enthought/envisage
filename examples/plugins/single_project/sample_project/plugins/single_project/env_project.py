@@ -16,8 +16,8 @@ import logging
 
 # Enthought library imports.
 from envisage.ui.single_project.api import Project
-from enthought.naming.unique_name import make_unique_name
-from enthought.numerical_modeling.numeric_context.numeric_context import \
+from apptools.naming.unique_name import make_unique_name
+from blockcanvas.numerical_modeling.numeric_context.numeric_context import \
     NumericContext
 from traits.api import adapts, property_depends_on, Property, List
 from traitsui.api import Group, ITreeNode, ITreeNodeAdapter, View
@@ -51,7 +51,7 @@ class EnvProject(Project, NumericContext):
 
 
     # Set up the naming environment.
-#    klass_name = "enthought.naming.InitialContextFactory"
+#    klass_name = "apptools.naming.InitialContextFactory"
 #    environment = {Context.INITIAL_CONTEXT_FACTORY : klass_name}
 #
 #    # Create an initial context.

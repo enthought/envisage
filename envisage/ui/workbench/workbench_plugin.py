@@ -96,7 +96,7 @@ class WorkbenchPlugin(Plugin):
           callable(**traits) -> IPreferencesPage
 
         The easiest way to contribute such a factory is to create a class
-        that derives from 'enthought.preferences.ui.api.IPreferencesPage'.
+        that derives from 'apptools.preferences.ui.api.IPreferencesPage'.
 
         """
     )
@@ -191,7 +191,7 @@ class WorkbenchPlugin(Plugin):
         """ Trait initializer. """
 
         preferences_manager_service_offer = ServiceOffer(
-            protocol = 'enthought.preferences.ui.preferences_manager'
+            protocol = 'apptools.preferences.ui.preferences_manager'
                        '.PreferencesManager',
             factory  = self._create_preferences_manager_service
         )
@@ -210,7 +210,7 @@ class WorkbenchPlugin(Plugin):
     def _create_preferences_manager_service(self, **properties):
         """ Factory method for the preferences manager service. """
 
-        from enthought.preferences.ui.api import PreferencesManager
+        from apptools.preferences.ui.api import PreferencesManager
 
         preferences_manager = PreferencesManager(
             pages=[factory() for factory in self.preferences_pages]

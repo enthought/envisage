@@ -123,7 +123,7 @@ even if it has many categories of preferences.
 
 A contribution to the preference_pages extension point must be a callable that
 returns an object that implements the
-`enthought.preferences.ui.api.IPreferencesPage` interface. Such an object
+`apptools.preferences.ui.api.IPreferencesPage` interface. Such an object
 typically has a Traits UI view that can be used in the Preferences dialog box to
 set the values of the preference attributes. A plugin may have multiple
 preferences pages, depending on how it groups the items to be configured.
@@ -131,7 +131,7 @@ preferences pages, depending on how it groups the items to be configured.
 There are two strategies for defining a callable that returns an object:
 
 * Subclass from a class that implements the interface, in this case
-  `enthought.preferences.ui.api.PreferencesPage`.
+  `apptools.preferences.ui.api.PreferencesPage`.
 * Define a factory function that returns an appropriate object. This strategy
   is not needed for preferences pages, but can be helpful when the object
   being returned contains a reference to a service.

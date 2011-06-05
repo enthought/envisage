@@ -17,7 +17,7 @@ modifications.
 The current project is visualized using a ResourceTree control and thus
 supports all the visualization and interaction customization of resources.
 This also makes makes it easy to build a hierarchy of nodes within the tree
-by implementing the enthought.naming.Context interface.
+by implementing the apptools.naming.Context interface.
 
 Finally, this plugin contributes a single extension point which provides the
 capability to define your own custom projects.

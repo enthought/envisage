@@ -6,7 +6,7 @@ import compiler, os
 from compiler.visitor import ASTVisitor
 
 # Enthought library imports.
-from enthought.io.api import File
+from apptools.io.api import File
 from traits.api import Any, Dict, HasTraits, Instance, Str
 
 # Local imports.

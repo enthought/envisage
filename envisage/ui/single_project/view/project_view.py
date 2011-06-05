@@ -15,7 +15,7 @@ import logging
 from string import rfind
 
 # Enthought library imports
-from enthought.naming.api import Binding
+from apptools.naming.api import Binding
 from traits.api import adapts, Any, HasTraits, Instance, Str
 from traitsui.api import Item, Group, TreeEditor, ITreeNode, \
     ITreeNodeAdapter, View

@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from enthought.preferences.api import PreferencesHelper
+from apptools.preferences.api import PreferencesHelper
 from traits.api import Bool
 
 

@@ -7,7 +7,7 @@ import inspect
 # Enthought library imports.
 from envisage.api import IApplication, IPlugin
 from envisage.developer.code_browser.api import CodeBrowser
-from enthought.io.api import File
+from apptools.io.api import File
 from traits.api import Any, HasTraits, Instance
 from traitsui.api import Item, TreeEditor, View
 

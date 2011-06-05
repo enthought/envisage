@@ -1,6 +1,6 @@
 import logging
 
-from enthought.io.api import File
+from apptools.io.api import File
 from pyface.api import FileDialog, OK
 from pyface.action.api import Action
 from traits.api import Any

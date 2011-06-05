@@ -5,7 +5,7 @@
 import cPickle, imp, logging, os, stat, warnings
 
 # Enthought library imports.
-from enthought.io.api import File
+from apptools.io.api import File
 
 # Local imports.
 from module import ModuleFactory

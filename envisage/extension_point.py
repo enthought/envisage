@@ -246,7 +246,7 @@ class ExtensionPoint(TraitType):
             # If the debug package is present then log the call stack to help
             # the developer see where the problem occurred.
             try:
-                from enthought.debug.api import log_called_from
+                from etsdevtools.debug.api import log_called_from
                 log_called_from(10)
 
             except:
