@@ -111,7 +111,6 @@ class TasksApplication(Application):
     _explicit_exit = Bool(False)
 
     # Application state.
-    _initialized = Bool(False)
     _state = Instance(TasksApplicationState, ())
 
     ###########################################################################
@@ -130,6 +129,7 @@ class TasksApplication(Application):
             self._create_windows()
 
             # Start the GUI event loop.
+            gui.invoke_later(self.initialized)
             gui.start_event_loop()
 
     ###########################################################################
@@ -304,10 +304,6 @@ class TasksApplication(Application):
     def _on_window_activated(self, window, trait_name, event):
         logger.debug('Task window %s activated', window)
         self.active_window = window
-
-        if not self._initialized:
-            self.initialized()
-            self._initialized = True
 
     def _on_window_opening(self, window, trait_name, event):
         # Event notification.
