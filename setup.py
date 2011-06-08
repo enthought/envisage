@@ -31,8 +31,7 @@ framework. This project contains no plug-ins. You are free to use:
 Prerequisites
 -------------
 If you want to build Envisage from source, you must first install
-`setuptools <http://pypi.python.org/pypi/setuptools/0.6c8>`_.
-
+`distribute <http://pypi.python.org/pypi/distribute>`_.
 """
 
 from setuptools import setup, find_packages
