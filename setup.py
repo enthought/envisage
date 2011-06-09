@@ -80,7 +80,8 @@ setup(
     maintainer_email = 'enthought-dev@enthought.com',
     name = "envisage",
     packages = find_packages(),
-    package_data = {'': ['images/*']},
+    package_data = {'': ['images/*', '*.ini',],
+                    } ,
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     tests_require = [
         'nose >= 0.10.3',
