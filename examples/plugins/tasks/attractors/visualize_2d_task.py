@@ -1,7 +1,7 @@
 # Enthought library imports.
 from pyface.tasks.action.api import SGroup, SMenu, SMenuBar, \
     TaskToggleGroup
-from pyface.tasks.api import Task, TaskLayout
+from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
 from traits.api import Any, List
 
 # Local imports.
@@ -58,8 +58,9 @@ class Visualize2dTask(Task):
     #### Trait initializers ###################################################
 
     def _default_layout_default(self):
-        return TaskLayout(left_panes=[['example.attractors.model_config_pane',
-                                       'example.attractors.model_help_pane']])
+        return TaskLayout(
+            left=Tabbed(PaneItem('example.attractors.model_config_pane'),
+                        PaneItem('example.attractors.model_help_pane')))
 
     def _models_default(self):
         from model.henon import Henon

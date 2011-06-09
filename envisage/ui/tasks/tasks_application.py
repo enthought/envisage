@@ -8,8 +8,8 @@ from traits.etsconfig.api import ETSConfig
 from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
-from traits.api import Bool, Callable, Dict, Event, File, \
-    HasStrictTraits, Instance, List, Property, Str, Unicode
+from traits.api import Bool, Callable, Event, File, HasStrictTraits, Instance, \
+     List, Property, Str, Unicode
 
 # Local imports
 from task_window import TaskWindow
@@ -24,13 +24,51 @@ class TasksApplicationState(HasStrictTraits):
         application state.
     """
 
-    # A mapping from task IDs to task layouts.
-    task_layouts = Dict(Str, Instance(TaskLayout))
+    # A list of TaskLayouts accumulated throughout the application's lifecycle.
+    # Used as a fallback for state restoration if there is no TaskWindowLayout
+    # match.
+    task_layouts = List(TaskLayout)
 
-    # If 'always_use_default_layout' is set, a list of layouts accumulated
-    # throughout the application's lifecycle. Otherwise, the layouts for the
-    # windows extant at application exit.
+    # A list of TaskWindowLayouts accumulated throughout the application's
+    # lifecycle.
     window_layouts = List(TaskWindowLayout)
+
+    # TaskWindowLayouts for the windows extant at application exit. Only used if
+    # 'always_use_default_layout' is disabled.
+    window_layouts_final = List(TaskWindowLayout)
+
+    def add_task_layout(self, task_layout):
+        """ Merge a TaskLayout into the accumulated list.
+        """
+        self.task_layouts = [ layout for layout in self.task_layouts
+                              if layout.id != task_layout.id ]
+        self.task_layouts.append(task_layout)
+
+    def add_window_layout(self, window_layout):
+        """ Merge a TaskWindowLayout into the accumulated list.
+        """
+        for task_layout in window_layout.items:
+            self.add_task_layout(task_layout)
+            
+        self.window_layouts = [ layout for layout in self.window_layouts
+                                if not layout.is_equivalent_to(window_layout) ]
+        self.window_layouts.append(window_layout)
+
+    def get_equivalent_task_layout(self, task_layout):
+        """ Gets a TaskLayout with same ID, there is one.
+        """
+        for layout in self.task_layouts:
+            if layout.id == task_layout.id:
+                return layout
+        return None
+
+    def get_equivalent_window_layout(self, window_layout):
+        """ Gets an equivalent TaskWindowLayout, if there is one.
+        """
+        for layout in self.window_layouts:
+            if layout.is_equivalent_to(window_layout):
+                return layout
+        return None
 
 
 class TasksApplication(Application):
@@ -111,7 +149,7 @@ class TasksApplication(Application):
     _explicit_exit = Bool(False)
 
     # Application state.
-    _state = Instance(TasksApplicationState, ())
+    _state = Instance(TasksApplicationState)
 
     ###########################################################################
     # 'IApplication' interface.
@@ -137,8 +175,9 @@ class TasksApplication(Application):
     ###########################################################################
 
     def create_task(self, id):
-        """ Creates the Task with the specified ID. Returns None if there is no
-            suitable TaskFactory.
+        """ Creates the Task with the specified ID.
+
+        Returns None if there is no suitable TaskFactory.
         """
         # Get the factory for the task.
         for factory in self.task_factories:
@@ -155,8 +194,20 @@ class TasksApplication(Application):
         task.id = factory.id
         return task
 
-    def create_window(self, *ids, **traits):
-        """ Creates a new TaskWindow and attaches it to the application.
+    def create_window(self, layout=None, restore=True, **traits):
+        """ Creates a new TaskWindow, possibly with some Tasks.
+
+        Parameters:
+        -----------
+        layout : TaskWindowLayout, optional
+             The layout to use for the window. The tasks described in the layout
+             will be created and added to the window automatically. If not
+             specified, the window will contain no tasks.
+
+        restore : bool, optional (default True)
+             If set, the application will restore old size and positions for the
+             window and its panes, if possible. If a layout is not provided,
+             this parameter has no effect.
         """
         window = self.window_factory(application=self, **traits)
 
@@ -170,11 +221,32 @@ class TasksApplication(Application):
         # Event notification.
         self.window_created = TaskWindowEvent(window=window)
 
-        # Create tasks.
-        for task_id in ids:
-            task = self.create_task(task_id)
-            if task:
-                window.add_task(task)
+        if layout:
+            # Create and add tasks.
+            for task_id in layout.get_tasks():
+                task = self.create_task(task_id)
+                if task:
+                    window.add_task(task)
+
+            # Apply an appropriate layout.
+            if restore:
+                # First, see if a window layout matches exactly.
+                match = self._state.get_equivalent_window_layout(layout)
+                if match:
+                    # The active task is not part of the equivalency relation,
+                    # so we ensure that it is correct.
+                    match.active_task = layout.get_active_task()
+                    layout = match
+                # If that fails, at least try to restore the layout of
+                # individual tasks.
+                else:
+                    layout = layout.clone_traits()
+                    for i, tl in enumerate(layout.items):
+                        match = self._state.get_equivalent_task_layout(tl)
+                        if match:
+                            layout.items[i] = match
+                    
+            window.set_window_layout(layout)
 
         return window
 
@@ -200,8 +272,7 @@ class TasksApplication(Application):
         try:
             # Fetch the window layouts *before* closing the windows. If we
             # succeed in closing all the windows, we will write these to disk.
-            if not self.always_use_default_layout:
-                window_layouts = [ w.get_window_layout() for w in self.windows ]
+            window_layouts = [ w.get_window_layout() for w in self.windows ]
 
             # Attempt to close all open windows.
             success = True
@@ -212,8 +283,7 @@ class TasksApplication(Application):
 
             # Save the state, if necesssary.
             if success:
-                if not self.always_use_default_layout:
-                    self._state.window_layouts = window_layouts
+                self._state.window_layouts_final = window_layouts
                 self._save_state()
         finally:
             self._explicit_exit = False
@@ -228,31 +298,17 @@ class TasksApplication(Application):
             application layout.
         """
         # Build a list of TaskWindowLayouts.
-        restored_state = self._load_state()
-        if self.always_use_default_layout:
-            # For each window layout in the default layout, restore the maximum
-            # amount of UI state possible. First, try to find an equivalent
-            # saved window layout. If that fails, at least try to restore the
-            # layouts of individual tasks.
-            window_layouts = []
-            for layout in self.default_layout:
-                for restored_layout in restored_state.window_layouts:
-                    if layout.is_equivalent_to(restored_layout):
-                        window_layouts.append(restored_layout)
-                        break
-                else:
-                    layout.layout_state.update(restored_state.task_layouts)
-                    window_layouts.append(layout)
+        self._state = self._load_state()
+        if self.always_use_default_layout or \
+               not self._state.window_layouts_final:
+            window_layouts = self.default_layout
         else:
-            if restored_state.window_layouts:
-                window_layouts = restored_state.window_layouts
-            else:
-                window_layouts = self.default_layout
+            window_layouts = self._state.window_layouts_final
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
-            window = self.create_window(*window_layout.tasks)
-            window.set_window_layout(window_layout)
+            window = self.create_window(window_layout,
+                                        restore=self.always_use_default_layout)
             window.open()
 
     def _load_state(self):
@@ -327,17 +383,14 @@ class TasksApplication(Application):
         if window_event.veto:
             event.veto = True
         else:
-            # Store the layouts for the window.
+            # Store the layout of the window.
             window_layout = window.get_window_layout()
-            self._state.task_layouts.update(window_layout.layout_state)
-            if self.always_use_default_layout:
-                self._state.window_layouts.insert(0, window_layout)
+            self._state.add_window_layout(window_layout)
 
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                if not self.always_use_default_layout:
-                    self._state.window_layouts = [ window_layout ]
+                self._state.window_layouts_final = [ window_layout ]
                 self._save_state()
 
     def _on_window_closed(self, window, trait_name, event):
