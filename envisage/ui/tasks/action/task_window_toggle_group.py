@@ -12,7 +12,7 @@ class TaskWindowToggleAction(Action):
 
     name = Property(Unicode, depends_on='window.active_task.name')
     style = 'toggle'
-    
+
     #### 'TaskWindowToggleAction' interface ###################################
 
     # The window to use for this action.
@@ -42,7 +42,7 @@ class TaskWindowToggleAction(Action):
     @on_trait_change('window:deactivated')
     def _window_deactivated(self):
         self.checked = False
-    
+
 
 class TaskWindowToggleGroup(Group):
     """ A Group for toggling the activation state of an application's windows.
@@ -65,7 +65,7 @@ class TaskWindowToggleGroup(Group):
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _get_items(self):
         items = []
         for window in self.application.windows:

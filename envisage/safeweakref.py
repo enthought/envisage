@@ -33,7 +33,7 @@ class ref(object):
     # This makes sure that when the object is garbage collected, any cached
     # weak references are garbage collected too.
     _cache = weakref.WeakKeyDictionary()
-    
+
     def __new__(cls, obj, *args, **kw):
         """ Create a new instance of the class. """
 
@@ -41,22 +41,22 @@ class ref(object):
         # create an instance of *this* class.
         if hasattr(obj, 'im_self'):
             func_cache = ref._cache.setdefault(obj.im_self, {})
-            
+
             # If we haven't created a weakref to this bound method before, then
             # create one and cache it.
             self = func_cache.get(obj.im_func)
             if self is None:
                 self = object.__new__(cls, obj, *args, **kw)
                 func_cache[obj.im_func] = self
-                
+
         # Otherwise, just return a regular weakref (because we aren't
         # returning an instance of *this* class our constructor does not get
         # called).
         else:
             self = weakref.ref(obj)
-        
+
         return self
-        
+
     def __init__(self, obj):
         """ Create a weak reference to a bound method object.
 
@@ -69,7 +69,7 @@ class ref(object):
         self._cls = obj.im_class
         self._fn  = obj.im_func
         self._ref = weakref.ref(obj.im_self)
-            
+
         return
 
     def __call__(self):

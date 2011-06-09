@@ -90,7 +90,7 @@ class TasksPlugin(Plugin):
             protocol = 'envisage.ui.tasks.preferences_dialog.'
                        'PreferencesDialog',
             factory  = self._create_preferences_dialog_service)
-        
+
         return [ preferences_dialog_service_offer ]
 
     my_task_extensions = List(contributes_to=TASK_EXTENSIONS)
@@ -100,7 +100,7 @@ class TasksPlugin(Plugin):
         from action.preferences_action import PreferencesGroup
         from pyface.tasks.action.api import DockPaneToggleGroup, \
              SchemaAddition
-        
+
         actions = [ SchemaAddition(id='Exit',
                                    factory=ExitAction,
                                    path='MenuBar/File'),

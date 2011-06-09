@@ -19,7 +19,7 @@ class TaskWindowLaunchAction(Action):
         application = event.task.window.application
         window = application.create_window(self.task_id, size=(800, 600))
         window.open()
-        
+
 
 class TaskWindowLaunchGroup(Group):
     """ A Group for creating task windows with a single task.
@@ -33,7 +33,7 @@ class TaskWindowLaunchGroup(Group):
     ###########################################################################
     # Private interface.
     ###########################################################################
-    
+
     def _items_default(self):
         manager = self
         while isinstance(manager, Group):
