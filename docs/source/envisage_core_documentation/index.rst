@@ -3,7 +3,8 @@ Envisage Core Documentation
 
 .. toctree::
     :maxdepth: 2
-	
+
+    front.rst	
     introduction.rst
     core.rst
     extension_points.rst
@@ -11,7 +12,8 @@ Envisage Core Documentation
     plugins.rst
     howto_create_a_plugin.rst
     message_of_the_day.rst
-    message_of_the_day_(using_eggs).rst
+    # Do not include until properly distinguished from the preceding section.
+    #message_of_the_day_(using_eggs).rst
     workbench.rst
     glossary.rst
 
