@@ -15,8 +15,7 @@ package.
 
 As remarked in the :ref:`introduction`, some familiarity with the Envisage
 plugin framework is assumed. For more information about Envisage, the reader is
-referred to the project's `documentation 
-<http://enthought.github.com/envisagecore/>`_.
+referred to the :doc:`../envisage_core_documentation/index`.
 
 .. _tasks-plugin:
 
