@@ -24,43 +24,13 @@ class TasksApplicationState(HasStrictTraits):
         application state.
     """
 
-    # A list of TaskLayouts accumulated throughout the application's lifecycle.
-    # Used as a fallback for state restoration if there is no TaskWindowLayout
-    # match.
-    task_layouts = List(TaskLayout)
+    # TaskWindowLayouts for the windows extant at application exit. Only used if
+    # 'always_use_default_layout' is disabled.
+    previous_window_layouts = List(TaskWindowLayout)
 
     # A list of TaskWindowLayouts accumulated throughout the application's
     # lifecycle.
     window_layouts = List(TaskWindowLayout)
-
-    # TaskWindowLayouts for the windows extant at application exit. Only used if
-    # 'always_use_default_layout' is disabled.
-    window_layouts_final = List(TaskWindowLayout)
-
-    def add_task_layout(self, task_layout):
-        """ Merge a TaskLayout into the accumulated list.
-        """
-        self.task_layouts = [ layout for layout in self.task_layouts
-                              if layout.id != task_layout.id ]
-        self.task_layouts.append(task_layout)
-
-    def add_window_layout(self, window_layout):
-        """ Merge a TaskWindowLayout into the accumulated list.
-        """
-        for task_layout in window_layout.items:
-            self.add_task_layout(task_layout)
-            
-        self.window_layouts = [ layout for layout in self.window_layouts
-                                if not layout.is_equivalent_to(window_layout) ]
-        self.window_layouts.append(window_layout)
-
-    def get_equivalent_task_layout(self, task_layout):
-        """ Gets a TaskLayout with same ID, there is one.
-        """
-        for layout in self.task_layouts:
-            if layout.id == task_layout.id:
-                return layout
-        return None
 
     def get_equivalent_window_layout(self, window_layout):
         """ Gets an equivalent TaskWindowLayout, if there is one.
@@ -69,6 +39,22 @@ class TasksApplicationState(HasStrictTraits):
             if layout.is_equivalent_to(window_layout):
                 return layout
         return None
+
+    def get_task_layout(self, task_id):
+        """ Gets a TaskLayout with the specified ID, there is one.
+        """
+        for window_layout in self.window_layouts:
+            for layout in window_layout.items:
+                if layout.id == task_id:
+                    return layout
+        return None
+
+    def push_window_layout(self, window_layout):
+        """ Merge a TaskWindowLayout into the accumulated list.
+        """
+        self.window_layouts = [ layout for layout in self.window_layouts
+                                if not layout.is_equivalent_to(window_layout) ]
+        self.window_layouts.insert(0, window_layout)
 
 
 class TasksApplication(Application):
@@ -241,8 +227,9 @@ class TasksApplication(Application):
                 # individual tasks.
                 else:
                     layout = layout.clone_traits()
-                    for i, tl in enumerate(layout.items):
-                        match = self._state.get_equivalent_task_layout(tl)
+                    for i, item in enumerate(layout.items):
+                        id = item if isinstance(item, basestring) else item.id
+                        match = self._state.get_task_layout(id)
                         if match:
                             layout.items[i] = match
                     
@@ -283,7 +270,7 @@ class TasksApplication(Application):
 
             # Save the state, if necesssary.
             if success:
-                self._state.window_layouts_final = window_layouts
+                self._state.previous_window_layouts = window_layouts
                 self._save_state()
         finally:
             self._explicit_exit = False
@@ -300,10 +287,10 @@ class TasksApplication(Application):
         # Build a list of TaskWindowLayouts.
         self._state = self._load_state()
         if self.always_use_default_layout or \
-               not self._state.window_layouts_final:
+               not self._state.previous_window_layouts:
             window_layouts = self.default_layout
         else:
-            window_layouts = self._state.window_layouts_final
+            window_layouts = self._state.previous_window_layouts
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
@@ -385,12 +372,12 @@ class TasksApplication(Application):
         else:
             # Store the layout of the window.
             window_layout = window.get_window_layout()
-            self._state.add_window_layout(window_layout)
+            self._state.push_window_layout(window_layout)
 
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                self._state.window_layouts_final = [ window_layout ]
+                self._state.previous_window_layouts = [ window_layout ]
                 self._save_state()
 
     def _on_window_closed(self, window, trait_name, event):
