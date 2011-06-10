@@ -224,9 +224,9 @@ and contributing it to the Envisage core plugin::
         def _preferences_default(self):
             return [ 'pkgfile://example.attractors/preferences.ini' ]
 
-This construction assumes that attractors example is in Python's path (in the
-``example.attractors`` package). Alternatively, we could have used the "file://"
-prefix in conjunction with an absolute path on the local filesystem.
+This construction assumes that the attractors example is in Python's path (in
+the ``example.attractors`` package). Alternatively, we could have used the
+"file://" prefix in conjunction with an absolute path on the local filesystem.
 
 We can now define two classes: a preferences helper and preferences pane. The
 preferences helper is a model-level class that makes accessing the keys in the
@@ -292,8 +292,8 @@ Finally, we modify our application to make use of this new functionality::
         def _default_layout_default(self):
             active_task = self.preferences_helper.default_task
             tasks = [ factory.id for factory in self.task_factories ]
-            return [ TaskWindowLayout(active_task = active_task, 
-                                      tasks = tasks, 
+            return [ TaskWindowLayout(*tasks,
+                                      active_task = active_task, 
                                       size = (800, 600)) ]
 
         def _get_always_use_default_layout(self):

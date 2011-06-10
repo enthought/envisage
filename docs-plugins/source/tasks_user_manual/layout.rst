@@ -167,7 +167,7 @@ which we connect to the dock pane's ``activated`` event::
             """
             self.window.central_pane.editor.path = filename
 
-.. index:: task; layout
+.. index:: task; layout, PaneItem, TaskLayout, Tabbed, Splitter
 
 Providing a Default Layout
 --------------------------
@@ -175,25 +175,40 @@ Providing a Default Layout
 Although dock panes are designed to be moved around and otherwise manipulated by
 the user, we often have a particular default layout in mind when designing an
 application. The Tasks framework provides the ``TaskLayout`` class to make the
-specification of this layout possible. This simple class has four attributes,
-namely ``left_panes``, ``right_panes``, ``bottom_panes``, and
-``top_panes``. Each of these attributes is a list of task ID strings, with at
-most one level of nesting. The tasks corresponding to these IDs are laid out
-left to right for the top and bottom panes, and top to bottom for the right and
-left panes.
+specification of this layout possible. Usually, we are only concerned with four
+attributes of this class, namely ``left``, ``right``, ``bottom``, and
+``top``. Each of these attributes may be assigned a layout item, which is
+either a ``PaneItem``, for specifying a particular dock pane; a ``Tabbed`` item,
+containing other ``PaneItem`` instances; or a ``Splitter``, containing arbitrary
+subitems.
 
 A few examples should suffice to make this clear. To stack the dock pane with ID
 'dock_pane_1' on top of that with ID 'dock_pane_2', with both to the left of the
 central pane, one specifies::
 
-    left_panes = [ 'dock_pane_1', 'dock_pane_2' ]
+    left = Splitter(PaneItem('dock_pane_1'), 
+                    PaneItem('dock_pane_2'),
+                    orientation='vertical')
 
-To put these dock panes in tab group below the central pane, we use an extra
-level nesting::
+.. index:: HSplitter, VSplitter
 
-    bottom_panes = [ [ 'dock_pane_1', 'dock_pane_2' ] ]
+We could also have used ``VSplitter``, which is a convenient abbreviation for a
+splitter with vertical orientation. Similarly, ``HSplitter`` is an abbrevation
+for a splitter with horizontal orientation.
 
-With this in mind, we can provide our example task with a layout using the
+To put these dock panes in tab group below the central pane, we might write::
+
+    bottom_panes = Tabbed(PaneItem('dock_pane_1', height=400), 
+                          PaneItem('dock_pane_2'))
+
+Observe that we have explicitly provided a height for the first dock
+pane. Provided that the dock pane's underlying control does not have a
+conflicting minimum or maximum size constraint, Tasks guarantees that it will
+honor this height exactly. Of course, if ``width`` or ``height`` are not
+provided, Tasks will use the dock pane's toolkit-specific size hint to
+determine its size.
+
+Now we will provide our example task with a simple layout using the
 ``default_layout`` attribute of ``Task``::
 
     class ExampleTask(Task):
@@ -201,7 +216,7 @@ With this in mind, we can provide our example task with a layout using the
         [ ... ]
 
         default_layout = TaskLayout(
-            left_panes=['example.python_script_browser_pane'])
+            left=PaneItem('example.python_script_browser_pane'))
 
 Note that dock panes that do not appear in the layout will not be visible by
 default. A task without a default layout is equivalent to a task with an empty
