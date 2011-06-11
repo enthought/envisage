@@ -1,5 +1,6 @@
 # Enthought library imports.
 from pyface.action.api import Action, ActionItem, Group
+from pyface.tasks.api import TaskWindowLayout
 from traits.api import List, Str
 
 
@@ -17,7 +18,7 @@ class TaskWindowLaunchAction(Action):
 
     def perform(self, event):
         application = event.task.window.application
-        window = application.create_window(self.task_id, size=(800, 600))
+        window = application.create_window(TaskWindowLayout(self.task_id))
         window.open()
         
 

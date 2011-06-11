@@ -326,7 +326,7 @@ class TasksApplication(Application):
     def _default_layout_default(self):
         window_layout = TaskWindowLayout()
         if self.task_factories:
-            window_layout.tasks = [ self.task_factories[0].id ]
+            window_layout.items = [ self.task_factories[0].id ]
         return [ window_layout ]
 
     def _gui_default(self):
