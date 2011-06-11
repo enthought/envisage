@@ -130,8 +130,8 @@ which must inherit ``TasksApplication``::
         #### 'TasksApplication' interface #####################################
 
         # The default application-level layout for the application.
-        default_layout = [ TaskWindowLayout(tasks=['example.attractors.task_2d',
-                                                  'example.attractors.task_3d'],
+        default_layout = [ TaskWindowLayout('example.attractors.task_2d',
+                                            'example.attractors.task_3d',
                                             size=(800, 600)) ]
 
 Observe that each of the IDs specified in the layout must correspond to the ID
