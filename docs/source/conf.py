@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-# EnvisageCore documentation build configuration file, created by
-# sphinx-quickstart on Fri Jul 18 17:09:28 2008.
-#
 # This file is execfile()d with the current directory set to its containing dir.
 #
 # The contents of this file are pickled, so don't put values in the namespace
@@ -23,7 +20,6 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-#extensions = ['sphinx.ext.autodoc']
 extensions = []
 
 # Add any paths that contain templates here, relative to this directory.
@@ -36,8 +32,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = 'EnvisageCore'
-copyright = '2008, Martin Chivers'
+project = 'Envisage'
+copyright = '2011, Enthought'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -88,19 +84,19 @@ html_style = 'default.css'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = "Envisage Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
 
 # The name of an image file (within the static path) to place at the top of
 # the sidebar.
-#html_logo = None
+html_logo = "e-logo-rev.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = None
+html_favicon = "et.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -113,7 +109,7 @@ html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-#html_use_smartypants = True
+html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}
@@ -123,7 +119,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-#html_use_modindex = True
+html_use_modindex = False
 
 # If false, no index is generated.
 #html_use_index = True
@@ -143,7 +139,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'EnvisageCoredoc'
+htmlhelp_basename = 'Envisagedoc'
 
 
 # Options for LaTeX output
@@ -158,12 +154,13 @@ htmlhelp_basename = 'EnvisageCoredoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('introduction', 'EnvisageCore.tex', 'EnvisageCore Documentation', 'Martin Chivers', 'manual'),
+  ('index', 'Envisage.tex', 'Envisage Documentation', 'Enthought, Inc.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+# latex_logo = "enthought_logo.jpg"
+latex_logo = "e-logo-rev.png"
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.

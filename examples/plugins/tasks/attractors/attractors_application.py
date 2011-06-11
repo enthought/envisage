@@ -42,8 +42,8 @@ class AttractorsApplication(TasksApplication):
     def _default_layout_default(self):
         active_task = self.preferences_helper.default_task
         tasks = [ factory.id for factory in self.task_factories ]
-        return [ TaskWindowLayout(active_task = active_task,
-                                  tasks = tasks,
+        return [ TaskWindowLayout(*tasks,
+                                  active_task = active_task,
                                   size = (800, 600)) ]
 
     def _preferences_helper_default(self):
