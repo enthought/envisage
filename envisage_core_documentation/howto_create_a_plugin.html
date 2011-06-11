@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How To Create a Plugin for an Envisage Application &mdash; Envisage Documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Envisage Core Documentation" href="index.html" />
+    <link rel="next" title="The “Message of the Day” (MOTD) Example" href="message_of_the_day.html" />
+    <link rel="prev" title="Plugins" href="plugins.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="Plugins"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-create-a-plugin-for-an-envisage-application">
+<h1>How To Create a Plugin for an Envisage Application<a class="headerlink" href="#how-to-create-a-plugin-for-an-envisage-application" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the process of creating an Envisage plugin that works
+with a Workbench-based application.</p>
+<p>There are several questions to consider when designing a plugin:</p>
+<ul class="simple">
+<li>What does it do?</li>
+<li>What functionality does it offer to other plugins?</li>
+<li>What does it add to what other plugins already do?</li>
+<li>What does it need from other plugins?</li>
+</ul>
+<div class="section" id="what-does-your-plugin-do">
+<h2>What Does Your Plugin Do?<a class="headerlink" href="#what-does-your-plugin-do" title="Permalink to this headline">¶</a></h2>
+<p>&#8220;What your plugin does&#8221; refers to the basic functionality that your plugin
+adds to the application.</p>
+<p>Very often, you want to take some pre-existing chunk of functionality (module,
+library, etc.) and make it available within the Envisage application. Assuming
+the library has a well-defined API, you do not need to alter it in any way. You
+only create the plugin code to wrap it for Envisage.</p>
+<p>Sometimes, however, you are designing a new chunk of functionality just for
+the Envisage application. In this case, step back and think about how you
+would design the core functionality of the plugin, independent of Envisage. It
+is important to keep this separate from the plugin machinery that make that
+functionality work within Envisage.</p>
+<p>In either case, we will refer to the code that does this core functionality as
+&#8220;the library&#8221;.</p>
+<div class="section" id="example-library">
+<h3>Example Library<a class="headerlink" href="#example-library" title="Permalink to this headline">¶</a></h3>
+<p>Suppose you have a library that implements a game of Tetris. You want to add
+this game to an Envisage application that lets users pick a game to play from
+a catalog of available games. You have a Tetris class that looks something
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="c"># Basic colors</span>
+    <span class="n">background_color</span> <span class="o">=</span> <span class="n">Color</span>
+    <span class="n">foreground_color</span> <span class="o">=</span> <span class="n">Color</span>
+
+    <span class="c"># Shapes to use in the game</span>
+    <span class="n">shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">IShape</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>In the following sections, we&#8217;ll look at ways that this library can be
+integrated into the application by a plugin.</p>
+</div>
+</div>
+<div class="section" id="what-does-your-plugin-offer-to-other-plugins">
+<h2>What Does Your Plugin Offer to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-offer-to-other-plugins" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways that a plugin can provide functionality to other
+plugins.</p>
+<ul class="simple">
+<li><strong>Offering services:</strong> Your plugin may provide an API, the core functionality
+of your library, as a service. Yours might be the only provider of that type
+of service in an application, or it might be one of many.</li>
+<li><strong>Defining extension points:</strong> Your plugin may offer one or more extension
+points, which means that your plugin will do something specific with
+contributions to that extension point. Contributions to an extension point
+must be instances of a type or interface that you specify. An extension point
+is a trait attribute whose type is ExtensionPoint, which consists of a List
+of some other type, plus an ID. In other words, an extension point is a list,
+used by your plugin, that is populated by plugins.</li>
+</ul>
+<div class="section" id="examples-of-offering-functionality-to-other-plugins">
+<h3>Examples of Offering Functionality to Other Plugins<a class="headerlink" href="#examples-of-offering-functionality-to-other-plugins" title="Permalink to this headline">¶</a></h3>
+<p>Suppose that the games application defines an &#8220;IGame&#8221; interface that it uses to
+control games, with methods for starting, stopping, displaying scores, and so
+on. In this case, you offer the Tetris library as a service that implements the
+&#8220;IGame&#8221; interface used by the application. (You might need to create an adapter
+for your Tetris class to the IGame interface, but we&#8217;ll ignore that.)</p>
+<p>You can manually register a service, but a simple way to do it is to contribute
+to the &#8216;envisage.services_offers&#8217; extension point of the Core plugin.
+This ensures that the plugin is registered, and is created when it is needed.</p>
+<p>You also want to allow users to contribute their own Tetris shapes, so you
+define an extension point for shapes. We&#8217;ll leave aside the question of how
+users actually define their shapes. The point is that the catalog of shapes is
+extensible. (You would probably also contribute some basic shapes from your
+plugin, so that users don&#8217;t <em>need</em> to contribute any.)</p>
+</div>
+</div>
+<div class="section" id="what-does-your-plugin-add-to-other-plugins">
+<h2>What Does Your Plugin Add to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-add-to-other-plugins" title="Permalink to this headline">¶</a></h2>
+<p>Other plugins may provide extension points that are useful to your plugin. If
+so, you can contribute to those extension points. Essentially, your plugin
+passes one or more objects to the plugin whose extension point you are
+contributing to, and that plugin &#8220;does the right thing&#8221; with those items.</p>
+<div class="section" id="examples-of-contributing-to-extension-points">
+<h3>Examples of Contributing to Extension Points<a class="headerlink" href="#examples-of-contributing-to-extension-points" title="Permalink to this headline">¶</a></h3>
+<p>Continuing the example of the Tetris game, the application might keep a list
+of available games, and present the list for the user to select from. Thus, it
+might have a &#8216;games&#8217; extension point, to which you can contribute an object
+containing information about your Tetris game, such as name, description, icon,
+and entry point.</p>
+<p>More concretely, you want to specify default colors for the foreground and
+background colors of the game, but allow users to change them and save their
+changes across sessions. For specifying default preference values and saving
+changed values, you can contribute to the &#8216;envisage.preferences&#8217;
+extension point offered by the Envisage core plugin; for a UI to change
+preferences, you can contribute to the
+&#8216;envisage.ui.workbench.preferences_pages&#8217; extension point offered by
+the Workbench plugin. (A game application probably wouldn&#8217;t use the Workbench
+plugin, but we&#8217;ll assume it does to avoid using a fictional plugin.)</p>
+<p>A contribution to the preferences extension point must be a URL of a preferences
+file (readable by ConfigObj). A plugin typically has only one preferences file,
+even if it has many categories of preferences.</p>
+<p>A contribution to the preference_pages extension point must be a callable that
+returns an object that implements the
+<cite>apptools.preferences.ui.api.IPreferencesPage</cite> interface. Such an object
+typically has a Traits UI view that can be used in the Preferences dialog box to
+set the values of the preference attributes. A plugin may have multiple
+preferences pages, depending on how it groups the items to be configured.</p>
+<p>There are two strategies for defining a callable that returns an object:</p>
+<ul class="simple">
+<li>Subclass from a class that implements the interface, in this case
+<cite>apptools.preferences.ui.api.PreferencesPage</cite>.</li>
+<li>Define a factory function that returns an appropriate object. This strategy
+is not needed for preferences pages, but can be helpful when the object
+being returned contains a reference to a service.</li>
+</ul>
+<p>In either case, the contribution is a trait attribute on the plugin object.</p>
+</div>
+</div>
+<div class="section" id="what-does-your-plugin-need-from-other-plugins">
+<h2>What Does Your Plugin Need from Other Plugins?<a class="headerlink" href="#what-does-your-plugin-need-from-other-plugins" title="Permalink to this headline">¶</a></h2>
+<p>Your plugin may need to use the API of some other plugin. In Envisage, you use
+the other plugin&#8217;s API via a service, rather than directly. This allows for the
+plugin offering the service to be replaced with another one, transparently to
+your plugin. There may be multiple plugins offering a particular type of
+service, but a client plugin uses only one instance of a service at any given
+time.</p>
+<div class="section" id="example-of-using-a-service">
+<h3>Example of Using a Service<a class="headerlink" href="#example-of-using-a-service" title="Permalink to this headline">¶</a></h3>
+<p>The service you use may be your own. For the Tetris game, the object that you
+contribute to the application&#8217;s &#8216;games&#8217; extension point needs to be able to
+start the game. However, to reduce memory overhead, you don&#8217;t want the Tetris
+library to be imported until the user actually chooses to play Tetris. Using the
+service offered by the Tetris plugin is a way to accomplish that.</p>
+</div>
+</div>
+<div class="section" id="complete-example">
+<h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline">¶</a></h2>
+<p>The complete plugin for the Tetris game might look like this:</p>
+<div class="highlight-python"><pre>class TetrisPlugin(Plugin):
+    """ Plugin to make the Tetris library available in Envisage.
+    """
+
+    ##### IPlugin Interface ################################################
+
+    ### Extension points offered by the plugin
+
+    # Shapes to be used in the game
+    shape = ExtensionPoint(List(IShape), id='acme.tetris.shapes')
+
+    ### Contributions to extension points
+
+    my_shapes = List(contributes_to='acme.tetris.shapes')
+    def _my_shapes_default(self):
+        """ Trait initializer for 'my_shapes' contribution to this plugin's
+            own 'shapes' extension point.
+        """
+        return [ Shape1(), Shape2(), Shape3() ]
+
+    games = List(contributes_to='acme.game_player.game_infos'
+    def _games_default(self):
+        """ Trait initializer for 'games' contribution to the application
+            plugin's 'games' extension point.
+        """
+        return [ GameInfo(name='Tetris', icon='tetris.png',
+                          description='Classic shape-fitting puzzle game',
+                          entry_point=self._start_game) ]
+
+    preferences = List(contributes_to='envisage.preferences')
+    def _preferences_default(self):
+        """ Trait initializer for 'preferences' contribution. """
+        return ['pkgfile://acme.tetris.plugin/preferences.ini']
+
+    preferences_pages = List(contributes_to=
+        'envisage.ui.workbench.preferences_pages')
+    def _preferences_pages_default(self):
+        """ Trait initializer for 'preferences_pages' contribution. """
+        from acme.tetris.plugin.preferences_pages import \
+            TetrisPreferencesPages
+        return [ TetrisPreferencesPages ]
+
+    services_offers = List(contributes_to='envisages.service_offers')
+    def _service_offers_default(self):
+        """ Trait initializer for 'service_offers' contribution. """
+        return [ ServiceOffer(protocol=IGame,
+                              factory=self._create_tetris_service,
+                              properties={'name':'tetris'}) ]
+
+    #### Private interface #################################################
+
+    def _create_tetris_service(self, **properties):
+        """ Factory method for the Tetris service. """
+        tetris = Tetris() # This creates the non-Envisage library object.
+
+        # Hook up the extension point contributions to the library object trait.
+        bind_extension_point(tetris, 'shapes', 'acme.tetris.shapes')
+
+        # Hook up the preferences to the library object traits.
+        bind_preference(tetris, 'background_color',
+                        'acme.tetris.background_color')
+        bind_preference(tetris, 'foreground_color',
+                        'acme.tetris.foreground_color')
+        return tetris
+
+    def _start_game(self):
+        """ Starts a Tetris game. """
+        game = self.application.get_service(IGame, "name == 'tetris'")
+        game.start()</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How To Create a Plugin for an Envisage Application</a><ul>
+<li><a class="reference internal" href="#what-does-your-plugin-do">What Does Your Plugin Do?</a><ul>
+<li><a class="reference internal" href="#example-library">Example Library</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-does-your-plugin-offer-to-other-plugins">What Does Your Plugin Offer to Other Plugins?</a><ul>
+<li><a class="reference internal" href="#examples-of-offering-functionality-to-other-plugins">Examples of Offering Functionality to Other Plugins</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-does-your-plugin-add-to-other-plugins">What Does Your Plugin Add to Other Plugins?</a><ul>
+<li><a class="reference internal" href="#examples-of-contributing-to-extension-points">Examples of Contributing to Extension Points</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-does-your-plugin-need-from-other-plugins">What Does Your Plugin Need from Other Plugins?</a><ul>
+<li><a class="reference internal" href="#example-of-using-a-service">Example of Using a Service</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complete-example">Complete Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="previous chapter">Plugins</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="message_of_the_day.html"
+                        title="next chapter">The &#8220;Message of the Day&#8221; (MOTD) Example</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="Plugins"
+             >previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Enthought.
+      Last updated on Jun 11, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

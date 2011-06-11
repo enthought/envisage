@@ -1,0 +1,177 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Envisage Documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Envisage Core Documentation" href="index.html" />
+    <link rel="next" title="Core" href="core.html" />
+    <link rel="prev" title="Front Matter" href="front.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="core.html" title="Core"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="front.html" title="Front Matter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the Envisage Project! The goal of the project is to provide a
+framework for building extensible, pluggable applications, and in particular
+(but not limited to!), extensible, pluggable applications for scientists and
+engineers.</p>
+<p>The project is really divided into 3 sub-projects:-</p>
+<ol class="arabic">
+<li><p class="first"><a class="reference external" href="core.html">Core</a></p>
+<p>The Envisage Core, found in the top-level <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/api.py">envisage</a> package,
+defines the basic application architecture including the plugin and
+extension mechanisms. All of the other sub-projects are simply collections
+of plugins that are built on top of the core.</p>
+</li>
+<li><p class="first">User Interface (UI)</p>
+<p>This is small (but hopefully expanding) set of plugins useful for building
+applications with (graphical) User Interfaces. It is found in the
+<em>envisage.ui</em> package (and its subpackages), and aims to provide
+functionality commonly required in this type of application including
+actions, menubars, toolbars, user preferences, wizards etc. One of the most
+useful plugins in this project is the <a class="reference external" href="Workbench.html">Workbench</a> plugin (found in the
+<a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py">envisage.ui.workbench</a> package) that helps you build a style of
+user interface that is often (but not exclusively) found in integrated
+development environments (IDEs).</p>
+</li>
+<li><p class="first">Science/Enginneering</p>
+<p>This is the holy grail, and in truth, we haven&#8217;t got much here yet, but the
+goal is to build up a set of plugins targeted towards scientific and
+engineering applications (data import/export, 2D/3D visualization etc).</p>
+</li>
+</ol>
+<p>Before you read any further, we should point out that Envisage is based
+<em>heavily</em> on the excellent work that has been done in the Java community on
+frameworks such as <a class="reference external" href="http://www.osgi.org">OSGi</a>, <a class="reference external" href="http://www.eclipse.org">Eclipse</a> (which is built on top of its own <a class="reference external" href="http://www.osgi.org">OSGi</a>
+implementation) and <a class="reference external" href="http://www.netbeans.org">NetBeans</a>. Like these other frameworks, Envisage helps you
+build applications that are based on the concept of plugins. However, one of
+the main goals is to provide a simplified system so that applications and
+plugins can be written by scientists, engineers, and those people whose
+full-time job is <em>not</em> necessarily software development, hence a lot of work
+has gone into trying to satify the old adage of &#8220;make simple things simple, and
+complex things possible&#8221;. It will obviously be up to you to judge if we
+succeeded!</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The best way to get started is probably to take the time to read and digest the
+<a class="reference external" href="core.html">Core</a> documentation and then work through the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/Hello%20World/hello_world.py">Hello World</a> and
+<a class="reference external" href="MessageOfTheDay.html">Message of the Day</a> examples. Despite being extremely simple, the examples
+introduces you to <em>all</em> of the fundamental concepts of Envisage, and the <em>real</em>
+applications that you build (which will hopefully be a lot more useful) will be
+built in exactly the same way.</p>
+<p>For definitions of the terminology used in Envisage, see the <a class="reference external" href="Glossary.html">Glossary</a>
+(although it will probably make more sense after going through the other
+documentation and examples first).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="front.html"
+                        title="previous chapter">Front Matter</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="core.html"
+                        title="next chapter">Core</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/envisage_core_documentation/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="core.html" title="Core"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="front.html" title="Front Matter"
+             >previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Enthought.
+      Last updated on Jun 11, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Workbench &mdash; Envisage Documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Envisage Core Documentation" href="index.html" />
+    <link rel="next" title="Preferences with Envisage" href="preferences.html" />
+    <link rel="prev" title="The “Message of the Day” (MOTD) Example" href="message_of_the_day.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="preferences.html" title="Preferences with Envisage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="workbench">
+<h1>Workbench<a class="headerlink" href="#workbench" title="Permalink to this headline">¶</a></h1>
+<p>The workbench plugin, found in the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py">envisage.ui.workbench</a> package,
+provides a style of user interface that is often (but not exclusively) found in
+integrated development environments (IDEs). Note that this does not mean that
+all of your user interfaces must fit this pattern &#8211; just that if they do, then
+we have done a lot of the work for you.</p>
+<p>Workbench user interfaces are based on 3 simple concepts:</p>
+<ol class="arabic">
+<li><p class="first">Views</p>
+<p>Views are primarily used to present information to the user to help them
+perform their current task.</p>
+<p>In an IDE application, views might be:</p>
+<ul class="simple">
+<li>file tree</li>
+<li>class outlines</li>
+</ul>
+</li>
+<li><p class="first">Editors</p>
+<p>Editors allow the user to manipulate data and objects to perform their
+current task. Editors are really the focus of users attention with the
+views used to provide supporting information. Editors are grouped together
+geographically in what is known as the <em>editor area</em>.</p>
+<p>In an IDE application, editors would contain the source code that a
+developer is currently working on.</p>
+</li>
+<li><p class="first">Perspectives</p>
+<p>A perspective is a particular grouping of views (usually around the editor
+area) that correspond to a user task.</p>
+<p>For example, in an IDE, I might have the following perspectives:</p>
+<ul>
+<li><p class="first">Coding perspective</p>
+<p>This is the perspective that the user (in this case a developer) would be
+in when they are actually writing the code. It might contain views that
+show the files in the current project, the outline of the current class
+etc, and the editors would contain the source code that they are actually
+working on.</p>
+</li>
+<li><p class="first">Debugging perspective</p>
+<p>In this perspective, the user would still see the source code in the
+editors, but the views might show things like breakpoints,
+variable watches, stack information etc.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>In keeping with the Envisage philosophy of making code as reuseable as
+possible, the workbench plugin is just a thin layer over the PyFace Workbench
+widget to allow views, editors and perspectives to be contributed via plugins.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences with Envisage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#preferences">Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#preferences-pages">Preferences pages</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="message_of_the_day.html"
+                        title="previous chapter">The &#8220;Message of the Day&#8221; (MOTD) Example</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="preferences.html"
+                        title="next chapter">Preferences with Envisage</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/envisage_core_documentation/workbench.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="preferences.html" title="Preferences with Envisage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
+             >previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Enthought.
+      Last updated on Jun 11, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Envisage Documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Tasks User Manual" href="index.html" />
+    <link rel="next" title="Window Layout" href="layout.html" />
+    <link rel="prev" title="Front Matter" href="front.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="layout.html" title="Window Layout"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="front.html" title="Front Matter"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tasks User Manual</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Tasks is an extensible, toolkit-independent framework for building scriptable,
+task-oriented user interfaces. This document describes its concepts and design
+principles, surveys the classes in its API, and provides a brief tutorial
+illustrating its use.</p>
+<p>We assume that the reader has a basic familiarity with the concepts of Traits
+and Traits UI. These packages are well documented in their respective user
+manuals. In the <a class="reference internal" href="extensibility.html#extensibility"><em>Extensibility</em></a> section of this document, some additional
+knowledge of the Envisage plugin framework is assumed.</p>
+<p>For more detailed information concerning the Tasks API, the reader is referred
+to the Tasks API Reference.</p>
+<div class="section" id="what-is-a-task">
+<h2>What is a Task?<a class="headerlink" href="#what-is-a-task" title="Permalink to this headline">¶</a></h2>
+<p id="id2"><span id="index-0"></span>For the purposes of this document, a <em>task</em> is a collection of user interface
+elements, called <em>panes</em>, which are present in a single window, unified by a
+specific purpose, and possessed of a certain structure. In addition, a task may
+provide menus, toolbars, and configuration options appropriate for these
+elements.</p>
+<p id="index-1">At the heart of every task is its <em>central pane</em>, which exposes its core
+functionality. The central pane is always visible and occupies the center of the
+window. For example, in an IDE there will be at least one task concerned with
+writing code. A code editing widget would constitute the central pane for this
+task. If the IDE also provided a GUI construction task (i.e., a WYSIWYG user
+interface builder ala Glade or Qt Designer), the central pane would consist of
+the &#8220;canvas&#8221; upon which the user arranges UI elements.</p>
+<p id="index-2">In addition to the central pane, a task may include any number of subsidiary
+panes. These panes are arranged around the central pane in various <em>dock areas</em>,
+for which reason they are called <em>dock panes</em>. Dock panes provide
+functionality that is relevant but unessential to the task at hand. For
+example, in the code editing task described above, the list of dock panes might
+include a file browser, a context-sensitive documentation window, a compilation
+log, and a debugger. In general, dock panes can be moved from one dock area to
+another, can be made visible or hidden, and can be detached from the main
+window.</p>
+</div>
+<div class="section" id="historical-background">
+<h2>Historical Background<a class="headerlink" href="#historical-background" title="Permalink to this headline">¶</a></h2>
+<p id="id3"><span id="index-3"></span>Many of the ideas behind the Tasks plugin originate in another Envisage plugin,
+called the Workbench (which, in turn, took considerable inspiration from
+Eclipse). While the Workbench is useful for creating IDE-style
+applications&#8212;it was designed for this purpose&#8212;there is a large class
+of applications for which it is too inflexible. Significant issues
+include:</p>
+<ul class="simple">
+<li><strong>A lack of distinction between the semantics of UI elements and the layout of
+those elements.</strong> A perspective (the Workbench analogue of a task) has very
+little responsibility besides saving the state the user interface. Views (the
+analogues of dock panes) are added directly to the Workbench, which means that
+they cannot be restricted to certain perspectives, nor can a perspective
+exercise meaningful control over the layout of its views. Furthermore, since
+there is no structure imposed on views by the active perspective, there is no
+mechanism for coupling UI components, if this becomes necessary. Finally,
+since the application menus are not connected to perspectives, it is very
+difficult to maintain multiple sets of menus over the application lifecycle.</li>
+<li><strong>A non-customizable central pane.</strong> The notion of editors is inextricably
+connected to the Workbench; the central pane must be a notebook-style
+collection of editors.</li>
+</ul>
+<p>The above are design considerations that could not be remedied without a vast
+degree of backwards-incompatible change. Less systemic deficiencies of the
+Workbench include:</p>
+<ul class="simple">
+<li><strong>A lack of robust support for multi-window applications.</strong> The Workbench
+does not correctly persist layout state for multiple windows.</li>
+<li><strong>An inflexible API for exposing user-configurable preferences.</strong> The
+preferences dialog does not permit fine-grained layout of UI elements.</li>
+</ul>
+<p>Tasks has been designed specifically to address these issues.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#what-is-a-task">What is a Task?</a></li>
+<li><a class="reference internal" href="#historical-background">Historical Background</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="front.html"
+                        title="previous chapter">Front Matter</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="layout.html"
+                        title="next chapter">Window Layout</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tasks_user_manual/intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="layout.html" title="Window Layout"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="front.html" title="Front Matter"
+             >previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tasks User Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Enthought.
+      Last updated on Jun 11, 2011.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
