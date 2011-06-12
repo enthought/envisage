@@ -63,6 +63,18 @@ class TaskWindowToggleGroup(Group):
     manager = Any
 
     ###########################################################################
+    # 'Group' interface.
+    ###########################################################################
+
+    def destroy(self):
+        """ Called when the group is no longer required.
+        """
+        super(TaskWindowToggleGroup, self).destroy()
+        if self.application:
+            self.application.on_trait_change(
+                self._rebuild, 'window_opened, window_closed', remove=True)
+
+    ###########################################################################
     # Private interface.
     ###########################################################################
 
@@ -76,7 +88,8 @@ class TaskWindowToggleGroup(Group):
 
     def _rebuild(self):
         # Clear out the old group, then build the new one.
-        self.destroy()
+        for item in self.items:
+            item.destroy()
         self.items = self._get_items()
 
         # Inform our manager that it needs to be rebuilt.
