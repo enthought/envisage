@@ -24,7 +24,7 @@ from scimath.units.mass import gram
 from scimath.units.volume import cc
 from scimath.units.length import meter
 from scimath.units.geo_units import ppg, psi
-from traits.util.wx.clipboard import clipboard
+from pyface.wx.clipboard import clipboard
 
 # Data library imports.
 
