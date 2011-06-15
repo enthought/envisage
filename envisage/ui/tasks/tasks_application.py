@@ -9,7 +9,7 @@ from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
 from traits.api import Bool, Callable, Event, File, HasStrictTraits, Instance, \
-     List, Property, Str, Unicode
+     Int, List, Property, Str, Unicode
 
 # Local imports
 from task_window import TaskWindow
@@ -31,6 +31,11 @@ class TasksApplicationState(HasStrictTraits):
     # A list of TaskWindowLayouts accumulated throughout the application's
     # lifecycle.
     window_layouts = List(TaskWindowLayout)
+
+    # The "version" for the state data. This should be incremented whenever a
+    # backwards incompatible change is made to this class or any of the layout
+    # classes. This ensures that loading application state is always safe.
+    version = Int(1)
 
     def get_equivalent_window_layout(self, window_layout):
         """ Gets an equivalent TaskWindowLayout, if there is one.
@@ -307,7 +312,11 @@ class TasksApplication(Application):
             # Attempt to unpickle the saved application layout.
             try:
                 with open(filename, 'r') as f:
-                    state = cPickle.load(f)
+                    restored_state = cPickle.load(f)
+                if state.version == restored_state.version:
+                    state = restored_state
+                else:
+                    logger.warn('Discarding outdated application layout')
             except:
                 # If anything goes wrong, log the error and continue.
                 logger.exception('Restoring application layout from %s',
