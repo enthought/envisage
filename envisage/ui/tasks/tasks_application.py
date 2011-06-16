@@ -4,12 +4,12 @@ import logging
 import os.path
 
 # Enthought library imports.
-from traits.etsconfig.api import ETSConfig
 from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
 from traits.api import Bool, Callable, Event, File, HasStrictTraits, Instance, \
      Int, List, Property, Str, Unicode
+from traits.etsconfig.api import ETSConfig
 
 # Local imports
 from task_window import TaskWindow
@@ -17,49 +17,6 @@ from task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 
 # Logging.
 logger = logging.getLogger(__name__)
-
-
-class TasksApplicationState(HasStrictTraits):
-    """ A class used internally by TasksApplication for saving and restoring
-        application state.
-    """
-
-    # TaskWindowLayouts for the windows extant at application exit. Only used if
-    # 'always_use_default_layout' is disabled.
-    previous_window_layouts = List(TaskWindowLayout)
-
-    # A list of TaskWindowLayouts accumulated throughout the application's
-    # lifecycle.
-    window_layouts = List(TaskWindowLayout)
-
-    # The "version" for the state data. This should be incremented whenever a
-    # backwards incompatible change is made to this class or any of the layout
-    # classes. This ensures that loading application state is always safe.
-    version = Int(1)
-
-    def get_equivalent_window_layout(self, window_layout):
-        """ Gets an equivalent TaskWindowLayout, if there is one.
-        """
-        for layout in self.window_layouts:
-            if layout.is_equivalent_to(window_layout):
-                return layout
-        return None
-
-    def get_task_layout(self, task_id):
-        """ Gets a TaskLayout with the specified ID, there is one.
-        """
-        for window_layout in self.window_layouts:
-            for layout in window_layout.items:
-                if layout.id == task_id:
-                    return layout
-        return None
-
-    def push_window_layout(self, window_layout):
-        """ Merge a TaskWindowLayout into the accumulated list.
-        """
-        self.window_layouts = [ layout for layout in self.window_layouts
-                                if not layout.is_equivalent_to(window_layout) ]
-        self.window_layouts.insert(0, window_layout)
 
 
 class TasksApplication(Application):
@@ -140,7 +97,8 @@ class TasksApplication(Application):
     _explicit_exit = Bool(False)
 
     # Application state.
-    _state = Instance(TasksApplicationState)
+    _state = Instance('envisage.ui.tasks.tasks_application.'
+                      'TasksApplicationState')
 
     ###########################################################################
     # 'IApplication' interface.
@@ -400,3 +358,46 @@ class TasksApplication(Application):
             # Invoke later to ensure that 'closed' event handlers get called
             # before 'stop()' does.
             self.gui.invoke_later(self.stop)
+
+
+class TasksApplicationState(HasStrictTraits):
+    """ A class used internally by TasksApplication for saving and restoring
+        application state.
+    """
+
+    # TaskWindowLayouts for the windows extant at application exit. Only used if
+    # 'always_use_default_layout' is disabled.
+    previous_window_layouts = List(TaskWindowLayout)
+
+    # A list of TaskWindowLayouts accumulated throughout the application's
+    # lifecycle.
+    window_layouts = List(TaskWindowLayout)
+
+    # The "version" for the state data. This should be incremented whenever a
+    # backwards incompatible change is made to this class or any of the layout
+    # classes. This ensures that loading application state is always safe.
+    version = Int(1)
+
+    def get_equivalent_window_layout(self, window_layout):
+        """ Gets an equivalent TaskWindowLayout, if there is one.
+        """
+        for layout in self.window_layouts:
+            if layout.is_equivalent_to(window_layout):
+                return layout
+        return None
+
+    def get_task_layout(self, task_id):
+        """ Gets a TaskLayout with the specified ID, there is one.
+        """
+        for window_layout in self.window_layouts:
+            for layout in window_layout.items:
+                if layout.id == task_id:
+                    return layout
+        return None
+
+    def push_window_layout(self, window_layout):
+        """ Merge a TaskWindowLayout into the accumulated list.
+        """
+        self.window_layouts = [ layout for layout in self.window_layouts
+                                if not layout.is_equivalent_to(window_layout) ]
+        self.window_layouts.insert(0, window_layout)
