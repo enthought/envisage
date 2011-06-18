@@ -61,7 +61,7 @@ class Visualize3dTask(Task):
         return TaskLayout(
             left=Tabbed(PaneItem('example.attractors.model_config_pane'),
                         PaneItem('example.attractors.model_help_pane')))
-    
+
     def _models_default(self):
         from model.lorenz import Lorenz
         from model.rossler import Rossler

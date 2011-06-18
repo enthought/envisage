@@ -195,7 +195,7 @@ class TasksApplication(Application):
                         match = self._state.get_task_layout(id)
                         if match:
                             layout.items[i] = match
-                    
+
             window.set_window_layout(layout)
 
         return window

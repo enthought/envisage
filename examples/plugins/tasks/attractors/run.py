@@ -14,7 +14,7 @@ def main(argv):
     """ Run the application.
     """
     logging.basicConfig(level=logging.WARNING)
-    
+
     plugins = [ CorePlugin(), TasksPlugin(), AttractorsPlugin() ]
     app = AttractorsApplication(plugins=plugins)
     app.run()
