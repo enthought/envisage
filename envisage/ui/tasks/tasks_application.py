@@ -7,8 +7,8 @@ import os.path
 from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
-from traits.api import Bool, Callable, Event, File, HasStrictTraits, Instance, \
-     Int, List, Property, Str, Unicode, Vetoable
+from traits.api import Bool, Callable, Directory, Event, HasStrictTraits, \
+     Instance, Int, List, Property, Str, Unicode, Vetoable
 from traits.etsconfig.api import ETSConfig
 
 # Local imports
@@ -47,7 +47,7 @@ class TasksApplication(Application):
 
     # The directory on the local file system used to persist window layout
     # information.
-    state_location = File
+    state_location = Directory
 
     # Contributed task factories. This attribute is primarily for run-time
     # inspection; to instantiate a task, use the 'create_task' method.
@@ -126,14 +126,15 @@ class TasksApplication(Application):
     def create_task(self, id):
         """ Creates the Task with the specified ID.
 
-        Returns None if there is no suitable TaskFactory.
+        Returns:
+        --------
+        The new Task, or None if there is no suitable TaskFactory.
         """
         # Get the factory for the task.
         for factory in self.task_factories:
             if factory.id == id:
                 break
         else:
-            logger.error('No factory for task with id %r', id)
             return None
 
         # Create the task using suitable task extensions.
@@ -157,6 +158,10 @@ class TasksApplication(Application):
              If set, the application will restore old size and positions for the
              window and its panes, if possible. If a layout is not provided,
              this parameter has no effect.
+
+        Returns:
+        --------
+        The new TaskWindow.
         """
         window = self.window_factory(application=self, **traits)
 
@@ -176,6 +181,8 @@ class TasksApplication(Application):
                 task = self.create_task(task_id)
                 if task:
                     window.add_task(task)
+                else:
+                    logger.error('No factory for task with id %r', id)
 
             # Apply an appropriate layout.
             if restore:
@@ -239,14 +246,12 @@ class TasksApplication(Application):
                     if event.veto:
                         return False
 
-            window_layouts = [ w.get_window_layout() for w in self.windows ]
+            # Make sure to save state *before* destroying the windows.
+            self._save_state()
             
             for window in reversed(self.windows):
                 window.destroy()
                 window.closed = True
-                
-            self._state.previous_window_layouts = window_layouts
-            self._save_state()
         finally:
             self._explicit_exit = False
         return True
@@ -279,7 +284,7 @@ class TasksApplication(Application):
         state = TasksApplicationState()
         filename = os.path.join(self.state_location, 'application_memento')
         if os.path.exists(filename):
-            # Attempt to unpickle the saved application layout.
+            # Attempt to unpickle the saved application state.
             try:
                 with open(filename, 'r') as f:
                     restored_state = cPickle.load(f)
@@ -294,11 +299,20 @@ class TasksApplication(Application):
         self._state = state
 
     def _save_state(self):
-        """ Saves the specified application state.
+        """ Saves the application state.
         """
+        # Grab the current window layouts.
+        window_layouts = [ w.get_window_layout() for w in self.windows ]
+        self._state.previous_window_layouts = window_layouts
+
+        # Attempt to pickle the application state.
         filename = os.path.join(self.state_location, 'application_memento')
-        with open(filename, 'w') as f:
-            cPickle.dump(self._state, f)
+        try:
+            with open(filename, 'w') as f:
+                cPickle.dump(self._state, f)
+        except:
+            # If anything goes wrong, log the error and continue.
+            logger.exception('Saving application layout')
 
     #### Trait initializers ###################################################
 
@@ -356,7 +370,6 @@ class TasksApplication(Application):
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                self._state.previous_window_layouts = [ window_layout ]
                 self._save_state()
 
     def _on_window_closed(self, window, trait_name, event):
