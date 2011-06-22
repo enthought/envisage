@@ -252,7 +252,7 @@ class TasksApplication(Application):
             application layout.
         """
         # Build a list of TaskWindowLayouts.
-        self._state = self._load_state()
+        self._load_state()
         if self.always_use_default_layout or \
                not self._state.previous_window_layouts:
             window_layouts = self.default_layout
@@ -283,7 +283,7 @@ class TasksApplication(Application):
                 # If anything goes wrong, log the error and continue.
                 logger.exception('Restoring application layout from %s',
                                  filename)
-        return state
+        self._state = state
 
     def _save_state(self):
         """ Saves the specified application state.
