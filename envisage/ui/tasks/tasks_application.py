@@ -208,7 +208,7 @@ class TasksApplication(Application):
         """
         pass
 
-    def exit(self):
+    def exit(self, force=False):
         """ Exits the application, closing all open task windows.
 
         Each window is sent a veto-able closing event. If any window vetoes the
@@ -220,16 +220,24 @@ class TasksApplication(Application):
         manager. It is only called via the File->Exit menu item. It can also, of
         course, be called programatically.
 
+        Parameters:
+        -----------
+        force : bool, optional (default False)
+            If set, windows will receive no closing events and will be destroyed
+            unconditionally. This can be useful for reliably tearing down
+            regression tests, but should be used with caution.
+
         Returns:
         --------
         A boolean indicating whether the application exited.
         """
         self._explicit_exit = True
         try:
-            for window in reversed(self.windows):
-                window.closing = event = Vetoable()
-                if event.veto:
-                    return False
+            if not force:
+                for window in reversed(self.windows):
+                    window.closing = event = Vetoable()
+                    if event.veto:
+                        return False
 
             window_layouts = [ w.get_window_layout() for w in self.windows ]
             
