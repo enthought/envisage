@@ -8,7 +8,7 @@ from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
 from traits.api import Bool, Callable, Event, File, HasStrictTraits, Instance, \
-     Int, List, Property, Str, Unicode
+     Int, List, Property, Str, Unicode, Vetoable
 from traits.etsconfig.api import ETSConfig
 
 # Local imports
@@ -211,33 +211,37 @@ class TasksApplication(Application):
     def exit(self):
         """ Exits the application, closing all open task windows.
 
-        Returns whether the application exited (whether all the windows were
-        successfully closed.)
+        Each window is sent a veto-able closing event. If any window vetoes the
+        close request, no window will be closed. Otherwise, all windows will be
+        closed and the GUI event loop will terminate.
 
-        This method is not called when the user clicks the close button or
-        otherwise closes a window through his or her window manager. It is
-        called only through File->Exit.
+        This method is not called when the user clicks the close button on a
+        window or otherwise closes a window through his or her window
+        manager. It is only called via the File->Exit menu item. It can also, of
+        course, be called programatically.
+
+        Returns:
+        --------
+        A boolean indicating whether the application exited.
         """
         self._explicit_exit = True
         try:
-            # Fetch the window layouts *before* closing the windows. If we
-            # succeed in closing all the windows, we will write these to disk.
-            window_layouts = [ w.get_window_layout() for w in self.windows ]
-
-            # Attempt to close all open windows.
-            success = True
             for window in reversed(self.windows):
-                if not window.close():
-                    success = False
-                    break
+                window.closing = event = Vetoable()
+                if event.veto:
+                    return False
 
-            # Save the state, if necesssary.
-            if success:
-                self._state.previous_window_layouts = window_layouts
-                self._save_state()
+            window_layouts = [ w.get_window_layout() for w in self.windows ]
+            
+            for window in reversed(self.windows):
+                window.destroy()
+                window.closed = True
+                
+            self._state.previous_window_layouts = window_layouts
+            self._save_state()
         finally:
             self._explicit_exit = False
-        return success
+        return True
 
     ###########################################################################
     # Protected interface.
