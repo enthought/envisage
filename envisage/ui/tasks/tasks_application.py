@@ -73,7 +73,15 @@ class TasksApplication(Application):
     # individual tasks will be restored.
     always_use_default_layout = Bool(False)
 
-    #### Window lifecycle events ##############################################
+    #### Application lifecycle events #########################################
+
+    # Fired after the initial windows have been created and the GUI event loop
+    # has been started.
+    application_initialized = Event
+
+    # Fired immediately before the extant windows are destroyed and the GUI
+    # event loop is terminated.
+    application_exiting = Event
 
     # Fired when a task window has been created.
     window_created = Event(TaskWindowEvent)
@@ -116,7 +124,7 @@ class TasksApplication(Application):
             self._create_windows()
 
             # Start the GUI event loop.
-            gui.invoke_later(self.initialized)
+            gui.set_trait_later(self, 'application_initialized', self)
             gui.start_event_loop()
 
     ###########################################################################
@@ -207,14 +215,6 @@ class TasksApplication(Application):
 
         return window
 
-    def initialized(self):
-        """ Called after the windows have been created at start time.
-
-        Implement this method to perform any final initialization after the
-        event loop has been started.
-        """
-        pass
-
     def exit(self, force=False):
         """ Exits the application, closing all open task windows.
 
@@ -246,9 +246,7 @@ class TasksApplication(Application):
                     if event.veto:
                         return False
 
-            # Make sure to save state *before* destroying the windows.
-            self._save_state()
-            
+            self._prepare_exit()
             for window in reversed(self.windows):
                 window.destroy()
                 window.closed = True
@@ -277,6 +275,13 @@ class TasksApplication(Application):
             window = self.create_window(window_layout,
                                         restore=self.always_use_default_layout)
             window.open()
+
+    def _prepare_exit(self):
+        """ Called immediately before the extant windows are destroyed and the
+            GUI event loop is terminated.
+        """
+        self.application_exiting = self
+        self._save_state()
 
     def _load_state(self):
         """ Loads saved application state, if possible.
@@ -370,7 +375,7 @@ class TasksApplication(Application):
             # If we're exiting implicitly and this is the last window, save
             # state, because we won't get another chance.
             if len(self.windows) == 1 and not self._explicit_exit:
-                self._save_state()
+                self._prepare_exit()
 
     def _on_window_closed(self, window, trait_name, event):
         self.windows.remove(window)
