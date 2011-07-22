@@ -136,13 +136,11 @@ class TasksApplication(Application):
 
         Returns:
         --------
-        The new Task, or None if there is no suitable TaskFactory.
+        The new Task, or None if there is not a suitable TaskFactory.
         """
         # Get the factory for the task.
-        for factory in self.task_factories:
-            if factory.id == id:
-                break
-        else:
+        factory = self._get_task_factory(id)
+        if factory is None:
             return None
 
         # Create the task using suitable task extensions.
@@ -268,13 +266,34 @@ class TasksApplication(Application):
                not self._state.previous_window_layouts:
             window_layouts = self.default_layout
         else:
+            # Choose the stored TaskWindowLayouts, but only if all the task IDs
+            # are still valid.
             window_layouts = self._state.previous_window_layouts
+            for layout in window_layouts:
+                for task_id in layout.get_tasks():
+                    if not self._get_task_factory(task_id):
+                        logger.warning('Saved application layout references '
+                                       'non-existent task %r. Falling back to '
+                                       'default application layout.' % task_id)
+                        window_layouts = self.default_layout
+                        break
+                else:
+                    continue
+                break
 
         # Create a TaskWindow for each TaskWindowLayout.
         for window_layout in window_layouts:
             window = self.create_window(window_layout,
                                         restore=self.always_use_default_layout)
             window.open()
+
+    def _get_task_factory(self, id):
+        """ Returns the TaskFactory with the specified ID, or None.
+        """
+        for factory in self.task_factories:
+            if factory.id == id:
+                return factory
+        return None
 
     def _prepare_exit(self):
         """ Called immediately before the extant windows are destroyed and the
