@@ -165,6 +165,10 @@ class TasksApplication(Application):
              window and its panes, if possible. If a layout is not provided,
              this parameter has no effect.
 
+        **traits : dict, optional
+             Additional parameters to pass to ``window_factory()`` when creating
+             the TaskWindow.
+
         Returns:
         --------
         The new TaskWindow.
@@ -188,27 +192,11 @@ class TasksApplication(Application):
                 if task:
                     window.add_task(task)
                 else:
-                    logger.error('No factory for task with id %r', id)
+                    logger.error('Missing factory for task with ID %r', id)
 
-            # Apply an appropriate layout.
+            # Apply a suitable layout.
             if restore:
-                # First, see if a window layout matches exactly.
-                match = self._state.get_equivalent_window_layout(layout)
-                if match:
-                    # The active task is not part of the equivalency relation,
-                    # so we ensure that it is correct.
-                    match.active_task = layout.get_active_task()
-                    layout = match
-                # If that fails, at least try to restore the layout of
-                # individual tasks.
-                else:
-                    layout = layout.clone_traits()
-                    for i, item in enumerate(layout.items):
-                        id = item if isinstance(item, basestring) else item.id
-                        match = self._state.get_task_layout(id)
-                        if match:
-                            layout.items[i] = match
-
+                layout = self._restore_layout_from_state(layout)
             window.set_window_layout(layout)
 
         return window
@@ -321,6 +309,28 @@ class TasksApplication(Application):
                 logger.exception('Restoring application layout from %s',
                                  filename)
         self._state = state
+
+    def _restore_layout_from_state(self, layout):
+        """ Restores an equivalent layout from saved application state.
+        """
+        # First, see if a window layout matches exactly.
+        match = self._state.get_equivalent_window_layout(layout)
+        if match:
+            # The active task is not part of the equivalency relation, so we
+            # ensure that it is correct.
+            match.active_task = layout.get_active_task()
+            layout = match
+            
+        # If that fails, at least try to restore the layout of individual tasks.
+        else:
+            layout = layout.clone_traits()
+            for i, item in enumerate(layout.items):
+                id = item if isinstance(item, basestring) else item.id
+                match = self._state.get_task_layout(id)
+                if match:
+                    layout.items[i] = match
+
+        return layout
 
     def _save_state(self):
         """ Saves the application state.
