@@ -145,7 +145,7 @@ application. There is also a ``TraitsTaskPane`` class that provides similar
 functionality for defining Traits-based central panes. As always, the reader is
 referred to the Tasks API documentation for more information.
 
-Now let us ammend the example task defined above with a ``create_dock_panes()``
+Now let us amend the example task defined above with a ``create_dock_panes()``
 method. This method returns the list of dock pane instances associated with the
 task. We also define a method on our task for opening a file in the editor,
 which we connect to the dock pane's ``activated`` event::
