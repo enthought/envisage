@@ -192,7 +192,7 @@ class TasksApplication(Application):
                 if task:
                     window.add_task(task)
                 else:
-                    logger.error('Missing factory for task with ID %r', id)
+                    logger.error('Missing factory for task with ID %r', task_id)
 
             # Apply a suitable layout.
             if restore:
