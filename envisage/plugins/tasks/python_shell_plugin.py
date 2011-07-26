@@ -16,6 +16,9 @@ from envisage.ui.tasks.api import TaskFactory
 
 logger = logging.getLogger()
 
+BINDINGS          = 'envisage.plugins.python_shell.bindings'
+COMMANDS          = 'envisage.plugins.python_shell.commands'
+
 class EnvisagePythonShellTask(PythonShellTask):
     """ Subclass of PythonShellTask that gets its bindings and commands from
     an Envisage ExtensionPoint
@@ -26,10 +29,10 @@ class EnvisagePythonShellTask(PythonShellTask):
     extension_registry = Property(Instance(IExtensionRegistry))
     
     # The list of bindings for the shell
-    bindings = ExtensionPoint(id='envisage.ui.tasks.python_shell.bindings')
+    bindings = ExtensionPoint(id=BINDINGS)
     
     # The list of commands to run on shell startup
-    commands = ExtensionPoint(id='envisage.ui.tasks.python_shell.commands')
+    commands = ExtensionPoint(id=COMMANDS)
     
     # property getter/setters
     
@@ -44,10 +47,8 @@ class PythonShellPlugin(Plugin):
     """
 
     # Extension point IDs.
-    BINDINGS          = 'envisage.plugins.tasks.python_shell.bindings'
-    COMMANDS          = 'envisage.plugins.tasks.python_shell.commands'
-    PREFERENCES       = 'envisage.preferences'
-    PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
+    BINDINGS          = BINDINGS
+    COMMANDS          = COMMANDS
     TASKS             = 'envisage.ui.tasks.tasks'
 
     #### 'IPlugin' interface ##################################################
