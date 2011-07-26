@@ -1,0 +1,114 @@
+"""
+Module defining a simple Python shell Envisage tasks plugin.
+
+This plugin provides a task with a simple Python shell.  This shouldn't be
+confused with a more full-featured shell, such as those provided by IPython.
+"""
+
+# Standard library imports.
+import logging
+
+# Enthought library imports.
+from traits.api import Str, List, Dict, Instance, Property
+from pyface.tasks.api import PythonShellTask
+from envisage.api import Plugin, ExtensionPoint, IExtensionRegistry
+from envisage.ui.tasks.api import TaskFactory
+
+logger = logging.getLogger()
+
+class EnvisagePythonShellTask(PythonShellTask):
+    """ Subclass of PythonShellTask that gets its bindings and commands from
+    an Envisage ExtensionPoint
+    """
+    id='envisage.plugins.tasks.python_shell_task'
+    
+    # ExtensionPointUser interface
+    extension_registry = Property(Instance(IExtensionRegistry))
+    
+    # The list of bindings for the shell
+    bindings = ExtensionPoint(id='envisage.ui.tasks.python_shell.bindings')
+    
+    # The list of commands to run on shell startup
+    commands = ExtensionPoint(id='envisage.ui.tasks.python_shell.commands')
+    
+    # property getter/setters
+    
+    def _get_extension_registry(self):
+        if self.window is not None:
+            return self.window.application
+        return None
+        
+
+class PythonShellPlugin(Plugin):
+    """ A tasks plugin to display a simple Python shell to the user.
+    """
+
+    # Extension point IDs.
+    BINDINGS          = 'envisage.plugins.tasks.python_shell.bindings'
+    COMMANDS          = 'envisage.plugins.tasks.python_shell.commands'
+    PREFERENCES       = 'envisage.preferences'
+    PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
+    TASKS             = 'envisage.ui.tasks.tasks'
+
+    #### 'IPlugin' interface ##################################################
+
+    # The plugin's unique identifier.
+    id = 'envisage.plugins.tasks.python_shell_plugin'
+
+    # The plugin's name (suitable for displaying to the user).
+    name = 'Python Shell'
+    
+    #### Extension points exposed by this plugin ##############################
+
+    bindings = ExtensionPoint(
+        List(Dict), id=BINDINGS, desc="""
+        This extension point allows you to contribute name/value pairs that
+        will be bound when the interactive Python shell is started.
+
+        e.g. Each item in the list is a dictionary of name/value pairs::
+
+            {'x' : 10, 'y' : ['a', 'b', 'c']}
+        """
+    )
+
+    commands = ExtensionPoint(
+        List(Str), id=COMMANDS, desc="""
+        This extension point allows you to contribute commands that are
+        executed when the interactive Python shell is started.
+
+        e.g. Each item in the list is a string of arbitrary Python code::
+
+          'import os, sys'
+          'from traits.api import *'
+
+        Yes, I know this is insecure but it follows the usual Python rule of
+        'we are all consenting adults'.
+        """
+    )
+    
+    #### Contributions to extension points made by this plugin ################
+
+    # Bindings.
+    contributed_bindings = List(contributes_to=BINDINGS)
+    tasks = List(contributes_to=TASKS)
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
+
+    def start(self):
+        logger.debug('started python shell plugin')
+
+    def _contributed_bindings_default(self):
+        """ By default we expose the Envisage application object to the namespace
+        """
+        return [{'application' : self.application}]
+
+    def _tasks_default(self):
+        return [
+            TaskFactory(
+                id='envisage.plugins.tasks.python_shell_task',
+                name='Python Shell',
+                factory=EnvisagePythonShellTask
+            ),
+        ]
