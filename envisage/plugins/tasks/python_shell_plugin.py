@@ -10,7 +10,7 @@ import logging
 
 # Enthought library imports.
 from traits.api import Str, List, Dict, Instance, Property
-from pyface.tasks.api import PythonShellTask
+from pyface.tasks.contrib.python_shell import PythonShellTask
 from envisage.api import Plugin, ExtensionPoint, IExtensionRegistry
 from envisage.ui.tasks.api import TaskFactory
 
