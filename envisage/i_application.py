@@ -18,12 +18,18 @@ class IApplication(
     ):
     """ The application interface. """
 
-    # The name of a directory (created for you) that the application can read
-    # and write to at will.
-    home = Str
-
     # The application's globally unique identifier.
     id = Str
+
+    # The name of a directory (created for you) to which the application can
+    # read and write non-user accessible data, i.e. configuration information,
+    # preferences, etc.
+    home = Str
+
+    # The name of a directory (created for you upon access) to which the
+    # application can read and write user-accessible data, e.g. projects created
+    # by the user.
+    user_data = Str
 
     # The root preferences node.
     preferences = Instance(IPreferences)

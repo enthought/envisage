@@ -38,12 +38,18 @@ class Application(HasTraits):
 
     #### 'IApplication' interface #############################################
 
-    # The name of a directory (created for you) that the application can read
-    # and write to at will.
-    home = Str
-
     # The application's globally unique identifier.
     id = Str
+
+    # The name of a directory (created for you) to which the application can
+    # read and write non-user accessible data, i.e. configuration information,
+    # preferences, etc.
+    home = Str
+
+    # The name of a directory (created for you upon access) to which the
+    # application can read and write user-accessible data, e.g. projects created
+    # by the user.
+    user_data = Str
 
     # The root preferences node.
     preferences = Instance(IPreferences)
@@ -119,7 +125,7 @@ class Application(HasTraits):
         # This allows 'PreferencesHelper' and 'PreferenceBinding' instances to
         # be used as more convenient ways to access preferences.
         #
-        # fixme: This is anothe sheaky global!
+        # fixme: This is another sneaky global!
         set_default_preferences(self.preferences)
 
         # We allow the caller to specify an initial list of plugins, but the
@@ -142,6 +148,19 @@ class Application(HasTraits):
         """ Trait initializer. """
 
         return ETSConfig.application_home
+
+    def _user_data_default(self):
+        """ Trait initializer. """
+
+        user_data = os.path.join(
+            ETSConfig.user_data, self.id
+        )
+
+        # Make sure it exists!
+        if not os.path.exists(user_data):
+            os.makedirs(user_data)
+
+        return user_data
 
     def _preferences_default(self):
         """ Trait initializer. """
