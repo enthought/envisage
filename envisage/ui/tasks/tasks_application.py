@@ -114,18 +114,25 @@ class TasksApplication(Application):
 
     def run(self):
         """ Run the application.
+
+        Returns:
+        --------
+        Whether the application started successfully (i.e., without a veto).
         """
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).
         gui = self.gui
 
-        if self.start():
+        started = self.start()
+        if started:
             # Create windows from the default or saved application layout.
             self._create_windows()
 
             # Start the GUI event loop.
             gui.set_trait_later(self, 'application_initialized', self)
             gui.start_event_loop()
+
+        return started
 
     ###########################################################################
     # 'TasksApplication' interface.
