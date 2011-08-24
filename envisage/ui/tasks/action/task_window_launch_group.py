@@ -1,10 +1,11 @@
 # Enthought library imports.
-from pyface.action.api import Action, ActionItem, Group
+from pyface.action.api import ActionItem, Group
 from pyface.tasks.api import TaskWindowLayout
+from pyface.tasks.action.api import TaskAction
 from traits.api import List, Str
 
 
-class TaskWindowLaunchAction(Action):
+class TaskWindowLaunchAction(TaskAction):
     """ An Action that creates a task window with a single task.
     """
 
@@ -20,6 +21,23 @@ class TaskWindowLaunchAction(Action):
         application = event.task.window.application
         window = application.create_window(TaskWindowLayout(self.task_id))
         window.open()
+
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    #### Trait change handlers ################################################
+
+    def _task_changed(self, task):
+        """ Name the action (unless a name has already been assigned).
+        """
+        if task and not self.name:
+            name = unicode()
+            for factory in task.window.application.task_factories:
+                if factory.id == self.task_id:
+                    name = factory.name
+                    break
+            self.name = name
 
 
 class TaskWindowLaunchGroup(Group):
@@ -43,7 +61,6 @@ class TaskWindowLaunchGroup(Group):
 
         items = []
         for factory in application.task_factories:
-            action = TaskWindowLaunchAction(name=factory.name,
-                                            task_id=factory.id)
+            action = TaskWindowLaunchAction(task_id=factory.id)
             items.append(ActionItem(action=action))
         return items
