@@ -18,8 +18,10 @@ class Lorenz(HasTraits):
     prandtl = Float(10.0, auto_set = False, enter_set = True)
     rayleigh = Float(28.0, auto_set = False, enter_set = True)
     beta = Float(8.0 / 3.0, auto_set = False, enter_set = True)
-    init = Array(value = array([0.0, 1.0, 0.0]))
-    time = Array(value = array([0.0, 100.0, 0.01]))
+    # Give the dtype explicitly in the Array traits; this is a
+    # work-around for trac ticket #1864.
+    init = Array(value = array([0.0, 1.0, 0.0]), dtype=float)
+    time = Array(value = array([0.0, 100.0, 0.01]), dtype=float)
     timePoints = Array()
     data3d = Array()
     output = Trait('x vs time', {'x vs time':0, 'y vs time':1, 'z vs time':2})
