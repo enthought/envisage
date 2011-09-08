@@ -12,7 +12,7 @@ class PreferencesAction(Action):
     description = 'Open the preferences dialog'
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Preferences...'
+    name = 'Prefere&nces...'
 
     # A short description of the action used for tooltip text etc.
     tooltip = 'Open the preferences dialog'

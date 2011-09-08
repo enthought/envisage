@@ -13,7 +13,7 @@ class ExitAction(Action):
     description = 'Exit the application'
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Exit'
+    name = 'E&xit'
 
     # A short description of the action used for tooltip text etc.
     tooltip = 'Exit the application'
