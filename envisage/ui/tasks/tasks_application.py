@@ -379,7 +379,6 @@ class TasksApplication(Application):
     #### Trait change handlers ################################################
 
     def _on_window_activated(self, window, trait_name, event):
-        logger.debug('Task window %s activated', window)
         self.active_window = window
 
     def _on_window_opening(self, window, trait_name, event):
