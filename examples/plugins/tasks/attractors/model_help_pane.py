@@ -27,7 +27,7 @@ class ModelHelpPane(TraitsDockPane):
 
     html = Property(Unicode, depends_on='model')
 
-    view = View(Item('html',
+    view = View(Item('pane.html',
                      editor = HTMLEditor(base_url=HELP_PATH,
                                          open_externally=True),
                      show_label = False),
