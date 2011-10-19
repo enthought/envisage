@@ -1,6 +1,7 @@
 # Enthought library imports.
+from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
-from traits.api import Instance, Property, Unicode
+from traits.api import Instance, Property
 
 
 class TaskWindow(PyfaceTaskWindow):
@@ -9,6 +10,14 @@ class TaskWindow(PyfaceTaskWindow):
 
     # The application that created and is managing this window.
     application = Instance('envisage.ui.tasks.api.TasksApplication')
+
+    # The window's icon.  We override it so it can delegate to the application
+    # icon if the window's icon is not set.
+    icon = Property(Instance(ImageResource), depends_on='_icon')
+
+    #### Protected interface ##################################################
+
+    _icon = Instance(ImageResource, allow_none=True)
 
     ###########################################################################
     # Protected 'TaskWindow' interface.
@@ -25,3 +34,19 @@ class TaskWindow(PyfaceTaskWindow):
         if self.application.name:
             title = u'%s - %s' % (title, self.application.name)
         return title
+
+    def _get_icon(self):
+        """If we have an icon return it, else delegate to the application.
+        """
+        if self._icon is not None:
+            return self._icon
+        elif self.application is not None:
+            return self.application.icon
+        else:
+            return None
+
+    def _set_icon(self, icon):
+        """Explicitly set the icon to use.  None is allowed.
+        """
+        self._icon = icon
+
