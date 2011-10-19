@@ -6,6 +6,7 @@ import os.path
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
 from pyface.api import GUI, SplashScreen
+from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskLayout, TaskWindowLayout
 from traits.api import Bool, Callable, Directory, Event, HasStrictTraits, \
      Instance, Int, List, Property, Str, Unicode, Vetoable
@@ -37,6 +38,10 @@ class TasksApplication(Application):
 
     # The PyFace GUI for the application.
     gui = Instance(GUI)
+
+    # Icon for the whole application. Will be used to override all taskWindows 
+    # icons to have the same.
+    icon = Instance(ImageResource, allow_none=True) #Any
 
     # The name of the application (also used on window title bars).
     name = Unicode
