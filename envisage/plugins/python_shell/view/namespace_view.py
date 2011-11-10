@@ -70,6 +70,9 @@ class NamespaceView(View):
 
     #### 'IView' interface ####################################################
 
+    # The part's globally unique identifier.
+    id = 'enthought.plugins.python_shell.view.namespace_view'
+
     # The view's name.
     name = 'Namespace'
 
