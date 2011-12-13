@@ -24,7 +24,7 @@ from encore.events.event_manager import EventManager
 class EventManagerPlugin(Plugin):
     """ Plugin to add event manager to the application. """
 
-    id = 'canopy.event_manager'
+    id = 'envisage.event_manager'
 
     SERVICE_OFFERS = 'envisage.service_offers'
     service_offers = List(contributes_to=SERVICE_OFFERS)
