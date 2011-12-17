@@ -324,7 +324,7 @@ three attributes:
 
 1. ``task_id``: The ID of the task to extend.
 2. ``actions``: A list of ``SchemaAddition`` objects.
-3. ``dock_panes_factories``: A list of callables for creating dock panes.
+3. ``dock_pane_factories``: A list of callables for creating dock panes.
 
 .. index:: SchemaAddition
 
