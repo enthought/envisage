@@ -18,7 +18,7 @@ from envisage.api import Plugin, ServiceOffer
 from traits.api import List, Any
 
 # Local imports.
-from encore.events.event_manager import EventManager
+from encore.events.api import BaseEventManager, EventManager
 
 
 class EventManagerPlugin(Plugin):
@@ -34,7 +34,7 @@ class EventManagerPlugin(Plugin):
     def _service_offers_default(self):
         evt_mgr = self.evt_mgr # Ensure evt_mgr is created
         evt_mgr_service_offer = ServiceOffer(
-            protocol   = EventManager,
+            protocol   = BaseEventManager,
             factory    = lambda: evt_mgr,
         )
         return [evt_mgr_service_offer]
