@@ -70,7 +70,7 @@ class PluginModel(HasTraits):
     def _extension_models_default(self):
         """ Trait initializer. """
 
-        extension_modelss = [
+        extension_models = [
             ExtensionModel(
                 plugin             = plugin,
                 extension_point_id = extension_point.id
