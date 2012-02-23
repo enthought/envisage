@@ -425,9 +425,7 @@ class TasksApplication(Application):
 
         # Was this the last window?
         if len(self.windows) == 0:
-            # Invoke later to ensure that 'closed' event handlers get called
-            # before 'stop()' does.
-            self.gui.invoke_later(self.stop)
+            self.stop()
 
 
 class TasksApplicationState(HasStrictTraits):
