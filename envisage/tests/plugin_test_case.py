@@ -2,13 +2,13 @@
 
 
 # Standard library imports.
-import random, unittest
+import unittest
 from os.path import exists, join
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin, contributes_to
-from traits.api import HasTraits, Instance, Int, Interface, List, Str
+from traits.api import HasTraits, Instance, Int, Interface, List
 from traits.api import implements
 
 
