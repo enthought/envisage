@@ -2,14 +2,13 @@
 
 
 # Standard library imports.
-import os, random, shutil, unittest
+import os, shutil, unittest
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from envisage.api import Application, ExtensionPoint, IApplication
+from envisage.api import Application, ExtensionPoint
 from envisage.api import Plugin, PluginManager
-from traits.api import Bool, HasTraits, Instance, Int, Interface
-from traits.api import List, Str, implements
+from traits.api import Bool, Int, List
 
 # Local imports.
 #
