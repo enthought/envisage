@@ -5,8 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Dict, Event, HasTraits, Int, Interface, \
-    Undefined, implements
+from traits.api import Dict, Event, HasTraits, Int, Undefined, implements
 from traits.protocols.interfaces import Protocol
 
 # Local imports.
