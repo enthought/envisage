@@ -26,8 +26,9 @@ class CanopyPluginManager(PluginManager):
 
     [envisage.plugins]
     acme.foo = acme.foo.foo_plugin:FooPlugin
+    acme.foo.fred = acme.foo.fred.fred_plugin:FredPlugin
 
-    The left hand side of the entry point declaration must be the same as the
+    The left hand side of the entry point declaration MUST be the same as the
     'id' trait of the plugin (e.g. the 'FooPlugin' would have its 'id' trait
     set to 'acme.foo'). This allows the plugin manager to filter out plugins
     using the 'include' and 'exclude' lists (if specified) *without* having to
@@ -57,11 +58,6 @@ class CanopyPluginManager(PluginManager):
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
-
-    # The working set that contains the eggs that contain the plugins that
-    # live in the house that Jack built ;^) By default we use the global
-    # working set which is probably what you want!
-    working_set = Instance(pkg_resources.WorkingSet, pkg_resources.working_set)
     
     ####  Protected 'PluginManager' protocol ##################################
 
@@ -92,11 +88,11 @@ class CanopyPluginManager(PluginManager):
 
         return plugin
 
-    def _get_plugin_entry_points(self):
+    def _get_plugin_entry_points(self, working_set):
         """ Return all plugin entry points in the working set. """
 
         entry_points = get_entry_points_in_egg_order(
-            self.working_set, self.ENVISAGE_PLUGINS_ENTRY_POINT
+            working_set, self.ENVISAGE_PLUGINS_ENTRY_POINT
         )
 
         return entry_points
@@ -104,17 +100,23 @@ class CanopyPluginManager(PluginManager):
     def _harvest_plugins_in_eggs(self):
         """ Harvest plugins found in eggs on the plugin path. """
 
-        add_eggs_on_path(self.plugin_path)
+        # We first add the eggs to a local working set so that when we get
+        # the plugin entry points we don't pick up any from other eggs
+        # installed on sys.path.
+        plugin_working_set = pkg_resources.WorkingSet(self.plugin_path)
+        add_eggs_on_path(plugin_working_set, self.plugin_path)
+
+        # We also add the eggs to the global working set as otherwise the
+        # plugin classes can't be imported!
+        add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
 
         plugins = [
             self._create_plugin_from_entry_point(ep)
 
-            for ep in self._get_plugin_entry_points()
+            for ep in self._get_plugin_entry_points(plugin_working_set)
 
             if self._is_included(ep.name) and not self._is_excluded(ep.name)
         ]
-
-        logger.debug('canopy plugin manager found plugins <%s>', plugins)
 
         return plugins
     

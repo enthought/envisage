@@ -8,11 +8,8 @@ import pkg_resources
 from traits.util.toposort import topological_sort
 
 
-def add_eggs_on_path(path, working_set=None):
+def add_eggs_on_path(working_set, path):
     """ Add all eggs found on the path to a working set. """
-
-    if working_set is None:
-        working_set = pkg_resources.working_set
 
     environment = pkg_resources.Environment(path)
 
