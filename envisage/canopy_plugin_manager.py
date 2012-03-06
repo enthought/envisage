@@ -3,7 +3,7 @@
 
 import logging, pkg_resources, re, sys
 from apptools.io import File
-from traits.api import Directory, Instance, List, Str
+from traits.api import Directory, Instance, List, on_trait_change, Str
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
 
@@ -63,12 +63,11 @@ class CanopyPluginManager(PluginManager):
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
-    def _plugin_path_changed(self):
-        # Make sure every directory on the plugin path is on 'sys.path'.
-        for dirname in self.plugin_path:
-            if dirname not in sys.path:
-                sys.path.append(dirname)
-        
+
+    @on_trait_change('plugin_path[]')
+    def _plugin_path_changed(self, obj, trait_name, removed, added):
+        self._update_sys_dot_path(removed, added)
+
     ####  Protected 'PluginManager' protocol ##################################
 
     def __plugins_default(self):
@@ -213,5 +212,16 @@ class CanopyPluginManager(PluginManager):
                 return True
 
         return False
+
+    def _update_sys_dot_path(self, removed, added):
+        """ Add/remove the given entries from sys.path. """
+        
+        for dirname in removed:
+            if dirname in sys.path:
+                sys.peth.remove(dirname)
+
+        for dirname in added:
+            if dirname not in sys.path:
+                sys.path.append(dirname)
 
 #### EOF ######################################################################
