@@ -8,6 +8,12 @@ import unittest
 from envisage.canopy_plugin_manager import CanopyPluginManager
 
 
+# Do whatever you want to do with log messages! Here we create a log file.
+#logger = logging.getLogger()
+#logger.addHandler(logging.StreamHandler())
+#logger.setLevel(logging.DEBUG)
+
+
 class CanopyPluginManagerTestCase(unittest.TestCase):
     """ Tests for the Canopy plugin manager. """
 
@@ -16,8 +22,11 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        # The location of the 'eggs' directory.
-        self.plugin_dir = join(dirname(__file__), 'eggs')
+        # The location of the 'eggs' test data directory.
+        self.eggs_dir = join(dirname(__file__), 'eggs')
+
+        # The location of the 'plugins' test data directory.
+        self.plugins_dir = join(dirname(__file__), 'plugins')
 
         return
 
@@ -28,9 +37,9 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         
     #### Tests ################################################################
 
-    def test_finds_plugins_in_eggs(self):
+    def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
-        plugin_manager = CanopyPluginManager(plugin_path=[self.plugin_dir])
+        plugin_manager = CanopyPluginManager(plugin_path=[self.eggs_dir])
         ids            = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(len(ids), 3)
@@ -40,7 +49,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_only_finds_plugins_whose_ids_are_in_the_include_list(self):
+    def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
 
         # Note that the items in the list are regular expressions hence you
         # need to 'escape' the '.' character if you don't want it to mean
@@ -48,7 +57,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         include = ['acme\.foo', 'acme\.bar']
 
         plugin_manager = CanopyPluginManager(
-            plugin_path = [self.plugin_dir],
+            plugin_path = [self.eggs_dir],
             include     = include
         )
 
@@ -61,7 +70,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_only_finds_plugins_matching_a_wildcard_in_the_include_list(self):
+    def test_only_find_plugins_matching_a_wildcard_in_the_include_list(self):
 
         # Note that the items in the list are regular expressions hence you
         # need to 'escape' the '.' character if you don't want it to mean
@@ -69,7 +78,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         include = ['acme\.b.*']
 
         plugin_manager = CanopyPluginManager(
-            plugin_path = [self.plugin_dir],
+            plugin_path = [self.eggs_dir],
             include     = include
         )
 
@@ -82,7 +91,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_ignores_plugins_whose_ids_are_in_the_exclude_list(self):
+    def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
 
         # Note that the items in the list are regular expressions hence you
         # need to 'escape' the '.' character if you don't want it to mean
@@ -90,7 +99,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         exclude = ['acme\.foo', 'acme\.baz']
 
         plugin_manager = CanopyPluginManager(
-            plugin_path = [self.plugin_dir],
+            plugin_path = [self.eggs_dir],
             exclude     = exclude
         )
 
@@ -103,7 +112,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_ignores_plugins_matching_a_wildcard_in_the_exclude_list(self):
+    def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
 
         # Note that the items in the list are regular expressions hence you
         # need to 'escape' the '.' character if you don't want it to mean
@@ -111,7 +120,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         exclude = ['acme\.b.*']
 
         plugin_manager = CanopyPluginManager(
-            plugin_path = [self.plugin_dir],
+            plugin_path = [self.eggs_dir],
             exclude     = exclude
         )
 
@@ -124,9 +133,18 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
+    def test_find_plugins_in_packages_containing_a_plugins_module(self):
+
+        plugin_manager = CanopyPluginManager(plugin_path=[self.plugins_dir])
+        ids            = [plugin.id for plugin in plugin_manager]
+
+        self.assertEqual(len(ids), 2)
+        self.assertIn('banana', ids)
+        self.assertIn('orange', ids)
+
+        return
+
+    #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
         """ Make sure the plugin manager starts and stops the expected plugins.

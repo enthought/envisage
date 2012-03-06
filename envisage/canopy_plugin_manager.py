@@ -1,18 +1,13 @@
 """ A plugin manager that gets its plugins from Eggs. """
 
 
-# Standard library imports.
-import logging, pkg_resources, re
-
-# Enthought library imports.
+import logging, pkg_resources, re, sys
+from apptools.io import File
 from traits.api import Directory, Instance, List, Str
-
-# Local imports.
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
 
 
-# Logging.
 logger = logging.getLogger(__name__)
 
 
@@ -34,6 +29,16 @@ class CanopyPluginManager(PluginManager):
     using the 'include' and 'exclude' lists (if specified) *without* having to
     import and instantiate them.
 
+    2) Packages found on the 'plugin_path'.
+
+    All items in 'plugin_path' are directory names and they are all added to
+    'sys.path' (if not already present). Each directory is then searched for
+    plugins as follows:-
+
+    a) If the package contains a 'plugins.py' module, then we import it and
+    look for a callable 'get_plugins' that takes no arguments and returns
+    a list of plugins (i.e. instances that implement 'IPlugin'!).
+    
     """
 
     # Entry point Id.
@@ -58,14 +63,20 @@ class CanopyPluginManager(PluginManager):
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
-    
+    def _plugin_path_changed(self):
+        # Make sure every directory on the plugin path is on 'sys.path'.
+        for dirname in self.plugin_path:
+            if dirname not in sys.path:
+                sys.path.append(dirname)
+        
     ####  Protected 'PluginManager' protocol ##################################
 
     def __plugins_default(self):
         """ Trait initializer. """
 
         plugins = self._harvest_plugins_in_eggs()
-
+        plugins.extend(self._harvest_plugins_in_packages())
+        
         logger.debug('canopy plugin manager found plugins <%s>', plugins)
 
         return plugins
@@ -96,6 +107,22 @@ class CanopyPluginManager(PluginManager):
         )
 
         return entry_points
+
+    def _get_plugins_module(self, package_name):
+        """ Import 'plugins.py' from the package with the given name.
+
+        If the package does not exist, or does not contain 'plugins.py' then
+        return None.
+
+        """
+
+        try:
+            module = __import__(package_name + '.plugins', fromlist=['plugins'])
+
+        except ImportError:
+            module = None
+
+        return module
     
     def _harvest_plugins_in_eggs(self):
         """ Harvest plugins found in eggs on the plugin path. """
@@ -117,6 +144,39 @@ class CanopyPluginManager(PluginManager):
 
             if self._is_included(ep.name) and not self._is_excluded(ep.name)
         ]
+
+        return plugins
+
+    def _harvest_plugins_in_package(self, package_name, dirname):
+        """ Harvest plugins found in the given package. """
+
+        # If the package contains a 'plugins.py' module, then we import it and
+        # look for a callable 'get_plugins' that takes no arguments and returns
+        # a list of plugins (i.e. instances that implement 'IPlugin'!).
+        plugins_module = self._get_plugins_module(package_name)
+        if plugins_module is not None:
+            factory = getattr(plugins_module, 'get_plugins', None)
+            if factory is not None:
+                plugins = factory()
+
+        else:
+            logger.warn('no "plugins.py" module in package <%s>' % package_name)
+            plugins = []
+            
+        return plugins
+
+    def _harvest_plugins_in_packages(self):
+        """ Harvest plugins found in packages on the plugin path. """
+
+        plugins = []
+        for dirname in self.plugin_path:
+            for child in File(dirname).children:
+                if child.is_package:
+                    plugins_module = self._get_plugins_module(child.name)
+                    if plugins_module is not None:
+                        factory = getattr(plugins_module, 'get_plugins', None)
+                        if factory is not None:
+                            plugins.extend(factory())
 
         return plugins
     
