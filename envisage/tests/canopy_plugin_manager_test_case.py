@@ -134,9 +134,10 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         plugin_manager = CanopyPluginManager(plugin_path=[self.plugins_dir])
         ids            = [plugin.id for plugin in plugin_manager]
 
-        self.assertEqual(len(ids), 2)
+        self.assertEqual(len(ids), 3)
         self.assertIn('banana', ids)
         self.assertIn('orange', ids)
+        self.assertIn('pear', ids)
 
         return
 

@@ -151,7 +151,7 @@ class CanopyPluginManager(PluginManager):
 
         return plugins
 
-    def _harvest_plugins_in_package(self, package_name, dirname):
+    def _harvest_plugins_in_package(self, package_name, package_dirname):
         """ Harvest plugins found in the given package. """
 
         # If the package contains a 'plugins.py' module, then we import it and
@@ -163,10 +163,25 @@ class CanopyPluginManager(PluginManager):
             if factory is not None:
                 plugins = factory()
 
+        # Otherwise, look for any modules in the form 'xxx_plugin.py' and
+        # see if they contain a callable in the form 'XXXPlugin' and if they
+        # do, call it with no arguments to get a plugin!
         else:
-            logger.warn('no "plugins.py" module in package <%s>' % package_name)
             plugins = []
-            
+            for child in File(package_dirname).children:
+                if child.ext == '.py' and child.name.endswith('_plugin'):
+                    module = __import__(
+                        package_name + '.' + child.name, fromlist=[child.name]
+                    )
+
+                    atoms        = child.name.split('_')
+                    capitalized  = [atom.capitalize() for atom in atoms]
+                    factory_name = ''.join(capitalized)
+                    
+                    factory = getattr(module, factory_name, None)
+                    if factory is not None:
+                        plugins.append(factory())
+                    
         return plugins
 
     def _harvest_plugins_in_packages(self):
@@ -176,11 +191,11 @@ class CanopyPluginManager(PluginManager):
         for dirname in self.plugin_path:
             for child in File(dirname).children:
                 if child.is_package:
-                    plugins_module = self._get_plugins_module(child.name)
-                    if plugins_module is not None:
-                        factory = getattr(plugins_module, 'get_plugins', None)
-                        if factory is not None:
-                            plugins.extend(factory())
+                    plugins.extend(
+                        self._harvest_plugins_in_package(
+                            child.name, child.path
+                       ) 
+                    )
 
         return plugins
     
