@@ -1,7 +1,8 @@
 """ A plugin manager that gets its plugins from Eggs. """
 
 
-import logging, pkg_resources, re, sys
+import logging, pkg_resources, sys
+from fnmatch import fnmatch
 from apptools.io import File
 from traits.api import Directory, Instance, List, on_trait_change, Str
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
@@ -38,7 +39,11 @@ class CanopyPluginManager(PluginManager):
     a) If the package contains a 'plugins.py' module, then we import it and
     look for a callable 'get_plugins' that takes no arguments and returns
     a list of plugins (i.e. instances that implement 'IPlugin'!).
-    
+
+    b) If the package contains any modules named in the form 'xxx_plugin.py'
+    then the module is imported and if it contains a callable 'XXXPlugin' it is
+    called with no arguments and it must return a single plugin.
+
     """
 
     # Entry point Id.
@@ -191,7 +196,7 @@ class CanopyPluginManager(PluginManager):
             return False
 
         for pattern in self.exclude:
-            if re.match(pattern, plugin_id) is not None:
+            if fnmatch(plugin_id, pattern):
                 return True
 
         return False
@@ -208,7 +213,7 @@ class CanopyPluginManager(PluginManager):
             return True
 
         for pattern in self.include:
-            if re.match(pattern, plugin_id) is not None:
+            if fnmatch(plugin_id, pattern):
                 return True
 
         return False

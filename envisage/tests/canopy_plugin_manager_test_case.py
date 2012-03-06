@@ -51,10 +51,9 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
 
-        # Note that the items in the list are regular expressions hence you
-        # need to 'escape' the '.' character if you don't want it to mean
-        # 'any character'!!
-        include = ['acme\.foo', 'acme\.bar']
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        include = ['acme.foo', 'acme.bar']
 
         plugin_manager = CanopyPluginManager(
             plugin_path = [self.eggs_dir],
@@ -72,10 +71,9 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
     def test_only_find_plugins_matching_a_wildcard_in_the_include_list(self):
 
-        # Note that the items in the list are regular expressions hence you
-        # need to 'escape' the '.' character if you don't want it to mean
-        # 'any character'!!
-        include = ['acme\.b.*']
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        include = ['acme.b*']
 
         plugin_manager = CanopyPluginManager(
             plugin_path = [self.eggs_dir],
@@ -93,10 +91,9 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
     def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
 
-        # Note that the items in the list are regular expressions hence you
-        # need to 'escape' the '.' character if you don't want it to mean
-        # 'any character'!!
-        exclude = ['acme\.foo', 'acme\.baz']
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        exclude = ['acme.foo', 'acme.baz']
 
         plugin_manager = CanopyPluginManager(
             plugin_path = [self.eggs_dir],
@@ -114,10 +111,9 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
     def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
 
-        # Note that the items in the list are regular expressions hence you
-        # need to 'escape' the '.' character if you don't want it to mean
-        # 'any character'!!
-        exclude = ['acme\.b.*']
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        exclude = ['acme.b*']
 
         plugin_manager = CanopyPluginManager(
             plugin_path = [self.eggs_dir],
