@@ -1,7 +1,6 @@
 """ Tests for the 'Package' plugin manager. """
 
 
-import logging
 from os.path import dirname, join
 import unittest
 

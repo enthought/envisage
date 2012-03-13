@@ -1,13 +1,12 @@
 """ A plugin manager that finds plugins in packages on the 'plugin_path'. """
 
 
-import logging, pkg_resources, sys
+import logging, sys
 from fnmatch import fnmatch
 
 from apptools.io import File
-from traits.api import Directory, HasTraits, List, on_trait_change, Str
+from traits.api import Directory, List, on_trait_change, Str
 
-from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
 
 

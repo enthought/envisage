@@ -1,19 +1,11 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
 
-import logging
 from os.path import dirname, join
 import unittest
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 
-# Do whatever you want to do with log messages! Here we create a log file.
-#logger = logging.getLogger()
-#logger.addHandler(logging.StreamHandler())
-#logger.setLevel(logging.DEBUG)
-
-
-    
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
     """ Tests for the 'Egg Basket' plugin manager. """

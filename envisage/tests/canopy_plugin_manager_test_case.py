@@ -1,7 +1,7 @@
 """ Tests for the Canopy plugin manager. """
 
 
-import logging
+#import logging
 from os.path import dirname, join
 import unittest
 

@@ -1,12 +1,12 @@
 """ A plugin manager that gets its plugins from Eggs. """
 
 
-import logging, pkg_resources, sys
-from fnmatch import fnmatch
-from apptools.io import File
-from traits.api import Directory, Instance, List, on_trait_change, Str
-from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
+import logging
+from traits.api import Directory, List, Str
 from plugin_manager import PluginManager
+
+from egg_basket_plugin_manager import EggBasketPluginManager
+from package_plugin_manager import PackagePluginManager
 
 
 logger = logging.getLogger(__name__)
@@ -67,17 +67,11 @@ class CanopyPluginManager(PluginManager):
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
-    @on_trait_change('plugin_path[]')
-    def _plugin_path_changed(self, obj, trait_name, removed, added):
-        self._update_sys_dot_path(removed, added)
-
     ####  Protected 'PluginManager' protocol ##################################
 
     def __plugins_default(self):
         """ Trait initializer. """
 
-        from egg_basket_plugin_manager import EggBasketPluginManager
-        from package_plugin_manager import PackagePluginManager
 
         plugin_managers = [
             EggBasketPluginManager(
@@ -100,170 +94,8 @@ class CanopyPluginManager(PluginManager):
             # fixme: Using protected protocol!
             plugins.extend(plugin_manager._plugins)
 
-        #plugins = self._harvest_plugins_in_eggs()
-        #plugins.extend(self._harvest_plugins_in_packages())
-        
         logger.debug('canopy plugin manager found plugins <%s>', plugins)
 
         return plugins
-
-    #### Private protocol #####################################################
-
-    def _create_plugin_from_entry_point(self, ep):
-        """ Create a plugin from an entry point. """
-
-        klass  = ep.load()
-        plugin = klass(application=self.application)
-
-        # Warn if the entry point is an old-style one where the LHS didn't have
-        # to be the same as the plugin Id.
-        if ep.name != plugin.id:
-            logger.warn(
-                'entry point name <%s> should be the same as the '
-                'plugin id <%s>' % (ep.name, plugin.id)
-            )
-
-        return plugin
-
-    def _get_plugin_entry_points(self, working_set):
-        """ Return all plugin entry points in the working set. """
-
-        entry_points = get_entry_points_in_egg_order(
-            working_set, self.ENVISAGE_PLUGINS_ENTRY_POINT
-        )
-
-        return entry_points
-
-    def _get_plugins_module(self, package_name):
-        """ Import 'plugins.py' from the package with the given name.
-
-        If the package does not exist, or does not contain 'plugins.py' then
-        return None.
-
-        """
-
-        try:
-            module = __import__(package_name + '.plugins', fromlist=['plugins'])
-
-        except ImportError:
-            module = None
-
-        return module
-    
-    def _harvest_plugins_in_eggs(self):
-        """ Harvest plugins found in eggs on the plugin path. """
-
-        # We first add the eggs to a local working set so that when we get
-        # the plugin entry points we don't pick up any from other eggs
-        # installed on sys.path.
-        plugin_working_set = pkg_resources.WorkingSet(self.plugin_path)
-        add_eggs_on_path(plugin_working_set, self.plugin_path)
-
-        # We also add the eggs to the global working set as otherwise the
-        # plugin classes can't be imported!
-        add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
-
-        plugins = [
-            self._create_plugin_from_entry_point(ep)
-
-            for ep in self._get_plugin_entry_points(plugin_working_set)
-
-            if self._is_included(ep.name) and not self._is_excluded(ep.name)
-        ]
-
-        return plugins
-
-    def _harvest_plugins_in_package(self, package_name, package_dirname):
-        """ Harvest plugins found in the given package. """
-
-        # If the package contains a 'plugins.py' module, then we import it and
-        # look for a callable 'get_plugins' that takes no arguments and returns
-        # a list of plugins (i.e. instances that implement 'IPlugin'!).
-        plugins_module = self._get_plugins_module(package_name)
-        if plugins_module is not None:
-            factory = getattr(plugins_module, 'get_plugins', None)
-            if factory is not None:
-                plugins = factory()
-
-        # Otherwise, look for any modules in the form 'xxx_plugin.py' and
-        # see if they contain a callable in the form 'XXXPlugin' and if they
-        # do, call it with no arguments to get a plugin!
-        else:
-            plugins = []
-            for child in File(package_dirname).children:
-                if child.ext == '.py' and child.name.endswith('_plugin'):
-                    module = __import__(
-                        package_name + '.' + child.name, fromlist=[child.name]
-                    )
-
-                    atoms        = child.name.split('_')
-                    capitalized  = [atom.capitalize() for atom in atoms]
-                    factory_name = ''.join(capitalized)
-                    
-                    factory = getattr(module, factory_name, None)
-                    if factory is not None:
-                        plugins.append(factory())
-                    
-        return plugins
-
-    def _harvest_plugins_in_packages(self):
-        """ Harvest plugins found in packages on the plugin path. """
-
-        plugins = []
-        for dirname in self.plugin_path:
-            for child in File(dirname).children:
-                if child.is_package:
-                    plugins.extend(
-                        self._harvest_plugins_in_package(
-                            child.name, child.path
-                       ) 
-                    )
-
-        return plugins
-    
-    def _is_excluded(self, plugin_id):
-        """ Return True if the plugin Id is excluded.
-
-        If no 'exclude' patterns are specified then this method returns False
-        for all plugin Ids.
-
-        """
-
-        if len(self.exclude) == 0:
-            return False
-
-        for pattern in self.exclude:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
-    def _is_included(self, plugin_id):
-        """ Return True if the plugin Id is included.
-
-        If no 'include' patterns are specified then this method returns True
-        for all plugin Ids.
-
-        """
-
-        if len(self.include) == 0:
-            return True
-
-        for pattern in self.include:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
-    def _update_sys_dot_path(self, removed, added):
-        """ Add/remove the given entries from sys.path. """
-        
-        for dirname in removed:
-            if dirname in sys.path:
-                sys.peth.remove(dirname)
-
-        for dirname in added:
-            if dirname not in sys.path:
-                sys.path.append(dirname)
 
 #### EOF ######################################################################
