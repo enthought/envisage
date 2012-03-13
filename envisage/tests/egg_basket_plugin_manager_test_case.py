@@ -1,12 +1,11 @@
-""" Tests for the Canopy plugin manager. """
+""" Tests for the 'Egg Basket' plugin manager. """
 
 
 import logging
 from os.path import dirname, join
 import unittest
 
-from envisage.canopy_plugin_manager import CanopyPluginManager
-from envisage.new_plugin_manager import NewPluginManager
+from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 
 # Do whatever you want to do with log messages! Here we create a log file.
 #logger = logging.getLogger()
@@ -16,8 +15,8 @@ from envisage.new_plugin_manager import NewPluginManager
 
     
 
-class CanopyPluginManagerTestCase(unittest.TestCase):
-    """ Tests for the Canopy plugin manager. """
+class EggBasketPluginManagerTestCase(unittest.TestCase):
+    """ Tests for the 'Egg Basket' plugin manager. """
 
     #### 'unittest.TestCase' protocol #########################################
 
@@ -26,9 +25,6 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         # The location of the 'eggs' test data directory.
         self.eggs_dir = join(dirname(__file__), 'eggs')
-
-        # The location of the 'plugins' test data directory.
-        self.plugins_dir = join(dirname(__file__), 'plugins')
 
         return
 
@@ -41,23 +37,11 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
-        plugin_manager = NewPluginManager(
-            plugin_finders = EggPluginFinder(plugin_path=[self.eggs_dir])
+        plugin_manager = EggBasketPluginManager(
+            plugin_path=[self.eggs_dir]
         )
 
         ids = [plugin.id for plugin in plugin_manager]
-        self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
-
-        return
-
-    def test_find_plugins_in_eggs_on_the_plugin_path(self):
-
-        plugin_manager = CanopyPluginManager(plugin_path=[self.eggs_dir])
-        ids            = [plugin.id for plugin in plugin_manager]
-
         self.assertEqual(len(ids), 3)
         self.assertIn('acme.foo', ids)
         self.assertIn('acme.bar', ids)
@@ -71,7 +55,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ['acme.foo', 'acme.bar']
 
-        plugin_manager = CanopyPluginManager(
+        plugin_manager = EggBasketPluginManager(
             plugin_path = [self.eggs_dir],
             include     = include
         )
@@ -91,7 +75,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ['acme.b*']
 
-        plugin_manager = CanopyPluginManager(
+        plugin_manager = EggBasketPluginManager(
             plugin_path = [self.eggs_dir],
             include     = include
         )
@@ -111,7 +95,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ['acme.foo', 'acme.baz']
 
-        plugin_manager = CanopyPluginManager(
+        plugin_manager = EggBasketPluginManager(
             plugin_path = [self.eggs_dir],
             exclude     = exclude
         )
@@ -131,7 +115,7 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ['acme.b*']
 
-        plugin_manager = CanopyPluginManager(
+        plugin_manager = EggBasketPluginManager(
             plugin_path = [self.eggs_dir],
             exclude     = exclude
         )
@@ -142,18 +126,6 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
-
-        return
-
-    def test_find_plugins_in_packages_containing_a_plugins_module(self):
-
-        plugin_manager = CanopyPluginManager(plugin_path=[self.plugins_dir])
-        ids            = [plugin.id for plugin in plugin_manager]
-
-        self.assertEqual(len(ids), 3)
-        self.assertIn('banana', ids)
-        self.assertIn('orange', ids)
-        self.assertIn('pear', ids)
 
         return
 

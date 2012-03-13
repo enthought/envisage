@@ -1,31 +1,20 @@
-""" Tests for the Canopy plugin manager. """
+""" Tests for the 'Package' plugin manager. """
 
 
 import logging
 from os.path import dirname, join
 import unittest
 
-from envisage.canopy_plugin_manager import CanopyPluginManager
-from envisage.new_plugin_manager import NewPluginManager
-
-# Do whatever you want to do with log messages! Here we create a log file.
-#logger = logging.getLogger()
-#logger.addHandler(logging.StreamHandler())
-#logger.setLevel(logging.DEBUG)
+from envisage.package_plugin_manager import PackagePluginManager
 
 
-    
-
-class CanopyPluginManagerTestCase(unittest.TestCase):
-    """ Tests for the Canopy plugin manager. """
+class PackagePluginManagerTestCase(unittest.TestCase):
+    """ Tests for the 'Package' plugin manager. """
 
     #### 'unittest.TestCase' protocol #########################################
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
-
-        # The location of the 'eggs' test data directory.
-        self.eggs_dir = join(dirname(__file__), 'eggs')
 
         # The location of the 'plugins' test data directory.
         self.plugins_dir = join(dirname(__file__), 'plugins')
@@ -39,45 +28,31 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         
     #### Tests ################################################################
 
-    def test_find_plugins_in_eggs_on_the_plugin_path(self):
+    def test_find_plugins_in_packages_on_the_plugin_path(self):
 
-        plugin_manager = NewPluginManager(
-            plugin_finders = EggPluginFinder(plugin_path=[self.eggs_dir])
-        )
-
-        ids = [plugin.id for plugin in plugin_manager]
-        self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
-
-        return
-
-    def test_find_plugins_in_eggs_on_the_plugin_path(self):
-
-        plugin_manager = CanopyPluginManager(plugin_path=[self.eggs_dir])
+        plugin_manager = PackagePluginManager(plugin_path=[self.plugins_dir])
         ids            = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
+        self.assertIn('banana', ids)
+        self.assertIn('orange', ids)
+        self.assertIn('pear', ids)
 
         return
-
+    
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['acme.foo', 'acme.bar']
+        include = ['orange', 'pear']
 
-        plugin_manager = CanopyPluginManager(
-            plugin_path = [self.eggs_dir],
+        plugin_manager = PackagePluginManager(
+            plugin_path = [self.plugins_dir],
             include     = include
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo', 'acme.bar']
+        expected = ['orange', 'pear']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -89,15 +64,15 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['acme.b*']
+        include = ['*r*']
 
-        plugin_manager = CanopyPluginManager(
-            plugin_path = [self.eggs_dir],
+        plugin_manager = PackagePluginManager(
+            plugin_path = [self.plugins_dir],
             include     = include
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar', 'acme.baz']
+        expected = ['orange', 'pear']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -109,15 +84,15 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['acme.foo', 'acme.baz']
+        exclude = ['orange', 'pear']
 
-        plugin_manager = CanopyPluginManager(
-            plugin_path = [self.eggs_dir],
+        plugin_manager = PackagePluginManager(
+            plugin_path = [self.plugins_dir],
             exclude     = exclude
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar']
+        expected = ['banana']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -129,31 +104,19 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['acme.b*']
+        exclude = ['*r*']
 
-        plugin_manager = CanopyPluginManager(
-            plugin_path = [self.eggs_dir],
+        plugin_manager = PackagePluginManager(
+            plugin_path = [self.plugins_dir],
             exclude     = exclude
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo']
+        expected = ['banana']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
-
-        return
-
-    def test_find_plugins_in_packages_containing_a_plugins_module(self):
-
-        plugin_manager = CanopyPluginManager(plugin_path=[self.plugins_dir])
-        ids            = [plugin.id for plugin in plugin_manager]
-
-        self.assertEqual(len(ids), 3)
-        self.assertIn('banana', ids)
-        self.assertIn('orange', ids)
-        self.assertIn('pear', ids)
 
         return
 

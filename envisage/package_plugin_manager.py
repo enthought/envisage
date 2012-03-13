@@ -1,10 +1,12 @@
-""" A plugin manager that gets its plugins from Eggs. """
+""" A plugin manager that finds plugins in packages on the 'plugin_path'. """
 
 
 import logging, pkg_resources, sys
 from fnmatch import fnmatch
+
 from apptools.io import File
-from traits.api import Directory, Instance, List, on_trait_change, Str
+from traits.api import Directory, HasTraits, List, on_trait_change, Str
+
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
 
@@ -12,25 +14,8 @@ from plugin_manager import PluginManager
 logger = logging.getLogger(__name__)
 
 
-class CanopyPluginManager(PluginManager):
-    """ A plugin manager that gets its plugins from the following places:-
-
-    1) From any eggs found on the 'plugin_path'.
-
-    To declare a plugin (or plugins) in your egg use an entry point in your
-    'setup.py' file, e.g.
-
-    [envisage.plugins]
-    acme.foo = acme.foo.foo_plugin:FooPlugin
-    acme.foo.fred = acme.foo.fred.fred_plugin:FredPlugin
-
-    The left hand side of the entry point declaration MUST be the same as the
-    'id' trait of the plugin (e.g. the 'FooPlugin' would have its 'id' trait
-    set to 'acme.foo'). This allows the plugin manager to filter out plugins
-    using the 'include' and 'exclude' lists (if specified) *without* having to
-    import and instantiate them.
-
-    2) Packages found on the 'plugin_path'.
+class PackagePluginManager(PluginManager):
+    """ A plugin manager that finds plugins in packages on the 'plugin_path'.
 
     All items in 'plugin_path' are directory names and they are all added to
     'sys.path' (if not already present). Each directory is then searched for
@@ -46,10 +31,10 @@ class CanopyPluginManager(PluginManager):
 
     """
 
-    # Entry point Id.
-    ENVISAGE_PLUGINS_ENTRY_POINT = 'envisage.plugins'
+    # Plugin manifest.
+    PLUGIN_MANIFEST = 'plugins.py'
 
-    #### 'CanopyPluginManager' protocol #######################################
+    #### 'PackagePluginManager' protocol #######################################
 
     # An optional list of the Ids of the plugins that are to be excluded by
     # the manager.
@@ -71,68 +56,22 @@ class CanopyPluginManager(PluginManager):
     def _plugin_path_changed(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
 
-    ####  Protected 'PluginManager' protocol ##################################
+    #### Protected 'PluginManager' protocol ###################################
 
     def __plugins_default(self):
         """ Trait initializer. """
 
-        from egg_basket_plugin_manager import EggBasketPluginManager
-        from package_plugin_manager import PackagePluginManager
+        plugins = [
+            plugin for plugin in self._harvest_plugins_in_packages()
 
-        plugin_managers = [
-            EggBasketPluginManager(
-                application = self.application,
-                exclude     = self.exclude,
-                include     = self.include,
-                plugin_path = self.plugin_path
-            ),
-
-            PackagePluginManager(
-                application = self.application,
-                exclude     = self.exclude,
-                include     = self.include,
-                plugin_path = self.plugin_path
-            ),
+            if self._is_included(plugin.id) and not self._is_excluded(plugin.id)
         ]
 
-        plugins = []
-        for plugin_manager in plugin_managers:
-            # fixme: Using protected protocol!
-            plugins.extend(plugin_manager._plugins)
-
-        #plugins = self._harvest_plugins_in_eggs()
-        #plugins.extend(self._harvest_plugins_in_packages())
-        
-        logger.debug('canopy plugin manager found plugins <%s>', plugins)
+        logger.debug('package plugin manager found plugins <%s>', plugins)
 
         return plugins
 
     #### Private protocol #####################################################
-
-    def _create_plugin_from_entry_point(self, ep):
-        """ Create a plugin from an entry point. """
-
-        klass  = ep.load()
-        plugin = klass(application=self.application)
-
-        # Warn if the entry point is an old-style one where the LHS didn't have
-        # to be the same as the plugin Id.
-        if ep.name != plugin.id:
-            logger.warn(
-                'entry point name <%s> should be the same as the '
-                'plugin id <%s>' % (ep.name, plugin.id)
-            )
-
-        return plugin
-
-    def _get_plugin_entry_points(self, working_set):
-        """ Return all plugin entry points in the working set. """
-
-        entry_points = get_entry_points_in_egg_order(
-            working_set, self.ENVISAGE_PLUGINS_ENTRY_POINT
-        )
-
-        return entry_points
 
     def _get_plugins_module(self, package_name):
         """ Import 'plugins.py' from the package with the given name.
@@ -149,29 +88,6 @@ class CanopyPluginManager(PluginManager):
             module = None
 
         return module
-    
-    def _harvest_plugins_in_eggs(self):
-        """ Harvest plugins found in eggs on the plugin path. """
-
-        # We first add the eggs to a local working set so that when we get
-        # the plugin entry points we don't pick up any from other eggs
-        # installed on sys.path.
-        plugin_working_set = pkg_resources.WorkingSet(self.plugin_path)
-        add_eggs_on_path(plugin_working_set, self.plugin_path)
-
-        # We also add the eggs to the global working set as otherwise the
-        # plugin classes can't be imported!
-        add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
-
-        plugins = [
-            self._create_plugin_from_entry_point(ep)
-
-            for ep in self._get_plugin_entry_points(plugin_working_set)
-
-            if self._is_included(ep.name) and not self._is_excluded(ep.name)
-        ]
-
-        return plugins
 
     def _harvest_plugins_in_package(self, package_name, package_dirname):
         """ Harvest plugins found in the given package. """
