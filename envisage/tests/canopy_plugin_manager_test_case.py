@@ -6,7 +6,6 @@ from os.path import dirname, join
 import unittest
 
 from envisage.canopy_plugin_manager import CanopyPluginManager
-from envisage.new_plugin_manager import NewPluginManager
 
 # Do whatever you want to do with log messages! Here we create a log file.
 #logger = logging.getLogger()
@@ -38,20 +37,6 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         return
         
     #### Tests ################################################################
-
-    def test_find_plugins_in_eggs_on_the_plugin_path(self):
-
-        plugin_manager = NewPluginManager(
-            plugin_finders = EggPluginFinder(plugin_path=[self.eggs_dir])
-        )
-
-        ids = [plugin.id for plugin in plugin_manager]
-        self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
-
-        return
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
