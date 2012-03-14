@@ -65,7 +65,15 @@ class CompositePluginManager(HasTraits):
 
         for plugin_manager in added:
             plugin_manager.application = self.application
-            
+
+    @on_trait_change('plugin_managers:plugin_added')
+    def _plugin_added(self, obj, trait_name, old, new):
+        self.plugin_added = new
+
+    @on_trait_change('plugin_managers:plugin_removed')
+    def _plugin_removed(self, obj, trait_name, old, new):
+        self.plugin_removed = new
+        
     #### Private protocol ######################################################
 
     # The plugins that the manager manages!

@@ -131,6 +131,35 @@ class CompositePluginManagerTestCase(unittest.TestCase):
             self.assertEqual(application, plugin_manager.application)
 
         return
+
+    def test_propogate_plugin_added_or_remove_events_from_plugin_managers(self):
+
+        a = PluginManager()
+        b = PluginManager()
+        
+        composite_plugin_manager = CompositePluginManager(
+            plugin_managers = [a, b]
+        )
+
+        def added(obj, trait_name, old, new):
+            added.count += 1
+        added.count = 0
+
+        composite_plugin_manager.on_trait_change(added, 'plugin_added')
+
+        def removed(obj, trait_name, old, new):
+            removed.count += 1
+        removed.count = 0
+
+        composite_plugin_manager.on_trait_change(removed, 'plugin_removed')
+
+        a.add_plugin(Plugin(id='foo'))
+        self.assertEqual(1, added.count)
+
+        a.remove_plugin(a.get_plugin('foo'))
+        self.assertEqual(1, removed.count)
+        
+        return
     
     #### Private protocol #####################################################
 

@@ -75,15 +75,7 @@ class CanopyPluginManager(CompositePluginManager):
     #### 'object' protocol #####################################################
 
     def __init__(self, plugins=None, **traits):
-        """ Constructor.
-
-        We allow the caller to specify an initial list of plugins, but the
-        list itself is not part of the public API. To add and remove plugins
-        after construction, use the 'add_plugin' and 'remove_plugin' methods
-        respectively. The manager is also iterable, so to iterate over the
-        plugins use 'for plugin in plugin_manager'.
-
-        """
+        """ Constructor. """
 
         super(CanopyPluginManager, self).__init__(**traits)
 
