@@ -3,22 +3,30 @@
 
 import logging
 from traits.api import Directory, List, Str
-from plugin_manager import PluginManager
 
+from composite_plugin_manager import CompositePluginManager
 from egg_basket_plugin_manager import EggBasketPluginManager
+from i_plugin_manager import IPluginManager
 from package_plugin_manager import PackagePluginManager
+from plugin_manager import PluginManager
 
 
 logger = logging.getLogger(__name__)
 
 
-class CanopyPluginManager(PluginManager):
+class CanopyPluginManager(CompositePluginManager):
     """ A plugin manager that gets its plugins from the following places:-
 
-    1) From any eggs found on the 'plugin_path'.
+    1) An (optional) list of plugin instances passed at construction time.
+
+    e.g::
+
+        plugin_manager = CanopyPluginManager(plugins=[MyPlugin(), YourPlugin()])
+    
+    2) From any eggs found on the 'plugin_path'.
 
     To declare a plugin (or plugins) in your egg use an entry point in your
-    'setup.py' file, e.g.
+    'setup.py' file, e.g::
 
     [envisage.plugins]
     acme.foo = acme.foo.foo_plugin:FooPlugin
@@ -30,7 +38,7 @@ class CanopyPluginManager(PluginManager):
     using the 'include' and 'exclude' lists (if specified) *without* having to
     import and instantiate them.
 
-    2) Packages found on the 'plugin_path'.
+    3) Packages found on the 'plugin_path'.
 
     All items in 'plugin_path' are directory names and they are all added to
     'sys.path' (if not already present). Each directory is then searched for
@@ -45,9 +53,6 @@ class CanopyPluginManager(PluginManager):
     called with no arguments and it must return a single plugin.
 
     """
-
-    # Entry point Id.
-    ENVISAGE_PLUGINS_ENTRY_POINT = 'envisage.plugins'
 
     #### 'CanopyPluginManager' protocol #######################################
 
@@ -67,35 +72,56 @@ class CanopyPluginManager(PluginManager):
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
-    ####  Protected 'PluginManager' protocol ##################################
+    #### 'object' protocol #####################################################
 
-    def __plugins_default(self):
-        """ Trait initializer. """
+    def __init__(self, plugins=None, **traits):
+        """ Constructor.
 
+        We allow the caller to specify an initial list of plugins, but the
+        list itself is not part of the public API. To add and remove plugins
+        after construction, use the 'add_plugin' and 'remove_plugin' methods
+        respectively. The manager is also iterable, so to iterate over the
+        plugins use 'for plugin in plugin_manager'.
 
-        plugin_managers = [
-            EggBasketPluginManager(
-                application = self.application,
-                exclude     = self.exclude,
-                include     = self.include,
-                plugin_path = self.plugin_path
-            ),
+        """
 
-            PackagePluginManager(
-                application = self.application,
-                exclude     = self.exclude,
-                include     = self.include,
-                plugin_path = self.plugin_path
-            ),
+        super(CanopyPluginManager, self).__init__(**traits)
+
+        self.plugin_managers = [
+            self._create_explicit_plugin_manager(plugins or []),
+            self._create_egg_basket_plugin_manager(),
+            self._create_package_plugin_manager()
         ]
 
-        plugins = []
-        for plugin_manager in plugin_managers:
-            # fixme: Using protected protocol!
-            plugins.extend(plugin_manager._plugins)
+        return
 
-        logger.debug('canopy plugin manager found plugins <%s>', plugins)
+    #### Private protocol ######################################################
 
-        return plugins
+    def _create_egg_basket_plugin_manager(self):
+        """ Factory method for the 'Egg Basket' plugin manager. """
 
-#### EOF ######################################################################
+        egg_basket_plugin_manager = EggBasketPluginManager(
+            exclude     = self.exclude,
+            include     = self.include,
+            plugin_path = self.plugin_path
+        )
+
+        return egg_basket_plugin_manager
+
+    def _create_explicit_plugin_manager(self, plugins):
+        """ Factory method for the  plugin manager. """
+
+        return PluginManager(plugins=plugins)
+
+    def _create_package_plugin_manager(self):
+        """ Factory method for the 'Package' plugin manager. """
+
+        package_plugin_manager = PackagePluginManager(
+            exclude     = self.exclude,
+            include     = self.include,
+            plugin_path = self.plugin_path
+        )
+
+        return package_plugin_manager
+
+#### EOF #######################################################################

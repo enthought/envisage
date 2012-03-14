@@ -1,19 +1,13 @@
 """ Tests for the Canopy plugin manager. """
 
 
-#import logging
 from os.path import dirname, join
 import unittest
 
+from envisage.application import Application
 from envisage.canopy_plugin_manager import CanopyPluginManager
+from envisage.plugin import Plugin
 
-# Do whatever you want to do with log messages! Here we create a log file.
-#logger = logging.getLogger()
-#logger.addHandler(logging.StreamHandler())
-#logger.setLevel(logging.DEBUG)
-
-
-    
 
 class CanopyPluginManagerTestCase(unittest.TestCase):
     """ Tests for the Canopy plugin manager. """
@@ -37,6 +31,20 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         return
         
     #### Tests ################################################################
+
+    def test_find_plugins_passed_in_at_construction_time(self):
+
+        plugin_manager = CanopyPluginManager(
+            plugins=[Plugin(id='red'), Plugin(id='yellow'), Plugin(id='green')]
+        )
+        ids            = [plugin.id for plugin in plugin_manager]
+
+        self.assertEqual(len(ids), 3)
+        self.assertIn('red', ids)
+        self.assertIn('yellow', ids)
+        self.assertIn('green', ids)
+
+        return
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
@@ -139,6 +147,19 @@ class CanopyPluginManagerTestCase(unittest.TestCase):
         self.assertIn('banana', ids)
         self.assertIn('orange', ids)
         self.assertIn('pear', ids)
+
+        return
+
+    def test_application_gets_propogated_to_plugin_managers(self):
+
+        application = Application()
+        
+        canopy_plugin_manager = CanopyPluginManager(
+            application=application
+        )
+
+        for plugin_manager in canopy_plugin_manager.plugin_managers:
+            self.assertEqual(application, plugin_manager.application)
 
         return
 

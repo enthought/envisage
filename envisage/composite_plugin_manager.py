@@ -1,4 +1,4 @@
-""" A simple plugin manager implementation. """
+""" A plugin manager composed of other plugin managers! """
 
 
 # Standard library imports.
@@ -6,39 +6,37 @@ import logging
 
 # Enthought library imports.
 from traits.api import Event, HasTraits, Instance, List, implements
+from traits.api import on_trait_change
 
 # Local imports.
 from i_application import IApplication
 from i_plugin import IPlugin
 from i_plugin_manager import IPluginManager
 from plugin_event import PluginEvent
+from plugin_manager import PluginManager
 
 
 # Logging.
 logger = logging.getLogger(__name__)
 
 
-class PluginManager(HasTraits):
-    """ A simple plugin manager implementation.
+class CompositePluginManager(HasTraits):
+    """ A plugin manager composed of other plugin managers!
 
-    This implementation manages an explicit collection of plugin instances,
     e.g::
 
-        plugin_manager = PlugunManager(
-             plugins = [
-                 MyPlugin(),
-                 YourPlugin()
+        plugin_manager = CompositePluginManager(
+             plugin_mangers = [
+                 EggBasketPluginManager(...),
+                 PackagePluginManager(...),
              ]
         )
 
-    Plugins can be added and removed after construction time via the methods
-    'add_plugin' and 'remove_plugin'.
-    
     """
 
     implements(IPluginManager)
 
-    #### 'IPluginManager' interface ###########################################
+    #### 'IPluginManager' protocol #############################################
 
     #### Events ####
 
@@ -48,46 +46,46 @@ class PluginManager(HasTraits):
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
-    #### 'PluginManager' interface ############################################
+    #### 'CompositePluginManager' protocol #####################################
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
 
-    #### Private interface ####################################################
+    # The plugin managers that make up this plugin manager!
+    plugin_managers = List(IPluginManager)
+    @on_trait_change('plugin_managers[]')
+    def _update_application(self, obj, trait_named, removed, added):
+        # smell: 'IPlugin' does not currently have an 'application' trait, but
+        # 'PluginManager' does! Should we move 'application' up to 'IPlugin'.
+        # Otherwise, the trait definition 'List(IPlugin)' is misleading
+        # because we assume an 'application' trait. Of course, Python being
+        # Python this will work but the intent is unclear.
+        for plugin_manager in removed:
+            plugin_manager.application = self.application
+
+        for plugin_manager in added:
+            plugin_manager.application = self.application
+            
+    #### Private protocol ######################################################
 
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
+    def __plugins_default(self):
+        plugins = []
+        for plugin_manager in self.plugin_managers:
+            for plugin in plugin_manager:
+                plugins.append(plugin)
 
-    ###########################################################################
-    # 'object' interface.
-    ###########################################################################
+        return plugins
 
-    def __init__(self, plugins=None, **traits):
-        """ Constructor.
-
-        We allow the caller to specify an initial list of plugins, but the
-        list itself is not part of the public API. To add and remove plugins
-        after construction, use the 'add_plugin' and 'remove_plugin' methods
-        respectively. The manager is also iterable, so to iterate over the
-        plugins use 'for plugin in plugin_manager'.
-
-        """
-
-        super(PluginManager, self).__init__(**traits)
-
-        if plugins is not None:
-            self._plugins = plugins
-
-        return
+    #### 'object' protocol ####################################################
 
     def __iter__(self):
         """ Return an iterator over the manager's plugins. """
 
         return iter(self._plugins)
 
-    ###########################################################################
-    # 'IPluginManager' interface.
-    ###########################################################################
+    #### 'IPluginManager' protocol #############################################
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
@@ -163,47 +161,13 @@ class PluginManager(HasTraits):
 
         return
 
-    ###########################################################################
-    # 'PluginManager' interface.
-    ###########################################################################
+    #### 'PluginManager' protocol #############################################
 
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
-        self._update_plugin_application([], self._plugins)
-
-        return
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    #### Trait change handlers ################################################
-
-    def __plugins_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
-
-        self._update_plugin_application(old, new)
-
-        return
-
-    def __plugins_items_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
-
-        self._update_plugin_application(new.removed, new.added)
-
-        return
-
-    #### Methods ##############################################################
-
-    def _update_plugin_application(self, removed, added):
-        """ Update the 'application' trait of plugins added/removed. """
-
-        for plugin in removed:
-            plugin.application = None
-
-        for plugin in added:
-            plugin.application = self.application
+        for plugin_manager in self.plugin_managers:
+            plugin_manager.application = new
 
         return
 
