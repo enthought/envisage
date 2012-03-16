@@ -1,7 +1,6 @@
 """ Tests for the composite plugin manager. """
 
 
-from os.path import dirname, join
 import unittest
 
 from envisage.application import Application

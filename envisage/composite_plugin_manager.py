@@ -52,14 +52,14 @@ class CompositePluginManager(HasTraits):
     application = Instance(IApplication)
 
     # The plugin managers that make up this plugin manager!
-    plugin_managers = List(IPluginManager)
+    #
+    # This is currently a list of 'PluginManager's as opposed to, the more
+    # preferable 'IPluginManager' because the interface doesn't currently
+    # have an 'application' trait. Should we move 'application' up to
+    # 'IPluginManager'?
+    plugin_managers = List(PluginManager)
     @on_trait_change('plugin_managers[]')
     def _update_application(self, obj, trait_named, removed, added):
-        # smell: 'IPlugin' does not currently have an 'application' trait, but
-        # 'PluginManager' does! Should we move 'application' up to 'IPlugin'.
-        # Otherwise, the trait definition 'List(IPlugin)' is misleading
-        # because we assume an 'application' trait. Of course, Python being
-        # Python this will work but the intent is unclear.
         for plugin_manager in removed:
             plugin_manager.application = self.application
 

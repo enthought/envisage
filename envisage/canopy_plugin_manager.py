@@ -6,7 +6,6 @@ from traits.api import Directory, List, Str
 
 from composite_plugin_manager import CompositePluginManager
 from egg_basket_plugin_manager import EggBasketPluginManager
-from i_plugin_manager import IPluginManager
 from package_plugin_manager import PackagePluginManager
 from plugin_manager import PluginManager
 
@@ -101,7 +100,7 @@ class CanopyPluginManager(CompositePluginManager):
         return egg_basket_plugin_manager
 
     def _create_explicit_plugin_manager(self, plugins):
-        """ Factory method for the  plugin manager. """
+        """ Factory method for the explicit plugin manager. """
 
         return PluginManager(plugins=plugins)
 
