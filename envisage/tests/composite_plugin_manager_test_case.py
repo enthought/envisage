@@ -139,7 +139,8 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         composite_plugin_manager = CompositePluginManager(
             plugin_managers = [a, b]
         )
-
+        composite_plugin_manager._plugins
+        
         def added(obj, trait_name, old, new):
             added.count += 1
         added.count = 0
@@ -153,15 +154,24 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         composite_plugin_manager.on_trait_change(removed, 'plugin_removed')
 
         a.add_plugin(Plugin(id='foo'))
-        self.assertEqual(1, added.count)
-
+        self.assertEqual(1, self._plugin_count(composite_plugin_manager))
+                         
         a.remove_plugin(a.get_plugin('foo'))
-        self.assertEqual(1, removed.count)
+        self.assertEqual(0, self._plugin_count(composite_plugin_manager))
         
         return
     
     #### Private protocol #####################################################
 
+    def _plugin_count(self, plugin_manager):
+        """ Return how many plugins the plugin manager contains. """
+
+        count = 0
+        for plugin in plugin_manager:
+            count += 1
+
+        return count
+            
     def _test_start_and_stop(self, plugin_manager, expected):
         """ Make sure the plugin manager starts and stops the expected plugins.
 

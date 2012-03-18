@@ -50,6 +50,11 @@ class CompositePluginManager(HasTraits):
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
+    def _application_changed(self, trait_name, old, new):
+        for plugin_manager in self.plugin_managers:
+            plugin_manager.application = new
+
+        return
 
     # The plugin managers that make up this plugin manager!
     #
@@ -91,22 +96,24 @@ class CompositePluginManager(HasTraits):
     def __iter__(self):
         """ Return an iterator over the manager's plugins. """
 
-        return iter(self._plugins)
+        plugins = []
+        for plugin_manager in self.plugin_managers:
+            for plugin in plugin_manager:
+                plugins.append(plugin)
+
+        return iter(plugins)
 
     #### 'IPluginManager' protocol #############################################
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
 
-        self._plugins.append(plugin)
-        self.plugin_added = PluginEvent(plugin=plugin)
-
-        return
+        raise NotImplementedError
 
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id. """
 
-        for plugin in self._plugins:
+        for plugin in self:
             if plugin_id == plugin.id:
                 break
 
@@ -118,15 +125,12 @@ class CompositePluginManager(HasTraits):
     def remove_plugin(self, plugin):
         """ Remove a plugin from the manager. """
 
-        self._plugins.remove(plugin)
-        self.plugin_removed = PluginEvent(plugin=plugin)
-
-        return
+        raise NotImplementedError
 
     def start(self):
         """ Start the plugin manager. """
 
-        map(lambda plugin: self.start_plugin(plugin), self._plugins)
+        map(lambda plugin: self.start_plugin(plugin), self)
 
         return
 
@@ -148,7 +152,7 @@ class CompositePluginManager(HasTraits):
         """ Stop the plugin manager. """
 
         # We stop the plugins in the reverse order that they were started.
-        stop_order = self._plugins[:]
+        stop_order = list(iter(self))
         stop_order.reverse()
 
         map(lambda plugin: self.stop_plugin(plugin), stop_order)
@@ -166,16 +170,6 @@ class CompositePluginManager(HasTraits):
 
         else:
             raise SystemError('no such plugin %s' % plugin_id)
-
-        return
-
-    #### 'PluginManager' protocol #############################################
-
-    def _application_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
-
-        for plugin_manager in self.plugin_managers:
-            plugin_manager.application = new
 
         return
 
