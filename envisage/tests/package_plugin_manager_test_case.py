@@ -119,6 +119,24 @@ class PackagePluginManagerTestCase(unittest.TestCase):
 
         return
 
+    def test_reflect_changes_to_the_plugin_path(self):
+        plugin_manager = PackagePluginManager()
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 0)
+
+        plugin_manager.plugin_path.append(self.plugins_dir)
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 3)
+        self.assertIn('banana', ids)
+        self.assertIn('orange', ids)
+        self.assertIn('pear', ids)
+
+        del plugin_manager.plugin_path[0]
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 0)
+
+        return
+    
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):

@@ -121,12 +121,12 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         return
 
-    def test_handle_the_plugin_path_being_changed(self):
+    def test_reflect_changes_to_the_plugin_path(self):
+        plugin_manager = EggBasketPluginManager()
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 0)
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir]
-        )
-
+        plugin_manager.plugin_path.append(self.eggs_dir)
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
         self.assertIn('acme.foo', ids)
@@ -134,10 +134,11 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertIn('acme.baz', ids)
 
         del plugin_manager.plugin_path[0]
-         
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
+        return
+    
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):

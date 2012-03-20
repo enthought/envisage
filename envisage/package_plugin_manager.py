@@ -40,6 +40,7 @@ class PackagePluginManager(PluginManager):
     @on_trait_change('plugin_path[]')
     def _plugin_path_changed(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
+        self.reset_traits(['_plugins'])
 
     #### Protected 'PluginManager' protocol ###################################
 
@@ -128,7 +129,7 @@ class PackagePluginManager(PluginManager):
         
         for dirname in removed:
             if dirname in sys.path:
-                sys.peth.remove(dirname)
+                sys.path.remove(dirname)
 
         for dirname in added:
             if dirname not in sys.path:
