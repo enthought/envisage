@@ -102,7 +102,13 @@ class CanopyPluginManager(CompositePluginManager):
     def _create_explicit_plugin_manager(self, plugins):
         """ Factory method for the explicit plugin manager. """
 
-        return PluginManager(plugins=plugins)
+        plugin_manager = PluginManager(
+            exclude = self.exclude,
+            include = self.include,
+            plugins = plugins
+        )
+
+        return plugin_manager
 
     def _create_package_plugin_manager(self):
         """ Factory method for the 'Package' plugin manager. """

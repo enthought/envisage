@@ -2,9 +2,8 @@
 
 
 import logging, pkg_resources, sys
-from fnmatch import fnmatch
 
-from traits.api import Directory, List, on_trait_change, Str
+from traits.api import Directory, List, on_trait_change
 
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
@@ -35,19 +34,6 @@ class EggBasketPluginManager(PluginManager):
     ENVISAGE_PLUGINS_ENTRY_POINT = 'envisage.plugins'
 
     #### 'EggBasketPluginManager' protocol #####################################
-
-    # An optional list of the Ids of the plugins that are to be excluded by
-    # the manager.
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
-    exclude = List(Str)
-
-    # An optional list of the Ids of the plugins that are to be included by
-    # the manager (i.e. *only* plugins with Ids in this list will be added to
-    # the manager).
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
-    include = List(Str)
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
@@ -112,45 +98,11 @@ class EggBasketPluginManager(PluginManager):
 
             for ep in self._get_plugin_entry_points(plugin_working_set)
 
-            if self._is_included(ep.name) and not self._is_excluded(ep.name)
+            if self._include_plugin(ep.name)
         ]
 
         return plugins
     
-    def _is_excluded(self, plugin_id):
-        """ Return True if the plugin Id is excluded.
-
-        If no 'exclude' patterns are specified then this method returns False
-        for all plugin Ids.
-
-        """
-
-        if len(self.exclude) == 0:
-            return False
-
-        for pattern in self.exclude:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
-    def _is_included(self, plugin_id):
-        """ Return True if the plugin Id is included.
-
-        If no 'include' patterns are specified then this method returns True
-        for all plugin Ids.
-
-        """
-
-        if len(self.include) == 0:
-            return True
-
-        for pattern in self.include:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
     def _update_sys_dot_path(self, removed, added):
         """ Add/remove the given entries from sys.path. """
         

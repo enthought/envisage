@@ -2,10 +2,9 @@
 
 
 import logging, sys
-from fnmatch import fnmatch
 
 from apptools.io import File
-from traits.api import Directory, List, on_trait_change, Str
+from traits.api import Directory, List, on_trait_change
 
 from plugin_manager import PluginManager
 
@@ -35,19 +34,6 @@ class PackagePluginManager(PluginManager):
 
     #### 'PackagePluginManager' protocol #######################################
 
-    # An optional list of the Ids of the plugins that are to be excluded by
-    # the manager.
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
-    exclude = List(Str)
-
-    # An optional list of the Ids of the plugins that are to be included by
-    # the manager (i.e. *only* plugins with Ids in this list will be added to
-    # the manager).
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
-    include = List(Str)
-
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
@@ -63,7 +49,7 @@ class PackagePluginManager(PluginManager):
         plugins = [
             plugin for plugin in self._harvest_plugins_in_packages()
 
-            if self._is_included(plugin.id) and not self._is_excluded(plugin.id)
+            if self._include_plugin(plugin.id)
         ]
 
         logger.debug('package plugin manager found plugins <%s>', plugins)
@@ -88,6 +74,7 @@ class PackagePluginManager(PluginManager):
 
         return module
 
+    # smell: Looooong and ugly!
     def _harvest_plugins_in_package(self, package_name, package_dirname):
         """ Harvest plugins found in the given package. """
 
@@ -136,40 +123,6 @@ class PackagePluginManager(PluginManager):
 
         return plugins
     
-    def _is_excluded(self, plugin_id):
-        """ Return True if the plugin Id is excluded.
-
-        If no 'exclude' patterns are specified then this method returns False
-        for all plugin Ids.
-
-        """
-
-        if len(self.exclude) == 0:
-            return False
-
-        for pattern in self.exclude:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
-    def _is_included(self, plugin_id):
-        """ Return True if the plugin Id is included.
-
-        If no 'include' patterns are specified then this method returns True
-        for all plugin Ids.
-
-        """
-
-        if len(self.include) == 0:
-            return True
-
-        for pattern in self.include:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
     def _update_sys_dot_path(self, removed, added):
         """ Add/remove the given entries from sys.path. """
         
