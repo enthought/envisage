@@ -201,8 +201,6 @@ class ExtensionPointTestCase(unittest.TestCase):
     def test_extension_point_with_no_id(self):
         """ extension point with no Id """
 
-        registry = self.registry
-
         def factory():
             class Foo(TestBase):
                 x = ExtensionPoint(List(Int))

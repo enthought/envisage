@@ -2,7 +2,7 @@
 
 
 # Standard library imports.
-import sys, unittest
+import unittest
 
 # Enthought library imports.
 from envisage.api import ClassLoadHook

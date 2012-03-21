@@ -3,7 +3,6 @@
 
 # Enthought library imports.
 from envisage.api import ExtensionRegistry, UnknownExtension
-from traits.api import implements
 
 
 class MutableExtensionRegistry(ExtensionRegistry):
