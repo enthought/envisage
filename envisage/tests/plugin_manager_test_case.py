@@ -92,25 +92,6 @@ class PluginManagerTestCase(unittest.TestCase):
 
         return
 
-##     def test_get_plugins(self):
-##         """ get plugins """
-
-##         simple_plugin  = SimplePlugin()
-##         plugin_manager = PluginManager(plugins=[simple_plugin])
-
-##         # Get the plugin.
-##         plugins = plugin_manager.get_plugins()
-##         self.assertEqual([simple_plugin], plugins)
-
-##         # Mess with the list.
-##         plugins.append(BadPlugin())
-
-##         # Make sure we didn't affect the plugin manager.
-##         plugins = plugin_manager.get_plugins()
-##         self.assertEqual([simple_plugin], plugins)
-
-##         return
-
     def test_iteration_over_plugins(self):
         """ iteration over plugins """
 
@@ -123,7 +104,6 @@ class PluginManagerTestCase(unittest.TestCase):
         plugins = []
         for plugin in plugin_manager:
             plugins.append(plugin)
-
 
         self.assertEqual([simple_plugin, bad_plugin], plugins)
 
@@ -175,6 +155,134 @@ class PluginManagerTestCase(unittest.TestCase):
         self.failUnlessRaises(
             SystemError, plugin_manager.stop_plugin, plugin_id='bogus'
         )
+
+        return
+
+    def test_only_include_plugins_whose_ids_are_in_the_include_list(self):
+
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        include = ['foo', 'bar']
+
+        plugin_manager = PluginManager(
+            include = include,
+            plugins = [
+                SimplePlugin(id='foo'),
+                SimplePlugin(id='bar'),
+                SimplePlugin(id='baz')
+            ]
+        )
+
+        # The Ids of the plugins that we expect the plugin manager to find.
+        expected = ['foo', 'bar']
+
+        # Make sure the plugin manager found only the required plugins and that
+        # it starts and stops them correctly..
+        self._test_start_and_stop(plugin_manager, expected)
+
+        return
+
+    def test_only_include_plugins_matching_a_wildcard_in_the_include_list(self):
+
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        include = ['b*']
+
+        plugin_manager = PluginManager(
+            include = include,
+            plugins = [
+                SimplePlugin(id='foo'),
+                SimplePlugin(id='bar'),
+                SimplePlugin(id='baz')
+            ]
+        )
+
+        # The Ids of the plugins that we expect the plugin manager to find.
+        expected = ['bar', 'baz']
+
+        # Make sure the plugin manager found only the required plugins and that
+        # it starts and stops them correctly..
+        self._test_start_and_stop(plugin_manager, expected)
+
+        return
+
+    def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
+
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        exclude = ['foo', 'baz']
+
+        plugin_manager = PluginManager(
+            exclude = exclude,
+            plugins = [
+                SimplePlugin(id='foo'),
+                SimplePlugin(id='bar'),
+                SimplePlugin(id='baz')
+            ]
+        )
+
+        # The Ids of the plugins that we expect the plugin manager to find.
+        expected = ['bar']
+
+        # Make sure the plugin manager found only the required plugins and that
+        # it starts and stops them correctly..
+        self._test_start_and_stop(plugin_manager, expected)
+
+        return
+
+    def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
+
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        exclude = ['b*']
+
+        plugin_manager = PluginManager(
+            exclude = exclude,
+            plugins = [
+                SimplePlugin(id='foo'),
+                SimplePlugin(id='bar'),
+                SimplePlugin(id='baz')
+            ]
+        )
+
+        # The Ids of the plugins that we expect the plugin manager to find.
+        expected = ['foo']
+
+        # Make sure the plugin manager found only the required plugins and that
+        # it starts and stops them correctly..
+        self._test_start_and_stop(plugin_manager, expected)
+
+        return
+
+    #### Private protocol #####################################################
+
+    def _test_start_and_stop(self, plugin_manager, expected):
+        """ Make sure the plugin manager starts and stops the expected plugins.
+
+        """
+
+        # Make sure the plugin manager found only the required plugins.
+        self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
+
+        # Start the plugin manager. This starts all of the plugin manager's
+        # plugins.
+        plugin_manager.start()
+
+        # Make sure all of the the plugins were started.
+        for id in expected:
+            plugin = plugin_manager.get_plugin(id)
+            self.assertNotEqual(None, plugin)
+            self.assertEqual(True, plugin.started)
+
+        # Stop the plugin manager. This stops all of the plugin manager's
+        # plugins.
+        plugin_manager.stop()
+
+        # Make sure all of the the plugins were stopped.
+        for id in expected:
+            plugin = plugin_manager.get_plugin(id)
+            self.assertNotEqual(None, plugin)
+            self.assertEqual(True, plugin.stopped)
 
         return
 

@@ -5,9 +5,9 @@
 import unittest
 
 # Enthought library imports.
-from envisage.api import ExtensionPoint, ExtensionPointBinding
+from envisage.api import ExtensionPoint
 from envisage.api import bind_extension_point
-from traits.api import Bool, HasTraits, Int, List, Float, Str
+from traits.api import HasTraits, List
 
 # Local imports.
 #

@@ -5,7 +5,6 @@
 from traits.api import Event, Interface
 
 # Local imports.
-from i_plugin import IPlugin
 from plugin_event import PluginEvent
 
 

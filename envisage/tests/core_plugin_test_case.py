@@ -2,7 +2,6 @@
 
 
 # Standard library imports.
-import os.path
 import unittest
 
 # Major package imports.

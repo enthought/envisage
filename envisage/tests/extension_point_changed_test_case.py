@@ -4,9 +4,6 @@
 # Standard library imports.
 import unittest
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint
-
 # Local imports.
 #
 # We do these as absolute imports to allow nose to run from a different
