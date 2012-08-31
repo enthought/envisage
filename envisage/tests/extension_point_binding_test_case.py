@@ -209,6 +209,37 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         return
 
+    def test_can_bind_multiple_traits_on_a_single_object(self):
+
+        registry = self.extension_registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point('another.ep'))
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+            y = List
+
+        f = Foo()
+
+        # Make some bindings.
+        bind_extension_point(f, 'x', 'my.ep', registry)
+        bind_extension_point(f, 'y', 'another.ep', registry)
+
+        self.assertEqual(0, len(f.x))
+        self.assertEqual(0, len(f.y))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 42)
+        registry.add_extension('another.ep', 99)
+
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(1, len(f.y))
+
+        return
+
     ###########################################################################
     # Private interface.
     ###########################################################################

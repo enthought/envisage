@@ -58,7 +58,8 @@ class ExtensionPointBinding(HasTraits):
 
         # We keep a reference to each binding alive until its associated
         # object is garbage collected.
-        ExtensionPointBinding._bindings[self.obj] = self
+        bindings = ExtensionPointBinding._bindings.setdefault(self.obj, [])
+        bindings.append(self)
 
         return
 
