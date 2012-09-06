@@ -93,7 +93,8 @@ class PackagePluginManager(PluginManager):
         # do, call it with no arguments to get a plugin!
         else:
             plugins = []
-            for child in File(package_dirname).children:
+            logger.debug('Looking for plugins in %s' % package_dirname)
+            for child in File(package_dirname).children or []:
                 if child.ext == '.py' and child.name.endswith('_plugin'):
                     module = __import__(
                         package_name + '.' + child.name, fromlist=[child.name]
