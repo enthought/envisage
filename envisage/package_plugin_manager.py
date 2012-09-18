@@ -115,7 +115,7 @@ class PackagePluginManager(PluginManager):
 
         plugins = []
         for dirname in self.plugin_path:
-            for child in File(dirname).children:
+            for child in File(dirname).children or []:
                 if child.is_package:
                     plugins.extend(
                         self._harvest_plugins_in_package(
