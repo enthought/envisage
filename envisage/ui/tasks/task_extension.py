@@ -1,9 +1,9 @@
 # Enthought library imports.
 from pyface.tasks.action.api import SchemaAddition
-from traits.api import Callable, HasTraits, List, Str
+from traits.api import HasStrictTraits, Callable, List, Str
 
 
-class TaskExtension(HasTraits):
+class TaskExtension(HasStrictTraits):
     """ A bundle of items for extending a Task.
     """
 
