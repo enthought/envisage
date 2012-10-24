@@ -34,10 +34,11 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
 
         ids = [plugin.id for plugin in plugin_manager]
-        self.assertEqual(len(ids), 3)
+        self.assertEqual(len(ids), 4)
         self.assertIn('acme.foo', ids)
         self.assertIn('acme.bar', ids)
         self.assertIn('acme.baz', ids)
+        self.assertIn('acme.acme', ids)
 
         return
 
@@ -93,7 +94,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar']
+        expected = ['acme.bar', 'acme.acme']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -113,7 +114,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo']
+        expected = ['acme.foo', 'acme.acme']
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -128,16 +129,38 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         plugin_manager.plugin_path.append(self.eggs_dir)
         ids = [plugin.id for plugin in plugin_manager]
-        self.assertEqual(len(ids), 3)
+        self.assertEqual(len(ids), 4)
         self.assertIn('acme.foo', ids)
         self.assertIn('acme.bar', ids)
         self.assertIn('acme.baz', ids)
+        self.assertIn('acme.acme', ids)
 
         del plugin_manager.plugin_path[0]
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
         return
+        
+    def test_if_plugin_order_in_entry_points_are_preserved(self):
+        # Note that the items in the list use the 'fnmatch' syntax for matching
+        # plugins Ids.
+        include = ['acme.foo', 'acme.acme']
+
+        plugin_manager = EggBasketPluginManager(
+            plugin_path = [self.eggs_dir],
+            include     = include
+        )
+
+        # The Ids of the plugins that we expect the plugin manager to find.
+        expected = ['acme.acme', 'acme.foo']
+        
+        # Make sure the plugin manager found only the required plugins and that
+        # it starts and stops them correctly..
+        self._test_start_and_stop(plugin_manager, expected)
+ 
+        # Make sure that the ordering is as we specify in the expected list.
+        self.assertEqual(expected, 
+                         [plugin.id for plugin in plugin_manager])
     
     #### Private protocol #####################################################
 
@@ -147,7 +170,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         """
 
         # Make sure the plugin manager found only the required plugins.
-        self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
+        self.assertEqual(sorted(expected), 
+                         sorted([plugin.id for plugin in plugin_manager]))
 
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
