@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from traits.api import List, Instance, Str
+from traits.api import List, Instance, on_trait_change, Str
 
 
 class CorePlugin(Plugin):
@@ -128,6 +128,19 @@ class CorePlugin(Plugin):
 
         """
     )
+    @on_trait_change('service_offers_items')
+    def _service_offers_changed(self, event):
+        """ React to new service offers being *added*.
+
+        Note that we don't currently do anything if services are *removed* as
+        we have no facility to let users of the service know that the offer
+        has been retracted.
+
+        """
+        
+        map(self._register_service_offer, event.added)
+
+        return
 
     #### Contributions to extension points made by this plugin ################
 

@@ -7,8 +7,9 @@ import os, shutil, unittest
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
 from envisage.api import Application, ExtensionPoint
-from envisage.api import Plugin, PluginManager
-from traits.api import Bool, Int, List
+from envisage.api import Plugin, PluginManager, ServiceOffer
+from envisage.core_plugin import CorePlugin
+from traits.api import Bool, Int, Interface, List
 
 # Local imports.
 #
@@ -108,6 +109,32 @@ class PluginC(Plugin):
 
     id = 'C'
     x  = List(Int, [98, 99, 100], contributes_to='a.x')
+
+
+class IMyService(Interface):
+    pass
+
+
+class PluginD(Plugin):
+    """ A plugin that contributes a service offer. """
+
+    id = 'D'
+    service_offers = List(contributes_to='envisage.service_offers')
+    def _service_offers_default(self):
+        """ Trait initializer. """
+
+        service_offers = [
+            ServiceOffer(
+                protocol=IMyService, factory=self._my_service_factory
+            )
+        ]
+
+        return service_offers
+
+    def _my_service_factory(self, **properties):
+        """ Service factory. """
+
+        return 42
 
 
 class ApplicationTestCase(unittest.TestCase):
@@ -405,6 +432,38 @@ class ApplicationTestCase(unittest.TestCase):
         extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
+
+        return
+
+    def test_add_plugin_with_service_offer(self):
+        """ add plugin """
+
+        core = CorePlugin()
+        d    = PluginD()
+
+        # Start off with just the core plugin.
+        application = TestApplication(plugins=[core])
+        application.start()
+
+        # Make sure the service does not exist!
+        service = application.get_service(IMyService)
+        self.assertIsNone(service)
+
+        # Make sure the service offer exists...
+        extensions = application.get_extensions('envisage.service_offers')
+        self.assertEqual(0, len(extensions))
+
+        # Now add a plugin that contains the service offer.
+        application.add_plugin(d)
+
+        # Make sure the service offer exists...
+        extensions = application.get_extensions('envisage.service_offers')
+        self.assertEqual(1, len(extensions))
+
+        # ... and that the core plugin responded to the new service offer and
+        # published it in the service registry.
+        service = application.get_service(IMyService)
+        self.assertEqual(42, service)
 
         return
 
