@@ -129,6 +129,17 @@ class CorePlugin(Plugin):
 
         """
     )
+    @on_trait_change('preferences_items')
+    def _preferences_changed(self, event):
+        """ React to new preferencess being *added*.
+
+        Note that we don't currently do anything if preferences are *removed*.
+
+        """
+
+        self._load_preferences(event.added)
+
+        return
 
     service_offers = ExtensionPoint(
         List(ServiceOffer),
@@ -178,7 +189,7 @@ class CorePlugin(Plugin):
 
         # Load all contributed preferences files into the application's root
         # preferences node.
-        self._load_preferences(self.application.preferences)
+        self._load_preferences(self.preferences)
 
         # Connect all class load hooks.
         self._connect_class_load_hooks(self.class_load_hooks)
@@ -254,11 +265,11 @@ class CorePlugin(Plugin):
         # save the actual default plugin preference values. They will only get
         # saved if a value has been set in another (persistent) scope - which
         # is exactly what happens in the preferences UI.
-        default = preferences.node('default/')
+        default = self.application.preferences.node('default/')
 
         # The resource manager is used to find the preferences files.
         resource_manager = ResourceManager()
-        for resource_name in self.preferences:
+        for resource_name in preferences:
             f = resource_manager.file(resource_name)
             try:
                 default.load(f)

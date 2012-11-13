@@ -139,7 +139,7 @@ class CorePluginTestCase(unittest.TestCase):
         extensions = application.get_extensions('envisage.service_offers')
         self.assertEqual(0, len(extensions))
 
-        # Now add a plugin that contains the service offer.
+        # Now add a plugin that contains a service offer.
         application.add_plugin(a)
 
         # Make sure the service offer exists...
@@ -222,7 +222,7 @@ class CorePluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[core])
         application.start()
 
-        # Now add a plugin that contains the category.
+        # Now add a plugin that contains a category.
         application.add_plugin(a)
 
         # Create the target class.
@@ -325,7 +325,7 @@ class CorePluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[core])
         application.start()
 
-        # Now add a plugin that contains the category.
+        # Now add a plugin that contains a class load hook.
         application.add_plugin(a)
 
         # Make sure we ignore a class that we are not interested in!
@@ -365,8 +365,43 @@ class CorePluginTestCase(unittest.TestCase):
 
                 return ['file://' + resource_filename(PKG, 'preferences.ini')]
 
-        application = TestApplication(plugins=[CorePlugin(), PluginA()])
+
+        core = CorePlugin()
+        a    = PluginA()
+
+        application = TestApplication(plugins=[core, a])
         application.run()
+
+        # Make sure we can get one of the preferences.
+        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+
+        return
+
+    def test_dynamically_added_preferences(self):
+        """ dynamically added preferences """
+
+        # The core plugin is the plugin that offers the preferences extension
+        # point.
+        from envisage.core_plugin import CorePlugin
+
+        class PluginA(Plugin):
+            id = 'A'
+            preferences = List(contributes_to='envisage.preferences')
+
+            def _preferences_default(self):
+                """ Trait initializer. """
+
+                return ['file://' + resource_filename(PKG, 'preferences.ini')]
+
+        core = CorePlugin()
+        a    = PluginA()
+
+        # Start with just the core plugin.
+        application = TestApplication(plugins=[core])
+        application.start()
+
+        # Now add a plugin that contains a preference.
+        application.add_plugin(a)
 
         # Make sure we can get one of the preferences.
         self.assertEqual('42', application.preferences.get('enthought.test.x'))
