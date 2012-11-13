@@ -93,6 +93,66 @@ class CorePluginTestCase(unittest.TestCase):
 
         return
 
+    def test_dynamically_add_plugin_with_service_offer(self):
+        """ dynamically add plugin with service offer """
+
+        from envisage.core_plugin import CorePlugin
+
+        class IMyService(Interface):
+            pass
+
+        class PluginA(Plugin):
+            id = 'A'
+
+            service_offers = List(
+                contributes_to='envisage.service_offers'
+            )
+
+            def _service_offers_default(self):
+                """ Trait initializer. """
+
+                service_offers = [
+                    ServiceOffer(
+                        protocol=IMyService, factory=self._my_service_factory
+                    )
+                ]
+
+                return service_offers
+
+            def _my_service_factory(self, **properties):
+                """ Service factory. """
+
+                return 42
+
+        core = CorePlugin()
+        a    = PluginA()
+
+        # Start off with just the core plugin.
+        application = TestApplication(plugins=[core])
+        application.start()
+
+        # Make sure the service does not exist!
+        service = application.get_service(IMyService)
+        self.assertIsNone(service)
+
+        # Make sure the service offer exists...
+        extensions = application.get_extensions('envisage.service_offers')
+        self.assertEqual(0, len(extensions))
+
+        # Now add a plugin that contains the service offer.
+        application.add_plugin(a)
+
+        # Make sure the service offer exists...
+        extensions = application.get_extensions('envisage.service_offers')
+        self.assertEqual(1, len(extensions))
+
+        # ... and that the core plugin responded to the new service offer and
+        # published it in the service registry.
+        service = application.get_service(IMyService)
+        self.assertEqual(42, service)
+
+        return
+
     def test_categories(self):
         """ categories """
 
