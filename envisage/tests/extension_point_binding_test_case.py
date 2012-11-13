@@ -209,34 +209,34 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         return
 
-    def test_can_bind_multiple_traits_on_a_single_object(self):
+    def test_should_be_able_to_bind_multiple_traits_on_a_single_object(self):
 
         registry = self.extension_registry
 
-        # Add an extension point.
+        # Add 2 extension points.
         registry.add_extension_point(self._create_extension_point('my.ep'))
         registry.add_extension_point(self._create_extension_point('another.ep'))
 
-        # Declare a class that consumes the extension.
+        # Declare a class that consumes both of the extension points.
         class Foo(HasTraits):
             x = List
             y = List
 
         f = Foo()
 
-        # Make some bindings.
+        # Bind two different traits on the object to the extension points.
         bind_extension_point(f, 'x', 'my.ep', registry)
         bind_extension_point(f, 'y', 'another.ep', registry)
-
         self.assertEqual(0, len(f.x))
         self.assertEqual(0, len(f.y))
 
-        # Add an extension.
+        # Add some contributions to the extension points.
         registry.add_extension('my.ep', 42)
-        registry.add_extension('another.ep', 99)
+        registry.add_extensions('another.ep', [98, 99, 100])
 
+        # Make sure both traits were bound correctly.
         self.assertEqual(1, len(f.x))
-        self.assertEqual(1, len(f.y))
+        self.assertEqual(3, len(f.y))
 
         return
 
