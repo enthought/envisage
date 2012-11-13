@@ -93,8 +93,8 @@ class CorePluginTestCase(unittest.TestCase):
 
         return
 
-    def test_dynamically_add_plugin_with_service_offer(self):
-        """ dynamically add plugin with service offer """
+    def test_dynamically_added_service_offer(self):
+        """ dynamically added service offer """
 
         from envisage.core_plugin import CorePlugin
 
@@ -194,6 +194,51 @@ class CorePluginTestCase(unittest.TestCase):
 
         return
 
+    def test_dynamically_added_category(self):
+        """ dynamically added category """
+
+        from envisage.core_plugin import CorePlugin
+
+        class PluginA(Plugin):
+            id = 'A'
+
+            categories = List(contributes_to='envisage.categories')
+
+            def _categories_default(self):
+                """ Trait initializer. """
+
+                bar_category = Category(
+                    class_name = PKG + '.baz_category.BazCategory',
+                    target_class_name = CorePluginTestCase.__module__ + '.Baz'
+                )
+
+                return [bar_category]
+
+
+        core = CorePlugin()
+        a    = PluginA()
+
+        # Start with just the core plugin.
+        application = TestApplication(plugins=[core])
+        application.start()
+
+        # Now add a plugin that contains the category.
+        application.add_plugin(a)
+
+        # Create the target class.
+        class Baz(HasTraits):
+            x = Int
+
+        # Make sure the category was imported and added.
+        #
+        # fixme: The following assertion was commented out. Please don't do
+        # that! If a test fails we need to work out why - otherwise you have
+        # just completely removed the benefits of having tests in the first
+        # place! This test works for me on Python 2.4!
+        self.assert_('z' in Baz.class_traits())
+
+        return
+
     def test_class_load_hooks(self):
         """ class load hooks """
 
@@ -225,6 +270,63 @@ class CorePluginTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[core, a])
         application.start()
+
+        # Make sure we ignore a class that we are not interested in!
+        class Bif(HasTraits):
+            pass
+
+        # Make sure the class load hook was *ignored*.
+        self.assert_(not hasattr(on_class_loaded, 'cls'))
+
+        # Create the target class.
+        class Baz(HasTraits):
+            pass
+
+        # Make sure the class load hook was called.
+        #
+        # fixme: The following assertion was commented out. Please don't do
+        # that! If a test fails we need to work out why - otherwise you have
+        # just completely removed the benefits of having tests in the first
+        # place! This test works for me on Python 2.4!
+        self.assertEqual(Baz, on_class_loaded.cls)
+
+        return
+
+    def test_dynamically_added_class_load_hooks(self):
+        """ dynamically class load hooks """
+
+        from envisage.core_plugin import CorePlugin
+
+        def on_class_loaded(cls):
+            """ Called when a class has been loaded. """
+
+            on_class_loaded.cls = cls
+
+            return
+
+        class PluginA(Plugin):
+            id = 'A'
+
+            class_load_hooks = List(
+                [
+                    ClassLoadHook(
+                        class_name = CorePluginTestCase.__module__ + '.Baz',
+                        on_load    = on_class_loaded,
+                    )
+                ],
+
+                contributes_to='envisage.class_load_hooks'
+            )
+
+        core = CorePlugin()
+        a    = PluginA()
+
+        # Start with just the core plugin.
+        application = TestApplication(plugins=[core])
+        application.start()
+
+        # Now add a plugin that contains the category.
+        application.add_plugin(a)
 
         # Make sure we ignore a class that we are not interested in!
         class Bif(HasTraits):

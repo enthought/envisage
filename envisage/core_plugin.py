@@ -60,6 +60,17 @@ class CorePlugin(Plugin):
 
         """
     )
+    @on_trait_change('categories_items')
+    def _categories_items_changed(self, event):
+        """ React to new categories being *added*.
+
+        Note that we don't currently do anything if categories are *removed*.
+
+        """
+
+        self._add_category_class_load_hooks(event.added)
+
+        return
 
     class_load_hooks = ExtensionPoint(
         List(Instance('envisage.class_load_hook.ClassLoadHook')),
@@ -73,6 +84,18 @@ class CorePlugin(Plugin):
 
         """
     )
+    @on_trait_change('class_load_hooks_items')
+    def _class_load_hooks_changed(self, event):
+        """ React to new class load hooks being *added*.
+
+        Note that we don't currently do anything if class load hooks are
+        *removed*.
+
+        """
+
+        self._connect_class_load_hooks(event.added)
+
+        return
 
     preferences = ExtensionPoint(
         List(Str),
@@ -137,7 +160,7 @@ class CorePlugin(Plugin):
         has been retracted.
 
         """
-        
+
         map(self._register_service_offer, event.added)
 
         return
