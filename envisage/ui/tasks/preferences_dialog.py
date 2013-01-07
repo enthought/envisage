@@ -57,7 +57,7 @@ class PreferencesDialog(Handler):
             for pane in tab.panes:
                 if pane.id == pane_id:
                     self._selected = tab
-                    break
+                    return
 
     ###########################################################################
     # 'HasTraits' interface.
