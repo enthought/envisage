@@ -44,6 +44,20 @@ class PreferencesDialog(Handler):
     #### Private interface ####################################################
 
     _tabs = List(PreferencesTab)
+    _selected = Instance(PreferencesTab)
+
+    ###########################################################################
+    # Public interface
+    ###########################################################################
+
+    def select_pane(self, pane_id):
+        """ Find and activate the notebook tab that contains the given pane id.
+        """
+        for tab in self._tabs:
+            for pane in tab.panes:
+                if pane.id == pane_id:
+                    self._selected = tab
+                    return
 
     ###########################################################################
     # 'HasTraits' interface.
@@ -68,7 +82,8 @@ class PreferencesDialog(Handler):
         return View(Item('_tabs',
                          editor = ListEditor(page_name = '.name',
                                              style ='custom',
-                                             use_notebook = True),
+                                             use_notebook = True,
+                                             selected = '_selected'),
                          show_label = False,
                          style = tabs_style),
                     buttons = buttons,
