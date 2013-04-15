@@ -14,7 +14,7 @@ install:
   - python setup.py develop
 script:
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then nosetests envisage; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then ETS_TOOLKIT=qt4 nosetests envisage; fi
 notifications:
   email:
     - pberkes@enthought.com
