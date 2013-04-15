@@ -8,6 +8,7 @@ install:
   - python setup.py develop
 script:
   - nosetests envisage/tests
+
 notifications:
   email:
     - pberkes@enthought.com
