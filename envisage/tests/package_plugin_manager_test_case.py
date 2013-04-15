@@ -145,7 +145,9 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         """
 
         # Make sure the plugin manager found only the required plugins.
-        self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
+        self.assertItemsEqual(
+            expected, [plugin.id for plugin in plugin_manager]
+        )
 
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
