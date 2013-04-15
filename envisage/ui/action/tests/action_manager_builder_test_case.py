@@ -4,9 +4,6 @@
 # Standard library imports.
 import unittest
 
-# fixme: Workaround for traits bug introduced by themes.
-import traitsui.wx
-
 # Enthought library imports.
 from envisage.ui.action.api import Action, ActionSet, Group, Menu
 
