@@ -3,21 +3,18 @@ python:
   - 2.7
   - 2.6
 virtualenv:
+  # This allows installing PyQt using apt-get and being able to import it.
   system_site_packages: true
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sudo apt-get install python-qt4 python-qt4-dev
-  - python -c 'import PyQt4'
-  - python -c 'import PyQt4.QtCore'
-  - python -c 'import PyQt4.QtGui'
-  - "export ETS_TOOLKIT=qt4"
+  # On Python 2.7 we install PyQt4 and run the UI tests.
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then sh .travis_before_install; fi
 install:
   - pip install nose
   - pip install unittest2
   - python setup.py develop
 script:
-  - nosetests envisage
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then nosetests envisage; fi
 notifications:
   email:
     - pberkes@enthought.com
