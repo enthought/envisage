@@ -2,7 +2,6 @@
 
 
 # Standard library imports.
-import unittest
 from os.path import exists, join
 
 # Enthought library imports.
@@ -10,6 +9,7 @@ from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin, contributes_to
 from traits.api import HasTraits, Instance, Int, Interface, List
 from traits.api import implements
+from traits.testing.unittest_tools import unittest
 
 
 def listener(obj, trait_name, old, new):

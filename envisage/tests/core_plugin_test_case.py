@@ -1,9 +1,6 @@
 """ Tests for the core plugin. """
 
 
-# Standard library imports.
-import unittest
-
 # Major package imports.
 from pkg_resources import resource_filename
 
@@ -11,6 +8,7 @@ from pkg_resources import resource_filename
 from envisage.api import Application, Category, ClassLoadHook, Plugin
 from envisage.api import ServiceOffer
 from traits.api import HasTraits, Int, Interface, List
+from traits.testing.unittest_tools import unittest
 
 
 # This module's package.

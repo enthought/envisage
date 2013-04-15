@@ -2,11 +2,12 @@
 
 
 # Standard library imports.
-import unittest, weakref
+import weakref
 
 # Enthought library imports.
 from envisage.safeweakref import ref
 from traits.api import HasTraits
+from traits.testing.unittest_tools import unittest
 
 
 class SafeWeakrefTestCase(unittest.TestCase):

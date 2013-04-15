@@ -1,13 +1,11 @@
 """ A menu builder that doesn't build real actions! """
 
 
-# Standard library imports.
-import unittest
-
 # Enthought library imports.
 from envisage.ui.action.api import AbstractActionManagerBuilder
 from pyface.action.api import Action, Group, MenuManager
 from pyface.action.api import MenuBarManager
+from traits.testing.unittest_tools import unittest
 
 
 class DummyActionManagerBuilder(AbstractActionManagerBuilder):
