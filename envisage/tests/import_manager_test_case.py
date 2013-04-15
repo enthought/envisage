@@ -34,21 +34,25 @@ class ImportManagerTestCase(unittest.TestCase):
     def test_import_dotted_symbol(self):
         """ import dotted symbol """
 
-        symbol = self.import_manager.import_symbol('unittest.TestCase')
-        self.assertEqual(symbol, unittest.TestCase)
+        import tarfile
+
+        symbol = self.import_manager.import_symbol('tarfile.TarFile')
+        self.assertEqual(symbol, tarfile.TarFile)
 
         return
 
     def test_import_nested_symbol(self):
         """ import nested symbol """
 
-        symbol = self.import_manager.import_symbol('unittest:TestCase.setUp')
-        self.assertEqual(symbol, unittest.TestCase.setUp)
+        import tarfile
+
+        symbol = self.import_manager.import_symbol('tarfile:TarFile.open')
+        self.assertEqual(symbol, tarfile.TarFile.open)
 
         return
 
     def test_import_dotted_module(self):
-        """ import dotted modulel """
+        """ import dotted module """
 
         symbol = self.import_manager.import_symbol(
             'envisage.api:ImportManager'
