@@ -1,13 +1,11 @@
 """ Tests for extension point bindings. """
 
 
-# Standard library imports.
-import unittest
-
 # Enthought library imports.
 from envisage.api import ExtensionPoint
 from envisage.api import bind_extension_point
 from traits.api import HasTraits, List
+from traits.testing.unittest_tools import unittest
 
 # Local imports.
 #

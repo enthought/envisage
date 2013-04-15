@@ -1,14 +1,9 @@
 """ Tests for the action manager builder. """
 
 
-# Standard library imports.
-import unittest
-
-# fixme: Workaround for traits bug introduced by themes.
-import traitsui.wx
-
 # Enthought library imports.
 from envisage.ui.action.api import Action, ActionSet, Group, Menu
+from traits.testing.unittest_tools import unittest
 
 # Local imports.
 from dummy_action_manager_builder import DummyActionManagerBuilder

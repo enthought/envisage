@@ -2,11 +2,12 @@
 
 
 # Standard library imports.
-import sys, unittest
+import sys
 
 # Enthought library imports.
 from envisage.api import Application, ServiceRegistry
 from traits.api import HasTraits, Int, Interface, implements
+from traits.testing.unittest_tools import unittest
 
 
 # This module's package.

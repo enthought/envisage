@@ -1,13 +1,12 @@
 """ Tests for the composite plugin manager. """
 
 
-import unittest
-
 from envisage.application import Application
 from envisage.composite_plugin_manager import CompositePluginManager
 from envisage.plugin_manager import PluginManager
 from envisage.plugin import Plugin
 from traits.api import Bool
+from traits.testing.unittest_tools import unittest
 
 
 class SimplePlugin(Plugin):

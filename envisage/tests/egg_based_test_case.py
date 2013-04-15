@@ -1,10 +1,10 @@
 """ Base class for Egg-based test cases. """
 
 
-# Standard library imports.
-import unittest
 import pkg_resources
 from os.path import dirname, join
+
+from traits.testing.unittest_tools import unittest
 
 
 class EggBasedTestCase(unittest.TestCase):

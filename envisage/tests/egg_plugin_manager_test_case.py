@@ -1,14 +1,12 @@
 """ Tests for the Egg plugin manager. """
 
 
-# Standard library imports.
-import unittest
-
 # Enthought library imports.
 from envisage.api import EggPluginManager
 
 # Local imports.
 from egg_based_test_case import EggBasedTestCase
+from traits.testing.unittest_tools import unittest
 
 
 class EggPluginManagerTestCase(EggBasedTestCase):

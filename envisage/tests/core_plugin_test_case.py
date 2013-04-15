@@ -1,9 +1,6 @@
 """ Tests for the core plugin. """
 
 
-# Standard library imports.
-import unittest
-
 # Major package imports.
 from pkg_resources import resource_filename
 
@@ -11,6 +8,7 @@ from pkg_resources import resource_filename
 from envisage.api import Application, Category, ClassLoadHook, Plugin
 from envisage.api import ServiceOffer
 from traits.api import HasTraits, Int, Interface, List
+from traits.testing.unittest_tools import unittest
 
 
 # This module's package.
@@ -208,8 +206,8 @@ class CorePluginTestCase(unittest.TestCase):
                 """ Trait initializer. """
 
                 bar_category = Category(
-                    class_name = PKG + '.baz_category.BazCategory',
-                    target_class_name = CorePluginTestCase.__module__ + '.Baz'
+                    class_name = PKG + '.bar_category.BarCategory',
+                    target_class_name = CorePluginTestCase.__module__ + '.Bar'
                 )
 
                 return [bar_category]
@@ -226,16 +224,11 @@ class CorePluginTestCase(unittest.TestCase):
         application.add_plugin(a)
 
         # Create the target class.
-        class Baz(HasTraits):
+        class Bar(HasTraits):
             x = Int
 
         # Make sure the category was imported and added.
-        #
-        # fixme: The following assertion was commented out. Please don't do
-        # that! If a test fails we need to work out why - otherwise you have
-        # just completely removed the benefits of having tests in the first
-        # place! This test works for me on Python 2.4!
-        self.assert_('z' in Baz.class_traits())
+        self.assert_('y' in Bar.class_traits())
 
         return
 
@@ -340,11 +333,6 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was called.
-        #
-        # fixme: The following assertion was commented out. Please don't do
-        # that! If a test fails we need to work out why - otherwise you have
-        # just completely removed the benefits of having tests in the first
-        # place! This test works for me on Python 2.4!
         self.assertEqual(Baz, on_class_loaded.cls)
 
         return
