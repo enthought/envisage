@@ -2,9 +2,9 @@
 
 
 from os.path import dirname, join
-import unittest
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
+from traits.testing.unittest_tools import unittest
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):

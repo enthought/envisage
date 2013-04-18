@@ -1,12 +1,9 @@
 """ Tests for class load hooks. """
 
 
-# Standard library imports.
-import unittest
-
-# Enthought library imports.
 from envisage.api import ClassLoadHook
 from traits.api import HasTraits
+from traits.testing.unittest_tools import unittest
 
 
 # This module's package.

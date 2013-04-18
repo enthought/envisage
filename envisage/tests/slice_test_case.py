@@ -6,11 +6,9 @@ we try to mimic trait list events when extensions are added or removed.
 """
 
 
-# Standard library imports.
-import unittest
-
 # Enthought library imports.
 from traits.api import HasTraits, List
+from traits.testing.unittest_tools import unittest
 
 
 # The starting list for all tests.

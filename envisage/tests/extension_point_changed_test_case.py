@@ -1,8 +1,8 @@
 """ Tests for the events fired when extension points are changed. """
 
 
-# Standard library imports.
-import unittest
+# Enthought library imports.
+from traits.testing.unittest_tools import unittest
 
 # Local imports.
 #
