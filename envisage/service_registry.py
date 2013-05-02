@@ -5,8 +5,8 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Dict, Event, HasTraits, Int, Undefined, implements
-from traits.protocols.interfaces import Protocol
+from traits.api import Dict, Event, HasTraits, Int, Undefined, implements, \
+    Interface
 
 # Local imports.
 from i_service_registry import IServiceRegistry
@@ -216,19 +216,8 @@ class ServiceRegistry(HasTraits):
         # fixme: Should we have a formal notion of service factory with an
         # appropriate API, or is this good enough? An API might have lifecycle
         # methods to both create and destroy the service?!?
-        #
-        # If the protocol is a PyProtocols protocol (try saying that five times
-        # fast ;^), then the object is deemed to be a factory if it does not
-        # explicitly provide and cannot be adapted to the protocol.
-        if isinstance(protocol, Protocol):
-            is_service_factory = protocol(obj, Undefined) is Undefined
 
-        # Otherwise, the protocol is a normal Python class so the object is
-        # deemed to be a factory if it is not an instance of that class.
-        else:
-            is_service_factory = not isinstance(obj, protocol)
-
-        return is_service_factory
+        return not isinstance(obj, protocol)
 
     def _next_service_id(self):
         """ Returns the next service ID. """
