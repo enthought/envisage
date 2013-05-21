@@ -11,6 +11,8 @@ before_install:
 install:
   - pip install nose
   - pip install unittest2
+  # 'envisage' should work with the current 'traits' master
+  - pip install git+http://github.com/enthought/traits.git#egg=traits
   - python setup.py develop
 script:
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; fi
