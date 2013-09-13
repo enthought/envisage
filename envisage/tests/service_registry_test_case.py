@@ -5,7 +5,7 @@
 import sys
 
 # Enthought library imports.
-from envisage.api import Application, ServiceRegistry
+from envisage.api import Application, ServiceRegistry, NoSuchServiceError
 from traits.api import HasTraits, Int, Interface, implements
 from traits.testing.unittest_tools import unittest
 
@@ -49,6 +49,31 @@ class ServiceRegistryTestCase(unittest.TestCase):
     ###########################################################################
     # Tests.
     ###########################################################################
+
+    def test_should_get_required_service(self):
+
+        class Foo(HasTraits):
+            price = Int
+
+        foo = Foo()
+
+        # Register a service factory.
+        self.service_registry.register_service(Foo, foo)
+
+        service = self.service_registry.get_required_service(Foo)
+        self.assertIs(foo, service)
+
+        return
+
+    def test_should_get_exception_if_required_service_is_missing(self):
+
+        class IFoo(Interface):
+            price = Int
+
+        with self.assertRaises(NoSuchServiceError):
+            self.service_registry.get_required_service(IFoo)
+
+        return
 
     def test_imported_service_factory(self):
         """ imported service factory """

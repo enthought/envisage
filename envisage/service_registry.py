@@ -17,6 +17,10 @@ from import_manager import ImportManager
 logger = logging.getLogger(__name__)
 
 
+class NoSuchServiceError(Exception):
+    """ Raised when a required service is not found. """
+
+
 class ServiceRegistry(HasTraits):
     """ The service registry. """
 
@@ -54,6 +58,19 @@ class ServiceRegistry(HasTraits):
     ###########################################################################
     # 'IServiceRegistry' interface.
     ###########################################################################
+
+    def get_required_service(self, protocol, query='', minimize='',maximize=''):
+        """ Return the service that matches the specified query.
+
+        Raise a 'NoSuchServiceError' exception if no such service exists.
+
+        """
+
+        service = self.get_service(protocol, query, minimize, maximize)
+        if service is None:
+            raise NoSuchServiceError(protocol)
+
+        return service
 
     def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
