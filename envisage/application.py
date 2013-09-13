@@ -351,6 +351,19 @@ class Application(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
+    def get_required_service(self, protocol, query='', minimize='',maximize=''):
+        """ Return the service that matches the specified query.
+
+        Raise a 'NoSuchServiceError' exception if no such service exists.
+
+        """
+
+        service = self.service_registry.get_required_service(
+            protocol, query, minimize, maximize
+        )
+
+        return service
+
     def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query. """
 
