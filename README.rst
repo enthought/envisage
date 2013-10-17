@@ -2,6 +2,8 @@
 envisage: extensible application framework
 ==========================================
 
+[![Build Status](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
+
 http://github.enthought.com/envisage
 
 Envisage is a Python-based framework for building extensible applications,
