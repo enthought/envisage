@@ -19,4 +19,4 @@ script:
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then nosetests envisage; fi
 notifications:
   email:
-    - pberkes@enthought.com
+    - travis-ci@enthought.com
