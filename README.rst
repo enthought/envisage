@@ -2,7 +2,7 @@
 envisage: extensible application framework
 ==========================================
 
-[![Build Status](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
+[![Build Status](https://travis-ci.org/enthought/envisage.png)](https://travis-ci.org/enthought/envisage)
 
 http://github.enthought.com/envisage
 
