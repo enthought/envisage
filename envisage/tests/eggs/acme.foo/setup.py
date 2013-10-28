@@ -22,6 +22,7 @@ setup(
     entry_points = """
 
     [envisage.plugins]
+    acme.acme = acme.foo.acme_plugin:AcmePlugin
     acme.foo = acme.foo.foo_plugin:FooPlugin
 
     """

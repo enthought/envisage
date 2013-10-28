@@ -68,7 +68,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo', 'acme.bar', 'acme.baz']
+        expected = ['acme.foo', 'acme.bar', 'acme.baz', 'acme.acme']
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
@@ -91,7 +91,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar']
+        expected = ['acme.bar', 'acme.acme']
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
@@ -117,7 +117,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo']
+        expected = ['acme.foo', 'acme.acme']
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
@@ -146,7 +146,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         """
 
         # Make sure the plugin manager found only the required plugins.
-        self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
+        self.assertEqual(sorted(expected), 
+                         sorted([plugin.id for plugin in plugin_manager]))
 
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.

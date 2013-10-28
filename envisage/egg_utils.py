@@ -3,10 +3,48 @@
 
 # Standard library imports.
 import pkg_resources
+import collections
 
 # Enthought library imports.
 from traits.util.toposort import topological_sort
 
+
+class OrderedEntryPoint(pkg_resources.EntryPoint):
+    """Overridden to use an ordered dict.  This preserves the order
+    of the entry points and is useful for preserving the plugin order.
+    """
+    @classmethod
+    def parse_group(cls, group, lines, dist=None):
+        """Parse an entry point group"""
+        if not pkg_resources.MODULE(group):
+            raise ValueError("Invalid group name", group)
+        this = collections.OrderedDict()
+        for line in pkg_resources.yield_lines(lines):
+            ep = cls.parse(line, dist)
+            if ep.name in this:
+                raise ValueError("Duplicate entry point", group, ep.name)
+            this[ep.name]=ep
+        return this
+
+
+def get_ordered_entry_map(distribution, group=None):
+    """Given a `distribution` this returns an ordered dictionary for the entry
+    map for `group`, or the full entry map.
+
+    Overridden Distribution.get_entry_map to use an `OrderedEntryPoint` 
+    instead of the default unordered `EntryPoint`.
+    
+    """
+    try:
+        ep_map = distribution._ep_map
+    except AttributeError:
+        ep_map = distribution._ep_map = OrderedEntryPoint.parse_map(
+            distribution._get_metadata('entry_points.txt'), distribution
+        )
+    if group is not None:
+        return ep_map.get(group, collections.OrderedDict())
+    return ep_map
+    
 
 def add_eggs_on_path(working_set, path):
     """ Add all eggs found on the path to a working set. """
@@ -40,8 +78,8 @@ def get_entry_points_in_egg_order(working_set, entry_point_name):
 
     entry_points = []
     for distribution in distributions:
-        map = distribution.get_entry_map(entry_point_name)
-        entry_points.extend(map.values())
+        ep_map = get_ordered_entry_map(distribution, entry_point_name)
+        entry_points.extend(ep_map.values())
 
     return entry_points
 
@@ -53,7 +91,7 @@ def get_distributions_with_entry_point(working_set, entry_point_name):
 
     distributions = []
     for distribution in working_set:
-        if len(distribution.get_entry_map(entry_point_name)) > 0:
+        if len(get_ordered_entry_map(distribution, entry_point_name)) > 0:
             distributions.append(distribution)
 
     return distributions
