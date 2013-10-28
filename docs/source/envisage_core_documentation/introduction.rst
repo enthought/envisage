@@ -63,13 +63,13 @@ documentation and examples first).
 .. _Core: core.html
 .. _Eclipse: http://www.eclipse.org
 .. _Glossary: Glossary.html
-.. _`Message of the Day`: MessageOfTheDay.html
+.. _`Message of the Day`: message_of_the_day.html
 .. _NetBeans: http://www.netbeans.org
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
 
-.. _`Hello World`: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/Hello%20World/hello_world.py
+.. _`Hello World`: https://github.com/enthought/envisage/tree/master/examples/Hello_World/hello_world.py
 
-.. _envisage: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/api.py
+.. _envisage: https://github.com/enthought/envisage/tree/master/envisage/api.py
 
-.. _envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py
+.. _envisage.ui.workbench: https://github.com/enthought/envisage/tree/master/envisage/ui/workbench/api.py

@@ -254,22 +254,22 @@ events if extensions are added/removed to/from the extension point at runtime.
 
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 
-.. _acme.motd: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/motd_plugin.py
+.. _acme.motd: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py
 
-.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/software_quotes/software_quotes_plugin.py
+.. _acme.motd.software_quotes: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/software_quotes_plugin.py
 
-.. _ExtensionPoint: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/extension_point.py
+.. _ExtensionPoint: https://github.com/enthought/envisage/tree/master/envisage/extension_point.py
 
-.. _IApplication: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_application.py
+.. _IApplication: https://github.com/enthought/envisage/tree/master/envisage/i_application.py
 
-.. _IMessage: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/i_message.py
+.. _IMessage: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py
 
-.. _Message: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/message.py
+.. _Message: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py
 
-.. _messages.py: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/software_quotes/messages.py
+.. _messages.py: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/messages.py
 
-.. _`Message of the Day`: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD
+.. _`Message of the Day`: https://github.com/enthought/envisage/tree/master/examples/MOTD
 
-.. _MOTD: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/motd.py
+.. _MOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py
 
-.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme/motd/motd_plugin.py
+.. _MOTDPlugin: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py

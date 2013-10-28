@@ -60,4 +60,4 @@ widget to allow views, editors and perspectives to be contributed via plugins.
 
     preferences.rst
 
-.. _envisage.ui.workbench: https://svn.enthought.com/enthought/browser/EnvisagePlugins/trunk/enthought/envisage/ui/workbench/api.py
+.. _envisage.ui.workbench: https://github.com/enthought/envisage/tree/master/envisage/ui/workbench/api.py

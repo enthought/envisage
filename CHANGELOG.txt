@@ -1,0 +1,12 @@
+Envisage CHANGELOG
+==================
+
+Since 4.3.0:
+
+New features
+
+Enhancements
+
+Fixes
+
+ * Updated links to point to github instead of svn codebase (87cdb87)

@@ -93,16 +93,12 @@ method of each plugin in the reverse order that they were started in.
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _Services: services.html
 
-.. _acme.motd: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/setup.py
+.. _acme.motd: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/setup.py
 
-.. _acme.motd.software_quotes: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd.software_quotes/setup.py
+.. _IPlugin: https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py
 
-.. _IPlugin: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_plugin.py
+.. _`Message of the Day`: https://github.com/enthought/envisage/tree/master/examples/MOTD
 
-.. _`Message of the Day`: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD
+.. _MOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py
 
-.. _MOTD: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/acme/motd/motd.py
-
-.. _MOTDPlugin: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/acme.motd/acme/motd/motd_plugin.py
-
-.. _Plugin: https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/plugin.py
+.. _Plugin: https://github.com/enthought/envisage/tree/master/envisage/plugin.py
