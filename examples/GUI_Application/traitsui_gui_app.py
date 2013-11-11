@@ -26,7 +26,7 @@ class PersonViewPlugin(Plugin):
 
     When started, this plugin creates a Person instance, and opens an
     editor for it.  When the application shuts down, it checks whether
-    the user cancelled or 
+    the user hit the Cancel or OK button to close it.
 
     """
     
@@ -52,10 +52,6 @@ class PersonViewPlugin(Plugin):
 if __name__ == '__main__':
 
     # Create the application.
-    #
-    # An application is simply a collection of plugins. In this case we
-    # specify the plugins explicitly, but the mechanism for finding plugins
-    # is configurable by setting the application's 'plugin_manager' trait.
     application = GUIApplication(
         id='person_view', plugins=[PersonViewPlugin()]
     )
