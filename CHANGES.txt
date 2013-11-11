@@ -1,0 +1,17 @@
+Envisage CHANGELOG
+==================
+
+Since 4.3.0:
+
+New features
+
+ * Added a method to get a required service (94dfdea)
+
+Enhancements
+
+ * Updated to use the new traits.adaptation functionality (34fa5e6)
+
+Fixes
+
+ * Updated links to point to github instead of svn codebase (87cdb87)
+ * Fixed test cases and added to Travis-CI (6c11d9f)
