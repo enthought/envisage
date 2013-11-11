@@ -40,7 +40,7 @@ class GUIApplication(Application):
 
     #### Application lifecycle events #########################################
 
-    # Fired after the GUI event loop has been started.
+    #: Fired after the GUI event loop has been started.
     application_initialized = Event
 
     ###########################################################################
