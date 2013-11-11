@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Plugins &mdash; Envisage Documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.3.0',
+        VERSION:     '4.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -67,8 +68,8 @@ is designed such that you can write your own plugin manager, by default, it
 uses an implementation based on <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>.</p>
 <div class="section" id="creating-a-plugin">
 <h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline">¶</a></h2>
-<p>All plugins must implement the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_plugin.py">IPlugin</a> interface (an easy way to achieve this
-is to subclass the base <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/plugin.py">Plugin</a> class), and should provide the following
+<p>All plugins must implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py">IPlugin</a> interface (an easy way to achieve this
+is to subclass the base <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/plugin.py">Plugin</a> class), and should provide the following
 &#8220;housekeeping&#8221; information:</p>
 <ul>
 <li><p class="first">a globally unique identifier (e.g., &#8220;acme.motd&#8221;)</p>
@@ -85,7 +86,7 @@ domain name notation is probably a good idea!</p>
 <p>A nice description of the intent and features of your plugin.</p>
 </li>
 </ul>
-<p>Here is a snippet from the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD/src/acme.motd/setup.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/examples/MOTD">Message of
+<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/setup.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD">Message of
 the Day</a> example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
@@ -107,7 +108,7 @@ the Day</a> example:</p>
 <div class="section" id="plugin-lifecycle">
 <h2>Plugin Lifecycle<a class="headerlink" href="#plugin-lifecycle" title="Permalink to this headline">¶</a></h2>
 <p>Plugins have a lifecycle in the context of an application. There are currently
-two key lifecycle methods on the <a class="reference external" href="https://svn.enthought.com/enthought/browser/EnvisageCore/trunk/enthought/envisage/i_plugin.py">IPlugin</a> interface:</p>
+two key lifecycle methods on the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py">IPlugin</a> interface:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Start the plugin.</span>
 
@@ -170,7 +171,7 @@ method of each plugin in the reverse order that they were started in.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -201,9 +202,9 @@ method of each plugin in the reverse order that they were started in.</p>
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Enthought.
-      Last updated on Jun 11, 2011.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2008-2011, Enthought.
+      Last updated on Nov 11, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
     </div>
   </body>
 </html>
