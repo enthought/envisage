@@ -1,7 +1,19 @@
 Envisage CHANGELOG
 ==================
 
-Since 4.3.0:
+Release 4.4.0
+-------------
+
+The major component of this feature is to work with the new
+``traits.adaptation`` mechanism in place of the deprecated
+``traits.protocols``, maintaining compatibility with ``traits`` version
+4.4.0.
+
+This release also adds a new method to retrieve a service that is
+required by the application and provides documentation and test updates.
+
+
+Change summary since 4.3.0
 
 New features
 
