@@ -1,7 +1,8 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
-
+import sys
 from os.path import dirname, join
+import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 from traits.testing.unittest_tools import unittest
@@ -23,6 +24,18 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+        # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
+        sys_path = []
+        for path in sys.path:
+            if self.bad_eggs_dir not in path:
+                sys_path.append(path)
+            else:
+                print "Removed", path
+        sys.path = sys_path
+
+        # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
+        # global working set.
+        pkg_resources.working_set = pkg_resources.WorkingSet()
 
         return
 
