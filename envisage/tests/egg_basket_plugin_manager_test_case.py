@@ -17,6 +17,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         # The location of the 'eggs' test data directory.
         self.eggs_dir = join(dirname(__file__), 'eggs')
+        self.bad_eggs_dir = join(dirname(__file__), 'bad_eggs')
 
         return
 
@@ -24,7 +25,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         """ Called immediately after each test method has been called. """
 
         return
-        
+
     #### Tests ################################################################
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
@@ -138,7 +139,35 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertEqual(len(ids), 0)
 
         return
-    
+
+    def test_ignore_broken_plugins_raises_exceptions_by_default(self):
+        plugin_manager = EggBasketPluginManager(
+            plugin_path = [self.bad_eggs_dir, self.eggs_dir],
+        )
+        self.assertRaises(ImportError, iter, plugin_manager)
+
+        return
+
+    def test_ignore_broken_plugins_loads_good_plugins(self):
+        plugin_manager = EggBasketPluginManager(
+            plugin_path           = [self.bad_eggs_dir, self.eggs_dir],
+            ignore_broken_plugins = True,
+        )
+
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 3)
+        self.assertIn('acme.foo', ids)
+        self.assertIn('acme.bar', ids)
+        self.assertIn('acme.baz', ids)
+
+        errors = plugin_manager.errors
+        self.assertEqual(len(errors), 1)
+        entry_point, tb = errors[0]
+        self.assertEqual(entry_point.name, 'acme.bad')
+        self.assertIn('ImportError', tb)
+
+        return
+
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
