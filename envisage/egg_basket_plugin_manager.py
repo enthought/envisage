@@ -2,8 +2,9 @@
 
 
 import logging, pkg_resources, sys
+import traceback
 
-from traits.api import Directory, List, on_trait_change
+from traits.api import Bool, Directory, List, on_trait_change
 
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
@@ -35,6 +36,14 @@ class EggBasketPluginManager(PluginManager):
 
     #### 'EggBasketPluginManager' protocol #####################################
 
+    # Ignore any errors when loading a plugin and continue loading other
+    # plugins while logging any errors.
+    ignore_broken_plugins = Bool(False)
+
+    # Errors while loading broken plugins.  This is a List of tuples of the
+    # form [(EntryPoint, traceback_string)]
+    errors = List
+
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
@@ -42,14 +51,14 @@ class EggBasketPluginManager(PluginManager):
     def _plugin_path_changed(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
         self.reset_traits(['_plugins'])
-        
+
     # Protected 'PluginManager' protocol ######################################
 
     def __plugins_default(self):
         """ Trait initializer. """
 
         plugins = self._harvest_plugins_in_eggs(self.application)
-        
+
         logger.debug('egg basket plugin manager found plugins <%s>', plugins)
 
         return plugins
@@ -94,19 +103,29 @@ class EggBasketPluginManager(PluginManager):
         # plugin classes can't be imported!
         add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
 
-        plugins = [
-            self._create_plugin_from_entry_point(ep, application)
+        plugins = []
+        errors = []
+        for entry_point in self._get_plugin_entry_points(plugin_working_set):
+            if self._include_plugin(entry_point.name):
+                try:
+                    plugin = self._create_plugin_from_entry_point(entry_point,
+                                                                  application)
+                    plugins.append(plugin)
+                except Exception as exc:
+                    exc_tb = traceback.format_exc()
+                    msg = 'Error loading plugin: %s (from %s)\n%s'\
+                        %(entry_point.name, entry_point.dist.location, exc_tb)
+                    logger.error(msg)
+                    errors.append((entry_point, exc_tb))
+                    if not self.ignore_broken_plugins:
+                        raise
 
-            for ep in self._get_plugin_entry_points(plugin_working_set)
-
-            if self._include_plugin(ep.name)
-        ]
-
+        self.errors = errors
         return plugins
-    
+
     def _update_sys_dot_path(self, removed, added):
         """ Add/remove the given entries from sys.path. """
-        
+
         for dirname in removed:
             if dirname in sys.path:
                 sys.path.remove(dirname)
