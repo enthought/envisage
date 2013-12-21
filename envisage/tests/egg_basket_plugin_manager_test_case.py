@@ -162,9 +162,15 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         return
 
     def test_ignore_broken_plugins_loads_good_plugins(self):
+        data = {'count':0}
+        def on_broken_plugin(ep, exc_info):
+            data['count'] += 1
+            data['entry_point'] = ep
+            data['exc_info'] = exc_info
+
         plugin_manager = EggBasketPluginManager(
             plugin_path           = [self.bad_eggs_dir, self.eggs_dir],
-            ignore_broken_plugins = True,
+            on_broken_plugin      = on_broken_plugin,
         )
 
         ids = [plugin.id for plugin in plugin_manager]
@@ -173,11 +179,11 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertIn('acme.bar', ids)
         self.assertIn('acme.baz', ids)
 
-        errors = plugin_manager.errors
-        self.assertEqual(len(errors), 1)
-        entry_point, tb = errors[0]
-        self.assertEqual(entry_point.name, 'acme.bad')
-        self.assertIn('ImportError', tb)
+        self.assertEqual(data['count'], 1)
+        self.assertEqual(data['entry_point'].name, 'acme.bad')
+        typ, val, tb = data['exc_info']
+        self.assertEqual(typ, ImportError)
+        self.assertTrue(isinstance(val, ImportError))
 
         return
 

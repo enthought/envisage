@@ -4,7 +4,7 @@
 import logging, pkg_resources, sys
 import traceback
 
-from traits.api import Bool, Directory, List, on_trait_change
+from traits.api import Callable, Directory, List, on_trait_change
 
 from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from plugin_manager import PluginManager
@@ -36,13 +36,9 @@ class EggBasketPluginManager(PluginManager):
 
     #### 'EggBasketPluginManager' protocol #####################################
 
-    # Ignore any errors when loading a plugin and continue loading other
-    # plugins while logging any errors.
-    ignore_broken_plugins = Bool(False)
-
-    # Errors while loading broken plugins.  This is a List of tuples of the
-    # form [(EntryPoint, traceback_string)]
-    errors = List
+    # If a plugin cannot be loaded for any reason, this callable is called
+    # with the following arguments, entry_point, (sys.exc_info()).
+    on_broken_plugin = Callable
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
@@ -104,23 +100,22 @@ class EggBasketPluginManager(PluginManager):
         add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
 
         plugins = []
-        errors = []
         for entry_point in self._get_plugin_entry_points(plugin_working_set):
             if self._include_plugin(entry_point.name):
                 try:
                     plugin = self._create_plugin_from_entry_point(entry_point,
                                                                   application)
                     plugins.append(plugin)
-                except Exception as exc:
+                except Exception:
                     exc_tb = traceback.format_exc()
                     msg = 'Error loading plugin: %s (from %s)\n%s'\
                         %(entry_point.name, entry_point.dist.location, exc_tb)
                     logger.error(msg)
-                    errors.append((entry_point, exc_tb))
-                    if not self.ignore_broken_plugins:
+                    if self.on_broken_plugin is None:
                         raise
+                    else:
+                        self.on_broken_plugin(entry_point, sys.exc_info())
 
-        self.errors = errors
         return plugins
 
     def _update_sys_dot_path(self, removed, added):
