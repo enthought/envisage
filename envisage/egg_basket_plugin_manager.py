@@ -37,8 +37,13 @@ class EggBasketPluginManager(PluginManager):
     #### 'EggBasketPluginManager' protocol #####################################
 
     # If a plugin cannot be loaded for any reason, this callable is called
-    # with the following arguments, entry_point, (sys.exc_info()).
+    # with the following arguments: entry_point, exception.
     on_broken_plugin = Callable
+
+    def _on_broken_plugin_default(self):
+        def handle_broken_plugin(entry_point, exc):
+            raise exc
+        return handle_broken_plugin
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
@@ -106,15 +111,12 @@ class EggBasketPluginManager(PluginManager):
                     plugin = self._create_plugin_from_entry_point(entry_point,
                                                                   application)
                     plugins.append(plugin)
-                except Exception:
+                except Exception as exc:
                     exc_tb = traceback.format_exc()
                     msg = 'Error loading plugin: %s (from %s)\n%s'\
                         %(entry_point.name, entry_point.dist.location, exc_tb)
                     logger.error(msg)
-                    if self.on_broken_plugin is None:
-                        raise
-                    else:
-                        self.on_broken_plugin(entry_point, sys.exc_info())
+                    self.on_broken_plugin(entry_point, exc)
 
         return plugins
 
