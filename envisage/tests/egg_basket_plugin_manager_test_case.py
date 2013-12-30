@@ -1,7 +1,8 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
-
+import sys
 from os.path import dirname, join
+import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 from traits.testing.unittest_tools import unittest
@@ -17,14 +18,27 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         # The location of the 'eggs' test data directory.
         self.eggs_dir = join(dirname(__file__), 'eggs')
+        self.bad_eggs_dir = join(dirname(__file__), 'bad_eggs')
 
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+        # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
+        sys_path = []
+        for path in sys.path:
+            if self.bad_eggs_dir not in path:
+                sys_path.append(path)
+            else:
+                print "Removed", path
+        sys.path = sys_path
+
+        # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
+        # global working set.
+        pkg_resources.working_set = pkg_resources.WorkingSet()
 
         return
-        
+
     #### Tests ################################################################
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
@@ -138,7 +152,40 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertEqual(len(ids), 0)
 
         return
-    
+
+    def test_ignore_broken_plugins_raises_exceptions_by_default(self):
+        plugin_manager = EggBasketPluginManager(
+            plugin_path = [self.bad_eggs_dir, self.eggs_dir],
+        )
+        self.assertRaises(ImportError, iter, plugin_manager)
+
+        return
+
+    def test_ignore_broken_plugins_loads_good_plugins(self):
+        data = {'count':0}
+        def on_broken_plugin(ep, exc):
+            data['count'] += 1
+            data['entry_point'] = ep
+            data['exc'] = exc
+
+        plugin_manager = EggBasketPluginManager(
+            plugin_path           = [self.bad_eggs_dir, self.eggs_dir],
+            on_broken_plugin      = on_broken_plugin,
+        )
+
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 3)
+        self.assertIn('acme.foo', ids)
+        self.assertIn('acme.bar', ids)
+        self.assertIn('acme.baz', ids)
+
+        self.assertEqual(data['count'], 1)
+        self.assertEqual(data['entry_point'].name, 'acme.bad')
+        exc = data['exc']
+        self.assertTrue(isinstance(exc, ImportError))
+
+        return
+
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
