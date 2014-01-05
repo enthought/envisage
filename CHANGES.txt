@@ -1,6 +1,12 @@
 Envisage CHANGELOG
 ==================
 
+Change summary since 4.4.0
+
+Fixes
+
+ * Update MOTD Example to use new ``traits.adaptation`` system (17f6fa7)
+
 Release 4.4.0
 -------------
 
