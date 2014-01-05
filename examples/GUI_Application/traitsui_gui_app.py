@@ -1,6 +1,6 @@
 """ A simple example of a GUIApplication which wraps a TraitsUI """
 
-from traits.api import HasTraits, Str, Int, Enum, Instance
+from traits.api import HasTraits, Str, Int, Enum, Instance, on_trait_change
 from envisage.api import Plugin
 from envisage.ui.gui_application import GUIApplication
 from traitsui.api import View, Item, OKCancelButtons
@@ -21,32 +21,26 @@ class Person(HasTraits):
         buttons = OKCancelButtons,
     )
 
+
 class PersonViewPlugin(Plugin):
     """ The 'Person View' plugin.
 
-    When started, this plugin creates a Person instance, and opens an
-    editor for it.  When the application shuts down, it checks whether
-    the user hit the Cancel or OK button to close it.
+    This plugin waits for the application to start, and then creates a traits
+    UI.
 
     """
     
     ui = Instance('traitsui.ui.UI')
 
-    def start(self):
-        """ Start the plugin. """
+    @on_trait_change('application:started')
+    def on_application_start(self):
+        """ Start the UI. """
         
         person = Person()
         
         # keep a reference to the ui object to avoid garbage collection
         self.ui = person.edit_traits()
-        
-        return True
-    
-    def stop(self):
-        if self.ui.result:
-            print "User OK"
-        else:
-            print "User Cancel"
+
 
 # Application entry point.
 if __name__ == '__main__':
