@@ -32,7 +32,7 @@ class PersonViewPlugin(Plugin):
     
     ui = Instance('traitsui.ui.UI')
 
-    @on_trait_change('application:started')
+    @on_trait_change('application:application_initialized')
     def on_application_start(self):
         """ Start the UI. """
         
