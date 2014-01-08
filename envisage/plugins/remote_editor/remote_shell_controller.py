@@ -3,18 +3,17 @@ A client controlling a remote shell.
 """
 
 # Enthought library imports
-from traits.api import implements
+from traits.api import provides
 
 # Local imports
 from envisage.plugins.remote_editor.communication.client import Client
 from i_remote_shell import IRemoteShell
 
 
+@provides(IRemoteShell)
 class RemoteShellController(Client):
     """ A Client used to control a remote shell.
     """
-    implements(IRemoteShell)
-
     #------------------------------------------------------
     # Client interface
     #------------------------------------------------------

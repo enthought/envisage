@@ -4,7 +4,7 @@
 from envisage.plugins.python_shell.api import IPythonShell
 from envisage.plugins.ipython_shell.api import INamespaceView
 from pyface.workbench.api import View
-from traits.api import Property, implements, Instance, \
+from traits.api import Property, provides, Instance, \
     Str, HasTraits
 from traitsui.api import Item, TreeEditor, Group
 from traitsui.api import View as TraitsView
@@ -92,10 +92,9 @@ class NamespaceNode(DictNode):
 
 
 ################################################################################
+@provides(INamespaceView)
 class NamespaceView(View):
     """ A view containing the contents of the Python shell namespace. """
-
-    implements(INamespaceView)
 
     #### 'IView' interface ####################################################
 

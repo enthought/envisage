@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Dict, Event, HasTraits, Int, Undefined, implements, \
+from traits.api import Dict, Event, HasTraits, Int, Undefined, provides, \
     Interface
 
 # Local imports.
@@ -21,10 +21,9 @@ class NoSuchServiceError(Exception):
     """ Raised when a required service is not found. """
 
 
+@provides(IServiceRegistry)
 class ServiceRegistry(HasTraits):
     """ The service registry. """
-
-    implements(IServiceRegistry)
 
     ####  IServiceRegistry interface ##########################################
 

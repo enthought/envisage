@@ -12,7 +12,7 @@ from envisage.api import IServiceRegistry
 from envisage.api import ExtensionPoint, ServiceRegistry
 from envisage.ui.action.api import ActionSet
 from pyface.action.api import StatusBarManager
-from traits.api import Delegate, Instance, List, Property, implements
+from traits.api import Delegate, Instance, List, Property, provides
 
 # Local imports.
 from workbench_action_manager_builder import WorkbenchActionManagerBuilder
@@ -23,10 +23,9 @@ from workbench_editor_manager import WorkbenchEditorManager
 logger = logging.getLogger(__name__)
 
 
+@provides(IServiceRegistry, IExtensionPointUser)
 class WorkbenchWindow(pyface.WorkbenchWindow):
     """ An extensible workbench window. """
-
-    implements(IServiceRegistry, IExtensionPointUser)
 
     # Extension point Ids.
     ACTION_SETS    = 'envisage.ui.workbench.action_sets'

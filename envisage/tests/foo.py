@@ -2,14 +2,15 @@
 
 
 # Enthought library imports.
-from traits.api import HasTraits, implements
+from traits.api import HasTraits, provides
 
 # Local imports.
 from i_foo import IFoo
 
 
+@provides(IFoo)
 class Foo(HasTraits):
-    implements(IFoo)
+    pass
 
 
 #### EOF ######################################################################

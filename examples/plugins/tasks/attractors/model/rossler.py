@@ -4,7 +4,7 @@ from scipy.integrate import odeint
 
 # Enthought libary imports.
 from traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Str, Unicode, adapts, cached_property, implements
+     Property, Str, Unicode, adapts, cached_property, provides
 from traitsui.api import View, Item
 
 # Local imports
@@ -12,11 +12,10 @@ from i_model_3d import IModel3d, IModel3dIPlottable2dMixin
 from i_plottable_2d import IPlottable2d
 
 
+@provides(IModel3d)
 class Rossler(HasTraits):
     """ The model object for the Rossler attractor.
     """
-
-    implements(IModel3d)
 
     #### 'IModel3d' interface #################################################
 
@@ -68,9 +67,8 @@ class Rossler(HasTraits):
         return arange(self.time_start, self.time_stop, self.time_step)
 
 
+@provides(IPlottable2d)
 class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
-
-    implements(IPlottable2d)
 
     adaptee = Instance(Rossler)
 

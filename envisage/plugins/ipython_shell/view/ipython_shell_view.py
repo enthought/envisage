@@ -16,16 +16,15 @@ from envisage.plugins.ipython_shell.api import INamespaceView
 from pyface.workbench.api import View
 from pyface.ipython_widget import IPythonWidget
 from pyface.api import GUI
-from traits.api import Instance, Property, implements, Dict
+from traits.api import Instance, Property, provides, Dict
 
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
+@provides(IPythonShell)
 class IPythonShellView(View):
     """ A view containing an IPython shell. """
-
-    implements(IPythonShell)
 
     #### 'IView' interface ####################################################
 

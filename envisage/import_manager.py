@@ -2,12 +2,13 @@
 
 
 # Enthought library imports.
-from traits.api import HasTraits, implements
+from traits.api import HasTraits, provides
 
 # Local imports.
 from i_import_manager import IImportManager
 
 
+@provides(IImportManager)
 class ImportManager(HasTraits):
     """ The default import manager implementation.
 
@@ -16,8 +17,6 @@ class ImportManager(HasTraits):
     all over the place).
 
     """
-
-    implements(IImportManager)
 
     ###########################################################################
     # 'IImportManager' interface.

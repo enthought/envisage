@@ -2,16 +2,15 @@
 
 
 # Enthought library imports.
-from traits.api import HasTraits, implements
+from traits.api import HasTraits, provides
 
 # Local imports.
 from i_plugin_activator import IPluginActivator
 
 
+@provides(IPluginActivator)
 class PluginActivator(HasTraits):
     """ The default plugin activator. """
-
-    implements(IPluginActivator)
 
     ###########################################################################
     # 'IPluginActivator' interface.

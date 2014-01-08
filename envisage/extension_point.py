@@ -5,7 +5,7 @@
 import inspect, weakref
 
 # Enthought library imports.
-from traits.api import List, TraitType, Undefined, implements
+from traits.api import List, TraitType, Undefined, provides
 
 # Local imports.
 from i_extension_point import IExtensionPoint
@@ -58,6 +58,9 @@ INVALID_TRAIT_TYPE = 'extension points must be "List"s e.g. List, List(Int)' \
 ' but a value of %s was specified.'
 
 
+# Even though trait types do not themselves have traits, we can still
+# declare that we implement an interface.
+@provides(IExtensionPoint)
 class ExtensionPoint(TraitType):
     """ A trait type used to declare and access extension points.
 
@@ -65,11 +68,6 @@ class ExtensionPoint(TraitType):
     (i.e. it does *not* inherit from 'HasTraits').
 
     """
-
-    # Even though trait types do not themselves have traits, we can still
-    # declare that we implement an interface (since it is just PyProtocols
-    # underneath the covers).
-    implements(IExtensionPoint)
 
     ###########################################################################
     # 'ExtensionPoint' *CLASS* interface.

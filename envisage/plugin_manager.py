@@ -4,7 +4,7 @@
 from fnmatch import fnmatch
 import logging
 
-from traits.api import Event, HasTraits, Instance, List, Str, implements
+from traits.api import Event, HasTraits, Instance, List, Str, provides
 
 from i_application import IApplication
 from i_plugin import IPlugin
@@ -15,7 +15,7 @@ from plugin_event import PluginEvent
 
 logger = logging.getLogger(__name__)
 
-
+@provides(IPluginManager)
 class PluginManager(HasTraits):
     """ A simple plugin manager implementation.
 
@@ -33,8 +33,6 @@ class PluginManager(HasTraits):
     'add_plugin' and 'remove_plugin'.
     
     """
-
-    implements(IPluginManager)
 
     #### 'IPluginManager' protocol #############################################
 

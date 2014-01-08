@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Dict, HasTraits, implements
+from traits.api import Dict, HasTraits, provides
 
 # Local imports.
 from extension_point_changed_event import ExtensionPointChangedEvent
@@ -18,10 +18,9 @@ from unknown_extension_point import UnknownExtensionPoint
 logger = logging.getLogger(__name__)
 
 
+@provides(IExtensionRegistry)
 class ExtensionRegistry(HasTraits):
     """ A base class for extension registry implementation. """
-
-    implements(IExtensionRegistry)
 
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.

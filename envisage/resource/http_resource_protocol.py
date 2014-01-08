@@ -2,17 +2,16 @@
 
 
 # Enthought library imports.
-from traits.api import HasTraits, implements
+from traits.api import HasTraits, provides
 
 # Local imports.
 from i_resource_protocol import IResourceProtocol
 from no_such_resource_error import NoSuchResourceError
 
 
+@provides(IResourceProtocol)
 class HTTPResourceProtocol(HasTraits):
     """ A resource protocol for HTTP documents. """
-
-    implements(IResourceProtocol)
 
     ###########################################################################
     # 'IResourceProtocol' interface.

@@ -8,7 +8,7 @@ from os.path import exists, join
 from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin, contributes_to
 from traits.api import HasTraits, Instance, Int, Interface, List
-from traits.api import implements
+from traits.api import provides
 from traits.testing.unittest_tools import unittest
 
 
@@ -91,10 +91,9 @@ class PluginTestCase(unittest.TestCase):
     def test_plugin_activator(self):
         """ plugin activator. """
 
+        @provides(IPluginActivator)
         class NullPluginActivator(HasTraits):
             """ A plugin activator that does nothing! """
-
-            implements(IPluginActivator)
 
             def start_plugin(self, plugin):
                 """ Start a plugin. """
@@ -186,8 +185,9 @@ class PluginTestCase(unittest.TestCase):
         class IBar(Interface):
             pass
 
+        @provides(IFoo, IBar)
         class Foo(HasTraits):
-            implements(IFoo, IBar)
+            pass
 
         class PluginA(Plugin):
             id = 'A'
