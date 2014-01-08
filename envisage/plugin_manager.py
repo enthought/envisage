@@ -15,6 +15,7 @@ from plugin_event import PluginEvent
 
 logger = logging.getLogger(__name__)
 
+
 @provides(IPluginManager)
 class PluginManager(HasTraits):
     """ A simple plugin manager implementation.

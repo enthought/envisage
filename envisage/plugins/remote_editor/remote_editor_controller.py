@@ -14,8 +14,8 @@ from i_remote_editor import IRemoteEditor
 class RemoteEditorController(Client):
     """ A Client used to control a remote editor.
     """
-
     # Client interface
+
     self_type = "python_shell"
     other_type = "python_editor"
 
