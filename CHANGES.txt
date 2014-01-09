@@ -1,6 +1,11 @@
 Envisage CHANGELOG
 ==================
 
+What's new in Envisage 4.5.0
+----------------------------
+
+
+
 Release 4.4.0
 -------------
 
