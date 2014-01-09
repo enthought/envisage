@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import List, implements, on_trait_change
+from traits.api import List, provides, on_trait_change
 
 # Local imports.
 from extension_registry import ExtensionRegistry
@@ -17,10 +17,9 @@ from i_provider_extension_registry import IProviderExtensionRegistry
 logger = logging.getLogger(__name__)
 
 
+@provides(IProviderExtensionRegistry)
 class ProviderExtensionRegistry(ExtensionRegistry):
     """ An extension registry implementation with multiple providers. """
-
-    implements(IProviderExtensionRegistry)
 
     #### Protected 'ProviderExtensionRegistry' interface ######################
 

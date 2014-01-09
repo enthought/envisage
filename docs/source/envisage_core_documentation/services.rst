@@ -77,10 +77,9 @@ following interface and implementation::
 	def fix_leaking_pipe(self, pipe):
 	    """ Fix a leaking pipe! """
 
+    @provides(IPlumber)
     class Plumber(HasTraits):
         """ An actual plumber implementation! """
-
-	implements(IPlumber)
 
 	# The plumber's name.
 	name = Str

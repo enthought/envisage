@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Bool, Dict, HasTraits, List, Str, implements
+from traits.api import Bool, Dict, HasTraits, List, Str, provides
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
@@ -20,10 +20,9 @@ from tool_bar import ToolBar
 logger = logging.getLogger(__name__)
 
 
+@provides(IActionSet)
 class ActionSet(HasTraits):
     """ An action set is a collection of menus, groups, and actions. """
-
-    implements(IActionSet)
 
     # The action set's globally unique identifier.
     id = Str

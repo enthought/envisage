@@ -2,17 +2,16 @@
 
 
 # Enthought library imports.
-from traits.api import Dict, HasTraits, Str, implements
+from traits.api import Dict, HasTraits, Str, provides
 
 # Local imports.
 from i_resource_manager import IResourceManager
 from i_resource_protocol import IResourceProtocol
 
 
+@provides(IResourceManager)
 class ResourceManager(HasTraits):
     """ The default resource manager. """
-
-    implements(IResourceManager)
 
     #### 'IResourceManager' interface #########################################
 

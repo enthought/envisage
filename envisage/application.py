@@ -9,7 +9,7 @@ from traits.etsconfig.api import ETSConfig
 from apptools.preferences.api import IPreferences, ScopedPreferences
 from apptools.preferences.api import set_default_preferences
 from traits.api import Delegate, Event, HasTraits, Instance, Str
-from traits.api import VetoableEvent, implements
+from traits.api import VetoableEvent, provides
 
 # Local imports.
 from i_application import IApplication
@@ -26,6 +26,7 @@ from import_manager import ImportManager
 logger = logging.getLogger(__name__)
 
 
+@provides(IApplication)
 class Application(HasTraits):
     """ An extensible, pluggable, application.
 
@@ -33,8 +34,6 @@ class Application(HasTraits):
     intended to be subclassed to change start/stop behaviour etc.
 
     """
-
-    implements(IApplication)
 
     #### 'IApplication' interface #############################################
 

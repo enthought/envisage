@@ -3,18 +3,17 @@ from scipy import array, zeros
 
 # Enthought library imports.
 from traits.api import Array, Float, HasTraits, Int, Property, Str, \
-     Unicode, cached_property, implements
+     Unicode, cached_property, provides
 from traitsui.api import Item, View
 
 # Local imports.
 from i_plottable_2d import IPlottable2d
 
 
+@provides(IPlottable2d)
 class Henon(HasTraits):
     """ The model object for the Henon map.
     """
-
-    implements(IPlottable2d)
 
     #### 'Henon' interface ####################################################
 

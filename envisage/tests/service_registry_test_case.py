@@ -6,7 +6,7 @@ import sys
 
 # Enthought library imports.
 from envisage.api import Application, ServiceRegistry, NoSuchServiceError
-from traits.api import HasTraits, Int, Interface, implements
+from traits.api import HasTraits, Int, Interface, provides
 from traits.testing.unittest_tools import unittest
 
 
@@ -109,9 +109,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         def foo_factory(**properties):
@@ -233,8 +232,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             pass
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
+            pass
 
         # Register two services.
         foo = Foo()
@@ -279,9 +279,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         # Register two services.
@@ -325,8 +324,9 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             pass
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
+            pass
 
         # Register a couple of services.
         foo = Foo()
@@ -354,9 +354,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         # Register two services.
@@ -398,9 +397,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         # Register two services.
@@ -455,9 +453,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         # Register two services.
@@ -515,9 +512,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
         class IFoo(Interface):
             price = Int
 
+        @provides(IFoo)
         class Foo(HasTraits):
-            implements(IFoo)
-
             price = Int
 
         # Register some objects with various prices.

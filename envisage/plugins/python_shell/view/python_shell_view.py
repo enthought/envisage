@@ -10,7 +10,7 @@ from envisage.api import ExtensionPoint
 from envisage.plugins.python_shell.api import IPythonShell
 from pyface.api import PythonShell
 from pyface.workbench.api import View
-from traits.api import Any, Event, Instance, Property, DictStrAny, implements
+from traits.api import Any, Event, Instance, Property, DictStrAny, provides
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
@@ -36,10 +36,9 @@ class PseudoFile ( object ):
         return 1
 
 
+@provides(IPythonShell)
 class PythonShellView(View):
     """ A view containing an interactive Python shell. """
-
-    implements(IPythonShell)
 
     #### 'IView' interface ####################################################
 

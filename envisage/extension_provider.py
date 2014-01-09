@@ -2,17 +2,16 @@
 
 
 # Enthought library imports.
-from traits.api import Event, HasTraits, implements
+from traits.api import Event, HasTraits, provides
 
 # Local imports.
 from extension_point_changed_event import ExtensionPointChangedEvent
 from i_extension_provider import IExtensionProvider
 
 
+@provides(IExtensionProvider)
 class ExtensionProvider(HasTraits):
     """ The default base class for extension providers. """
-
-    implements(IExtensionProvider)
 
     #### 'IExtensionProvider' interface #######################################
 

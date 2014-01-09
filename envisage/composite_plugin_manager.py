@@ -5,7 +5,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Event, HasTraits, Instance, List, implements
+from traits.api import Event, HasTraits, Instance, List, provides
 from traits.api import on_trait_change
 
 # Local imports.
@@ -20,6 +20,7 @@ from plugin_manager import PluginManager
 logger = logging.getLogger(__name__)
 
 
+@provides(IPluginManager)
 class CompositePluginManager(HasTraits):
     """ A plugin manager composed of other plugin managers!
 
@@ -33,8 +34,6 @@ class CompositePluginManager(HasTraits):
         )
 
     """
-
-    implements(IPluginManager)
 
     #### 'IPluginManager' protocol #############################################
 

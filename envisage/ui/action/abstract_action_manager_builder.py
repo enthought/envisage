@@ -3,7 +3,7 @@
 
 # Enthought library imports.
 from pyface.action.api import ActionManager, MenuManager
-from traits.api import HasTraits, Instance, List, implements
+from traits.api import HasTraits, Instance, List, provides
 
 # Local imports.
 from action_set import ActionSet
@@ -12,6 +12,7 @@ from group import Group
 from i_action_manager_builder import IActionManagerBuilder
 
 
+@provides(IActionManagerBuilder)
 class AbstractActionManagerBuilder(HasTraits):
     """ Builds menus, menu bars and tool bars from action sets.
 
@@ -22,8 +23,6 @@ class AbstractActionManagerBuilder(HasTraits):
       _create_menu_manager
 
     """
-
-    implements(IActionManagerBuilder)
 
     #### 'IActionManagerBuilder' interface ####################################
 

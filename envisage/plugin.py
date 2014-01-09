@@ -5,7 +5,7 @@ import inspect, logging, os
 from os.path import exists, join
 
 # Enthought library imports.
-from traits.api import Instance, List, Property, Str, implements
+from traits.api import Instance, List, Property, Str, provides
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
@@ -24,14 +24,13 @@ from plugin_activator import PluginActivator
 logger = logging.getLogger(__name__)
 
 
+@provides(IPlugin, IExtensionPointUser, IServiceUser)
 class Plugin(ExtensionProvider):
     """ The default implementation of the 'IPlugin' interface.
 
     This class is intended to be subclassed for each plugin that you create.
 
     """
-
-    implements(IPlugin, IExtensionPointUser, IServiceUser)
 
     #### 'IPlugin' interface ##################################################
 
