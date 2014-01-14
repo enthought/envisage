@@ -22,6 +22,8 @@ Change summary since 4.3.0
 
 New features
 
+ * Added a simple GUIApplication class (673c8f6)
+
  * Added a method to get a required service (94dfdea)
 
 Enhancements
