@@ -209,7 +209,11 @@ class TasksApplication(Application):
             # Apply a suitable layout.
             if restore:
                 layout = self._restore_layout_from_state(layout)
-            window.set_window_layout(layout)
+        else:
+            # Create an empty layout to set default size and position only
+            layout = TaskWindowLayout()
+
+        window.set_window_layout(layout)
 
         return window
 
