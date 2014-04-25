@@ -14,7 +14,7 @@ import logging
 
 
 class NullHandler(logging.Handler):
-    # Define our own to accomodate Python < 2.7
+    # Define our own to accommodate Python < 2.7
     def handle(self, record):
         pass
 
