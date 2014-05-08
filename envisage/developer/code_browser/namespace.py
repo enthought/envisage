@@ -120,7 +120,7 @@ class Namespace(HasTraits):
         """
 
         # fixme: Circular imports!
-        from enclbr import find_module, read_file
+        from .enclbr import find_module, read_file
 
         # Try to find the module that the symbol came from.
         dirname = os.path.dirname(self.filename)

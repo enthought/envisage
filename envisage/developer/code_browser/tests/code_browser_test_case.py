@@ -70,9 +70,8 @@ class CodeBrowserTestCase(unittest.TestCase):
         """ has traits """
 
         module = self.code_browser.read_file(
-                     os.path.join(
-                         get_path(CodeBrowserTestCase),
-                         'example_1.py'))
+            os.path.join(get_path(CodeBrowserTestCase), 'example_1.py')
+        )
 
         # Check the module name and documentation.
         self.assertEqual('example_1', module.name)
@@ -86,12 +85,12 @@ class CodeBrowserTestCase(unittest.TestCase):
 
         # Check that the class has the appropriate traits and methods.
         self.assertEqual(2, len(klass.traits))
-        x = klass.traits['x']
-        y = klass.traits['y']
+        self.assertIn("x", klass.traits)
+        self.assertIn("y", klass.traits)
 
         self.assertEqual(2, len(klass.methods))
-        foo = klass.methods['foo']
-        bar = klass.methods['bar']
+        self.assertIn("foo", klass.methods)
+        self.assertIn("bar", klass.methods)
 
         return
 

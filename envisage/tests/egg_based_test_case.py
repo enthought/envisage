@@ -45,7 +45,8 @@ class EggBasedTestCase(unittest.TestCase):
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).
-        map(working_set.add, distributions)
+        for distribution in distributions:
+            working_set.add(distribution)
 
         return
 
@@ -65,7 +66,8 @@ class EggBasedTestCase(unittest.TestCase):
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).
-        map(working_set.add, distributions)
+        for distribution in distributions:
+            working_set.add(distribution)
 
         return
 

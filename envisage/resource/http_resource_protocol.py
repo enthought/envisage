@@ -1,12 +1,13 @@
 """ A resource protocol for HTTP documents. """
 
+import sys
 
 # Enthought library imports.
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_resource_protocol import IResourceProtocol
-from no_such_resource_error import NoSuchResourceError
+from .i_resource_protocol import IResourceProtocol
+from .no_such_resource_error import NoSuchResourceError
 
 
 @provides(IResourceProtocol)
@@ -22,12 +23,16 @@ class HTTPResourceProtocol(HasTraits):
 
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.
-        import urllib2
+        if sys.version_info[0] >= 3:
+            from urllib.request import urlopen
+            from urllib.error import HTTPError
+        else:
+            from urllib2 import urlopen, HTTPError
 
         try:
-            f = urllib2.urlopen('http://' + address)
+            f = urlopen('http://' + address)
 
-        except urllib2.HTTPError:
+        except HTTPError:
             raise NoSuchResourceError('http:://' + address)
 
         return f

@@ -15,7 +15,7 @@ The default UI service factory.
 from traits.api import HasTraits, Int, Str
 
 # Local imports.
-from ui_service import UiService
+from .ui_service import UiService
 
 
 class UIServiceFactory(HasTraits):

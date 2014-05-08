@@ -26,8 +26,9 @@ class PseudoFile ( object ):
     def readline(self):
         pass
 
-    def writelines(self, l):
-        map(self.write, l)
+    def writelines(self, lines):
+        for line in lines:
+            self.write(line)
 
     def flush(self):
         pass
@@ -160,7 +161,7 @@ class PythonShellView(View):
     def _get_names(self):
         """ Property getter. """
 
-        return self.shell.interpreter().locals.keys()
+        return list(self.shell.interpreter().locals.keys())
 
     #### Methods ##############################################################
 

@@ -21,7 +21,7 @@ from envisage.workbench.services import IWORKBENCH
 from pyface.api import information
 
 # Application imports
-from services import IPROJECT_MODEL, IPROJECT_UI
+from .services import IPROJECT_MODEL, IPROJECT_UI
 
 
 # Setup a logger for this module.

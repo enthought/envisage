@@ -3,9 +3,9 @@ from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, List
 
 # Local imports.
-from preferences_category import PreferencesCategory
-from task_factory import TaskFactory
-from task_extension import TaskExtension
+from .preferences_category import PreferencesCategory
+from .task_factory import TaskFactory
+from .task_extension import TaskExtension
 
 # Constants.
 PKG = '.'.join(__name__.split('.')[:-1])
@@ -96,8 +96,8 @@ class TasksPlugin(Plugin):
     my_task_extensions = List(contributes_to=TASK_EXTENSIONS)
 
     def _my_task_extensions_default(self):
-        from action.exit_action import ExitAction
-        from action.preferences_action import PreferencesGroup
+        from .action.exit_action import ExitAction
+        from .action.preferences_action import PreferencesGroup
         from pyface.tasks.action.api import DockPaneToggleGroup, \
              SchemaAddition
 
@@ -120,7 +120,7 @@ class TasksPlugin(Plugin):
     def _create_preferences_dialog_service(self):
         """ Factory method for preferences dialog service.
         """
-        from preferences_dialog import PreferencesDialog
+        from .preferences_dialog import PreferencesDialog
 
         dialog = PreferencesDialog(application = self.application)
         dialog.trait_set(categories = self.preferences_categories,

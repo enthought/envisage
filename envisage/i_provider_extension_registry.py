@@ -3,7 +3,7 @@
 
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
+from .i_extension_registry import IExtensionRegistry
 
 
 class IProviderExtensionRegistry(IExtensionRegistry):

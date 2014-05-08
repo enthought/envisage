@@ -40,7 +40,7 @@ class ApplicationBrowserView(TraitsUIView):
         """ Trait initializer. """
 
         # Local imports.
-        from application_browser import ApplicationBrowser
+        from .application_browser import ApplicationBrowser
 
         application_browser = ApplicationBrowser(
             application  = self.window.application,

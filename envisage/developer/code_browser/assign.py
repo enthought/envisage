@@ -2,12 +2,14 @@
 
 
 # Standard library imports.
-import compiler
-from compiler.visitor import ASTVisitor
+import ast
+import sys
+import inspect
 
 # Enthought library imports.
 from traits.api import Any, Bool, HasTraits, Instance, Int, List, Str
 
+STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 class Assign(HasTraits):
     """ An assignment statement. """
@@ -60,16 +62,16 @@ class AssignFactory(HasTraits):
         assign = Assign(
             namespace = namespace,
             lineno    = node.lineno,
-            expr      = node.expr
+            expr      = node.value
         )
 
         # Walk the AST picking out the things we care about!
-        compiler.walk(node, AssignVisitor(assign))
+        AssignVisitor(assign).visit(node)
 
         return assign
 
 
-class AssignVisitor(ASTVisitor):
+class AssignVisitor(ast.NodeVisitor):
     """ An AST visitor for assigment statements. """
 
     ###########################################################################
@@ -84,35 +86,15 @@ class AssignVisitor(ASTVisitor):
         return
 
     ###########################################################################
-    # 'ASTVisitor' interface.
+    # 'NodeVisitor' interface.
     ###########################################################################
 
-    def visitAssName(self, node):
+    def visit_Assign(self, node):
         """ Visits an assignment node. """
+        for name in node.targets:
+            self.assign.targets.append(name.id)
 
-        self.assign.targets.append(node.name)
-
-        return
-
-    def visitCallFunc(self, node):
-        """ Visits a function call node. """
-
-        function_name = self._get_name(node.node)
-        self.assign.source = function_name
-
-        return
-
-    def visitName(self, node):
-        """ Visits a name node. """
-
-        self.assign.source = node.name
-
-        return
-
-    def visitGetattr(self, node):
-        """ Visits a getattr node. """
-
-        self.assign.source = self._get_name(node)
+        self.assign.source = self._get_name(node.value)
 
         return
 
@@ -127,17 +109,17 @@ class AssignVisitor(ASTVisitor):
         # to ignore it in terms of working out what is a trait, but it would
         # be nice to know what is going on ;^)
         if node is not None:
-            if isinstance(node, basestring):
+            if isinstance(node, STRING_BASE_CLASS):
                 name = node
 
-            elif not hasattr(node, 'getType'):
+            elif not isinstance(node, ast.AST):
                 name = ''
 
-            elif node.getType() == compiler.ast.Name:
-                name = node.name
+            elif isinstance(node, ast.Name):
+                name = node.id
 
             else:
-                names = [self._get_name(child) for child in node.getChildren()]
+                names = [self._get_name(child) for child in ast.walk(node) if child is not node]
                 name = '.'.join(names)
 
         else:
@@ -146,6 +128,3 @@ class AssignVisitor(ASTVisitor):
         return name
 
 #### EOF ######################################################################
-
-
-

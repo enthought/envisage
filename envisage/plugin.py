@@ -9,16 +9,16 @@ from traits.api import Instance, List, Property, Str, provides
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
-from extension_point import ExtensionPoint
-from extension_provider import ExtensionProvider
-from i_application import IApplication
-from i_extension_point_user import IExtensionPointUser
-from i_extension_registry import IExtensionRegistry
-from i_plugin import IPlugin
-from i_plugin_activator import IPluginActivator
-from i_service_registry import IServiceRegistry
-from i_service_user import IServiceUser
-from plugin_activator import PluginActivator
+from .extension_point import ExtensionPoint
+from .extension_provider import ExtensionProvider
+from .i_application import IApplication
+from .i_extension_point_user import IExtensionPointUser
+from .i_extension_registry import IExtensionRegistry
+from .i_plugin import IPlugin
+from .i_plugin_activator import IPluginActivator
+from .i_service_registry import IServiceRegistry
+from .i_service_user import IServiceUser
+from .plugin_activator import PluginActivator
 
 # Logging.
 logger = logging.getLogger(__name__)

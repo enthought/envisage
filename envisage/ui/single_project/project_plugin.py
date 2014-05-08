@@ -11,10 +11,10 @@ from pyface.workbench.api import Perspective
 from traits.api import Callable, List
 
 # Local imports.
-from model_service import ModelService
-from project_action_set import ProjectActionSet
-from services import IPROJECT_MODEL, IPROJECT_UI
-from ui_service_factory import UIServiceFactory
+from .model_service import ModelService
+from .project_action_set import ProjectActionSet
+from .services import IPROJECT_MODEL, IPROJECT_UI
+from .ui_service_factory import UIServiceFactory
 
 # This module's package.
 PKG = '.'.join(__name__.split('.')[:-1])
@@ -198,7 +198,7 @@ class ProjectPlugin(Plugin):
 
         """
 
-        from default_path_preference_page import DefaultPathPreferencePage
+        from .default_path_preference_page import DefaultPathPreferencePage
 
         return [DefaultPathPreferencePage]
 

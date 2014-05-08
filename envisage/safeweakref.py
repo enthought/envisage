@@ -10,79 +10,92 @@ used as a drop-in replacement for 'weakref.ref'.
 
 """
 
-
 # Standard library imports.
-import new, weakref
+import sys, weakref
 
 # Because this module is intended as a drop-in replacement for weakref, we
 # import everything from that module here (so the user can do things like
 # "import safeweakref as weakref" etc).
+
 from weakref import *
+
+__all__ = weakref.__all__
+
+if hasattr(weakref, "WeakMethod"):
+    pass
+else:
+    # Backport WeakMethod from Python 3
+    class WeakMethod(weakref.ref):
+        """
+        A custom `weakref.ref` subclass which simulates a weak reference to
+        a bound method, working around the lifetime problem of bound methods.
+        """
+
+        __slots__ = "_func_ref", "_meth_type", "_alive", "__weakref__"
+
+        def __new__(cls, meth, callback=None):
+            try:
+                obj = meth.__self__
+                func = meth.__func__
+            except AttributeError:
+                raise TypeError(
+                    "argument should be a bound method, not {}"
+                    .format(type(meth))
+                )
+            def _cb(arg):
+                # The self-weakref trick is needed to avoid creating a reference
+                # cycle.
+                self = self_wr()
+                if self._alive:
+                    self._alive = False
+                    if callback is not None:
+                        callback(self)
+            self = weakref.ref.__new__(cls, obj, _cb)
+            self._func_ref = weakref.ref(func, _cb)
+            self._meth_type = type(meth)
+            self._alive = True
+            self_wr = weakref.ref(self)
+            return self
+
+        def __call__(self):
+            obj = weakref.ref.__call__(self)
+            func = self._func_ref()
+            if obj is None or func is None:
+                return None
+            return self._meth_type(func, obj)
+
+        def __eq__(self, other):
+            if isinstance(other, WeakMethod):
+                if not self._alive or not other._alive:
+                    return self is other
+                return weakref.ref.__eq__(self, other) and self._func_ref == other._func_ref
+            return False
+
+        def __ne__(self, other):
+            if isinstance(other, WeakMethod):
+                if not self._alive or not other._alive:
+                    return self is not other
+                return weakref.ref.__ne__(self, other) or self._func_ref != other._func_ref
+            return True
+
+        __hash__ = weakref.ref.__hash__
 
 
 class ref(object):
-    """ An implementation of weak references that works for bound methods. """
-
-    # A cache containing the weak references we have already created.
-    #
-    # We cache the weak references by the object containing the associated
-    # bound methods, hence this is a dictionary of dictionaries in the form:-
-    #
-    # { bound_method.im_self : { bound_method.im_func : ref } }
-    #
-    # This makes sure that when the object is garbage collected, any cached
-    # weak references are garbage collected too.
+    """ An implementation of weak references that works for bound methods and \
+    caches them. """
     _cache = weakref.WeakKeyDictionary()
 
-    def __new__(cls, obj, *args, **kw):
-        """ Create a new instance of the class. """
-
-        # If the object is a bound method then either get from the cache, or
-        # create an instance of *this* class.
-        if hasattr(obj, 'im_self'):
-            func_cache = ref._cache.setdefault(obj.im_self, {})
-
-            # If we haven't created a weakref to this bound method before, then
-            # create one and cache it.
-            self = func_cache.get(obj.im_func)
+    def __new__(cls, obj, callback=None):
+        if getattr(obj, "__self__", None) is not None:  # Bound method
+            # Caching
+            func_cache = cls._cache.setdefault(obj.__self__, {})
+            self = func_cache.get(obj.__func__)
             if self is None:
-                self = object.__new__(cls, obj, *args, **kw)
-                func_cache[obj.im_func] = self
-
-        # Otherwise, just return a regular weakref (because we aren't
-        # returning an instance of *this* class our constructor does not get
-        # called).
+                self = WeakMethod(obj, callback)
+                func_cache[obj.__func__] = self
+            return self
         else:
-            self = weakref.ref(obj)
-
-        return self
-
-    def __init__(self, obj):
-        """ Create a weak reference to a bound method object.
-
-        'obj' is *always* a bound method because in the '__new__' method we
-        don't return an instance of this class if it is not, and hence this
-        constructor doesn't get called.
-
-        """
-
-        self._cls = obj.im_class
-        self._fn  = obj.im_func
-        self._ref = weakref.ref(obj.im_self)
-
-        return
-
-    def __call__(self):
-        """ Return a strong reference to the object.
-
-        Return None if the object has been garbage collected.
-
-        """
-
-        obj = self._ref()
-        if obj is not None:
-            obj = new.instancemethod(self._fn, obj, self._cls)
-
-        return obj
+            return weakref.ref(obj, callback)
 
 #### EOF ######################################################################

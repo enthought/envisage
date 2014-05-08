@@ -6,10 +6,10 @@ import logging
 
 from traits.api import Event, HasTraits, Instance, List, Str, provides
 
-from i_application import IApplication
-from i_plugin import IPlugin
-from i_plugin_manager import IPluginManager
-from plugin_event import PluginEvent
+from .i_application import IApplication
+from .i_plugin import IPlugin
+from .i_plugin_manager import IPluginManager
+from .plugin_event import PluginEvent
 
 
 
@@ -32,7 +32,7 @@ class PluginManager(HasTraits):
 
     Plugins can be added and removed after construction time via the methods
     'add_plugin' and 'remove_plugin'.
-    
+
     """
 
     #### 'IPluginManager' protocol #############################################
@@ -95,7 +95,7 @@ class PluginManager(HasTraits):
 
             if self._include_plugin(plugin.id)
         ]
-        
+
         return iter(plugins)
 
     #### 'IPluginManager' protocol #############################################
@@ -115,7 +115,7 @@ class PluginManager(HasTraits):
             if plugin_id == plugin.id:
                 if not self._include_plugin(plugin.id):
                     plugin = None
-                    
+
                 break
 
         else:
@@ -134,7 +134,8 @@ class PluginManager(HasTraits):
     def start(self):
         """ Start the plugin manager. """
 
-        map(lambda plugin: self.start_plugin(plugin), self._plugins)
+        for plugin in self._plugins:
+            self.start_plugin(plugin)
 
         return
 
@@ -159,7 +160,8 @@ class PluginManager(HasTraits):
         stop_order = self._plugins[:]
         stop_order.reverse()
 
-        map(lambda plugin: self.stop_plugin(plugin), stop_order)
+        for plugin in stop_order:
+            self.stop_plugin(plugin)
 
         return
 
@@ -206,7 +208,7 @@ class PluginManager(HasTraits):
         """
 
         return self._is_included(plugin_id) and not self._is_excluded(plugin_id)
-    
+
     #### Private protocol ######################################################
 
     def _is_excluded(self, plugin_id):

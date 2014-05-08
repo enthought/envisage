@@ -33,7 +33,7 @@ class TaskWindowToggleAction(Action):
     def _get_name(self):
         if self.window.active_task:
             return self.window.active_task.name
-        return unicode()
+        return unicode() if sys.version_info[0] < 3 else str()
 
     @on_trait_change('window:activated')
     def _window_activated(self):

@@ -24,7 +24,7 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         """ Called immediately after each test method has been called. """
 
         return
-        
+
     #### Tests ################################################################
 
     def test_find_plugins_in_packages_on_the_plugin_path(self):
@@ -38,7 +38,7 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self.assertIn('pear', ids)
 
         return
-    
+
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
@@ -136,7 +136,7 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self.assertEqual(len(ids), 0)
 
         return
-    
+
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
@@ -145,8 +145,9 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         """
 
         # Make sure the plugin manager found only the required plugins.
-        self.assertItemsEqual(
-            expected, [plugin.id for plugin in plugin_manager]
+        self.assertEqual(
+            list(sorted(expected)),
+            list(sorted(plugin.id for plugin in plugin_manager))
         )
 
         # Start the plugin manager. This starts all of the plugin manager's

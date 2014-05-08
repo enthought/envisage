@@ -5,7 +5,7 @@
 from envisage.api import EggPluginManager
 
 # Local imports.
-from egg_based_test_case import EggBasedTestCase
+from .egg_based_test_case import EggBasedTestCase
 from traits.testing.unittest_tools import unittest
 
 
@@ -32,15 +32,14 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # 'acme' test eggs should be in there!
         ids = [plugin.id for plugin in plugin_manager]
 
-        self.assert_('acme.foo' in ids)
-        self.assert_('acme.bar' in ids)
-        self.assert_('acme.baz' in ids)
+        self.assertTrue('acme.foo' in ids)
+        self.assertTrue('acme.bar' in ids)
+        self.assertTrue('acme.baz' in ids)
 
         return
 
     def test_include_specific(self):
         """ include specific """
-
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
 

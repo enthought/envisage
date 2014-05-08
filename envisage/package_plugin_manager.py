@@ -6,7 +6,7 @@ import logging, sys
 from apptools.io import File
 from traits.api import Directory, List, on_trait_change
 
-from plugin_manager import PluginManager
+from .plugin_manager import PluginManager
 
 
 logger = logging.getLogger(__name__)
@@ -103,11 +103,11 @@ class PackagePluginManager(PluginManager):
                     atoms        = child.name.split('_')
                     capitalized  = [atom.capitalize() for atom in atoms]
                     factory_name = ''.join(capitalized)
-                    
+
                     factory = getattr(module, factory_name, None)
                     if factory is not None:
                         plugins.append(factory())
-                    
+
         return plugins
 
     def _harvest_plugins_in_packages(self):
@@ -120,14 +120,14 @@ class PackagePluginManager(PluginManager):
                     plugins.extend(
                         self._harvest_plugins_in_package(
                             child.name, child.path
-                       ) 
+                       )
                     )
 
         return plugins
-    
+
     def _update_sys_dot_path(self, removed, added):
         """ Add/remove the given entries from sys.path. """
-        
+
         for dirname in removed:
             if dirname in sys.path:
                 sys.path.remove(dirname)

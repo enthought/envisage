@@ -5,7 +5,7 @@
 from traits.api import HasTraits, List
 
 # Local imports.
-from action_set import ActionSet
+from .action_set import ActionSet
 
 
 class ActionSetManager(HasTraits):

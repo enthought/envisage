@@ -1,4 +1,5 @@
 """ Tests for the 'Egg Basket' plugin manager. """
+from __future__ import print_function
 
 import glob
 import sys
@@ -33,7 +34,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             if self.bad_eggs_dir not in path:
                 sys_path.append(path)
             else:
-                print "Removed", path
+                print("Removed", path)
         sys.path = sys_path
 
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
@@ -160,12 +161,13 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         plugin_manager = EggBasketPluginManager(
             plugin_path = [self.bad_eggs_dir, self.eggs_dir],
         )
-        self.assertRaises(ImportError, iter, plugin_manager)
+        self.assertRaises(ImportError, list, plugin_manager)
 
         return
 
     def test_ignore_broken_plugins_loads_good_plugins(self):
-        data = {'count':0}
+        data = {'count': 0}
+
         def on_broken_plugin(ep, exc):
             data['count'] += 1
             data['entry_point'] = ep
@@ -177,6 +179,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
 
         ids = [plugin.id for plugin in plugin_manager]
+        print(ids)
         self.assertEqual(len(ids), 3)
         self.assertIn('acme.foo', ids)
         self.assertIn('acme.bar', ids)

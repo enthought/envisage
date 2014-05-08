@@ -40,7 +40,7 @@ class ExtensionRegistryBrowserView(TraitsUIView):
         """ Trait initializer. """
 
         # Local imports.
-        from extension_registry_browser import ExtensionRegistryBrowser
+        from .extension_registry_browser import ExtensionRegistryBrowser
 
         extension_registry_browser = ExtensionRegistryBrowser(
             application  = self.window.application,
