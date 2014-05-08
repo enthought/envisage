@@ -2,18 +2,22 @@ language: python
 python:
   - 2.6
   - 2.7
-  - "2.7_with_system_site_packages"
+  - 3.3
+virtualenv:
+  # This allows installing PyQt using apt-get and being able to import it.
+  system_site_packages: true
 before_install:
-  # If system_site_packages are available, we install PyQt4 and run the UI tests.
-  - if [[ $TRAVIS_PYTHON_VERSION == *_with_system_site_packages ]]; then source .travis_before_install; fi
+  # On Python 2.7 we install PyQt4 and run the UI tests.
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then source .travis_before_install; fi
 install:
-  - pip install -U nose
-  - pip install -U unittest2
+  - pip install nose
+  - pip install unittest2
   # 'envisage' should work with the current 'traits' master
   - pip install git+http://github.com/enthought/traits.git#egg=traits
   - python setup.py develop
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION == *_with_system_site_packages ]]; then nosetests envisage; else nosetests envisage/tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then nosetests envisage; fi
 notifications:
   email:
     - travis-ci@enthought.com

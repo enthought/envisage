@@ -15,7 +15,7 @@ from traitsui.api import Item, TreeEditor, View
 from envisage.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
-from application_browser_tree import application_browser_tree_nodes
+from .application_browser_tree import application_browser_tree_nodes
 
 
 application_browser_view = View(

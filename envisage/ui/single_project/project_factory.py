@@ -20,7 +20,7 @@ from envisage.api import IApplication
 from traits.api import HasTraits, Instance
 
 # Local imports.
-from project import Project
+from .project import Project
 
 
 # Setup a logger for this module.

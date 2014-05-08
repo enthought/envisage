@@ -1,6 +1,7 @@
 """ An example of using the Enthought class browser (enclbr) module. """
 
-
+# Future Statements
+from __future__ import print_function
 # Standard library imports.
 import sys, time
 
@@ -12,9 +13,9 @@ def main(argv):
     """ Do it! """
 
     if len(argv) != 2:
-        print 'Usage: python example.py module_name'
+        print('Usage: python example.py module_name')
         print
-        print 'e.g., python example.py traits'
+        print('e.g., python example.py traits')
 
     else:
         # Create a code browser.
@@ -25,7 +26,7 @@ def main(argv):
         contents = code_browser.read_package(sys.argv[1])
         stop = time.time()
 
-        print 'Time taken to parse', sys.argv[1], 'was', stop - start, 'secs'
+        print('Time taken to parse', sys.argv[1], 'was', stop - start, 'secs')
 
         # Save the cache.
         code_browser.save('data.pickle')

@@ -8,8 +8,8 @@ import errno
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_resource_protocol import IResourceProtocol
-from no_such_resource_error import NoSuchResourceError
+from .i_resource_protocol import IResourceProtocol
+from .no_such_resource_error import NoSuchResourceError
 
 
 @provides(IResourceProtocol)
@@ -26,9 +26,9 @@ class FileResourceProtocol(HasTraits):
         # Opened in binary mode to be consistent with package resources. This
         # means, for example, that line-endings will not be converted.
         try:
-            f = file(address, 'rb')
+            f = open(address, 'rb')
 
-        except IOError, e:
+        except IOError as e:
             if e.errno == errno.ENOENT:
                 raise NoSuchResourceError(address)
 

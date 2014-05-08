@@ -1,11 +1,13 @@
 """ Classes used to represent functions and methods. """
 
+# Standard library imports.
+import ast
 
 # Enthought library imports.
 from traits.api import Any, HasTraits, Instance, Int, Str
 
 # Local imports.
-from namespace import Namespace
+from .namespace import Namespace
 
 
 class Function(Namespace):
@@ -51,7 +53,7 @@ class FunctionFactory(HasTraits):
             namespace = namespace,
             lineno    = node.lineno,
             name      = node.name,
-            doc       = node.doc
+            doc       = ast.get_docstring(node, clean=False)
         )
 
         return function

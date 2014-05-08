@@ -6,7 +6,7 @@ from envisage.plugins.remote_editor.api import IRemoteEditor
 from traits.api import List, Instance, Any, on_trait_change
 
 # Local imports
-from envisage_remote_editor import EnvisageRemoteEditorController \
+from .envisage_remote_editor import EnvisageRemoteEditorController \
     as RemoteEditorController
 
 ID = 'envisage.plugins.remote_editor'

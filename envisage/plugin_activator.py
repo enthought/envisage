@@ -5,7 +5,7 @@
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_plugin_activator import IPluginActivator
+from .i_plugin_activator import IPluginActivator
 
 
 @provides(IPluginActivator)

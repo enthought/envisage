@@ -8,8 +8,8 @@ import logging, pkg_resources, re
 from traits.api import Instance, List, Str
 
 # Local imports.
-from egg_utils import get_entry_points_in_egg_order
-from plugin_manager import PluginManager
+from .egg_utils import get_entry_points_in_egg_order
+from .plugin_manager import PluginManager
 
 
 # Logging.
@@ -66,7 +66,7 @@ class EggPluginManager(PluginManager):
         """ Trait initializer. """
 
         plugins = []
-        for ep in get_entry_points_in_egg_order(self.working_set,self.PLUGINS):
+        for ep in get_entry_points_in_egg_order(self.working_set, self.PLUGINS):
             if self._is_included(ep.name) and not self._is_excluded(ep.name):
                 plugin = self._create_plugin_from_ep(ep)
                 plugins.append(plugin)

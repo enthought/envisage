@@ -10,7 +10,7 @@ from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.
-from extension_registry_test_case import ExtensionRegistryTestCase
+from .extension_registry_test_case import ExtensionRegistryTestCase
 
 
 class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
@@ -91,7 +91,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
         self.assertEqual(5, len(extensions))
-        self.assertEqual(range(42, 47), extensions)
+        self.assertEqual(list(range(42, 47)), extensions)
 
         # Make sure there's one and only one extension point.
         extension_points = registry.get_extension_points()
@@ -603,7 +603,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
         self.assertEqual(2, len(extensions))
-        self.assertEqual(range(42, 44), extensions)
+        self.assertEqual(list(range(42, 44)), extensions)
 
         # Make sure there's one and only one extension point.
         extension_points = registry.get_extension_points()

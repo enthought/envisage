@@ -1,3 +1,6 @@
+
+import sys
+
 # Enthought library imports.
 from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
@@ -32,7 +35,10 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            title = u'%s - %s' % (title, self.application.name)
+            form = '%s - %s'
+            if sys.version_info[0] < 3:
+                form = unicode(form)
+            title = form % (title, self.application.name)
         return title
 
     def _get_icon(self):

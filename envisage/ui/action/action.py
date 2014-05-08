@@ -5,7 +5,7 @@
 from traits.api import Str
 
 # Local imports.
-from location import Location
+from .location import Location
 
 
 class Action(Location):

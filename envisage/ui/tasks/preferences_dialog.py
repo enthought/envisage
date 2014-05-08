@@ -5,8 +5,8 @@ from traitsui.api import Item, Handler, ListEditor, View
 from pyface.tasks.topological_sort import before_after_sort
 
 # Local imports.
-from preferences_category import PreferencesCategory
-from preferences_pane import PreferencesPane
+from .preferences_category import PreferencesCategory
+from .preferences_pane import PreferencesPane
 
 
 class PreferencesTab(HasTraits):

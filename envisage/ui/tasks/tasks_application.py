@@ -1,7 +1,10 @@
 # Standard library imports.
-import cPickle
 import logging
 import os.path
+if sys.version_info[0] >= 3:
+    import pickle
+else:
+    import cPickle as pickle
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -13,12 +16,13 @@ from traits.api import Bool, Callable, Directory, Event, HasStrictTraits, \
 from traits.etsconfig.api import ETSConfig
 
 # Local imports
-from task_window import TaskWindow
-from task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
+from .task_window import TaskWindow
+from .task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 
 # Logging.
 logger = logging.getLogger(__name__)
 
+STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 class TasksApplication(Application):
     """ The entry point for an Envisage Tasks application.
@@ -39,7 +43,7 @@ class TasksApplication(Application):
     # The PyFace GUI for the application.
     gui = Instance(GUI)
 
-    # Icon for the whole application. Will be used to override all taskWindows 
+    # Icon for the whole application. Will be used to override all taskWindows
     # icons to have the same.
     icon = Instance(ImageResource, allow_none=True) #Any
 
@@ -311,7 +315,7 @@ class TasksApplication(Application):
             # Attempt to unpickle the saved application state.
             try:
                 with open(filename, 'r') as f:
-                    restored_state = cPickle.load(f)
+                    restored_state = pickle.load(f)
                 if state.version == restored_state.version:
                     state = restored_state
                 else:
@@ -332,12 +336,12 @@ class TasksApplication(Application):
             # ensure that it is correct.
             match.active_task = layout.get_active_task()
             layout = match
-            
+
         # If that fails, at least try to restore the layout of individual tasks.
         else:
             layout = layout.clone_traits()
             for i, item in enumerate(layout.items):
-                id = item if isinstance(item, basestring) else item.id
+                id = item if isinstance(item, STRING_BASE_CLASS) else item.id
                 match = self._state.get_task_layout(id)
                 if match:
                     layout.items[i] = match
@@ -355,7 +359,7 @@ class TasksApplication(Application):
         filename = os.path.join(self.state_location, 'application_memento')
         try:
             with open(filename, 'w') as f:
-                cPickle.dump(self._state, f)
+                pickle.dump(self._state, f)
         except:
             # If anything goes wrong, log the error and continue.
             logger.exception('Saving application layout')

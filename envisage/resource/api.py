@@ -1,8 +1,8 @@
-from i_resource_protocol import IResourceProtocol
-from i_resource_manager import IResourceManager
+from .i_resource_protocol import IResourceProtocol
+from .i_resource_manager import IResourceManager
 
-from file_resource_protocol import FileResourceProtocol
-from http_resource_protocol import HTTPResourceProtocol
-from no_such_resource_error import NoSuchResourceError
-from package_resource_protocol import PackageResourceProtocol
-from resource_manager import ResourceManager
+from .file_resource_protocol import FileResourceProtocol
+from .http_resource_protocol import HTTPResourceProtocol
+from .no_such_resource_error import NoSuchResourceError
+from .package_resource_protocol import PackageResourceProtocol
+from .resource_manager import ResourceManager

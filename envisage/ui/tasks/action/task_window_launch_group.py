@@ -1,3 +1,6 @@
+
+import sys
+
 # Enthought library imports.
 from pyface.action.api import ActionItem, Group
 from pyface.tasks.api import TaskWindowLayout
@@ -32,7 +35,7 @@ class TaskWindowLaunchAction(TaskAction):
         """ Name the action (unless a name has already been assigned).
         """
         if task and not self.name:
-            name = unicode()
+            name = unicode() if sys.version_info[0] < 3 else str()
             for factory in task.window.application.task_factories:
                 if factory.id == self.task_id:
                     name = factory.name

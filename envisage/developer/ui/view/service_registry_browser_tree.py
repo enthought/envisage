@@ -59,7 +59,7 @@ class ServiceRegistryModel(HasTraits):
         # fixme: Reaching into service registry. Not only is it ugly, but it
         # only works for the default implementation. Need to make this kind
         # of information available via the public API.
-        all_services = self.service_registry._services.items()
+        all_services = list(self.service_registry._services.items())
 
         protocols = {}
         for service_id, (protocol_name, obj, properties) in all_services:
@@ -76,7 +76,7 @@ class ServiceRegistryModel(HasTraits):
 
             protocol.services.append(service_model)
 
-        return protocols.values()
+        return list(protocols.values())
 
 
 class ProtocolModelTreeNode(TreeNode):

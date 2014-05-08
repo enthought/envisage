@@ -1,1 +1,1 @@
-from developer_perspective import DeveloperPerspective
+from .developer_perspective import DeveloperPerspective
