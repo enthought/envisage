@@ -1,8 +1,11 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
+import glob
 import sys
-from os.path import dirname, join
+from os.path import basename, dirname, join
 import pkg_resources
+import shutil
+import tempfile
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 from traits.testing.unittest_tools import unittest
@@ -186,6 +189,41 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         return
 
+    def test_ignore_broken_distributions_raises_exceptions_by_default(self):
+        plugin_manager = EggBasketPluginManager(
+            plugin_path = [self.bad_eggs_dir,
+                self._create_broken_distribution_eggdir('acme.foo*.egg')],
+        )
+        self.assertRaises(SystemError, iter, plugin_manager)
+
+        return
+
+    def test_ignore_broken_distributions_loads_good_distributions(self):
+        data = {'count':0}
+        def on_broken_distribution(dist, exc):
+            data['count'] += 1
+            data['distribution'] = dist
+            data['exc'] = exc
+
+        plugin_manager = EggBasketPluginManager(
+            plugin_path = [self.eggs_dir,
+                self._create_broken_distribution_eggdir('acme.foo*.egg')],
+            on_broken_distribution = on_broken_distribution,
+        )
+
+        ids = [plugin.id for plugin in plugin_manager]
+        self.assertEqual(len(ids), 3)
+        self.assertIn('acme.foo', ids)
+        self.assertIn('acme.bar', ids)
+        self.assertIn('acme.baz', ids)
+
+        self.assertEqual(data['count'], 1)
+        self.assertEqual(data['distribution'].project_name, 'acme.foo')
+        exc = data['exc']
+        self.assertTrue(isinstance(exc, pkg_resources.VersionConflict))
+
+        return
+
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
@@ -217,6 +255,39 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             self.assertEqual(True, plugin.stopped)
 
         return
+
+    def _create_broken_distribution_eggdir(self, egg_pat, replacement=None):
+        """ Copy a good egg to a different version egg name in a new temp dir
+        and return the new directory.
+
+        Parameters
+        ----------
+        egg_pat: a glob pattern for the egg in `self.egg_dir` eg 'foo.bar*.egg'
+        replacement: a string replacement for the version part of egg name.
+            If None, '1' is appended to the original version.
+
+        Returns
+        -------
+        The newly created dir where the new broken egg is copied.
+        Adding this dir to plugin_path will cause VersionConflict
+        on trying to load distributions.
+        """
+        tmpdir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmpdir)
+
+        # Copy the egg to the temp dir and rename it
+        eggs = glob.glob(join(self.eggs_dir, egg_pat))
+        for egg in eggs:
+            egg_name = basename(egg)
+            split_name = egg_name.split('-')
+            if replacement is None:
+                split_name[1] += '1'
+            else:
+                split_name[1] = replacement
+            new_name = '-'.join(split_name)
+            shutil.copy(egg, join(tmpdir, new_name))
+
+        return tmpdir
 
 
 # Entry point for stand-alone testing.

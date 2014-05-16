@@ -45,6 +45,11 @@ class EggBasketPluginManager(PluginManager):
             raise exc
         return handle_broken_plugin
 
+    # If a distribution cannot be loaded for any reason
+    # (mainly VersionConflict), this callable is called with the following
+    # arguments: distribution, exception.
+    on_broken_distribution = Callable
+
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
@@ -98,11 +103,13 @@ class EggBasketPluginManager(PluginManager):
         # the plugin entry points we don't pick up any from other eggs
         # installed on sys.path.
         plugin_working_set = pkg_resources.WorkingSet(self.plugin_path)
-        add_eggs_on_path(plugin_working_set, self.plugin_path)
+        add_eggs_on_path(plugin_working_set, self.plugin_path,
+                         self._handle_broken_distributions)
 
         # We also add the eggs to the global working set as otherwise the
         # plugin classes can't be imported!
-        add_eggs_on_path(pkg_resources.working_set, self.plugin_path)
+        add_eggs_on_path(pkg_resources.working_set, self.plugin_path,
+                         self._handle_broken_distributions)
 
         plugins = []
         for entry_point in self._get_plugin_entry_points(plugin_working_set):
@@ -119,6 +126,14 @@ class EggBasketPluginManager(PluginManager):
                     self.on_broken_plugin(entry_point, exc)
 
         return plugins
+
+    def _handle_broken_distributions(self, errors):
+        logger.error('Error loading distributions: %s', errors)
+        if self.on_broken_distribution is None:
+            raise SystemError('Cannot find eggs %s' % errors)
+        else:
+            for dist, exc in errors.items():
+                self.on_broken_distribution(dist, exc)
 
     def _update_sys_dot_path(self, removed, added):
         """ Add/remove the given entries from sys.path. """

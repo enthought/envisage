@@ -8,7 +8,7 @@ import pkg_resources
 from traits.util.toposort import topological_sort
 
 
-def add_eggs_on_path(working_set, path):
+def add_eggs_on_path(working_set, path, on_error=None):
     """ Add all eggs found on the path to a working set. """
 
     environment = pkg_resources.Environment(path)
@@ -17,12 +17,15 @@ def add_eggs_on_path(working_set, path):
     # to the working set without version conflicts or missing requirements.
     distributions, errors = working_set.find_plugins(environment)
     if len(errors) > 0:
-        raise SystemError('Cannot find eggs %s' % errors)
+        if on_error:
+            on_error(errors)
+        else:
+            raise SystemError('Cannot find eggs %s' % errors)
 
     # Add the distributions to the working set (this makes any Python
     # modules in the eggs available for importing).
     map(working_set.add, distributions)
-    
+
     return
 
 
