@@ -16,8 +16,7 @@ install:
   - pip install git+http://github.com/enthought/traits.git#egg=traits
   - python setup.py develop
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then nosetests envisage; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; else nosetests envisage; fi
 notifications:
   email:
     - travis-ci@enthought.com
