@@ -14,9 +14,9 @@ install:
   - "if [[ $TRAVIS_PYTHON_VERSION != '2.6' ]]; then git clone https://github.com/pradyun/travis-dependencies dependencies; pip install -v -v -v --no-index --find-links=./dependencies PySide; fi"
   # 'envisage' should work with the current 'traits' master
   - pip install git+http://github.com/enthought/traits.git#egg=traits
-  - pip install git+http://github.com/pradyun/apptools.git@python3#egg=apptools
   - pip install git+http://github.com/pradyun/pyface.git@python3#egg=pyface
   - pip install git+http://github.com/pradyun/traitsui.git@python3#egg=traitsui
+  - pip install git+http://github.com/pradyun/apptools.git@python3#egg=apptools
   - python setup.py develop
 script:
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; else nosetests envisage; fi"
