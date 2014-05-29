@@ -165,7 +165,7 @@ class WorkbenchPlugin(Plugin):
     def _my_action_sets_default(self):
         """ Trait initializer. """
 
-        from default_action_set import DefaultActionSet
+        from .default_action_set import DefaultActionSet
 
         return [DefaultActionSet]
 
@@ -181,7 +181,7 @@ class WorkbenchPlugin(Plugin):
     def _my_preferences_pages_default(self):
         """ Trait initializer. """
 
-        from workbench_preferences_page import WorkbenchPreferencesPage
+        from .workbench_preferences_page import WorkbenchPreferencesPage
 
         return [WorkbenchPreferencesPage]
 

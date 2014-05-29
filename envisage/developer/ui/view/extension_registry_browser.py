@@ -16,7 +16,7 @@ from traitsui.api import Item, TreeEditor, View
 from envisage.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
-from extension_registry_browser_tree import \
+from .extension_registry_browser_tree import \
      extension_registry_browser_tree_nodes
 
 
@@ -197,7 +197,7 @@ class ExtensionRegistryBrowser(HasTraits):
 
         if len(extension_traits) > 0:
             # There is *at most* one extension point trait per extension point.
-            trait_name = extension_traits.keys()[0]
+            trait_name = next(iter(extension_traits))
 
         else:
             trait_name = None

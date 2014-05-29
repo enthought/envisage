@@ -9,7 +9,7 @@ from traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 
 # Local imports
-from util import accept_no_intr, receive, send_port, spawn_independent, \
+from .util import accept_no_intr, receive, send_port, spawn_independent, \
     MESSAGE_SEP, LOCK_PATH, LOG_PATH
 
 logger = logging.getLogger("communication")
@@ -120,7 +120,9 @@ class Server(HasTraits):
                         logger.warning(msg, address[0])
                         continue
                     command, arguments = receive(client)
+
                     logger.debug("Server received: %s %s", command, arguments)
+
                     if command == "send":
                         port, command, arguments = arguments.split(MESSAGE_SEP)
                         self._send_from(int(port), command, arguments)

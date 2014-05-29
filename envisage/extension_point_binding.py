@@ -8,7 +8,7 @@ import weakref
 from traits.api import Any, HasTraits, Instance, Str, Undefined
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
+from .i_extension_registry import IExtensionRegistry
 
 
 class ExtensionPointBinding(HasTraits):
@@ -73,7 +73,7 @@ class ExtensionPointBinding(HasTraits):
         """ Trait initializer. """
 
         # fixme: Sneaky global!!!!!
-        from extension_point import ExtensionPoint
+        from .extension_point import ExtensionPoint
 
         return ExtensionPoint.extension_registry
 

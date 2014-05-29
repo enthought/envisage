@@ -9,11 +9,11 @@ from traits.api import Event, HasTraits, Instance, List, provides
 from traits.api import on_trait_change
 
 # Local imports.
-from i_application import IApplication
-from i_plugin import IPlugin
-from i_plugin_manager import IPluginManager
-from plugin_event import PluginEvent
-from plugin_manager import PluginManager
+from .i_application import IApplication
+from .i_plugin import IPlugin
+from .i_plugin_manager import IPluginManager
+from .plugin_event import PluginEvent
+from .plugin_manager import PluginManager
 
 
 # Logging.
@@ -77,7 +77,7 @@ class CompositePluginManager(HasTraits):
     @on_trait_change('plugin_managers:plugin_removed')
     def _plugin_removed(self, obj, trait_name, old, new):
         self.plugin_removed = new
-        
+
     #### Private protocol ######################################################
 
     # The plugins that the manager manages!
@@ -129,7 +129,8 @@ class CompositePluginManager(HasTraits):
     def start(self):
         """ Start the plugin manager. """
 
-        map(lambda plugin: self.start_plugin(plugin), self)
+        for plugin in self:
+            self.start_plugin(plugin)
 
         return
 
@@ -154,7 +155,8 @@ class CompositePluginManager(HasTraits):
         stop_order = list(iter(self))
         stop_order.reverse()
 
-        map(lambda plugin: self.stop_plugin(plugin), stop_order)
+        for plugin in stop_order:
+            self.stop_plugin(plugin)
 
         return
 

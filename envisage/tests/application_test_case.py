@@ -152,7 +152,7 @@ class ApplicationTestCase(unittest.TestCase):
         application = TestApplication()
 
         # Make sure the directory got created.
-        self.assert_(os.path.exists(application.home))
+        self.assertTrue(os.path.exists(application.home))
 
         # Delete the directory.
         shutil.rmtree(application.home)
@@ -207,7 +207,7 @@ class ApplicationTestCase(unittest.TestCase):
         # Start the application.
         started = application.start()
         self.assertEqual(False, started)
-        self.assert_('started' not in tracker.event_names)
+        self.assertTrue('started' not in tracker.event_names)
 
         return
 
@@ -236,7 +236,7 @@ class ApplicationTestCase(unittest.TestCase):
         # Stop the application.
         stopped = application.stop()
         self.assertEqual(False, stopped)
-        self.assert_('stopped' not in tracker.event_names)
+        self.assertTrue('stopped' not in tracker.event_names)
 
         return
 
@@ -248,18 +248,18 @@ class ApplicationTestCase(unittest.TestCase):
         application   = TestApplication(plugins=[simple_plugin, bad_plugin])
 
         # Try to start the application - the bad plugin should barf.
-        self.failUnlessRaises(ZeroDivisionError, application.start)
+        self.assertRaises(ZeroDivisionError, application.start)
 
         # Try to stop the application - the bad plugin should barf.
-        self.failUnlessRaises(ZeroDivisionError, application.stop)
+        self.assertRaises(ZeroDivisionError, application.stop)
 
         # Try to start a non-existent plugin.
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemError, application.start_plugin, plugin_id='bogus'
         )
 
         # Try to stop a non-existent plugin.
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemError, application.stop_plugin, plugin_id='bogus'
         )
 

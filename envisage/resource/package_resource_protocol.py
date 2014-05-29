@@ -8,8 +8,8 @@ import errno, pkg_resources
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_resource_protocol import IResourceProtocol
-from no_such_resource_error import NoSuchResourceError
+from .i_resource_protocol import IResourceProtocol
+from .no_such_resource_error import NoSuchResourceError
 
 
 @provides(IResourceProtocol)
@@ -44,7 +44,7 @@ class PackageResourceProtocol(HasTraits):
         try:
             f = pkg_resources.resource_stream(package, resource_name)
 
-        except IOError, e:
+        except IOError as e:
             if e.errno == errno.ENOENT:
                 raise NoSuchResourceError(address)
 

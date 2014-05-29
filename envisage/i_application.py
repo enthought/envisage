@@ -6,11 +6,11 @@ from apptools.preferences.api import IPreferences
 from traits.api import Event, Instance, Str, VetoableEvent
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
-from i_import_manager import IImportManager
-from i_plugin_manager import IPluginManager
-from i_service_registry import IServiceRegistry
-from application_event import ApplicationEvent
+from .i_extension_registry import IExtensionRegistry
+from .i_import_manager import IImportManager
+from .i_plugin_manager import IPluginManager
+from .i_service_registry import IServiceRegistry
+from .application_event import ApplicationEvent
 
 
 class IApplication(

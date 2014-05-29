@@ -5,8 +5,8 @@
 from traits.api import Event, HasTraits, provides
 
 # Local imports.
-from extension_point_changed_event import ExtensionPointChangedEvent
-from i_extension_provider import IExtensionProvider
+from .extension_point_changed_event import ExtensionPointChangedEvent
+from .i_extension_provider import IExtensionProvider
 
 
 @provides(IExtensionProvider)

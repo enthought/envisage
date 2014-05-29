@@ -2,18 +2,17 @@
 
 
 # Standard library imports.
-import compiler, os
-from compiler.visitor import ASTVisitor
+import ast, os
 
 # Enthought library imports.
 from apptools.io.api import File
 from traits.api import Any, Dict, HasTraits, Instance, Str
 
 # Local imports.
-from assign import Assign, AssignFactory
-from function import Function, FunctionFactory
-from klass import Klass, KlassFactory
-from namespace import Namespace
+from .assign import Assign, AssignFactory
+from .function import Function, FunctionFactory
+from .klass import Klass, KlassFactory
+from .namespace import Namespace
 
 
 class Module(Namespace):
@@ -94,18 +93,19 @@ class ModuleFactory(HasTraits):
         """ Creates a module by parsing a file. """
 
         # Parse the file.
-        node = compiler.parseFile(filename)
+        with open(filename) as f:
+            node = ast.parse(f.read())
 
         # Create a new module.
         module = Module(
             namespace = namespace,
             filename  = filename,
             name      = self._get_module_name(filename),
-            doc       = node.doc,
+            doc       = ast.get_docstring(node, clean=False),
         )
 
         # Walk the AST picking out the things we care about!
-        compiler.walk(node, ModuleVisitor(module))
+        ModuleVisitor(module).visit(node)
 
         return module
 
@@ -141,7 +141,7 @@ class ModuleFactory(HasTraits):
         return '.'.join(module_path)
 
 
-class ModuleVisitor(ASTVisitor):
+class ModuleVisitor(ast.NodeVisitor):
     """ An AST visitor for top-level modules. """
 
     ###########################################################################
@@ -162,12 +162,11 @@ class ModuleVisitor(ASTVisitor):
         return
 
     ###########################################################################
-    # 'ASTVisitor' interface.
+    # 'NodeVisitor' interface.
     ###########################################################################
 
-    def visitClass(self, node):
+    def visit_ClassDef(self, node):
         """ Visits a class node. """
-
         klass = self._klass_factory.from_ast(self.module, node)
 
         self.module.locals[node.name] = klass
@@ -175,7 +174,7 @@ class ModuleVisitor(ASTVisitor):
 
         return
 
-    def visitFunction(self, node):
+    def visit_FunctionDef(self, node):
         """ Visits a function node. """
 
         function = self._function_factory.from_ast(self.module, node)
@@ -185,7 +184,7 @@ class ModuleVisitor(ASTVisitor):
 
         return
 
-    def visitAssign(self, node):
+    def visit_Assign(self, node):
         """ Visits an assignment node. """
 
         assign = self._assign_factory.from_ast(self.module, node)
@@ -205,22 +204,22 @@ class ModuleVisitor(ASTVisitor):
 
         return
 
-    def visitFrom(self, node):
+    def visit_ImportFrom(self, node):
         """ Visits a from node. """
 
-        for name, what in node.names:
-            self.module.imports[name] = node.modname
+        for alias in node.names:
+            self.module.imports[alias.name] = node.module
 
         return
 
-    def visitImport(self, node):
+    def visit_Import(self, node):
         """ Visits an import node. """
 
-        for name, what in node.names:
+        for alias in node.names:
             # fixme: We currently use the fact that we add an empty string to
             # the imports dictionary to tell the difference later on between
             # 'import' and 'from import'.
-            self.module.imports[name] = ''
+            self.module.imports[alias.name] = ''
 
         return
 

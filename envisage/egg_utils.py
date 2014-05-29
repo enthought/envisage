@@ -24,7 +24,8 @@ def add_eggs_on_path(working_set, path, on_error=None):
 
     # Add the distributions to the working set (this makes any Python
     # modules in the eggs available for importing).
-    map(working_set.add, distributions)
+    for distribution in distributions:
+        working_set.add(distribution)
 
     return
 
@@ -43,8 +44,8 @@ def get_entry_points_in_egg_order(working_set, entry_point_name):
 
     entry_points = []
     for distribution in distributions:
-        map = distribution.get_entry_map(entry_point_name)
-        entry_points.extend(map.values())
+        entry_map = distribution.get_entry_map(entry_point_name)
+        entry_points.extend(list(entry_map.values()))
 
     return entry_points
 

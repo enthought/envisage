@@ -2,14 +2,19 @@
 
 
 # Standard library imports.
-import cPickle, imp, logging, os, stat, warnings
+import sys, imp, logging, os, stat, warnings
+
+if sys.version_info[0] >= 3:
+    import pickle
+else:
+    import cPickle as pickle
 
 # Enthought library imports.
 from apptools.io.api import File
 
 # Local imports.
-from module import ModuleFactory
-from package import Package
+from .module import ModuleFactory
+from .package import Package
 
 
 # Logging.
@@ -40,7 +45,7 @@ def save_cache(filename):
         logger.debug('saving cache...')
 
         f = file(filename, 'wb')
-        cPickle.dump(MODULES, f, 1)
+        pickle.dump(MODULES, f, 1)
         f.close()
 
         logger.debug('cache saved')
@@ -57,7 +62,7 @@ def load_cache(filename):
         logger.debug('loading cache...')
 
         f = file(filename, 'rb')
-        MODULES = cPickle.load(f)
+        MODULES = pickle.load(f)
         f.close()
 
         logger.debug('cache loaded...')

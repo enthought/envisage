@@ -2,7 +2,7 @@
 from traits.api import HasTraits, Instance, Vetoable
 
 # Local imports.
-from task_window import TaskWindow
+from .task_window import TaskWindow
 
 
 class TaskWindowEvent(HasTraits):

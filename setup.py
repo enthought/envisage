@@ -5,7 +5,8 @@ from setuptools import setup, find_packages
 
 
 info = {}
-execfile(join('envisage', '__init__.py'), info)
+envisage_init = join('envisage', '__init__.py')
+exec(compile(open(envisage_init).read(), envisage_init, 'exec'), info)
 
 
 setup(
@@ -46,4 +47,5 @@ setup(
     package_data = {'': ['images/*', '*.ini',]},
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     zip_safe = False,
+    use_2to3 = True,
 )

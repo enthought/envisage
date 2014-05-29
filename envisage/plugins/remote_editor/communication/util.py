@@ -7,7 +7,11 @@ from subprocess import Popen
 import sys
 
 import csv
-import StringIO
+
+if sys.version_info[0] >= 3:
+    from io import StringIO
+else:
+    from StringIO import StringIO
 
 # ETS imports
 from traits.etsconfig.api import ETSConfig
@@ -20,10 +24,25 @@ LOCK_PATH = os.path.join(ETSConfig.application_data,
                          'remote_editor_server.lock')
 LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
+# Python 3 compatibility
+PY3 = sys.version_info[0] >= 3
+STRING_BASE_CLASS = str if PY3 else basestring
+
+if PY3:
+    def encode(s):
+        return bytes(s, 'utf-8')
+    def decode(s):
+        return s.decode()
+else:
+    def encode(s):
+        return str(s)
+    def decode(s):
+        return str(s)
+
 
 def quoted_split(s):
-    f = StringIO.StringIO(s)
-    split = csv.reader(f, delimiter=' ', quotechar='"').next()
+    f = StringIO(s)
+    split = next(csv.reader(f, delimiter=' ', quotechar='"'))
     return split
 
 
@@ -37,7 +56,7 @@ def spawn_independent(command, shell=False):
         contains spaces must be delimited with double-quotes.
     """
     if sys.platform == 'win32':
-        if isinstance(command, basestring):
+        if isinstance(command, STRING_BASE_CLASS):
             command = 'start /b ' + command
         else:
             command.insert(0, 'start')
@@ -49,7 +68,7 @@ def spawn_independent(command, shell=False):
             return
         else:
             os.setpgrp()
-            if isinstance(command, basestring):
+            if isinstance(command, STRING_BASE_CLASS):
                 tmp = quoted_split(command)
             else:
                 tmp = command
@@ -68,11 +87,8 @@ def get_server_port():
         returns -1.
     """
     if os.path.exists(LOCK_PATH):
-        f = open(LOCK_PATH, 'r')
-        try:
+        with open(LOCK_PATH, 'rt') as f:
             return int(f.read().strip())
-        finally:
-            f.close()
     else:
         return -1
 
@@ -85,14 +101,14 @@ def accept_no_intr(sock):
     while True:
         try:
             return sock.accept()
-        except socket.error, err:
-            if err[0] != EINTR:
+        except socket.error as err:
+            if err.args[0] != EINTR:
                 raise
         except KeyboardInterrupt:
             pass
 
 
-def send(sock, command, arguments=''):
+def send(sock, command, arguments=""):
     """ Send a command with arguments (both strings) through a socket. This
         information is encoded with length information to ensure that everything
         is received.
@@ -101,6 +117,8 @@ def send(sock, command, arguments=''):
     msg = command + MESSAGE_SEP + arguments
     msg = str(len(msg)) + MESSAGE_SEP + msg
     length = len(msg)
+
+    msg = encode(msg)
     while total < length:
         msg = msg[sent:]
         sent = sock.send(msg)
@@ -109,7 +127,7 @@ def send(sock, command, arguments=''):
         total += sent
 
 
-def send_port(port, command, arguments='', timeout=None):
+def send_port(port, command, arguments="", timeout=None):
     """ A send a command to a port. Convenience function that uses 'send'.
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -137,7 +155,7 @@ def receive(sock):
         information with 'send'.
     """
     index = -1
-    chunk, length = '', ''
+    chunk, length = encode(""), encode("")
     received = False
 
     while not received:
@@ -151,7 +169,7 @@ def receive(sock):
                 chunk = rsock.recv(4096)
                 if not chunk:
                     raise socket.error
-                index = chunk.find(MESSAGE_SEP)
+                index = chunk.find(encode(MESSAGE_SEP))
             length = int(length + chunk[:index])
 
             msg = chunk[index+1:]
@@ -162,5 +180,5 @@ def receive(sock):
                 msg += chunk
             received = True
 
-    command, sep, arguments = msg.partition(MESSAGE_SEP)
-    return command, arguments
+    command, sep, arguments = msg.partition(encode(MESSAGE_SEP))
+    return decode(command), decode(arguments)

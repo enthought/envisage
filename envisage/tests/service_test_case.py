@@ -54,6 +54,7 @@ class ServiceTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b])
         application.start()
 
+
         # Make sure the services were registered.
         self.assertEqual(a.foo, b.foo)
 

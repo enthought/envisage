@@ -2,18 +2,27 @@ language: python
 python:
   - 2.6
   - 2.7
-  - "2.7_with_system_site_packages"
-before_install:
-  # If system_site_packages are available, we install PyQt4 and run the UI tests.
-  - if [[ $TRAVIS_PYTHON_VERSION == *_with_system_site_packages ]]; then source .travis_before_install; fi
+  - 3.3
+  - 3.4
+
 install:
-  - pip install -U nose
-  - pip install -U unittest2
+  - pip install -U nose # Needed due to a regression in 1.3.1
+  - pip install wheel
+  # Basic dependencies
+  - pip install numpy
+  - pip install pygments
+  - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi"
+  # PySide from a wheel
+  - "if [[ $TRAVIS_PYTHON_VERSION != '2.6' ]]; then git clone https://github.com/pradyun/travis-dependencies dependencies; pip install -v -v -v --no-index --find-links=./dependencies PySide; fi"
   # 'envisage' should work with the current 'traits' master
   - pip install git+http://github.com/enthought/traits.git#egg=traits
+  - pip install git+http://github.com/pradyun/pyface.git@python3#egg=pyface
+  - pip install git+http://github.com/pradyun/traitsui.git@python3#egg=traitsui
+  - pip install git+http://github.com/pradyun/apptools.git@python3#egg=apptools
   - python setup.py develop
+
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION == *_with_system_site_packages ]]; then nosetests envisage; else nosetests envisage/tests; fi
+  - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then nosetests envisage/tests; else nosetests envisage; fi"
 notifications:
   email:
     - travis-ci@enthought.com

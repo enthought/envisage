@@ -6,10 +6,10 @@ from pyface.action.api import ActionManager, MenuManager
 from traits.api import HasTraits, Instance, List, provides
 
 # Local imports.
-from action_set import ActionSet
-from action_set_manager import ActionSetManager
-from group import Group
-from i_action_manager_builder import IActionManagerBuilder
+from .action_set import ActionSet
+from .action_set_manager import ActionSetManager
+from .group import Group
+from .i_action_manager_builder import IActionManagerBuilder
 
 
 @provides(IActionManagerBuilder)
@@ -101,7 +101,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
         # We don't add the tool bar if it is empty!
         if len(groups) + len(actions) > 0:
-            from tool_bar import ToolBar
+            from .tool_bar import ToolBar
 
             tool_bar_manager = self._create_tool_bar_manager(
                 ToolBar(name='Tool Bar', path=root, _action_set_=None)

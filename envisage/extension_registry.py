@@ -8,10 +8,10 @@ import logging
 from traits.api import Dict, HasTraits, provides
 
 # Local imports.
-from extension_point_changed_event import ExtensionPointChangedEvent
-from i_extension_registry import IExtensionRegistry
-import safeweakref
-from unknown_extension_point import UnknownExtensionPoint
+from .extension_point_changed_event import ExtensionPointChangedEvent
+from .i_extension_registry import IExtensionRegistry
+from . import safeweakref
+from .unknown_extension_point import UnknownExtensionPoint
 
 
 # Logging.
@@ -78,7 +78,7 @@ class ExtensionRegistry(HasTraits):
     def get_extension_points(self):
         """ Return all extension points. """
 
-        return self._extension_points.values()
+        return list(self._extension_points.values())
 
     def remove_extension_point_listener(self,listener,extension_point_id=None):
         """ Remove a listener for extensions being added or removed. """

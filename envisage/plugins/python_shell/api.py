@@ -1,1 +1,1 @@
-from i_python_shell import IPythonShell
+from .i_python_shell import IPythonShell

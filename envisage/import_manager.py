@@ -5,7 +5,7 @@
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_import_manager import IImportManager
+from .i_import_manager import IImportManager
 
 
 @provides(IImportManager)

@@ -69,8 +69,9 @@ class CommunicationTestCase(unittest.TestCase):
         self.assert_(os.path.exists(LOCK_PATH))
 
         # Test normal operation
-
-        self.assert_(Server.ping(get_server_port()))
+        tmp = get_server_port()
+        print(tmp)
+        self.assert_(Server.ping(tmp))
 
         client1 = TestClient(self_type='client1', other_type='client2')
         client1.register()

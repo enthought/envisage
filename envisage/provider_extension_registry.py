@@ -8,9 +8,9 @@ import logging
 from traits.api import List, provides, on_trait_change
 
 # Local imports.
-from extension_registry import ExtensionRegistry
-from i_extension_provider import IExtensionProvider
-from i_provider_extension_registry import IProviderExtensionRegistry
+from .extension_registry import ExtensionRegistry
+from .i_extension_provider import IExtensionProvider
+from .i_provider_extension_registry import IProviderExtensionRegistry
 
 
 # Logging.
@@ -103,10 +103,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         #     all = [x for y in extensions for x in y]
         #
         # But I'm sure sure that that makes it any clearer ;^)
-        all = []
-        map(all.extend, extensions)
-
-        return all
+        return [x for y in extensions for x in y]
 
     ###########################################################################
     # Protected 'ProviderExtensionRegistry' interface.
@@ -136,6 +133,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         # Does the provider contribute any extensions to an extension point
         # that has already been accessed?
+
         for extension_point_id, extensions in self._extensions.items():
             new = provider.get_extensions(extension_point_id)
 
