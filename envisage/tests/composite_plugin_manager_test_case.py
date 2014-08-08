@@ -36,6 +36,19 @@ class SimplePlugin(Plugin):
         return
 
 
+class CustomException(Exception):
+    """ Custom exception used for testing purposes. """
+
+    pass
+
+
+class RaisingPluginManager(PluginManager):
+    """ A PluginManager that raises on iteration. """
+
+    def __iter__(self):
+        raise CustomException("Something went wrong.")
+
+
 class CompositePluginManagerTestCase(unittest.TestCase):
     """ Tests for the composite plugin manager. """
 
@@ -160,6 +173,13 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         
         return
     
+    def test_correct_exception_propagated_from_plugin_manager(self):
+        plugin_manager = CompositePluginManager(
+            plugin_managers=[RaisingPluginManager()]
+        )
+
+        self.assertRaises(CustomException, plugin_manager.start)
+
     #### Private protocol #####################################################
 
     def _plugin_count(self, plugin_manager):

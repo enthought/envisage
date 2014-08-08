@@ -129,7 +129,8 @@ class CompositePluginManager(HasTraits):
     def start(self):
         """ Start the plugin manager. """
 
-        map(lambda plugin: self.start_plugin(plugin), self)
+        for plugin in self:
+            self.start_plugin(plugin)
 
         return
 
@@ -154,7 +155,8 @@ class CompositePluginManager(HasTraits):
         stop_order = list(iter(self))
         stop_order.reverse()
 
-        map(lambda plugin: self.stop_plugin(plugin), stop_order)
+        for plugin in stop_order:
+            self.stop_plugin(plugin)
 
         return
 
