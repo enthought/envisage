@@ -23,7 +23,7 @@ class PluginManager(HasTraits):
     This implementation manages an explicit collection of plugin instances,
     e.g::
 
-        plugin_manager = PlugunManager(
+        plugin_manager = PluginManager(
              plugins = [
                  MyPlugin(),
                  YourPlugin()
