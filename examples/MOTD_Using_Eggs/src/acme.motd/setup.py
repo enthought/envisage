@@ -17,7 +17,7 @@ setup(
     ],
 
     install_requires     = [
-        'EnvisageCore>=3.0.0a1',
+        'envisage>=3.0.0a1',
     ],
 
     entry_points = """
