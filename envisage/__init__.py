@@ -1,7 +1,7 @@
-# Copyright (c) 2007-2013 by Enthought, Inc.
+# Copyright (c) 2007-2015 by Enthought, Inc.
 # All rights reserved.
 
-__version__ = '4.5.0.dev'
+from ._version import full_version as __version__  # noqa
 
 __requires__ = [
     'apptools',
