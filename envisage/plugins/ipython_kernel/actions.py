@@ -10,7 +10,7 @@ class StartQtConsoleAction(TaskAction):
 
     id = 'ipython_qtconsole'
 
-    name = 'Console'
+    name = 'IPython Console'
 
     kernel = Instance(InternalIPKernel)
 
