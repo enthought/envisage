@@ -4,7 +4,8 @@ import logging
 
 # Enthought library imports.
 from envisage.ui.tasks.api import TaskExtension
-from envisage.api import Plugin, ServiceOffer
+from envisage.api import (bind_extension_point, ExtensionPoint, Plugin,
+    ServiceOffer)
 from traits.api import List
 from pyface.tasks.action.api import SGroup, SchemaAddition
 
@@ -35,6 +36,17 @@ class IPythonKernelPlugin(Plugin):
         logger.info('Shutting down the embedded ipython kernel')
         self.kernel.shutdown()
 
+    #### Extension points offered by this plugin ##############################
+
+    kernel_namespace = ExtensionPoint(
+        List, id=IPYTHON_NAMESPACE, desc="""
+
+        Variables to add to the IPython kernel namespace.
+        This is a list of tuples (name, value).
+
+        """
+    )
+
     #### Contributions to extension points made by this plugin ################
 
     service_offers = List(contributes_to=SERVICE_OFFERS)
@@ -52,6 +64,9 @@ class IPythonKernelPlugin(Plugin):
         from .internal_ipkernel import InternalIPKernel
 
         kernel = self.kernel = InternalIPKernel()
+
+        bind_extension_point(kernel, 'initial_namespace', IPYTHON_NAMESPACE,
+                             self.application)
 
         return kernel
 

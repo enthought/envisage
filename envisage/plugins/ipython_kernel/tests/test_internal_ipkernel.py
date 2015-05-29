@@ -25,3 +25,10 @@ class TestInternalIPKernel(unittest.TestCase):
         kernel.shutdown()
         self.assertIsNone(kernel.ipkernel)
         self.assertEqual(len(kernel.consoles), 0)
+
+    def test_initial_namespace(self):
+        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
+        kernel.init_ipkernel(gui_backend=None)
+        self.assertIn('x', kernel.namespace)
+        self.assertEqual(kernel.namespace['x'], 42.1)
+        kernel.shutdown()

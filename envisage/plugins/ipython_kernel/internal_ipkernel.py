@@ -7,6 +7,8 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 from IPython.lib.kernel import connect_qtconsole
 from IPython.kernel.zmq.kernelapp import IPKernelApp
 
+from traits.api import Any, HasStrictTraits, Instance, List
+
 
 def mpl_kernel(gui_backend):
     """ Launch and return an IPython kernel with matplotlib support.
@@ -29,14 +31,24 @@ def mpl_kernel(gui_backend):
     return kernel
 
 
-class InternalIPKernel(object):
+class InternalIPKernel(HasStrictTraits):
     """ Represents an IPython kernel and the consoles attached to it.
     """
-    def __init__(self):
-        # The IPython kernel.
-        self.ipkernel = None
-        # A list of connected Qt consoles.
-        self.consoles = []
+
+    #: The IPython kernel.
+    ipkernel = Instance(IPKernelApp)
+
+    #: A list of connected Qt consoles.
+    consoles = List()
+
+    #: The kernel namespace.
+    #: Use `Any` instead of `Dict` because this is an IPython dictionary
+    #: object.
+    namespace = Any()
+
+    #: The values used to initialize the kernel namespace.
+    #: This is a list of tuples (name, value).
+    initial_namespace = List()
 
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
@@ -52,6 +64,7 @@ class InternalIPKernel(object):
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
+        self.namespace.update(dict(self.initial_namespace))
 
     def new_qt_console(self, evt=None):
         """ Start a new qtconsole connected to our kernel. """
