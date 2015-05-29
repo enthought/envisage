@@ -13,13 +13,19 @@ def mpl_kernel(gui_backend):
 
     Parameters
     ----------
-    gui_backend -- string
+    gui_backend -- string or None
       The GUI mode used to initialize the matplotlib mode. For options, see
-      the `ipython --matplotlib` help pages.
+      the `ipython --matplotlib` help pages. If None, the kernel is initialized
+      without GUI support.
     """
 
     kernel = IPKernelApp.instance()
-    kernel.initialize(['python', '--pylab=%s' % gui_backend])
+
+    argv = ['python']
+    if gui_backend is not None:
+        argv.append(gui_backend)
+    kernel.initialize(argv)
+
     return kernel
 
 
