@@ -26,6 +26,11 @@ def mpl_kernel(gui_backend):
 class InternalIPKernel(object):
     """ Represents an IPython kernel and the consoles attached to it.
     """
+    def __init__(self):
+        # The IPython kernel.
+        self.ipkernel = None
+        # A list of connected Qt consoles.
+        self.consoles = []
 
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
@@ -38,8 +43,6 @@ class InternalIPKernel(object):
         """
         # Start IPython kernel with GUI event loop and mpl support
         self.ipkernel = mpl_kernel(gui_backend)
-        # To create and track active qt consoles
-        self.consoles = []
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
@@ -54,11 +57,14 @@ class InternalIPKernel(object):
         """ Kill all existing consoles. """
         for c in self.consoles:
             c.kill()
+        self.consoles = []
 
     def shutdown(self):
         """ Shutdown the kernel.
 
-        Existing IPyhton consoles are killed first.
+        Existing IPython consoles are killed first.
         """
-        self.cleanup_consoles()
-        self.ipkernel.shell.exit_now = True
+        if self.ipkernel is not None:
+            self.cleanup_consoles()
+            self.ipkernel.shell.exit_now = True
+            self.ipkernel = None
