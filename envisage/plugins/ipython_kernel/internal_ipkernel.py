@@ -74,4 +74,5 @@ class InternalIPKernel(object):
         if self.ipkernel is not None:
             self.cleanup_consoles()
             self.ipkernel.shell.exit_now = True
+            self.ipkernel.cleanup_connection_file()
             self.ipkernel = None

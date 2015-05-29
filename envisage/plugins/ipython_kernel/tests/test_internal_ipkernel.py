@@ -1,10 +1,14 @@
 import unittest
+
 from IPython.kernel.zmq.kernelapp import IPKernelApp
 
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
 
 
 class TestInternalIPKernel(unittest.TestCase):
+
+    def tearDown(self):
+        IPKernelApp.clear_instance()
 
     def test_lifecycle(self):
         kernel = InternalIPKernel()
