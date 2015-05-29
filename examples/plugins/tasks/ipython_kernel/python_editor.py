@@ -12,7 +12,6 @@
 
 
 # Standard library imports.
-import sys
 from os.path import basename
 
 # Major package imports.
@@ -25,6 +24,7 @@ from pyface.tasks.api import Editor
 # Local imports.
 from i_python_editor import IPythonEditor
 from pyface.key_pressed_event import KeyPressedEvent
+
 
 @provides(IPythonEditor)
 class PythonEditor(Editor):
@@ -164,13 +164,13 @@ class PythonEditorEventFilter(QtCore.QObject):
     def eventFilter(self, obj, event):
         """ Reimplemented to trap key presses.
         """
-        if self.__editor.control and obj == self.__editor.control and \
-               event.type() == QtCore.QEvent.FocusOut:
+        if (self.__editor.control and obj == self.__editor.control and
+                event.type() == QtCore.QEvent.FocusOut):
             # Hack for Traits UI compatibility.
             self.__editor.control.emit(QtCore.SIGNAL('lostFocus'))
 
-        elif self.__editor.control and obj == self.__editor.control.code and \
-               event.type() == QtCore.QEvent.KeyPress:
+        elif (self.__editor.control and obj == self.__editor.control.code and
+                event.type() == QtCore.QEvent.KeyPress):
             # Pyface doesn't seem to be Unicode aware.  Only keep the key code
             # if it corresponds to a single Latin1 character.
             kstr = event.text()

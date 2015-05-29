@@ -25,10 +25,10 @@ class IPythonKernelPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    # The plugins' unique identifier
+    # The plugin unique identifier.
     id = 'envisage.plugins.ipython_kernel'
 
-    # The plugin's name (suitable for displaying to the user).
+    # The plugin name (suitable for displaying to the user).
     name = 'IPython embedded kernel plugin'
 
     def stop(self):
