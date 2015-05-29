@@ -5,6 +5,8 @@ from .internal_ipkernel import InternalIPKernel
 
 
 class StartQtConsoleAction(TaskAction):
+    """ Open in a separate window a Qt console attached to a, existing kernel.
+    """
 
     id = 'ipython_qtconsole'
 
@@ -13,5 +15,4 @@ class StartQtConsoleAction(TaskAction):
     kernel = Instance(InternalIPKernel)
 
     def perform(self, event=None):
-
         self.kernel.new_qt_console()
