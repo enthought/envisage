@@ -66,14 +66,14 @@ class InternalIPKernel(HasStrictTraits):
         self.namespace = self.ipkernel.shell.user_ns
         self.namespace.update(dict(self.initial_namespace))
 
-    def new_qt_console(self, evt=None):
+    def new_qt_console(self):
         """ Start a new qtconsole connected to our kernel. """
         console =  connect_qtconsole(
             self.ipkernel.connection_file, profile=self.ipkernel.profile)
         self.consoles.append(console)
         return console
 
-    def cleanup_consoles(self, evt=None):
+    def cleanup_consoles(self):
         """ Kill all existing consoles. """
         for c in self.consoles:
             c.kill()
