@@ -4,6 +4,8 @@ export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 
 sudo apt-get install python-qt4 python-qt4-dev
+sudo apt-get install python-pip
+sudo pip install --upgrade ipython
 
 python -c 'import PyQt4'
 python -c 'import PyQt4.QtCore'
