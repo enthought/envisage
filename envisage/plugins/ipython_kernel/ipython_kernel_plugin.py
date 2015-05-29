@@ -79,5 +79,3 @@ class IPythonKernelPlugin(Plugin):
                 ]
             )
         ]
-
-

@@ -15,5 +15,3 @@ class StartQtConsoleAction(TaskAction):
     def perform(self, event=None):
 
         self.kernel.new_qt_console()
-
-
