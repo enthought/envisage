@@ -6,7 +6,7 @@ import logging
 from envisage.ui.tasks.api import TaskExtension
 from envisage.api import (bind_extension_point, ExtensionPoint, Plugin,
     ServiceOffer)
-from traits.api import List
+from traits.api import Instance, List
 from pyface.tasks.action.api import SGroup, SchemaAddition
 
 IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin'  # noqa
@@ -49,6 +49,9 @@ class IPythonKernelPlugin(Plugin):
 
     #### Contributions to extension points made by this plugin ################
 
+    kernel = Instance(
+        'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel')
+
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
     def _service_offers_default(self):
@@ -60,19 +63,18 @@ class IPythonKernelPlugin(Plugin):
         return [ipython_kernel_service_offer]
 
     def _create_kernel(self):
-
-        from .internal_ipkernel import InternalIPKernel
-
-        kernel = self.kernel = InternalIPKernel()
-
-        bind_extension_point(kernel, 'initial_namespace', IPYTHON_NAMESPACE,
-                             self.application)
-
-        return kernel
+        return self.kernel
 
     contributed_task_extensions = List(contributes_to=TASK_EXTENSIONS)
 
     #### Trait initializers ###################################################
+
+    def _kernel_default(self):
+        from .internal_ipkernel import InternalIPKernel
+        kernel = InternalIPKernel()
+        bind_extension_point(kernel, 'initial_namespace',
+                     IPYTHON_NAMESPACE, self.application)
+        return kernel
 
     def _contributed_task_extensions_default(self):
 
