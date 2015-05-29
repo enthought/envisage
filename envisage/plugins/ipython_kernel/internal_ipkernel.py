@@ -23,7 +23,7 @@ def mpl_kernel(gui_backend):
 
     argv = ['python']
     if gui_backend is not None:
-        argv.append(gui_backend)
+        argv.append('--matplotlib={}'.format(gui_backend))
     kernel.initialize(argv)
 
     return kernel
