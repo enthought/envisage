@@ -55,9 +55,10 @@ class InternalIPKernel(object):
 
     def new_qt_console(self, evt=None):
         """ Start a new qtconsole connected to our kernel. """
-        return connect_qtconsole(
-            self.ipkernel.connection_file, profile=self.ipkernel.profile
-        )
+        console =  connect_qtconsole(
+            self.ipkernel.connection_file, profile=self.ipkernel.profile)
+        self.consoles.append(console)
+        return console
 
     def cleanup_consoles(self, evt=None):
         """ Kill all existing consoles. """
