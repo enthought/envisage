@@ -4,6 +4,8 @@ Envisage CHANGELOG
 What's new in Envisage 4.5.0
 ----------------------------
 
+- IPythonKernelPlugin for Tasks: run an IPython kernel within the envisage app
+  and expose it as a service.
 
 
 Release 4.4.0
