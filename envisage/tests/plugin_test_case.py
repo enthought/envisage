@@ -229,7 +229,7 @@ class PluginTestCase(unittest.TestCase):
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
-        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
+        self.assertRaises(ValueError, application.get_extensions, 'x')
 
         return
 
@@ -257,7 +257,7 @@ class PluginTestCase(unittest.TestCase):
 
         # We should get an when we try to get the contributions to the
         # extension point.
-        self.failUnlessRaises(
+        self.assertRaises(
             ZeroDivisionError, application.get_extensions, 'x'
         )
 
@@ -429,8 +429,8 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(join(application.home, 'plugins', b.id), b.home)
 
         # Make sure that the directories got created.
-        self.assert_(exists(a.home))
-        self.assert_(exists(b.home))
+        self.assertTrue(exists(a.home))
+        self.assertTrue(exists(b.home))
 
         # Create a new application with plugins with the same Id to make sure
         # that it all works when the directories already exist.
@@ -444,8 +444,8 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(join(application.home, 'plugins', b.id), b.home)
 
         # Make sure the directories got created.
-        self.assert_(exists(a.home))
-        self.assert_(exists(b.home))
+        self.assertTrue(exists(a.home))
+        self.assertTrue(exists(b.home))
 
         return
 

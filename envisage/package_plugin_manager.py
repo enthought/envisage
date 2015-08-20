@@ -6,7 +6,7 @@ import logging, sys
 from apptools.io import File
 from traits.api import Directory, List, on_trait_change
 
-from plugin_manager import PluginManager
+from .plugin_manager import PluginManager
 
 
 logger = logging.getLogger(__name__)

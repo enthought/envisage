@@ -91,8 +91,8 @@ class IPythonShellPlugin(Plugin):
         """ Trait initializer. """
 
         # Local imports.
-        from view.ipython_shell_view import IPythonShellView
-        from view.namespace_view \
+        from .view.ipython_shell_view import IPythonShellView
+        from .view.namespace_view \
                     import NamespaceView
 
         return [IPythonShellView, NamespaceView]

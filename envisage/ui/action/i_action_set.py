@@ -5,10 +5,10 @@
 from traits.api import Dict, Interface, List, Str
 
 # Local imports.
-from action import Action
-from group import Group
-from menu import Menu
-from tool_bar import ToolBar
+from .action import Action
+from .group import Group
+from .menu import Menu
+from .tool_bar import ToolBar
 
 
 class IActionSet(Interface):

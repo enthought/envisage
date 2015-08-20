@@ -9,11 +9,11 @@ from traits.api import Event, HasTraits, Instance, List, provides
 from traits.api import on_trait_change
 
 # Local imports.
-from i_application import IApplication
-from i_plugin import IPlugin
-from i_plugin_manager import IPluginManager
-from plugin_event import PluginEvent
-from plugin_manager import PluginManager
+from .i_application import IApplication
+from .i_plugin import IPlugin
+from .i_plugin_manager import IPluginManager
+from .plugin_event import PluginEvent
+from .plugin_manager import PluginManager
 
 
 # Logging.

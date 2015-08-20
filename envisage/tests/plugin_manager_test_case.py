@@ -138,19 +138,19 @@ class PluginManagerTestCase(unittest.TestCase):
 
         # Start the plugin manager. This starts all of the plugin manager's
         # plugins.
-        self.failUnlessRaises(ZeroDivisionError, plugin_manager.start)
+        self.assertRaises(ZeroDivisionError, plugin_manager.start)
 
         # Stop the plugin manager. This stops all of the plugin manager's
         # plugins.
-        self.failUnlessRaises(ZeroDivisionError, plugin_manager.stop)
+        self.assertRaises(ZeroDivisionError, plugin_manager.stop)
 
         # Try to start a non-existent plugin.
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemError, plugin_manager.start_plugin, plugin_id='bogus'
         )
 
         # Try to stop a non-existent plugin.
-        self.failUnlessRaises(
+        self.assertRaises(
             SystemError, plugin_manager.stop_plugin, plugin_id='bogus'
         )
 

@@ -12,8 +12,8 @@ from traits.api import HasTraits, Int, Str, Bool, Instance, List, \
 from envisage.plugins import remote_editor
 
 # Local imports
-from server import Server
-from util import accept_no_intr, get_server_port, receive, send_port, \
+from .server import Server
+from .util import accept_no_intr, get_server_port, receive, send_port, \
     spawn_independent, MESSAGE_SEP
 
 logger = logging.getLogger(__name__)
@@ -60,7 +60,7 @@ class ClientThread(Thread):
                             server.shutdown(socket.SHUT_RD)
                         except:
                             pass
-                except socket.error, e:
+                except socket.error as e:
                     logger.error(repr(e))
                     logger.error("Client spawned a non-responsive Server! " \
                                      "Unregistering...")
@@ -196,7 +196,7 @@ class Client(HasTraits):
             commands.
         """
         if self._communication_thread is not None:
-            raise RuntimeError, "'register' has already been called on Client!"
+            raise RuntimeError("'register' has already been called on Client!")
 
         self._communication_thread = ClientThread(self)
         self._communication_thread.setDaemon(True)
@@ -222,7 +222,9 @@ class Client(HasTraits):
             of the appropriate type.
         """
         if self._communication_thread is None:
-            raise RuntimeError, "Client is not registered. Cannot send command."
+            raise RuntimeError(
+                "Client is not registered. Cannot send command."
+            )
 
         msg = r"Client on port %i sending: %s %s"
         logger.debug(msg, self._port, command, arguments)

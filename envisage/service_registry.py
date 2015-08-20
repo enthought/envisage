@@ -4,13 +4,15 @@
 # Standard library imports.
 import logging
 
+import six
+
 # Enthought library imports.
 from traits.api import Dict, Event, HasTraits, Int, Undefined, provides, \
     Interface
 
 # Local imports.
-from i_service_registry import IServiceRegistry
-from import_manager import ImportManager
+from .i_service_registry import IServiceRegistry
+from .import_manager import ImportManager
 
 
 # Logging.
@@ -101,7 +103,7 @@ class ServiceRegistry(HasTraits):
         for service_id, (name, obj, properties) in self._services.items():
             if self._get_protocol_name(protocol) == name:
                 # If the protocol is a string then we need to import it!
-                if isinstance(protocol, basestring):
+                if isinstance(protocol, six.string_types):
                     actual_protocol = ImportManager().import_symbol(protocol)
 
                 # Otherwise, it is an actual protocol, so just use it!
@@ -122,10 +124,10 @@ class ServiceRegistry(HasTraits):
         # Are we minimizing or maximising anything? If so then sort the list
         # of services by the specified attribute/property.
         if minimize != '':
-            services.sort(None, lambda x: getattr(x, minimize))
+            services.sort(key=lambda x: getattr(x, minimize))
 
         elif maximize != '':
-            services.sort(None, lambda x: getattr(x, maximize), reverse=True)
+            services.sort(key=lambda x: getattr(x, maximize), reverse=True)
 
         return services
 
@@ -216,7 +218,7 @@ class ServiceRegistry(HasTraits):
     def _get_protocol_name(self, protocol_or_name):
         """ Returns the full class name for a protocol. """
 
-        if isinstance(protocol_or_name, basestring):
+        if isinstance(protocol_or_name, six.string_types):
             name = protocol_or_name
 
         else:
@@ -252,7 +254,7 @@ class ServiceRegistry(HasTraits):
             # dictionary of properties that were registered with the service.
             #
             # If the factory is specified as a symbol path then import it.
-            if isinstance(obj, basestring):
+            if isinstance(obj, six.string_types):
                 obj = ImportManager().import_symbol(obj)
 
             obj = obj(**properties)

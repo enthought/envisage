@@ -2,15 +2,15 @@
 
 
 # Standard library imports.
-import cPickle, imp, logging, os, stat, warnings
+import pickle, imp, logging, os, stat, warnings
 
 # Enthought library imports.
 from apptools.io.api import File
 from traits.api import Any, Bool, Event, HasTraits, Str
 
 # Local imports.
-from module import ModuleFactory
-from package import Package
+from .module import ModuleFactory
+from .package import Package
 
 
 # Logging.
@@ -60,7 +60,7 @@ class CodeBrowser(HasTraits):
             logger.debug('loading code database...')
 
             f = file(self.filename, 'rb')
-            self._database = cPickle.load(f)
+            self._database = pickle.load(f)
             f.close()
 
             logger.debug('code database loaded.')
@@ -78,7 +78,7 @@ class CodeBrowser(HasTraits):
             logger.debug('saving code database...')
 
             f = file(self.filename, 'wb')
-            cPickle.dump(self._database, f, 1)
+            pickle.dump(self._database, f, 1)
             f.close()
 
             self._database_changed = False

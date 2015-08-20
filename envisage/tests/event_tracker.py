@@ -40,16 +40,16 @@ class EventTracker(HasTraits):
     def _subscriptions_changed(self, old, new):
         """ Static trait change handler. """
 
-        map(self._remove_subscription, old)
-        map(self._add_subscription, new)
+        list(map(self._remove_subscription, old))
+        list(map(self._add_subscription, new))
 
         return
 
     def _subscriptions_items_changed(self, event):
         """ Static trait change handler. """
 
-        map(self._remove_subscription, event.removed)
-        map(self._add_subscription, event.added)
+        list(map(self._remove_subscription, event.removed))
+        list(map(self._add_subscription, event.added))
 
         return
 

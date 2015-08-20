@@ -49,7 +49,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application.start()
 
         # Try to set the extension point.
-        self.failUnlessRaises(SystemError, setattr, a, 'x', [1, 2, 3])
+        self.assertRaises(SystemError, setattr, a, 'x', [1, 2, 3])
 
         return
 

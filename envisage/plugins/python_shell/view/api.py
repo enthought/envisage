@@ -1,1 +1,1 @@
-from python_shell_view import PythonShellView
+from .python_shell_view import PythonShellView

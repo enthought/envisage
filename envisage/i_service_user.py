@@ -5,7 +5,7 @@
 from traits.api import Instance, Interface
 
 # Local imports.
-from i_service_registry import IServiceRegistry
+from .i_service_registry import IServiceRegistry
 
 
 class IServiceUser(Interface):

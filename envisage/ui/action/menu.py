@@ -1,12 +1,13 @@
 """ The *definition* of a menu in a menu bar or menu. """
 
+import six
 
 # Enthought library imports.
 from traits.api import Instance, List, Str
 
 # Local imports.
-from group import Group
-from location import Location
+from .group import Group
+from .location import Location
 
 
 class CGroup(Instance):
@@ -35,7 +36,7 @@ class CGroup(Instance):
     def validate(self, object, name, value):
         """ Validate a value. """
 
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             value = Group(id=value)
 
         return super(CGroup, self).validate(object, name, value)

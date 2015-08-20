@@ -6,8 +6,8 @@ import traceback
 
 from traits.api import Callable, Directory, List, on_trait_change
 
-from egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
-from plugin_manager import PluginManager
+from .egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
+from .plugin_manager import PluginManager
 
 
 logger = logging.getLogger(__name__)

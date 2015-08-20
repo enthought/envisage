@@ -33,7 +33,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             if self.bad_eggs_dir not in path:
                 sys_path.append(path)
             else:
-                print "Removed", path
+                print("Removed", path)
         sys.path = sys_path
 
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the

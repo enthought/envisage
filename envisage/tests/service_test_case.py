@@ -64,7 +64,7 @@ class ServiceTestCase(unittest.TestCase):
         self.assertEqual(None, b.foo)
 
         # You can't set service traits!
-        self.failUnlessRaises(SystemError, setattr, b, 'foo', 'bogus')
+        self.assertRaises(SystemError, setattr, b, 'foo', 'bogus')
 
         return
 
@@ -80,7 +80,7 @@ class ServiceTestCase(unittest.TestCase):
         # We should get an exception because the object does not have an
         # 'service_registry' trait.
         b = Bar()
-        self.failUnlessRaises(ValueError, getattr, b, 'foo')
+        self.assertRaises(ValueError, getattr, b, 'foo')
 
         return
 

@@ -1,8 +1,14 @@
+import sys
+
 # Enthought library imports.
 from pyface.action.api import ActionItem, Group
 from pyface.tasks.api import TaskWindowLayout
 from pyface.tasks.action.api import TaskAction
 from traits.api import List, Str
+
+
+if sys.version_info[0] > 2:
+    unicode = str
 
 
 class TaskWindowLaunchAction(TaskAction):

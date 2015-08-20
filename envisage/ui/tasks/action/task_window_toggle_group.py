@@ -1,8 +1,12 @@
+import sys
+
 # Enthought library imports.
 from pyface.action.api import Action, ActionItem, Group
 from traits.api import Any, Bool, Instance, List, Property, Unicode, \
      on_trait_change
 
+if sys.version_info[0] > 2:
+    unicode = str
 
 class TaskWindowToggleAction(Action):
     """ An action for activating an application window.

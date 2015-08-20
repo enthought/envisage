@@ -9,7 +9,7 @@ from apptools.io.api import File
 from traits.api import Instance, List, Str
 
 # Local imports.
-from namespace import Namespace
+from .namespace import Namespace
 
 
 class Package(Namespace):

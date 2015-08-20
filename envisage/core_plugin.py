@@ -172,7 +172,7 @@ class CorePlugin(Plugin):
 
         """
 
-        map(self._register_service_offer, event.added)
+        list(map(self._register_service_offer, event.added))
 
         return
 
@@ -233,7 +233,7 @@ class CorePlugin(Plugin):
         """ Create a category class load hook. """
 
         # Local imports.
-        from class_load_hook import ClassLoadHook
+        from .class_load_hook import ClassLoadHook
 
         def import_and_add_category(cls):
             """ Import a category and add it to a class.
@@ -282,7 +282,7 @@ class CorePlugin(Plugin):
     def _register_service_offers(self, service_offers):
         """ Register a list of service offers. """
 
-        return map(self._register_service_offer, service_offers)
+        return list(map(self._register_service_offer, service_offers))
 
     def _register_service_offer(self, service_offer):
         """ Register a service offer. """
