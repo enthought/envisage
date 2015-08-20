@@ -99,7 +99,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Make sure that the object created by the factory is cached (i.e. we
         # get the same object back from now on!).
         service2 = self.service_registry.get_service(HasTraits, 'price <= 100')
-        self.assert_(service is service2)
+        self.assertTrue(service is service2)
 
         return
 
@@ -131,7 +131,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Make sure that the object created by the factory is cached (i.e. we
         # get the same object back from now on!).
         service2 = self.service_registry.get_service(IFoo, 'price <= 100')
-        self.assert_(service is service2)
+        self.assertTrue(service is service2)
 
         return
 
@@ -158,18 +158,18 @@ class ServiceRegistryTestCase(unittest.TestCase):
             del sys.modules[foo]
 
         # Make sure that we haven't imported the 'foo' module.
-        self.assert_(foo not in sys.modules)
+        self.assertTrue(foo not in sys.modules)
 
         # Look up a non-existent service.
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_(foo not in sys.modules)
+        self.assertTrue(foo not in sys.modules)
 
         # Look it up again.
         services = self.service_registry.get_services(i_foo)
         self.assertEqual([foo_factory.foo], services)
-        self.assert_(foo in sys.modules)
+        self.assertTrue(foo in sys.modules)
 
         # Clean up!
         del sys.modules[foo]
@@ -208,18 +208,18 @@ class ServiceRegistryTestCase(unittest.TestCase):
             del sys.modules[foo]
 
         # Make sure that we haven't imported the 'foo' module.
-        self.assert_(foo not in sys.modules)
+        self.assertTrue(foo not in sys.modules)
 
         # Look up a non-existent service.
         services = self.service_registry.get_services('bogus.IBogus')
 
         # Make sure that we *still* haven't imported the 'foo' module.
-        self.assert_(foo not in sys.modules)
+        self.assertTrue(foo not in sys.modules)
 
         # Look up the service.
         services = self.service_registry.get_services(i_foo)
         self.assertEqual([sp.foo], services)
-        self.assert_(foo in sys.modules)
+        self.assertTrue(foo in sys.modules)
 
         # Clean up!
         del sys.modules[foo]
@@ -305,8 +305,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Create a query that matches both registered objects.
         services = self.service_registry.get_services(IFoo, 'price >= 100')
-        self.assert_(foo in services)
-        self.assert_(goo in services)
+        self.assertTrue(foo in services)
+        self.assertTrue(goo in services)
         self.assertEqual(2, len(services))
 
         class IBar(Interface):
@@ -337,7 +337,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Look up one of them!
         service = self.service_registry.get_service(IFoo)
-        self.assert_(foo is service or goo is service)
+        self.assertTrue(foo is service or goo is service)
 
         class IBar(Interface):
             pass
@@ -380,7 +380,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Create a query that matches both registered objects.
         service = self.service_registry.get_service(IFoo, 'price >= 100')
-        self.assert_(foo is service or goo is service)
+        self.assertTrue(foo is service or goo is service)
 
         class IBar(Interface):
             pass
@@ -436,12 +436,12 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(500, goo_properties['price'])
 
         # Try to get the properties of a non-existent service.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, self.service_registry.get_service_properties, -1
         )
 
         # Try to set the properties of a non-existent service.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, self.service_registry.set_service_properties, -1, {}
         )
 
@@ -481,7 +481,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Create a query that matches both registered objects.
         service = self.service_registry.get_service(IFoo, 'price >= 100')
-        self.assert_(foo is service or goo is service)
+        self.assertTrue(foo is service or goo is service)
 
         #### Now do some unregistering! ####
 
@@ -500,7 +500,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(None, service)
 
         # Try to unregister a non-existent service.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, self.service_registry.unregister_service, -1
         )
 

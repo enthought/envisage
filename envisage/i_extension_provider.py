@@ -5,7 +5,7 @@
 from traits.api import Event, Interface
 
 # Local imports.
-from extension_point_changed_event import ExtensionPointChangedEvent
+from .extension_point_changed_event import ExtensionPointChangedEvent
 
 
 class IExtensionProvider(Interface):

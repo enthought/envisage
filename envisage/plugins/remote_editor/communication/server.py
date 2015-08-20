@@ -9,7 +9,7 @@ from traits.api import HasTraits, HasStrictTraits, Int, Str, List, \
      Dict, Tuple, Instance
 
 # Local imports
-from util import accept_no_intr, receive, send_port, spawn_independent, \
+from .util import accept_no_intr, receive, send_port, spawn_independent, \
     MESSAGE_SEP, LOCK_PATH, LOG_PATH
 
 logger = logging.getLogger("communication")

@@ -83,14 +83,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(2, len(f.x))
-        self.assert_(42 in f.x)
-        self.assert_('a string' in f.x)
+        self.assertTrue(42 in f.x)
+        self.assertTrue('a string' in f.x)
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x_items', listener.trait_name)
         self.assertEqual(1, len(listener.new.added))
-        self.assert_('a string' in listener.new.added)
+        self.assertTrue('a string' in listener.new.added)
 
         return
 
@@ -124,16 +124,16 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(1, len(f.x))
-        self.assert_('a string' in f.x)
+        self.assertTrue('a string' in f.x)
 
         self.assertEqual(1, len(registry.get_extensions('my.ep')))
-        self.assert_('a string' in registry.get_extensions('my.ep'))
+        self.assertTrue('a string' in registry.get_extensions('my.ep'))
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(1, len(listener.new))
-        self.assert_('a string' in listener.new)
+        self.assertTrue('a string' in listener.new)
 
         return
 
@@ -167,13 +167,13 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(1, len(f.x))
-        self.assert_('a string' in f.x)
+        self.assertTrue('a string' in f.x)
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(1, len(listener.new))
-        self.assert_('a string' in listener.new)
+        self.assertTrue('a string' in listener.new)
 
         return
 

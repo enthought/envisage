@@ -32,7 +32,7 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            title = u'%s - %s' % (title, self.application.name)
+            title = '%s - %s' % (title, self.application.name)
         return title
 
     def _get_icon(self):

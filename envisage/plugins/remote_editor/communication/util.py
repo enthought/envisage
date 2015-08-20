@@ -7,7 +7,9 @@ from subprocess import Popen
 import sys
 
 import csv
-import StringIO
+import io
+
+import six
 
 # ETS imports
 from traits.etsconfig.api import ETSConfig
@@ -22,8 +24,8 @@ LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
 
 def quoted_split(s):
-    f = StringIO.StringIO(s)
-    split = csv.reader(f, delimiter=' ', quotechar='"').next()
+    f = io.StringIO(s)
+    split = next(csv.reader(f, delimiter=' ', quotechar='"'))
     return split
 
 
@@ -37,7 +39,7 @@ def spawn_independent(command, shell=False):
         contains spaces must be delimited with double-quotes.
     """
     if sys.platform == 'win32':
-        if isinstance(command, basestring):
+        if isinstance(command, six.string_types):
             command = 'start /b ' + command
         else:
             command.insert(0, 'start')
@@ -49,7 +51,7 @@ def spawn_independent(command, shell=False):
             return
         else:
             os.setpgrp()
-            if isinstance(command, basestring):
+            if isinstance(command, six.string_types):
                 tmp = quoted_split(command)
             else:
                 tmp = command
@@ -85,7 +87,7 @@ def accept_no_intr(sock):
     while True:
         try:
             return sock.accept()
-        except socket.error, err:
+        except socket.error as err:
             if err[0] != EINTR:
                 raise
         except KeyboardInterrupt:

@@ -1,7 +1,9 @@
 # Standard library imports.
-import cPickle
+import pickle
 import logging
 import os.path
+
+import six
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -13,8 +15,8 @@ from traits.api import Bool, Callable, Directory, Event, HasStrictTraits, \
 from traits.etsconfig.api import ETSConfig
 
 # Local imports
-from task_window import TaskWindow
-from task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
+from .task_window import TaskWindow
+from .task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -310,8 +312,8 @@ class TasksApplication(Application):
         if os.path.exists(filename):
             # Attempt to unpickle the saved application state.
             try:
-                with open(filename, 'r') as f:
-                    restored_state = cPickle.load(f)
+                with open(filename, 'rb') as f:
+                    restored_state = pickle.load(f)
                 if state.version == restored_state.version:
                     state = restored_state
                 else:
@@ -337,7 +339,7 @@ class TasksApplication(Application):
         else:
             layout = layout.clone_traits()
             for i, item in enumerate(layout.items):
-                id = item if isinstance(item, basestring) else item.id
+                id = item if isinstance(item, six.string_types) else item.id
                 match = self._state.get_task_layout(id)
                 if match:
                     layout.items[i] = match
@@ -354,8 +356,8 @@ class TasksApplication(Application):
         # Attempt to pickle the application state.
         filename = os.path.join(self.state_location, 'application_memento')
         try:
-            with open(filename, 'w') as f:
-                cPickle.dump(self._state, f)
+            with open(filename, 'wb') as f:
+                pickle.dump(self._state, f)
         except:
             # If anything goes wrong, log the error and continue.
             logger.exception('Saving application layout')

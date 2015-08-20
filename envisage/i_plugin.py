@@ -5,7 +5,7 @@
 from traits.api import Instance, Interface, Str
 
 # Local imports.
-from i_plugin_activator import IPluginActivator
+from .i_plugin_activator import IPluginActivator
 
 
 class IPlugin(Interface):

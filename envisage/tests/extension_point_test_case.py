@@ -47,7 +47,7 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # Extension points currently have to be 'List's of something! The
         # default is a list of anything.
-        self.failUnlessRaises(TypeError, ExtensionPoint, Int, 'my.ep')
+        self.assertRaises(TypeError, ExtensionPoint, Int, 'my.ep')
 
         return
 
@@ -69,7 +69,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         # We should get an exception because the object does not have an
         # 'extension_registry' trait.
         f = Foo()
-        self.failUnlessRaises(ValueError, getattr, f, 'x')
+        self.assertRaises(ValueError, getattr, f, 'x')
 
         return
 
@@ -106,7 +106,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual([42, 'a string', True],  f.x)
 
         # Make sure the trait change handler was called.
-        self.assert_(f.x_changed_called)
+        self.assertTrue(f.x_changed_called)
 
         # Reset the change handler flag.
         f.x_changed_called = False
@@ -192,7 +192,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         # Make sure we get a trait error because the type of the extension
         # doesn't match that of the extension point.
         f = Foo()
-        self.failUnlessRaises(TraitError, getattr, f, 'x')
+        self.assertRaises(TraitError, getattr, f, 'x')
 
         return
 
@@ -203,7 +203,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             class Foo(TestBase):
                 x = ExtensionPoint(List(Int))
 
-        self.failUnlessRaises(ValueError, factory)
+        self.assertRaises(ValueError, factory)
 
         return
 

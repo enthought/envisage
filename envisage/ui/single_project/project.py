@@ -478,7 +478,7 @@ class Project(HasTraits):
         # NOTE: The close() method on the editor will call back to remove
         # itself from our set of registered editors.  (This assumes the
         # editor is derived from ProjectEditor.)
-        for editor in self._editors.values():
+        for editor in list(self._editors.values()):
             logger.debug('Project requesting close of ProjectEditor [%s]',
                 editor)
             editor.close()

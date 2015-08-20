@@ -8,8 +8,8 @@ import logging, pkg_resources, re
 from traits.api import Instance, List, Str
 
 # Local imports.
-from egg_utils import get_entry_points_in_egg_order
-from plugin_manager import PluginManager
+from .egg_utils import get_entry_points_in_egg_order
+from .plugin_manager import PluginManager
 
 
 # Logging.

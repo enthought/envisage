@@ -127,7 +127,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         registry = self.registry
 
-        self.failUnlessRaises(
+        self.assertRaises(
             UnknownExtensionPoint, registry.remove_extension_point, 'my.ep'
         )
 
@@ -145,7 +145,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
             return
 
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, registry.remove_extension_point_listener, listener
         )
 

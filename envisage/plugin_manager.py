@@ -6,10 +6,10 @@ import logging
 
 from traits.api import Event, HasTraits, Instance, List, Str, provides
 
-from i_application import IApplication
-from i_plugin import IPlugin
-from i_plugin_manager import IPluginManager
-from plugin_event import PluginEvent
+from .i_application import IApplication
+from .i_plugin import IPlugin
+from .i_plugin_manager import IPluginManager
+from .plugin_event import PluginEvent
 
 
 
@@ -134,7 +134,7 @@ class PluginManager(HasTraits):
     def start(self):
         """ Start the plugin manager. """
 
-        map(lambda plugin: self.start_plugin(plugin), self._plugins)
+        list(map(lambda plugin: self.start_plugin(plugin), self._plugins))
 
         return
 
@@ -159,7 +159,7 @@ class PluginManager(HasTraits):
         stop_order = self._plugins[:]
         stop_order.reverse()
 
-        map(lambda plugin: self.stop_plugin(plugin), stop_order)
+        list(map(lambda plugin: self.stop_plugin(plugin), stop_order))
 
         return
 

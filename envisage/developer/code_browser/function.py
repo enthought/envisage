@@ -5,7 +5,7 @@
 from traits.api import Any, HasTraits, Instance, Int, Str
 
 # Local imports.
-from namespace import Namespace
+from .namespace import Namespace
 
 
 class Function(Namespace):

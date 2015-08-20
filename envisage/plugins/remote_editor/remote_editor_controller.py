@@ -7,7 +7,7 @@ from traits.api import provides
 
 # Local imports
 from envisage.plugins.remote_editor.communication.client import Client
-from i_remote_editor import IRemoteEditor
+from .i_remote_editor import IRemoteEditor
 
 
 @provides(IRemoteEditor)

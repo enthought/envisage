@@ -12,7 +12,10 @@ used as a drop-in replacement for 'weakref.ref'.
 
 
 # Standard library imports.
-import new, weakref
+import sys
+import types
+#import new
+import weakref
 
 # Because this module is intended as a drop-in replacement for weakref, we
 # import everything from that module here (so the user can do things like
@@ -28,7 +31,7 @@ class ref(object):
     # We cache the weak references by the object containing the associated
     # bound methods, hence this is a dictionary of dictionaries in the form:-
     #
-    # { bound_method.im_self : { bound_method.im_func : ref } }
+    # { bound_method.__self__ : { bound_method.__func__ : ref } }
     #
     # This makes sure that when the object is garbage collected, any cached
     # weak references are garbage collected too.
@@ -39,15 +42,18 @@ class ref(object):
 
         # If the object is a bound method then either get from the cache, or
         # create an instance of *this* class.
-        if hasattr(obj, 'im_self'):
-            func_cache = ref._cache.setdefault(obj.im_self, {})
+        if hasattr(obj, '__self__'):
+            func_cache = ref._cache.setdefault(obj.__self__, {})
 
             # If we haven't created a weakref to this bound method before, then
             # create one and cache it.
-            self = func_cache.get(obj.im_func)
+            self = func_cache.get(obj.__func__)
             if self is None:
-                self = object.__new__(cls, obj, *args, **kw)
-                func_cache[obj.im_func] = self
+                if sys.version_info[0] > 2:
+                    self = object.__new__(cls)
+                else:
+                    self = object.__new__(cls, obj, *args, **kw)
+                func_cache[obj.__func__] = self
 
         # Otherwise, just return a regular weakref (because we aren't
         # returning an instance of *this* class our constructor does not get
@@ -66,9 +72,9 @@ class ref(object):
 
         """
 
-        self._cls = obj.im_class
-        self._fn  = obj.im_func
-        self._ref = weakref.ref(obj.im_self)
+        self._cls = obj.__self__.__class__
+        self._fn  = obj.__func__
+        self._ref = weakref.ref(obj.__self__)
 
         return
 
@@ -81,7 +87,7 @@ class ref(object):
 
         obj = self._ref()
         if obj is not None:
-            obj = new.instancemethod(self._fn, obj, self._cls)
+            obj = types.MethodType(self._fn, obj)
 
         return obj
 

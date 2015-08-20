@@ -3,8 +3,14 @@
 
 # Standard library imports.
 import unittest
-import urllib2
-import StringIO
+try:
+    from urllib2 import urlopen, HTTPError
+    import urllib2
+except ImportError:
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+    import urllib.request as urllib2
+import io
 
 # Major package imports.
 from pkg_resources import resource_filename
@@ -24,10 +30,10 @@ PKG = 'envisage.resource.tests'
 # and in tearDown, the regular urlopen is put back into place.
 def stubout_urlopen(url):
     if 'bogus' in url:
-        raise urllib2.HTTPError(url, '404', 'No such resource', '', None)
+        raise HTTPError(url, '404', 'No such resource', '', None)
 
     elif 'localhost' in url:
-        return StringIO.StringIO('This is a test file.\n')
+        return io.StringIO('This is a test file.\n')
 
     else:
         raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
@@ -43,7 +49,7 @@ class ResourceManagerTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.stored_urlopen = urllib2.urlopen
+        self.stored_urlopen = urlopen
         urllib2.urlopen = stubout_urlopen
 
         return
@@ -74,7 +80,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         f.close()
 
         # Open the api file via the file system.
-        g = file(filename, 'rb')
+        g = open(filename, 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
 
@@ -107,7 +113,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         filename = resource_filename('envisage.resource', 'api.py')
 
         # Open the api file via the file system.
-        g = file(filename, 'rb')
+        g = open(filename, 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
 

@@ -21,7 +21,7 @@ from pyface.workbench.api import IWorkbench
 from traits.api import Callable, Instance, Str, Tuple
 
 # Local imports.
-from workbench import Workbench
+from .workbench import Workbench
 
 
 # Logging.

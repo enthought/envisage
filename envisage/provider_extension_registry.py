@@ -8,9 +8,9 @@ import logging
 from traits.api import List, provides, on_trait_change
 
 # Local imports.
-from extension_registry import ExtensionRegistry
-from i_extension_provider import IExtensionProvider
-from i_provider_extension_registry import IProviderExtensionRegistry
+from .extension_registry import ExtensionRegistry
+from .i_extension_provider import IExtensionProvider
+from .i_provider_extension_registry import IProviderExtensionRegistry
 
 
 # Logging.
@@ -104,7 +104,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         #
         # But I'm sure sure that that makes it any clearer ;^)
         all = []
-        map(all.extend, extensions)
+        list(map(all.extend, extensions))
 
         return all
 

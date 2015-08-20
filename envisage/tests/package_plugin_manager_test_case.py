@@ -24,6 +24,12 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         """ Called immediately after each test method has been called. """
 
         return
+
+    def assertItemsEqual(self, first, second, msg=None):
+        if hasattr(self, 'assertCountEqual'):
+            self.assertCountEqual(first, second, msg)
+        else:
+            unittest.TestCase.assertItemsEqual(first, second, msg)
         
     #### Tests ################################################################
 

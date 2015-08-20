@@ -59,25 +59,25 @@ class CommunicationTestCase(unittest.TestCase):
         # Test server set up
 
         # Does the ping operation work when the Server is not running?
-        self.assert_(not Server.ping(get_server_port()))
+        self.assertTrue(not Server.ping(get_server_port()))
 
         # Set up server thread
         serverThread = TestThread()
         serverThread.setDaemon(True)
         serverThread.start()
         sleep(.5)
-        self.assert_(os.path.exists(LOCK_PATH))
+        self.assertTrue(os.path.exists(LOCK_PATH))
 
         # Test normal operation
 
-        self.assert_(Server.ping(get_server_port()))
+        self.assertTrue(Server.ping(get_server_port()))
 
         client1 = TestClient(self_type='client1', other_type='client2')
         client1.register()
         client2 = TestClient(self_type='client2', other_type='client1')
         client2.register()
         sleep(.5)
-        self.assert_(not(client1.orphaned or client2.orphaned))
+        self.assertTrue(not(client1.orphaned or client2.orphaned))
 
         client1.send_command("foo", "bar")
         sleep(.1)
@@ -86,11 +86,11 @@ class CommunicationTestCase(unittest.TestCase):
 
         client1.unregister()
         sleep(.1)
-        self.assert_(client1.orphaned and client2.orphaned)
+        self.assertTrue(client1.orphaned and client2.orphaned)
 
         client1.register()
         sleep(.1)
-        self.assert_(not(client1.orphaned or client2.orphaned))
+        self.assertTrue(not(client1.orphaned or client2.orphaned))
 
         # Simulated breakage -- does the Server handle unexpected communication
         # failure?
@@ -107,7 +107,7 @@ class CommunicationTestCase(unittest.TestCase):
         # request
         client2.send_command("foo", "bar")
         sleep(.1)
-        self.assert_(client2.orphaned)
+        self.assertTrue(client2.orphaned)
         self.assertEqual(client2.error_count, 1)
 
 

@@ -4,7 +4,7 @@ from envisage.api import Plugin
 from traits.api import Bool, Callable, Event, Int, Instance, Str, Trait
 
 # Local, relative imports
-from update_info import UpdateInfo
+from .update_info import UpdateInfo
 
 
 # The globally unique ID of this plugin

@@ -5,7 +5,7 @@
 from traits.api import Instance, Interface
 
 # Local imports.
-from i_extension_registry import IExtensionRegistry
+from .i_extension_registry import IExtensionRegistry
 
 
 class IExtensionPointUser(Interface):

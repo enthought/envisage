@@ -5,8 +5,8 @@
 from traits.api import Instance, on_trait_change
 
 # Local imports.
-from i_plugin_manager import IPluginManager
-from provider_extension_registry import ProviderExtensionRegistry
+from .i_plugin_manager import IPluginManager
+from .provider_extension_registry import ProviderExtensionRegistry
 
 
 class PluginExtensionRegistry(ProviderExtensionRegistry):

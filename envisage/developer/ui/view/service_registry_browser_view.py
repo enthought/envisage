@@ -40,7 +40,7 @@ class ServiceRegistryBrowserView(TraitsUIView):
         """ Trait initializer. """
 
         # Local imports.
-        from service_registry_browser import ServiceRegistryBrowser
+        from .service_registry_browser import ServiceRegistryBrowser
 
         service_registry_browser = ServiceRegistryBrowser(
             application  = self.window.application,

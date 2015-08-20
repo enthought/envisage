@@ -80,8 +80,8 @@ class NamespaceNode(DictNode):
             We overwrite this method for a nicer label on the objects.
         """
         node_for = self.node_for
-        items    = self.value.items()
-        items.sort( lambda l, r: cmp( l[0], r[0] ) )
+        items    = list(self.value.items())
+        items.sort( key=lambda x:x[0] )
         if len( items ) > 500:
             return ([ self.node_for( k, v ) for k, v in items[: 250 ] ] +
                     [ StringNode( value = '...', readonly = True ) ]        +
@@ -213,7 +213,7 @@ class NamespaceView(View):
             tree editor currently used.
         """
         for editor in self.ui._editors:
-            print editor
+            print(editor)
         return self.ui._editors[-1]
 
 

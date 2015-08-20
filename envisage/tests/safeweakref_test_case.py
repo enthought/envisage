@@ -44,7 +44,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # Make sure we can call it.
         r()()
-        self.assert_(f.method_called)
+        self.assertTrue(f.method_called)
 
         # Delete the object to delete the method!
         del f
@@ -60,7 +60,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
                 pass
 
         f = Foo()
-        self.assert_(ref(f.method) is ref(f.method))
+        self.assertTrue(ref(f.method) is ref(f.method))
 
         return
 
@@ -112,7 +112,7 @@ class SafeWeakrefTestCase(unittest.TestCase):
         self.assertEqual(r1, r2)
 
         # Make sure that a reference compares as unequal to non-references!
-        self.assert_(not r1 == 99)
+        self.assertTrue(not r1 == 99)
 
         return
 

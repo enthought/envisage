@@ -9,11 +9,11 @@ from traits.api import Bool, Dict, HasTraits, List, Str, provides
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
-from action import Action
-from group import Group
-from i_action_set import IActionSet
-from menu import Menu
-from tool_bar import ToolBar
+from .action import Action
+from .group import Group
+from .i_action_set import IActionSet
+from .menu import Menu
+from .tool_bar import ToolBar
 
 
 # Logging.

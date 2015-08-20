@@ -10,10 +10,10 @@ from apptools.io.api import File
 from traits.api import Any, Dict, HasTraits, Instance, Str
 
 # Local imports.
-from assign import Assign, AssignFactory
-from function import Function, FunctionFactory
-from klass import Klass, KlassFactory
-from namespace import Namespace
+from .assign import Assign, AssignFactory
+from .function import Function, FunctionFactory
+from .klass import Klass, KlassFactory
+from .namespace import Namespace
 
 
 class Module(Namespace):

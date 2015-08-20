@@ -12,14 +12,14 @@ from traits.api import Delegate, Event, HasTraits, Instance, Str
 from traits.api import VetoableEvent, provides
 
 # Local imports.
-from i_application import IApplication
-from i_extension_registry import IExtensionRegistry
-from i_import_manager import IImportManager
-from i_plugin_manager import IPluginManager
-from i_service_registry import IServiceRegistry
+from .i_application import IApplication
+from .i_extension_registry import IExtensionRegistry
+from .i_import_manager import IImportManager
+from .i_plugin_manager import IPluginManager
+from .i_service_registry import IServiceRegistry
 
-from application_event import ApplicationEvent
-from import_manager import ImportManager
+from .application_event import ApplicationEvent
+from .import_manager import ImportManager
 
 
 # Logging.
@@ -133,7 +133,7 @@ class Application(HasTraits):
         # respectively. The application is also iterable, so to iterate over
         # the plugins use 'for plugin in application: ...'.
         if plugins is not None:
-            map(self.add_plugin, plugins)
+            list(map(self.add_plugin, plugins))
 
         return
 
@@ -426,7 +426,7 @@ class Application(HasTraits):
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
         # to override it!
-        from plugin_extension_registry import PluginExtensionRegistry
+        from .plugin_extension_registry import PluginExtensionRegistry
 
         return PluginExtensionRegistry(plugin_manager=self)
 
@@ -436,7 +436,7 @@ class Application(HasTraits):
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
         # to override it!
-        from plugin_manager import PluginManager
+        from .plugin_manager import PluginManager
 
         return PluginManager(application=self)
 
@@ -446,7 +446,7 @@ class Application(HasTraits):
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
         # to override it!
-        from service_registry import ServiceRegistry
+        from .service_registry import ServiceRegistry
 
         return ServiceRegistry()
 

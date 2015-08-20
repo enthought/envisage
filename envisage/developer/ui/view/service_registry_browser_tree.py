@@ -76,7 +76,7 @@ class ServiceRegistryModel(HasTraits):
 
             protocol.services.append(service_model)
 
-        return protocols.values()
+        return list(protocols.values())
 
 
 class ProtocolModelTreeNode(TreeNode):

@@ -50,7 +50,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 
@@ -76,7 +76,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 
@@ -97,7 +97,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 
@@ -118,7 +118,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 
@@ -148,7 +148,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 
@@ -296,7 +296,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
+        self.assertRaises(
             ValueError, builder.create_menu_bar_manager, 'MenuBar'
         )
 

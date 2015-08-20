@@ -26,7 +26,7 @@ from pyface.timer.api import do_later, Timer
 from traits.api import Any, Event, HasTraits, Instance, Int
 
 # Local imports.
-from model_service import ModelService
+from .model_service import ModelService
 
 
 # Setup a logger for this module.
@@ -495,7 +495,7 @@ class UiService(HasTraits):
 
                     # Otherwise, display the remove error to the user and give
                     # them another chance to pick another location
-                    except Exception, e:
+                    except Exception as e:
                         msg = str(e)
                         title = 'Unable To Overwrite %s' % location
                         information(parent_window, msg, title)
@@ -582,7 +582,7 @@ class UiService(HasTraits):
                 information(parent_window, msg, 'Project Saved')
                 logger.debug(msg)
 
-            except Exception, e:
+            except Exception as e:
                 saved = False
                 logger.exception('Error saving project [%s]', project)
                 error(parent_window, str(e), title='Save Error')

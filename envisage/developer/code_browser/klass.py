@@ -1,5 +1,6 @@
 """ Classes used to represent classes. """
 
+import six
 
 # Standard library imports.
 import compiler
@@ -10,9 +11,9 @@ from traits.api import Any, Dict, HasTraits, Instance, Int, List
 from traits.api import Property, Str
 
 # Local imports.
-from assign import AssignFactory
-from function import FunctionFactory
-from namespace import Namespace
+from .assign import AssignFactory
+from .function import FunctionFactory
+from .namespace import Namespace
 
 
 class Klass(Namespace):
@@ -117,7 +118,7 @@ class KlassFactory(HasTraits):
     def _get_name(self, node):
         """ Returns the (possibly dotted) name from a node. """
 
-        if isinstance(node, basestring):
+        if isinstance(node, six.string_types):
             name = node
 
         elif hasattr(node, 'getType') and node.getType() == compiler.ast.Name:
