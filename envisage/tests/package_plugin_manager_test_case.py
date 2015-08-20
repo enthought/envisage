@@ -29,7 +29,7 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         if hasattr(self, 'assertCountEqual'):
             self.assertCountEqual(first, second, msg)
         else:
-            unittest.TestCase.assertItemsEqual(first, second, msg)
+            unittest.TestCase.assertItemsEqual(self, first, second, msg)
         
     #### Tests ################################################################
 
