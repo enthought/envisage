@@ -16,8 +16,7 @@ cache:
   - pip
 before_install:
   # Travis is using distribute which cause problems with testing envisage
-  - sudo /usr/local/bin/pip2 install --upgrade setuptools
-  - sudo /usr/local/bin/pip2 uninstall distribute
+  - sudo /usr/local/bin/pip2 uninstall -y distribute
   - ccache -s
   - pip install --upgrade pip
   - pip --version
