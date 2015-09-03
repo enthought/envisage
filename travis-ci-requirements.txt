@@ -1,5 +1,7 @@
-apptools
+git+http://github.com/enthought/apptools.git#egg=apptools
 git+http://github.com/enthought/traits.git#egg=traits
+pyface
+traitsui
 ipython[qtconsole]<4
 coverage
 unittest2 ; python_version == "2.6"
