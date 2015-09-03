@@ -22,8 +22,7 @@ install:
   - pip install -r travis-ci-requirements.txt
   - python setup.py develop
 script:
-  - coverage run -m nose.core envisage/tests -v
-  - if [[ $TRAVIS_PYTHON_VERSION != "2.6" ]]; then coverage run -a -m nose.core envisage/plugings -v
+  - coverage run -m nose.core envisage -v
 after_success:
   - pip install codecov
   - codecov
