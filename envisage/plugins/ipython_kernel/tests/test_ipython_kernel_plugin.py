@@ -6,6 +6,8 @@ except ImportError:
     from nose.plugins.skip import SkipTest
     raise SkipTest('IPython not available')
 
+from IPython.kernel.zmq.kernelapp import IPKernelApp
+
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
@@ -17,7 +19,6 @@ from traits.api import List
 class TestIPythonKernelPlugin(unittest.TestCase):
 
     def tearDown(self):
-        from IPython.kernel.zmq.kernelapp import IPKernelApp
         IPKernelApp.clear_instance()
 
     def test_kernel_service(self):
