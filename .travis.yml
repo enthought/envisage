@@ -1,5 +1,5 @@
 language: python
-sudo: false
+sudo: required
 python:
   - 2.6
   - 2.7_with_system_site_packages
@@ -15,11 +15,9 @@ cache:
   - ccache
   - pip
 before_install:
+  - sudo pip install setuptools
   - ccache -s
-  - pip install --upgrade pip virtualenv
-  - pip install -I setuptools
-  - virtualenv --system-site-packages my_env
-  - if [[ ${TRAVIS_PYTHON_VERSION} != '2.6' ]]; then source ./my_env/bin/activate; fi
+  - pip install --upgrade pip
   - pip --version
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
