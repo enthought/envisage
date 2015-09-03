@@ -16,7 +16,7 @@ cache:
   - pip
 before_install:
   - ccache -s
-  - pip install --upgrade pip distribute
+  - pip install --upgrade pip
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 install:
