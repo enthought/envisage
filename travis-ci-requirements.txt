@@ -2,4 +2,4 @@ apptools
 git+http://github.com/enthought/traits.git#egg=traits
 ipython
 coverage
-unittest2 ; python_version == 2.6
+unittest2 ; python_version == "2.6"
