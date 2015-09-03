@@ -191,7 +191,7 @@ class Server(HasTraits):
             return msg
 
         try:
-            logging.info("Server spawning Client of type '%s.'" % object_type)
+            logger.info("Server spawning Client of type '%s.'" % object_type)
             spawn_independent(command, shell=True)
         except OSError:
             msg = "Error spawning process for '%s' with command '%s'." \
