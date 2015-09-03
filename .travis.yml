@@ -9,6 +9,8 @@ before_install:
 install:
   - pip install -U nose
   - pip install -U unittest2
+  - pip install -U ipykernel
+  - pip install -U pygments
   # 'envisage' should work with the current 'traits' master
   - pip install git+http://github.com/enthought/traits.git#egg=traits
   - pip install apptools
