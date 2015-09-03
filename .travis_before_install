@@ -7,6 +7,8 @@ sudo apt-get install python-qt4 python-qt4-dev
 sudo apt-get install python-pip
 sudo pip install --upgrade pyzmq
 sudo pip install --upgrade ipython
+sudo pip install --upgrade ipykernel
+sudo pip install --upgrade pygments
 
 python -c 'import PyQt4'
 python -c 'import PyQt4.QtCore'
