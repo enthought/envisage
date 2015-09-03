@@ -1,3 +1,4 @@
 apptools
 git+http://github.com/enthought/traits.git#egg=traits
 ipython
+coverage
