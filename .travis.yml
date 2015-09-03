@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
     - python-qt4
+    - python-setuptools
     - ccache
 env:
   - ETS_TOOLKIT=qt4
