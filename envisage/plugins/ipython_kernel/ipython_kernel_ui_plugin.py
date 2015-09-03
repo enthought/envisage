@@ -46,7 +46,8 @@ class IPythonKernelUIPlugin(Plugin):
                     SchemaAddition(
                         path='MenuBar/View',
                         factory=menu_factory,
-                        id='IPythonSchema',),
+                        id='IPythonSchema',
+                    ),
                 ]
             )
         ]
