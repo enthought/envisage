@@ -1,6 +1,10 @@
 import unittest
 
-from IPython.kernel.zmq.kernelapp import IPKernelApp
+try:
+    import IPython  # noqa
+except ImportError:
+    from nose.plugins.skip import SkipTest
+    raise SkipTest('IPython not available')
 
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
@@ -13,6 +17,7 @@ from traits.api import List
 class TestIPythonKernelPlugin(unittest.TestCase):
 
     def tearDown(self):
+        from IPython.kernel.zmq.kernelapp import IPKernelApp
         IPKernelApp.clear_instance()
 
     def test_kernel_service(self):
@@ -39,6 +44,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
     def test_kernel_namespace_extension_point(self):
         class NamespacePlugin(Plugin):
             kernel_namespace = List(contributes_to=IPYTHON_NAMESPACE)
+
             def _kernel_namespace_default(self):
                 return [('y', 'hi')]
 
