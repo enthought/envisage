@@ -1,19 +1,19 @@
-from pyface.qt import QtCore
 # Standard library imports.
 import logging
 
 # Enthought library imports.
 from envisage.api import Plugin
 from envisage.core_plugin import CorePlugin
+from envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin import (
+    IPythonKernelUIPlugin)
+from envisage.plugins.ipython_kernel.api import (
+    IPythonKernelPlugin, IPYTHON_KERNEL_PROTOCOL)
 from envisage.ui.tasks.api import TasksApplication, TaskFactory
 from envisage.ui.tasks.tasks_plugin import TasksPlugin
-from envisage.plugins.ipython_kernel.api import (
-    IPythonKernelPlugin, IPYTHON_KERNEL_PROTOCOL
-)
+from pyface.qt import QtCore
 from pyface.tasks.api import TaskWindowLayout
 from pyface.util.guisupport import get_app_qt4
 from traits.api import List
-
 
 # Local imports
 from example_task import ExampleTask
@@ -27,12 +27,18 @@ class ExamplePlugin(Plugin):
     #### 'IPlugin' interface ##############################################
 
     # The plugin's unique identifier.
-    id = 'example.attractors'
+    id = 'example.plugins.ipython_kernel'
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Attractors'
+    name = 'IPython Kernel Example Plugin'
 
     #### Contributions to extension points made by this plugin ############
+
+    kernel_namespace = List(contributes_to='ipython_plugin.namespace')
+
+    def _kernel_namespace_default(self):
+        namespace = [('app', self.application)]
+        return namespace
 
     tasks = List(contributes_to='envisage.ui.tasks.tasks')
 
@@ -81,22 +87,17 @@ class ExampleApplication(TasksApplication):
         if started:
             app = get_app_qt4([''])
 
-            kernel = self.get_service(IPYTHON_KERNEL_PROTOCOL)
-
             # Create windows from the default or saved application layout.
             self._create_windows()
 
-            app.connect(app, QtCore.SIGNAL("lastWindowClosed()"),
-                        app, QtCore.SLOT("quit()"))
-
-            app.aboutToQuit.connect(kernel.cleanup_consoles)
-
+            kernel = self.get_service(IPYTHON_KERNEL_PROTOCOL)
             kernel.init_ipkernel('qt4')
 
-            kernel.namespace['app'] = self
+            app.connect(app, QtCore.SIGNAL("lastWindowClosed()"),
+                        app, QtCore.SLOT("quit()"))
+            app.aboutToQuit.connect(kernel.cleanup_consoles)
 
             gui.set_trait_later(self, 'application_initialized', self)
-
             kernel.ipkernel.start()
 
         return started
@@ -111,7 +112,7 @@ if __name__ == '__main__':
     app = ExampleApplication(
         plugins=[
             CorePlugin(), ExamplePlugin(), IPythonKernelPlugin(),
-            TasksPlugin()
+            IPythonKernelUIPlugin(), TasksPlugin(),
         ]
     )
     app.run()

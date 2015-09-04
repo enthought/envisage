@@ -3,15 +3,13 @@
 import logging
 
 # Enthought library imports.
-from envisage.ui.tasks.api import TaskExtension
 from envisage.api import (bind_extension_point, ExtensionPoint, Plugin,
     ServiceOffer)
 from traits.api import Instance, List
-from pyface.tasks.action.api import SGroup, SchemaAddition
 
-IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin'  # noqa
+
+IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
-TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
 
 logger = logging.getLogger(__name__)
@@ -22,7 +20,6 @@ class IPythonKernelPlugin(Plugin):
 
     # Extension point IDs.
     SERVICE_OFFERS = 'envisage.service_offers'
-    PREFERENCES = 'envisage.preferences'
 
     #### 'IPlugin' interface ##################################################
 
@@ -49,8 +46,7 @@ class IPythonKernelPlugin(Plugin):
 
     #### Contributions to extension points made by this plugin ################
 
-    kernel = Instance(
-        'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel')
+    kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
 
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
@@ -65,34 +61,11 @@ class IPythonKernelPlugin(Plugin):
     def _create_kernel(self):
         return self.kernel
 
-    contributed_task_extensions = List(contributes_to=TASK_EXTENSIONS)
-
     #### Trait initializers ###################################################
 
     def _kernel_default(self):
         from .internal_ipkernel import InternalIPKernel
         kernel = InternalIPKernel()
         bind_extension_point(kernel, 'initial_namespace',
-                     IPYTHON_NAMESPACE, self.application)
+                             IPYTHON_NAMESPACE, self.application)
         return kernel
-
-    def _contributed_task_extensions_default(self):
-
-        from .actions import StartQtConsoleAction
-
-        def menu_factory():
-            return SGroup(
-                StartQtConsoleAction(kernel=self.kernel),
-                id='ipython'
-            )
-
-        return [
-            TaskExtension(
-                actions=[
-                    SchemaAddition(
-                        path='MenuBar/View',
-                        factory=menu_factory,
-                        id='IPythonSchema',),
-                ]
-            )
-        ]
