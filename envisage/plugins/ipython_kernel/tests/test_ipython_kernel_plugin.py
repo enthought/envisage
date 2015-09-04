@@ -1,5 +1,11 @@
 import unittest
 
+try:
+    import IPython  # noqa
+except ImportError:
+    from nose.plugins.skip import SkipTest
+    raise SkipTest('IPython not available')
+
 from IPython.kernel.zmq.kernelapp import IPKernelApp
 
 from envisage.api import Application, Plugin
@@ -39,6 +45,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
     def test_kernel_namespace_extension_point(self):
         class NamespacePlugin(Plugin):
             kernel_namespace = List(contributes_to=IPYTHON_NAMESPACE)
+
             def _kernel_namespace_default(self):
                 return [('y', 'hi')]
 
