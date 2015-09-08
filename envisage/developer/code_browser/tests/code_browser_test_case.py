@@ -39,6 +39,13 @@ class CodeBrowserTestCase(unittest.TestCase):
 
         return
 
+    def assertIn(self, first, second, msg=None):
+        # Python 2.6 compatibility layer.
+        if hasattr(unittest.TestCase, 'assertIn'):
+            unittest.TestCase.assertIn(self, first, second, msg)
+        else:
+            self.assertTrue(first in second, msg)
+
     ###########################################################################
     # Tests.
     ###########################################################################
