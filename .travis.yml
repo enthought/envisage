@@ -12,10 +12,6 @@ addons:
     - ccache
 env:
   - ETS_TOOLKIT=qt4
-matrix:
- allow_failures:
-     - python: 3.4
-
 cache:
   - ccache
   - pip
