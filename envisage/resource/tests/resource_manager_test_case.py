@@ -2,17 +2,9 @@
 
 
 # Standard library imports.
-import sys
 import unittest
 
-if sys.version_info[0] >= 3:
-    from io import StringIO
-    from urllib.error import HTTPError
-    import urllib.request as url_library
-else:
-    import urllib2 as url_library
-    from urllib2 import HTTPError
-    from StringIO import StringIO
+from io import StringIO
 
 # Major package imports.
 from pkg_resources import resource_filename
@@ -20,7 +12,9 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from envisage.resource.api import ResourceManager
 from envisage.resource.api import NoSuchResourceError
-from traits.api import HasTraits, Int, Str
+from envisage._compat import HTTPError, unicode_str
+import envisage._compat
+url_library = envisage._compat
 
 
 # This module's package.
@@ -35,7 +29,7 @@ def stubout_urlopen(url):
         raise HTTPError(url, '404', 'No such resource', '', None)
 
     elif 'localhost' in url:
-        return StringIO('This is a test file.\n')
+        return StringIO(unicode_str('This is a test file.\n'))
 
     else:
         raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
@@ -82,9 +76,8 @@ class ResourceManagerTestCase(unittest.TestCase):
         f.close()
 
         # Open the api file via the file system.
-        g = open(filename, 'rb')
-        self.assertEqual(g.read(), contents)
-        g.close()
+        with open(filename, 'rb') as g:
+            self.assertEqual(g.read(), contents)
 
         return
 

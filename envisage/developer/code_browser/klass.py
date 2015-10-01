@@ -3,18 +3,17 @@
 
 # Standard library imports.
 import ast
-import sys
 
 # Enthought library imports.
 from traits.api import Any, Dict, HasTraits, Instance, Int, List
-from traits.api import Property, Str
+from traits.api import Str
 
 # Local imports.
 from .assign import AssignFactory
 from .function import FunctionFactory
 from .namespace import Namespace
+from ..._compat import STRING_BASE_CLASS
 
-STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 class Klass(Namespace):
     """ A class. """
@@ -188,6 +187,3 @@ class KlassVisitor(ast.NodeVisitor):
         return
 
 #### EOF ######################################################################
-
-
-

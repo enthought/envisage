@@ -2,21 +2,20 @@
 
 
 # Standard library imports.
-import sys, logging
+import logging
 
 # Enthought library imports.
-from traits.api import Dict, Event, HasTraits, Int, Undefined, provides, \
-    Interface
+from traits.api import Dict, Event, HasTraits, Int, provides
 
 # Local imports.
 from .i_service_registry import IServiceRegistry
 from .import_manager import ImportManager
+from ._compat import STRING_BASE_CLASS
 
 
 # Logging.
 logger = logging.getLogger(__name__)
 
-STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 class NoSuchServiceError(Exception):
     """ Raised when a required service is not found. """

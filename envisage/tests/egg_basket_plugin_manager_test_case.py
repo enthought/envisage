@@ -179,7 +179,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
 
         ids = [plugin.id for plugin in plugin_manager]
-        print(ids)
         self.assertEqual(len(ids), 3)
         self.assertIn('acme.foo', ids)
         self.assertIn('acme.bar', ids)

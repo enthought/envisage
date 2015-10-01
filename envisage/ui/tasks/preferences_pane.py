@@ -67,7 +67,7 @@ class PreferencesPane(Controller):
         """ Handles the Apply button being clicked.
         """
         trait_names = list(filter(self._model._is_preference_trait,
-                             self._model.trait_names()))
+                                  self._model.trait_names()))
         self.model.copy_traits(self._model, trait_names)
 
     def close(self, info, is_ok):

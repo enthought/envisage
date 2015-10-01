@@ -1,10 +1,11 @@
 
-import sys
-
 # Enthought library imports.
 from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
 from traits.api import Instance, Property
+
+# Local imports.
+from envisage._compat import unicode_str
 
 
 class TaskWindow(PyfaceTaskWindow):
@@ -35,9 +36,7 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            form = '%s - %s'
-            if sys.version_info[0] < 3:
-                form = unicode(form)
+            form = unicode_str('%s - %s')
             title = form % (title, self.application.name)
         return title
 
@@ -55,4 +54,3 @@ class TaskWindow(PyfaceTaskWindow):
         """Explicitly set the icon to use.  None is allowed.
         """
         self._icon = icon
-

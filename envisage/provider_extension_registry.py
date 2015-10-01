@@ -102,8 +102,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         #
         #     all = [x for y in extensions for x in y]
         #
-        # But I'm sure sure that that makes it any clearer ;^)
-        return [x for y in extensions for x in y]
+        # But I'm sure that that makes it any clearer ;^)
+
+        all = []
+        for extensions_of_single_provider in extensions:
+            all.extend(extensions_of_single_provider)
+        return all
 
     ###########################################################################
     # Protected 'ProviderExtensionRegistry' interface.

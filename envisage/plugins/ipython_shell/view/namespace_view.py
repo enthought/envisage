@@ -1,5 +1,7 @@
 """ A view containing the contents of a Python shell namespace. """
 
+from __future__ import print_function
+
 # Enthought library imports.
 from envisage.plugins.python_shell.api import IPythonShell
 from envisage.plugins.ipython_shell.api import INamespaceView

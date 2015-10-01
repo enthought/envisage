@@ -7,14 +7,14 @@ from subprocess import Popen
 import sys
 
 import csv
-
-if sys.version_info[0] >= 3:
-    from io import StringIO
-else:
-    from StringIO import StringIO
+from io import StringIO
 
 # ETS imports
 from traits.etsconfig.api import ETSConfig
+
+# Local imports
+from envisage._compat import STRING_BASE_CLASS
+
 
 # An obscure ASCII character that we used as separators in socket streams
 MESSAGE_SEP = chr(7) # 'bell' character
@@ -24,20 +24,10 @@ LOCK_PATH = os.path.join(ETSConfig.application_data,
                          'remote_editor_server.lock')
 LOG_PATH = os.path.join(ETSConfig.application_data, 'remote_editor_server.log')
 
-# Python 3 compatibility
-PY3 = sys.version_info[0] >= 3
-STRING_BASE_CLASS = str if PY3 else basestring
-
-if PY3:
-    def encode(s):
-        return bytes(s, 'utf-8')
-    def decode(s):
-        return s.decode()
-else:
-    def encode(s):
-        return str(s)
-    def decode(s):
-        return str(s)
+def encode(s):
+    return s.encode('utf-8')
+def decode(s):
+    return s.decode('utf-8')
 
 
 def quoted_split(s):

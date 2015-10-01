@@ -1,10 +1,6 @@
 # Standard library imports.
 import logging
 import os.path
-if sys.version_info[0] >= 3:
-    import pickle
-else:
-    import cPickle as pickle
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -18,11 +14,12 @@ from traits.etsconfig.api import ETSConfig
 # Local imports
 from .task_window import TaskWindow
 from .task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
+from envisage._compat import pickle, STRING_BASE_CLASS
+
 
 # Logging.
 logger = logging.getLogger(__name__)
 
-STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 class TasksApplication(Application):
     """ The entry point for an Envisage Tasks application.

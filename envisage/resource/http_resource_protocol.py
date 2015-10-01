@@ -1,7 +1,5 @@
 """ A resource protocol for HTTP documents. """
 
-import sys
-
 # Enthought library imports.
 from traits.api import HasTraits, provides
 
@@ -23,11 +21,7 @@ class HTTPResourceProtocol(HasTraits):
 
         # Do the import here 'cos I'm not sure how much this will actually
         # be used.
-        if sys.version_info[0] >= 3:
-            from urllib.request import urlopen
-            from urllib.error import HTTPError
-        else:
-            from urllib2 import urlopen, HTTPError
+        from .._compat import urlopen, HTTPError
 
         try:
             f = urlopen('http://' + address)

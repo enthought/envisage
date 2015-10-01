@@ -2,12 +2,7 @@
 
 
 # Standard library imports.
-import sys, imp, logging, os, stat, warnings
-if sys.version_info[0] >= 3:
-    import pickle
-else:
-    import cPickle as pickle
-
+import imp, logging, os, stat, warnings
 
 # Enthought library imports.
 from apptools.io.api import File
@@ -16,7 +11,7 @@ from traits.api import Any, Bool, Event, HasTraits, Str
 # Local imports.
 from .module import ModuleFactory
 from .package import Package
-
+from ..._compat import pickle
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -230,6 +225,3 @@ class CodeBrowser(HasTraits):
         return
 
 #### EOF ######################################################################
-
-
-

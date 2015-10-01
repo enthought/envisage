@@ -1,7 +1,10 @@
 # Enthought library imports.
 from pyface.action.api import Action, ActionItem, Group
-from traits.api import Any, Bool, Instance, List, Property, Unicode, \
+from traits.api import Any, Instance, List, Property, Unicode, \
      on_trait_change
+
+# Local imports.
+from envisage._compat import unicode_str
 
 
 class TaskWindowToggleAction(Action):
@@ -33,7 +36,7 @@ class TaskWindowToggleAction(Action):
     def _get_name(self):
         if self.window.active_task:
             return self.window.active_task.name
-        return unicode() if sys.version_info[0] < 3 else str()
+        return unicode_str()
 
     @on_trait_change('window:activated')
     def _window_activated(self):

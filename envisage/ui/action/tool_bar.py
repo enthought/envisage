@@ -1,15 +1,13 @@
 """ The *definition* of a tool bar. """
 
-import sys
-
 # Enthought library imports.
 from traits.api import Instance, List, Str
 
 # Local imports.
 from .group import Group
 from .location import Location
+from ..._compat import STRING_BASE_CLASS
 
-STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
 
 # fixme: Remove duplication (in menu.py too!)
 class CGroup(Instance):

@@ -3,6 +3,7 @@ sudo: required
 python:
   - 2.6
   - 2.7_with_system_site_packages
+  - 3.4
 addons:
   apt:
     packages:
@@ -11,6 +12,10 @@ addons:
     - ccache
 env:
   - ETS_TOOLKIT=qt4
+matrix:
+ allow_failures:
+     - python: 3.4
+
 cache:
   - ccache
   - pip

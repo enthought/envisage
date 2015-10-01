@@ -3,13 +3,13 @@
 
 # Standard library imports.
 import ast
-import sys
-import inspect
 
 # Enthought library imports.
 from traits.api import Any, Bool, HasTraits, Instance, Int, List, Str
 
-STRING_BASE_CLASS = basestring if sys.version_info[0] <= 2 else str
+# Local imports.
+from envisage._compat import STRING_BASE_CLASS
+
 
 class Assign(HasTraits):
     """ An assignment statement. """

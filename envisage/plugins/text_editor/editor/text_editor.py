@@ -225,9 +225,9 @@ class TextEditor(TraitsUIEditor):
     def _get_unique_id(self, prefix='Untitled '):
         """ Return a unique id for a new file. """
 
-        id = prefix + next(str(_id_generator))
+        id = prefix + str(next(_id_generator))
         while self.window.get_editor_by_id(id) is not None:
-            id = prefix + next(str(_id_generator))
+            id = prefix + str(next(_id_generator))
 
         return id
 
