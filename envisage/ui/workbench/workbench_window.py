@@ -15,8 +15,8 @@ from pyface.action.api import StatusBarManager
 from traits.api import Delegate, Instance, List, Property, provides
 
 # Local imports.
-from workbench_action_manager_builder import WorkbenchActionManagerBuilder
-from workbench_editor_manager import WorkbenchEditorManager
+from .workbench_action_manager_builder import WorkbenchActionManagerBuilder
+from .workbench_editor_manager import WorkbenchEditorManager
 
 
 # Logging.
@@ -228,7 +228,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def _register_service_offers(self, service_offers):
         """ Register all service offers. """
 
-        return map(self._register_service_offer, service_offers)
+        return list(map(self._register_service_offer, service_offers))
 
     def _register_service_offer(self, service_offer):
         """ Register a service offer. """

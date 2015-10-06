@@ -4,7 +4,7 @@
 def get_plugins():
     """ Get the plugins from this package. """
 
-    from banana_plugin import BananaPlugin
+    from .banana_plugin import BananaPlugin
 
     return [BananaPlugin()]
 

@@ -5,7 +5,7 @@
 from traits.api import Bool, Str
 
 # Local imports.
-from location import Location
+from .location import Location
 
 
 class Group(Location):

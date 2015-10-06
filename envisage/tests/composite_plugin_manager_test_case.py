@@ -63,13 +63,13 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         """ Called immediately after each test method has been called. """
 
         return
-        
+
     #### Tests ################################################################
 
     def test_find_no_plugins_if_there_are_no_plugin_managers(self):
 
         plugin_manager = CompositePluginManager()
-        ids            = [plugin.id for plugin in plugin_manager]
+        ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(0, len(ids))
 
@@ -80,7 +80,7 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         plugin_manager = CompositePluginManager(
             plugin_managers=[PluginManager(), PluginManager()]
         )
-        ids            = [plugin.id for plugin in plugin_manager]
+        ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(0, len(ids))
 
@@ -95,14 +95,14 @@ class CompositePluginManagerTestCase(unittest.TestCase):
                 )
             ]
         )
-        ids            = [plugin.id for plugin in plugin_manager]
+        ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(2, len(ids))
         self.assertIn('red', ids)
         self.assertIn('yellow', ids)
 
         self._test_start_and_stop(plugin_manager, ['red', 'yellow'])
-        
+
         return
 
     def test_find_plugins_in_a_multiple_plugin_managers(self):
@@ -112,13 +112,13 @@ class CompositePluginManagerTestCase(unittest.TestCase):
                 PluginManager(
                     plugins=[SimplePlugin(id='red'), SimplePlugin(id='yellow')]
                 ),
-                
+
                 PluginManager(
                     plugins=[SimplePlugin(id='green')]
                 )
             ]
         )
-        ids            = [plugin.id for plugin in plugin_manager]
+        ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(3, len(ids))
         self.assertIn('red', ids)
@@ -126,13 +126,13 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         self.assertIn('green', ids)
 
         self._test_start_and_stop(plugin_manager, ['red', 'yellow', 'green'])
-        
+
         return
 
     def test_application_gets_propogated_to_plugin_managers(self):
 
         application = Application()
-        
+
         composite_plugin_manager = CompositePluginManager(
             application     = application,
             plugin_managers = [PluginManager(), PluginManager()]
@@ -147,12 +147,12 @@ class CompositePluginManagerTestCase(unittest.TestCase):
 
         a = PluginManager()
         b = PluginManager()
-        
+
         composite_plugin_manager = CompositePluginManager(
             plugin_managers = [a, b]
         )
         composite_plugin_manager._plugins
-        
+
         def added(obj, trait_name, old, new):
             added.count += 1
         added.count = 0
@@ -167,12 +167,12 @@ class CompositePluginManagerTestCase(unittest.TestCase):
 
         a.add_plugin(Plugin(id='foo'))
         self.assertEqual(1, self._plugin_count(composite_plugin_manager))
-                         
+
         a.remove_plugin(a.get_plugin('foo'))
         self.assertEqual(0, self._plugin_count(composite_plugin_manager))
-        
+
         return
-    
+
     def test_correct_exception_propagated_from_plugin_manager(self):
         plugin_manager = CompositePluginManager(
             plugin_managers=[RaisingPluginManager()]
@@ -190,7 +190,7 @@ class CompositePluginManagerTestCase(unittest.TestCase):
             count += 1
 
         return count
-            
+
     def _test_start_and_stop(self, plugin_manager, expected):
         """ Make sure the plugin manager starts and stops the expected plugins.
 

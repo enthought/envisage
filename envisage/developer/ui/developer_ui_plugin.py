@@ -53,7 +53,7 @@ class DeveloperUIPlugin(Plugin):
     def _views_default(self):
         """ Trait initializer. """
 
-        from view.api import (
+        from .view.api import (
             ApplicationBrowserView,
             ExtensionRegistryBrowserView,
             ServiceRegistryBrowserView

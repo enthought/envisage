@@ -8,7 +8,7 @@ import inspect, weakref
 from traits.api import List, TraitType, Undefined, provides
 
 # Local imports.
-from i_extension_point import IExtensionPoint
+from .i_extension_point import IExtensionPoint
 
 
 
@@ -77,7 +77,7 @@ class ExtensionPoint(TraitType):
     def bind(obj, trait_name, extension_point_id):
         """ Create a binding to an extension point. """
 
-        from extension_point_binding import bind_extension_point
+        from .extension_point_binding import bind_extension_point
 
         return bind_extension_point(obj, trait_name, extension_point_id)
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Standard library imports
 import os
 import unittest
@@ -12,6 +13,8 @@ from envisage.plugins.remote_editor.communication.client import Client
 from envisage.plugins.remote_editor.communication.server import Server
 from envisage.plugins.remote_editor.communication.util import \
     get_server_port, LOCK_PATH
+
+from envisage._compat import unicode_str
 
 
 class TestClient(Client):
@@ -69,8 +72,8 @@ class CommunicationTestCase(unittest.TestCase):
         self.assert_(os.path.exists(LOCK_PATH))
 
         # Test normal operation
-
-        self.assert_(Server.ping(get_server_port()))
+        tmp = get_server_port()
+        self.assert_(Server.ping(tmp))
 
         client1 = TestClient(self_type='client1', other_type='client2')
         client1.register()
@@ -83,6 +86,12 @@ class CommunicationTestCase(unittest.TestCase):
         sleep(.1)
         self.assertEqual(client2.command, "foo")
         self.assertEqual(client2.arguments, "bar")
+
+        client1.send_command(unicode_str("Très"), "bien")
+        sleep(.1)
+        self.assertEqual(client2.command, unicode_str("Très"))
+        self.assertEqual(client2.arguments, "bien")
+
 
         client1.unregister()
         sleep(.1)

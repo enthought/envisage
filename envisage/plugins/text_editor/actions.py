@@ -5,7 +5,7 @@ from pyface.api import FileDialog, OK
 from pyface.action.api import Action
 from traits.api import Any
 
-from editor.text_editor import TextEditor
+from .editor.text_editor import TextEditor
 
 logger = logging.getLogger(__name__)
 

@@ -60,7 +60,8 @@ class SafeWeakrefTestCase(unittest.TestCase):
                 pass
 
         f = Foo()
-        self.assert_(ref(f.method) is ref(f.method))
+
+        self.assertIs(ref(f.method), ref(f.method))
 
         return
 

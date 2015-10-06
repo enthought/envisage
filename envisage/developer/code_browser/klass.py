@@ -2,17 +2,17 @@
 
 
 # Standard library imports.
-import compiler
-from compiler.visitor import ASTVisitor
+import ast
 
 # Enthought library imports.
 from traits.api import Any, Dict, HasTraits, Instance, Int, List
-from traits.api import Property, Str
+from traits.api import Str
 
 # Local imports.
-from assign import AssignFactory
-from function import FunctionFactory
-from namespace import Namespace
+from .assign import AssignFactory
+from .function import FunctionFactory
+from .namespace import Namespace
+from ..._compat import STRING_BASE_CLASS
 
 
 class Klass(Namespace):
@@ -100,12 +100,12 @@ class KlassFactory(HasTraits):
             namespace = namespace,
             lineno    = node.lineno,
             name      = node.name,
-            doc       = node.doc,
+            doc       = ast.get_docstring(node, clean=False),
             bases     = [self._get_name(base) for base in node.bases]
         )
 
         # Walk the AST picking out the things we care about!
-        compiler.walk(node, KlassVisitor(klass))
+        KlassVisitor(klass).visit(node)
 
         return klass
 
@@ -117,20 +117,18 @@ class KlassFactory(HasTraits):
     def _get_name(self, node):
         """ Returns the (possibly dotted) name from a node. """
 
-        if isinstance(node, basestring):
+        if isinstance(node, STRING_BASE_CLASS):
             name = node
-
-        elif hasattr(node, 'getType') and node.getType() == compiler.ast.Name:
-            name = node.name
-
+        elif isinstance(node, ast.Name):
+            name = node.id
         else:
-            names = [self._get_name(child) for child in node.getChildren()]
+            names = [self._get_name(child) for child in ast.walk(node) if child is not node]
             name = '.'.join(names)
 
         return name
 
 
-class KlassVisitor(ASTVisitor):
+class KlassVisitor(ast.NodeVisitor):
     """ An AST visitor for classes. """
 
     ###########################################################################
@@ -153,7 +151,7 @@ class KlassVisitor(ASTVisitor):
     # 'ASTVisitor' interface.
     ###########################################################################
 
-    def visitFunction(self, node):
+    def visit_FunctionDef(self, node):
         """ Visits a function node. """
 
         function = self._function_factory.from_ast(self.klass, node)
@@ -163,14 +161,14 @@ class KlassVisitor(ASTVisitor):
 
         return
 
-    def visitAssign(self, node):
+    def visit_Assign(self, node):
         """ Visits an assignment node. """
 
         assign = self._assign_factory.from_ast(self.klass, node)
 
         # Does the assigment look like it *might* be a trait? (i.e., it is NOT
         # an expression or a constant etc.).
-        if len(assign.source) > 0:
+        if assign.source:
             assign.is_trait = self.klass.is_trait(assign.source)
 
         else:
@@ -189,6 +187,3 @@ class KlassVisitor(ASTVisitor):
         return
 
 #### EOF ######################################################################
-
-
-

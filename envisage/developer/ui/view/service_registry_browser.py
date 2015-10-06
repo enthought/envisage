@@ -16,7 +16,7 @@ from traitsui.api import Item, TreeEditor, View
 from envisage.plugins.text_editor.editor.text_editor import TextEditor
 
 # Local imports.
-from service_registry_browser_tree import \
+from .service_registry_browser_tree import \
      service_registry_browser_tree_nodes
 
 
@@ -85,7 +85,7 @@ class ServiceRegistryBrowser(HasTraits):
     def _service_registry_model_default(self):
         """ Trait initializer. """
 
-        from service_registry_browser_tree import ServiceRegistryModel
+        from .service_registry_browser_tree import ServiceRegistryModel
 
         return ServiceRegistryModel(service_registry=self.service_registry)
 

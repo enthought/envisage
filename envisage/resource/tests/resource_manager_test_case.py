@@ -3,8 +3,8 @@
 
 # Standard library imports.
 import unittest
-import urllib2
-import StringIO
+
+from io import StringIO
 
 # Major package imports.
 from pkg_resources import resource_filename
@@ -12,22 +12,24 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from envisage.resource.api import ResourceManager
 from envisage.resource.api import NoSuchResourceError
-from traits.api import HasTraits, Int, Str
+from envisage._compat import HTTPError, unicode_str
+import envisage._compat
+url_library = envisage._compat
 
 
 # This module's package.
 PKG = 'envisage.resource.tests'
 
 
-# mimics urllib2.urlopen for some tests.
-# In setUp it replaces urllib2.urlopen for some tests,
-# and in tearDown, the regular urlopen is put back into place.
+# mimics `urlopen` for some tests.
+# In setUp it replaces `urlopen` for some tests,
+# and in tearDown, the regular `urlopen` is put back into place.
 def stubout_urlopen(url):
     if 'bogus' in url:
-        raise urllib2.HTTPError(url, '404', 'No such resource', '', None)
+        raise HTTPError(url, '404', 'No such resource', '', None)
 
     elif 'localhost' in url:
-        return StringIO.StringIO('This is a test file.\n')
+        return StringIO(unicode_str('This is a test file.\n'))
 
     else:
         raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
@@ -43,15 +45,15 @@ class ResourceManagerTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        self.stored_urlopen = urllib2.urlopen
-        urllib2.urlopen = stubout_urlopen
+        self.stored_urlopen = url_library.urlopen
+        url_library.urlopen = stubout_urlopen
 
         return
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
-        urllib2.urlopen = self.stored_urlopen
+        url_library.urlopen = self.stored_urlopen
 
         return
 
@@ -74,9 +76,8 @@ class ResourceManagerTestCase(unittest.TestCase):
         f.close()
 
         # Open the api file via the file system.
-        g = file(filename, 'rb')
-        self.assertEqual(g.read(), contents)
-        g.close()
+        with open(filename, 'rb') as g:
+            self.assertEqual(g.read(), contents)
 
         return
 
@@ -86,7 +87,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a file resource.
-        self.failUnlessRaises(
+        self.assertRaises(
             NoSuchResourceError, rm.file, 'file://../bogus.py'
         )
 
@@ -107,7 +108,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         filename = resource_filename('envisage.resource', 'api.py')
 
         # Open the api file via the file system.
-        g = file(filename, 'rb')
+        g = open(filename, 'rb')
         self.assertEqual(g.read(), contents)
         g.close()
 
@@ -119,13 +120,13 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a package resource.
-        self.failUnlessRaises(
+        self.assertRaises(
             NoSuchResourceError,
             rm.file,
             'pkgfile://envisage.resource/bogus.py'
         )
 
-        self.failUnlessRaises(
+        self.assertRaises(
             NoSuchResourceError, rm.file, 'pkgfile://completely.bogus/bogus.py'
         )
 
@@ -154,7 +155,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        self.failUnlessRaises(
+        self.assertRaises(
             NoSuchResourceError, rm.file, 'http://localhost:1234/bogus.dat'
         )
 
@@ -167,7 +168,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        self.failUnlessRaises(ValueError, rm.file, 'bogus://foo/bar/baz')
+        self.assertRaises(ValueError, rm.file, 'bogus://foo/bar/baz')
 
         return
 

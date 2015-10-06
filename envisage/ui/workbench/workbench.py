@@ -9,8 +9,8 @@ from pyface.api import YES
 from traits.api import Delegate, Instance
 
 # Local imports.
-from workbench_preferences import WorkbenchPreferences
-from workbench_window import WorkbenchWindow
+from .workbench_preferences import WorkbenchPreferences
+from .workbench_window import WorkbenchWindow
 
 
 class Workbench(pyface.Workbench):

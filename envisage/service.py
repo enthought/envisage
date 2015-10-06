@@ -54,6 +54,7 @@ class Service(TraitType):
 
         service_registry = self._get_service_registry(obj)
 
+
         obj = service_registry.get_service(
             self._protocol, self._query, self._minimize, self._maximize
         )
@@ -77,8 +78,8 @@ class Service(TraitType):
             raise ValueError(
                 'The "Service" trait type can only be used within objects ' \
                 'that have a reference to a service registry via their ' \
-                '"service_registry" trait. ' \
-                'Object <%s> Service protocol <%s>' % (obj, self._protocol)
+                '"service_registry" trait. \n' \
+                'Object %s\nService protocol %s' % (obj, self._protocol)
             )
 
         return service_registry

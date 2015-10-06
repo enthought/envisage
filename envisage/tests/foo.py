@@ -5,7 +5,7 @@
 from traits.api import HasTraits, provides
 
 # Local imports.
-from i_foo import IFoo
+from .i_foo import IFoo
 
 
 @provides(IFoo)
