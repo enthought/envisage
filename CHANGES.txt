@@ -1,15 +1,43 @@
-Envisage CHANGELOG
-==================
+====================
+ Envisage CHANGELOG
+====================
 
-What's new in Envisage 4.5.0
-----------------------------
-
-- IPythonKernelPlugin for Tasks: run an IPython kernel within the envisage app
-  and expose it as a service.
+Changes since version 4.5.0
+===========================
 
 
-Release 4.4.0
--------------
+Version 4.5.0
+=============
+
+New features
+------------
+
+* IPythonKernelPlugin for Tasks: run an IPython kernel within the
+  envisage app and expose it as a service (#54).
+* Envisage now supports Python 3.4 (#61).
+
+Enhancements
+------------
+
+* Allow loading plugins from an egg basket even when some eggs are
+  invalid (#40, #46).
+* Add a simple ``GUIApplication`` to bootstrap basic plugin-driven
+  applications (#34).
+* Split the IPython kernel and IPython menu action into two separate
+  plugins for flexibility (#57).
+
+Fixes
+-----
+
+* Use new Traits interfaces and adaptation implementation (#37).
+* Envisage now configures the logger with a ``NullHandler`` to avoid
+  spurios unconfigured logger warnings (#45).
+* Envisage no longer swallows exceptions in plugin startup (#50).
+* Various fixes to continuous integration configuration (#47, #60).
+
+
+Version 4.4.0
+=============
 
 The major component of this feature is to work with the new
 ``traits.adaptation`` mechanism in place of the deprecated
@@ -20,19 +48,19 @@ This release also adds a new method to retrieve a service that is
 required by the application and provides documentation and test updates.
 
 
-Change summary since 4.3.0
-
 New features
+------------
 
- * Added a simple GUIApplication class (673c8f6)
-
- * Added a method to get a required service (94dfdea)
+* Added a simple GUIApplication class (673c8f6)
+* Added a method to get a required service (94dfdea)
 
 Enhancements
+------------
 
- * Updated to use the new traits.adaptation functionality (34fa5e6)
+* Updated to use the new traits.adaptation functionality (34fa5e6)
 
 Fixes
+-----
 
- * Updated links to point to github instead of svn codebase (87cdb87)
- * Fixed test cases and added to Travis-CI (6c11d9f)
+* Updated links to point to github instead of svn codebase (87cdb87)
+* Fixed test cases and added to Travis-CI (6c11d9f)
