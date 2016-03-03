@@ -11,7 +11,7 @@ from envisage.ui.action.api import Action, ActionSet, Group, Menu
 from traits.testing.unittest_tools import unittest
 
 # Local imports.
-from dummy_action_manager_builder import DummyActionManagerBuilder
+from .dummy_action_manager_builder import DummyActionManagerBuilder
 
 
 class ActionManagerBuilderTestCase(unittest.TestCase):
