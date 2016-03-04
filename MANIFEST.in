@@ -1,0 +1,3 @@
+recursive-include envisage/tests/plugins *.py
+recursive-include envisage/tests/eggs *.egg
+recursive-include envisage/tests/bad_eggs *.egg

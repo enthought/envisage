@@ -60,7 +60,7 @@ class CodeBrowserTestCase(unittest.TestCase):
         module = self.code_browser.read_file(filename)
 
         # Check the module name and documentation.
-        self.assertEqual('code_browser_test_case', module.name)
+        self.assertTrue(module.name.endswith('code_browser_test_case'))
         self.assertEqual(" Tests for the Enthought code browser. ", module.doc)
 
         # Check that the module contains this class!
@@ -81,7 +81,7 @@ class CodeBrowserTestCase(unittest.TestCase):
         )
 
         # Check the module name and documentation.
-        self.assertEqual('example_1', module.name)
+        self.assertTrue(module.name.endswith('example_1'))
 
         # Check that the module contains the specified class.
         klass = module.klasses.get('Base')
