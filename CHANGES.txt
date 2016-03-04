@@ -2,6 +2,20 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.5.1
+=============
+
+Enhancements
+------------
+
+* Add tox for testing package install (#67)
+
+Fixes
+-----
+
+* Include missing test files in the package data (#67)
+* Include missing test cases for Python 3.4 (#67)
+
 Changes since version 4.5.0
 ===========================
 
