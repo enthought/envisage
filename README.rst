@@ -9,7 +9,7 @@ envisage: extensible application framework
 .. image:: http://codecov.io/github/enthought/envisage/coverage.svg?branch=master 
    :target: http://codecov.io/github/enthought/envisage?branch=master
 
-http://github.enthought.com/envisage
+http://docs.enthought.com/envisage
 
 Envisage is a Python-based framework for building extensible applications,
 that is, applications whose functionality can be extended by adding "plug-ins".
