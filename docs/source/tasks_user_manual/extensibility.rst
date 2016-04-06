@@ -413,15 +413,15 @@ several other menu-related conveniences, can be found in
 .. rubric:: Footnotes
 
 .. [1] In this section, we shall be referencing--often with considerable
-       simplification--the Attractors example code in the EnvisagePlugins
+       simplification--the Attractors example code in the Envisage
        package, available `online
-       <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
+       <https://github.com/enthought/envisage/tree/master/examples/plugins/tasks/attractors>`_
        and in the ETS distribution.
 
 .. [2] Although they are expanded into PyFace action items, schemas belong to a
        distinct API. It is beyond the scope of this document to describe the
        PyFace action API. For lack of more complete documentation, the reader is
        referred to the `source code
-       <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/>`_.
+       <https://github.com/enthought/pyface/tree/master/pyface/action/>`_.
 
 .. [3] Tasks differs from the Workbench in this regard.
