@@ -39,7 +39,7 @@ def save_cache(filename):
     if MODULES_CHANGED:
         logger.debug('saving cache...')
 
-        f = file(filename, 'wb')
+        f = open(filename, 'wb')
         pickle.dump(MODULES, f, 1)
         f.close()
 
@@ -56,7 +56,7 @@ def load_cache(filename):
     if os.path.isfile(filename):
         logger.debug('loading cache...')
 
-        f = file(filename, 'rb')
+        f = open(filename, 'rb')
         MODULES = pickle.load(f)
         f.close()
 

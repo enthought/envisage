@@ -573,7 +573,7 @@ class Project(HasTraits):
         # opened.
         fh = None
         try:
-            fh = file(filename, 'rb')
+            fh = open(filename, 'rb')
             pickle_package = cls.get_pickle_package()
             project = pickle_package.load(fh)
 
@@ -667,7 +667,7 @@ class Project(HasTraits):
             # applied.
             self._save_hook(location)
 
-            fh = file(filename, 'wb')
+            fh = open(filename, 'wb')
             pickle_package = self.get_pickle_package()
             pickle_package.dump(self, fh, 1)
 
