@@ -4,16 +4,12 @@ import os.path
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
-from pyface.api import GUI, SplashScreen
-from pyface.image_resource import ImageResource
-from pyface.tasks.api import TaskLayout, TaskWindowLayout
-from traits.api import Bool, Callable, Directory, Event, HasStrictTraits, \
-     Instance, Int, List, Property, Str, Unicode, Vetoable
+from traits.api import (
+    Bool, Callable, Directory, Event, HasStrictTraits,
+    Instance, Int, List, Unicode, Vetoable)
 from traits.etsconfig.api import ETSConfig
 
 # Local imports
-from .task_window import TaskWindow
-from .task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 from envisage._compat import pickle, STRING_BASE_CLASS
 
 
@@ -22,34 +18,35 @@ logger = logging.getLogger(__name__)
 
 
 class TasksApplication(Application):
-    """ The entry point for an Envisage Tasks application.
+    """The entry point for an Envisage Tasks application.
 
-    This class handles the common case for Tasks applications and is intended to
-    be subclassed to modify its start/stop behavior, etc.
+    This class handles the common case for Tasks applications and is
+    intended to be subclassed to modify its start/stop behavior, etc.
+
     """
 
     # Extension point IDs.
-    TASK_FACTORIES  = 'envisage.ui.tasks.tasks'
+    TASK_FACTORIES = 'envisage.ui.tasks.tasks'
     TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
     #### 'TasksApplication' interface #########################################
 
     # The active task window (the last one to get focus).
-    active_window = Instance(TaskWindow)
+    active_window = Instance('envisage.ui.tasks.task_window.TaskWindow')
 
     # The PyFace GUI for the application.
-    gui = Instance(GUI)
+    gui = Instance('pyface.gui.GUI')
 
     # Icon for the whole application. Will be used to override all taskWindows
     # icons to have the same.
-    icon = Instance(ImageResource, allow_none=True) #Any
+    icon = Instance('pyface.image_resource.ImageResource', allow_none=True)
 
     # The name of the application (also used on window title bars).
     name = Unicode
 
     # The splash screen for the application. By default, there is no splash
     # screen.
-    splash_screen = Instance(SplashScreen)
+    splash_screen = Instance('pyface.splash_screen.SplashScreen')
 
     # The directory on the local file system used to persist window layout
     # information.
@@ -63,16 +60,17 @@ class TasksApplication(Application):
     task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
 
     # The list of task windows created by the application.
-    windows = List(TaskWindow)
+    windows = List('envisage.ui.tasks.task_window.TaskWindow')
 
     # The factory for creating task windows.
-    window_factory = Callable(TaskWindow)
+    window_factory = Callable('envisage.ui.tasks.task_window.TaskWindow')
 
     #### Application layout ###################################################
 
     # The default layout for the application. If not specified, a single window
     # will be created with the first available task factory.
-    default_layout = List(TaskWindowLayout)
+    default_layout = List(
+        Instance('pyface.tasks.task_window_layout.TaskWindowLayout'))
 
     # Whether to always apply the default *application level* layout when the
     # application is started. Even if this is False, the layout state of
@@ -90,19 +88,24 @@ class TasksApplication(Application):
     application_exiting = Event
 
     # Fired when a task window has been created.
-    window_created = Event(TaskWindowEvent)
+    window_created = Event(
+        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
 
     # Fired when a task window is opening.
-    window_opening = Event(VetoableTaskWindowEvent)
+    window_opening = Event(
+        'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent')
 
     # Fired when a task window has been opened.
-    window_opened = Event(TaskWindowEvent)
+    window_opened = Event(
+        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
 
     # Fired when a task window is closing.
-    window_closing = Event(VetoableTaskWindowEvent)
+    window_closing = Event(
+        'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent')
 
     # Fired when a task window has been closed.
-    window_closed = Event(TaskWindowEvent)
+    window_closed = Event(
+        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
 
     #### Protected interface ##################################################
 
@@ -111,8 +114,8 @@ class TasksApplication(Application):
     _explicit_exit = Bool(False)
 
     # Application state.
-    _state = Instance('envisage.ui.tasks.tasks_application.'
-                      'TasksApplicationState')
+    _state = Instance(
+        'envisage.ui.tasks.tasks_application.TasksApplicationState')
 
     ###########################################################################
     # 'IApplication' interface.
@@ -157,35 +160,40 @@ class TasksApplication(Application):
             return None
 
         # Create the task using suitable task extensions.
-        extensions = [ ext for ext in self.task_extensions
-                       if ext.task_id == id or not ext.task_id ]
+        extensions = [ext for ext in self.task_extensions
+                      if ext.task_id == id or not ext.task_id]
         task = factory.create_with_extensions(extensions)
         task.id = factory.id
         return task
 
     def create_window(self, layout=None, restore=True, **traits):
-        """ Creates a new TaskWindow, possibly with some Tasks.
+        """Creates a new TaskWindow, possibly with some Tasks.
 
         Parameters:
         -----------
         layout : TaskWindowLayout, optional
-             The layout to use for the window. The tasks described in the layout
-             will be created and added to the window automatically. If not
-             specified, the window will contain no tasks.
+             The layout to use for the window. The tasks described in
+             the layout will be created and added to the window
+             automatically. If not specified, the window will contain
+             no tasks.
 
         restore : bool, optional (default True)
-             If set, the application will restore old size and positions for the
-             window and its panes, if possible. If a layout is not provided,
-             this parameter has no effect.
+             If set, the application will restore old size and
+             positions for the window and its panes, if possible. If a
+             layout is not provided, this parameter has no effect.
 
         **traits : dict, optional
-             Additional parameters to pass to ``window_factory()`` when creating
-             the TaskWindow.
+             Additional parameters to pass to ``window_factory()``
+             when creating the TaskWindow.
 
         Returns:
         --------
         The new TaskWindow.
+
         """
+        from .task_window_event import TaskWindowEvent
+        from pyface.tasks.task_window_layout import TaskWindowLayout
+
         window = self.window_factory(application=self, **traits)
 
         # Listen for the window events.
@@ -205,7 +213,8 @@ class TasksApplication(Application):
                 if task:
                     window.add_task(task)
                 else:
-                    logger.error('Missing factory for task with ID %r', task_id)
+                    logger.error(
+                        'Missing factory for task with ID %r', task_id)
 
             # Apply a suitable layout.
             if restore:
@@ -219,27 +228,29 @@ class TasksApplication(Application):
         return window
 
     def exit(self, force=False):
-        """ Exits the application, closing all open task windows.
+        """Exits the application, closing all open task windows.
 
         Each window is sent a veto-able closing event. If any window vetoes the
         close request, no window will be closed. Otherwise, all windows will be
         closed and the GUI event loop will terminate.
 
-        This method is not called when the user clicks the close button on a
-        window or otherwise closes a window through his or her window
-        manager. It is only called via the File->Exit menu item. It can also, of
-        course, be called programatically.
+        This method is not called when the user clicks the close
+        button on a window or otherwise closes a window through his or
+        her window manager. It is only called via the File->Exit menu
+        item. It can also, of course, be called programatically.
 
         Parameters:
         -----------
         force : bool, optional (default False)
-            If set, windows will receive no closing events and will be destroyed
-            unconditionally. This can be useful for reliably tearing down
-            regression tests, but should be used with caution.
+            If set, windows will receive no closing events and will be
+            destroyed unconditionally. This can be useful for reliably
+            tearing down regression tests, but should be used with
+            caution.
 
         Returns:
         --------
         A boolean indicating whether the application exited.
+
         """
         self._explicit_exit = True
         try:
@@ -267,8 +278,8 @@ class TasksApplication(Application):
         """
         # Build a list of TaskWindowLayouts.
         self._load_state()
-        if self.always_use_default_layout or \
-               not self._state.previous_window_layouts:
+        if (self.always_use_default_layout or
+                not self._state.previous_window_layouts):
             window_layouts = self.default_layout
         else:
             # Choose the stored TaskWindowLayouts, but only if all the task IDs
@@ -338,7 +349,8 @@ class TasksApplication(Application):
             match.active_task = layout.get_active_task()
             layout = match
 
-        # If that fails, at least try to restore the layout of individual tasks.
+        # If that fails, at least try to restore the layout of
+        # individual tasks.
         else:
             layout = layout.clone_traits()
             for i, item in enumerate(layout.items):
@@ -353,7 +365,7 @@ class TasksApplication(Application):
         """ Saves the application state.
         """
         # Grab the current window layouts.
-        window_layouts = [ w.get_window_layout() for w in self.windows ]
+        window_layouts = [w.get_window_layout() for w in self.windows]
         self._state.previous_window_layouts = window_layouts
 
         # Attempt to pickle the application state.
@@ -368,12 +380,14 @@ class TasksApplication(Application):
     #### Trait initializers ###################################################
 
     def _default_layout_default(self):
+        from pyface.tasks.task_window_layout import TaskWindowLayout
         window_layout = TaskWindowLayout()
         if self.task_factories:
-            window_layout.items = [ self.task_factories[0].id ]
-        return [ window_layout ]
+            window_layout.items = [self.task_factories[0].id]
+        return [window_layout]
 
     def _gui_default(self):
+        from pyface.gui import GUI
         return GUI(splash_screen=self.splash_screen)
 
     def _state_location_default(self):
@@ -392,6 +406,7 @@ class TasksApplication(Application):
         self.active_window = window
 
     def _on_window_opening(self, window, trait_name, event):
+        from .task_window_event import VetoableTaskWindowEvent
         # Event notification.
         self.window_opening = window_event = VetoableTaskWindowEvent(
             window=window)
@@ -400,12 +415,14 @@ class TasksApplication(Application):
             event.veto = True
 
     def _on_window_opened(self, window, trait_name, event):
+        from .task_window_event import TaskWindowEvent
         self.windows.append(window)
 
         # Event notification.
         self.window_opened = TaskWindowEvent(window=window)
 
     def _on_window_closing(self, window, trait_name, event):
+        from .task_window_event import VetoableTaskWindowEvent
         # Event notification.
         self.window_closing = window_event = VetoableTaskWindowEvent(
             window=window)
@@ -423,6 +440,7 @@ class TasksApplication(Application):
                 self._prepare_exit()
 
     def _on_window_closed(self, window, trait_name, event):
+        from .task_window_event import TaskWindowEvent
         self.windows.remove(window)
 
         # Event notification.
@@ -438,13 +456,15 @@ class TasksApplicationState(HasStrictTraits):
         application state.
     """
 
-    # TaskWindowLayouts for the windows extant at application exit. Only used if
-    # 'always_use_default_layout' is disabled.
-    previous_window_layouts = List(TaskWindowLayout)
+    # TaskWindowLayouts for the windows extant at application
+    # exit. Only used if 'always_use_default_layout' is disabled.
+    previous_window_layouts = List(
+        Instance('pyface.tasks.task_window_layout.TaskWindowLayout'))
 
     # A list of TaskWindowLayouts accumulated throughout the application's
     # lifecycle.
-    window_layouts = List(TaskWindowLayout)
+    window_layouts = List(
+        Instance('pyface.tasks.task_window_layout.TaskWindowLayout'))
 
     # The "version" for the state data. This should be incremented whenever a
     # backwards incompatible change is made to this class or any of the layout
@@ -471,6 +491,6 @@ class TasksApplicationState(HasStrictTraits):
     def push_window_layout(self, window_layout):
         """ Merge a TaskWindowLayout into the accumulated list.
         """
-        self.window_layouts = [ layout for layout in self.window_layouts
-                                if not layout.is_equivalent_to(window_layout) ]
+        self.window_layouts = [layout for layout in self.window_layouts
+                               if not layout.is_equivalent_to(window_layout)]
         self.window_layouts.insert(0, window_layout)
