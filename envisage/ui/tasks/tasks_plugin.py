@@ -1,6 +1,6 @@
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from traits.api import Callable, List
+from traits.api import Callable, Instance, List
 
 # Local imports.
 from .preferences_category import PreferencesCategory
@@ -61,7 +61,7 @@ class TasksPlugin(Plugin):
         """)
 
     tasks = ExtensionPoint(
-        List('envisage.ui.tasks.task_factory.TaskFactory'),
+        List(Instance('envisage.ui.tasks.task_factory.TaskFactory')),
         id=TASKS,
         desc="""
 
@@ -72,7 +72,7 @@ class TasksPlugin(Plugin):
         """)
 
     task_extensions = ExtensionPoint(
-        List('envisage.ui.tasks.task_extension.TaskExtension'),
+        List(Instance('envisage.ui.tasks.task_extension.TaskExtension')),
         id=TASK_EXTENSIONS,
         desc="""
 
