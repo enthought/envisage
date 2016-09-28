@@ -1,11 +1,9 @@
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from traits.api import Callable, List
+from traits.api import Callable, Instance, List
 
 # Local imports.
 from .preferences_category import PreferencesCategory
-from .task_factory import TaskFactory
-from .task_extension import TaskExtension
 
 # Constants.
 PKG = '.'.join(__name__.split('.')[:-1])
@@ -20,9 +18,9 @@ class TasksPlugin(Plugin):
 
     # The IDs of the extension point that this plugin offers.
     PREFERENCES_CATEGORIES = PKG + '.preferences_categories'
-    PREFERENCES_PANES      = PKG + '.preferences_panes'
-    TASKS                  = PKG + '.tasks'
-    TASK_EXTENSIONS        = PKG + '.task_extensions'
+    PREFERENCES_PANES = PKG + '.preferences_panes'
+    TASKS = PKG + '.tasks'
+    TASK_EXTENSIONS = PKG + '.task_extensions'
 
     # The IDs of the extension points that this plugin contributes to.
     SERVICE_OFFERS = 'envisage.service_offers'
@@ -63,7 +61,9 @@ class TasksPlugin(Plugin):
         """)
 
     tasks = ExtensionPoint(
-        List(TaskFactory), id=TASKS, desc="""
+        List(Instance('envisage.ui.tasks.task_factory.TaskFactory')),
+        id=TASKS,
+        desc="""
 
         This extension point makes tasks avaiable to the application.
 
@@ -72,7 +72,9 @@ class TasksPlugin(Plugin):
         """)
 
     task_extensions = ExtensionPoint(
-        List(TaskExtension), id=TASK_EXTENSIONS, desc="""
+        List(Instance('envisage.ui.tasks.task_extension.TaskExtension')),
+        id=TASK_EXTENSIONS,
+        desc="""
 
         This extension point permits the contribution of new actions and panes
         to existing tasks (without creating a new task).
@@ -87,31 +89,30 @@ class TasksPlugin(Plugin):
 
     def _my_service_offers_default(self):
         preferences_dialog_service_offer = ServiceOffer(
-            protocol = 'envisage.ui.tasks.preferences_dialog.'
-                       'PreferencesDialog',
-            factory  = self._create_preferences_dialog_service)
+            protocol='envisage.ui.tasks.preferences_dialog.PreferencesDialog',
+            factory=self._create_preferences_dialog_service)
 
-        return [ preferences_dialog_service_offer ]
+        return [preferences_dialog_service_offer]
 
     my_task_extensions = List(contributes_to=TASK_EXTENSIONS)
 
     def _my_task_extensions_default(self):
         from .action.exit_action import ExitAction
         from .action.preferences_action import PreferencesGroup
-        from pyface.tasks.action.api import DockPaneToggleGroup, \
-             SchemaAddition
+        from .task_extension import TaskExtension
+        from pyface.tasks.action.api import DockPaneToggleGroup, SchemaAddition
 
-        actions = [ SchemaAddition(id='Exit',
-                                   factory=ExitAction,
-                                   path='MenuBar/File'),
-                    SchemaAddition(id='Preferences',
-                                   factory=PreferencesGroup,
-                                   path='MenuBar/Edit'),
-                    SchemaAddition(id='DockPaneToggleGroup',
-                                   factory=DockPaneToggleGroup,
-                                   path='MenuBar/View') ]
+        actions = [SchemaAddition(id='Exit',
+                                  factory=ExitAction,
+                                  path='MenuBar/File'),
+                   SchemaAddition(id='Preferences',
+                                  factory=PreferencesGroup,
+                                  path='MenuBar/Edit'),
+                   SchemaAddition(id='DockPaneToggleGroup',
+                                  factory=DockPaneToggleGroup,
+                                  path='MenuBar/View')]
 
-        return [ TaskExtension(actions=actions) ]
+        return [TaskExtension(actions=actions)]
 
     ###########################################################################
     # Private interface.
@@ -122,8 +123,8 @@ class TasksPlugin(Plugin):
         """
         from .preferences_dialog import PreferencesDialog
 
-        dialog = PreferencesDialog(application = self.application)
-        dialog.trait_set(categories = self.preferences_categories,
-                         panes = [ factory(dialog = dialog)
-                                   for factory in self.preferences_panes ])
+        dialog = PreferencesDialog(application=self.application)
+        dialog.trait_set(categories=self.preferences_categories,
+                         panes=[factory(dialog=dialog)
+                                for factory in self.preferences_panes])
         return dialog

@@ -60,10 +60,10 @@ class TasksApplication(Application):
     task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
 
     # The list of task windows created by the application.
-    windows = List('envisage.ui.tasks.task_window.TaskWindow')
+    windows = List(Instance('envisage.ui.tasks.task_window.TaskWindow'))
 
     # The factory for creating task windows.
-    window_factory = Callable('envisage.ui.tasks.task_window.TaskWindow')
+    window_factory = Callable
 
     #### Application layout ###################################################
 
@@ -89,23 +89,25 @@ class TasksApplication(Application):
 
     # Fired when a task window has been created.
     window_created = Event(
-        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
+        Instance('envisage.ui.tasks.task_window_event.TaskWindowEvent'))
 
     # Fired when a task window is opening.
     window_opening = Event(
-        'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent')
+        Instance(
+            'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent'))
 
     # Fired when a task window has been opened.
     window_opened = Event(
-        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
+        Instance('envisage.ui.tasks.task_window_event.TaskWindowEvent'))
 
     # Fired when a task window is closing.
     window_closing = Event(
-        'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent')
+        Instance(
+            'envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent'))
 
     # Fired when a task window has been closed.
     window_closed = Event(
-        'envisage.ui.tasks.task_window_event.TaskWindowEvent')
+        Instance('envisage.ui.tasks.task_window_event.TaskWindowEvent'))
 
     #### Protected interface ##################################################
 
@@ -378,6 +380,10 @@ class TasksApplication(Application):
             logger.exception('Saving application layout')
 
     #### Trait initializers ###################################################
+
+    def _window_factory_default(self):
+        from envisage.ui.tasks.task_window import TaskWindow
+        return TaskWindow
 
     def _default_layout_default(self):
         from pyface.tasks.task_window_layout import TaskWindowLayout
