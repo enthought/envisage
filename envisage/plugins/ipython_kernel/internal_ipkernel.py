@@ -3,9 +3,8 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
-
-from IPython.lib.kernel import connect_qtconsole
-from IPython.kernel.zmq.kernelapp import IPKernelApp
+from ipykernel.connect import connect_qtconsole
+from ipykernel.kernelapp import IPKernelApp
 
 from traits.api import Any, HasStrictTraits, Instance, List
 
