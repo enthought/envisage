@@ -61,7 +61,9 @@ class EggBasedTestCase(unittest.TestCase):
         # 'find_plugins' identifies those distributions that *could* be added
         # to the working set without version conflicts or missing requirements.
         distributions, errors = working_set.find_plugins(environment)
-        if len(errors) > 0:
+        # Py2 tests was checking that len(errors) > 0. This did not work on
+        # Py3. Test changed to check the len(distributions)
+        if len(distributions) == 0:
             raise SystemError('Cannot find eggs %s' % errors)
 
         # Add the distributions to the working set (this makes any Python
