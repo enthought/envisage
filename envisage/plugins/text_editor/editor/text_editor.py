@@ -52,7 +52,7 @@ class TextEditor(TraitsUIEditor):
             self.save_as()
 
         else:
-            f = file(self.obj.path, 'w')
+            f = open(self.obj.path, 'w')
             f.write(self.text)
             f.close()
 
@@ -114,7 +114,7 @@ class TextEditor(TraitsUIEditor):
 
             if view is not None:
                 view.execute_command(
-                    'execfile(r"%s")' % self.obj.path, hidden=False
+                    'exec(open(r"%s").read())' % self.obj.path, hidden=False
                 )
 
         return
@@ -166,7 +166,7 @@ class TextEditor(TraitsUIEditor):
             self.id   = new.path
             self.name = basename(new.path)
 
-            f = file(new.path, 'r')
+            f = open(new.path, 'r')
             self.text = f.read()
             f.close()
 
