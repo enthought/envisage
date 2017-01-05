@@ -3,9 +3,8 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
-
-from IPython.lib.kernel import connect_qtconsole
-from IPython.kernel.zmq.kernelapp import IPKernelApp
+from ipykernel.connect import connect_qtconsole
+from ipykernel.kernelapp import IPKernelApp
 
 from traits.api import Any, HasStrictTraits, Instance, List
 
@@ -68,10 +67,8 @@ class InternalIPKernel(HasStrictTraits):
 
     def new_qt_console(self):
         """ Start a new qtconsole connected to our kernel. """
-        console = connect_qtconsole(
-            self.ipkernel.connection_file, profile=self.ipkernel.profile,
-            argv=['--no-confirm-exit'],
-        )
+        console = connect_qtconsole(self.ipkernel.connection_file,
+                                    argv=['--no-confirm-exit'])
         self.consoles.append(console)
         return console
 

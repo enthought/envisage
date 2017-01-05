@@ -59,7 +59,7 @@ class CodeBrowser(HasTraits):
         if os.path.isfile(self.filename):
             logger.debug('loading code database...')
 
-            f = file(self.filename, 'rb')
+            f = open(self.filename, 'rb')
             self._database = pickle.load(f)
             f.close()
 
@@ -77,7 +77,7 @@ class CodeBrowser(HasTraits):
         if self._database_changed:
             logger.debug('saving code database...')
 
-            f = file(self.filename, 'wb')
+            f = open(self.filename, 'wb')
             pickle.dump(self._database, f, 1)
             f.close()
 

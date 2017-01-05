@@ -26,7 +26,10 @@ def listener(obj, trait_name, old, event):
             del clone[event.index]
 
         else:
-            del clone[event.index : event.index + len(event.removed)]
+            # workaroud for traits bug in Python 3
+            # https://github.com/enthought/traits/issues/334
+            index = event.index if event.index is not None else 0
+            del clone[index:index + len(event.removed)]
 
     # If nothing was removed then it is an 'append', 'insert' or 'extend'
     # operation.
