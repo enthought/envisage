@@ -1,9 +1,9 @@
 language: python
 sudo: required
 python:
-  - 2.6
   - 2.7_with_system_site_packages
   - 3.4
+  - 3.5
 addons:
   apt:
     packages:
@@ -27,6 +27,8 @@ install:
   - pip install -r travis-ci-requirements.txt
   - python setup.py develop
 script:
+  - mkdir runtest
+  - cd runtest
   - coverage run -m nose.core envisage -v
 after_success:
   - pip install codecov

@@ -6,7 +6,7 @@ except ImportError:
     from nose.plugins.skip import SkipTest
     raise SkipTest('IPython not available')
 
-from IPython.kernel.zmq.kernelapp import IPKernelApp
+from ipykernel.kernelapp import IPKernelApp
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
 
 
