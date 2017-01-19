@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.4.0',
+        VERSION:     '4.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,32 +26,21 @@
     <link rel="shortcut icon" href="../_static/et.ico"/>
     <link rel="top" title="Envisage Documentation" href="../index.html" />
     <link rel="up" title="Workbench" href="workbench.html" />
-    <link rel="next" title="Glossary" href="glossary.html" />
-    <link rel="prev" title="Workbench" href="workbench.html" /> 
+    <link rel="next" title="GUIApplication" href="gui_application.html" />
+    <link rel="prev" title="Workbench" href="workbench.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="glossary.html" title="Glossary"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="workbench.html" title="Workbench"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li>
-          <li><a href="workbench.html" accesskey="U">Workbench</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="preferences-with-envisage">
 <h1>Preferences with Envisage<a class="headerlink" href="#preferences-with-envisage" title="Permalink to this headline">¶</a></h1>
@@ -68,8 +57,8 @@ the workbench plugin.</p>
 <div class="section" id="preferences">
 <h2>Preferences<a class="headerlink" href="#preferences" title="Permalink to this headline">¶</a></h2>
 <p>The contribution point is simply a list of URLs to the preference file, e.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
-      <span class="p">[</span><span class="s">&#39;pkgfile://acme.acmelab/preferences.ini&#39;</span><span class="p">],</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+      <span class="p">[</span><span class="s1">&#39;pkgfile://acme.acmelab/preferences.ini&#39;</span><span class="p">],</span>
       <span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -84,12 +73,12 @@ preference pages or settings it has.</p>
 allow the user to modify them. A preference page is defined as in the
 preference_manager example in the AppTools examples. It can than be
 contributed to the workbench, as in:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">acme.preference_pages</span> \
-                        <span class="kn">import</span> <span class="n">ACMEPreferencePages</span>
+                        <span class="kn">import</span> <span class="nn">ACMEPreferencePages</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ACMEPreferencePages</span><span class="p">,</span> <span class="p">]</span>
 </pre></div>
 </div>
@@ -102,7 +91,7 @@ of preferences it contributes.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
@@ -115,19 +104,27 @@ of preferences it contributes.</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="workbench.html"
-                        title="previous chapter">Workbench</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="glossary.html"
-                        title="next chapter">Glossary</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/envisage_core_documentation/preferences.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Envisage Core Documentation</a><ul>
+  <li><a href="workbench.html">Workbench</a><ul>
+      <li>Previous: <a href="workbench.html" title="previous chapter">Workbench</a></li>
+      <li>Next: <a href="gui_application.html" title="next chapter">GUIApplication</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/envisage_core_documentation/preferences.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -135,36 +132,26 @@ of preferences it contributes.</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="glossary.html" title="Glossary"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="workbench.html" title="Workbench"
-             >previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li>
-          <li><a href="workbench.html" >Workbench</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2008-2011, Enthought.
-      Last updated on Nov 11, 2013.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      &copy;2008-2011, Enthought.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/envisage_core_documentation/preferences.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GUIApplication &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.6.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Envisage Core Documentation" href="index.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Preferences with Envisage" href="preferences.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="guiapplication">
+<h1>GUIApplication<a class="headerlink" href="#guiapplication" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal"><span class="pre">GUIApplication</span></code> subclass of the standard Envisage
+<code class="xref py py-class docutils literal"><span class="pre">Application</span></code> class uses PyFace&#8217;s cross-platform GUI tools to ensure
+that an appropriate back-end application object is instantiated before plugins
+run their <code class="xref py py-meth docutils literal"><span class="pre">start()</span></code> methods, and then ensures that the GUI mainloop is
+started after the <code class="xref py py-meth docutils literal"><span class="pre">start()</span></code> methods have successfully completed.</p>
+<p>This allows developers to have a single place to start the application, but have
+plugins to listen for the <a class="reference internal" href="#application_initialized" title="application_initialized"><code class="xref py py-attr docutils literal"><span class="pre">application_initialized</span></code></a> event to create UI
+components.  In particular, Traits UIs can be created in an event listener
+method by calling <code class="xref py py-meth docutils literal"><span class="pre">edit_traits()</span></code>, something like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyViewPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Instance</span>
+
+    <span class="n">ui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;traitsui.ui.UI&#39;</span><span class="p">)</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:application_initialized&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># we need to keep a reference to the ui object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is intended to be a cheap and simple way to take an existing application
+and start &#8220;lifting&#8221; it to Envisage, without having to use a more heavyweight
+UI framework such as Tasks immediately.  Developers can work on adding
+extensibility to the application&#8217;s model without having to at the same time
+add extensibility to their UI.</p>
+<p>The <code class="xref py py-class docutils literal"><span class="pre">GUIApplication</span></code> exposes the following public API:</p>
+<dl class="attribute">
+<dt id="gui">
+<code class="descname">gui</code><a class="headerlink" href="#gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PyFace <code class="xref py py-class docutils literal"><span class="pre">GUI</span></code> instance the <code class="xref py py-class docutils literal"><span class="pre">GUIApplication</span></code> creates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="splash_screen">
+<code class="descname">splash_screen</code><a class="headerlink" href="#splash_screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optional PyFace <code class="xref py py-class docutils literal"><span class="pre">ISplashScreen</span></code> that gets shown while
+the plugins are started.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="application_initialized">
+<code class="descname">application_initialized</code><a class="headerlink" href="#application_initialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>An event which is fired after the UI mainloop has started.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Envisage Core Documentation</a><ul>
+      <li>Previous: <a href="preferences.html" title="previous chapter">Preferences with Envisage</a></li>
+      <li>Next: <a href="glossary.html" title="next chapter">Glossary</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/envisage_core_documentation/gui_application.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2011, Enthought.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/envisage_core_documentation/gui_application.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
