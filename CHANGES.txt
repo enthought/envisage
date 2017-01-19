@@ -2,9 +2,33 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.6.0
+=============
 
-Changes since version 4.5.1
-===========================
+This is an incremental release, mainly consisting of bug fixes.  The most
+significant change is the support for IPython >= 4 in the IPython plugin.
+
+Thanks to @corranwebster, @dpinte, @itziakos, @jonathanrocher, @kamalx,
+@rahulporuri, @robmcmullen, @sjagoe
+
+Enhancements
+------------
+
+* IPython kernel plugin now supports IPython >= 4 (#82)
+* Remove usage of deprecated IPython QtConsole API (#80)
+* Defer selection of toolkit and avoid creating GUI applications as side-effects as
+  much as possible (#77, #76)
+
+Fixes
+-----
+
+* Fixes for tests under Python 3.5 (#86)
+* Work around for issue with Traits in Python 3 (#78)
+* Replace uses of ‘file’ and ‘execfile’ (#75) 
+* Fix MOTD_Using_Eggs example (#66)
+* Fix broken and outdated links in documentation (#72)
+* Fix link to docs from README (#70)
+* Fix degenerate case where window is created with no layout (#44)
 
 
 Version 4.5.1
