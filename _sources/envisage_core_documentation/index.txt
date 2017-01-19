@@ -13,6 +13,7 @@ Envisage Core Documentation
     howto_create_a_plugin.rst
     message_of_the_day.rst
     workbench.rst
+    gui_application.rst
     glossary.rst
 
 * :ref:`search`

@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.4.0',
+        VERSION:     '4.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,30 +27,20 @@
     <link rel="top" title="Envisage Documentation" href="../index.html" />
     <link rel="up" title="Envisage Core Documentation" href="index.html" />
     <link rel="next" title="Plugins" href="plugins.html" />
-    <link rel="prev" title="Extension Points" href="extension_points.html" /> 
+    <link rel="prev" title="Extension Points" href="extension_points.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="plugins.html" title="Plugins"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="extension_points.html" title="Extension Points"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">Envisage Core Documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="services">
 <h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
@@ -79,7 +69,7 @@ and it even allows you to publish your own entries for free (unlike the &#8220;r
 one)!</p>
 <p>In an Envisage application, the service registry is accessed through the
 following methods on the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_application.py">IApplication</a> interface:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return at most one service that matches the specified query.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -89,12 +79,12 @@ following methods on the <a class="reference external" href="https://github.com/
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return all services that match the specified query.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Register a service.</span>
 
 <span class="sd">    Returns a service ID that can be used to retrieve any service</span>
@@ -111,39 +101,39 @@ following methods on the <a class="reference external" href="https://github.com/
 <p>The easiest way to explain the workings of these methods is to take a look at
 some examples, and so to continue our plumber theme, let&#8217;s assume we have the
 following interface and implementation:</p>
-<div class="highlight-python"><pre>class IPlumber(Interface):
-    """ What plumbers do! """
+<div class="highlight-default"><div class="highlight"><pre><span></span>class IPlumber(Interface):
+    &quot;&quot;&quot; What plumbers do! &quot;&quot;&quot;
 
-    # The plumber's name.
+    # The plumber&#39;s name.
     name = Str
 
-    # The plumber's location.
+    # The plumber&#39;s location.
     location = Str
 
     # The price per hour (in say, Estonian Krooni ;^)
     price = Int
 
     def fix_leaking_pipe(self, pipe):
-        """ Fix a leaking pipe! """
+        &quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;
 
+@provides(IPlumber)
 class Plumber(HasTraits):
-    """ An actual plumber implementation! """
+    &quot;&quot;&quot; An actual plumber implementation! &quot;&quot;&quot;
 
-    implements(IPlumber)
-
-    # The plumber's name.
+    # The plumber&#39;s name.
     name = Str
 
-    # The plumber's location.
+    # The plumber&#39;s location.
     location = Str
 
     # The price per hour (in say, Estonian Krooni ;^)
     price = Int
 
     def fix_leaking_pipe(self, pipe):
-        """ Fix a leaking pipe! """
+        &quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;
 
-        ... code that actually fixes it! ...</pre>
+        ... code that actually fixes it! ...
+</pre></div>
 </div>
 <div class="section" id="registering-a-service">
 <h2>Registering a service<a class="headerlink" href="#registering-a-service" title="Permalink to this headline">¶</a></h2>
@@ -153,7 +143,7 @@ passing it the protocol (interface or type) to publish the object under
 that the object to publish does <em>not</em> have to inherit from any particular base
 class or implement any special interface &#8211; any arbitrary Python object will
 do:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 <span class="n">fred_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">fred</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -164,15 +154,15 @@ to access its properties, or to unregister it, etc.</p>
 when you register it. These properties, along with the actual attributes of the
 service itself, can be used later to lookup the service using the query
 mechanism as shown in Section 4.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH6&#39;</span><span class="p">)</span>
-<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Note that the symbol name of the protocol can be specified instead of the
 actual type or class. Say, for example, that the <em>IPlumber</em> interface can be
 imported via &#8216;from acme.plumber.api import IPlumber&#8217;, then the registration
 can be written as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="s">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="s1">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>This comes in handy when using service factories (see later) to make sure that
@@ -182,7 +172,7 @@ implementation classes are imported only when necessary.</p>
 <h2>Looking up a service<a class="headerlink" href="#looking-up-a-service" title="Permalink to this headline">¶</a></h2>
 <p>Looking up a service is just as easy &#8211; call get_service() specifiying the
 protocol of the service required:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Assuming that we have registered both <em>fred</em> and <em>wilma</em> as in Section 1,
@@ -193,7 +183,7 @@ which they were added, so don&#8217;t depend on it.</p>
 actual type or class. Say, for example, that the <em>IPlumber</em> interface can be
 imported via &#8216;from acme.plumber.api import IPlumber&#8217;, then the service lookup
 can be written as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s1">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This comes in handy when using service factories (see later) to make sure that
@@ -202,7 +192,7 @@ implementation classes are imported only when necessary.</p>
 <div class="section" id="looking-up-a-list-of-services">
 <h2>Looking up a list of services<a class="headerlink" href="#looking-up-a-list-of-services" title="Permalink to this headline">¶</a></h2>
 <p>You can also look up <em>all</em> services of a particular protocol:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Assuming the registrations in Section 1, this returns a list containing
@@ -222,19 +212,19 @@ service was registered (i.e., properties take precedence over attributes).</p>
 1, let&#8217;s look at how to use the query mechanism to be more selective
 about the plumber(s) we look up.</p>
 <p>Find all plumbers whose price is less than 100 Krooni/Hour:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s">&quot;price &lt; 100&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;price &lt; 100&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This query would return a list containing one plumber, <em>fred</em>.</p>
 <p>Find plumbers named <em>fred</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s">&quot;name == &#39;fred&#39;&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;name == &#39;fred&#39;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This query, again (and unsurprisingly), would return a list containing just
 <em>fred</em>.</p>
 <p>Queries can be used with the singular form of the get_service() method too,
 in which case only one of the services that matches the query is returned:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s">&quot;price &lt; 200&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;price &lt; 200&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This query would return <em>either</em> <em>fred</em> or <em>wilma</em>.</p>
@@ -245,16 +235,16 @@ in which case only one of the services that matches the query is returned:</p>
 get_services() methods allow the services returned to be sorted by an
 attribute or property in either ascending or descending order respectively.</p>
 <p>To find the cheapest plumber:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">cheapest</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cheapest</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or, if you believe that you get what you pay for, the most expensive:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">most_expensive</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">most_expensive</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <em>minimize</em> and <em>maximize</em> arguments can also be used in conjunction with a
 query. For example to find the cheapest plumber in my area:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">cheap_and_local</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s">&quot;location=&#39;BH6&#39;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s">&#39;price&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cheap_and_local</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;location=&#39;BH6&#39;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This query would definitely give the job to <em>wilma</em>!</p>
@@ -265,7 +255,7 @@ query. For example to find the cheapest plumber in my area:</p>
 identifies the service within the current process (i.e., it is not suitable for
 persisting to use next time the application is run). To unregister a service,
 call the unregister_service() method, passing in the appropriate identifier:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 <span class="n">fred_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">fred</span><span class="p">)</span>
 
 <span class="o">...</span>
@@ -279,8 +269,8 @@ call the unregister_service() method, passing in the appropriate identifier:</p>
 <p>If you associate an arbitrary dictionary of properties with an object when
 you register it, you can retrieve those properties by calling the
 get_service_properties() method with the appropriate service identifier:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH6&#39;</span><span class="p">)</span>
-<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
 
 <span class="o">...</span>
 
@@ -288,16 +278,16 @@ get_service_properties() method with the appropriate service identifier:</p>
 </pre></div>
 </div>
 <p>This call would return a dictionary containing the following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">}</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>To set the properties for a service that has already been registered, use:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH6&#39;</span><span class="p">)</span>
-<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
 
 <span class="o">...</span>
 
-<span class="n">application</span><span class="o">.</span><span class="n">set_service_properties</span><span class="p">(</span><span class="n">wilma_id</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">150</span><span class="p">})</span>
+<span class="n">application</span><span class="o">.</span><span class="n">set_service_properties</span><span class="p">(</span><span class="n">wilma_id</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">150</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Not however, that in practise, it is more common to use the actual attributes
@@ -317,14 +307,14 @@ that the next time it is asked for it is simply returned as normal).</p>
 arguments. The first is the protocol (type) of the service being requested, and
 the second is the (possibly empty) dictionary of properties that were
 registered along with the factory, e.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">wilma_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wilma_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A service factory that creates wilma the plumber! &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">&#39;BH6&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To register the factory, we just use &#8216;application.register_service&#8217; as usual:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma_factory</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma_factory</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Now, the first time somebody tries to get any &#8216;IPlumber&#8217; service, the factory
@@ -336,7 +326,7 @@ is called and the returned plumber object replaces the factory in the registry.<
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
@@ -356,19 +346,25 @@ is called and the returned plumber object replaces the factory in the registry.<
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="extension_points.html"
-                        title="previous chapter">Extension Points</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="plugins.html"
-                        title="next chapter">Plugins</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/envisage_core_documentation/services.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Envisage Core Documentation</a><ul>
+      <li>Previous: <a href="extension_points.html" title="previous chapter">Extension Points</a></li>
+      <li>Next: <a href="plugins.html" title="next chapter">Plugins</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/envisage_core_documentation/services.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -376,35 +372,26 @@ is called and the returned plumber object replaces the factory in the registry.<
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="plugins.html" title="Plugins"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="extension_points.html" title="Extension Points"
-             >previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2008-2011, Enthought.
-      Last updated on Nov 11, 2013.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      &copy;2008-2011, Enthought.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/envisage_core_documentation/services.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>

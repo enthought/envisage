@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Menus and Tool Bars &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/et.ico"/>
+    <link rel="top" title="Envisage Documentation" href="../index.html" />
+    <link rel="up" title="Tasks User Manual" href="index.html" />
+    <link rel="next" title="Extensibility" href="extensibility.html" />
+    <link rel="prev" title="Window Layout" href="layout.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="extensibility.html" title="Extensibility"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="layout.html" title="Window Layout"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tasks User Manual</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="menus-and-tool-bars">
+<span id="menus"></span><h1>Menus and Tool Bars<a class="headerlink" href="#menus-and-tool-bars" title="Permalink to this headline">¶</a></h1>
+<p>In addition to specifying a layout of panes, a task can include a menu bar, a
+status bar, and any number of tool bars. In this section, we shall see how the
+Tasks framework supports these important user interface elements.</p>
+<p>It is important to recall that a task is a kind of <em>blueprint</em> for a user
+interface. As such, a task can provide blueprints, or <em>schemas</em> as we shall
+henceforth call them, for menus and tool bars, but does not itself contain menu
+or tool bar controls. This distinction, though perhaps not very useful in the
+present section, will take on considerable importance in the subsequent section
+on <a class="reference internal" href="extensibility.html#extensibility"><em>Extensibility</em></a>.</p>
+<div class="section" id="defining-a-menu-bar">
+<span id="index-0"></span><h2>Defining a Menu Bar<a class="headerlink" href="#defining-a-menu-bar" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">Resuming our example of the script editing task from the previous section, we
+shall define some menu items for opening and saving files. As in Traits UI and
+PyFace, individual menu items are instances of the <tt class="docutils literal"><span class="pre">Action</span></tt> class <a class="footnote-reference" href="#id2" id="id1">[1]</a>. We
+might define the &#8216;Open&#8217; action as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">Action</span>
+
+<span class="k">class</span> <span class="nc">OpenAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;Open&#39;</span>
+    <span class="n">accelerator</span> <span class="o">=</span> <span class="s">&#39;Ctrl+O&#39;</span>
+
+    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Of course, we must also implement the <tt class="docutils literal"><span class="pre">open()</span></tt> method on our task:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">OK</span>
+
+<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Shows a dialog to open a file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">wildcard</span><span class="o">=</span><span class="s">&#39;*.py&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
+            <span class="c"># Recall that &#39;open_file&#39; was defined in the previous section.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p id="index-2">Now let us suppose that we have similarly implemented a <tt class="docutils literal"><span class="pre">SaveAction</span></tt> and a
+<tt class="docutils literal"><span class="pre">save()</span></tt> method on our task. We would like to add these actions to a menu
+bar. Tasks provides several <tt class="docutils literal"><span class="pre">Schema</span></tt> classes for this purpose:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><tt class="docutils literal"><span class="pre">MenuBarSchema</span></tt>:</th><td class="field-body">The root of a menu hierarchy. Contains some number of menu
+schemas.</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><tt class="docutils literal"><span class="pre">MenuSchema</span></tt>:</th><td class="field-body">A menu or sub-menu in the menu hierarchy.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name"><tt class="docutils literal"><span class="pre">GroupSchema</span></tt>:</th><td class="field-body">A group of menu items that are logically related and that
+may or may not require separators from other groups.</td>
+</tr>
+</tbody>
+</table>
+<p>For convenience, these classes also have the abbreviated names <tt class="docutils literal"><span class="pre">SMenuBar</span></tt>,
+<tt class="docutils literal"><span class="pre">SMenu</span></tt>, and <tt class="docutils literal"><span class="pre">SGroup</span></tt>, respectively. We can implement the menu bar for our
+task using these abbreviations:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span>
+
+<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">SMenuBar</span><span class="p">(</span><span class="n">SMenu</span><span class="p">(</span><span class="n">OpenAction</span><span class="p">(),</span> <span class="n">SaveAction</span><span class="p">(),</span>
+                              <span class="nb">id</span><span class="o">=</span><span class="s">&#39;File&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;&amp;File&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p id="index-3">The pattern of having an <tt class="docutils literal"><span class="pre">Action</span></tt> instance call back to its task is so common
+that there is a predefined class for this purpose. We can use this
+<tt class="docutils literal"><span class="pre">TaskAction</span></tt> class to implement the above menu more simply, without having to
+define separately the <tt class="docutils literal"><span class="pre">OpenAction</span></tt> and <tt class="docutils literal"><span class="pre">SaveAction</span></tt> classes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span><span class="p">,</span> <span class="n">TaskAction</span>
+
+<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">SMenuBar</span><span class="p">(</span><span class="n">SMenu</span><span class="p">(</span><span class="n">TaskAction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Open...&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;open&#39;</span><span class="p">,</span>
+                                         <span class="n">accelerator</span><span class="o">=</span><span class="s">&#39;Ctrl+O&#39;</span><span class="p">),</span>
+                              <span class="n">TaskAction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Save&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;save&#39;</span><span class="p">,</span>
+                                         <span class="n">accelerator</span><span class="o">=</span><span class="s">&#39;Ctrl+S&#39;</span><span class="p">),</span>
+                              <span class="nb">id</span><span class="o">=</span><span class="s">&#39;File&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;&amp;File&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="defining-a-tool-bar">
+<span id="index-4"></span><h2>Defining a Tool Bar<a class="headerlink" href="#defining-a-tool-bar" title="Permalink to this headline">¶</a></h2>
+<p id="index-5">Like a menu bar, a tool bar uses the <tt class="docutils literal"><span class="pre">Action</span></tt> class to represent individual
+items. A tool bar, however, is defined with a different set of schemas:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><tt class="docutils literal"><span class="pre">ToolBarSchema</span></tt>:</th><td class="field-body">The root of a tool bar hierarchy. Contains some number of
+group schemas and actions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><tt class="docutils literal"><span class="pre">GroupSchema</span></tt>:</th><td class="field-body">A group of tool bar buttons that are logically related and
+that may or may not require separators from other groups.</td>
+</tr>
+</tbody>
+</table>
+<p>As above, these classes are often abbreviated as <tt class="docutils literal"><span class="pre">SToolBar</span></tt> and <tt class="docutils literal"><span class="pre">SGroup</span></tt>,
+respectively. Let us now add a tool bar with buttons for opening and saving
+files to our script editing task:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">ImageResource</span>
+<span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SToolBar</span><span class="p">,</span> <span class="n">TaskAction</span>
+
+<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="n">tool_bars</span> <span class="o">=</span> <span class="p">[</span> <span class="n">SToolBar</span><span class="p">(</span><span class="n">TaskAction</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">&#39;open&#39;</span><span class="p">,</span>
+                                      <span class="n">tooltip</span><span class="o">=</span><span class="s">&#39;Open a file&#39;</span><span class="p">,</span>
+                                      <span class="n">image</span><span class="o">=</span><span class="n">ImageResource</span><span class="p">(</span><span class="s">&#39;document_open&#39;</span><span class="p">)),</span>
+                           <span class="n">TaskAction</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">&#39;save&#39;</span><span class="p">,</span>
+                                      <span class="n">tooltip</span><span class="o">=</span><span class="s">&#39;Save the current file&#39;</span><span class="p">,</span>
+                                      <span class="n">image</span><span class="o">=</span><span class="n">ImageResource</span><span class="p">(</span><span class="s">&#39;document_save&#39;</span><span class="p">)))</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The most convenient reference in this case is the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py">source code</a> itself.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Menus and Tool Bars</a><ul>
+<li><a class="reference internal" href="#defining-a-menu-bar">Defining a Menu Bar</a></li>
+<li><a class="reference internal" href="#defining-a-tool-bar">Defining a Tool Bar</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="layout.html"
+                        title="previous chapter">Window Layout</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="extensibility.html"
+                        title="next chapter">Extensibility</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tasks_user_manual/menus.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="extensibility.html" title="Extensibility"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="layout.html" title="Window Layout"
+             >previous</a> |</li>
+        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tasks User Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2011, Enthought.
+      Last updated on Nov 11, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>

@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.4.0',
+        VERSION:     '4.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,30 +27,20 @@
     <link rel="top" title="Envisage Documentation" href="../index.html" />
     <link rel="up" title="Envisage Core Documentation" href="index.html" />
     <link rel="next" title="The “Message of the Day” (MOTD) Example" href="message_of_the_day.html" />
-    <link rel="prev" title="Plugins" href="plugins.html" /> 
+    <link rel="prev" title="Plugins" href="plugins.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="plugins.html" title="Plugins"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">Envisage Core Documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="how-to-create-a-plugin-for-an-envisage-application">
 <h1>How To Create a Plugin for an Envisage Application<a class="headerlink" href="#how-to-create-a-plugin-for-an-envisage-application" title="Permalink to this headline">¶</a></h1>
@@ -84,13 +74,13 @@ functionality work within Envisage.</p>
 this game to an Envisage application that lets users pick a game to play from
 a catalog of available games. You have a Tetris class that looks something
 like this:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 
-    <span class="c"># Basic colors</span>
+    <span class="c1"># Basic colors</span>
     <span class="n">background_color</span> <span class="o">=</span> <span class="n">Color</span>
     <span class="n">foreground_color</span> <span class="o">=</span> <span class="n">Color</span>
 
-    <span class="c"># Shapes to use in the game</span>
+    <span class="c1"># Shapes to use in the game</span>
     <span class="n">shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">IShape</span><span class="p">)</span>
     <span class="o">...</span>
 </pre></div>
@@ -194,75 +184,76 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 <div class="section" id="complete-example">
 <h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline">¶</a></h2>
 <p>The complete plugin for the Tetris game might look like this:</p>
-<div class="highlight-python"><pre>class TetrisPlugin(Plugin):
-    """ Plugin to make the Tetris library available in Envisage.
-    """
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    ##### IPlugin Interface ################################################
+    <span class="c1">##### IPlugin Interface ################################################</span>
 
-    ### Extension points offered by the plugin
+    <span class="c1">### Extension points offered by the plugin</span>
 
-    # Shapes to be used in the game
-    shape = ExtensionPoint(List(IShape), id='acme.tetris.shapes')
+    <span class="c1"># Shapes to be used in the game</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="n">List</span><span class="p">(</span><span class="n">IShape</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
 
-    ### Contributions to extension points
+    <span class="c1">### Contributions to extension points</span>
 
-    my_shapes = List(contributes_to='acme.tetris.shapes')
-    def _my_shapes_default(self):
-        """ Trait initializer for 'my_shapes' contribution to this plugin's
-            own 'shapes' extension point.
-        """
-        return [ Shape1(), Shape2(), Shape3() ]
+    <span class="n">my_shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_my_shapes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;my_shapes&#39; contribution to this plugin&#39;s</span>
+<span class="sd">            own &#39;shapes&#39; extension point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span> <span class="n">Shape1</span><span class="p">(),</span> <span class="n">Shape2</span><span class="p">(),</span> <span class="n">Shape3</span><span class="p">()</span> <span class="p">]</span>
 
-    games = List(contributes_to='acme.game_player.game_infos'
-    def _games_default(self):
-        """ Trait initializer for 'games' contribution to the application
-            plugin's 'games' extension point.
-        """
-        return [ GameInfo(name='Tetris', icon='tetris.png',
-                          description='Classic shape-fitting puzzle game',
-                          entry_point=self._start_game) ]
+    <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span>
+    <span class="k">def</span> <span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
+<span class="sd">            plugin&#39;s &#39;games&#39; extension point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span> <span class="n">GameInfo</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Tetris&#39;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;tetris.png&#39;</span><span class="p">,</span>
+                          <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classic shape-fitting puzzle game&#39;</span><span class="p">,</span>
+                          <span class="n">entry_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_game</span><span class="p">)</span> <span class="p">]</span>
 
-    preferences = List(contributes_to='envisage.preferences')
-    def _preferences_default(self):
-        """ Trait initializer for 'preferences' contribution. """
-        return ['pkgfile://acme.tetris.plugin/preferences.ini']
+    <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences&#39; contribution. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://acme.tetris.plugin/preferences.ini&#39;</span><span class="p">]</span>
 
-    preferences_pages = List(contributes_to=
-        'envisage.ui.workbench.preferences_pages')
-    def _preferences_pages_default(self):
-        """ Trait initializer for 'preferences_pages' contribution. """
-        from acme.tetris.plugin.preferences_pages import \
-            TetrisPreferencesPages
-        return [ TetrisPreferencesPages ]
+    <span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span>
+        <span class="s1">&#39;envisage.ui.workbench.preferences_pages&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences_pages&#39; contribution. &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">acme.tetris.plugin.preferences_pages</span> <span class="k">import</span> \
+            <span class="n">TetrisPreferencesPages</span>
+        <span class="k">return</span> <span class="p">[</span> <span class="n">TetrisPreferencesPages</span> <span class="p">]</span>
 
-    services_offers = List(contributes_to='envisages.service_offers')
-    def _service_offers_default(self):
-        """ Trait initializer for 'service_offers' contribution. """
-        return [ ServiceOffer(protocol=IGame,
-                              factory=self._create_tetris_service,
-                              properties={'name':'tetris'}) ]
+    <span class="n">services_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisages.service_offers&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;service_offers&#39; contribution. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span> <span class="n">ServiceOffer</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="n">IGame</span><span class="p">,</span>
+                              <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_tetris_service</span><span class="p">,</span>
+                              <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;tetris&#39;</span><span class="p">})</span> <span class="p">]</span>
 
-    #### Private interface #################################################
+    <span class="c1">#### Private interface #################################################</span>
 
-    def _create_tetris_service(self, **properties):
-        """ Factory method for the Tetris service. """
-        tetris = Tetris() # This creates the non-Envisage library object.
+    <span class="k">def</span> <span class="nf">_create_tetris_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Factory method for the Tetris service. &quot;&quot;&quot;</span>
+        <span class="n">tetris</span> <span class="o">=</span> <span class="n">Tetris</span><span class="p">()</span> <span class="c1"># This creates the non-Envisage library object.</span>
 
-        # Hook up the extension point contributions to the library object trait.
-        bind_extension_point(tetris, 'shapes', 'acme.tetris.shapes')
+        <span class="c1"># Hook up the extension point contributions to the library object trait.</span>
+        <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;shapes&#39;</span><span class="p">,</span> <span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
 
-        # Hook up the preferences to the library object traits.
-        bind_preference(tetris, 'background_color',
-                        'acme.tetris.background_color')
-        bind_preference(tetris, 'foreground_color',
-                        'acme.tetris.foreground_color')
-        return tetris
+        <span class="c1"># Hook up the preferences to the library object traits.</span>
+        <span class="n">bind_preference</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;background_color&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;acme.tetris.background_color&#39;</span><span class="p">)</span>
+        <span class="n">bind_preference</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;foreground_color&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;acme.tetris.foreground_color&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tetris</span>
 
-    def _start_game(self):
-        """ Starts a Tetris game. """
-        game = self.application.get_service(IGame, "name == 'tetris'")
-        game.start()</pre>
+    <span class="k">def</span> <span class="nf">_start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Starts a Tetris game. &quot;&quot;&quot;</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IGame</span><span class="p">,</span> <span class="s2">&quot;name == &#39;tetris&#39;&quot;</span><span class="p">)</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -271,7 +262,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
@@ -299,19 +290,25 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="plugins.html"
-                        title="previous chapter">Plugins</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="message_of_the_day.html"
-                        title="next chapter">The &#8220;Message of the Day&#8221; (MOTD) Example</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Envisage Core Documentation</a><ul>
+      <li>Previous: <a href="plugins.html" title="previous chapter">Plugins</a></li>
+      <li>Next: <a href="message_of_the_day.html" title="next chapter">The &#8220;Message of the Day&#8221; (MOTD) Example</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -319,35 +316,26 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="plugins.html" title="Plugins"
-             >previous</a> |</li>
-        <li><a href="../index.html">Envisage Documentation</a> &raquo;</li>
-          <li><a href="index.html" >Envisage Core Documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2008-2011, Enthought.
-      Last updated on Nov 11, 2013.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      &copy;2008-2011, Enthought.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
+          rel="nofollow">Page source</a>
     </div>
+
+    
+
+    
   </body>
 </html>
