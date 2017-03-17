@@ -328,7 +328,7 @@ class TasksApplication(Application):
         if os.path.exists(filename):
             # Attempt to unpickle the saved application state.
             try:
-                with open(filename, 'r') as f:
+                with open(filename, 'rb') as f:
                     restored_state = pickle.load(f)
                 if state.version == restored_state.version:
                     state = restored_state
@@ -373,7 +373,7 @@ class TasksApplication(Application):
         # Attempt to pickle the application state.
         filename = os.path.join(self.state_location, 'application_memento')
         try:
-            with open(filename, 'w') as f:
+            with open(filename, 'wb') as f:
                 pickle.dump(self._state, f)
         except:
             # If anything goes wrong, log the error and continue.
