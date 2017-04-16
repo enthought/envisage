@@ -38,8 +38,8 @@ copyright = '2008-2011, Enthought'
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
 d = {}
-execfile(os.path.join('..', '..', 'envisage', '__init__.py'), d)
-version = release = d['__version__']
+execfile(os.path.join('..', '..', 'envisage', '_version.py'), d)
+version = release = d['full_version']
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -79,7 +79,7 @@ pygments_style = 'sphinx'
 # must exist either in Sphinx' static/ path, or in one of the custom paths
 # given in html_static_path.
 html_style = 'default.css'
-
+html_theme = 'classic'
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 html_title = "Envisage Documentation"

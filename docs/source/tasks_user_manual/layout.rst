@@ -228,8 +228,8 @@ appears multiple times in a layout.
 
 .. [1] For more information about the MVC pattern as used in ETS, the reader is
        referred to the `Introduction
-       <http://enthought.github.com/traits/TUIUG/intro.html>`_ of the Traits UI
-       User Guide.
+       <http://docs.enthought.com/traitsui/traitsui_user_manual/intro.html>`_
+       of the Traits UI User Guide.
 
 .. [2] Throughout this document, "``Task``" will refer to the class of that name
        in the Tasks API, while "task" will be reserved for the general UI
@@ -238,5 +238,5 @@ appears multiple times in a layout.
 .. [3] In this and the subsequent section, we will be referencing (often in
        abbreviated form) the Tasks example code in the TraitsGUI package,
        available `online
-       <https://github.com/enthought/traitsgui/tree/master/examples/tasks>`_ and
+       <https://github.com/enthought/pyface/tree/master/examples/tasks>`_ and
        in the ETS distribution.

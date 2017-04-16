@@ -132,5 +132,5 @@ files to our script editing task::
 .. rubric:: Footnotes
 
 .. [1] The most convenient reference in this case is the `source code
-       <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py>`_ itself.
+       <https://github.com/enthought/pyface/blob/master/pyface/action/action.py>`_ itself.
 
