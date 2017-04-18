@@ -140,7 +140,8 @@ class TasksApplication(Application):
             self._create_windows()
 
             # Start the GUI event loop.
-            gui.set_trait_later(self, 'application_initialized', self)
+            # XXX This is a bit hacky, since gui.set_trait_later runs right away
+            gui.set_trait_after(0.0001, self, 'application_initialized', self)
             gui.start_event_loop()
 
         return started
