@@ -1,10 +1,10 @@
 import unittest
 
 try:
-    import IPython  # noqa
+    import ipykernel  # noqa
 except ImportError:
     from nose.plugins.skip import SkipTest
-    raise SkipTest('IPython not available')
+    raise SkipTest('ipykernel not available')
 
 from ipykernel.kernelapp import IPKernelApp
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
