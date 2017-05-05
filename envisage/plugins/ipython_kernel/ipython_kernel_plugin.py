@@ -30,7 +30,7 @@ class IPythonKernelPlugin(Plugin):
     name = 'IPython embedded kernel plugin'
 
     def stop(self):
-        logger.info('Shutting down the embedded ipython kernel')
+        logger.debug('Shutting down the embedded ipython kernel')
         self.kernel.shutdown()
 
     #### Extension points offered by this plugin ##############################
