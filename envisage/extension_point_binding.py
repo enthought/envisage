@@ -50,6 +50,10 @@ class ExtensionPointBinding(HasTraits):
 
         super(ExtensionPointBinding, self).__init__(**traits)
 
+        if self.extension_registry is None:
+            # WeakRef traits are not initialized by default initializer method
+            self.extension_registry = self._default_extension_registry()
+
         # Initialize the object's trait from the extension point.
         self._set_trait(notify=False)
 
@@ -62,20 +66,6 @@ class ExtensionPointBinding(HasTraits):
         bindings.append(self)
 
         return
-
-    ###########################################################################
-    # 'ExtensionPointBinding' interface.
-    ###########################################################################
-
-    #### Trait initializers ###################################################
-
-    def _extension_registry_default(self):
-        """ Trait initializer. """
-
-        # fixme: Sneaky global!!!!!
-        from .extension_point import ExtensionPoint
-
-        return ExtensionPoint.extension_registry
 
     ###########################################################################
     # Private interface.
@@ -134,6 +124,13 @@ class ExtensionPointBinding(HasTraits):
         )
 
         return
+
+    def _default_extension_registry(self):
+
+        # fixme: Sneaky global!!!!!
+        from .extension_point import ExtensionPoint
+
+        return ExtensionPoint.extension_registry
 
     def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
