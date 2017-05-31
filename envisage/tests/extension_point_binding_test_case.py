@@ -1,5 +1,8 @@
 """ Tests for extension point bindings. """
 
+# Standard library imports.
+import gc
+import weakref
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint
@@ -39,6 +42,8 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         self.extension_registry = MutableExtensionRegistry()
 
+        self._orig_extension_registry = getattr(ExtensionPoint,
+                                                'extension_registry', None)
         # Use the extension registry for all extension points and bindings.
         ExtensionPoint.extension_registry = self.extension_registry
 
@@ -46,6 +51,11 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+
+        if self._orig_extension_registry:
+            ExtensionPoint.extension_registry = self._orig_extension_registry
+        else:
+            del ExtensionPoint.extension_registry
 
         return
 
@@ -204,6 +214,70 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         # Make sure that we pick up the empty extension registry and not the
         # default one.
         self.assertEqual(0, len(f.x))
+
+        return
+
+    def test_garbage_collection_of_obj(self):
+
+        registry = self.extension_registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+        f.on_trait_change(listener)
+
+        # Make some bindings.
+        bind_extension_point(f, 'x', 'my.ep')
+
+        # Make sure that the object was initialized properly.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        f_ref = weakref.ref(f)
+        self.assertIsNotNone(f_ref())
+        # Clear reference to f
+        f = None
+        gc.collect()
+        self.assertIsNone(f_ref())
+
+        return
+
+    def test_garbage_collection_of_registry(self):
+
+        registry = MutableExtensionRegistry()
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+
+        # Make some bindings.
+        bind_extension_point(f, 'x', 'my.ep', registry)
+
+        # Make sure that the object was initialized properly.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        registry_ref = weakref.ref(registry)
+        # Clear reference to registry
+        registry = None
+        gc.collect()
+        self.assertIsNone(registry_ref())
 
         return
 

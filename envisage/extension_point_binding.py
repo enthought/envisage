@@ -5,7 +5,7 @@
 import weakref
 
 # Enthought library imports.
-from traits.api import Any, HasTraits, Instance, Str, Undefined
+from traits.api import Any, HasTraits, Instance, Str, Undefined, WeakRef
 
 # Local imports.
 from .i_extension_registry import IExtensionRegistry
@@ -23,7 +23,7 @@ class ExtensionPointBinding(HasTraits):
     #### 'ExtensionPointBinding' interface ####################################
 
     # The object that we are binding the extension point to.
-    obj = Any
+    obj = WeakRef
 
     # The Id of the extension point.
     extension_point_id = Str
@@ -31,7 +31,7 @@ class ExtensionPointBinding(HasTraits):
     # The extension registry used by the binding. If this trait is not set then
     # the class-scope extension registry set on the 'ExtensionPoint' class is
     # used (and if that is not set then the binding won't work ;^)
-    extension_registry = Instance(IExtensionRegistry)
+    extension_registry = WeakRef(IExtensionRegistry)
 
     # The name of the trait that we are binding the extension point to.
     trait_name = Str
