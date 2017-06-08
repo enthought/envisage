@@ -135,10 +135,16 @@ class ExtensionPointBinding(HasTraits):
     def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
 
-        value = self.extension_registry.get_extensions(self.extension_point_id)
+        extension_registry = self.extension_registry
+        obj = self.obj
+        if None in (extension_registry, obj):
+            # possibly garbage collected
+            return
+
+        value = extension_registry.get_extensions(self.extension_point_id)
         traits = {self.trait_name : value}
 
-        self.obj.set(trait_change_notify=notify, **traits)
+        obj.set(trait_change_notify=notify, **traits)
 
         return
 
@@ -146,19 +152,22 @@ class ExtensionPointBinding(HasTraits):
         """ Update the object's trait to the value of the extension point. """
 
         self._set_trait(notify=False)
-
-        self.obj.trait_property_changed(
-            self.trait_name + '_items', Undefined, event
-        )
+        obj = self.obj
+        if self.obj is not None:
+            obj.trait_property_changed(
+                self.trait_name + '_items', Undefined, event
+            )
 
         return
 
     def _set_extensions(self, extensions):
         """ Set the extensions to an extension point. """
 
-        self.extension_registry.set_extensions(
-            self.extension_point_id, extensions
-        )
+        extension_registry = self.extension_registry
+        if extension_registry is not None:
+            extension_registry.set_extensions(
+                self.extension_point_id, extensions
+            )
 
         return
 

@@ -1,6 +1,7 @@
 """ Tests for extension point bindings. """
 
 # Standard library imports.
+from contextlib import contextmanager
 import gc
 import weakref
 
@@ -8,6 +9,7 @@ import weakref
 from envisage.api import ExtensionPoint
 from envisage.api import bind_extension_point
 from traits.api import HasTraits, List
+from traits.trait_notifiers import pop_exception_handler, push_exception_handler
 from traits.testing.unittest_tools import unittest
 
 # Local imports.
@@ -235,7 +237,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.on_trait_change(listener)
 
         # Make some bindings.
-        bind_extension_point(f, 'x', 'my.ep')
+        binding = bind_extension_point(f, 'x', 'my.ep')
 
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
@@ -247,6 +249,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f = None
         gc.collect()
         self.assertIsNone(f_ref())
+
+        with self._raise_traits_errors():
+            registry.add_extension('my.ep', 420)
+
+        binding_ref = weakref.ref(binding)
+        binding = None
+        gc.collect()
+        self.assertIsNone(binding_ref())
 
         return
 
@@ -278,6 +288,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         registry = None
         gc.collect()
         self.assertIsNone(registry_ref())
+
+        with self._raise_traits_errors():
+            f.x.append(42)
 
         return
 
@@ -320,6 +333,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
+
+    @contextmanager
+    def _raise_traits_errors(self):
+        push_exception_handler(reraise_exceptions=True)
+        try:
+            yield
+        finally:
+            pop_exception_handler()
 
 
 # Entry point for stand-alone testing.
