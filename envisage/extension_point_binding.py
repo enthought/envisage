@@ -1,9 +1,5 @@
 """ A binding between a trait on an object and an extension point. """
 
-
-# Standard library imports.
-import weakref
-
 # Enthought library imports.
 from traits.api import Any, HasTraits, Instance, Str, Undefined
 
@@ -16,9 +12,8 @@ class ExtensionPointBinding(HasTraits):
 
     #### 'ExtensionPointBinding' *CLASS* interface ############################
 
-    # We keep a reference to each binding alive until its associated object
-    # is garbage collected.
-    _bindings = weakref.WeakKeyDictionary()
+    # The list of binding instances keyed on the object to keep bindings alive.
+    _bindings = {}
 
     #### 'ExtensionPointBinding' interface ####################################
 
@@ -60,6 +55,30 @@ class ExtensionPointBinding(HasTraits):
         # object is garbage collected.
         bindings = ExtensionPointBinding._bindings.setdefault(self.obj, [])
         bindings.append(self)
+
+        return
+
+    #### 'ExtensionPointBinding' interface ####################################
+
+    def remove(self):
+        """ Remove the binding and stop syncing the extension point. """
+
+        # Remove listener for the object's trait being changed.
+        obj = self.obj
+        obj.on_trait_change(
+            self._on_trait_changed, self.trait_name, remove=True
+        )
+
+        obj.on_trait_change(
+            self._on_trait_items_changed, self.trait_name + '_items',
+            remove=True
+        )
+        ExtensionPointBinding._bindings[obj].remove(self)
+
+        # Listen for the extension point being changed.
+        self.extension_registry.remove_extension_point_listener(
+            self._extension_point_listener, self.extension_point_id,
+        )
 
         return
 
@@ -168,31 +187,34 @@ class ExtensionPointBinding(HasTraits):
 
 # Factory function for creating bindings.
 def bind_extension_point(
-    obj, trait_name, extension_point_id, extension_registry=None
+    obj, trait_name, extension_point_id, extension_registry=None, remove=False
 ):
-    """ Create a binding to an extension point. """
+    """ Create (or remove) a binding to an extension point. """
 
     # This may seem a bit wierd, but we manually build up a dictionary of
     # the traits that need to be set at the time the 'ExtensionPointBinding'
     # instance is created.
     #
-    # This is because we only want to set the 'extension_registry' trait iff
-    # one is explicitly specified. If we passed it in with the default argument
-    # value of 'None' then it counts as 'setting' the trait which prevents
-    # the binding instance from defaulting to the appropriate registry.
-    # Also, if we try to set the 'extension_registry' trait *after*
-    # construction time then it is too late as the binding initialization is
-    # done in the constructor (we could of course split that out, which may be
-    # the 'right' way to do it ;^).
+    if extension_registry is None:
+        # The default extension registry used by ExtensionPointBinding passed
+        # on explicitly here to eliminate ambiguity for `remove` argument
+        from .extension_point import ExtensionPoint
+        extension_registry = ExtensionPoint.extension_registry
+
     traits = {
         'obj'                : obj,
         'trait_name'         : trait_name,
-        'extension_point_id' : extension_point_id
+        'extension_point_id' : extension_point_id,
+        'extension_registry' : extension_registry,
     }
 
-    if extension_registry is not None:
-        traits['extension_registry'] = extension_registry
-
-    return ExtensionPointBinding(**traits)
+    if remove:
+        bindings = ExtensionPointBinding._bindings[obj]
+        for binding in bindings:
+            if binding.trait_get(*traits) == traits:
+                binding.remove()
+                return binding
+    else:
+        return ExtensionPointBinding(**traits)
 
 #### EOF ######################################################################

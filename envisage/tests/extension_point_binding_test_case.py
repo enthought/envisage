@@ -1,5 +1,6 @@
 """ Tests for extension point bindings. """
 
+import weakref
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint
@@ -204,6 +205,49 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         # Make sure that we pick up the empty extension registry and not the
         # default one.
         self.assertEqual(0, len(f.x))
+
+        return
+
+    def test_remove_binding(self):
+
+        registry = MutableExtensionRegistry()
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 0)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+
+        # Make some bindings.
+        binding_ref = weakref.ref(
+            bind_extension_point(f, 'x', 'my.ep', registry))
+
+        # Make sure that the object was initialized properly.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(0, f.x[0])
+
+        # Changes should be honored.
+        f.x.append(1)
+        self.assertEqual(registry.get_extensions('my.ep'), [0, 1])
+
+        registry.add_extension('my.ep', 2)
+        self.assertEqual(f.x, [0, 1, 2])
+
+        bind_extension_point(f, 'x', 'my.ep', registry, remove=True)
+        self.assertIsNone(binding_ref())
+
+        # Changes should no longer be honored
+        f.x.append(3)
+        self.assertEqual(registry.get_extensions('my.ep'), [0, 1, 2])
+
+        registry.add_extension('my.ep', 4)
+        self.assertEqual(f.x, [0, 1, 2, 3])
 
         return
 

@@ -26,7 +26,7 @@ class MutableExtensionRegistry(ExtensionRegistry):
 
         old   = self._get_extensions(extension_point_id)
         index = len(old)
-        old.extend(extensions)
+        self.set_extensions(extension_point_id, old + extensions)
 
         # Let any listeners know that the extensions have been added.
         refs = self._get_listener_refs(extension_point_id)
