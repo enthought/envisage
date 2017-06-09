@@ -250,9 +250,11 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         gc.collect()
         self.assertIsNone(f_ref())
 
+        # Should not raise any traits errors when obj is None
         with self._raise_traits_errors():
             registry.add_extension('my.ep', 420)
 
+        # Check that the binding instance is garbage collected
         binding_ref = weakref.ref(binding)
         binding = None
         gc.collect()
@@ -289,10 +291,47 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         gc.collect()
         self.assertIsNone(registry_ref())
 
+        # Should not raise any traits errors when registry is None
         with self._raise_traits_errors():
             f.x.append(42)
 
         return
+
+    def test_remove_binding(self):
+
+        registry = MutableExtensionRegistry()
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point('my.ep'))
+
+        # Add an extension.
+        registry.add_extension('my.ep', 42)
+
+        # Declare a class that consumes the extension.
+        class Foo(HasTraits):
+            x = List
+
+        f = Foo()
+
+        # Make some bindings.
+        binding_ref = weakref.ref(bind_extension_point(f, 'x', 'my.ep', registry))
+
+        # Make sure that the object was initialized properly.
+        self.assertEqual(1, len(f.x))
+        self.assertEqual(42, f.x[0])
+
+        bind_extension_point(f, 'x', 'my.ep', registry, remove=True)
+
+        self.assertIsNone(binding_ref())
+
+        f.x.append(42)
+        self.assertEqual(registry.get_extensions('my.ep'), [42])
+
+        registry.add_extension('my.ep', 420)
+        self.assertEqual(f.x, [42, 42])
+
+        return
+
 
     def test_should_be_able_to_bind_multiple_traits_on_a_single_object(self):
 
