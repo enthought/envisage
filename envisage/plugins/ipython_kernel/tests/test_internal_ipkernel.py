@@ -1,3 +1,4 @@
+import gc
 import unittest
 
 try:
@@ -7,6 +8,7 @@ except ImportError:
     raise SkipTest('ipykernel not available')
 
 from ipykernel.kernelapp import IPKernelApp
+from ipykernel.iostream import IOPubThread
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
 
 
@@ -37,3 +39,18 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIn('x', kernel.namespace)
         self.assertEqual(kernel.namespace['x'], 42.1)
         kernel.shutdown()
+
+    def test_io_pub_thread_stopped(self):
+        kernel = InternalIPKernel()
+        kernel.init_ipkernel(gui_backend=None)
+        kernel.new_qt_console()
+        kernel.new_qt_console()
+        kernel.shutdown()
+
+        io_pub_threads = [
+            obj for obj in gc.get_objects()
+            if isinstance(obj, IOPubThread)
+        ]
+
+        for thread in io_pub_threads:
+            self.assertFalse(thread.thread.is_alive())
