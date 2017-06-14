@@ -9,14 +9,14 @@ from ipykernel.kernelapp import IPKernelApp
 from traits.api import Any, HasStrictTraits, Instance, List
 
 
-def mpl_kernel(gui_backend):
-    """ Launch and return an IPython kernel with matplotlib support.
+def gui_kernel(gui_backend):
+    """ Launch and return an IPython kernel GUI with support.
 
     Parameters
     ----------
     gui_backend -- string or None
-      The GUI mode used to initialize the matplotlib mode. For options, see
-      the `ipython --matplotlib` help pages. If None, the kernel is initialized
+      The GUI mode used to initialize the GUI mode. For options, see
+      the `ipython --gui` help pages. If None, the kernel is initialized
       without GUI support.
     """
 
@@ -24,7 +24,7 @@ def mpl_kernel(gui_backend):
 
     argv = ['python']
     if gui_backend is not None:
-        argv.append('--matplotlib={}'.format(gui_backend))
+        argv.append('--gui={}'.format(gui_backend))
     kernel.initialize(argv)
 
     return kernel
@@ -55,11 +55,11 @@ class InternalIPKernel(HasStrictTraits):
         Parameters
         ----------
         gui_backend -- string
-          The GUI mode used to initialize the matplotlib mode. For options, see
-          the `ipython --matplotlib` help pages.
+          The GUI mode used to initialize the GUI mode. For options, see
+          the `ipython --gui` help pages.
         """
-        # Start IPython kernel with GUI event loop and mpl support
-        self.ipkernel = mpl_kernel(gui_backend)
+        # Start IPython kernel with GUI event loop support
+        self.ipkernel = gui_kernel(gui_backend)
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
