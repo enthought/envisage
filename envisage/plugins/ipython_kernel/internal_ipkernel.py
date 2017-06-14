@@ -87,4 +87,5 @@ class InternalIPKernel(HasStrictTraits):
             self.cleanup_consoles()
             self.ipkernel.shell.exit_now = True
             self.ipkernel.cleanup_connection_file()
+            self.ipkernel.iopub_thread.stop()
             self.ipkernel = None
