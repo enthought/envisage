@@ -2,16 +2,20 @@ import gc
 import unittest
 
 try:
-    import ipykernel  # noqa
+    import ipykernel  # noqa: F401
 except ImportError:
-    from nose.plugins.skip import SkipTest
-    raise SkipTest('ipykernel not available')
+    ipykernel_available = False
+else:
+    ipykernel_available = True
+    from ipykernel.iostream import IOPubThread
+    from ipykernel.kernelapp import IPKernelApp
 
-from ipykernel.kernelapp import IPKernelApp
-from ipykernel.iostream import IOPubThread
-from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
+    from envisage.plugins.ipython_kernel.internal_ipkernel import (
+        InternalIPKernel)
 
 
+@unittest.skipUnless(ipykernel_available,
+                     "skipping tests that require the ipykernel package")
 class TestInternalIPKernel(unittest.TestCase):
 
     def tearDown(self):
