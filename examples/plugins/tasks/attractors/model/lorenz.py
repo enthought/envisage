@@ -4,7 +4,7 @@ from scipy.integrate import odeint
 
 # Enthought libary imports.
 from traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Str, Unicode, adapts, cached_property, provides
+     Property, Str, Unicode, cached_property, provides, register_factory
 from traitsui.api import View, Item
 
 # Local imports
@@ -77,4 +77,5 @@ class LorenzIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
 
     plot_type = Str('line')
 
-adapts(LorenzIPlottable2dAdapter, Lorenz, IPlottable2d)
+
+register_factory(LorenzIPlottable2dAdapter, Lorenz, IPlottable2d)
