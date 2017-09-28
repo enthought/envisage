@@ -2,9 +2,10 @@
 from pyface.tasks.action.api import SGroup, SMenu, SMenuBar, \
     TaskToggleGroup
 from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
-from traits.api import Any, List
+from traits.api import Any, Instance, List, adapt
 
 # Local imports.
+from model.i_plottable_2d import IPlottable2d
 from model_config_pane import ModelConfigPane
 from model_help_pane import ModelHelpPane
 from plot_2d_pane import Plot2dPane
@@ -30,7 +31,7 @@ class Visualize2dTask(Task):
     active_model = Any
 
     # The list of available attractor models.
-    models = List
+    models = List(Instance(IPlottable2d))
 
     ###########################################################################
     # 'Task' interface.
@@ -66,7 +67,10 @@ class Visualize2dTask(Task):
         from model.henon import Henon
         from model.lorenz import Lorenz
         from model.rossler import Rossler
-        return [ Henon(), Lorenz(), Rossler() ]
+
+        models = [Henon(), Lorenz(), Rossler()]
+
+        return [adapt(model, IPlottable2d) for model in models]
 
     #### Trait change handlers ################################################
 
