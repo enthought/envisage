@@ -1,7 +1,0 @@
-git+http://github.com/enthought/apptools.git#egg=apptools
-git+http://github.com/enthought/traits.git#egg=traits
-git+http://github.com/enthought/traitsui.git#egg=traitsui ; python_version >= "3.0"
-ipython[qtconsole] >= 4 ; python_version >= "2.7"
-coverage
-unittest2 ; python_version == "2.6"
-nose
