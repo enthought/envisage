@@ -7,6 +7,7 @@ except ImportError:
     raise SkipTest('IPython not available')
 
 from ipykernel.kernelapp import IPKernelApp
+import six
 
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
@@ -20,6 +21,11 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
     def tearDown(self):
         IPKernelApp.clear_instance()
+
+    def test_import_from_api(self):
+        # Regression test for enthought/envisage#108
+        from envisage.plugins.ipython_kernel.api import IPYTHON_KERNEL_PROTOCOL
+        self.assertIsInstance(IPYTHON_KERNEL_PROTOCOL, six.string_types)
 
     def test_kernel_service(self):
         # See that we can get the IPython kernel service when the plugin is
