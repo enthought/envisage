@@ -1,7 +1,5 @@
 import unittest
 
-import six
-
 from traits.api import List
 
 from envisage._compat import STRING_BASE_CLASS
@@ -15,8 +13,6 @@ except ImportError:
     ipykernel_available = False
 else:
     ipykernel_available = True
-
-from ipykernel.kernelapp import IPKernelApp
 
 if ipykernel_available:
     from ipykernel.kernelapp import IPKernelApp
