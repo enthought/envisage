@@ -7,6 +7,9 @@ except ImportError:
     ipykernel_available = False
 else:
     ipykernel_available = True
+
+
+if ipykernel_available:
     from ipykernel.iostream import IOPubThread
     from ipykernel.kernelapp import IPKernelApp
 
