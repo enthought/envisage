@@ -12,6 +12,9 @@ except ImportError:
     ipykernel_available = False
 else:
     ipykernel_available = True
+
+
+if ipykernel_available:
     from ipykernel.kernelapp import IPKernelApp
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
