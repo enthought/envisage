@@ -1,21 +1,27 @@
 import unittest
 
-try:
-    import IPython  # noqa
-except ImportError:
-    from nose.plugins.skip import SkipTest
-    raise SkipTest('IPython not available')
-
-from ipykernel.kernelapp import IPKernelApp
+from traits.api import List
 
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
-from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
-from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
-    IPYTHON_KERNEL_PROTOCOL, IPYTHON_NAMESPACE, IPythonKernelPlugin)
-from traits.api import List
+
+# Skip these tests unless ipykernel is available.
+try:
+    import ipykernel  # noqa: F401
+except ImportError:
+    ipykernel_available = False
+else:
+    ipykernel_available = True
+    from ipykernel.kernelapp import IPKernelApp
+
+    from envisage.plugins.ipython_kernel.internal_ipkernel import (
+        InternalIPKernel)
+    from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
+        IPYTHON_KERNEL_PROTOCOL, IPYTHON_NAMESPACE, IPythonKernelPlugin)
 
 
+@unittest.skipUnless(ipykernel_available,
+                     "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
 
     def tearDown(self):

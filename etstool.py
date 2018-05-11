@@ -95,6 +95,7 @@ supported_combinations = {
 dependencies = {
     "apptools",
     "coverage",
+    "ipykernel",
     "nose",
     "pyface",
     "traits",
