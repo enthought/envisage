@@ -5,7 +5,7 @@
 import weakref
 
 # Enthought library imports.
-from traits.api import Any, HasTraits, Instance, Str, Undefined
+from traits.api import Any, HasTraits, Instance, Str, Undefined, WeakRef
 
 # Local imports.
 from .i_extension_registry import IExtensionRegistry
@@ -23,7 +23,7 @@ class ExtensionPointBinding(HasTraits):
     #### 'ExtensionPointBinding' interface ####################################
 
     # The object that we are binding the extension point to.
-    obj = Any
+    obj = WeakRef
 
     # The Id of the extension point.
     extension_point_id = Str
@@ -31,7 +31,7 @@ class ExtensionPointBinding(HasTraits):
     # The extension registry used by the binding. If this trait is not set then
     # the class-scope extension registry set on the 'ExtensionPoint' class is
     # used (and if that is not set then the binding won't work ;^)
-    extension_registry = Instance(IExtensionRegistry)
+    extension_registry = WeakRef(IExtensionRegistry)
 
     # The name of the trait that we are binding the extension point to.
     trait_name = Str
@@ -50,6 +50,10 @@ class ExtensionPointBinding(HasTraits):
 
         super(ExtensionPointBinding, self).__init__(**traits)
 
+        if self.extension_registry is None:
+            # WeakRef traits are not initialized by default initializer method
+            self.extension_registry = self._default_extension_registry()
+
         # Initialize the object's trait from the extension point.
         self._set_trait(notify=False)
 
@@ -63,19 +67,32 @@ class ExtensionPointBinding(HasTraits):
 
         return
 
-    ###########################################################################
-    # 'ExtensionPointBinding' interface.
-    ###########################################################################
+    #### 'ExtensionPointBinding' interface ####################################
 
-    #### Trait initializers ###################################################
+    def remove(self):
+        """ Remove the binding and stop syncing the extension point. """
 
-    def _extension_registry_default(self):
-        """ Trait initializer. """
+        obj = self.obj
+        if obj:
+            # Remove listener for the object's trait being changed.
+            obj.on_trait_change(
+                self._on_trait_changed, self.trait_name, remove=True
+            )
 
-        # fixme: Sneaky global!!!!!
-        from .extension_point import ExtensionPoint
+            obj.on_trait_change(
+                self._on_trait_items_changed, self.trait_name + '_items',
+                remove=True
+            )
+            ExtensionPointBinding._bindings[obj].remove(self)
 
-        return ExtensionPoint.extension_registry
+        extension_registry = self.extension_registry
+        if extension_registry:
+            # Listen for the extension point being changed.
+            extension_registry.remove_extension_point_listener(
+                self._extension_point_listener, self.extension_point_id,
+            )
+
+        return
 
     ###########################################################################
     # Private interface.
@@ -135,13 +152,26 @@ class ExtensionPointBinding(HasTraits):
 
         return
 
+    def _default_extension_registry(self):
+
+        # fixme: Sneaky global!!!!!
+        from .extension_point import ExtensionPoint
+
+        return ExtensionPoint.extension_registry
+
     def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
 
-        value = self.extension_registry.get_extensions(self.extension_point_id)
+        extension_registry = self.extension_registry
+        obj = self.obj
+        if None in (extension_registry, obj):
+            # possibly garbage collected
+            return
+
+        value = extension_registry.get_extensions(self.extension_point_id)
         traits = {self.trait_name : value}
 
-        self.obj.set(trait_change_notify=notify, **traits)
+        obj.set(trait_change_notify=notify, **traits)
 
         return
 
@@ -149,28 +179,31 @@ class ExtensionPointBinding(HasTraits):
         """ Update the object's trait to the value of the extension point. """
 
         self._set_trait(notify=False)
-
-        self.obj.trait_property_changed(
-            self.trait_name + '_items', Undefined, event
-        )
+        obj = self.obj
+        if self.obj is not None:
+            obj.trait_property_changed(
+                self.trait_name + '_items', Undefined, event
+            )
 
         return
 
     def _set_extensions(self, extensions):
         """ Set the extensions to an extension point. """
 
-        self.extension_registry.set_extensions(
-            self.extension_point_id, extensions
-        )
+        extension_registry = self.extension_registry
+        if extension_registry is not None:
+            extension_registry.set_extensions(
+                self.extension_point_id, extensions
+            )
 
         return
 
 
 # Factory function for creating bindings.
 def bind_extension_point(
-    obj, trait_name, extension_point_id, extension_registry=None
+    obj, trait_name, extension_point_id, extension_registry=None, remove=False
 ):
-    """ Create a binding to an extension point. """
+    """ Create (or remove) a binding to an extension point. """
 
     # This may seem a bit wierd, but we manually build up a dictionary of
     # the traits that need to be set at the time the 'ExtensionPointBinding'
@@ -184,15 +217,24 @@ def bind_extension_point(
     # construction time then it is too late as the binding initialization is
     # done in the constructor (we could of course split that out, which may be
     # the 'right' way to do it ;^).
+    if extension_registry is None:
+        from .extension_point import ExtensionPoint
+        extension_registry = ExtensionPoint.extension_registry
+
     traits = {
         'obj'                : obj,
         'trait_name'         : trait_name,
-        'extension_point_id' : extension_point_id
+        'extension_point_id' : extension_point_id,
+        'extension_registry' : extension_registry,
     }
 
-    if extension_registry is not None:
-        traits['extension_registry'] = extension_registry
-
-    return ExtensionPointBinding(**traits)
+    if remove:
+        bindings = ExtensionPointBinding._bindings[obj]
+        for binding in bindings:
+            if binding.trait_get(*traits) == traits:
+                binding.remove()
+                return binding
+    else:
+        return ExtensionPointBinding(**traits)
 
 #### EOF ######################################################################
