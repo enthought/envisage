@@ -2,6 +2,7 @@ import unittest
 
 from traits.api import List
 
+from envisage._compat import STRING_BASE_CLASS
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
 
@@ -12,7 +13,6 @@ except ImportError:
     ipykernel_available = False
 else:
     ipykernel_available = True
-
 
 if ipykernel_available:
     from ipykernel.kernelapp import IPKernelApp
@@ -29,6 +29,11 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
     def tearDown(self):
         IPKernelApp.clear_instance()
+
+    def test_import_from_api(self):
+        # Regression test for enthought/envisage#108
+        from envisage.plugins.ipython_kernel.api import IPYTHON_KERNEL_PROTOCOL
+        self.assertIsInstance(IPYTHON_KERNEL_PROTOCOL, STRING_BASE_CLASS)
 
     def test_kernel_service(self):
         # See that we can get the IPython kernel service when the plugin is
