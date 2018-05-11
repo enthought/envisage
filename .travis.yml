@@ -1,33 +1,45 @@
-language: python
-sudo: required
-python:
-  - 2.7_with_system_site_packages
-  - 3.4
-  - 3.5
-addons:
-  apt:
-    packages:
-    - python-qt4
-    - python-setuptools
-    - ccache
+language: generic
+sudo: false
+
 env:
-  - ETS_TOOLKIT=qt4
+  global:
+    - INSTALL_EDM_VERSION=1.9.2
+      PYTHONUNBUFFERED="1"
+
+matrix:
+  include:
+    - env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
+    - env: RUNTIME=3.5 TOOLKITS="null pyqt"
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt"
+    - os: osx
+      env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
+    - os: osx
+      env: RUNTIME=3.5 TOOLKITS="null pyqt"
+    - os: osx
+      env: RUNTIME=3.6 TOOLKITS="null pyqt"
+  fast_finish: true
+
+branches:
+  only:
+    - master
+
 cache:
-  - ccache
-  - pip
+  directories:
+    - "~/.cache"
+
 before_install:
-  - ccache -s
-  - pip install --upgrade pip
-  - pip --version
+  - mkdir -p "${HOME}/.cache/download"
   - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - if [[ ${TRAVIS_OS_NAME} == "linux" ]] ; then sh -e /etc/init.d/xvfb start; fi
+  - if [[ ${TRAVIS_OS_NAME} == 'linux' ]]; then ./install-edm-linux.sh; export PATH="${HOME}/edm/bin:${PATH}"; fi
+  - if [[ ${TRAVIS_OS_NAME} == 'osx' ]]; then ./install-edm-osx.sh; export PATH="${PATH}:/usr/local/bin"; fi
+  - edm install -y wheel click coverage
 install:
-  - pip install -r travis-ci-requirements.txt
-  - python setup.py develop
+  - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
 script:
-  - mkdir runtest
-  - cd runtest
-  - coverage run -m nose.core envisage -v
+  - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py test --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
+
 after_success:
-  - pip install codecov
-  - codecov
+  - edm run -- coverage combine
+  - edm run -- pip install codecov
+  - edm run -- codecov
