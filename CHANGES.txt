@@ -2,6 +2,22 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.7.0
+=============
+
+Another incremental release for bug fixes related to IPython.
+
+Fixes
+-----
+
+* Add failing test and fix for old-style relative import. (#109)
+* Old-style relative import ipython_kernel plugin (#108)
+* Fix attractors example (#103)
+* Use --gui rather than --matplotlib when starting IPython kernel.  (#101)
+* InternalIPKernel.shutdown method doesn't stop the kernel's IOPubThread (#93)
+* Fix task layout serialization under Python3 (#90)
+
+
 Version 4.6.0
 =============
 
