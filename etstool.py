@@ -258,7 +258,7 @@ def test_all():
 # Utility routines
 # ----------------------------------------------------------------------------
 
-def get_parameters(runtime, toolkit, environment, use_source_deps):
+def get_parameters(runtime, toolkit, environment, use_source_deps=False):
     """ Set up parameters dictionary for format() substitution """
     parameters = {'runtime': runtime, 'toolkit': toolkit, 'environment': environment}
     if (repo_dependencies) > 0 and use_source_deps:
