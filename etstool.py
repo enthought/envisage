@@ -98,7 +98,6 @@ dependencies = {
     "ipykernel",
     "nose",
     "pyface",
-    "traits",
     "traitsui",
 }
 
@@ -109,6 +108,10 @@ extra_dependencies = {
     'pyqt5': set(),
     'wx': {'wxpython'},
     'null': set()
+}
+
+repo_dependencies = {
+    "git+https://github.com/enthought/traits.git#egg=traits",
 }
 
 environment_vars = {
@@ -129,11 +132,12 @@ def cli():
 @click.option('--runtime', default='3.5')
 @click.option('--toolkit', default='null')
 @click.option('--environment', default=None)
-def install(runtime, toolkit, environment):
+@click.option('--use_source_deps', type=bool, default='False')
+def install(runtime, toolkit, environment, use_source_deps):
     """ Install project and dependencies into a clean EDM environment.
 
     """
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(runtime, toolkit, environment, use_source_deps)
     packages = ' '.join(
         dependencies | extra_dependencies.get(toolkit, set()))
     # edm commands to setup the development environment
@@ -147,6 +151,9 @@ def install(runtime, toolkit, environment):
     # pip install pyqt5, because we don't have it in EDM yet
     if toolkit == 'pyqt5':
         commands.append("edm run -e {environment} -- pip install pyqt5==5.9.2")
+
+    if len(repo_dependencies) > 0 and use_source_deps:
+        commands.insert(2, "edm run -e {environment} -- pip install -U {repo_dependencies}")
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -251,9 +258,11 @@ def test_all():
 # Utility routines
 # ----------------------------------------------------------------------------
 
-def get_parameters(runtime, toolkit, environment):
+def get_parameters(runtime, toolkit, environment, use_source_deps):
     """ Set up parameters dictionary for format() substitution """
     parameters = {'runtime': runtime, 'toolkit': toolkit, 'environment': environment}
+    if (repo_dependencies) > 0 and use_source_deps:
+        parameters['repo_dependencies'] = ' '.join(repo_dependencies)
     if toolkit not in supported_combinations[runtime]:
         msg = ("Python {runtime} and toolkit {toolkit} not supported by " +
                "test environments")

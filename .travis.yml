@@ -8,15 +8,16 @@ env:
 
 matrix:
   include:
-    - env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
-    - env: RUNTIME=3.5 TOOLKITS="null pyqt"
-    - env: RUNTIME=3.6 TOOLKITS="null pyqt"
+    - env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx" USE_SOURCE_DEPS=False
+    - env: RUNTIME=3.5 TOOLKITS="null pyqt" USE_SOURCE_DEPS=False
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt" USE_SOURCE_DEPS=False
     - os: osx
-      env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
+      env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx" USE_SOURCE_DEPS=False
     - os: osx
-      env: RUNTIME=3.5 TOOLKITS="null pyqt"
+      env: RUNTIME=3.5 TOOLKITS="null pyqt" USE_SOURCE_DEPS=False
     - os: osx
-      env: RUNTIME=3.6 TOOLKITS="null pyqt"
+      env: RUNTIME=3.6 TOOLKITS="null pyqt" USE_SOURCE_DEPS=False
+    - env: RUNTIME=2.7 TOOLKITS="null" USE_SOURCE_DEPS=True
   fast_finish: true
 
 branches:
@@ -36,7 +37,7 @@ before_install:
   - if [[ ${TRAVIS_OS_NAME} == 'osx' ]]; then ./install-edm-osx.sh; export PATH="${PATH}:/usr/local/bin"; fi
   - edm install -y wheel click coverage
 install:
-  - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
+  - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} --use_dource_deps=${USE_SOURCE_DEPS}|| exit; done
 script:
   - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py test --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
 
