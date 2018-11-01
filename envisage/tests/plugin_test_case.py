@@ -449,6 +449,16 @@ class PluginTestCase(unittest.TestCase):
 
         return
 
+    def test_no_recursion(self):
+        """ Regression test for #119. """
+
+        class PluginA(Plugin):
+            id = 'A'
+            x  = ExtensionPoint(List, id='bob')
+
+        application = Application(plugins=[PluginA()])
+        application.get_extensions('bob')
+
 
 # Entry point for stand-alone testing.
 if __name__ == '__main__':
