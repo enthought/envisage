@@ -3,12 +3,17 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
+from distutils.version import StrictVersion as Version
+
+import ipykernel
 from ipykernel.connect import connect_qtconsole
 from ipykernel.kernelapp import IPKernelApp
 
 from traits.api import Any, HasStrictTraits, Instance, List
 
 from tornado import ioloop
+
+NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 
 
 def gui_kernel(gui_backend):
@@ -63,10 +68,12 @@ class InternalIPKernel(HasStrictTraits):
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
 
-        # ipykernel 4.7 has changed the way it initializes the kernel which 
-        # requires
-        if not hasattr(self.ipkernel.kernel, 'io_loop'):
-            self.ipkernel.kernel.io_loop = ioloop.IOLoop.instance() # does not start it
+        # Since ipykernel 4.7, the io_loop attribute of the kernel is not
+        # initialized anymore
+        # Workaround: Retrieve the kernel on the IPykernelApp and set the
+        # io_loop without starting it!
+        if NEEDS_IOLOOP_PATCH and not hasattr(self.ipkernel.kernel, 'io_loop'):
+            self.ipkernel.kernel.io_loop = ioloop.IOLoop.instance() 
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
