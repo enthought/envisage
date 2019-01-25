@@ -8,6 +8,8 @@ from ipykernel.kernelapp import IPKernelApp
 
 from traits.api import Any, HasStrictTraits, Instance, List
 
+from tornado import ioloop
+
 
 def gui_kernel(gui_backend):
     """ Launch and return an IPython kernel GUI with support.
@@ -60,6 +62,11 @@ class InternalIPKernel(HasStrictTraits):
         """
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
+
+        # ipykernel 4.7 has changed the way it initializes the kernel which 
+        # requires
+        if not hasattr(self.ipkernel.kernel, 'io_loop'):
+            self.ipkernel.kernel.io_loop = ioloop.IOLoop.instance() # does not start it
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
