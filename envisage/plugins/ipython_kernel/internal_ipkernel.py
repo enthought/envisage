@@ -8,10 +8,9 @@ from distutils.version import StrictVersion as Version
 import ipykernel
 from ipykernel.connect import connect_qtconsole
 from ipykernel.kernelapp import IPKernelApp
+from tornado import ioloop
 
 from traits.api import Any, HasStrictTraits, Instance, List
-
-from tornado import ioloop
 
 NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 
@@ -70,6 +69,7 @@ class InternalIPKernel(HasStrictTraits):
 
         # Since ipykernel 4.7, the io_loop attribute of the kernel is not
         # initialized anymore
+        # Reference: https://github.com/enthought/envisage/issues/107
         # Workaround: Retrieve the kernel on the IPykernelApp and set the
         # io_loop without starting it!
         if NEEDS_IOLOOP_PATCH and not hasattr(self.ipkernel.kernel, 'io_loop'):
