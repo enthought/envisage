@@ -13,6 +13,7 @@ Changes
 Fixes
 -----
 
+* Fix IPython GUI kernel issue when used with ipykernel 4.7.0 (#123)
 * Fix infinite recursion issue when harvesting extension methods (#121)
 
 
