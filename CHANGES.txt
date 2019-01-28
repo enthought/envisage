@@ -2,9 +2,6 @@
  Envisage CHANGELOG
 ====================
 
-Dev
----
-
 Changes
 -------
 
