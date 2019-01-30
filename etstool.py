@@ -140,7 +140,7 @@ def install(runtime, toolkit, environment):
     commands = [
         "edm environments create {environment} --force --version={runtime}",
         "edm install -y -e {environment} " + packages,
-        "edm run -e {environment} -- pip install -r ci-src-requirements.txt --no-dependencies",
+        "edm run -e {environment} -- pip install -r ci-src-requirements.txt --force --no-dependencies",
         "edm run -e {environment} -- python setup.py clean --all",
         "edm run -e {environment} -- python setup.py install"
     ]
