@@ -1,3 +1,9 @@
+include CHANGES.txt
+include LICENSE.txt
+include MANIFEST.in
+include README.rst
+include image_LICENSE.txt
+include image_LICENSE_CP.txt
 recursive-include envisage/tests/plugins *.py
 recursive-include envisage/tests/eggs *.egg
 recursive-include envisage/tests/bad_eggs *.egg
