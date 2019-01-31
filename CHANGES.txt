@@ -2,6 +2,9 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.8.0
+=============
+
 Changes
 -------
 
