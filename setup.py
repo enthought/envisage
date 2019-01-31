@@ -153,12 +153,21 @@ if __name__ == "__main__":
         install_requires = __requires__,
         license = "BSD",
         packages = find_packages(),
-        package_data = {'': ['images/*', '*.ini',],
-                        'envisage.tests': ['bad_eggs/*.egg',
-                                           'eggs/*.egg',
-                                           'plugins/pear/*.py',
-                                           'plugins/banana/*.py',
-                                           'plugins/orange/*.py']},
+        package_data = {
+            '': ['images/*', '*.ini'],
+            'envisage.tests': [
+                'bad_eggs/*.egg',
+                'eggs/*.egg',
+                'plugins/pear/*.py',
+                'plugins/banana/*.py',
+                'plugins/orange/*.py',
+            ],
+            'envisage.ui.single_project': [
+                '*.txt',
+            ],
+            'envisage.plugins.remote_editor.editor_plugins': ["*.txt"],
+            'envisage.plugins.remote_editor.editor_plugins.emacs': ["*.el"],
+        },
         platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
         zip_safe = False,
     )
