@@ -141,7 +141,7 @@ class ExtensionPointBinding(HasTraits):
         value = self.extension_registry.get_extensions(self.extension_point_id)
         traits = {self.trait_name : value}
 
-        self.obj.set(trait_change_notify=notify, **traits)
+        self.obj.trait_set(trait_change_notify=notify, **traits)
 
         return
 

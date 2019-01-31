@@ -365,9 +365,13 @@ class Plugin(ExtensionProvider):
         """ Harvest all method-based contributions. """
 
         extensions = []
-        for name, value in inspect.getmembers(self):
+        # Using inspect.getmembers(self) here will cause an infinite recursion,
+        # so use an internal HasTraits method for inspecting the MRO of the
+        # instance's type to find all methods instead.
+        for name in self._each_trait_method(self):
+            value = getattr(self, name)
             if self._is_extension_method(value, extension_point_id):
-                result = getattr(self, name)()
+                result = value()
                 if not isinstance(result, list):
                     result = [result]
 

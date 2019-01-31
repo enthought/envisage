@@ -2,6 +2,39 @@
  Envisage CHANGELOG
 ====================
 
+Changes
+-------
+
+* Replace use of deprecated ``HasTraits.set`` method (#118)
+
+Fixes
+-----
+
+* Fix IPython GUI kernel issue when used with ipykernel 4.7.0 (#123)
+* Fix infinite recursion issue when harvesting extension methods (#121)
+
+
+Version 4.7.0
+=============
+
+Changes
+-------
+
+* Update CI setup and include ``ipykernel`` in devenv (#105, #111, #114)
+* Use ``--gui`` rather than ``--matplotlib`` when starting IPython kernel (#101)
+* Downgrade level of a logging message (#95)
+
+Fixes
+-----
+
+* Fix old-style relative import (#109)
+* Fix attractors example (#103)
+* Stop the IOPubThread as part of IPython kernel shutdown (#100)
+* Fix Sphinx conf to be able to build docs again (#91)
+* Fix deprecated IPython import (#92)
+* Fix task layout serialization under Python 3 (#90)
+
+
 Version 4.6.0
 =============
 
