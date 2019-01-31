@@ -33,7 +33,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'envisage'
-copyright = '2008-2011, Enthought'
+copyright = '2008-2019, Enthought'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents. This is py3 compatible.
