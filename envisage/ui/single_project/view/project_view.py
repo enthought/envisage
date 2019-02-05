@@ -12,7 +12,6 @@ The single project plugin's project view
 
 # Standard library imports.
 import logging
-from string import rfind
 
 # Enthought library imports
 from apptools.naming.api import Binding
@@ -262,7 +261,7 @@ class ProjectView(HasTraits):
         # on the new suffix, if any.
         name = self.name
         if old is not None and len(old) > 0:
-            index = rfind(name, " " + old)
+            index = (" " + old).rfind(name)
             if index > -1:
                 name = name[0:index]
         if new is not None and len(new) > 0:
