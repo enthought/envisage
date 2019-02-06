@@ -17,8 +17,6 @@ import logging
 
 # Enthought plugins.
 from envisage.core_plugin import CorePlugin
-from envisage.developer.developer_plugin import DeveloperPlugin
-from envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
 from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 from envisage.ui.single_project.project_plugin import ProjectPlugin
 from envisage.ui.workbench.api import WorkbenchApplication
@@ -45,8 +43,6 @@ def main():
         plugins=[
             CorePlugin(),
             WorkbenchPlugin(),
-            DeveloperPlugin(),
-            DeveloperUIPlugin(),
             ProjectPlugin(),
             EnvProjectPlugin(),
             PythonShellPlugin(),

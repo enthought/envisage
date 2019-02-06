@@ -9,8 +9,6 @@ from acme.acmelab.api import Acmelab
 
 # Enthought plugins.
 from envisage.core_plugin import CorePlugin
-from envisage.developer.developer_plugin import DeveloperPlugin
-from envisage.developer.ui.developer_ui_plugin import DeveloperUIPlugin
 from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Example plugins.
@@ -33,8 +31,6 @@ def main():
             CorePlugin(),
             WorkbenchPlugin(),
             AcmeWorkbenchPlugin(),
-            DeveloperPlugin(),
-            DeveloperUIPlugin()
         ]
     )
 
