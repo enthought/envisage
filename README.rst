@@ -36,4 +36,7 @@ framework. This project contains no plug-ins. You are free to use:
 Prerequisites
 -------------
 
+The supported versions of Python are Python 2.7.x and Python >= 3.5.
+
+* `apptools <https://github.com/enthought/apptools>`_
 * `traits <https://github.com/enthought/traits>`_
