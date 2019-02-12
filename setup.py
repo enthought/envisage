@@ -165,8 +165,6 @@ if __name__ == "__main__":
             'envisage.ui.single_project': [
                 '*.txt',
             ],
-            'envisage.plugins.remote_editor.editor_plugins': ["*.txt"],
-            'envisage.plugins.remote_editor.editor_plugins.emacs': ["*.el"],
         },
         platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
         python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
