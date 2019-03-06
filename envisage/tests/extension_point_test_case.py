@@ -249,6 +249,11 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         return
 
+    def test_extension_point_str_representation(self):
+        """ test the string representation of the extension point """
+        ep = self._create_extension_point('my.ep')
+        self.assertEqual(str(ep), 'my.ep')
+
     ###########################################################################
     # Private interface.
     ###########################################################################
