@@ -191,9 +191,10 @@ def install(runtime, toolkit, environment, editable):
     if toolkit == 'pyqt5':
         commands.append("edm run -e {environment} -- pip install pyqt5==5.9.2")
 
-    install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
     if editable:
-        install_cmd += " --editable"
+        install_cmd = "edm run -e {environment} -- pip install --editable . --no-dependencies"
+    else:
+        install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
     commands.append(install_cmd)
 
     click.echo("Creating environment '{environment}'".format(**parameters))
@@ -269,9 +270,10 @@ def update(runtime, toolkit, environment, editable):
 
     """
     parameters = get_parameters(runtime, toolkit, environment)
-    install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
     if editable:
-        install_cmd += " --editable"
+        install_cmd = "edm run -e {environment} -- pip install --editable . --no-dependencies"
+    else:
+        install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
     commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
     execute(commands, parameters)
