@@ -103,6 +103,8 @@ class InternalIPKernel(HasStrictTraits):
         """ Kill all existing consoles. """
         for c in self.consoles:
             c.kill()
+            c.stdout.close()
+            c.stderr.close()
         self.consoles = []
 
     def shutdown(self):
