@@ -9,11 +9,11 @@ environment:
 
   matrix:
     - RUNTIME: '2.7'
-      TOOLKITS: "null pyqt pyside wx"
+      TOOLKITS: "null pyqt pyside pyside2 wx"
     - RUNTIME: '3.5'
-      TOOLKITS: "null pyqt"
+      TOOLKITS: "null pyqt pyqt5 pyside2"
     - RUNTIME: '3.6'
-      TOOLKITS: "null pyqt"
+      TOOLKITS: "null pyqt pyqt5 pyside2"
 
 matrix:
   fast_finish: True

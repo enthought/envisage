@@ -8,15 +8,15 @@ env:
 
 matrix:
   include:
-    - env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
-    - env: RUNTIME=3.5 TOOLKITS="null pyqt"
-    - env: RUNTIME=3.6 TOOLKITS="null pyqt"
+    - env: RUNTIME=2.7 TOOLKITS="null pyqt pyside pyside2 wx"
+    - env: RUNTIME=3.5 TOOLKITS="null pyqt pyqt5 pyside2"
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt pyqt5 pyside2"
     - os: osx
-      env: RUNTIME=2.7 TOOLKITS="null pyqt pyside wx"
+      env: RUNTIME=2.7 TOOLKITS="null pyqt pyside pyside2 wx"
     - os: osx
-      env: RUNTIME=3.5 TOOLKITS="null pyqt"
+      env: RUNTIME=3.5 TOOLKITS="null pyqt pyqt5 pyside2"
     - os: osx
-      env: RUNTIME=3.6 TOOLKITS="null pyqt"
+      env: RUNTIME=3.6 TOOLKITS="null pyqt pyqt5 pyside2"
   fast_finish: true
 
 branches:
