@@ -119,7 +119,8 @@ extra_dependencies = {
     'pyqt': {'pyqt<4.12'},  # FIXME: build of 4.12-1 appears to be bad
     # XXX once pyqt5 is available in EDM, we will want it here
     'pyqt5': set(),
-    'wx': {'wxpython<3.0.2.0-6'}, # FIXME: wxpython 3.0.2.0-6 is broken of OS-X
+    # FIXME: wxpython 3.0.2.0-6 is broken of OS-X
+    'wx': {'wxpython<3.0.2.0-6'},
     'null': set()
 }
 
@@ -134,16 +135,32 @@ environment_vars = {
 
 # Options shared between different click commands.
 runtime_option = click.option(
-    "--runtime", default=default_runtime,
+    "--runtime",
+    default=default_runtime,
     type=click.Choice(available_runtimes),
     show_default=True,
     help="Python runtime version",
 )
 toolkit_option = click.option(
-    "--toolkit", default=default_toolkit,
+    "--toolkit",
+    default=default_toolkit,
     type=click.Choice(available_toolkits),
     show_default=True,
     help="GUI toolkit",
+)
+environment_option = click.option(
+    "--environment",
+    default=None,
+    help=(
+        "EDM environment name to use in place of the "
+        "automatically constructed name"
+    ),
+)
+
+editable_option = click.option(
+    '--editable/--not-editable',
+    default=False,
+    help="Install main package in 'editable' mode?  [default: --not-editable]",
 )
 
 
@@ -155,8 +172,9 @@ def cli():
 @cli.command()
 @runtime_option
 @toolkit_option
-@click.option('--environment', default=None)
-def install(runtime, toolkit, environment):
+@environment_option
+@editable_option
+def install(runtime, toolkit, environment, editable):
     """ Install project and dependencies into a clean EDM environment.
 
     """
@@ -168,12 +186,15 @@ def install(runtime, toolkit, environment):
         "edm environments create {environment} --force --version={runtime}",
         "edm install -y -e {environment} " + packages,
         "edm run -e {environment} -- pip install -r ci-src-requirements.txt --no-dependencies",
-        "edm run -e {environment} -- python setup.py clean --all",
-        "edm run -e {environment} -- python setup.py install"
     ]
     # pip install pyqt5, because we don't have it in EDM yet
     if toolkit == 'pyqt5':
         commands.append("edm run -e {environment} -- pip install pyqt5==5.9.2")
+
+    install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
+    if editable:
+        install_cmd += " --editable"
+    commands.append(install_cmd)
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -183,7 +204,7 @@ def install(runtime, toolkit, environment):
 @cli.command()
 @runtime_option
 @toolkit_option
-@click.option('--environment', default=None)
+@environment_option
 def test(runtime, toolkit, environment):
     """ Run the test suite in a given environment with the specified toolkit.
 
@@ -209,7 +230,7 @@ def test(runtime, toolkit, environment):
 @cli.command()
 @runtime_option
 @toolkit_option
-@click.option('--environment', default=None)
+@environment_option
 def cleanup(runtime, toolkit, environment):
     """ Remove a development environment.
 
@@ -241,14 +262,17 @@ def test_clean(runtime, toolkit):
 @cli.command()
 @runtime_option
 @toolkit_option
-@click.option('--environment', default=None)
-def update(runtime, toolkit, environment):
+@environment_option
+@editable_option
+def update(runtime, toolkit, environment, editable):
     """ Update/Reinstall package into environment.
 
     """
     parameters = get_parameters(runtime, toolkit, environment)
-    commands = [
-        "edm run -e {environment} -- python setup.py install"]
+    install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
+    if editable:
+        install_cmd += " --editable"
+    commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
     execute(commands, parameters)
     click.echo('Done update')
