@@ -143,7 +143,7 @@ toolkit_option = click.option(
     "--toolkit", default=default_toolkit,
     type=click.Choice(available_toolkits),
     show_default=True,
-    help="Toolkit",
+    help="GUI toolkit",
 )
 
 
