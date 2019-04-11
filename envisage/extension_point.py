@@ -145,8 +145,6 @@ class ExtensionPoint(TraitType):
         """ String representation of an ExtensionPoint object """
         return "ExtensionPoint(id={})".format(self.id)
 
-    __str__ = __repr__
-
     ###########################################################################
     # 'TraitType' interface.
     ###########################################################################
