@@ -1,11 +1,9 @@
 build: false
-shallow_clone: false
-skip_branch_with_pr: true
-environment:
 
+environment:
   global:
     PYTHONUNBUFFERED: "1"
-    INSTALL_EDM_VERSION: "1.9.2"
+    INSTALL_EDM_VERSION: "1.11.0"
 
   matrix:
     - RUNTIME: '2.7'
@@ -14,14 +12,6 @@ environment:
       TOOLKITS: "null pyqt"
     - RUNTIME: '3.6'
       TOOLKITS: "null pyqt"
-
-matrix:
-  fast_finish: True
-
-branches:
-  only:
-    - master
-    - /release\/\d+\.\d+\.x/
 
 cache:
   - C:\Users\appveyor\.cache -> appveyor-clean-cache.txt
