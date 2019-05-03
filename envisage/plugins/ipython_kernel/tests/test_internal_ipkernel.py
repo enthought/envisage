@@ -1,4 +1,5 @@
 import gc
+import sys
 import unittest
 
 try:
@@ -46,6 +47,27 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIn('x', kernel.namespace)
         self.assertEqual(kernel.namespace['x'], 42.1)
         kernel.shutdown()
+
+    def test_shutdown_restores_output_streams(self):
+        original_stdout = sys.stdout
+        original_stderr = sys.stderr
+
+        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
+        kernel.init_ipkernel(gui_backend=None)
+        kernel.shutdown()
+
+        self.assertIs(sys.stdout, original_stdout)
+        self.assertIs(sys.stderr, original_stderr)
+
+    def test_shutdown_closes_console_pipes(self):
+        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
+        kernel.init_ipkernel(gui_backend=None)
+        console = kernel.new_qt_console()
+        self.assertFalse(console.stdout.closed)
+        self.assertFalse(console.stderr.closed)
+        kernel.shutdown()
+        self.assertTrue(console.stdout.closed)
+        self.assertTrue(console.stderr.closed)
 
     def test_io_pub_thread_stopped(self):
         kernel = InternalIPKernel()

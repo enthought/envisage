@@ -2,7 +2,7 @@
 
 
 # Enthought library imports.
-from envisage.developer.api import CodeBrowser, Module
+from envisage.developer.code_browser.api import CodeBrowser, Module
 from traits.api import Event, HasTraits, Instance, Str
 
 
