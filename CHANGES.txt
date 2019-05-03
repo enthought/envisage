@@ -2,6 +2,26 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.7.2
+=============
+
+Released: 03 May 2019
+
+Fixes
+-----
+
+* Fix some broken imports and name errors in the ``envisage.developer``
+  package. (#130)
+* Add missing test data to support running tests on Python 3.7. (#136)
+* Fix reversed interpretation of the
+  ``TasksApplication.always_use_default_layout`` when creating task windows.
+  (#144)
+* In the ``InternalIPKernel`` plugin, restore original standard streams
+  (``stdout``, ``stdin``, ``stderr``) at plugin stop time. (#146)
+* In the ``InternalIPKernel`` plugin, fix ``ResourceWarnings`` from
+  unclosed pipes attached to qt consoles. (#147)
+
+
 Version 4.7.1
 =============
 
@@ -62,7 +82,7 @@ Fixes
 
 * Fixes for tests under Python 3.5 (#86)
 * Work around for issue with Traits in Python 3 (#78)
-* Replace uses of ‘file’ and ‘execfile’ (#75) 
+* Replace uses of ‘file’ and ‘execfile’ (#75)
 * Fix MOTD_Using_Eggs example (#66)
 * Fix broken and outdated links in documentation (#72)
 * Fix link to docs from README (#70)
