@@ -2,13 +2,13 @@
 
 
 # Enthought library imports.
-from envisage.api import ExtensionPoint, IPlugin
+from envisage.api import ExtensionPoint, IApplication, IExtensionPoint, IPlugin
 from traits.api import Delegate, HasTraits, Instance, List, Property
 from traits.api import Code, Str
 from traitsui.api import Item, TableEditor, View, VGroup
 from traitsui.table_column import ObjectColumn # fixme: non-api!
 
-class ExtensionPointModel(Hastraits):
+class ExtensionPointModel(HasTraits):
     """ A model for browsing an extension point. """
 
     # The plugin that offered the extension point.
@@ -21,7 +21,7 @@ class ExtensionPointModel(Hastraits):
 
 
 
-class ExtensionModel(Hastraits):
+class ExtensionModel(HasTraits):
     """ A model for browsing a contribution to an extension point. """
 
     # The plugin that made the contribution.
