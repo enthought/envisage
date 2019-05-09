@@ -8,7 +8,8 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import sys, os
+import envisage
+
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -36,13 +37,8 @@ project = 'envisage'
 copyright = '2008-2019, Enthought'
 
 # The default replacements for |version| and |release|, also used in various
-# other places throughout the built documents. This is py3 compatible.
-d = {}
-with open(os.path.join('..', '..', 'envisage', '_version.py')) as f:
-    _script = f.read()
-exec(compile(_script, '_version', 'exec'), d)
-version = release = d['full_version']
-del _script, d
+# other places throughout the built documents.
+version = release = envisage.__version__
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

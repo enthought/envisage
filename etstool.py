@@ -110,6 +110,7 @@ dependencies = {
     "ipykernel",
     "nose",
     "pyface",
+    "sphinx",
     "traits",
     "traitsui",
 }
@@ -303,6 +304,25 @@ def test_all():
                 failed_command = True
     if failed_command:
         sys.exit(1)
+
+@cli.command()
+@runtime_option
+@toolkit_option
+@environment_option
+def docs(runtime, toolkit, environment):
+    """ Build HTML documentation. """
+
+    parameters = get_parameters(runtime, toolkit, environment)
+    parameters["docs_source"] = "docs/source"
+    parameters["docs_build"] = "docs/build"
+    commands = [
+        "edm run -e {environment} -- python -m sphinx -b html {docs_source} {docs_build}"
+    ]
+    execute(commands, parameters)
+
+
+
+
 
 
 # ----------------------------------------------------------------------------
