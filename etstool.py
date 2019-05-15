@@ -107,6 +107,7 @@ supported_combinations = {
 dependencies = {
     "apptools",
     "coverage",
+    "enthought_sphinx_theme",
     "ipykernel",
     "nose",
     "pyface",
