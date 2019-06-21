@@ -1,20 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
     
     <title>Extension Points &mdash; Envisage Documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.6.0',
+        VERSION:     '4.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,24 +22,63 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../_static/et.ico"/>
-    <link rel="top" title="Envisage Documentation" href="../index.html" />
-    <link rel="up" title="Envisage Core Documentation" href="index.html" />
-    <link rel="next" title="Services" href="services.html" />
-    <link rel="prev" title="Core" href="core.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="Services" href="services.html" >
+    <link rel="prev" title="Core" href="core.html" > 
   </head>
-  <body role="document">
-  
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
 
-    <div class="document">
-      <div class="documentwrapper">
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="services.html" title="Services"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="core.html" title="Core"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body" id="spc-section-body">
             
   <div class="section" id="extension-points">
 <h1>Extension Points<a class="headerlink" href="#extension-points" title="Permalink to this headline">¶</a></h1>
@@ -49,7 +87,7 @@ the applications we write need to change over time. We fix bugs, and we add,
 modify, and remove features. In other words, we spend most of our time either
 fixing or extending applications.</p>
 <p>Sometimes we extend our applications by changing the actual code, sometimes
-we have other ad hoc extension mechanisms in place &#8211; a text file here,
+we have other ad hoc extension mechanisms in place – a text file here,
 a directory of scripts there. As applications grow, they often end up with
 numerous places where they can be extended, but with a different extension
 mechanism at each one. This makes it hard for developers who want to extend
@@ -61,22 +99,22 @@ developers to advertise the places where extension can occur (known as
 <em>extension points</em>), and for other developers to contribute <em>extensions</em> to
 them.</p>
 <p>In Envisage, extension points and the extensions contributed to them are stored
-in the <em>extension registry</em>. To see how extension points actually work, let&#8217;s
+in the <em>extension registry</em>. To see how extension points actually work, let’s
 take a look at the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD">Message of the Day</a> example included in the Envisage
 distribution. This example shows how to build a very simple application that
-prints a (hopefully witty, educational, or inspiring) &#8220;Message of the Day&#8221;
+prints a (hopefully witty, educational, or inspiring) “Message of the Day”
 chosen at random from a list of contributed messages.</p>
 <div class="section" id="declaring-an-extension-point">
 <h2>Declaring an Extension Point<a class="headerlink" href="#declaring-an-extension-point" title="Permalink to this headline">¶</a></h2>
 <p>Plugins declare their extension points in one of two ways:</p>
 <ol class="arabic simple">
-<li>Declaratively - using the &#8216;ExtensionPoint&#8217; trait type</li>
-<li>Programmatically - by overriding the &#8216;get_extension_points&#8217; method.</li>
+<li>Declaratively - using the ‘ExtensionPoint’ trait type</li>
+<li>Programmatically - by overriding the ‘get_extension_points’ method.</li>
 </ol>
 <p>In the MOTD example, the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin needs to advertise an extension
 point that allows other plugins to contribute new messages. Using the
-&#8216;ExtensionPoint&#8217; trait type, the plugin would look like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+‘ExtensionPoint’ trait type, the plugin would look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
     <span class="o">...</span>
@@ -94,8 +132,8 @@ point that allows other plugins to contribute new messages. Using the
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>Overriding the &#8216;get_extension_points&#8217; method might look somthing like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<p>Overriding the ‘get_extension_points’ method might look somthing like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
     <span class="o">...</span>
@@ -119,7 +157,7 @@ point that allows other plugins to contribute new messages. Using the
 </div>
 <p>Either way, this tells us three things about the extension point:</p>
 <ol class="arabic simple">
-<li>That the extension point is called &#8220;acme.motd.messages&#8221;</li>
+<li>That the extension point is called “acme.motd.messages”</li>
 <li>That every item in a list of contributions to the extension point must
 implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface.</li>
 <li>That the extension point allows you to contribute messages!</li>
@@ -135,7 +173,7 @@ when the <a class="reference external" href="https://github.com/enthought/envisa
 every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
 a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py">Message</a>) and so we create
 a simple module (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/messages.py">messages.py</a>) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
 
     <span class="n">Message</span><span class="p">(</span>
@@ -158,11 +196,11 @@ a simple module (<a class="reference external" href="https://github.com/enthough
 Envisage about the messages that we have just created. Again there are are
 two ways that a plugin can do this:</p>
 <ol class="arabic simple">
-<li>Declaratively - using the &#8216;contributes_to&#8217; trait metadata</li>
-<li>Programmatically - by overriding the &#8216;get_extensions&#8217; method.</li>
+<li>Declaratively - using the ‘contributes_to’ trait metadata</li>
+<li>Programmatically - by overriding the ‘get_extensions’ method.</li>
 </ol>
 <p>The declarative version looks like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The software quotes plugin. &quot;&quot;&quot;</span>
 
     <span class="o">...</span>
@@ -184,14 +222,14 @@ two ways that a plugin can do this:</p>
 </pre></div>
 </div>
 <p>The messages are contributed simply by creating a list trait and setting its
-&#8220;contributes_to&#8221; metadata to the ID of the extension point that we want to
+“contributes_to” metadata to the ID of the extension point that we want to
 contribute to. All we have to do then is to intialize the trait with our
-messages and &#8220;Job done&#8221;!</p>
+messages and “Job done”!</p>
 <p>Note that if a plugin changes a list of contributions then the extension
 registry will be updated automatically, and anybody that is consuming the
 extensions will be notified accordingly.</p>
 <p>The programmatic version looks like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The software quotes plugin. &quot;&quot;&quot;</span>
 
     <span class="o">...</span>
@@ -214,19 +252,19 @@ extensions will be notified accordingly.</p>
 </div>
 <p>The difference between this and the declarative version is that the application
 is not automatically notified if the plugin wants to change its contributions
-to an extension point. To do this manually fire an &#8216;extension_point_changed&#8217;
+to an extension point. To do this manually fire an ‘extension_point_changed’
 event.</p>
 </div>
 <div class="section" id="retrieving-the-contributions-to-an-extension-point">
 <h2>Retrieving the contributions to an Extension Point<a class="headerlink" href="#retrieving-the-contributions-to-an-extension-point" title="Permalink to this headline">¶</a></h2>
-<p>OK, here&#8217;s where we are so far: One plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">acme.motd</a>) has advertised the fact
-that it has an extension point called &#8220;acme.motd.messages&#8221;, and that the
+<p>OK, here’s where we are so far: One plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">acme.motd</a>) has advertised the fact
+that it has an extension point called “acme.motd.messages”, and that the
 contributions to the extension point must implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface.
 Another plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a>) has kindly offered to contribute
 some messages about software development. Now we need to know how to retrieve
 the contributed messages at runtime.</p>
 <p>In the MOTD example, the messages are retrieved by the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
     <span class="o">...</span>
@@ -262,7 +300,7 @@ implementations to create and initialize services (in this case, an instance of
 the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a> class).</p>
 <p>The extension registry can also be accessed through the following method on the
 <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_application.py">IApplication</a> interface:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return a list containing all contributions to an extension point.</span>
 
 <span class="sd">    Return an empty list if the extension point does not exist.</span>
@@ -270,13 +308,13 @@ the <a class="reference external" href="https://github.com/enthought/envisage/tr
 <span class="sd">    &quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<p>For example, to get the messages contributed to the &#8220;acme.motd.messages&#8221;
+<p>For example, to get the messages contributed to the “acme.motd.messages”
 extension point you would use:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note however, that using the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/extension_point.py">ExtensionPoint</a> trait type, adds the ability to
-validate the contributions &#8211; in this case, to make sure that they are all
+validate the contributions – in this case, to make sure that they are all
 objects that implement (or can be adapted to) the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface. It also
 automatically connects the trait so that the plugin will receive trait change
 events if extensions are added/removed to/from the extension point at runtime.</p>
@@ -286,13 +324,13 @@ events if extensions are added/removed to/from the extension point at runtime.</
 
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+          </div>
+      <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Extension Points</a><ul>
 <li><a class="reference internal" href="#declaring-an-extension-point">Declaring an Extension Point</a></li>
@@ -301,52 +339,57 @@ events if extensions are added/removed to/from the extension point at runtime.</
 </ul>
 </li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Envisage Core Documentation</a><ul>
-      <li>Previous: <a href="core.html" title="previous chapter">Core</a></li>
-      <li>Next: <a href="services.html" title="next chapter">Services</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/envisage_core_documentation/extension_points.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="core.html"
+                        title="previous chapter">Core</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="next chapter">Services</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/extension_points.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
-      <div class="clearer"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
     <div class="footer">
-      &copy;2008-2011, Enthought.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="../_sources/envisage_core_documentation/extension_points.txt"
-          rel="nofollow">Page source</a>
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jun 21, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
     </div>
-
-    
-
-    
+    </div>
+    </div>
   </body>
 </html>

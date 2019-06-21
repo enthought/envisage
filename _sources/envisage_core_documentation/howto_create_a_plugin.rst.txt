@@ -183,7 +183,7 @@ The complete plugin for the Tetris game might look like this::
             """
             return [ Shape1(), Shape2(), Shape3() ]
 
-        games = List(contributes_to='acme.game_player.game_infos'
+        games = List(contributes_to='acme.game_player.game_infos')
         def _games_default(self):
             """ Trait initializer for 'games' contribution to the application
                 plugin's 'games' extension point.

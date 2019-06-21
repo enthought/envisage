@@ -1,20 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
     
     <title>How To Create a Plugin for an Envisage Application &mdash; Envisage Documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.6.0',
+        VERSION:     '4.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,24 +22,63 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../_static/et.ico"/>
-    <link rel="top" title="Envisage Documentation" href="../index.html" />
-    <link rel="up" title="Envisage Core Documentation" href="index.html" />
-    <link rel="next" title="The “Message of the Day” (MOTD) Example" href="message_of_the_day.html" />
-    <link rel="prev" title="Plugins" href="plugins.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="The “Message of the Day” (MOTD) Example" href="message_of_the_day.html" >
+    <link rel="prev" title="Plugins" href="plugins.html" > 
   </head>
-  <body role="document">
-  
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
 
-    <div class="document">
-      <div class="documentwrapper">
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="message_of_the_day.html" title="The “Message of the Day” (MOTD) Example"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="plugins.html" title="Plugins"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body" id="spc-section-body">
             
   <div class="section" id="how-to-create-a-plugin-for-an-envisage-application">
 <h1>How To Create a Plugin for an Envisage Application<a class="headerlink" href="#how-to-create-a-plugin-for-an-envisage-application" title="Permalink to this headline">¶</a></h1>
@@ -55,7 +93,7 @@ with a Workbench-based application.</p>
 </ul>
 <div class="section" id="what-does-your-plugin-do">
 <h2>What Does Your Plugin Do?<a class="headerlink" href="#what-does-your-plugin-do" title="Permalink to this headline">¶</a></h2>
-<p>&#8220;What your plugin does&#8221; refers to the basic functionality that your plugin
+<p>“What your plugin does” refers to the basic functionality that your plugin
 adds to the application.</p>
 <p>Very often, you want to take some pre-existing chunk of functionality (module,
 library, etc.) and make it available within the Envisage application. Assuming
@@ -67,14 +105,14 @@ would design the core functionality of the plugin, independent of Envisage. It
 is important to keep this separate from the plugin machinery that make that
 functionality work within Envisage.</p>
 <p>In either case, we will refer to the code that does this core functionality as
-&#8220;the library&#8221;.</p>
+“the library”.</p>
 <div class="section" id="example-library">
 <h3>Example Library<a class="headerlink" href="#example-library" title="Permalink to this headline">¶</a></h3>
 <p>Suppose you have a library that implements a game of Tetris. You want to add
 this game to an Envisage application that lets users pick a game to play from
 a catalog of available games. You have a Tetris class that looks something
 like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 
     <span class="c1"># Basic colors</span>
     <span class="n">background_color</span> <span class="o">=</span> <span class="n">Color</span>
@@ -85,7 +123,7 @@ like this:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>In the following sections, we&#8217;ll look at ways that this library can be
+<p>In the following sections, we’ll look at ways that this library can be
 integrated into the application by a plugin.</p>
 </div>
 </div>
@@ -107,19 +145,19 @@ used by your plugin, that is populated by plugins.</li>
 </ul>
 <div class="section" id="examples-of-offering-functionality-to-other-plugins">
 <h3>Examples of Offering Functionality to Other Plugins<a class="headerlink" href="#examples-of-offering-functionality-to-other-plugins" title="Permalink to this headline">¶</a></h3>
-<p>Suppose that the games application defines an &#8220;IGame&#8221; interface that it uses to
+<p>Suppose that the games application defines an “IGame” interface that it uses to
 control games, with methods for starting, stopping, displaying scores, and so
 on. In this case, you offer the Tetris library as a service that implements the
-&#8220;IGame&#8221; interface used by the application. (You might need to create an adapter
-for your Tetris class to the IGame interface, but we&#8217;ll ignore that.)</p>
+“IGame” interface used by the application. (You might need to create an adapter
+for your Tetris class to the IGame interface, but we’ll ignore that.)</p>
 <p>You can manually register a service, but a simple way to do it is to contribute
-to the &#8216;envisage.services_offers&#8217; extension point of the Core plugin.
+to the ‘envisage.services_offers’ extension point of the Core plugin.
 This ensures that the plugin is registered, and is created when it is needed.</p>
 <p>You also want to allow users to contribute their own Tetris shapes, so you
-define an extension point for shapes. We&#8217;ll leave aside the question of how
+define an extension point for shapes. We’ll leave aside the question of how
 users actually define their shapes. The point is that the catalog of shapes is
 extensible. (You would probably also contribute some basic shapes from your
-plugin, so that users don&#8217;t <em>need</em> to contribute any.)</p>
+plugin, so that users don’t <em>need</em> to contribute any.)</p>
 </div>
 </div>
 <div class="section" id="what-does-your-plugin-add-to-other-plugins">
@@ -127,23 +165,23 @@ plugin, so that users don&#8217;t <em>need</em> to contribute any.)</p>
 <p>Other plugins may provide extension points that are useful to your plugin. If
 so, you can contribute to those extension points. Essentially, your plugin
 passes one or more objects to the plugin whose extension point you are
-contributing to, and that plugin &#8220;does the right thing&#8221; with those items.</p>
+contributing to, and that plugin “does the right thing” with those items.</p>
 <div class="section" id="examples-of-contributing-to-extension-points">
 <h3>Examples of Contributing to Extension Points<a class="headerlink" href="#examples-of-contributing-to-extension-points" title="Permalink to this headline">¶</a></h3>
 <p>Continuing the example of the Tetris game, the application might keep a list
 of available games, and present the list for the user to select from. Thus, it
-might have a &#8216;games&#8217; extension point, to which you can contribute an object
+might have a ‘games’ extension point, to which you can contribute an object
 containing information about your Tetris game, such as name, description, icon,
 and entry point.</p>
 <p>More concretely, you want to specify default colors for the foreground and
 background colors of the game, but allow users to change them and save their
 changes across sessions. For specifying default preference values and saving
-changed values, you can contribute to the &#8216;envisage.preferences&#8217;
+changed values, you can contribute to the ‘envisage.preferences’
 extension point offered by the Envisage core plugin; for a UI to change
 preferences, you can contribute to the
-&#8216;envisage.ui.workbench.preferences_pages&#8217; extension point offered by
-the Workbench plugin. (A game application probably wouldn&#8217;t use the Workbench
-plugin, but we&#8217;ll assume it does to avoid using a fictional plugin.)</p>
+‘envisage.ui.workbench.preferences_pages’ extension point offered by
+the Workbench plugin. (A game application probably wouldn’t use the Workbench
+plugin, but we’ll assume it does to avoid using a fictional plugin.)</p>
 <p>A contribution to the preferences extension point must be a URL of a preferences
 file (readable by ConfigObj). A plugin typically has only one preferences file,
 even if it has many categories of preferences.</p>
@@ -167,7 +205,7 @@ being returned contains a reference to a service.</li>
 <div class="section" id="what-does-your-plugin-need-from-other-plugins">
 <h2>What Does Your Plugin Need from Other Plugins?<a class="headerlink" href="#what-does-your-plugin-need-from-other-plugins" title="Permalink to this headline">¶</a></h2>
 <p>Your plugin may need to use the API of some other plugin. In Envisage, you use
-the other plugin&#8217;s API via a service, rather than directly. This allows for the
+the other plugin’s API via a service, rather than directly. This allows for the
 plugin offering the service to be replaced with another one, transparently to
 your plugin. There may be multiple plugins offering a particular type of
 service, but a client plugin uses only one instance of a service at any given
@@ -175,8 +213,8 @@ time.</p>
 <div class="section" id="example-of-using-a-service">
 <h3>Example of Using a Service<a class="headerlink" href="#example-of-using-a-service" title="Permalink to this headline">¶</a></h3>
 <p>The service you use may be your own. For the Tetris game, the object that you
-contribute to the application&#8217;s &#8216;games&#8217; extension point needs to be able to
-start the game. However, to reduce memory overhead, you don&#8217;t want the Tetris
+contribute to the application’s ‘games’ extension point needs to be able to
+start the game. However, to reduce memory overhead, you don’t want the Tetris
 library to be imported until the user actually chooses to play Tetris. Using the
 service offered by the Tetris plugin is a way to accomplish that.</p>
 </div>
@@ -184,7 +222,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 <div class="section" id="complete-example">
 <h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline">¶</a></h2>
 <p>The complete plugin for the Tetris game might look like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -204,7 +242,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span> <span class="n">Shape1</span><span class="p">(),</span> <span class="n">Shape2</span><span class="p">(),</span> <span class="n">Shape3</span><span class="p">()</span> <span class="p">]</span>
 
-    <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span>
+    <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
 <span class="sd">            plugin&#39;s &#39;games&#39; extension point.</span>
@@ -261,13 +299,13 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+          </div>
+      <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/e-logo-rev.png" alt="Logo"/>
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">How To Create a Plugin for an Envisage Application</a><ul>
 <li><a class="reference internal" href="#what-does-your-plugin-do">What Does Your Plugin Do?</a><ul>
@@ -290,52 +328,57 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 </ul>
 </li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Envisage Core Documentation</a><ul>
-      <li>Previous: <a href="plugins.html" title="previous chapter">Plugins</a></li>
-      <li>Next: <a href="message_of_the_day.html" title="next chapter">The &#8220;Message of the Day&#8221; (MOTD) Example</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="previous chapter">Plugins</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="message_of_the_day.html"
+                        title="next chapter">The “Message of the Day” (MOTD) Example</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/howto_create_a_plugin.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
-      <div class="clearer"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
     <div class="footer">
-      &copy;2008-2011, Enthought.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="../_sources/envisage_core_documentation/howto_create_a_plugin.txt"
-          rel="nofollow">Page source</a>
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jun 21, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
     </div>
-
-    
-
-    
+    </div>
+    </div>
   </body>
 </html>
