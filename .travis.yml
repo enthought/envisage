@@ -34,7 +34,7 @@ install:
         if [[ ${TRAVIS_EVENT_TYPE} == "cron" ]] ; then
             edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} --source || exit;
         else
-            edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} --source || exit;
+            edm run -- python etstool.py install --runtime=${RUNTIME} --toolkit=${toolkit} || exit;
         fi;
     done
 script:
