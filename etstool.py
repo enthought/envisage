@@ -256,9 +256,7 @@ def test(runtime, toolkit, environment):
     # file doesn't get populated correctly.
     click.echo("Running tests in '{environment}'".format(**parameters))
     with do_in_tempdir(files=['.coveragerc'], capture_files=['./.coverage*']):
-        print(os.environ)
         os.environ.update(environ)
-        print(os.environ)
         execute(commands, parameters)
     click.echo('Done test')
 
