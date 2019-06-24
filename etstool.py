@@ -209,7 +209,7 @@ def install(runtime, toolkit, environment, editable, source):
     if toolkit == 'pyqt5':
         commands.append("edm run -e {environment} -- pip install pyqt5==5.9.2")
     elif toolkit == 'pyside2':
-        commands.append("edm run -e {environment} -- pip install pyside2==5.11")
+        commands.append("edm run -e {environment} -- pip install pyside2")
 
     if editable:
         install_cmd = "edm run -e {environment} -- pip install --editable . --no-dependencies"
@@ -256,7 +256,9 @@ def test(runtime, toolkit, environment):
     # file doesn't get populated correctly.
     click.echo("Running tests in '{environment}'".format(**parameters))
     with do_in_tempdir(files=['.coveragerc'], capture_files=['./.coverage*']):
+        print(os.environ)
         os.environ.update(environ)
+        print(os.environ)
         execute(commands, parameters)
     click.echo('Done test')
 
