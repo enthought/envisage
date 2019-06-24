@@ -107,8 +107,17 @@ supported_combinations = {
 dependencies = {
     "apptools",
     "coverage",
+    "enthought_sphinx_theme",
     "ipykernel",
     "nose",
+    "pyface",
+    "sphinx",
+    "traits",
+    "traitsui",
+}
+
+# Dependencies we install from source for cron tests
+source_dependencies = {
     "pyface",
     "traits",
     "traitsui",
@@ -135,6 +144,7 @@ environment_vars = {
     'null': {'ETS_TOOLKIT': 'null'},
 }
 
+github_url_fmt = "git+http://github.com/enthought/{0}.git#egg={0}"
 
 # Options shared between different click commands.
 runtime_option = click.option(
@@ -159,7 +169,11 @@ environment_option = click.option(
         "automatically constructed name"
     ),
 )
-
+source_option = click.option(
+    "--source/--no-source",
+    default=False,
+    help="Install ETS packages from source"
+)
 editable_option = click.option(
     '--editable/--not-editable',
     default=False,
@@ -177,7 +191,8 @@ def cli():
 @toolkit_option
 @environment_option
 @editable_option
-def install(runtime, toolkit, environment, editable):
+@source_option
+def install(runtime, toolkit, environment, editable, source):
     """ Install project and dependencies into a clean EDM environment.
 
     """
@@ -204,6 +219,19 @@ def install(runtime, toolkit, environment, editable):
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
+
+    if source:
+        # Remove EDM ETS packages and install them from source
+        cmd_fmt = "edm plumbing remove-package --environment {environment} --force "
+        commands = [cmd_fmt + source_pkg for source_pkg in source_dependencies]
+        execute(commands, parameters)
+        source_pkgs = [github_url_fmt.format(pkg) for pkg in source_dependencies]
+        commands = [
+            "python -m pip install {pkg} --no-deps".format(pkg=pkg)
+            for pkg in source_pkgs
+        ]
+        commands = ["edm run -e {environment} -- " + command for command in commands]
+        execute(commands, parameters)
     click.echo('Done install')
 
 
@@ -303,6 +331,23 @@ def test_all():
                 failed_command = True
     if failed_command:
         sys.exit(1)
+
+
+@cli.command()
+@runtime_option
+@toolkit_option
+@environment_option
+def docs(runtime, toolkit, environment):
+    """ Build HTML documentation. """
+
+    parameters = get_parameters(runtime, toolkit, environment)
+    parameters["docs_source"] = "docs/source"
+    parameters["docs_build"] = "docs/build"
+    commands = [
+        "edm run -e {environment} -- python -m "
+        "sphinx -b html {docs_source} {docs_build}"
+    ]
+    execute(commands, parameters)
 
 
 # ----------------------------------------------------------------------------

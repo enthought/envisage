@@ -8,7 +8,8 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import sys, os
+import envisage
+import enthought_sphinx_theme
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -20,7 +21,9 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = []
+extensions = [
+  "sphinx.ext.githubpages",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -36,13 +39,8 @@ project = 'envisage'
 copyright = '2008-2019, Enthought'
 
 # The default replacements for |version| and |release|, also used in various
-# other places throughout the built documents. This is py3 compatible.
-d = {}
-with open(os.path.join('..', '..', 'envisage', '_version.py')) as f:
-    _script = f.read()
-exec(compile(_script, '_version', 'exec'), d)
-version = release = d['full_version']
-del _script, d
+# other places throughout the built documents.
+version = release = envisage.__version__
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -71,17 +69,14 @@ today_fmt = '%B %d, %Y'
 # output. They are ignored by default.
 #show_authors = False
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
-
 
 # Options for HTML output
 # -----------------------
 
-# The style sheet to use for HTML and HTML Help pages. A file of that name
-# must exist either in Sphinx' static/ path, or in one of the custom paths
-# given in html_static_path.
-html_style = 'default.css'
+# Use the Enthought Sphinx Theme (see
+# https://github.com/enthought/enthought-sphinx-theme)
+html_theme_path = [enthought_sphinx_theme.theme_path]
+html_theme = 'enthought'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -90,19 +85,10 @@ html_title = "Envisage Documentation"
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
 
-# The name of an image file (within the static path) to place at the top of
-# the sidebar.
-html_logo = "e-logo-rev.png"
-
-# The name of an image file (within the static path) to use as favicon of the
-# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
-html_favicon = "et.ico"
-
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
