@@ -245,19 +245,10 @@ class ExtensionPoint(TraitType):
 
         extension_registry = getattr(obj, 'extension_registry', None)
         if extension_registry is None:
-            # If the debug package is present then log the call stack to help
-            # the developer see where the problem occurred.
-            try:
-                from etsdevtools.debug.api import log_called_from
-                log_called_from(10)
-
-            except:
-                pass
-
             raise ValueError(
-                'The "ExtensionPoint" trait type can only be used in ' \
-                'objects that have a reference to an extension registry ' \
-                'via their "extension_registry" trait. ' \
+                'The "ExtensionPoint" trait type can only be used in '
+                'objects that have a reference to an extension registry '
+                'via their "extension_registry" trait. '
                 'Extension point Id <%s>' % self.id
             )
 
