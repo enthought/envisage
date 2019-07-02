@@ -49,10 +49,10 @@ class ModelService(ApplicationObject):
     def delete_context_item(self, context, item_name):
         """ Deleting an item from a numeric context
 
-            Parameters:
-            -----------
-            context: NumericContext
-            item_name: Str
+        Parameters
+        ----------
+        context : NumericContext
+        item_name : Str
 
         """
 
@@ -63,4 +63,3 @@ class ModelService(ApplicationObject):
 
         return
 #### EOF #####################################################################
-

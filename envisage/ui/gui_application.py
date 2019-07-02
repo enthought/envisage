@@ -21,12 +21,12 @@ class GUIApplication(Application):
 
     This class handles the life-cycle of a Pyface GUI.  Plugins can
     display windows via mechinisms such as edit_traits().
-    
+
     This is intended to be a very simple shell for lifting an existing
     pure TraitsUI or Pyface (or even Qt) app into an Envisage app.
-    
+
     More sophisticated applications should use Tasks.
-    
+
     """
 
     #### 'GUIApplication' interface #########################################
@@ -50,12 +50,14 @@ class GUIApplication(Application):
     def run(self):
         """ Run the application.
 
-        Returns:
-        --------
-        Whether the application started successfully (i.e., without a veto).
-        
+        Returns
+        -------
+        bool
+            Whether the application started successfully (i.e., without a
+            veto).
+
         """
-        
+
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).
         gui = self.gui
@@ -65,7 +67,7 @@ class GUIApplication(Application):
             gui.set_trait_later(self, 'application_initialized', self)
             # Start the GUI event loop.  The application will block here.
             gui.start_event_loop()
-            
+
             # clean up plugins once event loop stops
             self.stop()
 
@@ -76,4 +78,3 @@ class GUIApplication(Application):
     def _gui_default(self):
         from pyface.api import GUI
         return GUI(splash_screen=self.splash_screen)
-
