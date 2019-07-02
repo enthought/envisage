@@ -56,8 +56,8 @@ def type_to_str(obj):
 
 def module_to_str(obj):
     """
-    Return the string representation of `obj`s __module__ attribute, or an
-    empty string if there is no such attribute.
+    Return the string representation of *obj*'s ``__module__`` attribute, or
+    an empty string if there is no such attribute.
     """
     if hasattr(obj, '__module__'):
         return str(obj.__module__)
