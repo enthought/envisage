@@ -101,8 +101,6 @@ class MOTDPlugin(Plugin):
         message = motd.motd()
 
         # ... and print it.
-        print '\n"%s"\n\n- %s' % (message.text, message.author)
-
-        return
+        print('\n"%s"\n\n- %s' % (message.text, message.author))
 
 #### EOF ######################################################################

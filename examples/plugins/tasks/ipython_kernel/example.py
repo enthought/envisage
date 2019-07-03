@@ -43,7 +43,7 @@ class ExamplePlugin(Plugin):
     tasks = List(contributes_to='envisage.ui.tasks.tasks')
 
     def _tasks_default(self):
-        print 'Default tasks'
+        print('Default tasks')
         return [
             TaskFactory(
                 id='example_task',

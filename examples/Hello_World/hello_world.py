@@ -43,9 +43,7 @@ class HelloWorld(Plugin):
         # this specific plugin.
         import random
 
-        print random.choice(self.greetings), 'World!'
-
-        return
+        print("{} World!".format(random.choice(self.greetings)))
 
 
 class Greetings(Plugin):
