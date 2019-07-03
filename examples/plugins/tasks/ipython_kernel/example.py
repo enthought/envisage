@@ -75,9 +75,11 @@ class ExampleApplication(TasksApplication):
     def run(self):
         """ Run the application.
 
-        Returns:
-        --------
-        Whether the application started successfully (i.e., without a veto).
+        Returns
+        -------
+        bool
+            Whether the application started successfully (i.e., without a
+            veto).
         """
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).

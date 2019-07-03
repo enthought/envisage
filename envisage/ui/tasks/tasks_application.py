@@ -126,9 +126,11 @@ class TasksApplication(Application):
     def run(self):
         """ Run the application.
 
-        Returns:
-        --------
-        Whether the application started successfully (i.e., without a veto).
+        Returns
+        -------
+        bool
+            Whether the application started successfully (i.e., without a
+            veto).
         """
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).
@@ -152,9 +154,10 @@ class TasksApplication(Application):
     def create_task(self, id):
         """ Creates the Task with the specified ID.
 
-        Returns:
-        --------
-        The new Task, or None if there is not a suitable TaskFactory.
+        Returns
+        -------
+        pyface.tasks.task.Task
+            The new Task, or None if there is not a suitable TaskFactory.
         """
         # Get the factory for the task.
         factory = self._get_task_factory(id)
@@ -171,8 +174,8 @@ class TasksApplication(Application):
     def create_window(self, layout=None, restore=True, **traits):
         """Creates a new TaskWindow, possibly with some Tasks.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         layout : TaskWindowLayout, optional
              The layout to use for the window. The tasks described in
              the layout will be created and added to the window
@@ -188,9 +191,10 @@ class TasksApplication(Application):
              Additional parameters to pass to ``window_factory()``
              when creating the TaskWindow.
 
-        Returns:
-        --------
-        The new TaskWindow.
+        Returns
+        -------
+        envisage.ui.tasks.task_window.TaskWindow
+            The new TaskWindow.
 
         """
         from .task_window_event import TaskWindowEvent
@@ -241,17 +245,18 @@ class TasksApplication(Application):
         her window manager. It is only called via the File->Exit menu
         item. It can also, of course, be called programatically.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         force : bool, optional (default False)
             If set, windows will receive no closing events and will be
             destroyed unconditionally. This can be useful for reliably
             tearing down regression tests, but should be used with
             caution.
 
-        Returns:
-        --------
-        A boolean indicating whether the application exited.
+        Returns
+        -------
+        bool
+            A boolean indicating whether the application exited.
 
         """
         self._explicit_exit = True
