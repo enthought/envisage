@@ -9,10 +9,3 @@ Tasks User Manual
     layout.rst
     menus.rst
     extensibility.rst
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-
