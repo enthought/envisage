@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.plugins.update_checker.update_checker_plugin &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.plugins.update_checker.update_checker_plugin</h1><div class="highlight"><pre>
+<span></span>
+<span class="c1"># Enthought library imports</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">Plugin</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Trait</span>
+
+<span class="c1"># Local, relative imports</span>
+<span class="kn">from</span> <span class="nn">.update_info</span> <span class="k">import</span> <span class="n">UpdateInfo</span>
+
+
+<span class="c1"># The globally unique ID of this plugin</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;envisage.plugins.update_checker&quot;</span>
+
+
+<div class="viewcode-block" id="UpdateCheckerPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.update_checker.html#envisage.plugins.update_checker.update_checker_plugin.UpdateCheckerPlugin">[docs]</a><span class="k">class</span> <span class="nc">UpdateCheckerPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Update Checker Plugin&quot;</span>
+
+    <span class="c1"># The URI to an updates.xml file.  Although this can be a local path,</span>
+    <span class="c1"># typically it will be a URL.</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Update</span>
+
+    <span class="c1"># Should the plugin automatically check for updates?</span>
+    <span class="n">check_automatically</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># The frequency with which to check for updates</span>
+    <span class="c1"># Can be &quot;startup&quot;, which means at application startup, or an integer number</span>
+    <span class="c1"># of seconds</span>
+    <span class="c1"># TODO: Contribute a preference for this!</span>
+    <span class="n">check_frequency</span> <span class="o">=</span> <span class="n">Trait</span><span class="p">(</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span> <span class="s2">&quot;startup&quot;</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span>
+
+    <span class="c1"># Whether or not to display a dialog informing the user of available</span>
+    <span class="c1"># updates</span>
+    <span class="n">display_dialog</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># The UpdateInfo object that contains the actual update information.</span>
+    <span class="c1"># Regardless of whether or not a dialog is displayed to the user, this</span>
+    <span class="c1"># attribute will be populated with the appropriate information.</span>
+    <span class="n">update_info</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">UpdateInfo</span><span class="p">)</span>
+
+    <span class="c1"># This event fires every time the UpdateCheckerPlugin is invoked and</span>
+    <span class="c1"># determines that an application update is available.</span>
+    <span class="n">update_needed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>  <span class="c1">#Event(ApplicationEvent)</span>
+
+    <span class="c1">#========================================================================</span>
+    <span class="c1"># Plugin interface</span>
+    <span class="c1">#========================================================================</span>
+
+<div class="viewcode-block" id="UpdateCheckerPlugin.start"><a class="viewcode-back" href="../../../../api/envisage.plugins.update_checker.html#envisage.plugins.update_checker.update_checker_plugin.UpdateCheckerPlugin.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Make the appropriate contributions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="s2">&quot;started&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_for_update</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UpdateCheckerPlugin.stop"><a class="viewcode-back" href="../../../../api/envisage.plugins.update_checker.html#envisage.plugins.update_checker.update_checker_plugin.UpdateCheckerPlugin.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Clean up</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="s2">&quot;started&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_for_update</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="c1">#========================================================================</span>
+    <span class="c1"># Public methods</span>
+    <span class="c1">#========================================================================</span>
+
+    <span class="k">def</span> <span class="nf">_check_for_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

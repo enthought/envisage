@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.single_project.action.save_as_project_action &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.ui.single_project.action.save_as_project_action</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; An action that saves the current project to a different location. &quot;&quot;&quot;</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.single_project.project_action</span> <span class="k">import</span> <span class="n">ProjectAction</span>
+<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="k">import</span> <span class="n">ImageResource</span>
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># class &#39;SaveAsProjectAction&#39;</span>
+<span class="c1">##############################################################################</span>
+
+<div class="viewcode-block" id="SaveAsProjectAction"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.action.html#envisage.ui.single_project.action.save_as_project_action.SaveAsProjectAction">[docs]</a><span class="k">class</span> <span class="nc">SaveAsProjectAction</span><span class="p">(</span><span class="n">ProjectAction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; An action that saves the current project to a</span>
+<span class="sd">    different location.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The universal object locator (UOL).</span>
+    <span class="n">uol</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.single_project.ui_service.UiService&#39;</span>
+
+    <span class="c1"># The name of the method to invoke on the object.</span>
+    <span class="n">method_name</span> <span class="o">=</span> <span class="s1">&#39;save_as&#39;</span>
+
+    <span class="c1"># A longer description of the action.</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Save the current project to a different location&#39;</span>
+
+    <span class="c1"># The action&#39;s image (displayed on tool bar tools etc).</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ImageResource</span><span class="p">(</span><span class="s1">&#39;save_as_project&#39;</span><span class="p">)</span>
+
+    <span class="c1"># The action&#39;s name (displayed on menus/tool bar tools etc).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Save As...&#39;</span>
+
+    <span class="c1"># A short description of the action used for tooltip text etc.</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s1">&#39;Save this project to a different location&#39;</span>
+
+    <span class="c1">#### public interface ####################################################</span>
+
+<div class="viewcode-block" id="SaveAsProjectAction.refresh"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.action.html#envisage.ui.single_project.action.save_as_project_action.SaveAsProjectAction.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Refresh the enabled state of this action.</span>
+
+<span class="sd">        This implementation enables the action when there is a current project</span>
+<span class="sd">        which is marked as being allowed to do a &#39;save as&#39; operation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_project_exists</span><span class="p">()</span> <span class="ow">and</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_is_save_as_allowed</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+
+    <span class="c1">#### trait handlers ######################################################</span>
+
+    <span class="k">def</span> <span class="nf">_on_project_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle changes to the value of the current project.</span>
+
+<span class="sd">        Extended to ensure that we listen for changes to the is_save_as_allowed</span>
+<span class="sd">        flag on the current project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_project_listeners</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_project_listeners</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SaveAsAction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_on_project_changed</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;SaveAsAction&#39; interface</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### protected interface #################################################</span>
+
+    <span class="k">def</span> <span class="nf">_refresh_is_save_as_allowed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the refresh state according to whether the current project is</span>
+<span class="sd">        marked as being capable of doing a &#39;save as&#39;.</span>
+
+<span class="sd">        Returns True if the action should be enabled and False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">is_save_as_allowed</span>
+
+
+    <span class="k">def</span> <span class="nf">_update_project_listeners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">remove</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update listeners on the specified project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span> <span class="p">(</span><span class="n">remove</span> <span class="ow">and</span> <span class="s1">&#39;Removing &#39;</span> <span class="ow">or</span> <span class="s1">&#39;Adding &#39;</span><span class="p">)</span> <span class="o">+</span> \
+            <span class="s1">&#39;listeners on project [</span><span class="si">%s</span><span class="s1">] for SaveAsAction [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">project</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_is_save_as_allowed</span><span class="p">,</span>
+            <span class="s1">&#39;is_save_as_allowed&#39;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="n">remove</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="c1">#### trait handlers ######################################################</span>
+
+    <span class="k">def</span> <span class="nf">_on_is_save_as_allowed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle changes to the value of the current project&#39;s is_save_as_allowed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../../index.html">
+              <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

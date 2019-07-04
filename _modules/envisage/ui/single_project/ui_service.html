@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.single_project.ui_service &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.ui.single_project.ui_service</h1><div class="highlight"><pre>
+<span></span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2005-2007 by Enthought, Inc.</span>
+<span class="c1">#  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#-----------------------------------------------------------------------------</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A service to enable UI interactions with the single project plugin.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="c1"># Enthought library imports</span>
+<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="k">import</span> <span class="n">bind_preference</span>
+<span class="kn">from</span> <span class="nn">apptools.io.api</span> <span class="k">import</span> <span class="n">File</span>
+<span class="kn">from</span> <span class="nn">apptools.naming.api</span> <span class="k">import</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="k">import</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="n">confirm</span><span class="p">,</span> <span class="n">ConfirmationDialog</span><span class="p">,</span> \
+    <span class="n">DirectoryDialog</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">information</span><span class="p">,</span> <span class="n">NO</span><span class="p">,</span> <span class="n">OK</span><span class="p">,</span> <span class="n">YES</span>
+<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="k">import</span> <span class="n">MenuManager</span>
+<span class="kn">from</span> <span class="nn">pyface.timer.api</span> <span class="k">import</span> <span class="n">do_later</span><span class="p">,</span> <span class="n">Timer</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Int</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.model_service</span> <span class="k">import</span> <span class="n">ModelService</span>
+
+
+<span class="c1"># Setup a logger for this module.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UiService"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService">[docs]</a><span class="k">class</span> <span class="nc">UiService</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A service to enable UI interactions with the single project plugin.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Attributes</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public &#39;UiService&#39; interface ########################################</span>
+
+    <span class="c1"># The manager of the default context menu</span>
+    <span class="n">default_context_menu_manager</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">MenuManager</span><span class="p">)</span>
+
+    <span class="c1"># A reference to our plugin&#39;s model service.</span>
+    <span class="n">model_service</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">ModelService</span><span class="p">)</span>
+
+    <span class="c1"># The project control (in our case a tree). This is created by the</span>
+    <span class="c1"># project view.  Provided here so that sub-classes may access it.</span>
+    <span class="n">project_control</span> <span class="o">=</span> <span class="n">Any</span>
+
+    <span class="c1"># Fired when a new project has been created.  The value should be the</span>
+    <span class="c1"># project instance that was created.</span>
+    <span class="n">project_created</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1"># A timer to implement automatic project saving.</span>
+    <span class="n">timer</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">Timer</span><span class="p">)</span>
+
+    <span class="c1"># The interval (minutes)at which automatic saving should occur.</span>
+    <span class="n">autosave_interval</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### operator methods ####################################################</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_service</span><span class="p">,</span> <span class="n">menu_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor.</span>
+
+<span class="sd">        Extended to require a reference to the plugin&#39;s model service to create</span>
+<span class="sd">        an instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">UiService</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">model_service</span> <span class="o">=</span> <span class="n">model_service</span><span class="p">,</span>
+            <span class="n">default_context_menu_manager</span> <span class="o">=</span> <span class="n">menu_manager</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">traits</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Bind the autosave interval to the value specified in the</span>
+            <span class="c1"># single project preferences</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">preferences</span>
+            <span class="n">bind_preference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;autosave_interval&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Failed to bind autosave_interval in [</span><span class="si">%s</span><span class="s1">] to &#39;</span>
+                             <span class="s1">&#39;preferences.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;UiService&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public interface ####################################################</span>
+
+<div class="viewcode-block" id="UiService.close"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the current project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ensure any current project is ready for this change.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_current_project_saved</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">):</span>
+
+            <span class="c1"># If we have a current project, close it.</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+            <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Closing Project [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">current</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.create"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure any current project is ready for this change.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_current_project_saved</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">):</span>
+
+            <span class="c1"># Use the registered factory to create a new project</span>
+            <span class="n">project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                <span class="c1"># Allow the user to customize the new project</span>
+                <span class="n">dialog</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span>
+                    <span class="n">parent</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                    <span class="c1"># FIXME: Due to a bug in traits, using a wizard dialog</span>
+                    <span class="c1"># causes all of the Instance traits on the object being</span>
+                    <span class="c1"># edited to be replaced with new instances without any</span>
+                    <span class="c1"># listeners on those traits being called.  Since we can&#39;t</span>
+                    <span class="c1"># guarantee that our project&#39;s don&#39;t have Instance traits,</span>
+                    <span class="c1"># we can&#39;t use the wizard dialog type.</span>
+                    <span class="c1">#kind = &#39;wizard&#39;</span>
+                    <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;livemodal&#39;</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># If the user closed the dialog with an ok, make it the</span>
+                <span class="c1"># current project.</span>
+                <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Created Project [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">project_created</span> <span class="o">=</span> <span class="n">project</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.display_default_context_menu"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.display_default_context_menu">[docs]</a>    <span class="k">def</span> <span class="nf">display_default_context_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display the default context menu for the plugin&#39;s ui.  This is the</span>
+<span class="sd">        context menu used when neither a project nor the project&#39;s contents</span>
+<span class="sd">        are right-clicked.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Determine the current workbench window.  This should be safe since</span>
+        <span class="c1"># we&#39;re only building a context menu when the user clicked on a</span>
+        <span class="c1"># control that is contained in a window.</span>
+        <span class="n">workbench</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s1">&#39;envisage.ui.workbench.workbench.Workbench&#39;</span><span class="p">)</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">active_window</span>
+
+        <span class="c1"># Build our menu</span>
+        <span class="kn">from</span> <span class="nn">envisage.workbench.action.action_controller</span> <span class="k">import</span> \
+            <span class="n">ActionController</span>
+        <span class="n">menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_context_menu_manager</span><span class="o">.</span><span class="n">create_menu</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span>
+            <span class="n">controller</span> <span class="o">=</span> <span class="n">ActionController</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">))</span>
+
+        <span class="c1"># Popup the menu (if an action is selected it will be performed</span>
+        <span class="c1"># before before &#39;PopupMenu&#39; returns).</span>
+        <span class="k">if</span> <span class="n">menu</span><span class="o">.</span><span class="n">GetMenuItemCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">menu</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.delete_selection"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.delete_selection">[docs]</a>    <span class="k">def</span> <span class="nf">delete_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete the current selection within the current project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Only do something if we have a current project and a non-empty</span>
+        <span class="c1"># selection</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">selection</span><span class="p">[:]</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Deleting selection from Project [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
+
+            <span class="c1"># Determine the context for the current project.  Raise an error</span>
+            <span class="c1"># if we can&#39;t treat it as a context as then we don&#39;t know how</span>
+            <span class="c1"># to delete anything.</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_context_for_object</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Could not treat Project &#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">] as a context&#39;</span> <span class="o">%</span> <span class="n">current</span><span class="p">)</span>
+
+            <span class="c1"># Filter out any objects in the selection that can NOT be deleted.</span>
+            <span class="n">deletables</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+                <span class="n">rt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_resource_type_for_object</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+                <span class="n">nt</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">node_type</span>
+                <span class="k">if</span> <span class="n">nt</span><span class="o">.</span><span class="n">can_delete</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+                    <span class="n">deletables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Node type reports selection item [</span><span class="si">%s</span><span class="s1">] is &#39;</span>
+                        <span class="s1">&#39;not deletable.&#39;</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">deletables</span> <span class="o">!=</span> <span class="p">[]:</span>
+                <span class="c1"># Confirm the delete operation with the user</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">deletables</span><span class="p">])</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You are about to delete the following selected &#39;</span>
+                    <span class="s1">&#39;items:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="s1">&#39;Are you sure?&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">names</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Delete Selected Items?&#39;</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="n">confirm</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">YES</span><span class="p">:</span>
+
+                    <span class="c1"># Unbind all the deletable nodes</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">deletables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_unbind_nodes</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">deletables</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.is_current_project_saved"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.is_current_project_saved">[docs]</a>    <span class="k">def</span> <span class="nf">is_current_project_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_window</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Give the user the option to save any modifications to the current</span>
+<span class="sd">        project prior to closing it.</span>
+
+<span class="sd">        If the user wanted to cancel the closing of the current project,</span>
+<span class="sd">        this method returns False.  Otherwise, it returns True.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># The default is the user okay&#39;d the closing of the project</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># If the current project is dirty, handle that now by challenging the</span>
+        <span class="c1"># user for how they want to handle them.</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_project_state</span><span class="p">(</span><span class="n">current</span><span class="p">)):</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">ConfirmationDialog</span><span class="p">(</span>
+                <span class="n">parent</span>  <span class="o">=</span> <span class="n">parent_window</span><span class="p">,</span>
+                <span class="n">cancel</span>  <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">title</span>   <span class="o">=</span> <span class="s1">&#39;Unsaved Changes&#39;</span><span class="p">,</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Do you want to save the changes to project &quot;</span><span class="si">%s</span><span class="s1">&quot;?&#39;</span> \
+                    <span class="o">%</span> <span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">CANCEL</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">YES</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">parent_window</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">NO</span><span class="p">:</span>
+                <span class="c1"># Delete the autosaved file as the user does not wish to</span>
+                <span class="c1"># retain the unsaved changes.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_clean_autosave_location</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="UiService.listen_for_application_exit"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.listen_for_application_exit">[docs]</a>    <span class="k">def</span> <span class="nf">listen_for_application_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensure that we get notified of any attempts to, and thus have a chance</span>
+<span class="sd">        to veto, the closing of the application.</span>
+
+<span class="sd">        FIXME: Normally this should be called during startup of this</span>
+<span class="sd">        plugin, however, Envisage won&#39;t let us find the workbench service</span>
+<span class="sd">        then because we&#39;ve made a contribution to its extension points</span>
+<span class="sd">        and it insists on starting us first.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">workbench</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s1">&#39;envisage.ui.workbench.workbench.Workbench&#39;</span><span class="p">)</span>
+        <span class="n">workbench</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workbench_exiting</span><span class="p">,</span> <span class="s1">&#39;exiting&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.open"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure any current project is ready for this change.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_current_project_saved</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">):</span>
+
+            <span class="c1"># Query the user for the location of the project to be opened.</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_show_open_dialog</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Opening project from location [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+                <span class="n">project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Opened Project [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">project</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Unable to open </span><span class="si">%s</span><span class="s1"> as a project.&#39;</span> <span class="o">%</span> <span class="n">path</span>
+                    <span class="n">error</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Project Open Error&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.save"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save a project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="UiService.save_as"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.ui_service.UiService.save_as">[docs]</a>    <span class="k">def</span> <span class="nf">save_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the current project to a different location.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">prompt_for_location</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+    <span class="c1">#### protected interface #################################################</span>
+
+    <span class="k">def</span> <span class="nf">_auto_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Called periodically by the timer&#39;s Notify function to automatically</span>
+<span class="sd">        save the current project.</span>
+<span class="sd">        The auto-saved project has the extension &#39;.autosave&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Save the project only if it has been modified.</span>
+        <span class="k">if</span> <span class="n">project</span><span class="o">.</span><span class="n">dirty</span> <span class="ow">and</span> <span class="n">project</span><span class="o">.</span><span class="n">is_save_as_allowed</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># We do not want the project&#39;s location and name to be</span>
+                    <span class="c1"># updated.</span>
+                    <span class="n">project</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">autosave</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">] auto-saved to [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">project</span><span class="p">,</span>
+                                                       <span class="n">autosave_loc</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error auto-saving project [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="o">%</span> <span class="n">project</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error auto-saving project [</span><span class="si">%s</span><span class="s1">] in &#39;</span>
+                                 <span class="s1">&#39;location </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">location</span><span class="p">))</span>
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_clean_autosave_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes any existing autosaved files or directories for the project</span>
+<span class="sd">        at the specified location.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">clean_location</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">)</span>
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_autosave_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the path for auto-saving the project in location.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">location</span><span class="p">),</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.autosave&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_context_for_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the context for the specified object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Context</span><span class="p">):</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">resource_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_resource_type_for_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">factory</span> <span class="o">=</span> <span class="n">resource_type</span><span class="o">.</span><span class="n">context_adapter_factory</span>
+                <span class="k">if</span> <span class="n">factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># FIXME: We probably should use a real environment and</span>
+                    <span class="c1"># context (parent context?)</span>
+                    <span class="n">context</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Context</span><span class="p">,</span> <span class="p">{},</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">context</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_resource_type_for_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the resource type for the specified object.</span>
+
+<span class="sd">        If no type could be found, returns None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_manager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">resource_manager</span>
+        <span class="k">return</span> <span class="n">resource_manager</span><span class="o">.</span><span class="n">get_type_of</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_project_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns True if the project is clean: i.e., the dirty flag is</span>
+<span class="sd">        False and all autosaved versions have been deleted from the filesystem.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span>
+                <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">project</span><span class="o">.</span><span class="n">dirty</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_user_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">parent_window</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prompt the user for a new location for the specified project.</span>
+
+<span class="sd">        Returns the chosen location or, if the user cancelled, an empty</span>
+<span class="sd">        string.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># The dialog to use depends on whether we&#39;re prompting for a file or</span>
+        <span class="c1"># a directory.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">are_projects_files</span><span class="p">():</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_window</span><span class="p">,</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Save Project As&#39;</span><span class="p">,</span>
+                <span class="n">default_path</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="s1">&#39;save as&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="n">title_type</span> <span class="o">=</span> <span class="s1">&#39;File&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">DirectoryDialog</span><span class="p">(</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_window</span><span class="p">,</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Choose a Directory for the Project&#39;</span><span class="p">,</span>
+                <span class="n">default_path</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="s1">&#39;open&#39;</span>
+                <span class="p">)</span>
+            <span class="n">title_type</span> <span class="o">=</span> <span class="s1">&#39;Directory&#39;</span>
+
+        <span class="c1"># Prompt the user for a new location and then validate we&#39;re not</span>
+        <span class="c1"># overwriting something without getting confirmation from the user.</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">):</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="c1"># If the chosen location doesn&#39;t exist yet, we&#39;re set.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">location</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Location [</span><span class="si">%s</span><span class="s1">] does not exist yet.&#39;</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">location</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Otherwise, confirm with the user that they want to overwrite the</span>
+            <span class="c1"># existing files or directories.  If they don&#39;t want to, then loop</span>
+            <span class="c1"># back and prompt them for a new location.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Location [</span><span class="si">%s</span><span class="s1">] exists.  Prompting for overwrite &#39;</span>
+                    <span class="s1">&#39;permission.&#39;</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Overwrite </span><span class="si">%s</span><span class="s1">?&#39;</span> <span class="o">%</span> <span class="n">location</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Project </span><span class="si">%s</span><span class="s1"> Exists&#39;</span> <span class="o">%</span> <span class="n">title_type</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="n">confirm</span><span class="p">(</span><span class="n">parent_window</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">YES</span><span class="p">:</span>
+
+                    <span class="c1"># Only use the location if we successfully remove the</span>
+                    <span class="c1"># existing files or directories at that location.</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">clean_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">location</span>
+                        <span class="k">break</span>
+
+                    <span class="c1"># Otherwise, display the remove error to the user and give</span>
+                    <span class="c1"># them another chance to pick another location</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Unable To Overwrite </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">location</span>
+                        <span class="n">information</span><span class="p">(</span><span class="n">parent_window</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Returning user location [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+    <span class="k">def</span> <span class="nf">_restore_from_autosave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">autosave_loc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Restores the project from the version saved in autosave_loc.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">workbench</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span>
+            <span class="s1">&#39;envisage.ui.workbench.workbench.Workbench&#39;</span><span class="p">)</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">active_window</span>
+        <span class="n">app_name</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">branding</span><span class="o">.</span><span class="n">application_name</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The app quit unexpectedly when [</span><span class="si">%s</span><span class="s1">] was being modified.</span><span class="se">\n</span><span class="s1">&#39;</span>
+                   <span class="s1">&#39;An autosaved version of this project exists.</span><span class="se">\n</span><span class="s1">&#39;</span>
+                   <span class="s1">&#39;Do you want to restore the project from the &#39;</span>
+                   <span class="s1">&#39;autosaved version ?&#39;</span> <span class="o">%</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">confirm</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">cancel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">default</span><span class="o">=</span><span class="n">YES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">YES</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">saved_project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">saved_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># Copy over the autosaved version to the current project&#39;s</span>
+                    <span class="c1"># location, switch the model service&#39;s project, and delete</span>
+                    <span class="c1"># the autosaved version.</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">saved_project</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">clean_location</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">saved_project</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;No usable project found in [</span><span class="si">%s</span><span class="s1">].&#39;</span> <span class="o">%</span>
+                                 <span class="n">autosave_loc</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                    <span class="s1">&#39;Unable to restore project from [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span>
+                    <span class="n">autosave_loc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">parent_window</span><span class="p">,</span> <span class="n">prompt_for_location</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the specified project.  If *prompt_for_location* is True,</span>
+<span class="sd">        or the project has no known location, then the user is prompted to</span>
+<span class="sd">        provide a location to save to.</span>
+
+<span class="sd">        Returns True if the project was saved successfully, False if not.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">location</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="c1"># If the project&#39;s existing location is valid, check if there are any</span>
+        <span class="c1"># autosaved versions.</span>
+        <span class="n">autosave_loc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">location</span><span class="p">):</span>
+            <span class="n">autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+
+        <span class="c1"># Ask the user to provide a location if we were told to do so or</span>
+        <span class="c1"># if the project has no existing location.</span>
+        <span class="k">if</span> <span class="n">prompt_for_location</span> <span class="ow">or</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user_location</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">parent_window</span><span class="p">)</span>
+            <span class="c1"># Rename any existing autosaved versions to the new project</span>
+            <span class="c1"># location.</span>
+            <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_clean_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="n">new_autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">):</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">,</span> <span class="n">new_autosave_loc</span><span class="p">)</span>
+
+        <span class="c1"># If we have a location to save to, try saving the project.</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">project</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="n">saved</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; saved to </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+                <span class="n">information</span><span class="p">(</span><span class="n">parent_window</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="s1">&#39;Project Saved&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">saved</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error saving project [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
+                <span class="n">error</span><span class="p">(</span><span class="n">parent_window</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Save Error&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">saved</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># If the save operation was successful, delete any autosaved files that</span>
+        <span class="c1"># exist.</span>
+        <span class="k">if</span> <span class="n">saved</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clean_autosave_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">saved</span>
+
+
+    <span class="k">def</span> <span class="nf">_show_open_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show the dialog to open a project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Determine the starting point for browsing.  It is likely most</span>
+        <span class="c1"># projects will be stored in the default path used when creating new</span>
+        <span class="c1"># projects.</span>
+        <span class="n">default_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()</span>
+        <span class="n">project_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">PROJECT_CLASS</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">are_projects_files</span><span class="p">():</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">default_directory</span><span class="o">=</span><span class="n">default_path</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Open Project&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">path</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dialog</span> <span class="o">=</span> <span class="n">DirectoryDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">default_path</span><span class="o">=</span><span class="n">default_path</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="s1">&#39;Open Project&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">project_class</span><span class="o">.</span><span class="n">get_pickle_filename</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">path</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;Directory does not contain a recognized &#39;</span>
+                        <span class="s1">&#39;project&#39;</span><span class="p">)</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">path</span>
+
+
+    <span class="k">def</span> <span class="nf">_start_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets the timer to work on auto-saving the current project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">autosave_interval</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Timer needs the interval in millisecs</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">autosave_interval</span><span class="o">*</span><span class="mi">60000</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">_auto_save</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_unbind_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unbinds all of the specified nodes that can be found within this</span>
+<span class="sd">        context or any of its sub-contexts.</span>
+
+<span class="sd">        This uses a breadth first algorithm on the assumption that the</span>
+<span class="sd">        user will have likely selected peer nodes within a sub-context</span>
+<span class="sd">        that isn&#39;t the deepest context.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Unbinding nodes [</span><span class="si">%s</span><span class="s1">] from context [</span><span class="si">%s</span><span class="s1">] within &#39;</span>
+            <span class="s1">&#39;UiService [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Iterate through all of the selected nodes looking for ones who&#39;s</span>
+        <span class="c1"># name is within our context.</span>
+        <span class="n">context_names</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">list_names</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">[:]:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">context_names</span><span class="p">:</span>
+
+                <span class="c1"># Ensure we&#39;ve found a matching node by matching the objects</span>
+                <span class="c1"># as well.</span>
+                <span class="n">binding</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup_binding</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="nb">id</span><span class="p">(</span><span class="n">binding</span><span class="o">.</span><span class="n">obj</span><span class="p">):</span>
+
+                    <span class="c1"># Remove the node from the context -AND- from the list of</span>
+                    <span class="c1"># nodes that are still being searched for.</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                    <span class="c1"># Stop if we&#39;ve unbound the last node</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">break</span>
+
+        <span class="c1"># If we haven&#39;t unbound the last node, then search any sub-contexts</span>
+        <span class="c1"># for more nodes to unbind.</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Build a list of all current sub-contexts of this context.</span>
+            <span class="n">subs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">list_names</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">is_context</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                    <span class="n">obj</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">lookup_binding</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">obj</span>
+                    <span class="n">sub_context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_context_for_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">sub_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">subs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_context</span><span class="p">)</span>
+
+            <span class="c1"># Iterate through each sub-context, stopping as soon as possible</span>
+            <span class="c1"># if we&#39;ve run out of nodes.</span>
+            <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">subs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_unbind_nodes</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+
+    <span class="k">def</span> <span class="nf">_workbench_exiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the workbench polling to see if it can exit and shutdown the</span>
+<span class="sd">        application.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected workbench closing event in [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># Determine if the current project is dirty, or if an autosaved file</span>
+        <span class="c1"># exists for this project (i.e., the project has changes which were</span>
+        <span class="c1"># captured in the autosave operation but were not saved explicitly by</span>
+        <span class="c1"># the user).  If so, let the user</span>
+        <span class="c1"># decide whether to veto the closing event, save the project, or</span>
+        <span class="c1"># ignore the dirty state.</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span>
+
+        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_project_state</span><span class="p">(</span><span class="n">current</span><span class="p">)):</span>
+            <span class="c1"># Find the active workbench window to be our dialog parent and</span>
+            <span class="c1"># the application name to use in our dialog title.</span>
+            <span class="n">workbench</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s1">&#39;envisage.ui.workbench.workbench.Workbench&#39;</span><span class="p">)</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">active_window</span>
+            <span class="n">app_name</span> <span class="o">=</span> <span class="n">workbench</span><span class="o">.</span><span class="n">branding</span><span class="o">.</span><span class="n">application_name</span>
+
+            <span class="c1"># Show a confirmation dialog to the user.</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Do you want to save changes before exiting?&#39;</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">app_name</span><span class="p">)</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">confirm</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">cancel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">YES</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">YES</span><span class="p">:</span>
+                <span class="c1"># If the save is successful, the autosaved file is deleted.</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">):</span>
+                    <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">NO</span><span class="p">:</span>
+                <span class="c1"># Delete the autosaved file as the user does not wish to</span>
+                <span class="c1"># retain the unsaved changes.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_clean_autosave_location</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">CANCEL</span><span class="p">:</span>
+                <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+    <span class="c1">#### Trait change handlers ###############################################</span>
+
+    <span class="k">def</span> <span class="nf">_autosave_interval_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Restarts the timer when the autosave interval changes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_start_timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_service</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_project_changed_for_model_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detects if an autosaved version exists for the project, and displays</span>
+<span class="sd">        a dialog to confirm restoring the project from the autosaved version.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Check if an autosaved version exists and if so, display a dialog</span>
+            <span class="c1"># asking if the user wishes to restore the project from the</span>
+            <span class="c1"># autosaved version.</span>
+            <span class="c1"># Note: An autosaved version should exist only if the app crashed</span>
+            <span class="c1"># unexpectedly. Regular exiting of the workbench should cause the</span>
+            <span class="c1"># autosaved version to be deleted.</span>
+            <span class="n">autosave_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_autosave_location</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">autosave_loc</span><span class="p">)):</span>
+                <span class="c1"># Issue a do_later command here so as to allow time for the</span>
+                <span class="c1"># project view to be updated first to reflect the current</span>
+                <span class="c1"># project&#39;s state.</span>
+                <span class="n">do_later</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restore_from_autosave</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span>
+                         <span class="n">autosave_loc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_start_timer</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<span class="c1">#### EOF #####################################################################</span>
+
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

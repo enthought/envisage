@@ -1,0 +1,10 @@
+envisage.plugins.debug package
+==============================
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.debug
+    :members:
+    :undoc-members:
+    :show-inheritance:
