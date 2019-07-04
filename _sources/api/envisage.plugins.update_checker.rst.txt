@@ -1,0 +1,54 @@
+envisage.plugins.update\_checker package
+========================================
+
+Submodules
+----------
+
+envisage.plugins.update\_checker.tools module
+---------------------------------------------
+
+.. automodule:: envisage.plugins.update_checker.tools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.update\_checker.update\_checker\_dialog module
+---------------------------------------------------------------
+
+.. automodule:: envisage.plugins.update_checker.update_checker_dialog
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.update\_checker.update\_checker\_plugin module
+---------------------------------------------------------------
+
+.. automodule:: envisage.plugins.update_checker.update_checker_plugin
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.update\_checker.update\_info module
+----------------------------------------------------
+
+.. automodule:: envisage.plugins.update_checker.update_info
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.update\_checker.update\_info\_view module
+----------------------------------------------------------
+
+.. automodule:: envisage.plugins.update_checker.update_info_view
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.update_checker
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,46 @@
+envisage.plugins.refresh\_code package
+======================================
+
+Submodules
+----------
+
+envisage.plugins.refresh\_code.actions module
+---------------------------------------------
+
+.. automodule:: envisage.plugins.refresh_code.actions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.refresh\_code.refresh\_code\_action\_set module
+----------------------------------------------------------------
+
+.. automodule:: envisage.plugins.refresh_code.refresh_code_action_set
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.refresh\_code.refresh\_code\_plugin module
+-----------------------------------------------------------
+
+.. automodule:: envisage.plugins.refresh_code.refresh_code_plugin
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.refresh\_code.refresh\_code\_plugin\_definition module
+-----------------------------------------------------------------------
+
+.. automodule:: envisage.plugins.refresh_code.refresh_code_plugin_definition
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.refresh_code
+    :members:
+    :undoc-members:
+    :show-inheritance:

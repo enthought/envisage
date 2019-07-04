@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.plugins.ipython_kernel.internal_ipkernel &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.plugins.ipython_kernel.internal_ipkernel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; This code has been inspired from the IPython repository</span>
+
+<span class="sd">https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="k">import</span> <span class="n">StrictVersion</span> <span class="k">as</span> <span class="n">Version</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">ipykernel</span>
+<span class="kn">from</span> <span class="nn">ipykernel.connect</span> <span class="k">import</span> <span class="n">connect_qtconsole</span>
+<span class="kn">from</span> <span class="nn">ipykernel.kernelapp</span> <span class="k">import</span> <span class="n">IPKernelApp</span>
+<span class="kn">from</span> <span class="nn">tornado</span> <span class="k">import</span> <span class="n">ioloop</span>
+
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">HasStrictTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="n">NEEDS_IOLOOP_PATCH</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">ipykernel</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Version</span><span class="p">(</span><span class="s1">&#39;4.7.0&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="gui_kernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.gui_kernel">[docs]</a><span class="k">def</span> <span class="nf">gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Launch and return an IPython kernel GUI with support.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gui_backend -- string or None</span>
+<span class="sd">      The GUI mode used to initialize the GUI mode. For options, see</span>
+<span class="sd">      the `ipython --gui` help pages. If None, the kernel is initialized</span>
+<span class="sd">      without GUI support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">IPKernelApp</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
+
+    <span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">gui_backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">argv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--gui=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">))</span>
+    <span class="n">kernel</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">kernel</span></div>
+
+
+<div class="viewcode-block" id="InternalIPKernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel">[docs]</a><span class="k">class</span> <span class="nc">InternalIPKernel</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Represents an IPython kernel and the consoles attached to it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The IPython kernel.</span>
+    <span class="n">ipkernel</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IPKernelApp</span><span class="p">)</span>
+
+    <span class="c1">#: A list of connected Qt consoles.</span>
+    <span class="n">consoles</span> <span class="o">=</span> <span class="n">List</span><span class="p">()</span>
+
+    <span class="c1">#: The kernel namespace.</span>
+    <span class="c1">#: Use `Any` instead of `Dict` because this is an IPython dictionary</span>
+    <span class="c1">#: object.</span>
+    <span class="n">namespace</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
+
+    <span class="c1">#: The values used to initialize the kernel namespace.</span>
+    <span class="c1">#: This is a list of tuples (name, value).</span>
+    <span class="n">initial_namespace</span> <span class="o">=</span> <span class="n">List</span><span class="p">()</span>
+
+    <span class="c1">#: sys.stdout value at time kernel was started</span>
+    <span class="n">_original_stdout</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
+
+    <span class="c1">#: sys.stderr value at time kernel was started</span>
+    <span class="n">_original_stderr</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
+
+<div class="viewcode-block" id="InternalIPKernel.init_ipkernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.init_ipkernel">[docs]</a>    <span class="k">def</span> <span class="nf">init_ipkernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gui_backend</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the IPython kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gui_backend -- string</span>
+<span class="sd">          The GUI mode used to initialize the GUI mode. For options, see</span>
+<span class="sd">          the `ipython --gui` help pages.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The IPython kernel modifies sys.stdout and sys.stderr when started,</span>
+        <span class="c1"># and doesn&#39;t currently provide a way to restore them. So we restore</span>
+        <span class="c1"># them ourselves at shutdown.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+
+        <span class="c1"># Start IPython kernel with GUI event loop support</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="o">=</span> <span class="n">gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">)</span>
+
+        <span class="c1"># Since ipykernel 4.7, the io_loop attribute of the kernel is not</span>
+        <span class="c1"># initialized anymore</span>
+        <span class="c1"># Reference: https://github.com/enthought/envisage/issues/107</span>
+        <span class="c1"># Workaround: Retrieve the kernel on the IPykernelApp and set the</span>
+        <span class="c1"># io_loop without starting it!</span>
+        <span class="k">if</span> <span class="n">NEEDS_IOLOOP_PATCH</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="s1">&#39;io_loop&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">io_loop</span> <span class="o">=</span> <span class="n">ioloop</span><span class="o">.</span><span class="n">IOLoop</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
+
+        <span class="c1"># This application will also act on the shell user namespace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_namespace</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="InternalIPKernel.new_qt_console"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.new_qt_console">[docs]</a>    <span class="k">def</span> <span class="nf">new_qt_console</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start a new qtconsole connected to our kernel. &quot;&quot;&quot;</span>
+        <span class="n">console</span> <span class="o">=</span> <span class="n">connect_qtconsole</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">connection_file</span><span class="p">,</span>
+                                    <span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;--no-confirm-exit&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consoles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">console</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">console</span></div>
+
+<div class="viewcode-block" id="InternalIPKernel.cleanup_consoles"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.cleanup_consoles">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup_consoles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Kill all existing consoles. &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">consoles</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consoles</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="InternalIPKernel.shutdown"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Shutdown the kernel.</span>
+
+<span class="sd">        Existing IPython consoles are killed first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_consoles</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">exit_now</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">cleanup_connection_file</span><span class="p">()</span>
+
+            <span class="c1"># The stdout and stderr streams created by the kernel use the</span>
+            <span class="c1"># IOPubThread, so we need to close them and restore the originals</span>
+            <span class="c1"># before we shut down the thread. Without this, we get obscure</span>
+            <span class="c1"># errors of the form &quot;TypeError: heap argument must be a list&quot;.</span>
+            <span class="n">kernel_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+            <span class="k">if</span> <span class="n">kernel_stdout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_stdout</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_stdout</span>
+                <span class="n">kernel_stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="n">kernel_stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+            <span class="k">if</span> <span class="n">kernel_stderr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_stderr</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_stderr</span>
+                <span class="n">kernel_stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">iopub_thread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
