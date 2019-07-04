@@ -1,1 +1,0 @@
-from .ipython_shell_view import IPythonShellView
