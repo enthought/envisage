@@ -13,7 +13,7 @@ PKG = '.'.join(__name__.split('.')[:-1])
 class WorkbenchPlugin(Plugin):
     """ The Envisage workbench plugin.
 
-    The workbench plugin uses the PyFace workbench to provide the basis of an
+    The workbench plugin uses the Pyface workbench to provide the basis of an
     IDE-like user interface. The interface is made up of perspectives, views
     and editors.
 

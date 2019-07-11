@@ -12,7 +12,7 @@ PKG = '.'.join(__name__.split('.')[:-1])
 class TasksPlugin(Plugin):
     """ The Envisage Tasks plugin.
 
-    The Tasks plugin uses PyFace Tasks to provide an extensible framework for
+    The Tasks plugin uses Pyface Tasks to provide an extensible framework for
     building user interfaces. For more information, see the Tasks User Manual.
     """
 

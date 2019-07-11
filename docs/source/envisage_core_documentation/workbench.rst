@@ -26,7 +26,7 @@ Workbench user interfaces are based on 3 simple concepts:
    views used to provide supporting information. Editors are grouped together
    geographically in what is known as the *editor area*.
 
-   In an IDE application, editors would contain the source code that a 
+   In an IDE application, editors would contain the source code that a
    developer is currently working on.
 
 3) Perspectives
@@ -51,7 +51,7 @@ Workbench user interfaces are based on 3 simple concepts:
      variable watches, stack information etc.
 
 In keeping with the Envisage philosophy of making code as reuseable as
-possible, the workbench plugin is just a thin layer over the PyFace Workbench
+possible, the workbench plugin is just a thin layer over the Pyface Workbench
 widget to allow views, editors and perspectives to be contributed via plugins.
 
 

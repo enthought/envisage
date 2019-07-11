@@ -65,7 +65,7 @@ common pattern in the Tasks framework.
 
 All tasks must implement ``create_central_pane()`` and return a TaskPane
 instance. We might define the ``PythonEditorPane`` pane above as follows, making
-use of the ``PythonEditor`` available in PyFace::
+use of the ``PythonEditor`` available in Pyface::
 
     from pyface.api import PythonEditor
     from pyface.tasks.api import TaskPane
@@ -153,7 +153,7 @@ which we connect to the dock pane's ``activated`` event::
     class ExampleTask(Task):
 
         [ ... ]
-        
+
         def create_dock_panes(self):
             """ Create the file browser and connect to its double click event.
             """
@@ -186,7 +186,7 @@ A few examples should suffice to make this clear. To stack the dock pane with ID
 'dock_pane_1' on top of that with ID 'dock_pane_2', with both to the left of the
 central pane, one specifies::
 
-    left = Splitter(PaneItem('dock_pane_1'), 
+    left = Splitter(PaneItem('dock_pane_1'),
                     PaneItem('dock_pane_2'),
                     orientation='vertical')
 
@@ -198,7 +198,7 @@ for a splitter with horizontal orientation.
 
 To put these dock panes in tab group below the central pane, we might write::
 
-    bottom_panes = Tabbed(PaneItem('dock_pane_1', height=400), 
+    bottom_panes = Tabbed(PaneItem('dock_pane_1', height=400),
                           PaneItem('dock_pane_2'))
 
 Observe that we have explicitly provided a height for the first dock

@@ -31,7 +31,7 @@ class GUIApplication(Application):
 
     #### 'GUIApplication' interface #########################################
 
-    #: The PyFace GUI for the application.
+    #: The Pyface GUI for the application.
     gui = Supports('pyface.i_gui.IGUI')
 
     #: The splash screen for the application. By default, there is no splash

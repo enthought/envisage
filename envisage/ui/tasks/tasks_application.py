@@ -34,7 +34,7 @@ class TasksApplication(Application):
     # The active task window (the last one to get focus).
     active_window = Instance('envisage.ui.tasks.task_window.TaskWindow')
 
-    # The PyFace GUI for the application.
+    # The Pyface GUI for the application.
     gui = Instance('pyface.gui.GUI')
 
     # Icon for the whole application. Will be used to override all taskWindows
