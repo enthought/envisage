@@ -43,7 +43,7 @@ class WorkbenchApplication(Application):
 
     #### 'WorkbenchApplication' interface #####################################
 
-    # The PyFace GUI for the application (this is here to make it easy for
+    # The Pyface GUI for the application (this is here to make it easy for
     # parts of the application to get a reference to the GUI so they can get
     # system metrics, etc.
     gui = Instance(GUI)

@@ -2,7 +2,7 @@ GUIApplication
 ==============
 
 The :py:class:`GUIApplication` subclass of the standard Envisage
-:py:class:`Application` class uses PyFace's cross-platform GUI tools to ensure
+:py:class:`Application` class uses Pyface's cross-platform GUI tools to ensure
 that an appropriate back-end application object is instantiated before plugins
 run their :py:meth:`start` methods, and then ensures that the GUI mainloop is
 started after the :py:meth:`start` methods have successfully completed.
@@ -33,11 +33,11 @@ The :py:class:`GUIApplication` exposes the following public API:
 
 .. py:attribute:: gui
 
-    The PyFace :py:class:`GUI` instance the :py:class:`GUIApplication` creates.
+    The Pyface :py:class:`GUI` instance the :py:class:`GUIApplication` creates.
 
 .. py:attribute:: splash_screen
 
-    An optional PyFace :py:class:`ISplashScreen` that gets shown while
+    An optional Pyface :py:class:`ISplashScreen` that gets shown while
     the plugins are started.
 
 .. py:attribute:: application_initialized

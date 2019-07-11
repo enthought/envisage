@@ -24,7 +24,7 @@ Defining a Menu Bar
 
 Resuming our example of the script editing task from the previous section, we
 shall define some menu items for opening and saving files. As in Traits UI and
-PyFace, individual menu items are instances of the ``Action`` class [1]_. We
+Pyface, individual menu items are instances of the ``Action`` class [1]_. We
 might define the 'Open' action as follows::
 
     from pyface.action.api import Action
@@ -41,7 +41,7 @@ Of course, we must also implement the ``open()`` method on our task::
     from pyface.api import FileDialog, OK
 
     class ExampleTask(Task):
-    
+
         [ ... ]
 
         def open(self):
@@ -61,7 +61,7 @@ bar. Tasks provides several ``Schema`` classes for this purpose:
 :``MenuBarSchema``: The root of a menu hierarchy. Contains some number of menu
                     schemas.
 :``MenuSchema``:    A menu or sub-menu in the menu hierarchy.
-:``GroupSchema``:   A group of menu items that are logically related and that 
+:``GroupSchema``:   A group of menu items that are logically related and that
                     may or may not require separators from other groups.
 
 For convenience, these classes also have the abbreviated names ``SMenuBar``,
@@ -106,7 +106,7 @@ Defining a Tool Bar
 Like a menu bar, a tool bar uses the ``Action`` class to represent individual
 items. A tool bar, however, is defined with a different set of schemas:
 
-:``ToolBarSchema``: The root of a tool bar hierarchy. Contains some number of 
+:``ToolBarSchema``: The root of a tool bar hierarchy. Contains some number of
                     group schemas and actions.
 :``GroupSchema``:   A group of tool bar buttons that are logically related and
                     that may or may not require separators from other groups.
@@ -119,7 +119,7 @@ files to our script editing task::
     from pyface.tasks.action.api import SToolBar, TaskAction
 
     class ExampleTask(Task):
-        
+
         [ ... ]
 
         tool_bars = [ SToolBar(TaskAction(method='open',
@@ -133,4 +133,3 @@ files to our script editing task::
 
 .. [1] The most convenient reference in this case is the `source code
        <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py>`_ itself.
-

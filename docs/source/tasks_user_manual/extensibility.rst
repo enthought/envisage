@@ -7,7 +7,7 @@
 .. index:: Envisage
 
 The foregoing sections have described those elements of the Tasks framework that
-belong to the PyFace project; as such, our imports have been from the
+belong to the Pyface project; as such, our imports have been from the
 ``pyface.tasks`` package. We now discuss how Tasks can be used in
 conjunction with Envisage to build extensible applications. Accordingly, our
 imports in this section will be from the ``envisage.ui.tasks``
@@ -37,7 +37,7 @@ extensibility use cases:
    Alternatively, the user may find that the none of the existing tasks are
    suitable for the functonality that he or she wishes to implement. Thus the
    user decides to contribute an entirely new task.
-   
+
 The Tasks plugin has an extension point corresponding to each of these two use
 cases. These extensions points are:
 
@@ -215,7 +215,7 @@ We begin by defining "preferences.ini", our default preferences file::
 and contributing it to the Envisage core plugin::
 
     class AttractorsPlugin(Plugin):
-    
+
         [ ... ]
 
         preferences = List(contributes_to='envisage.preferences')
@@ -238,9 +238,9 @@ above, exposes a Traits UI view for this helper object::
     class AttractorsPreferences(PreferencesHelper):
 
         #### 'PreferencesHelper' interface ####################################
-    
+
         # The path to the preference node that contains the preferences.
-        # Notice that this corresponds to the section header in our preferences 
+        # Notice that this corresponds to the section header in our preferences
         # file above.
         preferences_path = 'example.attractors'
 
@@ -260,7 +260,7 @@ above, exposes a Traits UI view for this helper object::
 
         task_map = Dict(Str, Unicode)
 
-        # Notice that the default context for trait names is that of the model 
+        # Notice that the default context for trait names is that of the model
         # object, and that we must prefix names for this object with 'handler.'.
         view = View(Group(Item('always_use_default_layout'),
                           Item('default_task',
@@ -270,7 +270,7 @@ above, exposes a Traits UI view for this helper object::
                     resizable=True)
 
         def _task_map_default(self):
-            return dict((factory.id, factory.name) 
+            return dict((factory.id, factory.name)
                         for factory in self.dialog.application.task_factories)
 
 Finally, we modify our application to make use of this new functionality::
@@ -292,7 +292,7 @@ Finally, we modify our application to make use of this new functionality::
             active_task = self.preferences_helper.default_task
             tasks = [ factory.id for factory in self.task_factories ]
             return [ TaskWindowLayout(*tasks,
-                                      active_task = active_task, 
+                                      active_task = active_task,
                                       size = (800, 600)) ]
 
         def _get_always_use_default_layout(self):
@@ -306,7 +306,7 @@ and contribute the preferences pane to the Tasks plugin::
     class AttractorsPlugin(Plugin):
 
         [ ... ]
-        
+
         preferences_panes = List(
             contributes_to='envisage.ui.tasks.preferences_panes')
 
@@ -353,8 +353,8 @@ menu as follows::
                    path = 'MenuBar/File')
 
 where ``factory`` is a callable that produces either a schema or an object from
-the PyFace action API [2]_. A schema addition that produces a schema can in turn
-be extended by another schema addition. If it produces a PyFace object, it
+the Pyface action API [2]_. A schema addition that produces a schema can in turn
+be extended by another schema addition. If it produces a Pyface object, it
 cannot be further extended. In this case we have opted for latter, using a
 custom subclass of ``Group``.
 
@@ -418,9 +418,9 @@ several other menu-related conveniences, can be found in
        <https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors>`_
        and in the ETS distribution.
 
-.. [2] Although they are expanded into PyFace action items, schemas belong to a
+.. [2] Although they are expanded into Pyface action items, schemas belong to a
        distinct API. It is beyond the scope of this document to describe the
-       PyFace action API. For lack of more complete documentation, the reader is
+       Pyface action API. For lack of more complete documentation, the reader is
        referred to the `source code
        <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/>`_.
 
