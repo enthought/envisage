@@ -144,12 +144,13 @@ default.
 
 By default, the Tasks framework will restore application-level layout when the
 application is restarted. That is, the set of windows and tasks attached to
-those windows that is extant when application exits will be restored when
-application is started again. If, however, the ``always_use_default_layout``
-attribute of the application is set, the default application-layout will be
-applied when the application is restarted. Tasks will still attempt to restore
-as much user interface state as possible, including window positions and task
-layouts. This setting is partcularly useful for multi-window applications.
+those windows that is extant when the application exits will be restored when
+the application is started again. If, however, the
+``always_use_default_layout`` attribute of the application is set, the default
+application layout will be applied when the application is restarted. Tasks
+will still attempt to restore as much user interface state as possible,
+including window positions and task layouts. This setting is particularly
+useful for multi-window applications.
 
 Apart from this functionality, the Tasks plugin provides no additional *default*
 behavior for managing tasks and their windows, permitting users to switch tasks
