@@ -149,8 +149,8 @@ the application is started again. If, however, the
 ``always_use_default_layout`` attribute of the application is set, the default
 application layout will be applied when the application is restarted. Tasks
 will still attempt to restore as much user interface state as possible,
-including window positions and task layouts. This setting is partcularly useful
-for multi-window applications.
+including window positions and task layouts. This setting is particularly
+useful for multi-window applications.
 
 Apart from this functionality, the Tasks plugin provides no additional *default*
 behavior for managing tasks and their windows, permitting users to switch tasks
