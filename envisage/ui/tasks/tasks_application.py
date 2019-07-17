@@ -73,7 +73,7 @@ class TasksApplication(Application):
         Instance('pyface.tasks.task_window_layout.TaskWindowLayout'))
 
     # Whether to always apply the default *application level* layout when the
-    # application is started. Even if this is False, the layout state of
+    # application is started. Even if this is True, the layout state of
     # individual tasks will be restored.
     always_use_default_layout = Bool(False)
 
