@@ -88,7 +88,7 @@ class EggPluginManager(PluginManager):
         # Warn if the entry point is an old-style one where the LHS didn't have
         # to be the same as the plugin Id.
         if ep.name != plugin.id:
-            logger.warn(
+            logger.warning(
                 'entry point name <%s> should be the same as the '
                 'plugin id <%s>' % (ep.name, plugin.id)
             )

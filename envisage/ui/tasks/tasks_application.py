@@ -340,7 +340,7 @@ class TasksApplication(Application):
                 if state.version == restored_state.version:
                     state = restored_state
                 else:
-                    logger.warn('Discarding outdated application layout')
+                    logger.warning('Discarding outdated application layout')
             except:
                 # If anything goes wrong, log the error and continue.
                 logger.exception('Restoring application layout from %s',
