@@ -9,7 +9,13 @@ import unittest
 from envisage._compat import pickle
 from envisage.ui.tasks.api import TasksApplication
 
+requires_gui = unittest.skipIf(
+    os.environ["ETS_TOOLKIT"] == "null",
+    "Test requires a non-null GUI backend",
+)
 
+
+@requires_gui
 class TestTasksApplication(unittest.TestCase):
 
     def setUp(self):
