@@ -91,7 +91,7 @@ class ActionSet(HasTraits):
         """ Trait initializer. """
 
         id = '%s.%s' % (type(self).__module__, type(self).__name__)
-        logger.warn('action set %s has no Id - using <%s>' % (self, id))
+        logger.warning('action set %s has no Id - using <%s>' % (self, id))
 
         return id
 
@@ -99,7 +99,7 @@ class ActionSet(HasTraits):
         """ Trait initializer. """
 
         name = camel_case_to_words(type(self).__name__)
-        logger.warn('action set %s has no name - using <%s>' % (self, name))
+        logger.warning('action set %s has no name - using <%s>' % (self, name))
 
         return name
 

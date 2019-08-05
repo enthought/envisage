@@ -178,7 +178,7 @@ class Plugin(ExtensionProvider):
         """ Trait initializer. """
 
         id = '%s.%s' % (type(self).__module__, type(self).__name__)
-        logger.warn('plugin %s has no Id - using <%s>' % (self, id))
+        logger.warning('plugin %s has no Id - using <%s>' % (self, id))
 
         return id
 
@@ -186,7 +186,7 @@ class Plugin(ExtensionProvider):
         """ Trait initializer. """
 
         name = camel_case_to_words(type(self).__name__)
-        logger.warn('plugin %s has no name - using <%s>' % (self, name))
+        logger.warning('plugin %s has no name - using <%s>' % (self, name))
 
         return name
 
@@ -247,7 +247,7 @@ class Plugin(ExtensionProvider):
         """ Register the services offered by the plugin. """
 
         for trait_name, trait in self.traits(service=True).items():
-            logger.warn(
+            logger.warning(
                 'DEPRECATED: Do not use the "service=True" metadata anymore. '
                 'Services should now be offered using the service '
                 'offer extension point (envisage.service_offers) '

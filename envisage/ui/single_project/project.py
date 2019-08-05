@@ -332,7 +332,8 @@ class Project(HasTraits):
 
         # Warn if the resource is not part of this project
         if not self._contains_resource(resource):
-            logger.warn('This Project [%s] does not contain resource [%s]' % \
+            logger.warning(
+                'This Project [%s] does not contain resource [%s]',
                 (self, resource))
 
         # Add or remove from our set of editors as requested
