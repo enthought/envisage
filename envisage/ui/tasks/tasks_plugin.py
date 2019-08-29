@@ -27,10 +27,10 @@ class TasksPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    # The plugin's unique identifier.
+    #: The plugin's unique identifier.
     id = 'envisage.ui.tasks'
 
-    # The plugin's name (suitable for displaying to the user).
+    #: The plugin's name (suitable for displaying to the user).
     name = 'Tasks'
 
     #### Extension points offered by this plugin ##############################
