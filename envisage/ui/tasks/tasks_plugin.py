@@ -27,14 +27,18 @@ class TasksPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    # The plugin's unique identifier.
+    #: The plugin's unique identifier.
     id = 'envisage.ui.tasks'
 
-    # The plugin's name (suitable for displaying to the user).
+    #: The plugin's name (suitable for displaying to the user).
     name = 'Tasks'
 
     #### Extension points offered by this plugin ##############################
 
+    #: Contributed preference categories. Contributions to this extension
+    #: point must have type ``PreferencesCategory``. Preference categories
+    #: will be created automatically if necessary; this extension point is
+    #: useful when ensuring that a category is inserted at a specific location.
     preferences_categories = ExtensionPoint(
         List(PreferencesCategory), id=PREFERENCES_CATEGORIES, desc="""
 
@@ -44,6 +48,9 @@ class TasksPlugin(Plugin):
         wants to ensure that a category is inserted at a specific location.
         """)
 
+    #: Contributed preference pane factories. Each contribution to this
+    #: extension point must be a callable with the signature
+    #: ``callable(**traits) -> PreferencePane``.
     preferences_panes = ExtensionPoint(
         List(Callable), id=PREFERENCES_PANES, desc="""
 
@@ -60,6 +67,8 @@ class TasksPlugin(Plugin):
         that derives from 'envisage.ui.tasks.api.PreferencesPane'.
         """)
 
+    #: Contributed task factories. Contributions to this extension point
+    #: must have type ``TaskFactory``.
     tasks = ExtensionPoint(
         List(Instance('envisage.ui.tasks.task_factory.TaskFactory')),
         id=TASKS,
@@ -71,6 +80,8 @@ class TasksPlugin(Plugin):
         'envisage.tasks.api.TaskFactory.
         """)
 
+    #: Contributed task extensions. Contributions to this extension point
+    #: must have type ``TaskExtension``.
     task_extensions = ExtensionPoint(
         List(Instance('envisage.ui.tasks.task_extension.TaskExtension')),
         id=TASK_EXTENSIONS,
