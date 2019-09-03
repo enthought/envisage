@@ -1,5 +1,9 @@
+import contextlib
 import gc
+import os
+import shutil
 import sys
+import tempfile
 import unittest
 
 try:
@@ -16,6 +20,37 @@ if ipykernel_available:
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
         InternalIPKernel)
+
+
+@contextlib.contextmanager
+def temp_filename(filename):
+    tmpdir = tempfile.mkdtemp()
+    try:
+        yield os.path.join(tmpdir, filename)
+    finally:
+        shutil.rmtree(tmpdir)
+
+
+@contextlib.contextmanager
+def redirect_stdout_to(filename):
+    """ Redirect stdout output from C libraries to a file.
+
+    Parameters
+    ----------
+    filename : str
+        Path to filename to use for the redirected output.
+    """
+    with open(filename, 'w') as stream:
+        stdout_fd = sys.__stdout__.fileno()
+        old_stdout_fd = os.dup(stdout_fd)
+        dest_fd = stream.fileno()
+        os.dup2(dest_fd, stdout_fd)
+        try:
+            yield
+        finally:
+            sys.__stdout__.flush()
+            os.dup2(old_stdout_fd, stdout_fd)
+            os.close(old_stdout_fd)
 
 
 @unittest.skipUnless(ipykernel_available,
@@ -83,3 +118,15 @@ class TestInternalIPKernel(unittest.TestCase):
 
         for thread in io_pub_threads:
             self.assertFalse(thread.thread.is_alive())
+
+    def test_ctrl_c_message_suppressed(self):
+        with temp_filename("captured_stdout.txt") as captured_stdout:
+            with redirect_stdout_to(captured_stdout):
+                kernel = InternalIPKernel()
+                kernel.init_ipkernel(gui_backend=None)
+                kernel.shutdown()
+
+            with open(captured_stdout, "rb") as f:
+                stdout = f.read().decode("utf-8")
+
+        self.assertNotIn("Ctrl-C will not work", stdout)
