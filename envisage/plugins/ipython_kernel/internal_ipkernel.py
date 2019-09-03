@@ -3,15 +3,22 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
+from __future__ import print_function
+
 from distutils.version import StrictVersion as Version
+import logging
 import sys
 
 import ipykernel
 from ipykernel.connect import connect_qtconsole
 from ipykernel.kernelapp import IPKernelApp
+import IPython.utils.io
+import six
 from tornado import ioloop
 
 from traits.api import Any, HasStrictTraits, Instance, List
+
+logger = logging.getLogger(__name__)
 
 NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 
@@ -35,6 +42,35 @@ def gui_kernel(gui_backend):
     kernel.initialize(argv)
 
     return kernel
+
+
+# Replacements for IPython.utils.io.raw_print and IPython.utils.raw_print_err
+# that send output to logging instead of to __stdout__ and __stderr__.
+
+def log_print(*args, **kw):
+    """
+    Logging replacement for IPython.utils.io.raw_print.
+
+    Instead of printing to __stdout__, this function logs at INFO level.
+    """
+    message = six.StringIO()
+    print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
+          file=message)
+    logger.info(message.getvalue())
+    message.close()
+
+
+def log_print_err(*args, **kw):
+    """
+    Logging replacement for IPython.utils.io.raw_print_err.
+
+    Instead of printing to __stdout__, this function logs at WARNING level.
+    """
+    message = six.StringIO()
+    print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
+          file=message)
+    logger.warning(message.getvalue())
+    message.close()
 
 
 class InternalIPKernel(HasStrictTraits):
@@ -74,6 +110,10 @@ class InternalIPKernel(HasStrictTraits):
           The GUI mode used to initialize the GUI mode. For options, see
           the `ipython --gui` help pages.
         """
+        # Replace IPython's raw_print and raw_print_err with versions that log.
+        IPython.utils.io.raw_print = log_print
+        IPython.utils.io.raw_print_err = log_print_err
+
         # The IPython kernel modifies sys.stdout and sys.stderr when started,
         # and doesn't currently provide a way to restore them. So we restore
         # them ourselves at shutdown.
