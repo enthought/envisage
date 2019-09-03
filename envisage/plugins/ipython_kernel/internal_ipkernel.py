@@ -62,6 +62,9 @@ class InternalIPKernel(HasStrictTraits):
     #: sys.stderr value at time kernel was started
     _original_stderr = Any()
 
+    #: old value for the _ctrl_c_message, so that it can be restored
+    _original_ctrl_c_message = Any()
+
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
 
@@ -76,6 +79,13 @@ class InternalIPKernel(HasStrictTraits):
         # them ourselves at shutdown.
         self._original_stdout = sys.stdout
         self._original_stderr = sys.stderr
+
+        # Suppress the unhelpful "Ctrl-C will not work" message from the
+        # kernelapp.
+        self._original_ctrl_c_message = getattr(
+            ipykernel.kernelapp, "_ctrl_c_message", None)
+        if self._original_ctrl_c_message is not None:
+            ipykernel.kernelapp._ctrl_c_message = ""
 
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
@@ -133,3 +143,9 @@ class InternalIPKernel(HasStrictTraits):
 
             self.ipkernel.iopub_thread.stop()
             self.ipkernel = None
+
+            # Restore changes to the ctrl-c-message.
+            if self._original_ctrl_c_message is not None:
+                ipykernel.kernelapp._ctrl_c_message = (
+                    self._original_ctrl_c_message)
+                self._original_ctrl_c_message = None
