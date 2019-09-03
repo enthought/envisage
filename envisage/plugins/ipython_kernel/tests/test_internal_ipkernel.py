@@ -33,7 +33,8 @@ def temp_filename(filename):
 
 @contextlib.contextmanager
 def redirect_stdout_to(filename):
-    """ Redirect stdout output from C libraries to a file.
+    """ Redirect stdout to a file, in a way that's immune to changes
+    to Python's sys.stdout.
 
     Parameters
     ----------
