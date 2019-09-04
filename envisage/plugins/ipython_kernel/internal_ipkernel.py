@@ -101,6 +101,11 @@ class InternalIPKernel(HasStrictTraits):
     #: old value for the _ctrl_c_message, so that it can be restored
     _original_ctrl_c_message = Any()
 
+    #: old values for IPython's raw_print and raw_print_err, which we
+    #: replace while the kernel is running.
+    _original_raw_print = Any()
+    _original_raw_print_err = Any()
+
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
 
@@ -111,6 +116,8 @@ class InternalIPKernel(HasStrictTraits):
           the `ipython --gui` help pages.
         """
         # Replace IPython's raw_print and raw_print_err with versions that log.
+        self._original_raw_print = IPython.utils.io.raw_print
+        self._original_raw_print_err = IPython.utils.io.raw_print_err
         IPython.utils.io.raw_print = log_print
         IPython.utils.io.raw_print_err = log_print_err
 
@@ -189,3 +196,11 @@ class InternalIPKernel(HasStrictTraits):
                 ipykernel.kernelapp._ctrl_c_message = (
                     self._original_ctrl_c_message)
                 self._original_ctrl_c_message = None
+
+            # Undo changes to raw_print and raw_print_err.
+            if self._original_raw_print_err is not None:
+                IPython.utils.io.raw_print_err = self._original_raw_print_err
+                self._original_raw_print_err = None
+            if self._original_raw_print is not None:
+                IPython.utils.io.raw_print = self._original_raw_print
+                self._original_raw_print = None
