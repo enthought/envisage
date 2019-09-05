@@ -8,12 +8,103 @@ import sys
 
 import ipykernel
 from ipykernel.connect import connect_qtconsole
+from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
 from tornado import ioloop
 
 from traits.api import Any, HasStrictTraits, Instance, List
 
 NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
+
+
+# XXX Refactor to avoid the fragile subclassing of IPKernelApp.
+# XXX Move this class to its own module.
+
+class PatchedIPKernelApp(IPKernelApp):
+    """
+    Patched version of the IPKernelApp, mostly to support clean shutdown.
+
+    """
+    def _unbind_socket(self, s, port):
+        transport = self.transport
+
+        if port <= 0:
+            # This should only happen if _bind_socket hasn't been called.
+            # So we shouldn't ever get here, but perhaps we should defensively
+            # do nothing (maybe print a warning about unbinding a port
+            # that was never bound) if we do get here.
+            raise RuntimeError("Shouldn't ever get here.")
+
+        # XXX Repetition of information from _bind_socket; refactor
+        # to remove the repetition.
+        if transport == "tcp":
+            endpoint = "tcp://%s:%i" % (self.ip, port)
+        elif transport == "ipc":
+            endpoint = "ipc://%s-%i" % (self.ip, port)
+        else:
+            raise ValueError(
+                "Unknown transport type: {}".format(self.transport))
+
+        s.unbind(endpoint)
+
+    def close_sockets(self):
+        """
+        Unbind, close and destroy sockets created by init_sockets.
+        """
+        # context = zmq.Context.instance()
+        self.close_iopub()
+
+        # XXX Already closed by close_kernel, but not explictly unbound.
+        # unbind after close fails (not surprisingly)
+        # Do we still need to unbind?
+        #self._unbind_socket(self.control_socket, self.control_port)
+        #self.control_socket.close()
+        del self.control_socket
+
+        self._unbind_socket(self.stdin_socket, self.stdin_port)
+        self.stdin_socket.close()
+        del self.stdin_socket
+
+        # Also already closed when closing the associated ZMQStream
+        #self._unbind_socket(self.shell_socket, self.shell_port)
+        #self.shell_socket.close()
+        del self.shell_socket
+
+    def close_iopub(self):
+        """
+        Close iopub-related resources.
+        """
+        self.iopub_socket = self.iopub_thread.socket
+        self.iopub_thread.stop()
+
+        self._unbind_socket(self.iopub_socket, self.iopub_port)
+        self.iopub_socket.close()
+        del self.iopub_socket
+
+    def close_kernel(self):
+        """
+        Undo setup from init_kernel.
+        """
+        # Dig in to find the shell stream and control stream.
+        # kernel is a an IPythonKernel object
+
+        # XXX This is ugly: ideally, we should be closing the streams
+        # in the same class that creates them. That may be awkward
+        # in practice.
+        kernel = self.kernel
+        for stream in kernel.shell_streams:
+            stream.stop_on_recv()
+            # This also closes the corresponding socket.
+            stream.close()
+
+    def init_heartbeat(self):
+        # Temporarily override while debugging, to avoid creating the
+        # heartbeat at all. To do: allow the heartbeat to be created,
+        # then shut it down (along with its sockets and context).
+        pass
+
+
+
 
 
 def gui_kernel(gui_backend):
@@ -27,7 +118,7 @@ def gui_kernel(gui_backend):
       without GUI support.
     """
 
-    kernel = IPKernelApp.instance()
+    kernel = PatchedIPKernelApp.instance()
 
     argv = ['python']
     if gui_backend is not None:
@@ -42,7 +133,7 @@ class InternalIPKernel(HasStrictTraits):
     """
 
     #: The IPython kernel.
-    ipkernel = Instance(IPKernelApp)
+    ipkernel = Instance(PatchedIPKernelApp)
 
     #: A list of connected Qt consoles.
     consoles = List()
@@ -141,7 +232,8 @@ class InternalIPKernel(HasStrictTraits):
                 sys.stderr = self._original_stderr
                 kernel_stderr.close()
 
-            self.ipkernel.iopub_thread.stop()
+            self.ipkernel.close_kernel()
+            self.ipkernel.close_sockets()
             self.ipkernel = None
 
             # Restore changes to the ctrl-c-message.
@@ -149,3 +241,7 @@ class InternalIPKernel(HasStrictTraits):
                 ipykernel.kernelapp._ctrl_c_message = (
                     self._original_ctrl_c_message)
                 self._original_ctrl_c_message = None
+
+            # Remove singletons.
+            PatchedIPKernelApp.clear_instance()
+            IPythonKernel.clear_instance()
