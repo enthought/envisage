@@ -27,6 +27,10 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 #     explicitly, rather than as a result of refcounting?
 # XXX Ensure we're not adding atexit handlers. (Note that there's an "unregister"
 #     available in Python 3.)
+# XXX Is anyone actually messing with the displayhook? Check!
+# XXX By the time that the Shell stores the sys state (InteractiveShell.save_sys_module_state),
+#     it's already been swapped out for something else. Why? Who's setting the sys
+#     attributes *before* save_sys_module_state gets called, and why?
 
 
 class PatchedIPKernelApp(IPKernelApp):
@@ -127,6 +131,11 @@ class PatchedIPKernelApp(IPKernelApp):
         shell.history_manager.save_thread.stop()
         # Rely on garbage collection to clean up the file connection.
         shell.history_manager.db.close()
+        # Warning: Python 3 only!
+        shell.configurables.clear()
+
+        del shell.sys_excepthook
+        del shell._orig_sys_module_state
 
     def init_heartbeat(self):
         # Temporarily override while debugging, to avoid creating the
@@ -178,11 +187,20 @@ class InternalIPKernel(HasStrictTraits):
     #: This is a list of tuples (name, value).
     initial_namespace = List()
 
+    #: sys.stdin value at time kernel was started
+    _original_stdin = Any()
+
     #: sys.stdout value at time kernel was started
     _original_stdout = Any()
 
     #: sys.stderr value at time kernel was started
     _original_stderr = Any()
+
+    #: sys.excepthook value at time kernel was started
+    _original_excepthook = Any()
+
+    #: sys.displayhook value at time kernel was started
+    _original_displayhook = Any()
 
     #: old value for the _ctrl_c_message, so that it can be restored
     _original_ctrl_c_message = Any()
@@ -199,8 +217,17 @@ class InternalIPKernel(HasStrictTraits):
         # The IPython kernel modifies sys.stdout and sys.stderr when started,
         # and doesn't currently provide a way to restore them. So we restore
         # them ourselves at shutdown.
+        self._original_stdin = sys.stdin
         self._original_stdout = sys.stdout
         self._original_stderr = sys.stderr
+
+        # The IPython kernel also modifies the excepthook and displayhook;
+        # store them here, restore them later.
+
+        # XXX Move this code! The kernelapp itself should be responsible
+        # for resetting these cleanly.
+        self._original_excepthook = sys.excepthook
+        self._original_displayhook = sys.displayhook
 
         # Suppress the unhelpful "Ctrl-C will not work" message from the
         # kernelapp.
@@ -249,23 +276,55 @@ class InternalIPKernel(HasStrictTraits):
             self.ipkernel.shell.exit_now = True
             self.ipkernel.cleanup_connection_file()
 
+            kernel_excepthook = sys.excepthook
+            if kernel_excepthook is not self._original_excepthook:
+                sys.excepthook = self._original_excepthook
+                self._original_excepthook = None
+
+            kernel_displayhook = sys.displayhook
+            if kernel_displayhook is not self._original_displayhook:
+                sys.displayhook = self._original_displayhook
+                self._original_displayhook = None
+
             # The stdout and stderr streams created by the kernel use the
             # IOPubThread, so we need to close them and restore the originals
             # before we shut down the thread. Without this, we get obscure
             # errors of the form "TypeError: heap argument must be a list".
-            kernel_stdout = sys.stdout
-            if kernel_stdout is not self._original_stdout:
-                sys.stdout = self._original_stdout
-                kernel_stdout.close()
 
             kernel_stderr = sys.stderr
             if kernel_stderr is not self._original_stderr:
                 sys.stderr = self._original_stderr
                 kernel_stderr.close()
+                self._original_stderr = None
+
+            kernel_stdout = sys.stdout
+            if kernel_stdout is not self._original_stdout:
+                sys.stdout = self._original_stdout
+                kernel_stdout.close()
+                self._original_stdout = None
+
+            kernel_stdin = sys.stdin
+            if kernel_stdin is not self._original_stdin:
+                sys.stdin = self._original_stdin
+                kernel_stdin.close()
+                self._original_stdin = None
+
 
             self.ipkernel.close_shell()
             self.ipkernel.close_kernel()
             self.ipkernel.close_sockets()
+
+            # The kernelapp has a session, shared with the kernel.
+            # That session contains a reference back to its parent (the
+            # kernelapp), keeping it alive.
+            #
+            # We can't easily delete the ipkernel's session, since it's
+            # declared as not allowing None. (Neither `del self.ipkernel.session` nor `self.ipkernel.session = None` works.)
+            # So we remove the link to the parent instead.
+            self.ipkernel.session.parent = None
+
+            # The kernel also has a parent, which we set back to None.
+            self.ipkernel.kernel.parent = None
 
             self.ipkernel = None
 
