@@ -10,6 +10,7 @@ import ipykernel
 from ipykernel.connect import connect_qtconsole
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
+from ipykernel.zmqshell import ZMQInteractiveShell
 from tornado import ioloop
 
 from traits.api import Any, HasStrictTraits, Instance, List
@@ -19,6 +20,14 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 
 # XXX Refactor to avoid the fragile subclassing of IPKernelApp.
 # XXX Move this class to its own module.
+# XXX Make sure no fds are being leaked *even* if we're keeping all
+#     the relevant objects alive. We shouldn't be depending on reference-count
+#     based cleanup to reclaim fds.
+# XXX Can we double check that _all_ sockets created are being closed
+#     explicitly, rather than as a result of refcounting?
+# XXX Ensure we're not adding atexit handlers. (Note that there's an "unregister"
+#     available in Python 3.)
+
 
 class PatchedIPKernelApp(IPKernelApp):
     """
@@ -74,8 +83,21 @@ class PatchedIPKernelApp(IPKernelApp):
         """
         Close iopub-related resources.
         """
+
+
         self.iopub_socket = self.iopub_thread.socket
         self.iopub_thread.stop()
+
+        # self.iopub_thread._event_puller.stop_on_recv()
+        # XXX Again, not unbinding. Problem?
+        # self.iopub_thread._event_puller.close()
+
+        # self.iopub_thread._pipe_in.stop_on_recv()
+        # XXX Again, not unbinding. Problem?
+        #self.iopub_thread._pipe_in.close()
+
+        # Lots of auxiliary sockets for the IOPubThread. Should we
+        # be closing these before or after ?
 
         self._unbind_socket(self.iopub_socket, self.iopub_port)
         self.iopub_socket.close()
@@ -96,6 +118,15 @@ class PatchedIPKernelApp(IPKernelApp):
             stream.stop_on_recv()
             # This also closes the corresponding socket.
             stream.close()
+
+    def close_shell(self):
+        # clean up and close the shell attached to the kernel
+        shell = self.kernel.shell
+        shell.history_manager.end_session()
+        # The stop also cleans up the file connection.
+        shell.history_manager.save_thread.stop()
+        # Rely on garbage collection to clean up the file connection.
+        shell.history_manager.db.close()
 
     def init_heartbeat(self):
         # Temporarily override while debugging, to avoid creating the
@@ -232,8 +263,10 @@ class InternalIPKernel(HasStrictTraits):
                 sys.stderr = self._original_stderr
                 kernel_stderr.close()
 
+            self.ipkernel.close_shell()
             self.ipkernel.close_kernel()
             self.ipkernel.close_sockets()
+
             self.ipkernel = None
 
             # Restore changes to the ctrl-c-message.
@@ -243,5 +276,6 @@ class InternalIPKernel(HasStrictTraits):
                 self._original_ctrl_c_message = None
 
             # Remove singletons.
-            PatchedIPKernelApp.clear_instance()
+            ZMQInteractiveShell.clear_instance()
             IPythonKernel.clear_instance()
+            PatchedIPKernelApp.clear_instance()
