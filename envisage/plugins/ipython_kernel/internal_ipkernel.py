@@ -124,13 +124,21 @@ class PatchedIPKernelApp(IPKernelApp):
     def close_shell(self):
         # clean up and close the shell attached to the kernel
         shell = self.kernel.shell
+
+        # Clean up script magics object, which is contained in a reference
+        # cycle, and has a __del__ method, preventing its removal in Python 2.
+        magics_manager = shell.magics_manager
+        script_magics = magics_manager.registry["ScriptMagics"]
+        script_magics.magics.clear()
+        script_magics.shell = None
+        script_magics.parent = None
+
         shell.history_manager.end_session()
         # The stop also cleans up the file connection.
         shell.history_manager.save_thread.stop()
         # Rely on garbage collection to clean up the file connection.
         shell.history_manager.db.close()
-        # Warning: Python 3 only!
-        shell.configurables.clear()
+        del shell.configurables[:]
 
         del shell.sys_excepthook
         del shell._orig_sys_module_state
