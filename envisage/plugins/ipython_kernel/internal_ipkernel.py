@@ -14,8 +14,11 @@ from ipykernel.kernelapp import IPKernelApp
 from ipykernel.zmqshell import ZMQInteractiveShell
 import six
 from tornado import ioloop
+import zmq
 
 from traits.api import Any, HasStrictTraits, Instance, List
+
+from envisage.plugins.ipython_kernel.heartbeat import Heartbeat
 
 NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 
@@ -183,8 +186,18 @@ class PatchedIPKernelApp(IPKernelApp):
         # This should interrupt the zmq.device call.
         self.heartbeat.context.term()
         self.heartbeat.join()
-        pass
 
+    def init_heartbeat(self):
+        """start the heart beating"""
+        # Overridden from parent to use the local Heartbeat class.
+
+        # heartbeat doesn't share context, because it mustn't be blocked
+        # by the GIL, which is accessed by libzmq when freeing zero-copy messages
+        hb_ctx = zmq.Context()
+        self.heartbeat = Heartbeat(hb_ctx, (self.transport, self.ip, self.hb_port))
+        self.hb_port = self.heartbeat.port
+        self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
+        self.heartbeat.start()
 
     def XXXXinit_heartbeat(self):
         # Temporarily override while debugging, to avoid creating the
