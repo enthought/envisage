@@ -13,6 +13,8 @@
 #
 # This provides a way to shut down the heartbeat thread externally.
 
+# XXX Subclass the original Heartbeat so that we don't have to redeclare
+# the trait.
 
 #-----------------------------------------------------------------------------
 #  Copyright (C) 2008-2011  The IPython Development Team
