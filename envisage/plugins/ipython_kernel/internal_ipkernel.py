@@ -57,6 +57,9 @@ class PatchedIPKernelApp(IPKernelApp):
     Patched version of the IPKernelApp, mostly to support clean shutdown.
 
     """
+    # Override to use local Heartbeat class.
+    heartbeat = Instance(Heartbeat, allow_none=True)
+
     def _unbind_socket(self, s, port):
         transport = self.transport
 
