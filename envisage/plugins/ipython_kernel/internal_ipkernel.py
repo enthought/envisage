@@ -142,6 +142,18 @@ class PatchedIPKernelApp(IPKernelApp):
         # then shut it down (along with its sockets and context).
         pass
 
+    def patch_io(self):
+        # Overridden to do nothing. Alternatively, we need to write
+        # and call a corresponding function at teardown that undoes
+        # the faulthandler monkeypatching.
+
+        # Related: https://github.com/ipython/ipykernel/issues/91
+
+        # Suggest that the appropriate fix for users of this class
+        # is to make sure they enable faulthandler before the
+        # IPython kernel does its sys magic.
+        pass
+
     def configure_tornado_logger(self):
         # Overridden to do nothing.
         pass
@@ -278,9 +290,6 @@ class InternalIPKernel(HasStrictTraits):
         """
         if self.ipkernel is not None:
             self.cleanup_consoles()
-
-            print("KERNEL: ", self.ipkernel.kernel, file=sys.__stdout__)
-            print("IOLOOP: ", self.ipkernel.kernel.io_loop, file=sys.__stdout__)
 
             # XXX It may not make sense to be calling this.
             # It puts an event on the event loop, but in our use-cases
