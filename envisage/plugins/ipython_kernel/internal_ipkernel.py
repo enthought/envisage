@@ -12,6 +12,7 @@ from ipykernel.connect import connect_qtconsole
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
 from ipykernel.zmqshell import ZMQInteractiveShell
+import IPython.utils.io
 import six
 from tornado import ioloop
 import zmq
@@ -30,8 +31,6 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 #     based cleanup to reclaim fds.
 # XXX Can we double check that _all_ sockets created are being closed
 #     explicitly, rather than as a result of refcounting?
-# XXX Ensure we're not adding atexit handlers. (Note that there's an "unregister"
-#     available in Python 3.)
 # XXX Is anyone actually messing with the displayhook? Check!
 # XXX By the time that the Shell stores the sys state (InteractiveShell.save_sys_module_state),
 #     it's already been swapped out for something else. Why? Who's setting the sys
@@ -287,6 +286,10 @@ class InternalIPKernel(HasStrictTraits):
     #: old value for the _ctrl_c_message, so that it can be restored
     _original_ctrl_c_message = Any()
 
+    _original_ipython_utils_io_stdin = Any()
+    _original_ipython_utils_io_stdout = Any()
+    _original_ipython_utils_io_stderr = Any()
+
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
 
@@ -296,6 +299,17 @@ class InternalIPKernel(HasStrictTraits):
           The GUI mode used to initialize the GUI mode. For options, see
           the `ipython --gui` help pages.
         """
+        # More global state modification.
+
+        # XXX Add general save-and-restore machinery, that copes with the
+        # case where (a) the attribute does not exist; (b) the attribute
+        # does exist, but is None, and (c) the attribute does exist, but
+        # is not None. Cleanup may need to actually delete an attribute
+        # that didn't previously exist.
+        self._original_ipython_utils_io_stdin = IPython.utils.io.stdin
+        self._original_ipython_utils_io_stdout = IPython.utils.io.stdout
+        self._original_ipython_utils_io_stderr = IPython.utils.io.stderr
+
         # The IPython kernel modifies sys.stdout and sys.stderr when started,
         # and doesn't currently provide a way to restore them. So we restore
         # them ourselves at shutdown.
@@ -432,6 +446,14 @@ class InternalIPKernel(HasStrictTraits):
                 ipykernel.kernelapp._ctrl_c_message = (
                     self._original_ctrl_c_message)
                 self._original_ctrl_c_message = None
+
+            IPython.utils.io.stdout = self._original_ipython_utils_io_stdin
+            IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
+            IPython.utils.io.stdin = self._original_ipython_utils_io_stdin
+
+            self._original_ipython_utils_io_stdin = None
+            self._original_ipython_utils_io_stdout = None
+            self._original_ipython_utils_io_stderr = None
 
             # Remove singletons.
             ZMQInteractiveShell.clear_instance()
