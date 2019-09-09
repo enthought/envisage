@@ -3,6 +3,7 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
+import atexit
 from distutils.version import StrictVersion as Version
 import sys
 
@@ -11,6 +12,7 @@ from ipykernel.connect import connect_qtconsole
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
 from ipykernel.zmqshell import ZMQInteractiveShell
+import six
 from tornado import ioloop
 
 from traits.api import Any, HasStrictTraits, Instance, List
@@ -31,6 +33,20 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 # XXX By the time that the Shell stores the sys state (InteractiveShell.save_sys_module_state),
 #     it's already been swapped out for something else. Why? Who's setting the sys
 #     attributes *before* save_sys_module_state gets called, and why?
+# XXX Check list of *all* objects for anything suspiciously IPython-like.
+#     What's the delta between the zeroth run and the first?
+
+
+if six.PY2:
+    def atexit_unregister(func):
+        # Replace the contents, not the list itself, in case anyone else
+        # is keeping references to it.
+        atexit._exithandlers[:] = list(
+            handler for handler in atexit._exithandlers
+            if not handler[0] == func
+        )
+else:
+    from atexit import unregister as atexit_unregister
 
 
 class PatchedIPKernelApp(IPKernelApp):
@@ -88,7 +104,11 @@ class PatchedIPKernelApp(IPKernelApp):
         Close iopub-related resources.
         """
         self.iopub_socket = self.iopub_thread.socket
+
         self.iopub_thread.stop()
+
+        # Remove the atexit handler that's registered.
+        atexit_unregister(self.iopub_thread.stop)
 
         # self.iopub_thread._event_puller.stop_on_recv()
         # XXX Again, not unbinding. Problem?
@@ -129,6 +149,10 @@ class PatchedIPKernelApp(IPKernelApp):
         # cycle, and has a __del__ method, preventing its removal in Python 2.
         magics_manager = shell.magics_manager
         script_magics = magics_manager.registry["ScriptMagics"]
+
+        script_magics.kill_bg_processes()
+        atexit_unregister(script_magics.kill_bg_processes)
+
         script_magics.magics.clear()
         script_magics.shell = None
         script_magics.parent = None
@@ -136,6 +160,8 @@ class PatchedIPKernelApp(IPKernelApp):
         shell.history_manager.end_session()
         # The stop also cleans up the file connection.
         shell.history_manager.save_thread.stop()
+        # Don't run again at process shutdown.
+        atexit_unregister(shell.history_manager.save_thread.stop)
         # Rely on garbage collection to clean up the file connection.
         shell.history_manager.db.close()
         del shell.configurables[:]
@@ -144,7 +170,23 @@ class PatchedIPKernelApp(IPKernelApp):
         del shell._orig_sys_module_state
         del shell._orig_sys_modules_main_mod
 
-    def init_heartbeat(self):
+        # atexit_operations does:
+        # - history_manager end session (called above)
+        # - remove temp files and directories
+        # - clear user namespaces
+        # - run user shutdown hooks
+        # Do we want to do all these things? Should we just call
+        # atexit_operations directly?
+        atexit_unregister(shell.atexit_operations)
+
+    def close_heartbeat(self):
+        # This should interrupt the zmq.device call.
+        self.heartbeat.context.term()
+        self.heartbeat.join()
+        pass
+
+
+    def XXXXinit_heartbeat(self):
         # Temporarily override while debugging, to avoid creating the
         # heartbeat at all. To do: allow the heartbeat to be created,
         # then shut it down (along with its sockets and context).
@@ -305,6 +347,8 @@ class InternalIPKernel(HasStrictTraits):
             # self.ipkernel.shell.exit_now = True
             self.ipkernel.cleanup_connection_file()
 
+            atexit_unregister(self.ipkernel.cleanup_connection_file)
+
             # XXX not quite right; it's the shell that's messing with this.
             # XXX The upstream code doesn't use __main__ here; should we
             # be doing something different?
@@ -348,9 +392,9 @@ class InternalIPKernel(HasStrictTraits):
                 kernel_stdin.close()
                 self._original_stdin = None
 
-
             self.ipkernel.close_shell()
             self.ipkernel.close_kernel()
+            self.ipkernel.close_heartbeat()
             self.ipkernel.close_sockets()
 
             # The kernelapp has a session, shared with the kernel.
