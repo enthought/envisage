@@ -87,8 +87,6 @@ class PatchedIPKernelApp(IPKernelApp):
         """
         Close iopub-related resources.
         """
-
-
         self.iopub_socket = self.iopub_thread.socket
         self.iopub_thread.stop()
 
@@ -136,6 +134,7 @@ class PatchedIPKernelApp(IPKernelApp):
 
         del shell.sys_excepthook
         del shell._orig_sys_module_state
+        del shell._orig_sys_modules_main_mod
 
     def init_heartbeat(self):
         # Temporarily override while debugging, to avoid creating the
@@ -143,7 +142,9 @@ class PatchedIPKernelApp(IPKernelApp):
         # then shut it down (along with its sockets and context).
         pass
 
-
+    def configure_tornado_logger(self):
+        # Overridden to do nothing.
+        pass
 
 
 
@@ -202,6 +203,9 @@ class InternalIPKernel(HasStrictTraits):
     #: sys.displayhook value at time kernel was started
     _original_displayhook = Any()
 
+    #: Original sys.modules["__main__"]
+    _original_modules_main = Any()
+
     #: old value for the _ctrl_c_message, so that it can be restored
     _original_ctrl_c_message = Any()
 
@@ -228,6 +232,7 @@ class InternalIPKernel(HasStrictTraits):
         # for resetting these cleanly.
         self._original_excepthook = sys.excepthook
         self._original_displayhook = sys.displayhook
+        self._original_modules_main = sys.modules["__main__"]
 
         # Suppress the unhelpful "Ctrl-C will not work" message from the
         # kernelapp.
@@ -273,11 +278,28 @@ class InternalIPKernel(HasStrictTraits):
         """
         if self.ipkernel is not None:
             self.cleanup_consoles()
-            self.ipkernel.shell.exit_now = True
+
+            print("KERNEL: ", self.ipkernel.kernel, file=sys.__stdout__)
+            print("IOLOOP: ", self.ipkernel.kernel.io_loop, file=sys.__stdout__)
+
+            # XXX It may not make sense to be calling this.
+            # It puts an event on the event loop, but in our use-cases
+            # the event loop isn't running at this point.
+            # self.ipkernel.shell.exit_now = True
             self.ipkernel.cleanup_connection_file()
+
+            # XXX not quite right; it's the shell that's messing with this.
+            # XXX The upstream code doesn't use __main__ here; should we
+            # be doing something different?
+            kernel_sys_modules_main = sys.modules["__main__"]
+            if kernel_sys_modules_main is not self._original_modules_main:
+                sys.modules["__main__"] = self._original_modules_main
+                self._original_modules_main = None
 
             kernel_excepthook = sys.excepthook
             if kernel_excepthook is not self._original_excepthook:
+                # XXX Should also reset self._original_excepthook if
+                # this if branch is *not* taken.
                 sys.excepthook = self._original_excepthook
                 self._original_excepthook = None
 
