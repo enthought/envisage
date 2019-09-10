@@ -141,12 +141,18 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertEqual(threads_before, threads_after)
 
     def test_no_new_atexit_handlers(self):
-        # This is rather a fragile and indirect test.
+        # Caution: this is a rather fragile and indirect test. We want
+        # to know that all cleanup has happened when shutting down the
+        # kernel, with none of that cleanup deferred to atexit handlers.
         #
         # Since we have no direct way to get hold of the atexit handlers on
         # Python 3, we instead use the number of referents from the
         # atexit module as a proxy.
-
+        #
+        # If this test starts failing, try adding a warmup cycle. If the
+        # first call to self.create_and_destroy_kernel adds new referents,
+        # that's not a big deal. But if every call consistently adds new
+        # referents, then there's something to be fixed.
         atexit_handlers_before = len(gc.get_referents(atexit))
         self.create_and_destroy_kernel()
         atexit_handlers_after = len(gc.get_referents(atexit))
