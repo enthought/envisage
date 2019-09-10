@@ -63,8 +63,6 @@ class InternalIPKernel(HasStrictTraits):
           The GUI mode used to initialize the GUI mode. For options, see
           the `ipython --gui` help pages.
         """
-        # More global state modification.
-
         # Suppress the unhelpful "Ctrl-C will not work" message from the
         # kernelapp.
         self._original_ctrl_c_message = getattr(
@@ -97,13 +95,12 @@ class InternalIPKernel(HasStrictTraits):
         self.consoles = []
 
     def shutdown(self):
-        """ Shutdown the kernel.
+        """ Shut the kernel down.
 
         Existing IPython consoles are killed first.
         """
         if self.ipkernel is not None:
             self.cleanup_consoles()
-
             self.ipkernel.shutdown()
             self.ipkernel = None
 
