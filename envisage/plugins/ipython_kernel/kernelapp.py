@@ -206,9 +206,13 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # Unhook listeners, and close kernel streams (which also closes
         # the corresponding zmq.Socket objects).
         kernel = self.kernel
-        for stream in kernel.shell_streams:
+        while kernel.shell_streams:
+            stream = kernel.shell_streams.pop()
             stream.stop_on_recv()
             stream.close()
+
+        # Remove selected references to allow effective garbage collection.
+        kernel.stdin_socket = None
 
         # Undo changes to IPython.utils.io made at shell creation time.
         # The values written by the shell keep references that prevent
@@ -249,6 +253,8 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         atexit_unregister(self.iopub_thread.stop)
 
         iopub_socket.close()
+
+        del self.iopub_thread.socket
         del self.iopub_socket
 
     def close_crash_handler(self):

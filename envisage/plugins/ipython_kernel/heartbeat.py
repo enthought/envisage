@@ -38,5 +38,6 @@ class Heartbeat(ipykernel.heartbeat.Heartbeat):
         except zmq.ZMQError as e:
             if e.errno == zmq.ETERM:
                 self.socket.close()
+                del self.socket
             else:
                 raise
