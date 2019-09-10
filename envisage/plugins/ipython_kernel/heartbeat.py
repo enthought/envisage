@@ -21,12 +21,11 @@ Modified from upstream to enable the heartbeat thread to be shut down cleanly.
 # Once we're using ipykernel 5.x, this module can be removed and we can
 # revert to using the upstream Heartbeat class.
 
+import ipykernel.heartbeat
 import zmq
 
-from ipykernel.heartbeat import Heartbeat as UpstreamHeartbeat
 
-
-class Heartbeat(UpstreamHeartbeat):
+class Heartbeat(ipykernel.heartbeat.Heartbeat):
     """
     A simple ping-pong style heartbeat that runs in a thread.
 

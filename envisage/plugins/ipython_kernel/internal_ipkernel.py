@@ -5,31 +5,10 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 """
 from __future__ import absolute_import, print_function, unicode_literals
 
-from distutils.version import StrictVersion as Version
-
-import ipykernel
-from ipykernel.connect import connect_qtconsole
-from ipykernel.ipkernel import IPythonKernel
-from ipykernel.zmqshell import ZMQInteractiveShell
+import ipykernel.connect
 
 from envisage.plugins.ipython_kernel.kernelapp import IPKernelApp
 from traits.api import Any, HasStrictTraits, Instance, List
-
-
-# XXX Refactor to avoid the fragile subclassing of IPKernelApp. (One day.)
-# XXX Make sure no fds are being leaked *even* if we're keeping all
-#     the relevant objects alive. We shouldn't be depending on reference-count
-#     based cleanup to reclaim fds.
-# XXX Can we double check that _all_ sockets created are being closed
-#     explicitly, rather than as a result of refcounting?
-# XXX Check list of *all* objects for anything suspiciously IPython-like.
-#     What's the delta between the zeroth run and the first?
-# XXX Consider avoiding the "instance" singleton stuff. Maybe save that
-#     for the rewrite.
-# XXX Move kernelapp related stuff from here to kernelapp.
-# XXX Testing: verify that the displayhook, excepthook and other sys pieces
-#     have been restored.
-# XXX Testing: verify that IPython.utils.io unaltered (stdin, too)
 
 
 def gui_kernel(gui_backend):
@@ -102,8 +81,10 @@ class InternalIPKernel(HasStrictTraits):
 
     def new_qt_console(self):
         """ Start a new qtconsole connected to our kernel. """
-        console = connect_qtconsole(self.ipkernel.connection_file,
-                                    argv=['--no-confirm-exit'])
+        console = ipykernel.connect.connect_qtconsole(
+            self.ipkernel.connection_file,
+            argv=['--no-confirm-exit'],
+        )
         self.consoles.append(console)
         return console
 
@@ -132,7 +113,5 @@ class InternalIPKernel(HasStrictTraits):
                     self._original_ctrl_c_message)
                 self._original_ctrl_c_message = None
 
-            # Remove singletons to facilitate garbage collection.
-            ZMQInteractiveShell.clear_instance()
-            IPythonKernel.clear_instance()
+            # Remove stored singleton to facilitate garbage collection.
             IPKernelApp.clear_instance()

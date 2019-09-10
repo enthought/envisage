@@ -9,7 +9,9 @@ import atexit
 import logging
 import sys
 
+import ipykernel.ipkernel
 import ipykernel.kernelapp
+import ipykernel.zmqshell
 import IPython.utils.io
 import six
 import zmq
@@ -144,6 +146,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         atexit_unregister(self.cleanup_connection_file)
 
         self.close_crash_handler()
+        self.cleanup_singletons()
 
     def close_shell(self):
         # clean up and close the shell attached to the kernel
@@ -292,6 +295,15 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         #self._unbind_socket(self.shell_socket, self.shell_port)
         #self.shell_socket.close()
         del self.shell_socket
+
+    def cleanup_singletons(self):
+        """
+        Clear SingletonConfigurable instances.
+        """
+        # These instances will otherwise hinder garbage collection,
+        # and prevent a clean recreation of a new kernel app.
+        ipykernel.zmqshell.ZMQInteractiveShell.clear_instance()
+        ipykernel.ipkernel.IPythonKernel.clear_instance()
 
     def _unbind_socket(self, s, port):
         transport = self.transport
