@@ -90,6 +90,7 @@ class InternalIPKernel(HasStrictTraits):
         """ Kill all existing consoles. """
         for c in self.consoles:
             c.kill()
+            c.wait()
             c.stdout.close()
             c.stderr.close()
         self.consoles = []
