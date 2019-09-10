@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 import tempfile
+import threading
 import unittest
 
 try:
@@ -15,8 +16,12 @@ else:
 
 
 if ipykernel_available:
-    from ipykernel.iostream import IOPubThread
-    from ipykernel.kernelapp import IPKernelApp
+    import ipykernel.iostream
+    import ipykernel.ipkernel
+    import ipykernel.kernelapp
+    import ipykernel.zmqshell
+    import IPython.utils.io
+    import zmq
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
         InternalIPKernel)
@@ -58,16 +63,13 @@ def redirect_stdout_to(filename):
                      "skipping tests that require the ipykernel package")
 class TestInternalIPKernel(unittest.TestCase):
 
-    def tearDown(self):
-        IPKernelApp.clear_instance()
-
     def test_lifecycle(self):
         kernel = InternalIPKernel()
         self.assertIsNone(kernel.ipkernel)
 
         kernel.init_ipkernel(gui_backend=None)
         self.assertIsNotNone(kernel.ipkernel)
-        self.assertIsInstance(kernel.ipkernel, IPKernelApp)
+        self.assertIsInstance(kernel.ipkernel, ipykernel.kernelapp.IPKernelApp)
 
         kernel.new_qt_console()
         kernel.new_qt_console()
@@ -85,15 +87,24 @@ class TestInternalIPKernel(unittest.TestCase):
         kernel.shutdown()
 
     def test_shutdown_restores_output_streams(self):
+        original_stdin = sys.stdin
         original_stdout = sys.stdout
         original_stderr = sys.stderr
 
-        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
-        kernel.init_ipkernel(gui_backend=None)
-        kernel.shutdown()
+        self.create_and_destroy_kernel()
 
+        self.assertIs(sys.stdin, original_stdin)
         self.assertIs(sys.stdout, original_stdout)
         self.assertIs(sys.stderr, original_stderr)
+
+    def test_shutdown_restores_displayhook_and_excepthook(self):
+        original_displayhook = sys.displayhook
+        original_excepthook = sys.excepthook
+
+        self.create_and_destroy_kernel()
+
+        self.assertIs(sys.displayhook, original_displayhook)
+        self.assertIs(sys.excepthook, original_excepthook)
 
     def test_shutdown_closes_console_pipes(self):
         kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
@@ -105,20 +116,55 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertTrue(console.stdout.closed)
         self.assertTrue(console.stderr.closed)
 
+    def test_ipython_util_io_globals_restored(self):
+        original_io_stdin = IPython.utils.io.stdin
+        original_io_stdout = IPython.utils.io.stdout
+        original_io_stderr = IPython.utils.io.stderr
+
+        self.create_and_destroy_kernel()
+
+        self.assertIs(IPython.utils.io.stdin, original_io_stdin)
+        self.assertIs(IPython.utils.io.stdout, original_io_stdout)
+        self.assertIs(IPython.utils.io.stderr, original_io_stderr)
+
     def test_io_pub_thread_stopped(self):
-        kernel = InternalIPKernel()
-        kernel.init_ipkernel(gui_backend=None)
-        kernel.new_qt_console()
-        kernel.new_qt_console()
-        kernel.shutdown()
-
-        io_pub_threads = [
-            obj for obj in gc.get_objects()
-            if isinstance(obj, IOPubThread)
-        ]
-
+        self.create_and_destroy_kernel()
+        io_pub_threads = self.objects_of_type(ipykernel.iostream.IOPubThread)
         for thread in io_pub_threads:
             self.assertFalse(thread.thread.is_alive())
+
+    def test_no_threads_leaked(self):
+        threads_before = threading.active_count()
+        self.create_and_destroy_kernel()
+        threads_after = threading.active_count()
+        self.assertEqual(threads_before, threads_after)
+
+    def test_zmq_sockets_closed(self):
+        # Previously, tests were leaking file descriptors linked to
+        # zmq.Socket objects. Check that all extant sockets are closed.
+        self.create_and_destroy_kernel()
+        sockets = self.objects_of_type(zmq.Socket)
+        self.assertTrue(all(socket.closed for socket in sockets))
+
+    def test_ipykernel_live_objects(self):
+        # Check that all IPython-related objects have been cleaned up
+        # as expected.
+
+        self.create_and_destroy_kernel()
+
+        # Sometimes once isn't enough ....
+        # XXX Ideally, this wouldn't be necessary at all; see if we can fix.
+        for _ in range(3):
+            gc.collect()
+
+        shells = self.objects_of_type(ipykernel.zmqshell.ZMQInteractiveShell)
+        self.assertEqual(shells, [])
+
+        kernels = self.objects_of_type(ipykernel.ipkernel.IPythonKernel)
+        self.assertEqual(kernels, [])
+
+        kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
+        self.assertEqual(kernel_apps, [])
 
     def test_ctrl_c_message_suppressed(self):
         with temp_filename("captured_stdout.txt") as captured_stdout:
@@ -131,3 +177,22 @@ class TestInternalIPKernel(unittest.TestCase):
                 stdout = f.read().decode("utf-8")
 
         self.assertNotIn("Ctrl-C will not work", stdout)
+
+    # Helper functions.
+
+    def objects_of_type(self, type):
+        """
+        Find and return a list of all currently tracked instances of the
+        given type.
+        """
+        return [
+            obj for obj in gc.get_objects()
+            if isinstance(obj, type)
+        ]
+
+    def create_and_destroy_kernel(self):
+        kernel = InternalIPKernel()
+        kernel.init_ipkernel(gui_backend=None)
+        kernel.new_qt_console()
+        kernel.new_qt_console()
+        kernel.shutdown()
