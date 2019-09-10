@@ -1,5 +1,7 @@
 """
-The client and server for a basic ping-pong style heartbeat.
+A simple ping-pong style heartbeat that runs in a thread.
+
+Modified from upstream to enable the heartbeat thread to be shut down cleanly.
 """
 
 # We're currently using ipykernel v4.10.1. In that version, there's no way to
