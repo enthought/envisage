@@ -15,6 +15,9 @@ The client and server for a basic ping-pong style heartbeat.
 #
 # This version of Heartbeat subclasses the upstream version to introduce the
 # minimal changes necessary to make shutdown feasible with the v4.10.1 code.
+#
+# Once we're using ipykernel 5.x, this module can be removed and we can
+# revert to using the upstream Heartbeat class.
 
 import zmq
 
