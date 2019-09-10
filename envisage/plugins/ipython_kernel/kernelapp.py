@@ -80,7 +80,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         - https://github.com/tornadoweb/tornado/pull/741
         """
         logger = logging.getLogger("tornado")
-        if not logger.hasHandlers():
+        if not logger.handlers:
             logger.addHandler(logging.NullHandler())
 
     # Methods extending the base class methods ################################
@@ -111,16 +111,19 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
 
         super(IPKernelApp, self).init_io()
 
-    def init_shell(self):
+    def init_kernel(self):
         """
-        Create the InteractiveShell for this kernel.
+        Create the kernel object itself.
 
         Extended to store the original values of IPython.utils.io.stdout
         and IPython.utils.io.stderr, so that they can be restored later.
         """
+        # Creating the kernel also creates a ZMQInteractiveShell, and that
+        # shell modifies IPython.utils.io.stdout and IPython.utils.io.stderr at
+        # creation time. Store the old values, so that they can be restored.
         self._original_ipython_utils_io_stdout = IPython.utils.io.stdout
         self._original_ipython_utils_io_stderr = IPython.utils.io.stderr
-        super(IPKernelApp, self).init_shell()
+        super(IPKernelApp, self).init_kernel()
 
     # New methods, mostly to control shutdown #################################
 
@@ -166,15 +169,6 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # Rely on garbage collection to clean up the file connection.
         shell.history_manager.db.close()
 
-        # Undo changes to IPython.utils.io made at shell creation time.
-        # The values written by the shell keep references that prevent
-        # proper garbage collection from taking place.
-        IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
-        del self._original_ipython_utils_io_stderr
-
-        IPython.utils.io.stdout = self._original_ipython_utils_io_stdout
-        del self._original_ipython_utils_io_stdout
-
         # The shell's cleanup method restores the sys.module changes.
         shell.cleanup()
 
@@ -212,6 +206,15 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             stream.stop_on_recv()
             # This also closes the corresponding socket.
             stream.close()
+
+        # Undo changes to IPython.utils.io made at shell creation time.
+        # The values written by the shell keep references that prevent
+        # proper garbage collection from taking place.
+        IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
+        del self._original_ipython_utils_io_stderr
+
+        IPython.utils.io.stdout = self._original_ipython_utils_io_stdout
+        del self._original_ipython_utils_io_stdout
 
     def close_io(self):
         # XXX Important that this happens *before* the IOPubThread is shut
