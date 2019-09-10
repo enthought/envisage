@@ -174,12 +174,17 @@ class TestInternalIPKernel(unittest.TestCase):
         original_io_stdin = IPython.utils.io.stdin
         original_io_stdout = IPython.utils.io.stdout
         original_io_stderr = IPython.utils.io.stderr
+        original_io_raw_print = IPython.utils.io.raw_print
+        original_io_raw_print_err = IPython.utils.io.raw_print_err
 
         self.create_and_destroy_kernel()
 
         self.assertIs(IPython.utils.io.stdin, original_io_stdin)
         self.assertIs(IPython.utils.io.stdout, original_io_stdout)
         self.assertIs(IPython.utils.io.stderr, original_io_stderr)
+        self.assertIs(IPython.utils.io.raw_print, original_io_raw_print)
+        self.assertIs(
+            IPython.utils.io.raw_print_err, original_io_raw_print_err)
 
     def test_io_pub_thread_stopped(self):
         self.create_and_destroy_kernel()
@@ -249,6 +254,16 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertEqual(len(captured), 1)
         captured_stdout = captured[0].decode("utf-8")
         self.assertNotIn("Ctrl-C will not work", captured_stdout)
+
+    def test_ctrl_c_message_restored(self):
+        original_ctrl_c_message = ipykernel.kernelapp._ctrl_c_message
+
+        self.create_and_destroy_kernel()
+
+        self.assertEqual(
+            ipykernel.kernelapp._ctrl_c_message,
+            original_ctrl_c_message,
+        )
 
     def test_raw_print_logged(self):
         test_message = "norwegian blue"
