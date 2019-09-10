@@ -24,6 +24,37 @@ class IPKernelApp(UpstreamIPKernelApp):
     Patched version of the IPKernelApp, mostly to support clean shutdown.
 
     """
+    def init_heartbeat(self):
+        """start the heart beating"""
+        # Overridden from the parent to use the local Heartbeat class,
+        # which allows clean shutdown.
+
+        # heartbeat doesn't share context, because it mustn't be blocked
+        # by the GIL, which is accessed by libzmq when freeing zero-copy
+        # messages
+        hb_ctx = zmq.Context()
+        self.heartbeat = Heartbeat(hb_ctx, (self.transport, self.ip, self.hb_port))
+        self.hb_port = self.heartbeat.port
+        self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
+        self.heartbeat.start()
+
+    def shutdown(self):
+        """
+        Undo the effects of the initialize method:
+
+        - free system resources
+        - undo changes to global state
+        """
+
+        self.close_shell()
+        self.close_kernel()
+        self.close_heartbeat()
+        self.close_sockets()
+
+        self.cleanup_connection_file()
+        atexit_unregister(self.cleanup_connection_file)
+
+
     def _unbind_socket(self, s, port):
         transport = self.transport
 
@@ -166,12 +197,6 @@ class IPKernelApp(UpstreamIPKernelApp):
         self.hb_port = self.heartbeat.port
         self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
         self.heartbeat.start()
-
-    def XXXXinit_heartbeat(self):
-        # Temporarily override while debugging, to avoid creating the
-        # heartbeat at all. To do: allow the heartbeat to be created,
-        # then shut it down (along with its sockets and context).
-        pass
 
     def patch_io(self):
         # Overridden to do nothing. Alternatively, we need to write

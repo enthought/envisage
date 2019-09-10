@@ -35,6 +35,7 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 #     What's the delta between the zeroth run and the first?
 # XXX Consider avoiding the "instance" singleton stuff. Maybe save that
 #     for the rewrite.
+# XXX Move kernelapp related stuff from here to kernelapp.
 
 
 if six.PY2:
@@ -195,14 +196,6 @@ class InternalIPKernel(HasStrictTraits):
         if self.ipkernel is not None:
             self.cleanup_consoles()
 
-            # XXX It may not make sense to be calling this.
-            # It puts an event on the event loop, but in our use-cases
-            # the event loop isn't running at this point.
-            # self.ipkernel.shell.exit_now = True
-            self.ipkernel.cleanup_connection_file()
-
-            atexit_unregister(self.ipkernel.cleanup_connection_file)
-
             # XXX not quite right; it's the shell that's messing with this.
             # XXX The upstream code doesn't use __main__ here; should we
             # be doing something different?
@@ -246,22 +239,7 @@ class InternalIPKernel(HasStrictTraits):
                 kernel_stdin.close()
                 self._original_stdin = None
 
-            self.ipkernel.close_shell()
-            self.ipkernel.close_kernel()
-            self.ipkernel.close_heartbeat()
-            self.ipkernel.close_sockets()
-
-            # The kernelapp has a session, shared with the kernel.
-            # That session contains a reference back to its parent (the
-            # kernelapp), keeping it alive.
-            #
-            # We can't easily delete the ipkernel's session, since it's
-            # declared as not allowing None. (Neither `del self.ipkernel.session` nor `self.ipkernel.session = None` works.)
-            # So we remove the link to the parent instead.
-            self.ipkernel.session.parent = None
-
-            # The kernel also has a parent, which we set back to None.
-            self.ipkernel.kernel.parent = None
+            self.ipkernel.shutdown()
 
             self.ipkernel = None
 
