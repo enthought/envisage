@@ -29,7 +29,8 @@ from envisage.plugins.ipython_kernel.heartbeat import Heartbeat
 if six.PY2:
     def atexit_unregister(func):
         # Replace the contents, not the list itself, in case anyone else
-        # is keeping references to it.
+        # is keeping references to it. Also use 'not thing == func' instead
+        # of 'thing != func' to match the semantics of the Python 3 code.
         atexit._exithandlers[:] = list(
             handler for handler in atexit._exithandlers
             if not handler[0] == func
