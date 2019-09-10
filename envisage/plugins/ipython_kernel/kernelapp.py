@@ -1,4 +1,13 @@
+"""
+This module contains an extended version of the upstream ipykernel IPKernelApp.
+
+The main reason for extending is to support clean shutdown.
+"""
+from __future__ import absolute_import, print_function, unicode_literals
+
 import atexit
+import logging
+import sys
 
 from ipykernel.kernelapp import IPKernelApp as UpstreamIPKernelApp
 import six
@@ -22,12 +31,15 @@ else:
 class IPKernelApp(UpstreamIPKernelApp):
     """
     Patched version of the IPKernelApp, mostly to support clean shutdown.
-
     """
+
+    # Methods overridden from the base class ##################################
+
     def init_heartbeat(self):
         """start the heart beating"""
         # Overridden from the parent to use the local Heartbeat class,
-        # which allows clean shutdown.
+        # which allows clean shutdown. This override can be removed once
+        # we're on ipykernel 5.x.
 
         # heartbeat doesn't share context, because it mustn't be blocked
         # by the GIL, which is accessed by libzmq when freeing zero-copy
@@ -38,6 +50,91 @@ class IPKernelApp(UpstreamIPKernelApp):
         self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
         self.heartbeat.start()
 
+    def patch_io(self):
+        """Patch important libraries that can't handle sys.stdout forwarding"""
+        # The upstream method monkeypatches faulthandler so that calling
+        # faulthandler.enable() while streams are redirected doesn't fail.
+        #
+        # This override bypasses that patching. Users of the Envisage plugin
+        # are advised to enable faulthandler (if desired) as part of
+        # application setup, before the plugin is started.
+        #
+        # Related: https://github.com/ipython/ipykernel/issues/91
+        pass
+
+    def configure_tornado_logger(self):
+        """
+        Configure tornado logging.
+
+        Adds a NullHandler to the tornado root logger, if there are
+        no handlers already present on that logger. If no tornado
+        handler is present at the time the IO loop is started, tornado
+        will call logging.basicConfig, which isn't what we want to happen.
+
+        Overridden from the base class, which unconditionally adds a new
+        StreamHandler every time.
+
+        See also:
+        - https://github.com/tornadoweb/tornado/blob/v6.0.3/tornado/ioloop.py#L427-L445
+        - https://github.com/tornadoweb/tornado/pull/741
+        """
+        logger = logging.getLogger("tornado")
+        if not logger.hasHandlers():
+            logger.addHandler(logging.NullHandler())
+
+    # Methods extending the base class methods ################################
+
+    def init_crash_handler(self):
+        """
+        Set up a suitable exception hook.
+
+        Extended to keep track of the original sys.excepthook value, so that it
+        can be restored later.
+        """
+        self._original_sys_excepthook = sys.excepthook
+        super(IPKernelApp, self).init_crash_handler()
+
+    def init_io(self):
+        """
+        Redirect input streams and set a display hook.
+
+        Extended to store the original sys attributes so that they
+        can be restored later.
+        """
+        if self.outstream_class:
+            self._original_sys_stdout = sys.stdout
+            self._original_sys_stderr = sys.stderr
+
+        if self.displayhook_class:
+            self._original_sys_displayhook = sys.displayhook
+
+        super(IPKernelApp, self).init_io()
+
+    # New methods, mostly to control shutdown #################################
+
+    def close_crash_handler(self):
+        sys.excepthook = self._original_sys_excepthook
+        del self._original_sys_excepthook
+
+    def close_io(self):
+        # XXX Important that this happens *before* the IOPubThread is shut
+        # down: otherwise, writes to stderr and stdout use the thread.
+        # Where is the iopub_thread set up? As part of init_sockets, and
+        # indeed we close the sockets *after* closing io.
+
+        if self.displayhook_class:
+            sys.displayhook = self._original_sys_displayhook
+            del self._original_sys_displayhook
+
+        if self.outstream_class:
+            sys.stderr.close()
+            sys.stderr = self._original_sys_stderr
+            del self._original_sys_stderr
+
+            sys.stdout.close()
+            sys.stdout = self._original_sys_stdout
+            del self._original_sys_stdout
+
     def shutdown(self):
         """
         Undo the effects of the initialize method:
@@ -45,15 +142,16 @@ class IPKernelApp(UpstreamIPKernelApp):
         - free system resources
         - undo changes to global state
         """
-
         self.close_shell()
         self.close_kernel()
+        self.close_io()
         self.close_heartbeat()
         self.close_sockets()
 
         self.cleanup_connection_file()
         atexit_unregister(self.cleanup_connection_file)
 
+        self.close_crash_handler()
 
     def _unbind_socket(self, s, port):
         transport = self.transport

@@ -3,7 +3,8 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
-import atexit
+from __future__ import absolute_import, print_function, unicode_literals
+
 from distutils.version import StrictVersion as Version
 import sys
 
@@ -12,7 +13,6 @@ from ipykernel.connect import connect_qtconsole
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.zmqshell import ZMQInteractiveShell
 import IPython.utils.io
-import six
 from tornado import ioloop
 
 from envisage.plugins.ipython_kernel.kernelapp import IPKernelApp
@@ -27,27 +27,17 @@ NEEDS_IOLOOP_PATCH = Version(ipykernel.__version__) >= Version('4.7.0')
 #     based cleanup to reclaim fds.
 # XXX Can we double check that _all_ sockets created are being closed
 #     explicitly, rather than as a result of refcounting?
-# XXX Is anyone actually messing with the displayhook? Check!
 # XXX By the time that the Shell stores the sys state (InteractiveShell.save_sys_module_state),
 #     it's already been swapped out for something else. Why? Who's setting the sys
 #     attributes *before* save_sys_module_state gets called, and why?
+#     Answer: see self.init_io in the kernelapp.
 # XXX Check list of *all* objects for anything suspiciously IPython-like.
 #     What's the delta between the zeroth run and the first?
 # XXX Consider avoiding the "instance" singleton stuff. Maybe save that
 #     for the rewrite.
 # XXX Move kernelapp related stuff from here to kernelapp.
-
-
-if six.PY2:
-    def atexit_unregister(func):
-        # Replace the contents, not the list itself, in case anyone else
-        # is keeping references to it.
-        atexit._exithandlers[:] = list(
-            handler for handler in atexit._exithandlers
-            if not handler[0] == func
-        )
-else:
-    from atexit import unregister as atexit_unregister
+# XXX Testing: verify that the displayhook, excepthook and other sys pieces
+#     have been restored.
 
 
 def gui_kernel(gui_backend):
@@ -90,21 +80,6 @@ class InternalIPKernel(HasStrictTraits):
     #: This is a list of tuples (name, value).
     initial_namespace = List()
 
-    #: sys.stdin value at time kernel was started
-    _original_stdin = Any()
-
-    #: sys.stdout value at time kernel was started
-    _original_stdout = Any()
-
-    #: sys.stderr value at time kernel was started
-    _original_stderr = Any()
-
-    #: sys.excepthook value at time kernel was started
-    _original_excepthook = Any()
-
-    #: sys.displayhook value at time kernel was started
-    _original_displayhook = Any()
-
     #: Original sys.modules["__main__"]
     _original_modules_main = Any()
 
@@ -135,20 +110,8 @@ class InternalIPKernel(HasStrictTraits):
         self._original_ipython_utils_io_stdout = IPython.utils.io.stdout
         self._original_ipython_utils_io_stderr = IPython.utils.io.stderr
 
-        # The IPython kernel modifies sys.stdout and sys.stderr when started,
-        # and doesn't currently provide a way to restore them. So we restore
-        # them ourselves at shutdown.
-        self._original_stdin = sys.stdin
-        self._original_stdout = sys.stdout
-        self._original_stderr = sys.stderr
-
-        # The IPython kernel also modifies the excepthook and displayhook;
-        # store them here, restore them later.
-
         # XXX Move this code! The kernelapp itself should be responsible
         # for resetting these cleanly.
-        self._original_excepthook = sys.excepthook
-        self._original_displayhook = sys.displayhook
         self._original_modules_main = sys.modules["__main__"]
 
         # Suppress the unhelpful "Ctrl-C will not work" message from the
@@ -204,43 +167,7 @@ class InternalIPKernel(HasStrictTraits):
                 sys.modules["__main__"] = self._original_modules_main
                 self._original_modules_main = None
 
-            kernel_excepthook = sys.excepthook
-            if kernel_excepthook is not self._original_excepthook:
-                # XXX Should also reset self._original_excepthook if
-                # this if branch is *not* taken.
-                sys.excepthook = self._original_excepthook
-                self._original_excepthook = None
-
-            kernel_displayhook = sys.displayhook
-            if kernel_displayhook is not self._original_displayhook:
-                sys.displayhook = self._original_displayhook
-                self._original_displayhook = None
-
-            # The stdout and stderr streams created by the kernel use the
-            # IOPubThread, so we need to close them and restore the originals
-            # before we shut down the thread. Without this, we get obscure
-            # errors of the form "TypeError: heap argument must be a list".
-
-            kernel_stderr = sys.stderr
-            if kernel_stderr is not self._original_stderr:
-                sys.stderr = self._original_stderr
-                kernel_stderr.close()
-                self._original_stderr = None
-
-            kernel_stdout = sys.stdout
-            if kernel_stdout is not self._original_stdout:
-                sys.stdout = self._original_stdout
-                kernel_stdout.close()
-                self._original_stdout = None
-
-            kernel_stdin = sys.stdin
-            if kernel_stdin is not self._original_stdin:
-                sys.stdin = self._original_stdin
-                kernel_stdin.close()
-                self._original_stdin = None
-
             self.ipkernel.shutdown()
-
             self.ipkernel = None
 
             # Restore changes to the ctrl-c-message.
