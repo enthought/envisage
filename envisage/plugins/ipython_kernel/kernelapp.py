@@ -191,9 +191,6 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         del shell._orig_sys_module_state
         del shell._orig_sys_modules_main_mod
 
-        # Clear the stored singleton to faciliate garbage collection.
-        # shell.clear_instance()
-
     def close_kernel(self):
         """
         Undo setup from init_kernel.

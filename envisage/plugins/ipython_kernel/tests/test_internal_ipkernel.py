@@ -98,6 +98,11 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIs(sys.stdout, original_stdout)
         self.assertIs(sys.stderr, original_stderr)
 
+    def test_shutdown_restores_sys_modules_main(self):
+        original_sys_modules_main = sys.modules["__main__"]
+        self.create_and_destroy_kernel()
+        self.assertIs(sys.modules["__main__"], original_sys_modules_main)
+
     def test_shutdown_restores_displayhook_and_excepthook(self):
         original_displayhook = sys.displayhook
         original_excepthook = sys.excepthook
@@ -108,7 +113,7 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIs(sys.excepthook, original_excepthook)
 
     def test_shutdown_closes_console_pipes(self):
-        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
+        kernel = InternalIPKernel()
         kernel.init_ipkernel(gui_backend=None)
         console = kernel.new_qt_console()
         self.assertFalse(console.stdout.closed)
