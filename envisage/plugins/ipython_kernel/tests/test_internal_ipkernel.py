@@ -1,3 +1,4 @@
+import atexit
 import contextlib
 import gc
 import os
@@ -138,6 +139,19 @@ class TestInternalIPKernel(unittest.TestCase):
         self.create_and_destroy_kernel()
         threads_after = threading.active_count()
         self.assertEqual(threads_before, threads_after)
+
+    def test_no_new_atexit_handlers(self):
+        # This is rather a fragile and indirect test.
+        #
+        # Since we have no direct way to get hold of the atexit handlers on
+        # Python 3, we instead use the number of referents from the
+        # atexit module as a proxy.
+
+        atexit_handlers_before = len(gc.get_referents(atexit))
+        self.create_and_destroy_kernel()
+        atexit_handlers_after = len(gc.get_referents(atexit))
+
+        self.assertEqual(atexit_handlers_before, atexit_handlers_after)
 
     def test_zmq_sockets_closed(self):
         # Previously, tests were leaking file descriptors linked to
