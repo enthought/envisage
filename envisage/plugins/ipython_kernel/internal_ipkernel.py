@@ -5,10 +5,43 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 """
 from __future__ import absolute_import, print_function, unicode_literals
 
+import logging
+
 import ipykernel.connect
+import IPython.utils.io
+import six
 
 from envisage.plugins.ipython_kernel.kernelapp import IPKernelApp
 from traits.api import Any, HasStrictTraits, Instance, List
+
+logger = logging.getLogger(__name__)
+
+
+# Replacements for IPython.utils.io.raw_print and IPython.utils.raw_print_err
+# that send output to logging instead of to __stdout__ and __stderr__.
+
+def log_print(*args, **kw):
+    """
+    Logging replacement for IPython.utils.io.raw_print.
+    Instead of printing to __stdout__, this function logs at INFO level.
+    """
+    message = six.StringIO()
+    print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
+          file=message)
+    logger.info(message.getvalue())
+    message.close()
+
+
+def log_print_err(*args, **kw):
+    """
+    Logging replacement for IPython.utils.io.raw_print_err.
+    Instead of printing to __stdout__, this function logs at WARNING level.
+    """
+    message = six.StringIO()
+    print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
+          file=message)
+    logger.warning(message.getvalue())
+    message.close()
 
 
 def gui_kernel(gui_backend):
@@ -54,6 +87,11 @@ class InternalIPKernel(HasStrictTraits):
     #: old value for the _ctrl_c_message, so that it can be restored
     _original_ctrl_c_message = Any()
 
+    #: old values for IPython's raw_print and raw_print_err, so that
+    #: they can be restored.
+    _original_raw_print = Any()
+    _original_raw_print_err = Any()
+
     def init_ipkernel(self, gui_backend):
         """ Initialize the IPython kernel.
 
@@ -63,6 +101,12 @@ class InternalIPKernel(HasStrictTraits):
           The GUI mode used to initialize the GUI mode. For options, see
           the `ipython --gui` help pages.
         """
+        # Replace IPython's raw_print and raw_print_err with versions that log.
+        self._original_raw_print = IPython.utils.io.raw_print
+        self._original_raw_print_err = IPython.utils.io.raw_print_err
+        IPython.utils.io.raw_print = log_print
+        IPython.utils.io.raw_print_err = log_print_err
+
         # Suppress the unhelpful "Ctrl-C will not work" message from the
         # kernelapp.
         self._original_ctrl_c_message = getattr(
@@ -105,11 +149,19 @@ class InternalIPKernel(HasStrictTraits):
             self.ipkernel.shutdown()
             self.ipkernel = None
 
+            # Remove stored singleton to facilitate garbage collection.
+            IPKernelApp.clear_instance()
+
             # Restore changes to the ctrl-c-message.
             if self._original_ctrl_c_message is not None:
                 ipykernel.kernelapp._ctrl_c_message = (
                     self._original_ctrl_c_message)
                 self._original_ctrl_c_message = None
 
-            # Remove stored singleton to facilitate garbage collection.
-            IPKernelApp.clear_instance()
+            # Undo changes to raw_print and raw_print_err.
+            if self._original_raw_print_err is not None:
+                IPython.utils.io.raw_print_err = self._original_raw_print_err
+                self._original_raw_print_err = None
+            if self._original_raw_print is not None:
+                IPython.utils.io.raw_print = self._original_raw_print
+                self._original_raw_print = None
