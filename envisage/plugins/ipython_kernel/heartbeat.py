@@ -3,7 +3,6 @@ A simple ping-pong style heartbeat that runs in a thread.
 
 Modified from upstream to enable the heartbeat thread to be shut down cleanly.
 """
-
 # We're currently using ipykernel v4.10.1. In that version, there's no way to
 # cleanly shut down the Heartbeat thread. However, ipykernel v5.x allows the
 # thread to be shut down by terminating the corresponding context. The relevant
@@ -20,6 +19,8 @@ Modified from upstream to enable the heartbeat thread to be shut down cleanly.
 #
 # Once we're using ipykernel 5.x, this module can be removed and we can
 # revert to using the upstream Heartbeat class.
+
+from __future__ import absolute_import, print_function, unicode_literals
 
 import ipykernel.heartbeat
 import zmq
