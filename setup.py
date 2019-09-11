@@ -196,8 +196,8 @@ def resolve_version():
         # This is a source archive for an unreleased version.
         raise RuntimeError(
             u"Unable to determine package version. No local Git clone "
-            u"detected, and no version file found at {}.".format(VERSION_FILE)
-            u"Please use a source dist or a git clone."
+            u"detected, and no version file found at {}."
+            u"Please use a source dist or a git clone.".format(VERSION_FILE)
         )
 
     return version
