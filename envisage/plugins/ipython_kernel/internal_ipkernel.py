@@ -29,7 +29,6 @@ def log_print(*args, **kw):
     print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
           file=message)
     logger.info(message.getvalue())
-    message.close()
 
 
 def log_print_err(*args, **kw):
@@ -41,7 +40,6 @@ def log_print_err(*args, **kw):
     print(*args, sep=kw.get('sep', ' '), end=kw.get('end', '\n'),
           file=message)
     logger.warning(message.getvalue())
-    message.close()
 
 
 def gui_kernel(gui_backend):

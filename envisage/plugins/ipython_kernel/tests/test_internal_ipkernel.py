@@ -374,7 +374,7 @@ class TestInternalIPKernel(unittest.TestCase):
 
     def create_and_destroy_kernel(self):
         """
-        Set up a new kernel with two associate consoles, then shut everything
+        Set up a new kernel with two associated consoles, then shut everything
         down.
         """
         kernel = InternalIPKernel()
