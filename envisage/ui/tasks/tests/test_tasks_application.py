@@ -6,11 +6,14 @@ import shutil
 import tempfile
 import unittest
 
-from envisage._compat import pickle
+import pkg_resources
+from six.moves import cPickle as pickle
+
 from envisage.ui.tasks.api import TasksApplication
+from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
 requires_gui = unittest.skipIf(
-    os.environ["ETS_TOOLKIT"] == "null",
+    os.environ.get("ETS_TOOLKIT") == "null",
     "Test requires a non-null GUI backend",
 )
 
@@ -31,7 +34,7 @@ class TestTasksApplication(unittest.TestCase):
         app = TasksApplication(state_location=state_location)
         app.on_trait_change(app.exit, "application_initialized")
 
-        memento_file = os.path.join(state_location, "application_memento")
+        memento_file = os.path.join(state_location, app.state_filename)
         self.assertFalse(os.path.exists(memento_file))
         app.run()
         self.assertTrue(os.path.exists(memento_file))
@@ -54,7 +57,7 @@ class TestTasksApplication(unittest.TestCase):
         )
         app.on_trait_change(app.exit, "application_initialized")
 
-        memento_file = os.path.join(state_location, "application_memento")
+        memento_file = os.path.join(state_location, app.state_filename)
         self.assertFalse(os.path.exists(memento_file))
         app.run()
         self.assertTrue(os.path.exists(memento_file))
@@ -63,3 +66,48 @@ class TestTasksApplication(unittest.TestCase):
         with open(memento_file, "rb") as f:
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
+
+    def test_layout_load(self):
+        # Check we can load a previously-created state. That previous state
+        # has an main window size of (492, 743) (to allow us to check that
+        # we're actually using the file).
+        stored_state_location = pkg_resources.resource_filename(
+            "envisage.ui.tasks.tests", "data")
+
+        state_location = self.tmpdir
+        shutil.copyfile(
+            os.path.join(stored_state_location, "application_memento_v2.pkl"),
+            os.path.join(state_location, DEFAULT_STATE_FILENAME),
+        )
+
+        app = TasksApplication(state_location=state_location)
+        app.on_trait_change(app.exit, "application_initialized")
+        app.run()
+
+        state = app._state
+        self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
+
+    @unittest.skipUnless(
+        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3")
+    def test_layout_load_pickle_protocol_3(self):
+        # Same as the above test, but using a state stored with pickle
+        # protocol 3.
+        stored_state_location = pkg_resources.resource_filename(
+            "envisage.ui.tasks.tests", "data")
+
+        state_location = self.tmpdir
+        shutil.copyfile(
+            os.path.join(stored_state_location, "application_memento_v3.pkl"),
+            os.path.join(state_location, "fancy_state.pkl"),
+        )
+
+        # Use a non-standard filename, to exercise that machinery.
+        app = TasksApplication(
+            state_location=state_location,
+            state_filename="fancy_state.pkl",
+        )
+        app.on_trait_change(app.exit, "application_initialized")
+        app.run()
+
+        state = app._state
+        self.assertEqual(state.previous_window_layouts[0].size, (492, 743))

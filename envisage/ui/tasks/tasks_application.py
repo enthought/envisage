@@ -16,6 +16,9 @@ from envisage._compat import pickle, STRING_BASE_CLASS
 # Logging.
 logger = logging.getLogger(__name__)
 
+#: Default filename for saving layout information
+DEFAULT_STATE_FILENAME = "application_memento"
+
 
 class TasksApplication(Application):
     """The entry point for an Envisage Tasks application.
@@ -57,6 +60,10 @@ class TasksApplication(Application):
     # The directory on the local file system used to persist window layout
     # information.
     state_location = Directory
+
+    # The filename that the application uses to persist window layout
+    # information.
+    state_filename = Unicode(DEFAULT_STATE_FILENAME)
 
     # Contributed task factories. This attribute is primarily for run-time
     # inspection; to instantiate a task, use the 'create_task' method.
@@ -337,7 +344,7 @@ class TasksApplication(Application):
         """ Loads saved application state, if possible.
         """
         state = TasksApplicationState()
-        filename = os.path.join(self.state_location, 'application_memento')
+        filename = os.path.join(self.state_location, self.state_filename)
         if os.path.exists(filename):
             # Attempt to unpickle the saved application state.
             logger.debug('Loading application state from %s', filename)
@@ -392,7 +399,7 @@ class TasksApplication(Application):
         self._state.previous_window_layouts = window_layouts
 
         # Attempt to pickle the application state.
-        filename = os.path.join(self.state_location, 'application_memento')
+        filename = os.path.join(self.state_location, self.state_filename)
         logger.debug('Saving application state to %s', filename)
         try:
             with open(filename, 'wb') as f:
