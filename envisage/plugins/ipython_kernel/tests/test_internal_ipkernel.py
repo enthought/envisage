@@ -230,10 +230,9 @@ class TestInternalIPKernel(unittest.TestCase):
 
         self.create_and_destroy_kernel()
 
-        # Sometimes once isn't enough ....
-        # XXX Ideally, this wouldn't be necessary at all; see if we can fix.
-        for _ in range(3):
-            gc.collect()
+        # Remove anything kept alive by cycles. (There are too many cycles
+        # to break them individually.)
+        gc.collect()
 
         shells = self.objects_of_type(ipykernel.zmqshell.ZMQInteractiveShell)
         self.assertEqual(shells, [])
@@ -247,9 +246,7 @@ class TestInternalIPKernel(unittest.TestCase):
     def test_ctrl_c_message_suppressed(self):
         captured = []
         with capture_stream(sys.__stdout__, callback=captured.append):
-            kernel = InternalIPKernel()
-            kernel.init_ipkernel(gui_backend=None)
-            kernel.shutdown()
+            self.create_and_destroy_kernel()
 
         self.assertEqual(len(captured), 1)
         captured_stdout = captured[0].decode("utf-8")
@@ -376,6 +373,10 @@ class TestInternalIPKernel(unittest.TestCase):
         ]
 
     def create_and_destroy_kernel(self):
+        """
+        Set up a new kernel with two associate consoles, then shut everything
+        down.
+        """
         kernel = InternalIPKernel()
         kernel.init_ipkernel(gui_backend=None)
         kernel.new_qt_console()
