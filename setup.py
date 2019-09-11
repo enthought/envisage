@@ -184,22 +184,27 @@ def resolve_version():
         print(u"Reading version file {}".format(VERSION_FILE))
         version = read_version_file()
         print(u"Package version from version file: {}".format(version))
+    elif IS_RELEASED:
+        # This is a source archive for a released version.
+        pkg_version = RELEASED_VERSION.format(
+            major=MAJOR, minor=MINOR, micro=MICRO
+        )
+        git_revision = "unknown"
+        version = pkg_version, git_revision
+        write_version_file(*version)
     else:
+        # This is a source archive for an unreleased version.
         raise RuntimeError(
             u"Unable to determine package version. No local Git clone "
             u"detected, and no version file found at {}.".format(VERSION_FILE)
+            u"Please use a source dist or a git clone."
         )
 
     return version
 
 
 if __name__ == "__main__":
-    try:
-        version, git_revision = resolve_version()
-    except RuntimeError as err:
-        print(str(err))
-        version = "unknown"
-        git_revision = "unknown"
+    version, git_revision = resolve_version()
 
     setup(
         name = 'envisage',
