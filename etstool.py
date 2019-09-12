@@ -109,7 +109,6 @@ dependencies = {
     "coverage",
     "enthought_sphinx_theme",
     "ipykernel",
-    "nose",
     "pyface",
     "sphinx",
     "traits",
