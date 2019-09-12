@@ -255,9 +255,6 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
 
         iopub_socket.close()
 
-        del self.iopub_thread.socket
-        del self.iopub_socket
-
     def close_crash_handler(self):
         """
         Undo the global state change from init_crash_handler.
@@ -282,10 +279,6 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         """
         self.close_iopub()
         self.stdin_socket.close()
-
-        del self.control_socket
-        del self.stdin_socket
-        del self.shell_socket
 
     def cleanup_singletons(self):
         """
