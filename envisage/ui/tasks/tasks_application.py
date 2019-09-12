@@ -16,6 +16,9 @@ from envisage._compat import pickle, STRING_BASE_CLASS
 # Logging.
 logger = logging.getLogger(__name__)
 
+#: Default filename for saving layout information
+DEFAULT_STATE_FILENAME = "application_memento"
+
 
 class TasksApplication(Application):
     """The entry point for an Envisage Tasks application.
@@ -28,6 +31,12 @@ class TasksApplication(Application):
     # Extension point IDs.
     TASK_FACTORIES = 'envisage.ui.tasks.tasks'
     TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
+
+    # Pickle protocol to use for persisting layout information. Subclasses may
+    # want to increase this, depending on their compatibility needs. Protocol
+    # version 2 is safe for Python >= 2.3. Protocol version 4 is safe for
+    # Python >= 3.4.
+    layout_save_protocol = Int(2)
 
     #### 'TasksApplication' interface #########################################
 
@@ -51,6 +60,10 @@ class TasksApplication(Application):
     # The directory on the local file system used to persist window layout
     # information.
     state_location = Directory
+
+    # The filename that the application uses to persist window layout
+    # information.
+    state_filename = Unicode(DEFAULT_STATE_FILENAME)
 
     # Contributed task factories. This attribute is primarily for run-time
     # inspection; to instantiate a task, use the 'create_task' method.
@@ -331,20 +344,28 @@ class TasksApplication(Application):
         """ Loads saved application state, if possible.
         """
         state = TasksApplicationState()
-        filename = os.path.join(self.state_location, 'application_memento')
+        filename = os.path.join(self.state_location, self.state_filename)
         if os.path.exists(filename):
             # Attempt to unpickle the saved application state.
+            logger.debug('Loading application state from %s', filename)
             try:
                 with open(filename, 'rb') as f:
                     restored_state = pickle.load(f)
+            except Exception:
+                # If anything goes wrong, log the error and continue.
+                logger.exception('Error while restoring application state')
+            else:
                 if state.version == restored_state.version:
                     state = restored_state
+                    logger.debug('Application state successfully restored')
                 else:
-                    logger.warning('Discarding outdated application layout')
-            except:
-                # If anything goes wrong, log the error and continue.
-                logger.exception('Restoring application layout from %s',
-                                 filename)
+                    logger.warning(
+                        'Discarding outdated application state: '
+                        'expected version %s, got version %s',
+                        state.version, restored_state.version)
+        else:
+            logger.debug("No saved application state found at %s", filename)
+
         self._state = state
 
     def _restore_layout_from_state(self, layout):
@@ -378,13 +399,16 @@ class TasksApplication(Application):
         self._state.previous_window_layouts = window_layouts
 
         # Attempt to pickle the application state.
-        filename = os.path.join(self.state_location, 'application_memento')
+        filename = os.path.join(self.state_location, self.state_filename)
+        logger.debug('Saving application state to %s', filename)
         try:
             with open(filename, 'wb') as f:
-                pickle.dump(self._state, f)
-        except:
+                pickle.dump(self._state, f, protocol=self.layout_save_protocol)
+        except Exception:
             # If anything goes wrong, log the error and continue.
-            logger.exception('Saving application layout')
+            logger.exception('Error while saving application state')
+        else:
+            logger.debug('Application state successfully saved')
 
     #### Trait initializers ###################################################
 
