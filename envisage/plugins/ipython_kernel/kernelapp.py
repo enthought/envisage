@@ -97,7 +97,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         StreamHandler every time.
 
         See also:
-        - https://github.com/tornadoweb/tornado/blob/v6.0.3/tornado/ioloop.py#L427-L445
+        - https://github.com/tornadoweb/tornado/blob/v6.0.3/tornado/ioloop.py#L427-L445  # noqa: E501
         - https://github.com/tornadoweb/tornado/pull/741
         """
         logger = logging.getLogger("tornado")
