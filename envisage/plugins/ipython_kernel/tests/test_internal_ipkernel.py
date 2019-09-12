@@ -243,25 +243,6 @@ class TestInternalIPKernel(unittest.TestCase):
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
 
-    def test_ctrl_c_message_suppressed(self):
-        captured = []
-        with capture_stream(sys.__stdout__, callback=captured.append):
-            self.create_and_destroy_kernel()
-
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertNotIn("Ctrl-C will not work", captured_stdout)
-
-    def test_ctrl_c_message_restored(self):
-        original_ctrl_c_message = ipykernel.kernelapp._ctrl_c_message
-
-        self.create_and_destroy_kernel()
-
-        self.assertEqual(
-            ipykernel.kernelapp._ctrl_c_message,
-            original_ctrl_c_message,
-        )
-
     def test_raw_print_logged(self):
         test_message = "norwegian blue"
 

@@ -98,9 +98,6 @@ class InternalIPKernel(HasStrictTraits):
     #: This is a list of tuples (name, value).
     initial_namespace = List()
 
-    #: old value for the _ctrl_c_message, so that it can be restored
-    _original_ctrl_c_message = Any()
-
     #: old values for IPython's raw_print and raw_print_err, so that
     #: they can be restored.
     _original_raw_print = Any()
@@ -120,13 +117,6 @@ class InternalIPKernel(HasStrictTraits):
         self._original_raw_print_err = IPython.utils.io.raw_print_err
         IPython.utils.io.raw_print = log_print
         IPython.utils.io.raw_print_err = log_print_err
-
-        # Suppress the unhelpful "Ctrl-C will not work" message from the
-        # kernelapp.
-        self._original_ctrl_c_message = getattr(
-            ipykernel.kernelapp, "_ctrl_c_message", None)
-        if self._original_ctrl_c_message is not None:
-            ipykernel.kernelapp._ctrl_c_message = ""
 
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
@@ -168,12 +158,6 @@ class InternalIPKernel(HasStrictTraits):
 
             # Remove stored singleton to facilitate garbage collection.
             IPKernelApp.clear_instance()
-
-            # Restore changes to the ctrl-c-message.
-            if self._original_ctrl_c_message is not None:
-                ipykernel.kernelapp._ctrl_c_message = (
-                    self._original_ctrl_c_message)
-                self._original_ctrl_c_message = None
 
             # Undo changes to raw_print and raw_print_err.
             if self._original_raw_print_err is not None:
