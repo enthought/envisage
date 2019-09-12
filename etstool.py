@@ -247,7 +247,7 @@ def test(runtime, toolkit, environment):
     environ = environment_vars.get(toolkit, {}).copy()
     environ['PYTHONUNBUFFERED'] = "1"
     commands = [
-        "edm run -e {environment} -- coverage run -p -m nose.core -v envisage --nologcapture"
+        "edm run -e {environment} -- coverage run -p -m unittest discover -v envisage"
     ]
 
     # We run in a tempdir to avoid accidentally picking up wrong envisage
