@@ -1,12 +1,8 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
-import contextlib
 import gc
-import logging
-import os
 import sys
-import tempfile
 import threading
 import unittest
 
@@ -28,84 +24,6 @@ if ipykernel_available:
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
         InternalIPKernel)
-
-
-# Machinery for catching logged messages in tests (both for testing
-# the existence and content of those messages, and for hiding the
-# logger output during the test run).
-
-class ListHandler(logging.Handler):
-    """
-    Simple logging handler that stores all records in a list.
-
-    Used by catch_logs below.
-    """
-    def __init__(self):
-        logging.Handler.__init__(self)
-        self.records = []
-
-    def emit(self, record):
-        self.records.append(record)
-
-
-@contextlib.contextmanager
-def catch_logs(logger_name, level=logging.WARNING):
-    """
-    Temporarily redirect logs for the given logger to a list.
-
-    Also allows temporarily changing the level of that logger.
-    """
-    logger = logging.getLogger(logger_name)
-    handler = ListHandler()
-    old_propagate = logger.propagate
-    old_level = logger.level
-
-    logger.addHandler(handler)
-    logger.propagate = False
-    logger.setLevel(level)
-    try:
-        yield handler.records
-    finally:
-        logger.setLevel(old_level)
-        logger.propagate = old_propagate
-        logger.removeHandler(handler)
-
-
-@contextlib.contextmanager
-def capture_stream(stream, callback=None):
-    """
-    Context manager to capture output to a particular stream.
-
-    Capture all output written to the given stream. If the optional
-    callback is provided, call it with the captured output (which
-    will be a bytestring) when exiting the with block.
-
-    Parameters
-    ----------
-    stream : Python stream
-        For example, sys.__stdout__.
-    callback : callable
-        Callable of a single argument.
-    """
-    stream_fd = stream.fileno()
-
-    with tempfile.TemporaryFile() as new_stream:
-        old_stream_fd = os.dup(stream_fd)
-        stream.flush()
-        os.dup2(new_stream.fileno(), stream_fd)
-        try:
-            yield
-        finally:
-            stream.flush()
-            os.dup2(old_stream_fd, stream_fd)
-            os.close(old_stream_fd)
-
-        new_stream.flush()
-        new_stream.seek(0)
-        captured = new_stream.read()
-
-    if callback is not None:
-        callback(captured)
 
 
 @unittest.skipUnless(ipykernel_available,
@@ -174,17 +92,12 @@ class TestInternalIPKernel(unittest.TestCase):
         original_io_stdin = IPython.utils.io.stdin
         original_io_stdout = IPython.utils.io.stdout
         original_io_stderr = IPython.utils.io.stderr
-        original_io_raw_print = IPython.utils.io.raw_print
-        original_io_raw_print_err = IPython.utils.io.raw_print_err
 
         self.create_and_destroy_kernel()
 
         self.assertIs(IPython.utils.io.stdin, original_io_stdin)
         self.assertIs(IPython.utils.io.stdout, original_io_stdout)
         self.assertIs(IPython.utils.io.stderr, original_io_stderr)
-        self.assertIs(IPython.utils.io.raw_print, original_io_raw_print)
-        self.assertIs(
-            IPython.utils.io.raw_print_err, original_io_raw_print_err)
 
     def test_io_pub_thread_stopped(self):
         self.create_and_destroy_kernel()
@@ -242,104 +155,6 @@ class TestInternalIPKernel(unittest.TestCase):
 
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
-
-    def test_raw_print_logged(self):
-        test_message = "norwegian blue"
-
-        # Outside the context of the kernel, raw_print prints as expected.
-        captured = []
-        with capture_stream(sys.__stdout__, callback=captured.append):
-            IPython.utils.io.raw_print(test_message)
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertIn(test_message, captured_stdout)
-
-        # Again, with a running kernel.
-        kernel = InternalIPKernel()
-        kernel.init_ipkernel(gui_backend=None)
-        captured = []
-        log_catcher = catch_logs(
-            "envisage.plugins.ipython_kernel", level=logging.INFO)
-
-        try:
-            with log_catcher as log_records:
-                with capture_stream(sys.__stdout__, callback=captured.append):
-                    IPython.utils.io.raw_print(test_message)
-        finally:
-            kernel.shutdown()
-
-        # Check captured output (which should not contain the test message)
-        # and the INFO-level log records (which should).
-        messages = [
-            record.getMessage() for record in log_records
-            if record.levelno == logging.INFO
-        ]
-        test_message_found = any(
-            test_message in message for message in messages)
-        self.assertTrue(
-            test_message_found,
-            msg="raw_print messages were not found in the logs"
-        )
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertNotIn(test_message, captured_stdout)
-
-        # After shutdown, raw_print again prints to __stdout__.
-        captured = []
-        with capture_stream(sys.__stdout__, callback=captured.append):
-            IPython.utils.io.raw_print(test_message)
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertIn(test_message, captured_stdout)
-
-    def test_raw_print_err_logged(self):
-        test_message = "your hovercraft is full of eels"
-
-        # Outside the context of the kernel, raw_print_err prints as expected.
-        captured = []
-        with capture_stream(sys.__stderr__, callback=captured.append):
-            IPython.utils.io.raw_print_err(test_message)
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertIn(test_message, captured_stdout)
-
-        # Again, with a running kernel.
-        kernel = InternalIPKernel()
-        kernel.init_ipkernel(gui_backend=None)
-        captured = []
-        log_catcher = catch_logs(
-            "envisage.plugins.ipython_kernel", level=logging.WARNING)
-
-        try:
-            with log_catcher as log_records:
-                with capture_stream(sys.__stderr__, callback=captured.append):
-                    IPython.utils.io.raw_print_err(test_message)
-        finally:
-            kernel.shutdown()
-
-        # Check captured output (which should not contain the test message)
-        # and the INFO-level log records (which should).
-        messages = [
-            record.getMessage() for record in log_records
-            if record.levelno == logging.WARNING
-        ]
-        test_message_found = any(
-            test_message in message for message in messages)
-        self.assertTrue(
-            test_message_found,
-            msg="raw_print_err messages were not found in the logs"
-        )
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertNotIn(test_message, captured_stdout)
-
-        # After shutdown, raw_print_err again prints to __stderr__.
-        captured = []
-        with capture_stream(sys.__stderr__, callback=captured.append):
-            IPython.utils.io.raw_print_err(test_message)
-        self.assertEqual(len(captured), 1)
-        captured_stdout = captured[0].decode("utf-8")
-        self.assertIn(test_message, captured_stdout)
 
     # Helper functions.
 
