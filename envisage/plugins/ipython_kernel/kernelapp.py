@@ -7,6 +7,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import logging
+import os
 import sys
 
 import ipykernel.ipkernel
@@ -102,6 +103,40 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         logger = logging.getLogger("tornado")
         if not logger.handlers:
             logger.addHandler(logging.NullHandler())
+
+    def log_connection_info(self):
+        """
+        Display connection info, and store ports.
+
+        Overridden to not write information to __stdout__. We don't usually
+        want this in applications that embed an IPython kernel (as opposed
+        to the case where IPython effectively *is* the application).
+        """
+        basename = os.path.basename(self.connection_file)
+        if (basename == self.connection_file or
+                os.path.dirname(self.connection_file) == self.connection_dir):
+            # use shortname
+            tail = basename
+        else:
+            tail = self.connection_file
+        lines = [
+            "To connect another client to this kernel, use:",
+            "    --existing %s" % tail,
+        ]
+        # log connection info
+        # info-level, so often not shown.
+        # frontends should use the %connect_info magic
+        # to see the connection info
+        for line in lines:
+            self.log.info(line)
+
+        self.ports = dict(
+            shell=self.shell_port,
+            iopub=self.iopub_port,
+            stdin=self.stdin_port,
+            hb=self.hb_port,
+            control=self.control_port,
+        )
 
     # Methods extending the base class methods ################################
 
