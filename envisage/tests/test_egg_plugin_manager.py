@@ -5,7 +5,7 @@
 from envisage.api import EggPluginManager
 
 # Local imports.
-from .egg_based_test_case import EggBasedTestCase
+from .test_egg_based import EggBasedTestCase
 from traits.testing.unittest_tools import unittest
 
 
