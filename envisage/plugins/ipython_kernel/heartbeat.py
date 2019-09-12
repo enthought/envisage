@@ -36,8 +36,10 @@ class Heartbeat(ipykernel.heartbeat.Heartbeat):
         try:
             super(Heartbeat, self).run()
         except zmq.ZMQError as e:
-            if e.errno == zmq.ETERM:
-                self.socket.close()
-                del self.socket
-            else:
+            # We expect to get here on normal context termination, but
+            # not otherwise; re-raise if the error is not the expected one
+            # (but close the socket anyway, to allow the context termination
+            # to complete without blocking the main thread).
+            self.socket.close()
+            if e.errno != zmq.ETERM:
                 raise
