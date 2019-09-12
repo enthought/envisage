@@ -17,6 +17,11 @@ MINOR = 8
 MICRO = 0
 IS_RELEASED = False
 
+# If this file is part of a Git export (for example created with "git archive",
+# or downloaded from GitHub), ARCHIVE_COMMIT_HASH gives the full hash of the
+# commit that was exported.
+ARCHIVE_COMMIT_HASH = "$Format:%H$"
+
 # Templates for version strings.
 RELEASED_VERSION = u"{major}.{minor}.{micro}"
 UNRELEASED_VERSION = u"{major}.{minor}.{micro}.dev{dev}"
@@ -189,7 +194,7 @@ def resolve_version():
         pkg_version = RELEASED_VERSION.format(
             major=MAJOR, minor=MINOR, micro=MICRO
         )
-        git_revision = "unknown"
+        git_revision = ARCHIVE_COMMIT_HASH
         version = pkg_version, git_revision
         write_version_file(*version)
     else:
