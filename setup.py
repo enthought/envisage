@@ -184,12 +184,7 @@ def resolve_version():
         print(u"Computed package version: {}".format(version))
         print(u"Writing version to version file {}.".format(VERSION_FILE))
         write_version_file(*version)
-    elif os.path.isfile(VERSION_FILE):
-        # This is a source distribution. Read the version information.
-        print(u"Reading version file {}".format(VERSION_FILE))
-        version = read_version_file()
-        print(u"Package version from version file: {}".format(version))
-    elif IS_RELEASED:
+    elif IS_RELEASED and ARCHIVE_COMMIT_HASH != "$Format:%H$":
         # This is a source archive for a released version.
         pkg_version = RELEASED_VERSION.format(
             major=MAJOR, minor=MINOR, micro=MICRO
@@ -197,6 +192,11 @@ def resolve_version():
         git_revision = ARCHIVE_COMMIT_HASH
         version = pkg_version, git_revision
         write_version_file(*version)
+    elif os.path.isfile(VERSION_FILE):
+        # This is a source distribution. Read the version information.
+        print(u"Reading version file {}".format(VERSION_FILE))
+        version = read_version_file()
+        print(u"Package version from version file: {}".format(version))
     else:
         # This is a source archive for an unreleased version.
         raise RuntimeError(
