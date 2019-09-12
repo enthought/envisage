@@ -144,13 +144,17 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
 
     # New methods, mostly to control shutdown #################################
 
-    def shutdown(self):
+    def close(self):
         """
         Undo the effects of the initialize method:
 
         - free resources allocated during initialization
         - undo changes to global state
         """
+        # Note: the upstream ipykernel introduced its own close method in
+        # v5.1.2, along with an atexit handler for that method. See
+        # https://github.com/ipython/ipykernel/pull/412. For ipykernel versions
+        # of 5.1.2 or later, this method overrides the base class version.
         self.close_shell()
         self.close_kernel()
         self.close_io()
@@ -278,7 +282,19 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         Unbind, close and destroy sockets created by init_sockets.
         """
         self.close_iopub()
-        self.stdin_socket.close()
+
+        for channel in ('shell', 'control', 'stdin'):
+            self.log.debug("Closing %s channel", channel)
+            socket = getattr(self, channel + "_socket", None)
+            if socket and not socket.closed:
+                socket.close()
+
+        # ipykernel 5.1.2 and later creates its own context. Earlier versions
+        # use the shared zmq context. Ref: ipython/ipykernel#412.
+        if hasattr(self, "context"):
+            self.log.debug("Terminating zmq context")
+            self.context.term()
+            self.log.debug("Terminated zmq context")
 
     def cleanup_singletons(self):
         """

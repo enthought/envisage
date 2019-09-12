@@ -5,6 +5,7 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 """
 from __future__ import absolute_import, print_function, unicode_literals
 
+import atexit
 import logging
 
 import ipykernel.connect
@@ -15,6 +16,21 @@ from envisage.plugins.ipython_kernel.kernelapp import IPKernelApp
 from traits.api import Any, HasStrictTraits, Instance, List
 
 logger = logging.getLogger(__name__)
+
+
+# Allow unregistration of atexit handlers registered by IPython machinery.
+
+if six.PY2:
+    def atexit_unregister(func):
+        # Replace the contents, not the list itself, in case anyone else
+        # is keeping references to it. Also use 'not thing == func' instead
+        # of 'thing != func' to match the semantics of the Python 3 code.
+        atexit._exithandlers[:] = list(
+            handler for handler in atexit._exithandlers
+            if not handler[0] == func
+        )
+else:
+    from atexit import unregister as atexit_unregister
 
 
 # Replacements for IPython.utils.io.raw_print and IPython.utils.raw_print_err
@@ -144,7 +160,10 @@ class InternalIPKernel(HasStrictTraits):
         """
         if self.ipkernel is not None:
             self.cleanup_consoles()
-            self.ipkernel.shutdown()
+            self.ipkernel.close()
+            # ipkernel.close is only registered for ipykernel 5.1.2 and later,
+            # but unregistering something that wasn't registered is safe.
+            atexit_unregister(self.ipkernel.close)
             self.ipkernel = None
 
             # Remove stored singleton to facilitate garbage collection.
