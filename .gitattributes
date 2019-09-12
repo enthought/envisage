@@ -1,0 +1,2 @@
+# For source archives, store the commit hash for HEAD in the setup.py file
+/setup.py export-subst
