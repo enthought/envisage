@@ -277,9 +277,7 @@ if __name__ == "__main__":
         long_description=get_long_description(),
         long_description_content_type="text/x-rst",
         entry_points={
-            "envisage.plugins": [
-                "envisage.core = envisage.core_plugin:CorePlugin",
-            ],
+            "envisage.plugins": ["envisage.core = envisage.core_plugin:CorePlugin"]
         },
         install_requires=["apptools", "traits"],
         license="BSD",
