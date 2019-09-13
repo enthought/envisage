@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.single_project.project &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.ui.single_project.project</h1><div class="highlight"><pre>
+<span></span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2005-2007 by Enthought, Inc.</span>
+<span class="c1">#  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  Author: Dave Peterson &lt;dpeterson@enthought.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#-----------------------------------------------------------------------------</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A base class for projects that can be displayed by the single_project</span>
+<span class="sd">plugin.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1"># Enthought library imports</span>
+<span class="kn">from</span> <span class="nn">traits.etsconfig.api</span> <span class="k">import</span> <span class="n">ETSConfig</span>
+<span class="kn">import</span> <span class="nn">apptools.sweet_pickle</span>
+<span class="kn">from</span> <span class="nn">apptools.io.api</span> <span class="k">import</span> <span class="n">File</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> \
+    <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">traits.util.clean_strings</span> <span class="k">import</span> <span class="n">clean_filename</span>
+
+<span class="c1"># Local imports.</span>
+<span class="c1">#from envisage.ui.single_project.editor.project_editor import \</span>
+<span class="c1">#    ProjectEditor</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">Application</span>
+
+
+<span class="c1"># Setup a logger for this module.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A base class for projects that can be displayed by the single_project</span>
+<span class="sd">    plugin.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># CLASS Attributes</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public &#39;Project&#39; class interface ####################################</span>
+
+    <span class="c1"># Indicates whether instances of this project class are stored as files or</span>
+    <span class="c1"># directories.  The rest of the single_project plugin will follow this</span>
+    <span class="c1"># setting when using this project class.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This is meant to be a constant for the lifetime of this class!</span>
+    <span class="n">PROJECTS_ARE_FILES</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Current envisage application.</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">Application</span><span class="p">,</span> <span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1">#### protected &#39;Project&#39; class interface #################################</span>
+
+    <span class="c1"># Format used to create a unique name from a location and a counter.</span>
+    <span class="n">_unique_name_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Attributes</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public &#39;Project&#39; interface ##########################################</span>
+
+    <span class="c1"># True if this project contains un-saved state (has been modified.)</span>
+    <span class="n">dirty</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># True if we allow save requests on the project.</span>
+    <span class="n">is_save_allowed</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># True if we allow save_as requests on the project.</span>
+    <span class="n">is_save_as_allowed</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># The location of this project on the filesystem.  The default value</span>
+    <span class="c1"># depends on the runtime environment so we use a traits default method to</span>
+    <span class="c1"># set it.</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">Directory</span>
+
+    <span class="c1"># The name of this project.  This is calculated from the project&#39;s current</span>
+    <span class="c1"># location or, if there is no location, from a default value.  See the</span>
+    <span class="c1"># property&#39;s getter method.</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Str</span><span class="p">)</span>
+
+    <span class="c1"># The UI view to use when creating a new project</span>
+    <span class="n">traits_view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Group</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;New Project&#39;</span><span class="p">,</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;envisage.single_project.project.Project&#39;</span><span class="p">,</span>
+        <span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;OK&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancel&#39;</span> <span class="p">],</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="mf">0.33</span><span class="p">,</span>
+
+        <span class="c1"># Ensure closing via the dialog close button is the same</span>
+        <span class="c1"># as clicking cancel.</span>
+        <span class="n">close_result</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+        <span class="c1"># Ensure the user can resize the dialog.</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+    <span class="c1">#### protected &#39;Project&#39; interface #######################################</span>
+
+    <span class="c1"># A list of editors currently open to visualize our resources</span>
+    <span class="c1"># FIXME: Re-add the ProjectEditor&#39;s(if we need them) once they are fixed.</span>
+    <span class="c1">#_editors = Dict(Any, ProjectEditor, transient=True)</span>
+
+    <span class="c1"># The cache of this project&#39;s name.  We can&#39;t just initialize it to a</span>
+    <span class="c1"># default value since the location may be cleared at any time.</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;Object&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### operator methods ####################################################</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the state of this object for pickling.</span>
+
+<span class="sd">        Extended to limit which attributes get pickled and also to add</span>
+<span class="sd">        version numbers to our pickle.</span>
+
+<span class="sd">        It is STRONGLY recommended that derived classes not leverage the</span>
+<span class="sd">        pickling mechanism if they wish to store additional data in OTHER</span>
+<span class="sd">        files as part of their project.  Instead, they should override the</span>
+<span class="sd">        *_save* method.</span>
+
+<span class="sd">        Extending this method in derived classes IS appropriate if you want</span>
+<span class="sd">        to store additional data in the SAME pickle file as the project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Determine the starting point for our state.</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Remove any transient traits.</span>
+        <span class="k">for</span> <span class="n">trait_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_names</span><span class="p">(</span><span class="n">transient</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">trait_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Add in our current version number.  Note use a different attribute</span>
+        <span class="c1"># name from any base or derived class so that our numbers don&#39;t</span>
+        <span class="c1"># override theirs.</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;_project_version_major&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;_project_version_minor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">state</span>
+
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Restore the state of this object during unpickling.</span>
+
+<span class="sd">        Extended to upgrade pickles to the current Project version.</span>
+
+<span class="sd">        It is STRONGLY recommended that derived classes not leverage the</span>
+<span class="sd">        unpickling mechanism if they wish to load data from additional pickle</span>
+<span class="sd">        files. Instead, they should override the *_load* method.</span>
+
+<span class="sd">        Extending this method in derived classes IS appropriate if you want</span>
+<span class="sd">        to load additional data from the SAME pickle file as the project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the version info out of the state dictionary.</span>
+        <span class="n">major</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_project_version_major&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">minor</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_project_version_minor&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Upgrade to version 1.</span>
+        <span class="k">if</span> <span class="n">major</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+
+            <span class="c1"># Remove any old attributes.</span>
+            <span class="c1"># - name is now a calculated property instead of stored value.</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span>
+                <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Restore our state.</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the unofficial string representation of this object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">result</span> <span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(name=</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;Project&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public interface ####################################################</span>
+
+<div class="viewcode-block" id="Project.get_default_project_location"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.get_default_project_location">[docs]</a>    <span class="k">def</span> <span class="nf">get_default_project_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the default location for a new project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">clean_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_default_name</span><span class="p">())</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_location_unique</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">location</span></div>
+
+<div class="viewcode-block" id="Project.get_default_path"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.get_default_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_default_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the default path to the parent directory for a new project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># When unpickling, we don&#39;t have a reference to the current application, so we</span>
+        <span class="c1"># fallback on application_home.</span>
+        <span class="k">if</span> <span class="n">application</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span>
+
+        <span class="n">app_preferences</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">preferences</span>
+        <span class="n">path_id</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.&#39;</span> \
+            <span class="s1">&#39;single_project.preferred_path&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">app_preferences</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path_id</span><span class="p">)</span>
+
+        <span class="c1"># If the &#39;preferred_path&#39; variable isn&#39;t set in the user&#39;s preferences,</span>
+        <span class="c1"># then we set to the the application home by default.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">app_home</span> <span class="o">=</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span>
+            <span class="n">app_preferences</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">path_id</span><span class="p">,</span> <span class="n">app_home</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">app_home</span>
+
+        <span class="k">return</span> <span class="n">path</span></div>
+
+    <span class="n">get_default_path</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">get_default_path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Project.get_default_name"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.get_default_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_default_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the default name for a new project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="s1">&#39;New Project&#39;</span></div>
+
+<div class="viewcode-block" id="Project.get_pickle_filename"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.get_pickle_filename">[docs]</a>    <span class="k">def</span> <span class="nf">get_pickle_filename</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate the project&#39;s pickle filename given a source location.</span>
+
+<span class="sd">        By default, the filename IS the specified location or, when saving</span>
+<span class="sd">        projects as directories, a file called &#39;project&#39; within a directory</span>
+<span class="sd">        that is the specified location,</span>
+
+<span class="sd">        Derived classes may wish to use the location as the basis for</span>
+<span class="sd">        identifying the real pickle file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PROJECTS_ARE_FILES</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="n">get_pickle_filename</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">get_pickle_filename</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Project.get_pickle_package"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.get_pickle_package">[docs]</a>    <span class="k">def</span> <span class="nf">get_pickle_package</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the pickle package to use for pickling and unpickling</span>
+<span class="sd">        projects.</span>
+
+<span class="sd">        Implementors can override this to customize the way in which</span>
+<span class="sd">        projects are pickled and unpickled.</span>
+
+<span class="sd">        This implementation returns the apptools.sweet_pickle package which</span>
+<span class="sd">        supports versioning and refactoring of classes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">apptools</span><span class="o">.</span><span class="n">sweet_pickle</span></div>
+
+    <span class="n">get_pickle_package</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">get_pickle_package</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Project.load"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a project from a specified location.</span>
+
+<span class="sd">        The loaded project&#39;s location is always set to the location the project</span>
+<span class="sd">        was actually loaded from.  Additionally, the dirty flag is cleared</span>
+<span class="sd">        on the loaded project.</span>
+
+<span class="sd">        An exception will be raised to indicate a failure.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Load the project in a manner that derived classes can modify.</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_load</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+
+        <span class="c1"># Ensure the project&#39;s location reflects where the project was loaded</span>
+        <span class="c1"># from and that the dirty flag is not set.</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Set the project&#39;s &#39;application&#39; to the running application passed in.</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="n">application</span>
+
+        <span class="k">return</span> <span class="n">project</span></div>
+
+    <span class="n">load</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Project.register_editor"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.register_editor">[docs]</a>    <span class="k">def</span> <span class="nf">register_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">editor</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inform us that an editor has been opened for what is believed to be</span>
+<span class="sd">        a resource in this project.</span>
+
+<span class="sd">        Note that if this project can be represented as a hierarchy, the</span>
+<span class="sd">        resource may not be a top level object in that hierarchy!</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Warn if the resource is not part of this project</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contains_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This Project [</span><span class="si">%s</span><span class="s1">] does not contain resource [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">))</span>
+
+        <span class="c1"># Add or remove from our set of editors as requested</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">remove</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_editors</span><span class="p">[</span><span class="n">resource</span><span class="p">]</span> <span class="o">=</span> <span class="n">editor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_editors</span><span class="p">[</span><span class="n">resource</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Project.save"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save this project.</span>
+
+<span class="sd">        The project is saved to its current location, identified by the value</span>
+<span class="sd">        of the *location* trait, unless a new location is explicitly provided.</span>
+<span class="sd">        The specification of a new location is used to do a &#39;save as&#39;</span>
+<span class="sd">        operation.</span>
+
+<span class="sd">        If a new location is provided, and a file or directory already exists</span>
+<span class="sd">        at that location, then an *AssertionError* exception is raised unless</span>
+<span class="sd">        the overwrite flag is True.  This ensures that users won&#39;t accidentally</span>
+<span class="sd">        overwrite existing data.</span>
+
+<span class="sd">        This method requires the overwrite flag because prompting the user to</span>
+<span class="sd">        confirm the overwrite requires GUI interaction and thus should not be</span>
+<span class="sd">        done at the model level.</span>
+
+<span class="sd">        Note that, because we can rely on the location of a loaded project</span>
+<span class="sd">        always being set to the location it was loaded from, there is no reason</span>
+<span class="sd">        to try to force the *location* trait within a saved project to the</span>
+<span class="sd">        location we are trying to save to.  Instead, we update the value in</span>
+<span class="sd">        the in-memory version of the project only if the save completed</span>
+<span class="sd">        successfully.</span>
+
+<span class="sd">        The dirty flag is always cleared upon a succesfull save of the project.</span>
+
+<span class="sd">        An exception will be raised to indicate a failure.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ensure saving (or save as) is allowed at this time.</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">location</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_save_allowed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;Saving is currently not allowed.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">location</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_save_as_allowed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;Save as is currently not allowed.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Use the internally-specified location unless a new location was</span>
+        <span class="c1"># explicitly provided.  The new location can not contain any starting</span>
+        <span class="c1"># or trailing whitespace and it cannot overwrite an existing file or</span>
+        <span class="c1"># directory unless that was explicitly allowed.</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+
+                <span class="c1"># Ensure we never overwrite existing files / directories just</span>
+                <span class="c1"># because someone specified a new location.  (Confirmation or</span>
+                <span class="c1"># correction of overwriting requires prompting of the user and</span>
+                <span class="c1"># is thus not part of the project model.)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="ow">and</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;Can not overwrite existing &#39;</span> <span class="o">+</span> \
+                        <span class="s1">&#39;location [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="n">location</span><span class="p">)</span>
+
+                <span class="c1"># The requested location is valid so let&#39;s use it.</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">location</span>
+
+        <span class="c1"># Ensure all necessary directories exist.  If we&#39;re saving a file, then</span>
+        <span class="c1"># these are the path upto the file name.  If we&#39;re saving to a directory</span>
+        <span class="c1"># then the path is the complete location.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PROJECTS_ARE_FILES</span><span class="p">:</span>
+            <span class="n">path</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">loc</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">is_file</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">create_folders</span><span class="p">()</span>
+
+        <span class="c1"># Save this project in a manner that derived classes can modify.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+
+        <span class="c1"># If the save succeeds (no exceptions were raised), then update the</span>
+        <span class="c1"># location of the project and clear the dirty flag.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">loc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="Project.start"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Notify this project that it is now the &#39;current&#39; project.</span>
+
+<span class="sd">        This call should only be made by the project plugin framework!</span>
+
+<span class="sd">        This call *could* happen multiple times to a project, but</span>
+<span class="sd">        only if interwoven with paired calls to the &#39;stop&#39; method.</span>
+
+<span class="sd">        Derived classes should override this, and chain the base</span>
+<span class="sd">        implementation, if they need to do anything when a project</span>
+<span class="sd">        becomes current.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Project [</span><span class="si">%s</span><span class="s1">] started&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Ensure we start with an empty set of editors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_editors</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="Project.stop"><a class="viewcode-back" href="../../../../api/envisage.ui.single_project.html#envisage.ui.single_project.project.Project.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called only by the project plugin framework to notify this</span>
+<span class="sd">        project it is no longer the current project.</span>
+
+<span class="sd">        This call *could* happen multiple times to a project, but</span>
+<span class="sd">        only if interwoven with paired calls to the &#39;start&#39; method.</span>
+
+<span class="sd">        Derived classes should override this, and chain the base</span>
+<span class="sd">        implementation, if they need to do anything when a project</span>
+<span class="sd">        stops being current.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Close all of the editors displaying our resources</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close_all_editors</span><span class="p">()</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Project [</span><span class="si">%s</span><span class="s1">] stopped&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
+
+    <span class="c1">#### protected interface #################################################</span>
+
+    <span class="k">def</span> <span class="nf">_close_all_editors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to close all editors associated with this project.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># NOTE: The close() method on the editor will call back to remove</span>
+        <span class="c1"># itself from our set of registered editors.  (This assumes the</span>
+        <span class="c1"># editor is derived from ProjectEditor.)</span>
+        <span class="k">for</span> <span class="n">editor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_editors</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Project requesting close of ProjectEditor [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span>
+                <span class="n">editor</span><span class="p">)</span>
+            <span class="n">editor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">_close_resource_editors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close any editors associated with the specified resource(s).</span>
+
+<span class="sd">        The passed value may be a single resource or a list of resources.  The</span>
+<span class="sd">        resources should be parts of this project but no error is generated if</span>
+<span class="sd">        they are not, nor if they are not currently associated with an editor.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ensure we&#39;re dealing with a list of resources.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">resource</span> <span class="o">=</span> <span class="p">[</span><span class="n">resource</span><span class="p">]</span>
+
+        <span class="c1"># Close any editors associated with the resources</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resource</span><span class="p">:</span>
+            <span class="n">editor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_editors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">editor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Requesting close of ProjectEditor [</span><span class="si">%s</span><span class="s1">] from &#39;</span> <span class="o">+</span> \
+                    <span class="s1">&#39;Project [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">editor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                <span class="n">editor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_contains_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to determine if this project contains the specified</span>
+<span class="sd">        resource.</span>
+
+<span class="sd">        Note that if this project can be represented as a hierarchy, the</span>
+<span class="sd">        resource may not be a top level object in that hierarchy!</span>
+
+<span class="sd">        Derived classes must implement this!</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current name for this project.</span>
+
+<span class="sd">        The name is always the last part of the path that is the project&#39;s</span>
+<span class="sd">        location.  If we have no location, then a default name is returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Prefer to use the cached version of the name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+        <span class="c1"># Use (and cache) a name from our current location</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Strip any trailing path separator off the current location so</span>
+            <span class="c1"># that we use the last directory name if our location is a</span>
+            <span class="c1"># directory</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+
+            <span class="c1"># The project name is then the basename of the location</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+
+    <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a project from the specified location.</span>
+
+<span class="sd">        This method exists purely to allow derived classes to have an easy way</span>
+<span class="sd">        to override or extend the loading of a project.  The default behavior</span>
+<span class="sd">        is to load the project from a file using the unpickle mechanism.</span>
+
+<span class="sd">        The caller is notified of loading errors by raised exceptions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Allow derived classes to determine the actual pickle file given the</span>
+        <span class="c1"># requested source location.</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_pickle_filename</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Loading Project of class [</span><span class="si">%s</span><span class="s1">] from [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Try to unpickle the project while making sure to close any file we</span>
+        <span class="c1"># opened.</span>
+        <span class="n">fh</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="n">pickle_package</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_pickle_package</span><span class="p">()</span>
+            <span class="n">project</span> <span class="o">=</span> <span class="n">pickle_package</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+            <span class="c1"># Allow derived classes to customize behavior after unpickling</span>
+            <span class="c1"># is complete.</span>
+            <span class="n">project</span><span class="o">.</span><span class="n">_load_hook</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Loaded Project [</span><span class="si">%s</span><span class="s1">] from location [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span>
+                <span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Ensure any opened file is closed</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fh</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Unable to close project file [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span>
+                        <span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">project</span>
+    <span class="n">_load</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_load</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_load_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finish loading of a project.</span>
+
+<span class="sd">        This method exists purely to allow derived classes to customize the</span>
+<span class="sd">        steps that finish the loading of a project.</span>
+
+<span class="sd">        Note that the project&#39;s internal location value does not yet reflect</span>
+<span class="sd">        the location the project was loaded from, nor do we guarantee the dirty</span>
+<span class="sd">        flag isn&#39;t set.  (Doing the right thing to both of these is done by the</span>
+<span class="sd">        framework after this method!)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+
+
+    <span class="k">def</span> <span class="nf">_location_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the default value for our location trait.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_project_location</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_make_location_unique</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a location, based off the specified location, that does</span>
+<span class="sd">        not already exist on the filesystem.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_unique_name_format</span> <span class="o">%</span> <span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="n">_make_location_unique</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_make_location_unique</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save this project to the specified location.</span>
+
+<span class="sd">        This method exists purely to allow derived classes to have an easy way</span>
+<span class="sd">        to override or extend the saving of a project.  The default behavior is</span>
+<span class="sd">        to save this project to a file using the pickle mechanism.</span>
+
+<span class="sd">        The caller is notified of saving errors by raised exceptions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Allow derived classes to determine the actual pickle file from the</span>
+        <span class="c1"># specified location.</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pickle_filename</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Saving Project [</span><span class="si">%s</span><span class="s1">] to [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Pickle the object to a file while making sure to close any file we</span>
+        <span class="c1"># open.  Note that we can&#39;t just log or ignore errors here as the</span>
+        <span class="c1"># caller needs to know whether we succeeded or not, and could possibly</span>
+        <span class="c1"># handle the exception if they knew what it was.</span>
+        <span class="n">fh</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Allow derived classes to customize behavior before pickling is</span>
+            <span class="c1"># applied.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_hook</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+
+            <span class="n">fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+            <span class="n">pickle_package</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pickle_package</span><span class="p">()</span>
+            <span class="n">pickle_package</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Saved Project [</span><span class="si">%s</span><span class="s1">] to [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Unable to close project pickle file [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_save_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start saving a project.</span>
+
+<span class="sd">        This method exists purely to allow derived classes to customize the</span>
+<span class="sd">        steps that initiate the saving of a project.</span>
+
+<span class="sd">        Note that the project&#39;s internal location value does not reflect the</span>
+<span class="sd">        target location for the save.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+
+
+    <span class="c1">#### trait handlers ######################################################</span>
+
+    <span class="k">def</span> <span class="nf">_location_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called whenever the project&#39;s location changes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Location changed from [</span><span class="si">%s</span><span class="s1">] to [</span><span class="si">%s</span><span class="s1">] for Project [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span>
+            <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Invalidate any cached project name</span>
+        <span class="n">old_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trait_property_changed</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># Indicate this project is now dirty</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<span class="c1">#### EOF #####################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

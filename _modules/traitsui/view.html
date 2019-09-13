@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -102,6 +102,7 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
 
+<span class="kn">from</span> <span class="nn">pyface.ui_traits</span> <span class="k">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Bool</span><span class="p">,</span>
@@ -160,10 +161,6 @@
 
 <span class="c1"># Dialog window title trait:</span>
 <span class="n">ATitle</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;the window title for the view&#39;</span><span class="p">)</span>
-
-<span class="c1"># Dialog window icon trait</span>
-<span class="c1">#icon_trait = Instance( &#39;pyface.image_resource.ImageResource&#39;,</span>
-<span class="c1"># desc = &#39;the ImageResource of the icon file for the view&#39; )</span>
 
 <span class="c1"># User interface &#39;kind&#39; trait. The values have the following meanings:</span>
 <span class="c1">#</span>
@@ -305,7 +302,7 @@
     <span class="n">title</span> <span class="o">=</span> <span class="n">ATitle</span>
 
     <span class="c1"># The name of the icon to display in the dialog window title bar:</span>
-    <span class="n">icon</span> <span class="o">=</span> <span class="n">Any</span>
+    <span class="n">icon</span> <span class="o">=</span> <span class="n">Image</span>
 
     <span class="c1"># The kind of user interface to create:</span>
     <span class="n">kind</span> <span class="o">=</span> <span class="n">AKind</span>
@@ -593,7 +590,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

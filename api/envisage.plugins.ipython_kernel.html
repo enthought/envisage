@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -114,6 +114,29 @@ this follows the usual Action method resolution.</p>
 <div class="section" id="module-envisage.plugins.ipython_kernel.api">
 <span id="envisage-plugins-ipython-kernel-api-module"></span><h2>envisage.plugins.ipython_kernel.api module<a class="headerlink" href="#module-envisage.plugins.ipython_kernel.api" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-envisage.plugins.ipython_kernel.heartbeat">
+<span id="envisage-plugins-ipython-kernel-heartbeat-module"></span><h2>envisage.plugins.ipython_kernel.heartbeat module<a class="headerlink" href="#module-envisage.plugins.ipython_kernel.heartbeat" title="Permalink to this headline">¶</a></h2>
+<p>A simple ping-pong style heartbeat that runs in a thread.</p>
+<p>Modified from upstream to enable the heartbeat thread to be shut down cleanly.</p>
+<dl class="class">
+<dt id="envisage.plugins.ipython_kernel.heartbeat.Heartbeat">
+<em class="property">class </em><code class="descclassname">envisage.plugins.ipython_kernel.heartbeat.</code><code class="descname">Heartbeat</code><span class="sig-paren">(</span><em>context</em>, <em>addr=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/heartbeat.html#Heartbeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.heartbeat.Heartbeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.heartbeat.Heartbeat</span></code></p>
+<p>A simple ping-pong style heartbeat that runs in a thread.</p>
+<p>Modified from upstream to enable the thread to be shut down cleanly.</p>
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.heartbeat.Heartbeat.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/heartbeat.html#Heartbeat.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.heartbeat.Heartbeat.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method representing the thread’s activity.</p>
+<p>You may override this method in a subclass. The standard run() method
+invokes the callable object passed to the object’s constructor as the
+target argument, if any, with sequential and keyword arguments taken
+from the args and kwargs arguments, respectively.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-envisage.plugins.ipython_kernel.internal_ipkernel">
 <span id="envisage-plugins-ipython-kernel-internal-ipkernel-module"></span><h2>envisage.plugins.ipython_kernel.internal_ipkernel module<a class="headerlink" href="#module-envisage.plugins.ipython_kernel.internal_ipkernel" title="Permalink to this headline">¶</a></h2>
 <p>This code has been inspired from the IPython repository</p>
@@ -180,7 +203,7 @@ object.</p>
 <dl class="method">
 <dt id="envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.shutdown">
 <code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/internal_ipkernel.html#InternalIPKernel.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.shutdown" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shutdown the kernel.</p>
+<dd><p>Shut the kernel down.</p>
 <p>Existing IPython consoles are killed first.</p>
 </dd></dl>
 
@@ -241,6 +264,150 @@ of the plugin’s activator.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-envisage.plugins.ipython_kernel.kernelapp">
+<span id="envisage-plugins-ipython-kernel-kernelapp-module"></span><h2>envisage.plugins.ipython_kernel.kernelapp module<a class="headerlink" href="#module-envisage.plugins.ipython_kernel.kernelapp" title="Permalink to this headline">¶</a></h2>
+<p>This module contains an extended version of the upstream ipykernel IPKernelApp.</p>
+<p>The main reason for extending is to support clean shutdown.</p>
+<dl class="class">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp">
+<em class="property">class </em><code class="descclassname">envisage.plugins.ipython_kernel.kernelapp.</code><code class="descname">IPKernelApp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ipykernel.kernelapp.IPKernelApp</span></code></p>
+<p>Patched version of the IPKernelApp, mostly to support clean shutdown.</p>
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.cleanup_singletons">
+<code class="descname">cleanup_singletons</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.cleanup_singletons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.cleanup_singletons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear SingletonConfigurable instances.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo the effects of the initialize method:</p>
+<ul class="simple">
+<li>free resources allocated during initialization</li>
+<li>undo changes to global state</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_crash_handler">
+<code class="descname">close_crash_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_crash_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_crash_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo the global state change from init_crash_handler.</p>
+<p>Restore the sys.excepthook attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_heartbeat">
+<code class="descname">close_heartbeat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_heartbeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_heartbeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the heartbeat thread, by terminating the corresponding
+zmq.Context.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_io">
+<code class="descname">close_io</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_io"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_io" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo the effects of init_io.</p>
+<p>Restores sys module attributes altered by init_io.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_iopub">
+<code class="descname">close_iopub</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_iopub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_iopub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close iopub-related resources.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_kernel">
+<code class="descname">close_kernel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo setup from init_kernel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_shell">
+<code class="descname">close_shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_shell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean up resources allocated by the shell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_sockets">
+<code class="descname">close_sockets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.close_sockets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_sockets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unbind, close and destroy sockets created by init_sockets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.configure_tornado_logger">
+<code class="descname">configure_tornado_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.configure_tornado_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.configure_tornado_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure tornado logging.</p>
+<p>Adds a NullHandler to the tornado root logger, if there are
+no handlers already present on that logger. If no tornado
+handler is present at the time the IO loop is started, tornado
+will call logging.basicConfig, which isn’t what we want to happen.</p>
+<p>Overridden from the base class, which unconditionally adds a new
+StreamHandler every time.</p>
+<p>See also:
+- <a class="reference external" href="https://github.com/tornadoweb/tornado/blob/v6.0.3/tornado/ioloop.py#L427-L445">https://github.com/tornadoweb/tornado/blob/v6.0.3/tornado/ioloop.py#L427-L445</a>  # noqa: E501
+- <a class="reference external" href="https://github.com/tornadoweb/tornado/pull/741">https://github.com/tornadoweb/tornado/pull/741</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_crash_handler">
+<code class="descname">init_crash_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.init_crash_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_crash_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up a suitable exception hook.</p>
+<p>Extended to keep track of the original sys.excepthook value, so that it
+can be restored later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_heartbeat">
+<code class="descname">init_heartbeat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.init_heartbeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_heartbeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>start the heart beating</p>
+<p>Overridden from the base class in order to swap in our own
+Heartbeat class in place of the official one. Our Heartbeat class
+is modified to allow the heartbeat thread to be shut down cleanly.</p>
+<p>This override can be removed once we’re on ipkernel 5.x.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_io">
+<code class="descname">init_io</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.init_io"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_io" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirect input streams and set a display hook.</p>
+<p>Extended to store the original sys attributes so that they
+can be restored later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_kernel">
+<code class="descname">init_kernel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.init_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the kernel object itself.</p>
+<p>Extended to store the original values of IPython.utils.io.stdout
+and IPython.utils.io.stderr, so that they can be restored later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.log_connection_info">
+<code class="descname">log_connection_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.log_connection_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.log_connection_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display connection info, and store ports.</p>
+<p>Overridden to not write information to __stdout__. We don’t usually
+want this in applications that embed an IPython kernel (as opposed
+to the case where IPython effectively <em>is</em> the application).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.patch_io">
+<code class="descname">patch_io</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/kernelapp.html#IPKernelApp.patch_io"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.patch_io" title="Permalink to this definition">¶</a></dt>
+<dd><p>Patch important libraries that can’t handle sys.stdout forwarding.</p>
+<p>Overridden from the base class to do nothing.</p>
+<p>The base class method monkeypatches faulthandler so that calling
+faulthandler.enable() while streams are redirected doesn’t fail.</p>
+<p>This override bypasses that patching. Users of the Envisage plugin
+are advised to enable faulthandler (if desired) as part of
+application setup, before the plugin is started.</p>
+<p>Related: <a class="reference external" href="https://github.com/ipython/ipykernel/issues/91">https://github.com/ipython/ipykernel/issues/91</a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-envisage.plugins.ipython_kernel">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-envisage.plugins.ipython_kernel" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -261,9 +428,11 @@ of the plugin’s activator.</p>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.actions">envisage.plugins.ipython_kernel.actions module</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.api">envisage.plugins.ipython_kernel.api module</a></li>
+<li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.heartbeat">envisage.plugins.ipython_kernel.heartbeat module</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.internal_ipkernel">envisage.plugins.ipython_kernel.internal_ipkernel module</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">envisage.plugins.ipython_kernel.ipython_kernel_plugin module</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin">envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin module</a></li>
+<li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel.kernelapp">envisage.plugins.ipython_kernel.kernelapp module</a></li>
 <li><a class="reference internal" href="#module-envisage.plugins.ipython_kernel">Module contents</a></li>
 </ul>
 </li>
@@ -311,7 +480,7 @@ of the plugin’s activator.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

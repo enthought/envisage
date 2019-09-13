@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -87,7 +87,7 @@
   <div class="section" id="extensibility">
 <span id="id1"></span><h1>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h1>
 <p id="index-0">The foregoing sections have described those elements of the Tasks framework that
-belong to the PyFace project; as such, our imports have been from the
+belong to the Pyface project; as such, our imports have been from the
 <code class="docutils literal notranslate"><span class="pre">pyface.tasks</span></code> package. We now discuss how Tasks can be used in
 conjunction with Envisage to build extensible applications. Accordingly, our
 imports in this section will be from the <code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks</span></code>
@@ -202,12 +202,13 @@ omitting it, we indicate that the first task in the task list is to be active by
 default.</p>
 <p id="index-5">By default, the Tasks framework will restore application-level layout when the
 application is restarted. That is, the set of windows and tasks attached to
-those windows that is extant when application exits will be restored when
-application is started again. If, however, the <code class="docutils literal notranslate"><span class="pre">always_use_default_layout</span></code>
-attribute of the application is set, the default application-layout will be
-applied when the application is restarted. Tasks will still attempt to restore
-as much user interface state as possible, including window positions and task
-layouts. This setting is partcularly useful for multi-window applications.</p>
+those windows that is extant when the application exits will be restored when
+the application is started again. If, however, the
+<code class="docutils literal notranslate"><span class="pre">always_use_default_layout</span></code> attribute of the application is set, the default
+application layout will be applied when the application is restarted. Tasks
+will still attempt to restore as much user interface state as possible,
+including window positions and task layouts. This setting is particularly
+useful for multi-window applications.</p>
 <p>Apart from this functionality, the Tasks plugin provides no additional <em>default</em>
 behavior for managing tasks and their windows, permitting users to switch tasks
 within a window, etc. This is to be expected, as these behaviors are
@@ -393,8 +394,8 @@ menu as follows:</p>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">factory</span></code> is a callable that produces either a schema or an object from
-the PyFace action API <a class="footnote-reference" href="#id8" id="id4">[2]</a>. A schema addition that produces a schema can in turn
-be extended by another schema addition. If it produces a PyFace object, it
+the Pyface action API <a class="footnote-reference" href="#id8" id="id4">[2]</a>. A schema addition that produces a schema can in turn
+be extended by another schema addition. If it produces a Pyface object, it
 cannot be further extended. In this case we have opted for latter, using a
 custom subclass of <code class="docutils literal notranslate"><span class="pre">Group</span></code>.</p>
 <p id="index-11">The group created from the schema addition above would be inserted at the bottom
@@ -453,9 +454,9 @@ and in the ETS distribution.</td></tr>
 <table class="docutils footnote" frame="void" id="id8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Although they are expanded into PyFace action items, schemas belong to a
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Although they are expanded into Pyface action items, schemas belong to a
 distinct API. It is beyond the scope of this document to describe the
-PyFace action API. For lack of more complete documentation, the reader is
+Pyface action API. For lack of more complete documentation, the reader is
 referred to the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/">source code</a>.</td></tr>
 </tbody>
 </table>
@@ -531,7 +532,7 @@ referred to the <a class="reference external" href="https://github.com/enthought
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

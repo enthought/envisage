@@ -1,0 +1,54 @@
+envisage.plugins.ipython\_kernel package
+========================================
+
+Submodules
+----------
+
+envisage.plugins.ipython\_kernel.actions module
+-----------------------------------------------
+
+.. automodule:: envisage.plugins.ipython_kernel.actions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.ipython\_kernel.api module
+-------------------------------------------
+
+.. automodule:: envisage.plugins.ipython_kernel.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.ipython\_kernel.internal\_ipkernel module
+----------------------------------------------------------
+
+.. automodule:: envisage.plugins.ipython_kernel.internal_ipkernel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.ipython\_kernel.ipython\_kernel\_plugin module
+---------------------------------------------------------------
+
+.. automodule:: envisage.plugins.ipython_kernel.ipython_kernel_plugin
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.ipython\_kernel.ipython\_kernel\_ui\_plugin module
+-------------------------------------------------------------------
+
+.. automodule:: envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.ipython_kernel
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -271,6 +271,12 @@ the preferences node.</p>
 </div>
 <div class="section" id="module-envisage.ui.tasks.tasks_application">
 <span id="envisage-ui-tasks-tasks-application-module"></span><h2>envisage.ui.tasks.tasks_application module<a class="headerlink" href="#module-envisage.ui.tasks.tasks_application" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME">
+<code class="descclassname">envisage.ui.tasks.tasks_application.</code><code class="descname">DEFAULT_STATE_FILENAME</code><em class="property"> = 'application_memento'</em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default filename for saving layout information</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="envisage.ui.tasks.tasks_application.TasksApplication">
 <em class="property">class </em><code class="descclassname">envisage.ui.tasks.tasks_application.</code><code class="descname">TasksApplication</code><span class="sig-paren">(</span><em>plugins=None</em>, <em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication" title="Permalink to this definition">¶</a></dt>
@@ -416,7 +422,7 @@ application state.</p>
 <em class="property">class </em><code class="descclassname">envisage.ui.tasks.tasks_plugin.</code><code class="descname">TasksPlugin</code><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_plugin.html#TasksPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>The Envisage Tasks plugin.</p>
-<p>The Tasks plugin uses PyFace Tasks to provide an extensible framework for
+<p>The Tasks plugin uses Pyface Tasks to provide an extensible framework for
 building user interfaces. For more information, see the Tasks User Manual.</p>
 <dl class="attribute">
 <dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.PREFERENCES_CATEGORIES">
@@ -442,6 +448,49 @@ building user interfaces. For more information, see the Tasks User Manual.</p>
 <dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.TASK_EXTENSIONS">
 <code class="descname">TASK_EXTENSIONS</code><em class="property"> = 'envisage.ui.tasks.task_extensions'</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.TASK_EXTENSIONS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.id">
+<code class="descname">id</code><em class="property"> = 'envisage.ui.tasks'</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin’s unique identifier.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.name">
+<code class="descname">name</code><em class="property"> = 'Tasks'</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin’s name (suitable for displaying to the user).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_categories">
+<code class="descname">preferences_categories</code><em class="property"> = ExtensionPoint( …</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_categories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed preference categories. Contributions to this extension
+point must have type <code class="docutils literal notranslate"><span class="pre">PreferencesCategory</span></code>. Preference categories
+will be created automatically if necessary; this extension point is
+useful when ensuring that a category is inserted at a specific location.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_panes">
+<code class="descname">preferences_panes</code><em class="property"> = ExtensionPoint( …</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_panes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed preference pane factories. Each contribution to this
+extension point must be a callable with the signature
+<code class="docutils literal notranslate"><span class="pre">callable(**traits)</span> <span class="pre">-&gt;</span> <span class="pre">PreferencePane</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.task_extensions">
+<code class="descname">task_extensions</code><em class="property"> = ExtensionPoint( …</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.task_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed task extensions. Contributions to this extension point
+must have type <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.tasks.tasks_plugin.TasksPlugin.tasks">
+<code class="descname">tasks</code><em class="property"> = ExtensionPoint( …</em><a class="headerlink" href="#envisage.ui.tasks.tasks_plugin.TasksPlugin.tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed task factories. Contributions to this extension point
+must have type <code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code>.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -522,7 +571,7 @@ building user interfaces. For more information, see the Tasks User Manual.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

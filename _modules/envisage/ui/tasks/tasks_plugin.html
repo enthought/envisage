@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -75,7 +75,15 @@
           <div class="body" id="spc-section-body">
             
   <h1>Source code for envisage.ui.tasks.tasks_plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Enthought library imports.</span>
+<span></span><span class="c1"># (C) Copyright 2007-2019 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only</span>
+<span class="c1"># under the conditions described in the aforementioned license.  The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
 <span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
 
@@ -89,7 +97,7 @@
 <div class="viewcode-block" id="TasksPlugin"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.html#envisage.ui.tasks.tasks_plugin.TasksPlugin">[docs]</a><span class="k">class</span> <span class="nc">TasksPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The Envisage Tasks plugin.</span>
 
-<span class="sd">    The Tasks plugin uses PyFace Tasks to provide an extensible framework for</span>
+<span class="sd">    The Tasks plugin uses Pyface Tasks to provide an extensible framework for</span>
 <span class="sd">    building user interfaces. For more information, see the Tasks User Manual.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -104,14 +112,18 @@
 
     <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
 
-    <span class="c1"># The plugin&#39;s unique identifier.</span>
+    <span class="c1">#: The plugin&#39;s unique identifier.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.tasks&#39;</span>
 
-    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Tasks&#39;</span>
 
     <span class="c1">#### Extension points offered by this plugin ##############################</span>
 
+    <span class="c1">#: Contributed preference categories. Contributions to this extension</span>
+    <span class="c1">#: point must have type ``PreferencesCategory``. Preference categories</span>
+    <span class="c1">#: will be created automatically if necessary; this extension point is</span>
+    <span class="c1">#: useful when ensuring that a category is inserted at a specific location.</span>
     <span class="n">preferences_categories</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">PreferencesCategory</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES_CATEGORIES</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 
@@ -121,6 +133,9 @@
 <span class="s2">        wants to ensure that a category is inserted at a specific location.</span>
 <span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
 
+    <span class="c1">#: Contributed preference pane factories. Each contribution to this</span>
+    <span class="c1">#: extension point must be a callable with the signature</span>
+    <span class="c1">#: ``callable(**traits) -&gt; PreferencePane``.</span>
     <span class="n">preferences_panes</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES_PANES</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 
@@ -137,6 +152,8 @@
 <span class="s2">        that derives from &#39;envisage.ui.tasks.api.PreferencesPane&#39;.</span>
 <span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
 
+    <span class="c1">#: Contributed task factories. Contributions to this extension point</span>
+    <span class="c1">#: must have type ``TaskFactory``.</span>
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;envisage.ui.tasks.task_factory.TaskFactory&#39;</span><span class="p">)),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">TASKS</span><span class="p">,</span>
@@ -148,6 +165,8 @@
 <span class="s2">        &#39;envisage.tasks.api.TaskFactory.</span>
 <span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
 
+    <span class="c1">#: Contributed task extensions. Contributions to this extension point</span>
+    <span class="c1">#: must have type ``TaskExtension``.</span>
     <span class="n">task_extensions</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;envisage.ui.tasks.task_extension.TaskExtension&#39;</span><span class="p">)),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">TASK_EXTENSIONS</span><span class="p">,</span>
@@ -246,7 +265,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.service_registry &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../index.html" >
+    <link rel="up" title="Module code" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.service_registry</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; The service registry. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">provides</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.i_service_registry</span> <span class="k">import</span> <span class="n">IServiceRegistry</span>
+<span class="kn">from</span> <span class="nn">.import_manager</span> <span class="k">import</span> <span class="n">ImportManager</span>
+<span class="kn">from</span> <span class="nn">._compat</span> <span class="k">import</span> <span class="n">STRING_BASE_CLASS</span>
+
+
+<span class="c1"># Logging.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NoSuchServiceError"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.NoSuchServiceError">[docs]</a><span class="k">class</span> <span class="nc">NoSuchServiceError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Raised when a required service is not found. &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="ServiceRegistry"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IServiceRegistry</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ServiceRegistry</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The service registry. &quot;&quot;&quot;</span>
+
+    <span class="c1">####  IServiceRegistry interface ##########################################</span>
+
+    <span class="c1"># An event that is fired when a service is registered.</span>
+    <span class="n">registered</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1"># An event that is fired when a service is unregistered.</span>
+    <span class="n">unregistered</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1">####  Private interface ###################################################</span>
+
+    <span class="c1"># The services in the registry.</span>
+    <span class="c1">#</span>
+    <span class="c1"># { service_id : (protocol_name, obj, properties) }</span>
+    <span class="c1">#</span>
+    <span class="c1"># where:</span>
+    <span class="c1">#</span>
+    <span class="c1"># &#39;protocol_name&#39; is the (possible dotted) name of the interface, type or</span>
+    <span class="c1"># class that the object is registered against.</span>
+    <span class="c1">#</span>
+    <span class="c1"># &#39;obj&#39; is the object that is registered (any old, Python object!).</span>
+    <span class="c1">#</span>
+    <span class="c1"># &#39;properties&#39; is the arbitrary dictionary of properties that were</span>
+    <span class="c1"># registered with the object.</span>
+    <span class="n">_services</span> <span class="o">=</span> <span class="n">Dict</span>
+
+    <span class="c1"># The next service Id (service Ids are never persisted between process</span>
+    <span class="c1"># invocations so this is simply an ever increasing integer!).</span>
+    <span class="n">_service_id</span> <span class="o">=</span> <span class="n">Int</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IServiceRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ServiceRegistry.get_required_service"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.get_required_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_required_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the service that matches the specified query.</span>
+
+<span class="sd">        Raise a &#39;NoSuchServiceError&#39; exception if no such service exists.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">service</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NoSuchServiceError</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">service</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.get_service"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.get_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return at most one service that matches the specified query. &quot;&quot;&quot;</span>
+
+        <span class="n">services</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">services</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">service</span> <span class="o">=</span> <span class="n">services</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">service</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">service</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.get_service_from_id"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.get_service_from_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the service with the specified id. &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no service with id &lt;</span><span class="si">%d</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.get_services"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.get_services">[docs]</a>    <span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return all services that match the specified query. &quot;&quot;&quot;</span>
+
+        <span class="n">services</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">service_id</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_protocol_name</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="c1"># If the protocol is a string then we need to import it!</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">STRING_BASE_CLASS</span><span class="p">):</span>
+                    <span class="n">actual_protocol</span> <span class="o">=</span> <span class="n">ImportManager</span><span class="p">()</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span>
+
+                <span class="c1"># Otherwise, it is an actual protocol, so just use it!</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">actual_protocol</span> <span class="o">=</span> <span class="n">protocol</span>
+
+                <span class="c1"># If the registered service is actually a factory then use it</span>
+                <span class="c1"># to create the actual object.</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_factory</span><span class="p">(</span>
+                    <span class="n">actual_protocol</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">service_id</span>
+                <span class="p">)</span>
+
+                <span class="c1"># If a query was specified then only add the service if it</span>
+                <span class="c1"># matches it!</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_query</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+                    <span class="n">services</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># Are we minimizing or maximising anything? If so then sort the list</span>
+        <span class="c1"># of services by the specified attribute/property.</span>
+        <span class="k">if</span> <span class="n">minimize</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">services</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">minimize</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">maximize</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">services</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">maximize</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">services</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.get_service_properties"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.get_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the dictionary of properties associated with a service. &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no service with id &lt;</span><span class="si">%d</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">properties</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.register_service"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.register_service">[docs]</a>    <span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Register a service. &quot;&quot;&quot;</span>
+
+        <span class="n">protocol_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_protocol_name</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span>
+
+        <span class="c1"># Make sure each service gets its own properties dictionary.</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_service_id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">protocol_name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered</span> <span class="o">=</span> <span class="n">service_id</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;service &lt;</span><span class="si">%d</span><span class="s1">&gt; registered </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">protocol_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">service_id</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.set_service_properties"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.set_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">set_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the dictionary of properties associated with a service. &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">old_properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no service with id &lt;</span><span class="si">%d</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ServiceRegistry.unregister_service"><a class="viewcode-back" href="../../api/envisage.html#envisage.service_registry.ServiceRegistry.unregister_service">[docs]</a>    <span class="k">def</span> <span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Unregister a service. &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unregistered</span> <span class="o">=</span> <span class="n">service_id</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;service &lt;</span><span class="si">%d</span><span class="s1">&gt; unregistered&#39;</span><span class="p">,</span> <span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no service with id &lt;</span><span class="si">%d</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_create_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a namespace in which to evaluate a query. &quot;&quot;&quot;</span>
+
+        <span class="n">namespace</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">namespace</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="n">namespace</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">namespace</span>
+
+    <span class="k">def</span> <span class="nf">_eval_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Evaluate a query over a single service.</span>
+
+<span class="sd">        Return True if the service matches the query, otherwise return False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">namespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_namespace</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_get_protocol_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol_or_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the full class name for a protocol. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">protocol_or_name</span><span class="p">,</span> <span class="n">STRING_BASE_CLASS</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">protocol_or_name</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">protocol_or_name</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">protocol_or_name</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">_is_service_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Is the object a factory for services supporting the protocol? &quot;&quot;&quot;</span>
+
+        <span class="c1"># fixme: Should we have a formal notion of service factory with an</span>
+        <span class="c1"># appropriate API, or is this good enough? An API might have lifecycle</span>
+        <span class="c1"># methods to both create and destroy the service?!?</span>
+
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_next_service_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the next service ID. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; If &#39;obj&#39; is a factory then use it to create the actual service. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Is the registered service actually a service *factory*?</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_service_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+            <span class="c1"># A service factory is any callable that takes two arguments, the</span>
+            <span class="c1"># first is the protocol, the second is the (possibly empty)</span>
+            <span class="c1"># dictionary of properties that were registered with the service.</span>
+            <span class="c1">#</span>
+            <span class="c1"># If the factory is specified as a symbol path then import it.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">STRING_BASE_CLASS</span><span class="p">):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">ImportManager</span><span class="p">()</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+
+            <span class="c1"># The resulting service object replaces the factory in the cache</span>
+            <span class="c1"># (i.e. the factory will not get called again unless it is</span>
+            <span class="c1"># unregistered first).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">service_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<span class="c1">#### EOF ######################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

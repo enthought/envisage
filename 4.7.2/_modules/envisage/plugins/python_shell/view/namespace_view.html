@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.plugins.python_shell.view.namespace_view &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.plugins.python_shell.view.namespace_view</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; A view containing the contents of a Python shell namespace. &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="c1"># Enthought library imports.</span>
+
+<span class="kn">from</span> <span class="nn">envisage.plugins.python_shell.api</span> <span class="k">import</span> <span class="n">IPythonShell</span>
+<span class="kn">from</span> <span class="nn">envisage.plugins.python_shell.view.python_shell_view</span> <span class="k">import</span> <span class="n">PythonShellView</span>
+
+<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="k">import</span> <span class="n">View</span>
+
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> \
+        <span class="n">DelegatesTo</span><span class="p">,</span> <span class="n">cached_property</span>
+
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">TableEditor</span><span class="p">,</span> <span class="n">VGroup</span>
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">View</span> <span class="k">as</span> <span class="n">TraitsView</span>
+<span class="kn">from</span> <span class="nn">traitsui.table_column</span> <span class="k">import</span> <span class="n">ObjectColumn</span>
+<span class="kn">from</span> <span class="nn">traitsui.table_filter</span> <span class="k">import</span> <span class="n">RuleTableFilter</span>
+<span class="kn">from</span> <span class="nn">traitsui.table_filter</span> <span class="k">import</span> <span class="n">MenuFilterTemplate</span>
+<span class="kn">from</span> <span class="nn">traitsui.table_filter</span> <span class="k">import</span> <span class="n">EvalFilterTemplate</span>
+<span class="kn">from</span> <span class="nn">traitsui.table_filter</span> <span class="k">import</span> <span class="n">RuleFilterTemplate</span>
+
+
+<span class="c1"># Table editor definition:</span>
+<span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="n">EvalFilterTemplate</span><span class="p">,</span> <span class="n">MenuFilterTemplate</span><span class="p">,</span> <span class="n">RuleFilterTemplate</span><span class="p">]</span>
+
+<span class="n">table_editor</span> <span class="o">=</span> <span class="n">TableEditor</span><span class="p">(</span>
+    <span class="n">columns</span>     <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ObjectColumn</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+        <span class="n">ObjectColumn</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">),</span>
+        <span class="n">ObjectColumn</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;module&#39;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">editable</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">deletable</span>   <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">sortable</span>    <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">sort_model</span>  <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">filters</span>     <span class="o">=</span> <span class="n">filters</span><span class="p">,</span>
+    <span class="n">search</span>      <span class="o">=</span> <span class="n">RuleTableFilter</span><span class="p">(),</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="type_to_str"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.html#envisage.plugins.python_shell.view.namespace_view.type_to_str">[docs]</a><span class="k">def</span> <span class="nf">type_to_str</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make a string out `obj`&#39;s type robustly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">typ</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;vtkobject&#39;</span> <span class="ow">or</span> <span class="n">typ</span> <span class="ow">is</span> <span class="n">types</span><span class="o">.</span><span class="n">InstanceType</span><span class="p">:</span>
+        <span class="n">typ</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;__builtin__&#39;</span><span class="p">:</span>
+        <span class="c1"># Make things like int and str easier to read.</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">typ</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">typ</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="module_to_str"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.html#envisage.plugins.python_shell.view.namespace_view.module_to_str">[docs]</a><span class="k">def</span> <span class="nf">module_to_str</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the string representation of *obj*&#39;s ``__module__`` attribute, or</span>
+<span class="sd">    an empty string if there is no such attribute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__module__&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="NamespaceView"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView">[docs]</a><span class="k">class</span> <span class="nc">NamespaceView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A view containing the contents of the Python shell namespace. &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;IView&#39; interface ####################################################</span>
+
+    <span class="c1"># The part&#39;s globally unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;enthought.plugins.python_shell.view.namespace_view&#39;</span>
+
+    <span class="c1"># The view&#39;s name.</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Namespace&#39;</span>
+
+    <span class="c1"># The default position of the view relative to the item specified in the</span>
+    <span class="c1"># &#39;relative_to&#39; trait.</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
+
+    <span class="c1">#### &#39;NamespaceView&#39; interface ############################################</span>
+
+    <span class="c1"># The bindings in the namespace.  This is a list of HasTraits objects with</span>
+    <span class="c1"># &#39;name&#39;, &#39;type&#39; and &#39;module&#39; string attributes.</span>
+    <span class="n">bindings</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">List</span><span class="p">,</span> <span class="n">depends_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;namespace&#39;</span><span class="p">])</span>
+
+    <span class="n">shell_view</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PythonShellView</span><span class="p">)</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="n">DelegatesTo</span><span class="p">(</span><span class="s1">&#39;shell_view&#39;</span><span class="p">)</span>
+
+
+    <span class="c1"># The default traits UI view.</span>
+    <span class="n">traits_view</span> <span class="o">=</span> <span class="n">TraitsView</span><span class="p">(</span>
+        <span class="n">VGroup</span><span class="p">(</span>
+            <span class="n">Item</span><span class="p">(</span>
+                <span class="s1">&#39;bindings&#39;</span><span class="p">,</span>
+                <span class="nb">id</span>     <span class="o">=</span> <span class="s1">&#39;table&#39;</span><span class="p">,</span>
+                <span class="n">editor</span> <span class="o">=</span> <span class="n">table_editor</span><span class="p">,</span>
+                <span class="n">springy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">resizable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+
+            <span class="n">show_border</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_labels</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">),</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;View&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="NamespaceView.create_control"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.create_control">[docs]</a>    <span class="k">def</span> <span class="nf">create_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates the toolkit-specific control that represents the view.</span>
+
+<span class="sd">        &#39;parent&#39; is the toolkit-specific control that is the view&#39;s parent.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;subpanel&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">shell_view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPythonShell</span><span class="p">)</span>
+        <span class="c1"># &#39;shell_view&#39; is an instance of the class PythonShellView from the module</span>
+        <span class="c1"># envisage.plugins.python_shell.view.python_shell_view.</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">control</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;NamespaceView&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="c1">#### Properties ###########################################################</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_get_bindings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Property getter. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell_view</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">class</span> <span class="nc">item</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
+            <span class="nb">type</span> <span class="o">=</span> <span class="n">Str</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">Str</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">type_to_str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">module</span><span class="o">=</span><span class="n">module_to_str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell_view</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../../index.html">
+              <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

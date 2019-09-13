@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '4.7.2',
+        VERSION:     '4.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -75,7 +75,15 @@
           <div class="body" id="spc-section-body">
             
   <h1>Source code for envisage.ui.tasks.tasks_application</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Standard library imports.</span>
+<span></span><span class="c1"># (C) Copyright 2007-2019 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only</span>
+<span class="c1"># under the conditions described in the aforementioned license.  The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="c1"># Standard library imports.</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 
@@ -93,6 +101,9 @@
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="c1">#: Default filename for saving layout information</span>
+<span class="n">DEFAULT_STATE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;application_memento&quot;</span>
+
 
 <div class="viewcode-block" id="TasksApplication"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.html#envisage.ui.tasks.tasks_application.TasksApplication">[docs]</a><span class="k">class</span> <span class="nc">TasksApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The entry point for an Envisage Tasks application.</span>
@@ -106,12 +117,18 @@
     <span class="n">TASK_FACTORIES</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.tasks.tasks&#39;</span>
     <span class="n">TASK_EXTENSIONS</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.tasks.task_extensions&#39;</span>
 
+    <span class="c1"># Pickle protocol to use for persisting layout information. Subclasses may</span>
+    <span class="c1"># want to increase this, depending on their compatibility needs. Protocol</span>
+    <span class="c1"># version 2 is safe for Python &gt;= 2.3. Protocol version 4 is safe for</span>
+    <span class="c1"># Python &gt;= 3.4.</span>
+    <span class="n">layout_save_protocol</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
     <span class="c1">#### &#39;TasksApplication&#39; interface #########################################</span>
 
     <span class="c1"># The active task window (the last one to get focus).</span>
     <span class="n">active_window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;envisage.ui.tasks.task_window.TaskWindow&#39;</span><span class="p">)</span>
 
-    <span class="c1"># The PyFace GUI for the application.</span>
+    <span class="c1"># The Pyface GUI for the application.</span>
     <span class="n">gui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;pyface.gui.GUI&#39;</span><span class="p">)</span>
 
     <span class="c1"># Icon for the whole application. Will be used to override all taskWindows</span>
@@ -128,6 +145,10 @@
     <span class="c1"># The directory on the local file system used to persist window layout</span>
     <span class="c1"># information.</span>
     <span class="n">state_location</span> <span class="o">=</span> <span class="n">Directory</span>
+
+    <span class="c1"># The filename that the application uses to persist window layout</span>
+    <span class="c1"># information.</span>
+    <span class="n">state_filename</span> <span class="o">=</span> <span class="n">Unicode</span><span class="p">(</span><span class="n">DEFAULT_STATE_FILENAME</span><span class="p">)</span>
 
     <span class="c1"># Contributed task factories. This attribute is primarily for run-time</span>
     <span class="c1"># inspection; to instantiate a task, use the &#39;create_task&#39; method.</span>
@@ -150,7 +171,7 @@
         <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;pyface.tasks.task_window_layout.TaskWindowLayout&#39;</span><span class="p">))</span>
 
     <span class="c1"># Whether to always apply the default *application level* layout when the</span>
-    <span class="c1"># application is started. Even if this is False, the layout state of</span>
+    <span class="c1"># application is started. Even if this is True, the layout state of</span>
     <span class="c1"># individual tasks will be restored.</span>
     <span class="n">always_use_default_layout</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
@@ -408,20 +429,28 @@
         <span class="sd">&quot;&quot;&quot; Loads saved application state, if possible.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">state</span> <span class="o">=</span> <span class="n">TasksApplicationState</span><span class="p">()</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="s1">&#39;application_memento&#39;</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
             <span class="c1"># Attempt to unpickle the saved application state.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Loading application state from </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="n">restored_state</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># If anything goes wrong, log the error and continue.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error while restoring application state&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="n">restored_state</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
                     <span class="n">state</span> <span class="o">=</span> <span class="n">restored_state</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Application state successfully restored&#39;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Discarding outdated application layout&#39;</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="c1"># If anything goes wrong, log the error and continue.</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Restoring application layout from </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
-                                 <span class="n">filename</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s1">&#39;Discarding outdated application state: &#39;</span>
+                        <span class="s1">&#39;expected version </span><span class="si">%s</span><span class="s1">, got version </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="n">restored_state</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No saved application state found at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
 
     <span class="k">def</span> <span class="nf">_restore_layout_from_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
@@ -455,13 +484,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">previous_window_layouts</span> <span class="o">=</span> <span class="n">window_layouts</span>
 
         <span class="c1"># Attempt to pickle the application state.</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="s1">&#39;application_memento&#39;</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_filename</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Saving application state to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">layout_save_protocol</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="c1"># If anything goes wrong, log the error and continue.</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Saving application layout&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Error while saving application state&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Application state successfully saved&#39;</span><span class="p">)</span>
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
@@ -625,7 +657,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Jul 04, 2019.
+      Last updated on Sep 13, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

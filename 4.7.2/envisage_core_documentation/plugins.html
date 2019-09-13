@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Plugins &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="How To Create a Plugin for an Envisage Application" href="howto_create_a_plugin.html" >
+    <link rel="prev" title="Services" href="services.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="howto_create_a_plugin.html" title="How To Create a Plugin for an Envisage Application"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="services.html" title="Services"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="plugins">
+<h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
+<p><em>Plugins</em> are used to “deliver” <a class="reference external" href="extension_points.html">Extension Points</a>, contributions to extension
+points, and <a class="reference external" href="services.html">Services</a> into an Envisage application. In fact, plugins can be
+thought of as simply being “delivery trucks” – they rarely (if ever) do any
+<em>real</em> work themselves. In other words, plugins can do 3 things:</p>
+<ol class="arabic simple">
+<li>Declare extension points</li>
+<li>Make contributions to extension points (including its own)</li>
+<li>Create and publish services</li>
+</ol>
+<p>Plugins are located and managed by the <em>plugin manager</em>, and, whilst Envisage
+is designed such that you can write your own plugin manager, by default, it
+uses an implementation based on <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>.</p>
+<div class="section" id="creating-a-plugin">
+<h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline">¶</a></h2>
+<p>All plugins must implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py">IPlugin</a> interface (an easy way to achieve this
+is to subclass the base <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/plugin.py">Plugin</a> class), and should provide the following
+“housekeeping” information:</p>
+<ul>
+<li><p class="first">a globally unique identifier (e.g., “acme.motd”)</p>
+<p>This obviously allows Envisage to identify a particular plugin in a sea of
+other plugins. Technically, this identifier only need be unique within your
+application, but since the intent is for applications to be able to include
+plugins from (potentially) all over the world, using the common reverse
+domain name notation is probably a good idea!</p>
+</li>
+<li><p class="first">a name</p>
+<p>This name should be suitable for display to the user.</p>
+</li>
+<li><p class="first">a doc string!</p>
+<p>A nice description of the intent and features of your plugin.</p>
+</li>
+</ul>
+<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/setup.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD">Message of
+the Day</a> example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
+
+<span class="sd">    When this plugin is started it prints the &#39;Message of the Day&#39; to stdout.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;IPlugin&#39; interface ##############################################</span>
+
+    <span class="c1"># The plugin&#39;s unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd&#39;</span>
+
+    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MOTD&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plugin-lifecycle">
+<h2>Plugin Lifecycle<a class="headerlink" href="#plugin-lifecycle" title="Permalink to this headline">¶</a></h2>
+<p>Plugins have a lifecycle in the context of an application. There are currently
+two key lifecycle methods on the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py">IPlugin</a> interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Start the plugin.</span>
+
+<span class="sd">    This method is called by the framework when the application is starting</span>
+<span class="sd">    up. If you want to start a plugin manually use::</span>
+
+<span class="sd">      application.start_plugin(plugin)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Stop the plugin.</span>
+
+<span class="sd">    This method is called by the framework when the application is</span>
+<span class="sd">    stopping. If you want to stop a plugin manually use::</span>
+
+<span class="sd">      application.stop_plugin(plugin)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>When Envisage starts up it calls the start() method of every plugin in the
+the same order that its iterator returns them in. This depends on the plugin
+manager being used, but by default this will be either a) the order of the list
+of plugins that was passed into the application or b) the order of the plugins
+based on egg dependencies. When the application stops, it calls the stop()
+method of each plugin in the reverse order that they were started in.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Plugins</a><ul>
+<li><a class="reference internal" href="#creating-a-plugin">Creating a Plugin</a></li>
+<li><a class="reference internal" href="#plugin-lifecycle">Plugin Lifecycle</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="services.html"
+                        title="previous chapter">Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="howto_create_a_plugin.html"
+                        title="next chapter">How To Create a Plugin for an Envisage Application</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/plugins.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.workbench.workbench_action_manager_builder &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '4.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.ui.workbench.workbench_action_manager_builder</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; The action manager builder used to build the workbench menu/tool bars. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.action.api</span> <span class="k">import</span> <span class="n">AbstractActionManagerBuilder</span>
+<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="k">import</span> <span class="n">Action</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">MenuManager</span>
+<span class="kn">from</span> <span class="nn">pyface.workbench.action.api</span> <span class="k">import</span> <span class="n">MenuBarManager</span>
+<span class="kn">from</span> <span class="nn">pyface.workbench.action.api</span> <span class="k">import</span> <span class="n">ToolBarManager</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Instance</span>
+
+
+<div class="viewcode-block" id="WorkbenchActionManagerBuilder"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.html#envisage.ui.workbench.workbench_action_manager_builder.WorkbenchActionManagerBuilder">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchActionManagerBuilder</span><span class="p">(</span><span class="n">AbstractActionManagerBuilder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The action manager builder used to build the workbench menu/tool bars.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;WorkbenchActionManagerBuilder&#39; interface ############################</span>
+
+    <span class="c1"># The workbench window that we build the menu and tool bars for.</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;envisage.ui.workbench.api.WorkbenchWindow&#39;</span><span class="p">)</span>
+
+    <span class="c1">#### Private interface ####################################################</span>
+
+    <span class="c1"># All action implementations.</span>
+    <span class="n">_actions</span> <span class="o">=</span> <span class="n">Any</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Protected &#39;AbstractActionManagerBuilder&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create an action implementation from an action definition. &quot;&quot;&quot;</span>
+
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;window&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
+
+        <span class="c1"># Override any traits that can be set in the definition.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">klass</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">[</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+
+        <span class="c1"># fixme: Do we ever actually do this? It seems that in Envisage 3.x</span>
+        <span class="c1"># we always specify an action class!?!</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">Action</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># fixme: We need to associate the action set with the action to</span>
+        <span class="c1"># allow for dynamic enabling/disabling etc. This is a *very* hacky</span>
+        <span class="c1"># way to do it!</span>
+        <span class="n">action</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+
+        <span class="k">return</span> <span class="n">action</span>
+
+    <span class="k">def</span> <span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a group implementation from a group definition. &quot;&quot;&quot;</span>
+
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Override any traits that can be set in the definition.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="n">Group</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># fixme: We need to associate the action set with the action to</span>
+        <span class="c1"># allow for dynamic enabling/disabling etc. This is a *very* hacky</span>
+        <span class="c1"># way to do it!</span>
+        <span class="n">group</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+
+        <span class="k">return</span> <span class="n">group</span>
+
+    <span class="k">def</span> <span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a menu manager implementation from a menu definition. &quot;&quot;&quot;</span>
+
+        <span class="c1"># fixme: &#39;window&#39; is not actually a trait on &#39;MenuManager&#39;! We set</span>
+        <span class="c1"># it here to allow the &#39;View&#39; menu to be created. However, it seems</span>
+        <span class="c1"># that menus and actions etc should *always* have a reference to</span>
+        <span class="c1"># the window that they are in?!?</span>
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;window&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
+
+        <span class="c1"># Override any traits that can be set in the definition.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="n">MenuManager</span>
+
+        <span class="n">menu_manager</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># Add any groups to the menu.</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">definition</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+            <span class="n">menu_manager</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_group</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+
+        <span class="c1"># fixme: We need to associate the action set with the action to</span>
+        <span class="c1"># allow for dynamic enabling/disabling etc. This is a *very* hacky</span>
+        <span class="c1"># way to do it!</span>
+        <span class="n">menu_manager</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+
+        <span class="k">return</span> <span class="n">menu_manager</span>
+
+    <span class="k">def</span> <span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a menu bar manager from the builder&#39;s action sets. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">MenuBarManager</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a tool bar manager implementation from a definition. &quot;&quot;&quot;</span>
+
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;window&#39;</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span>
+            <span class="s1">&#39;show_tool_names&#39;</span> <span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Override any traits that can be set in the definition.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="n">ToolBarManager</span>
+
+        <span class="c1"># fixme: &#39;window&#39; is not actually a trait on &#39;ToolBarManager&#39;! We</span>
+        <span class="c1"># set it here because it is set on the &#39;MenuManager&#39;! However, it</span>
+        <span class="c1"># seems that menus and actions etc should *always* have a reference</span>
+        <span class="c1"># to the window that they are in?!?</span>
+        <span class="n">tool_bar_manager</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># Add any groups to the tool bar.</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">definition</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+            <span class="n">tool_bar_manager</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_group</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+
+        <span class="c1"># fixme: We need to associate the action set with the action to</span>
+        <span class="c1"># allow for dynamic enabling/disabling etc. This is a *very* hacky</span>
+        <span class="c1"># way to do it!</span>
+        <span class="n">tool_bar_manager</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">_action_set_</span>
+
+        <span class="k">return</span> <span class="n">tool_bar_manager</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">__actions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Import a symbol. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">symbol_path</span><span class="p">)</span></div>
+
+<span class="c1">#### EOF ######################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jul 04, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
