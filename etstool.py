@@ -394,7 +394,9 @@ def get_parameters(edm, runtime, toolkit, environment):
         edm = locate_edm()
 
     if environment is None:
-        environment = 'envisage-test-{runtime}-{toolkit}'.format(**parameters)
+        environment = 'envisage-test-{runtime}-{toolkit}'.format(
+            runtime=runtime, toolkit=toolkit
+        )
 
     parameters = {
         'edm': edm,
