@@ -185,7 +185,7 @@ def archive_version():
 
     version_template = RELEASED_VERSION if IS_RELEASED else UNRELEASED_VERSION
     version = version_template.format(
-        major=MAJOR, minor=MINOR, micro=MICRO, dev="unknown"
+        major=MAJOR, minor=MINOR, micro=MICRO, dev="<unknown>"
     )
     return version, ARCHIVE_COMMIT_HASH
 
@@ -283,7 +283,7 @@ if __name__ == "__main__":
                 "envisage.core = envisage.core_plugin:CorePlugin"
             ]
         },
-        install_requires=["apptools", "traits"],
+        install_requires=["apptools", "six", "traits"],
         license="BSD",
         packages=find_packages(),
         package_data={
@@ -298,7 +298,6 @@ if __name__ == "__main__":
             "envisage.ui.single_project": ["*.txt"],
             "envisage.ui.tasks.tests": ["data/*.pkl"],
         },
-        platforms=["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
         python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
         zip_safe=False,
     )
