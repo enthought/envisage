@@ -111,7 +111,9 @@ def write_version_file(version, git_revision):
     """
     with io.open(VERSION_FILE, "w", encoding="ascii") as version_file:
         version_file.write(
-            VERSION_FILE_TEMPLATE.format(version=version, git_revision=git_revision)
+            VERSION_FILE_TEMPLATE.format(
+                version=version, git_revision=git_revision
+            )
         )
 
 
@@ -277,7 +279,9 @@ if __name__ == "__main__":
         long_description=get_long_description(),
         long_description_content_type="text/x-rst",
         entry_points={
-            "envisage.plugins": ["envisage.core = envisage.core_plugin:CorePlugin"]
+            "envisage.plugins": [
+                "envisage.core = envisage.core_plugin:CorePlugin"
+            ]
         },
         install_requires=["apptools", "traits"],
         license="BSD",
