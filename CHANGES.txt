@@ -44,8 +44,8 @@ Removals
 --------
 
 - Remove the unsupported and incomplete ``UpdateCheckerPlugin``. (#199)
-- Remove the plugin.debug empty submodule. (#195)
-- Remove the old IPythonShell plugin, which was based on pre-IPython 1.0.
+- Remove the ``plugin.debug`` empty submodule. (#195)
+- Remove the old ``IPythonShell`` plugin, which was based on pre-IPython 1.0.
   (#173)
 - Remove the non-functional ``RefreshCodePlugin``. (#202)
 - Remove ``project_runnable``, which was never functional. (#169)
@@ -55,8 +55,9 @@ Removals
 
 Documentation
 -------------
+
 - Add docstrings for tasks plugin extension points. (#181)
-- Fix incorrect documentation for always_use_default_layout. (#177)
+- Fix incorrect documentation for ``always_use_default_layout``. (#177)
 - Spell "Pyface" correctly. (#176)
 - NumPyDoc style fixes. (#168)
 - Add API documentation, with corresponding build infrastructure. (#165)
