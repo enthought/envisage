@@ -2,6 +2,90 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.8.0
+=============
+
+Released: 2019-09-13
+
+The main focus of this feature release is the ``IPythonKernelPlugin``, which
+has been updated to work with the latest IPython-related packages from PyPI,
+and is now much more careful about releasing resources allocated.
+
+Also in this release, a number of outdated, incomplete or otherwise
+nonfunctional pieces of code were removed.
+
+Features
+--------
+
+- Improved ``repr`` for ``ExtensionPoint`` objects. (#142)
+
+Changes
+-------
+
+- Drop support for Python versions older than 2.7 and Python 3 versions older
+  than Python 3.5. (#139)
+- The ``IPythonKernelPlugin`` now releases all allocated resources (threads,
+  file descriptors, etc.) and undoes global state changes at plugin ``stop``
+  time. (#188)
+- Suppress the Ctrl-C message printed by the IPython kernel at start time.
+  (#182)
+- Add license headers to all files, and make license header statements
+  consistent. (#192)
+
+Fixes
+-----
+
+- Use a fixed pickle protocol when saving task layout state, to avoid
+  cross-Python-version difficulties. (#179)
+- Fix deprecation warnings from use of ``Logger.warn``. (#178)
+- Fix some Python 3 syntax errors in example scripts. (#171)
+
+Removals
+--------
+
+- Remove the unsupported and incomplete ``UpdateCheckerPlugin``. (#199)
+- Remove the ``plugin.debug`` empty submodule. (#195)
+- Remove the old ``IPythonShell`` plugin, which was based on pre-IPython 1.0.
+  (#173)
+- Remove the non-functional ``RefreshCodePlugin``. (#202)
+- Remove ``project_runnable``, which was never functional. (#169)
+- Remove outdated debugging fallback from the ``ExtensionPoint`` source. (#167)
+- Remove ``FBIPlugin``. (#166)
+- Remove the ``remote_editor`` plugins. (#137)
+
+Documentation
+-------------
+
+- Add docstrings for tasks plugin extension points. (#181)
+- Fix incorrect documentation for ``always_use_default_layout``. (#177)
+- Spell "Pyface" correctly. (#176)
+- NumPyDoc style fixes. (#168)
+- Add API documentation, with corresponding build infrastructure. (#165)
+- Fix invalid syntax in Tetris example. (#158)
+- Use the Enthought Sphinx Theme for documentation. (#157)
+
+Tests
+-----
+
+- Remove dependency on the ``nose`` package, and rename test modules. All
+  tests can now be discovered and run using ``unittest``. (#200, #194)
+
+Build
+-----
+
+- Revise version-handling mechanisms and other minor details
+  in ``setup.py`` script. (#197, #190)
+- Remove unused and outdated ``tox.ini`` file. (#201)
+- Update ``etstool.py`` to work with a non-EDM bootstrap environment on
+  Windows. (#203)
+- Test against other ETS packages from source, using Travis CI cron jobs.
+  (#162)
+- Fix deprecated pieces in Travis CI configuration. (#160, #159)
+- Update EDM version used, and clean up and simplify Travis CI and
+  Appveyor configurations. (#152)
+- Usability improvements to ``etstool.py``. (#145, #148)
+
+
 Version 4.7.2
 =============
 
