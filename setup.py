@@ -185,7 +185,7 @@ def archive_version():
 
     version_template = RELEASED_VERSION if IS_RELEASED else UNRELEASED_VERSION
     version = version_template.format(
-        major=MAJOR, minor=MINOR, micro=MICRO, dev="<unknown>"
+        major=MAJOR, minor=MINOR, micro=MICRO, dev="-unknown"
     )
     return version, ARCHIVE_COMMIT_HASH
 
