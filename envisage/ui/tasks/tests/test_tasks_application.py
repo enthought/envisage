@@ -13,7 +13,7 @@ from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
 requires_gui = unittest.skipIf(
-    os.environ.get("ETS_TOOLKIT") == "null",
+    os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
     "Test requires a non-null GUI backend",
 )
 
