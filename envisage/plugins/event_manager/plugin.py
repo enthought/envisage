@@ -1,10 +1,11 @@
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
+# All rights reserved.
 #
-#
-# (C) Copyright 2011 Enthought, Inc., Austin, TX
-# All right reserved.
-#
-# This file is open source software distributed according to the terms in LICENSE.txt
-#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.  The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+# Thanks for using Enthought open source!
 """ This module provides a plugin which adds an EventManager to application.
 
 If the application does not already have an evt_mgr attribute which is an
