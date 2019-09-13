@@ -146,6 +146,15 @@ environment_vars = {
 github_url_fmt = "git+http://github.com/enthought/{0}.git#egg={0}"
 
 # Options shared between different click commands.
+edm_option = click.option(
+    "--edm",
+    help=(
+        "Path to the EDM executable to use. The default is to use the first "
+        "EDM found in the path. The EDM executable can also be specified "
+        "by setting the ETSTOOL_EDM environment variable."
+    ),
+    envvar="ETSTOOL_EDM",
+)
 runtime_option = click.option(
     "--runtime",
     default=default_runtime,
@@ -186,34 +195,35 @@ def cli():
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
 @environment_option
 @editable_option
 @source_option
-def install(runtime, toolkit, environment, editable, source):
+def install(edm, runtime, toolkit, environment, editable, source):
     """ Install project and dependencies into a clean EDM environment.
 
     """
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(edm, runtime, toolkit, environment)
     packages = ' '.join(
         dependencies | extra_dependencies.get(toolkit, set()))
     # edm commands to setup the development environment
     commands = [
-        "edm environments create {environment} --force --version={runtime}",
-        "edm install -y -e {environment} " + packages,
-        "edm run -e {environment} -- pip install -r ci-src-requirements.txt --no-dependencies",
+        "{edm} environments create {environment} --force --version={runtime}",
+        "{edm} install -y -e {environment} " + packages,
+        "{edm} run -e {environment} -- pip install -r ci-src-requirements.txt --no-dependencies",
     ]
     # pip install pyqt5 and pyside2, because we don't have them in EDM yet
     if toolkit == 'pyqt5':
-        commands.append("edm run -e {environment} -- pip install pyqt5==5.9.2")
+        commands.append("{edm} run -e {environment} -- pip install pyqt5==5.9.2")
     elif toolkit == 'pyside2':
-        commands.append("edm run -e {environment} -- pip install pyside2==5.11")
+        commands.append("{edm} run -e {environment} -- pip install pyside2==5.11")
 
     if editable:
-        install_cmd = "edm run -e {environment} -- pip install --editable . --no-dependencies"
+        install_cmd = "{edm} run -e {environment} -- pip install --editable . --no-dependencies"
     else:
-        install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
+        install_cmd = "{edm} run -e {environment} -- pip install . --no-dependencies"
     commands.append(install_cmd)
 
     click.echo("Creating environment '{environment}'".format(**parameters))
@@ -221,7 +231,7 @@ def install(runtime, toolkit, environment, editable, source):
 
     if source:
         # Remove EDM ETS packages and install them from source
-        cmd_fmt = "edm plumbing remove-package --environment {environment} --force "
+        cmd_fmt = "{edm} plumbing remove-package --environment {environment} --force "
         commands = [cmd_fmt + source_pkg for source_pkg in source_dependencies]
         execute(commands, parameters)
         source_pkgs = [github_url_fmt.format(pkg) for pkg in source_dependencies]
@@ -229,24 +239,25 @@ def install(runtime, toolkit, environment, editable, source):
             "python -m pip install {pkg} --no-deps".format(pkg=pkg)
             for pkg in source_pkgs
         ]
-        commands = ["edm run -e {environment} -- " + command for command in commands]
+        commands = ["{edm} run -e {environment} -- " + command for command in commands]
         execute(commands, parameters)
     click.echo('Done install')
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
 @environment_option
-def test(runtime, toolkit, environment):
+def test(edm, runtime, toolkit, environment):
     """ Run the test suite in a given environment with the specified toolkit.
 
     """
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(edm, runtime, toolkit, environment)
     environ = environment_vars.get(toolkit, {}).copy()
     environ['PYTHONUNBUFFERED'] = "1"
     commands = [
-        "edm run -e {environment} -- coverage run -p -m unittest discover -v envisage"
+        "{edm} run -e {environment} -- coverage run -p -m unittest discover -v envisage"
     ]
 
     # We run in a tempdir to avoid accidentally picking up wrong envisage
@@ -261,30 +272,35 @@ def test(runtime, toolkit, environment):
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
 @environment_option
-def cleanup(runtime, toolkit, environment):
+def cleanup(edm, runtime, toolkit, environment):
     """ Remove a development environment.
 
     """
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(edm, runtime, toolkit, environment)
     commands = [
-        "edm run -e {environment} -- python setup.py clean",
-        "edm environments remove {environment} --purge -y"]
+        "{edm} run -e {environment} -- python setup.py clean",
+        "{edm} environments remove {environment} --purge -y"]
     click.echo("Cleaning up environment '{environment}'".format(**parameters))
     execute(commands, parameters)
     click.echo('Done cleanup')
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
-def test_clean(runtime, toolkit):
+def test_clean(edm, runtime, toolkit):
     """ Run tests in a clean environment, cleaning up afterwards
 
     """
     args = ['--toolkit={}'.format(toolkit), '--runtime={}'.format(runtime)]
+    if edm is not None:
+        args.append('--edm={}'.format(edm))
+
     try:
         install(args=args, standalone_mode=False)
         test(args=args, standalone_mode=False)
@@ -293,19 +309,20 @@ def test_clean(runtime, toolkit):
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
 @environment_option
 @editable_option
-def update(runtime, toolkit, environment, editable):
+def update(edm, runtime, toolkit, environment, editable):
     """ Update/Reinstall package into environment.
 
     """
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(edm, runtime, toolkit, environment)
     if editable:
-        install_cmd = "edm run -e {environment} -- pip install --editable . --no-dependencies"
+        install_cmd = "{edm} run -e {environment} -- pip install --editable . --no-dependencies"
     else:
-        install_cmd = "edm run -e {environment} -- pip install . --no-dependencies"
+        install_cmd = "{edm} run -e {environment} -- pip install . --no-dependencies"
     commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
     execute(commands, parameters)
@@ -313,7 +330,8 @@ def update(runtime, toolkit, environment, editable):
 
 
 @cli.command()
-def test_all():
+@edm_option
+def test_all(edm):
     """ Run test_clean across all supported environment combinations.
 
     """
@@ -324,6 +342,9 @@ def test_all():
                 '--toolkit={}'.format(toolkit),
                 '--runtime={}'.format(runtime)
             ]
+            if edm is not None:
+                args.append('--edm={}'.format(edm))
+
             try:
                 test_clean(args, standalone_mode=True)
             except SystemExit:
@@ -333,13 +354,14 @@ def test_all():
 
 
 @cli.command()
+@edm_option
 @runtime_option
 @toolkit_option
 @environment_option
-def docs(runtime, toolkit, environment):
+def docs(edm, runtime, toolkit, environment):
     """ Build HTML documentation. """
 
-    parameters = get_parameters(runtime, toolkit, environment)
+    parameters = get_parameters(edm, runtime, toolkit, environment)
     parameters["docs_source"] = "docs/source"
     parameters["docs_build"] = "docs/build"
     parameters["docs_source_api"] = docs_source_api = "docs/source/api"
@@ -349,11 +371,11 @@ def docs(runtime, toolkit, environment):
         rmtree(docs_source_api)
 
     apidoc_command = (
-        "edm run -e {environment} -- python -m sphinx.ext.apidoc "
+        "{edm} run -e {environment} -- python -m sphinx.ext.apidoc "
         "-o {docs_source_api} envisage */tests"
     )
     html_build_command = (
-        "edm run -e {environment} -- python -m sphinx -b html "
+        "{edm} run -e {environment} -- python -m sphinx -b html "
         "{docs_source} {docs_build}"
     )
 
@@ -365,15 +387,28 @@ def docs(runtime, toolkit, environment):
 # Utility routines
 # ----------------------------------------------------------------------------
 
-def get_parameters(runtime, toolkit, environment):
+def get_parameters(edm, runtime, toolkit, environment):
     """ Set up parameters dictionary for format() substitution """
-    parameters = {'runtime': runtime, 'toolkit': toolkit, 'environment': environment}
+
+    if edm is None:
+        edm = locate_edm()
+
+    if environment is None:
+        environment = 'envisage-test-{runtime}-{toolkit}'.format(
+            runtime=runtime, toolkit=toolkit
+        )
+
+    parameters = {
+        'edm': edm,
+        'runtime': runtime,
+        'toolkit': toolkit,
+        'environment': environment
+    }
+
     if toolkit not in supported_combinations[runtime]:
         msg = ("Python {runtime} and toolkit {toolkit} not supported by " +
                "test environments")
         raise RuntimeError(msg.format(**parameters))
-    if environment is None:
-        parameters['environment'] = 'envisage-test-{runtime}-{toolkit}'.format(**parameters)
     return parameters
 
 
@@ -421,6 +456,45 @@ def execute(commands, parameters):
         except subprocess.CalledProcessError as exc:
             click.echo(str(exc))
             sys.exit(1)
+
+
+def locate_edm():
+    """
+    Locate an EDM executable if it exists, else raise an exception.
+
+    Returns the first EDM executable found on the path. On Windows, if that
+    executable turns out to be the "edm.bat" batch file, replaces it with the
+    executable that it wraps: the batch file adds another level of command-line
+    mangling that interferes with things like specifying version restrictions.
+
+    Returns
+    -------
+    edm : str
+        Path to the EDM executable to use.
+
+    Raises
+    ------
+    click.ClickException
+        If no EDM executable is found in the path.
+    """
+    # Once Python 2 no longer needs to be supported, we should use
+    # shutil.which instead.
+    which_cmd = "where" if sys.platform == "win32" else "which"
+    try:
+        cmd_output = subprocess.check_output([which_cmd, "edm"])
+    except subprocess.CalledProcessError:
+        raise click.ClickException(
+            "This script requires EDM, but no EDM executable was found.")
+
+    # Don't try to be clever; just use the first candidate.
+    edm_candidates = cmd_output.decode("utf-8").splitlines()
+    edm = edm_candidates[0]
+
+    # Resolve edm.bat on Windows.
+    if sys.platform == "win32" and os.path.basename(edm) == "edm.bat":
+        edm = os.path.join(os.path.dirname(edm), "embedded", "edm.exe")
+
+    return edm
 
 
 if __name__ == '__main__':
