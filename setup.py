@@ -178,6 +178,32 @@ def git_version():
     return version, git_revision
 
 
+def archive_version():
+    """
+    Construct version information for an archive.
+
+    Returns
+    -------
+    version : unicode
+        Package version.
+    git_revision : unicode
+        The full commit hash for the current Git revision.
+
+    Raises
+    ------
+    ValueError
+        If this does not appear to be an archive.
+    """
+    if "$" in ARCHIVE_COMMIT_HASH:
+        raise ValueError("This does not appear to be an archive.")
+
+    version_template = RELEASED_VERSION if IS_RELEASED else UNRELEASED_VERSION
+    version = version_template.format(
+        major=MAJOR, minor=MINOR, micro=MICRO, dev="-unknown"
+    )
+    return version, ARCHIVE_COMMIT_HASH
+
+
 def resolve_version():
     """
     Process version information and write a version file if necessary.
@@ -198,13 +224,11 @@ def resolve_version():
         print(u"Computed package version: {}".format(version))
         print(u"Writing version to version file {}.".format(VERSION_FILE))
         write_version_file(*version)
-    elif IS_RELEASED and ARCHIVE_COMMIT_HASH != "$Format:%H$":
-        # This is a source archive for a released version.
-        pkg_version = RELEASED_VERSION.format(
-            major=MAJOR, minor=MINOR, micro=MICRO
-        )
-        git_revision = ARCHIVE_COMMIT_HASH
-        version = pkg_version, git_revision
+    elif "$" not in ARCHIVE_COMMIT_HASH:
+        # This is a source archive.
+        version = archive_version()
+        print(u"Archive package version: {}".format(version))
+        print(u"Writing version to version file {}.".format(VERSION_FILE))
         write_version_file(*version)
     elif os.path.isfile(VERSION_FILE):
         # This is a source distribution. Read the version information.
@@ -222,60 +246,72 @@ def resolve_version():
     return version
 
 
+def get_long_description():
+    """ Read long description from README.txt. """
+    with io.open("README.rst", "r", encoding="utf-8") as readme:
+        return readme.read()
+
+
 if __name__ == "__main__":
     version, git_revision = resolve_version()
 
     setup(
-        name = 'envisage',
-        version = version,
-        author = "Martin Chilvers, et. al.",
-        author_email = "info@enthought.com",
-        maintainer = 'ETS Developers',
-        maintainer_email = 'enthought-dev@enthought.com',
-        url = 'http://docs.enthought.com/envisage',
-        download_url = 'https://github.com/enthought/envisage',
-        classifiers = [c.strip() for c in """\
+        name="envisage",
+        version=version,
+        url="http://docs.enthought.com/envisage",
+        author="Enthought",
+        author_email="info@enthought.com",
+        maintainer="ETS Developers",
+        maintainer_email="enthought-dev@enthought.com",
+        download_url="https://github.com/enthought/envisage",
+        classifiers=[
+            c.strip()
+            for c in """\
             Development Status :: 5 - Production/Stable
             Intended Audience :: Developers
             Intended Audience :: Science/Research
             License :: OSI Approved :: BSD License
-            Operating System :: MacOS
+            Operating System :: MacOS :: MacOS X
             Operating System :: Microsoft :: Windows
-            Operating System :: OS Independent
-            Operating System :: POSIX
-            Operating System :: Unix
+            Operating System :: POSIX :: Linux
             Programming Language :: Python
+            Programming Language :: Python :: 2
+            Programming Language :: Python :: 2.7
+            Programming Language :: Python :: 3
+            Programming Language :: Python :: 3.5
+            Programming Language :: Python :: 3.6
+            Programming Language :: Python :: 3.7
+            Programming Language :: Python :: Implementation :: CPython
             Topic :: Scientific/Engineering
             Topic :: Software Development
             Topic :: Software Development :: Libraries
-            """.splitlines() if len(c.strip()) > 0],
-        description = 'extensible application framework',
-        long_description = open('README.rst').read(),
-        entry_points = """
-            [envisage.plugins]
-            envisage.core = envisage.core_plugin:CorePlugin
-            """,
-        ext_modules = [],
-        install_requires = ['apptools', 'traits'],
-        license = "BSD",
-        packages = find_packages(),
-        package_data = {
-            '': ['images/*', '*.ini'],
-            'envisage.tests': [
-                'bad_eggs/*.egg',
-                'eggs/*.egg',
-                'plugins/pear/*.py',
-                'plugins/banana/*.py',
-                'plugins/orange/*.py',
-            ],
-            'envisage.ui.single_project': [
-                '*.txt',
-            ],
-            'envisage.ui.tasks.tests': [
-                'data/*.pkl',
-            ],
+            Topic :: Software Development :: User Interfaces
+            """.splitlines()
+            if len(c.strip()) > 0
+        ],
+        description="Extensible application framework",
+        long_description=get_long_description(),
+        long_description_content_type="text/x-rst",
+        entry_points={
+            "envisage.plugins": [
+                "envisage.core = envisage.core_plugin:CorePlugin"
+            ]
         },
-        platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-        python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
-        zip_safe = False,
+        install_requires=["apptools", "setuptools", "six", "traits"],
+        license="BSD",
+        packages=find_packages(),
+        package_data={
+            "": ["images/*", "*.ini"],
+            "envisage.tests": [
+                "bad_eggs/*.egg",
+                "eggs/*.egg",
+                "plugins/pear/*.py",
+                "plugins/banana/*.py",
+                "plugins/orange/*.py",
+            ],
+            "envisage.ui.single_project": ["*.txt"],
+            "envisage.ui.tasks.tests": ["data/*.pkl"],
+        },
+        python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
+        zip_safe=False,
     )
