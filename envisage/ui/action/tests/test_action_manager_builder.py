@@ -2,7 +2,6 @@
 
 # Enthought library imports.
 from envisage.ui.action.api import Action, ActionSet, Group, Menu
-from pyface.api import GUI  # noqa
 from traits.testing.unittest_tools import unittest
 
 # Local imports.
