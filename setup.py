@@ -283,7 +283,7 @@ if __name__ == "__main__":
                 "envisage.core = envisage.core_plugin:CorePlugin"
             ]
         },
-        install_requires=["apptools", "six", "traits"],
+        install_requires=["apptools", "setuptools", "six", "traits"],
         license="BSD",
         packages=find_packages(),
         package_data={
