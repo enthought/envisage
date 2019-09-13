@@ -11,9 +11,6 @@ from envisage.api import Plugin, PluginManager
 from traits.api import Bool, Int, List
 
 # Local imports.
-#
-# We do these as absolute imports to allow nose to run from a different
-# working directory.
 from envisage.tests.event_tracker import EventTracker
 
 

@@ -34,7 +34,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # the same interface!
         self.service_registry = Application(service_registry=ServiceRegistry())
 
-        # module 'foo' need to be cleared out when this test is run by nose,
+        # module 'foo' need to be cleared out when this test is run,
         # because other tests also import foo.
         if PKG + '.foo' in sys.modules:
             del sys.modules[PKG + '.foo']
