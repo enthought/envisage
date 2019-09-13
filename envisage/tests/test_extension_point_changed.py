@@ -13,9 +13,6 @@
 from traits.testing.unittest_tools import unittest
 
 # Local imports.
-#
-# We do these as absolute imports to allow nose to run from a different
-# working directory.
 from envisage.tests.test_application import (
     PluginA, PluginB, PluginC, TestApplication, listener
 )
