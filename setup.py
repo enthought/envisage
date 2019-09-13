@@ -21,7 +21,7 @@ from setuptools import setup, find_packages
 MAJOR = 4
 MINOR = 8
 MICRO = 0
-IS_RELEASED = False
+IS_RELEASED = True
 
 # If this file is part of a Git export (for example created with "git archive",
 # or downloaded from GitHub), ARCHIVE_COMMIT_HASH gives the full hash of the
