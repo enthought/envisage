@@ -180,7 +180,7 @@ def archive_version():
     ValueError
         If this does not appear to be an archive.
     """
-    if ARCHIVE_COMMIT_HASH == "$Format:%H$":
+    if "$" in ARCHIVE_COMMIT_HASH:
         raise ValueError("This does not appear to be an archive.")
 
     version_template = RELEASED_VERSION if IS_RELEASED else UNRELEASED_VERSION
@@ -210,7 +210,7 @@ def resolve_version():
         print(u"Computed package version: {}".format(version))
         print(u"Writing version to version file {}.".format(VERSION_FILE))
         write_version_file(*version)
-    elif ARCHIVE_COMMIT_HASH != "$Format:%H$":
+    elif "$" not in ARCHIVE_COMMIT_HASH:
         # This is a source archive.
         version = archive_version()
         print(u"Archive package version: {}".format(version))
