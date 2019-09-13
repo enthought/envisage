@@ -1,3 +1,11 @@
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.  The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+# Thanks for using Enthought open source!
 """ Tests for the service registry. """
 
 
@@ -84,7 +92,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Register a service factory.
         self.service_registry.register_service(
             HasTraits,
-            PKG + '.service_registry_test_case.service_factory',
+            PKG + '.test_service_registry.service_factory',
             {'price' : 100}
         )
 

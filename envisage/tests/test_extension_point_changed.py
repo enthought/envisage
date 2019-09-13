@@ -1,3 +1,11 @@
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.  The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+# Thanks for using Enthought open source!
 """ Tests for the events fired when extension points are changed. """
 
 
@@ -8,7 +16,7 @@ from traits.testing.unittest_tools import unittest
 #
 # We do these as absolute imports to allow nose to run from a different
 # working directory.
-from envisage.tests.application_test_case import (
+from envisage.tests.test_application import (
     PluginA, PluginB, PluginC, TestApplication, listener
 )
 

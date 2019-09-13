@@ -1,5 +1,11 @@
-# (C) Copyright 2019 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
 # All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.  The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+# Thanks for using Enthought open source!
 
 import os
 import shutil
@@ -13,7 +19,7 @@ from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
 requires_gui = unittest.skipIf(
-    os.environ.get("ETS_TOOLKIT") == "null",
+    os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
     "Test requires a non-null GUI backend",
 )
 

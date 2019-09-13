@@ -1,3 +1,11 @@
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only
+# under the conditions described in the aforementioned license.  The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+# Thanks for using Enthought open source!
 """ Tests for the provider extension registry. """
 
 
@@ -10,7 +18,7 @@ from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.
-from .extension_registry_test_case import ExtensionRegistryTestCase
+from .test_extension_registry import ExtensionRegistryTestCase
 
 
 class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
