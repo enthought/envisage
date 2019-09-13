@@ -8,7 +8,7 @@ from traits.testing.unittest_tools import unittest
 #
 # We do these as absolute imports to allow nose to run from a different
 # working directory.
-from envisage.tests.application_test_case import (
+from envisage.tests.test_application import (
     PluginA, PluginB, PluginC, TestApplication, listener
 )
 

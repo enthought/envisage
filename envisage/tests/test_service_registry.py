@@ -84,7 +84,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Register a service factory.
         self.service_registry.register_service(
             HasTraits,
-            PKG + '.service_registry_test_case.service_factory',
+            PKG + '.test_service_registry.service_factory',
             {'price' : 100}
         )
 

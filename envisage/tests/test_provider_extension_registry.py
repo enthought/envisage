@@ -10,7 +10,7 @@ from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.
-from .extension_registry_test_case import ExtensionRegistryTestCase
+from .test_extension_registry import ExtensionRegistryTestCase
 
 
 class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
