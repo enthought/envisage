@@ -56,14 +56,10 @@ class ResourceManagerTestCase(unittest.TestCase):
         self.stored_urlopen = url_library.urlopen
         url_library.urlopen = stubout_urlopen
 
-        return
-
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
         url_library.urlopen = self.stored_urlopen
-
-        return
 
     ###########################################################################
     # Tests.
@@ -87,19 +83,14 @@ class ResourceManagerTestCase(unittest.TestCase):
         with open(filename, 'rb') as g:
             self.assertEqual(g.read(), contents)
 
-        return
-
     def test_no_such_file_resource(self):
         """ no such file resource """
 
         rm = ResourceManager()
 
         # Open a file resource.
-        self.assertRaises(
-            NoSuchResourceError, rm.file, 'file://../bogus.py'
-        )
-
-        return
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("file://../bogus.py")
 
     def test_package_resource(self):
         """ package resource """
@@ -120,26 +111,17 @@ class ResourceManagerTestCase(unittest.TestCase):
         self.assertEqual(g.read(), contents)
         g.close()
 
-        return
-
     def test_no_such_package_resource(self):
         """ no such package resource """
 
         rm = ResourceManager()
 
         # Open a package resource.
-        self.assertRaises(
-            NoSuchResourceError,
-            rm.file,
-            'pkgfile://envisage.resource/bogus.py'
-        )
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("pkgfile://envisage.resource/bogus.py")
 
-        self.assertRaises(
-            NoSuchResourceError, rm.file, 'pkgfile://completely.bogus/bogus.py'
-        )
-
-        return
-
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("pkgfile://completely.bogus/bogus.py")
 
     def test_http_resource(self):
         """ http resource """
@@ -152,10 +134,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         contents = f.read()
         f.close()
 
-        self.assertEquals(contents, 'This is a test file.\n')
-
-        return
-
+        self.assertEqual(contents, 'This is a test file.\n')
 
     def test_no_such_http_resource(self):
         """ no such http resource """
@@ -163,12 +142,8 @@ class ResourceManagerTestCase(unittest.TestCase):
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        self.assertRaises(
-            NoSuchResourceError, rm.file, 'http://localhost:1234/bogus.dat'
-        )
-
-        return
-
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("http://localhost:1234/bogus.dat")
 
     def test_unknown_protocol(self):
         """ unknown protocol """
@@ -176,13 +151,5 @@ class ResourceManagerTestCase(unittest.TestCase):
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        self.assertRaises(ValueError, rm.file, 'bogus://foo/bar/baz')
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################
+        with self.assertRaises(ValueError):
+            rm.file("bogus://foo/bar/baz")

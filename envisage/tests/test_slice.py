@@ -59,8 +59,6 @@ def listener(obj, trait_name, old, event):
 
     listener.clone = clone
 
-    return
-
 
 class SliceTestCase(unittest.TestCase):
     """ Tests to help find out how trait list events work. """
@@ -78,15 +76,11 @@ class SliceTestCase(unittest.TestCase):
         self.f = Foo(l=TEST_LIST)
         self.f.on_trait_change(listener, 'l_items')
 
-        return
-
     def tearDown(self):
         """ Called immediately after each test method has been called. """
 
         # Make sure we successfully recreated the operation.
         self.assertEqual(self.f.l, listener.clone)
-
-        return
 
     ###########################################################################
     # Tests.
@@ -97,102 +91,67 @@ class SliceTestCase(unittest.TestCase):
 
         self.f.l.append(99)
 
-        return
-
     def test_insert(self):
         """ insert """
 
         self.f.l.insert(3, 99)
-
-        return
 
     def test_extend(self):
         """ extend """
 
         self.f.l.append([99, 100])
 
-        return
-
     def test_remove(self):
         """ remove """
 
         self.f.l.remove(5)
-
-        return
 
     def test_reverse(self):
         """ reverse """
 
         self.f.l.reverse()
 
-        return
-
     def test_sort(self):
         """ sort """
 
         self.f.l.sort()
-
-        return
 
     def test_pop(self):
         """ remove """
 
         self.f.l.pop()
 
-        return
-
     def test_del_all(self):
         """ del all """
 
         del self.f.l[:]
-
-        return
 
     def test_assign_item(self):
         """ assign item """
 
         self.f.l[3] = 99
 
-        return
-
     def test_del_item(self):
         """ del item """
 
         del self.f.l[3]
-
-        return
 
     def test_assign_slice(self):
         """ assign slice """
 
         self.f.l[2:4] = [88, 99]
 
-        return
-
     def test_del_slice(self):
         """ del slice """
 
         del self.f.l[2:5]
-
-        return
 
     def test_assign_extended_slice(self):
         """ assign extended slice """
 
         self.f.l[2:6:2] = [88, 99]
 
-        return
-
     def test_del_extended_slice(self):
         """ del extended slice """
 
         del self.f.l[2:6:2]
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

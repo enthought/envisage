@@ -129,10 +129,3 @@ class ClassLoadHookTestCase(unittest.TestCase):
         """ Return the full (possibly) dotted name of a class. """
 
         return cls.__module__ + '.' + cls.__name__
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

@@ -196,7 +196,7 @@ class CorePluginTestCase(unittest.TestCase):
         # that! If a test fails we need to work out why - otherwise you have
         # just completely removed the benefits of having tests in the first
         # place! This test works for me on Python 2.4!
-        self.assert_('y' in Bar.class_traits())
+        self.assertTrue('y' in Bar.class_traits())
 
         return
 
@@ -236,7 +236,7 @@ class CorePluginTestCase(unittest.TestCase):
             x = Int
 
         # Make sure the category was imported and added.
-        self.assert_('y' in Bar.class_traits())
+        self.assertTrue('y' in Bar.class_traits())
 
         return
 
@@ -277,7 +277,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assert_(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -334,7 +334,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assert_(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -403,10 +403,3 @@ class CorePluginTestCase(unittest.TestCase):
         self.assertEqual('42', application.preferences.get('enthought.test.x'))
 
         return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################
