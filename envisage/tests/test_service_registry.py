@@ -47,11 +47,6 @@ class ServiceRegistryTestCase(unittest.TestCase):
         if PKG + '.foo' in sys.modules:
             del sys.modules[PKG + '.foo']
 
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        pass
-
     ###########################################################################
     # Tests.
     ###########################################################################

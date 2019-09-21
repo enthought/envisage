@@ -63,10 +63,6 @@ def listener(obj, trait_name, old, event):
 class SliceTestCase(unittest.TestCase):
     """ Tests to help find out how trait list events work. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
@@ -76,82 +72,100 @@ class SliceTestCase(unittest.TestCase):
         self.f = Foo(l=TEST_LIST)
         self.f.on_trait_change(listener, 'l_items')
 
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
     def test_append(self):
         """ append """
 
         self.f.l.append(99)
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_insert(self):
         """ insert """
 
         self.f.l.insert(3, 99)
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_extend(self):
         """ extend """
 
         self.f.l.append([99, 100])
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_remove(self):
         """ remove """
 
         self.f.l.remove(5)
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_reverse(self):
         """ reverse """
 
         self.f.l.reverse()
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_sort(self):
         """ sort """
 
         self.f.l.sort()
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_pop(self):
         """ remove """
 
         self.f.l.pop()
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_del_all(self):
         """ del all """
 
         del self.f.l[:]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_assign_item(self):
         """ assign item """
 
         self.f.l[3] = 99
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_del_item(self):
         """ del item """
 
         del self.f.l[3]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_assign_slice(self):
         """ assign slice """
 
         self.f.l[2:4] = [88, 99]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_del_slice(self):
         """ del slice """
 
         del self.f.l[2:5]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_assign_extended_slice(self):
         """ assign extended slice """
 
         self.f.l[2:6:2] = [88, 99]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)
 
     def test_del_extended_slice(self):
         """ del extended slice """
 
         del self.f.l[2:6:2]
+        # Make sure we successfully recreated the operation.
+        self.assertEqual(self.f.l, listener.clone)

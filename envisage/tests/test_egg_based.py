@@ -18,26 +18,11 @@ from traits.testing.unittest_tools import unittest
 class EggBasedTestCase(unittest.TestCase):
     """ Base class for Egg-based test cases. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
         # The location of the 'eggs' directory.
         self.egg_dir = join(dirname(__file__), 'eggs')
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
 
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
@@ -55,8 +40,6 @@ class EggBasedTestCase(unittest.TestCase):
         # modules in the eggs available for importing).
         for distribution in distributions:
             working_set.add(distribution)
-
-        return
 
     def _add_eggs_on_path(self, path, working_set=None):
         """ Add all eggs found on the path to a working set. """
@@ -78,7 +61,3 @@ class EggBasedTestCase(unittest.TestCase):
         # modules in the eggs available for importing).
         for distribution in distributions:
             working_set.add(distribution)
-
-        return
-
-#### EOF ######################################################################
