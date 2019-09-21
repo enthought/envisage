@@ -10,7 +10,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
-import contextlib
 import gc
 import sys
 import threading

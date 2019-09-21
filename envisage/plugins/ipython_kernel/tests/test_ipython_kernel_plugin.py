@@ -23,8 +23,6 @@ else:
     ipykernel_available = True
 
 if ipykernel_available:
-    from ipykernel.kernelapp import IPKernelApp
-
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
         InternalIPKernel)
     from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
@@ -34,9 +32,6 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
-
-    def tearDown(self):
-        IPKernelApp.clear_instance()
 
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
