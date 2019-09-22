@@ -28,8 +28,6 @@ def listener(obj, trait_name, old, new):
     listener.old = old
     listener.new = new
 
-    return
-
 
 class TestApplication(Application):
     """ The type of application used in the tests. """
@@ -39,24 +37,6 @@ class TestApplication(Application):
 
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
-
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
 
     def test_id_policy(self):
         """ id policy """
@@ -73,8 +53,6 @@ class PluginTestCase(unittest.TestCase):
         p = Plugin(name='fred', id='wilma')
         self.assertEqual('wilma', p.id)
         self.assertEqual('fred', p.name)
-
-        return
 
     def test_name_policy(self):
         """ name policy """
@@ -94,8 +72,6 @@ class PluginTestCase(unittest.TestCase):
         p = ThisIsMyPlugin()
         self.assertEqual('This Is My Plugin', p.name)
 
-        return
-
     def test_plugin_activator(self):
         """ plugin activator. """
 
@@ -108,14 +84,10 @@ class PluginTestCase(unittest.TestCase):
 
                 self.started = plugin
 
-                return
-
             def stop_plugin(self, plugin):
                 """ Stop a plugin. """
 
                 self.stopped = plugin
-
-                return
 
         class PluginA(Plugin):
             id = 'A'
@@ -139,8 +111,6 @@ class PluginTestCase(unittest.TestCase):
 
         # Make sure A's plugin activator was called.
         self.assertEqual(a, plugin_activator.stopped)
-
-        return
 
     def test_service(self):
         """ service """
@@ -182,8 +152,6 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(None, application.get_service(Bar))
         self.assertEqual(None, application.get_service(Baz))
 
-        return
-
     def test_service_protocol(self):
         """ service protocol """
 
@@ -215,8 +183,6 @@ class PluginTestCase(unittest.TestCase):
         # Make sure the service was unregistered.
         self.assertEqual(None, application.get_service(IBar))
 
-        return
-
     def test_multiple_trait_contributions(self):
         """ multiple trait contributions """
 
@@ -237,9 +203,8 @@ class PluginTestCase(unittest.TestCase):
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
-        self.failUnlessRaises(ValueError, application.get_extensions, 'x')
-
-        return
+        with self.assertRaises(ValueError):
+            application.get_extensions("x")
 
     def test_exception_in_trait_contribution(self):
         """ exception in trait contribution """
@@ -265,11 +230,8 @@ class PluginTestCase(unittest.TestCase):
 
         # We should get an when we try to get the contributions to the
         # extension point.
-        self.failUnlessRaises(
-            ZeroDivisionError, application.get_extensions, 'x'
-        )
-
-        return
+        with self.assertRaises(ZeroDivisionError):
+            application.get_extensions("x")
 
     def test_contributes_to(self):
         """ contributes to """
@@ -291,8 +253,6 @@ class PluginTestCase(unittest.TestCase):
         # contributing to the same extension point.
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
 
-        return
-
     def test_contributes_to_decorator(self):
         """ contributes to decorator """
 
@@ -312,8 +272,6 @@ class PluginTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[a, b])
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
-
-        return
 
     def test_contributes_to_decorator_ignored_if_trait_present(self):
         """ contributes to decorator ignored if trait present """
@@ -336,8 +294,6 @@ class PluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b])
         self.assertEqual([1, 2, 3], application.get_extensions('x'))
 
-        return
-
     def test_add_plugins_to_empty_application(self):
         """ add plugins to empty application """
 
@@ -348,8 +304,6 @@ class PluginTestCase(unittest.TestCase):
             def _x_items_changed(self, event):
                 self.added   = event.added
                 self.removed = event.removed
-
-                return
 
         class PluginB(Plugin):
             id = 'B'
@@ -416,8 +370,6 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual([], a.x)
         self.assertEqual([4, 5, 6], a.removed)
 
-        return
-
     def test_home(self):
         """ home """
 
@@ -437,8 +389,8 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(join(application.home, 'plugins', b.id), b.home)
 
         # Make sure that the directories got created.
-        self.assert_(exists(a.home))
-        self.assert_(exists(b.home))
+        self.assertTrue(exists(a.home))
+        self.assertTrue(exists(b.home))
 
         # Create a new application with plugins with the same Id to make sure
         # that it all works when the directories already exist.
@@ -452,10 +404,8 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(join(application.home, 'plugins', b.id), b.home)
 
         # Make sure the directories got created.
-        self.assert_(exists(a.home))
-        self.assert_(exists(b.home))
-
-        return
+        self.assertTrue(exists(a.home))
+        self.assertTrue(exists(b.home))
 
     def test_no_recursion(self):
         """ Regression test for #119. """
@@ -466,10 +416,3 @@ class PluginTestCase(unittest.TestCase):
 
         application = Application(plugins=[PluginA()])
         application.get_extensions('bob')
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

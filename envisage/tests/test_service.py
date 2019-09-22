@@ -24,24 +24,6 @@ class TestApplication(Application):
 class ServiceTestCase(unittest.TestCase):
     """ Tests for the 'Service' trait type. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
     def test_service_trait_type(self):
         """ service trait type"""
 
@@ -72,9 +54,8 @@ class ServiceTestCase(unittest.TestCase):
         self.assertEqual(None, b.foo)
 
         # You can't set service traits!
-        self.failUnlessRaises(SystemError, setattr, b, 'foo', 'bogus')
-
-        return
+        with self.assertRaises(SystemError):
+            setattr(b, "foo", "bogus")
 
     def test_service_trait_type_with_no_service_registry(self):
         """ service trait type with no service registry """
@@ -88,13 +69,5 @@ class ServiceTestCase(unittest.TestCase):
         # We should get an exception because the object does not have an
         # 'service_registry' trait.
         b = Bar()
-        self.failUnlessRaises(ValueError, getattr, b, 'foo')
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################
+        with self.assertRaises(ValueError):
+            getattr(b, "foo")

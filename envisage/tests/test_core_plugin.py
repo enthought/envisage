@@ -32,24 +32,6 @@ class TestApplication(Application):
 class CorePluginTestCase(unittest.TestCase):
     """ Tests for the core plugin. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
     def test_service_offers(self):
         """ service offers """
 
@@ -96,8 +78,6 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure th service has gone.
         self.assertEqual(None, application.get_service(IMyService))
-
-        return
 
     def test_dynamically_added_service_offer(self):
         """ dynamically added service offer """
@@ -157,8 +137,6 @@ class CorePluginTestCase(unittest.TestCase):
         service = application.get_service(IMyService)
         self.assertEqual(42, service)
 
-        return
-
     def test_categories(self):
         """ categories """
 
@@ -196,9 +174,7 @@ class CorePluginTestCase(unittest.TestCase):
         # that! If a test fails we need to work out why - otherwise you have
         # just completely removed the benefits of having tests in the first
         # place! This test works for me on Python 2.4!
-        self.assert_('y' in Bar.class_traits())
-
-        return
+        self.assertTrue('y' in Bar.class_traits())
 
     def test_dynamically_added_category(self):
         """ dynamically added category """
@@ -236,9 +212,7 @@ class CorePluginTestCase(unittest.TestCase):
             x = Int
 
         # Make sure the category was imported and added.
-        self.assert_('y' in Bar.class_traits())
-
-        return
+        self.assertTrue('y' in Bar.class_traits())
 
     def test_class_load_hooks(self):
         """ class load hooks """
@@ -249,8 +223,6 @@ class CorePluginTestCase(unittest.TestCase):
             """ Called when a class has been loaded. """
 
             on_class_loaded.cls = cls
-
-            return
 
         class PluginA(Plugin):
             id = 'A'
@@ -277,7 +249,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assert_(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -291,8 +263,6 @@ class CorePluginTestCase(unittest.TestCase):
         # place! This test works for me on Python 2.4!
         self.assertEqual(Baz, on_class_loaded.cls)
 
-        return
-
     def test_dynamically_added_class_load_hooks(self):
         """ dynamically class load hooks """
 
@@ -303,7 +273,6 @@ class CorePluginTestCase(unittest.TestCase):
 
             on_class_loaded.cls = cls
 
-            return
 
         class PluginA(Plugin):
             id = 'A'
@@ -334,7 +303,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assert_(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -342,8 +311,6 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure the class load hook was called.
         self.assertEqual(Baz, on_class_loaded.cls)
-
-        return
 
     def test_preferences(self):
         """ preferences """
@@ -370,8 +337,6 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure we can get one of the preferences.
         self.assertEqual('42', application.preferences.get('enthought.test.x'))
-
-        return
 
     def test_dynamically_added_preferences(self):
         """ dynamically added preferences """
@@ -401,12 +366,3 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure we can get one of the preferences.
         self.assertEqual('42', application.preferences.get('enthought.test.x'))
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

@@ -29,15 +29,9 @@ def listener(obj, trait_name, old, new):
     listener.old = old
     listener.new = new
 
-    return
-
 
 class ExtensionPointBindingTestCase(unittest.TestCase):
     """ Tests for extension point binding. """
-
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
@@ -46,17 +40,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Use the extension registry for all extension points and bindings.
         ExtensionPoint.extension_registry = self.extension_registry
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
 
     def test_untyped_extension_point(self):
         """ untyped extension point """
@@ -88,16 +71,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(2, len(f.x))
-        self.assert_(42 in f.x)
-        self.assert_('a string' in f.x)
+        self.assertTrue(42 in f.x)
+        self.assertTrue('a string' in f.x)
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x_items', listener.trait_name)
         self.assertEqual(1, len(listener.new.added))
-        self.assert_('a string' in listener.new.added)
-
-        return
+        self.assertTrue('a string' in listener.new.added)
 
     def test_set_extensions_via_trait(self):
         """ set extensions via trait """
@@ -129,18 +110,16 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(1, len(f.x))
-        self.assert_('a string' in f.x)
+        self.assertTrue('a string' in f.x)
 
         self.assertEqual(1, len(registry.get_extensions('my.ep')))
-        self.assert_('a string' in registry.get_extensions('my.ep'))
+        self.assertTrue('a string' in registry.get_extensions('my.ep'))
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(1, len(listener.new))
-        self.assert_('a string' in listener.new)
-
-        return
+        self.assertTrue('a string' in listener.new)
 
     def test_set_extensions_via_registry(self):
         """ set extensions via registry """
@@ -172,15 +151,13 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Make sure that the object picked up the new extension...
         self.assertEqual(1, len(f.x))
-        self.assert_('a string' in f.x)
+        self.assertTrue('a string' in f.x)
 
         # ... and that the correct trait change event was fired.
         self.assertEqual(f, listener.obj)
         self.assertEqual('x', listener.trait_name)
         self.assertEqual(1, len(listener.new))
-        self.assert_('a string' in listener.new)
-
-        return
+        self.assertTrue('a string' in listener.new)
 
     def test_explicit_extension_registry(self):
         """ explicit extension registry """
@@ -209,8 +186,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         # Make sure that we pick up the empty extension registry and not the
         # default one.
         self.assertEqual(0, len(f.x))
-
-        return
 
     def test_should_be_able_to_bind_multiple_traits_on_a_single_object(self):
 
@@ -241,8 +216,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertEqual(1, len(f.x))
         self.assertEqual(3, len(f.y))
 
-        return
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -251,10 +224,3 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

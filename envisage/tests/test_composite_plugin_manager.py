@@ -33,15 +33,11 @@ class SimplePlugin(Plugin):
         self.started = True
         self.stopped = False
 
-        return
-
     def stop(self):
         """ Stop the plugin. """
 
         self.started = False
         self.stopped = True
-
-        return
 
 
 class CustomException(Exception):
@@ -60,28 +56,12 @@ class RaisingPluginManager(PluginManager):
 class CompositePluginManagerTestCase(unittest.TestCase):
     """ Tests for the composite plugin manager. """
 
-    #### 'unittest.TestCase' protocol #########################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    #### Tests ################################################################
-
     def test_find_no_plugins_if_there_are_no_plugin_managers(self):
 
         plugin_manager = CompositePluginManager()
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(0, len(ids))
-
-        return
 
     def test_find_no_plugins_if_there_are_no_plugins_in_plugin_managers(self):
 
@@ -91,8 +71,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(0, len(ids))
-
-        return
 
     def test_find_plugins_in_a_single_plugin_manager(self):
 
@@ -110,8 +88,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         self.assertIn('yellow', ids)
 
         self._test_start_and_stop(plugin_manager, ['red', 'yellow'])
-
-        return
 
     def test_find_plugins_in_a_multiple_plugin_managers(self):
 
@@ -135,8 +111,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
 
         self._test_start_and_stop(plugin_manager, ['red', 'yellow', 'green'])
 
-        return
-
     def test_application_gets_propogated_to_plugin_managers(self):
 
         application = Application()
@@ -148,8 +122,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
 
         for plugin_manager in composite_plugin_manager.plugin_managers:
             self.assertEqual(application, plugin_manager.application)
-
-        return
 
     def test_propogate_plugin_added_or_remove_events_from_plugin_managers(self):
 
@@ -179,14 +151,13 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         a.remove_plugin(a.get_plugin('foo'))
         self.assertEqual(0, self._plugin_count(composite_plugin_manager))
 
-        return
-
     def test_correct_exception_propagated_from_plugin_manager(self):
         plugin_manager = CompositePluginManager(
             plugin_managers=[RaisingPluginManager()]
         )
 
-        self.assertRaises(CustomException, plugin_manager.start)
+        with self.assertRaises(CustomException):
+            plugin_manager.start()
 
     #### Private protocol #####################################################
 
@@ -226,12 +197,3 @@ class CompositePluginManagerTestCase(unittest.TestCase):
             plugin = plugin_manager.get_plugin(id)
             self.assertNotEqual(None, plugin)
             self.assertEqual(True, plugin.stopped)
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

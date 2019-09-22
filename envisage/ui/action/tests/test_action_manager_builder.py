@@ -19,24 +19,6 @@ from .dummy_action_manager_builder import DummyActionManagerBuilder
 class ActionManagerBuilderTestCase(unittest.TestCase):
     """ Tests for the action manager builder. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
     def test_action_with_nonexistent_group(self):
         """ action with non-existent group """
 
@@ -57,11 +39,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_action_with_nonexistent_sibling(self):
         """ action with non-existent sibling """
@@ -83,11 +62,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_group_with_nonexistent_sibling(self):
         """ group with non-existent sibling """
@@ -104,11 +80,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_menu_with_nonexistent_sibling(self):
         """ menu with non-existent sibling """
@@ -125,11 +98,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_action_with_path_component_that_is_not_a_menu(self):
         """ action with path component that is not a menu """
@@ -155,11 +125,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_single_top_level_menu_with_no_group(self):
         """ single top level menu with no group """
@@ -186,8 +153,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         ids = [item.id for item in group.items]
         self.assertEqual(['File'], ids)
 
-        return
-
     def test_single_top_level_group(self):
         """ single top level group """
 
@@ -210,8 +175,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         ids = [group.id for group in menu_bar_manager.groups]
         self.assertEqual(['FileMenuGroup', 'additions'], ids)
-
-        return
 
     def test_top_level_menus_with_no_groups(self):
         """ top level menus with_no groups """
@@ -240,8 +203,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         group = menu_bar_manager.find_group('additions')
         ids = [item.id for item in group.items]
         self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
-
-        return
 
     def test_top_level_menus_no_groups_before_and_after(self):
         """ top level menus no groups, before and after """
@@ -286,8 +247,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         ids = [item.id for item in additions.items]
         self.assertEqual(['File', 'Edit', 'Tools', 'Help'], ids)
 
-        return
-
     def test_top_level_menu_non_existent_group(self):
         """ top level menu non-existent group """
 
@@ -303,11 +262,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         builder = DummyActionManagerBuilder(action_sets=action_sets)
 
         # Create a menu bar manager for the 'MenuBar'.
-        self.failUnlessRaises(
-            ValueError, builder.create_menu_bar_manager, 'MenuBar'
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            builder.create_menu_bar_manager("MenuBar")
 
     def test_top_level_menu_group(self):
         """ top level menu group """
@@ -339,8 +295,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         group = menu_manager.find_group('FileMenuGroup')
         self.assertEqual('File', group.items[0].id)
-
-        return
 
     def test_sub_menus_no_groups(self):
         """ sub-menus no groups """
@@ -377,8 +331,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         additions = menu.find_group('additions')
 
         self.assertEqual('New', additions.items[0].id)
-
-        return
 
     def test_actions_no_groups(self):
         """ actions no groups """
@@ -424,8 +376,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         self.assertEqual('About', additions.items[0].id)
 
-        return
-
     def test_actions_make_submenus(self):
         """ actions make submenus """
 
@@ -465,8 +415,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         self.assertEqual('Folder', additions.items[0].id)
         self.assertEqual('File', additions.items[1].id)
-
-        return
 
     def test_actions_make_submenus_before_and_after(self):
         """ actions make submenus before and after """
@@ -521,8 +469,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         ids = [item.id for item in additions.items]
         self.assertEqual(['Project', 'Folder', 'File'], ids)
-
-        return
 
     def test_explicit_groups(self):
         """ explicit groups """
@@ -615,8 +561,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         self.assertEqual('Exit', group.items[0].id)
 
-        return
-
     def test_actions_and_menus_in_groups(self):
         """ actions and menus in groups """
 
@@ -689,8 +633,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         self.assertEqual('Exit', group.items[0].id)
 
-        return
-
     def test_duplicate_menu(self):
         """ duplicate menu """
 
@@ -741,8 +683,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             ['NewGroup', 'ExitGroup', 'ExtraGroup', 'additions'], ids
         )
 
-        return
-
     def test_duplicate_group(self):
         """ duplicate group """
 
@@ -792,12 +732,3 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(
             ['NewGroup', 'ExitGroup', 'additions'], ids
         )
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

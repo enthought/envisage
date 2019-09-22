@@ -21,10 +21,6 @@ from envisage.tests.test_application import (
 class ExtensionPointChangedTestCase(unittest.TestCase):
     """ Tests for the events fired when extension points are changed. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
@@ -33,17 +29,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         listener.trait_name = None
         listener.old = None
         listener.new = None
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
 
     def test_set_extension_point(self):
         """ set extension point """
@@ -54,9 +39,8 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application.start()
 
         # Try to set the extension point.
-        self.failUnlessRaises(SystemError, setattr, a, 'x', [1, 2, 3])
-
-        return
+        with self.assertRaises(SystemError):
+            setattr(a, "x", [1, 2, 3])
 
     def test_append(self):
         """ append """
@@ -98,8 +82,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.removed)
         self.assertEqual(3, listener.new.index)
 
-        return
-
     def test_remove(self):
         """ remove """
 
@@ -139,8 +121,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.added)
         self.assertEqual([3], listener.new.removed)
         self.assertEqual(2, listener.new.index)
-
-        return
 
     def test_assign_empty_list(self):
         """ assign empty list """
@@ -183,8 +163,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(0, listener.new.index.start)
         self.assertEqual(3, listener.new.index.stop)
 
-        return
-
     def test_assign_empty_list_no_event(self):
         """ assign empty list no event """
 
@@ -215,8 +193,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         # We shouldn't get a trait event here because we haven't accessed the
         # extension point yet!
         self.assertEqual(None, listener.obj)
-
-        return
 
     def test_assign_non_empty_list(self):
         """ assign non-empty list """
@@ -258,8 +234,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3], listener.new.removed)
         self.assertEqual(0, listener.new.index.start)
         self.assertEqual(4, listener.new.index.stop)
-
-        return
 
     def test_add_plugin(self):
         """ add plugin """
@@ -311,8 +285,6 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.removed)
         self.assertEqual(3, listener.new.index)
 
-        return
-
     def test_remove_plugin(self):
         """ remove plugin """
 
@@ -361,12 +333,3 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.added)
         self.assertEqual([1, 2, 3], listener.new.removed)
         self.assertEqual(0, listener.new.index)
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################
