@@ -76,4 +76,5 @@ class IPythonKernelPlugin(Plugin):
         kernel = InternalIPKernel()
         bind_extension_point(kernel, 'initial_namespace',
                              IPYTHON_NAMESPACE, self.application)
+        kernel.init_ipkernel()
         return kernel

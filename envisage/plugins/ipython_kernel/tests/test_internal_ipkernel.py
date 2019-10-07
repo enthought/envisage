@@ -191,6 +191,21 @@ class TestInternalIPKernel(unittest.TestCase):
         message = str(warn_msgs[0].message)
         self.assertIn("initialised for a second time", message)
 
+    def test_init_ipkernel_with_gui_backend(self):
+        # Use of gui_backend is deprecated.
+        kernel = InternalIPKernel()
+        with warnings.catch_warnings(record=True) as warn_msgs:
+            warnings.simplefilter("always", category=DeprecationWarning)
+            kernel.init_ipkernel(gui_backend="qt4")
+        kernel.shutdown()
+
+        # Check that we got the expected warning message.
+        matching_messages = [
+            msg for msg in warn_msgs
+            if "gui_backend argument is deprecated" in str(msg.message)
+        ]
+        self.assertEqual(len(matching_messages), 1)
+
     # Helper functions.
 
     def objects_of_type(self, type):

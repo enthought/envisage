@@ -78,14 +78,17 @@ class InternalIPKernel(HasStrictTraits):
     #: This is a list of tuples (name, value).
     initial_namespace = List()
 
-    def init_ipkernel(self, gui_backend):
+    def init_ipkernel(self, gui_backend=None):
         """ Initialize the IPython kernel.
 
         Parameters
         ----------
-        gui_backend -- string
-          The GUI mode used to initialize the GUI mode. For options, see
-          the `ipython --gui` help pages.
+        gui_backend -- string, optional
+            The GUI mode used to initialize the GUI event loop integration. For
+            options, see the `ipython --gui` help pages. If not given, no event
+            loop integration is set up.
+
+        .. note:: Use of this argument is deprecated!
         """
         # For backwards compatibility, we allow a kernel to be initialised
         # twice, and we ignore the second initialization, but warn.
@@ -96,6 +99,15 @@ class InternalIPKernel(HasStrictTraits):
                 DeprecationWarning,
             )
             return
+
+        if gui_backend is not None:
+            warnings.warn(
+                "The gui_backend argument is deprecated. "
+                "Integration with a GUI event loop can be "
+                "achieved by setting the 'eventloop' attribute on the "
+                "kernel instance",
+                DeprecationWarning,
+            )
 
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
