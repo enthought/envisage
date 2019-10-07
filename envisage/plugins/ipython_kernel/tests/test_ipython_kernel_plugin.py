@@ -50,10 +50,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
         self.assertIsNotNone(kernel)
         self.assertIsInstance(kernel, InternalIPKernel)
-
-        # Initialize the kernel. Normally, the application does it when
-        # it starts.
-        kernel.init_ipkernel(gui_backend=None)
+        self.assertIsNotNone(kernel.ipkernel)
 
         # Stopping the application should shut the kernel down.
         app.stop()
@@ -72,8 +69,18 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         app.start()
         try:
             kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
-            kernel.init_ipkernel(gui_backend=None)
             self.assertIn('y', kernel.namespace)
             self.assertEqual(kernel.namespace['y'], 'hi')
+        finally:
+            app.stop()
+
+    def test_kernel_initialised(self):
+        plugins = [CorePlugin(), IPythonKernelPlugin()]
+        app = Application(plugins=plugins, id='test')
+
+        app.start()
+        try:
+            kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
+            self.assertIsNotNone(kernel.ipkernel)
         finally:
             app.stop()
