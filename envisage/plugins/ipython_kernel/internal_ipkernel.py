@@ -14,6 +14,7 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
+import warnings
 
 import ipykernel.connect
 import six
@@ -86,6 +87,16 @@ class InternalIPKernel(HasStrictTraits):
           The GUI mode used to initialize the GUI mode. For options, see
           the `ipython --gui` help pages.
         """
+        # For backwards compatibility, we allow a kernel to be initialised
+        # twice, and we ignore the second initialization, but warn.
+        if self.ipkernel is not None:
+            warnings.warn(
+                "IPython kernel is being initialised for a second time. "
+                "This may become an error in future versions of this package.",
+                DeprecationWarning,
+            )
+            return
+
         # Start IPython kernel with GUI event loop support
         self.ipkernel = gui_kernel(gui_backend)
 

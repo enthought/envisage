@@ -14,6 +14,7 @@ import gc
 import sys
 import threading
 import unittest
+import warnings
 
 try:
     import ipykernel  # noqa: F401
@@ -164,6 +165,31 @@ class TestInternalIPKernel(unittest.TestCase):
 
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
+
+    def test_initialise_twice(self):
+        # Trying to re-initialise an already initialised IPKernelApp can
+        # happen right now as a result of refactoring, but eventually
+        # it should be an error. For now, it's a warning.
+        kernel = InternalIPKernel()
+        self.assertIsNone(kernel.ipkernel)
+        kernel.init_ipkernel(gui_backend=None)
+        try:
+            self.assertIsNotNone(kernel.ipkernel)
+            ipkernel = kernel.ipkernel
+
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+                kernel.init_ipkernel(gui_backend=None)
+
+            # Check that the existing kernel has not been replaced.
+            self.assertIs(ipkernel, kernel.ipkernel)
+        finally:
+            kernel.shutdown()
+
+        # Check that we got the expected warning message.
+        self.assertEqual(len(warn_msgs), 1)
+        message = str(warn_msgs[0].message)
+        self.assertIn("initialised for a second time", message)
 
     # Helper functions.
 
