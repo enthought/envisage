@@ -87,6 +87,13 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIs(sys.displayhook, original_displayhook)
         self.assertIs(sys.excepthook, original_excepthook)
 
+    def test_shutdown_restores_sys_path(self):
+        original_sys_path = sys.path[:]
+
+        self.create_and_destroy_kernel()
+
+        self.assertEqual(sys.path, original_sys_path)
+
     def test_shutdown_closes_console_pipes(self):
         kernel = InternalIPKernel()
         kernel.init_ipkernel(gui_backend=None)
