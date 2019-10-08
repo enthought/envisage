@@ -172,8 +172,8 @@ class TestInternalIPKernel(unittest.TestCase):
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
 
-    def test_initialise_twice(self):
-        # Trying to re-initialise an already initialised IPKernelApp can
+    def test_initialize_twice(self):
+        # Trying to re-initialize an already initialized IPKernelApp can
         # happen right now as a result of refactoring, but eventually
         # it should be an error. For now, it's a warning.
         kernel = InternalIPKernel()
@@ -195,12 +195,12 @@ class TestInternalIPKernel(unittest.TestCase):
         # Check that we got the expected warning message.
         self.assertEqual(len(warn_msgs), 1)
         message = str(warn_msgs[0].message)
-        self.assertIn("initialised for a second time", message)
+        self.assertIn("initialized for a second time", message)
 
     def test_init_ipkernel_with_explicit_gui_backend(self):
         loop = tornado.ioloop.IOLoop.current()
 
-        # Kernel initialisation adds an "enter_eventloop" call to the
+        # Kernel initialization adds an "enter_eventloop" call to the
         # ioloop event loop queue. Mock to avoid modifying the actual event
         # loop.
         with mock.patch.object(loop, "add_callback") as mock_add_callback:

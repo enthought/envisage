@@ -43,7 +43,7 @@ class IPythonKernelPlugin(Plugin):
 
     #### 'IPythonKernelPlugin' interface ######################################
 
-    #: Whether to initialise the kernel when the service is created.
+    #: Whether to initialize the kernel when the service is created.
     #: The default is False, for backwards compatibility. It will change
     #: to True in a future version of Envisage. External users wanting
     #: to use the future behaviour now should pass ```init_ipkernel=True``
@@ -91,7 +91,7 @@ class IPythonKernelPlugin(Plugin):
         else:
             warnings.warn(
                 (
-                    "In the future, the IPython kernel will be initialised "
+                    "In the future, the IPython kernel will be initialized "
                     "automatically at creation time. To enable this "
                     "future behaviour now, create the plugin using "
                     "IPythonKernelPlugin(init_ipkernel=True)"

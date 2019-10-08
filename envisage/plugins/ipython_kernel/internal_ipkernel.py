@@ -90,12 +90,12 @@ class InternalIPKernel(HasStrictTraits):
 
         .. note:: Use of this argument is deprecated!
         """
-        # For backwards compatibility, we allow a kernel to be initialised
+        # For backwards compatibility, we allow a kernel to be initialized
         # twice, and we ignore the second initialization, but warn.
         if self.ipkernel is not None:
             warnings.warn(
                 (
-                    "The IPython kernel has already been initialised. A "
+                    "The IPython kernel has already been initialized. A "
                     "second call to init_ipkernel has no effect. In the "
                     "future, a second initialization may become an error."
                 ),

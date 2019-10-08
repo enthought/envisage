@@ -148,7 +148,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         matching_messages = [
             msg for msg in warn_msgs
             if isinstance(msg.message, DeprecationWarning)
-            if "kernel will be initialised" in str(msg.message)
+            if "kernel will be initialized" in str(msg.message)
         ]
         self.assertEqual(len(matching_messages), 1)
 
