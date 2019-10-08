@@ -46,6 +46,10 @@ if ipykernel_available:
                      "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
     def setUp(self):
+        ets_config_patcher = ETSConfigPatcher()
+        ets_config_patcher.start()
+        self.addCleanup(ets_config_patcher.stop)
+
         # Make sure that IPython-related files are written to a temporary
         # directory instead of the home directory.
         tmpdir = tempfile.mkdtemp()
@@ -61,11 +65,6 @@ class TestIPythonKernelPlugin(unittest.TestCase):
             del os.environ["IPYTHONDIR"]
         else:
             os.environ["IPYTHONDIR"] = old_ipythondir
-
-    def setUp(self):
-        ets_config_patcher = ETSConfigPatcher()
-        ets_config_patcher.start()
-        self.addCleanup(ets_config_patcher.stop)
 
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
