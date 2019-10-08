@@ -152,9 +152,6 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         ]
         self.assertEqual(len(matching_messages), 1)
 
-
-
-
     @contextlib.contextmanager
     def running_app(self, plugins=None):
         """
