@@ -137,7 +137,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         self.assertEqual(len(kernel_instances), 1)
 
     def test_no_init(self):
-        # Testing deprecated behaviour where the kernel is not initialised.
+        # Testing deprecated behaviour where the kernel is not initialized.
         plugins = [IPythonKernelPlugin()]
 
         with self.running_app(plugins=plugins) as app:
