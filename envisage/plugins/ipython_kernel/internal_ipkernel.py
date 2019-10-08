@@ -38,7 +38,7 @@ else:
     from atexit import unregister as atexit_unregister
 
 
-def gui_kernel(gui_backend):
+def _gui_kernel(gui_backend):
     """ Launch and return an IPython kernel GUI with support.
 
     Parameters
@@ -115,7 +115,7 @@ class InternalIPKernel(HasStrictTraits):
             )
 
         # Start IPython kernel with GUI event loop support
-        self.ipkernel = gui_kernel(gui_backend)
+        self.ipkernel = _gui_kernel(gui_backend)
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns
