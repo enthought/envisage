@@ -6,6 +6,10 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
+
+import os
+import shutil
+import tempfile
 import unittest
 
 from traits.api import List
@@ -32,6 +36,22 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
+    def setUp(self):
+        # Make sure that IPython-related files are written to a temporary
+        # directory instead of the home directory.
+        tmpdir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmpdir)
+
+        self._old_ipythondir = os.environ.get("IPYTHONDIR")
+        os.environ["IPYTHONDIR"] = tmpdir
+
+    def tearDown(self):
+        # Restore previous state of the IPYTHONDIR environment variable.
+        old_ipythondir = self._old_ipythondir
+        if old_ipythondir is None:
+            del os.environ["IPYTHONDIR"]
+        else:
+            os.environ["IPYTHONDIR"] = old_ipythondir
 
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108

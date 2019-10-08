@@ -11,7 +11,10 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import gc
+import os
+import shutil
 import sys
+import tempfile
 import threading
 import unittest
 
@@ -38,6 +41,22 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestInternalIPKernel(unittest.TestCase):
+    def setUp(self):
+        # Make sure that IPython-related files are written to a temporary
+        # directory instead of the home directory.
+        tmpdir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmpdir)
+
+        self._old_ipythondir = os.environ.get("IPYTHONDIR")
+        os.environ["IPYTHONDIR"] = tmpdir
+
+    def tearDown(self):
+        # Restore previous state of the IPYTHONDIR environment variable.
+        old_ipythondir = self._old_ipythondir
+        if old_ipythondir is None:
+            del os.environ["IPYTHONDIR"]
+        else:
+            os.environ["IPYTHONDIR"] = old_ipythondir
 
     def test_lifecycle(self):
         kernel = InternalIPKernel()
