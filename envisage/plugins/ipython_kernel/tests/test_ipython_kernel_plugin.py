@@ -23,6 +23,7 @@ from traits.api import List
 from envisage._compat import STRING_BASE_CLASS
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
+from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
 # Skip these tests unless ipykernel is available.
 try:
@@ -42,6 +43,11 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
+
+    def setUp(self):
+        ets_config_patcher = ETSConfigPatcher()
+        ets_config_patcher.start()
+        self.addCleanup(ets_config_patcher.stop)
 
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
