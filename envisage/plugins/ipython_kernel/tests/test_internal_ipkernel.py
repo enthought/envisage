@@ -195,7 +195,7 @@ class TestInternalIPKernel(unittest.TestCase):
         # Check that we got the expected warning message.
         self.assertEqual(len(warn_msgs), 1)
         message = str(warn_msgs[0].message)
-        self.assertIn("initialized for a second time", message)
+        self.assertIn("already_been_initialized", message)
 
     def test_init_ipkernel_with_explicit_gui_backend(self):
         loop = tornado.ioloop.IOLoop.current()
