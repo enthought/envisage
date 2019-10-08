@@ -6,6 +6,15 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
+
+import contextlib
+try:
+    # Python 3: mock available in std. lib.
+    from unittest import mock
+except ImportError:
+    # Python 2: use 3rd party mock library
+    import mock
+
 import unittest
 
 from traits.api import List
@@ -41,19 +50,13 @@ class TestIPythonKernelPlugin(unittest.TestCase):
     def test_kernel_service(self):
         # See that we can get the IPython kernel service when the plugin is
         # there.
-        plugins = [CorePlugin(), IPythonKernelPlugin()]
-        app = Application(plugins=plugins, id='test')
+        with self.running_app() as app:
+            kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
+            self.assertIsInstance(kernel, InternalIPKernel)
+            self.assertIsNotNone(kernel.ipkernel)
 
-        # Starting the app starts the kernel plugin. The IPython kernel
-        # service should now be available.
-        app.start()
-        kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
-        self.assertIsNotNone(kernel)
-        self.assertIsInstance(kernel, InternalIPKernel)
-        self.assertIsNotNone(kernel.ipkernel)
-
-        # Stopping the application should shut the kernel down.
-        app.stop()
+        # After application stop, the InternalIPKernel object should
+        # also have been shut down.
         self.assertIsNone(kernel.ipkernel)
 
     def test_kernel_namespace_extension_point(self):
@@ -63,24 +66,90 @@ class TestIPythonKernelPlugin(unittest.TestCase):
             def _kernel_namespace_default(self):
                 return [('y', 'hi')]
 
-        plugins = [CorePlugin(), IPythonKernelPlugin(), NamespacePlugin()]
-        app = Application(plugins=plugins, id='test')
+        plugins = [IPythonKernelPlugin(), NamespacePlugin()]
 
-        app.start()
-        try:
+        with self.running_app(plugins=plugins) as app:
             kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
             self.assertIn('y', kernel.namespace)
             self.assertEqual(kernel.namespace['y'], 'hi')
-        finally:
-            app.stop()
 
-    def test_kernel_initialised(self):
-        plugins = [CorePlugin(), IPythonKernelPlugin()]
-        app = Application(plugins=plugins, id='test')
+    def test_get_service_twice(self):
+        with self.running_app() as app:
+            kernel1 = app.get_service(IPYTHON_KERNEL_PROTOCOL)
+            kernel2 = app.get_service(IPYTHON_KERNEL_PROTOCOL)
+            self.assertIs(kernel1, kernel2)
 
+    def test_service_not_used(self):
+        # If the service isn't used, no kernel should be created.
+        from envisage.plugins.ipython_kernel import internal_ipkernel
+
+        kernel_instances = []
+
+        class TrackingInternalIPKernel(internal_ipkernel.InternalIPKernel):
+            def __init__(self, *args, **kwargs):
+                super(TrackingInternalIPKernel, self).__init__(*args, **kwargs)
+                kernel_instances.append(self)
+
+        patcher = mock.patch.object(
+            internal_ipkernel,
+            "InternalIPKernel",
+            TrackingInternalIPKernel,
+        )
+
+        with patcher:
+            kernel_plugin = IPythonKernelPlugin()
+            with self.running_app(plugins=[kernel_plugin]):
+                pass
+
+        self.assertEqual(kernel_instances, [])
+
+    def test_service_used(self):
+        # This is a complement to the test_service_not_used test. It's mostly
+        # here as a double check on the somewhat messy test machinery used in
+        # test_service_not_used: if the assumptions (e.g., on the location that
+        # InternalIPKernel is imported from) in test_service_not_used break,
+        # then this test will likely break too.
+
+        from envisage.plugins.ipython_kernel import internal_ipkernel
+
+        kernel_instances = []
+
+        class TrackingInternalIPKernel(internal_ipkernel.InternalIPKernel):
+            def __init__(self, *args, **kwargs):
+                super(TrackingInternalIPKernel, self).__init__(*args, **kwargs)
+                kernel_instances.append(self)
+
+        patcher = mock.patch.object(
+            internal_ipkernel,
+            "InternalIPKernel",
+            TrackingInternalIPKernel,
+        )
+
+        with patcher:
+            kernel_plugin = IPythonKernelPlugin()
+            with self.running_app(plugins=[kernel_plugin]) as app:
+                app.get_service(IPYTHON_KERNEL_PROTOCOL)
+
+        self.assertEqual(len(kernel_instances), 1)
+
+    @contextlib.contextmanager
+    def running_app(self, plugins=None):
+        """
+        Returns a context manager that provides a running application.
+
+        Parameters
+        ----------
+        plugins : list of Plugin, optional
+            Plugins to use in the application, other than the CorePlugin
+            (which is always included). If not given, an IPythonKernelPlugin
+            is instantiated and used.
+        """
+        if plugins is None:
+            plugins = [IPythonKernelPlugin()]
+
+        app = Application(plugins=[CorePlugin()] + plugins, id='test')
         app.start()
         try:
-            kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
-            self.assertIsNotNone(kernel.ipkernel)
+            yield app
         finally:
             app.stop()
