@@ -11,9 +11,16 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import gc
+try:
+    # Python 3: mock part of standard library.
+    from unittest import mock
+except ImportError:
+    # Python 2: use 3rd-party mock
+    import mock
 import sys
 import threading
 import unittest
+import warnings
 
 try:
     import ipykernel  # noqa: F401
@@ -22,13 +29,13 @@ except ImportError:
 else:
     ipykernel_available = True
 
-
 if ipykernel_available:
     import ipykernel.iostream
     import ipykernel.ipkernel
     import ipykernel.kernelapp
     import ipykernel.zmqshell
     import IPython.utils.io
+    import tornado.ioloop
     import zmq
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
@@ -164,6 +171,55 @@ class TestInternalIPKernel(unittest.TestCase):
 
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
+
+    def test_initialize_twice(self):
+        # Trying to re-initialize an already initialized IPKernelApp can
+        # happen right now as a result of refactoring, but eventually
+        # it should be an error. For now, it's a warning.
+        kernel = InternalIPKernel()
+        self.assertIsNone(kernel.ipkernel)
+        kernel.init_ipkernel(gui_backend=None)
+        try:
+            self.assertIsNotNone(kernel.ipkernel)
+            ipkernel = kernel.ipkernel
+
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+                kernel.init_ipkernel(gui_backend=None)
+
+            # Check that the existing kernel has not been replaced.
+            self.assertIs(ipkernel, kernel.ipkernel)
+        finally:
+            kernel.shutdown()
+
+        # Check that we got the expected warning message.
+        self.assertEqual(len(warn_msgs), 1)
+        message = str(warn_msgs[0].message)
+        self.assertIn("already been initialized", message)
+
+    def test_init_ipkernel_with_explicit_gui_backend(self):
+        loop = tornado.ioloop.IOLoop.current()
+
+        # Kernel initialization adds an "enter_eventloop" call to the
+        # ioloop event loop queue. Mock to avoid modifying the actual event
+        # loop.
+        with mock.patch.object(loop, "add_callback") as mock_add_callback:
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+
+                # Use of gui_backend is deprecated.
+                kernel = InternalIPKernel()
+                kernel.init_ipkernel(gui_backend="qt4")
+                kernel.shutdown()
+
+        mock_add_callback.reset_mock()
+
+        # Check that we got the expected warning message.
+        matching_messages = [
+            msg for msg in warn_msgs
+            if "gui_backend argument is deprecated" in str(msg.message)
+        ]
+        self.assertEqual(len(matching_messages), 1)
 
     # Helper functions.
 
