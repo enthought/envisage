@@ -108,6 +108,26 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIs(IPython.utils.io.stdout, original_io_stdout)
         self.assertIs(IPython.utils.io.stderr, original_io_stderr)
 
+    def test_ipython_util_io_globals_restored_if_they_dont_exist(self):
+        # Regression test for enthought/envisage#218
+        original_io_stdin = IPython.utils.io.stdin
+        original_io_stdout = IPython.utils.io.stdout
+        original_io_stderr = IPython.utils.io.stderr
+
+        del IPython.utils.io.stdin
+        del IPython.utils.io.stdout
+        del IPython.utils.io.stderr
+
+        try:
+            self.create_and_destroy_kernel()
+            self.assertFalse(hasattr(IPython.utils.io, "stdin"))
+            self.assertFalse(hasattr(IPython.utils.io, "stdout"))
+            self.assertFalse(hasattr(IPython.utils.io, "stderr"))
+        finally:
+            IPython.utils.io.stdin = original_io_stdin
+            IPython.utils.io.stdout = original_io_stdout
+            IPython.utils.io.stderr = original_io_stderr
+
     def test_io_pub_thread_stopped(self):
         self.create_and_destroy_kernel()
         io_pub_threads = self.objects_of_type(ipykernel.iostream.IOPubThread)
