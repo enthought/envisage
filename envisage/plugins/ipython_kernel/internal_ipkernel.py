@@ -94,18 +94,23 @@ class InternalIPKernel(HasStrictTraits):
         # twice, and we ignore the second initialization, but warn.
         if self.ipkernel is not None:
             warnings.warn(
-                "IPython kernel is being initialised for a second time. "
-                "This may become an error in future versions of this package.",
+                (
+                    "The IPython kernel has already been initialised. A "
+                    "second call to init_ipkernel has no effect. In the "
+                    "future, a second initialization may become an error."
+                ),
                 DeprecationWarning,
             )
             return
 
         if gui_backend is not None:
             warnings.warn(
-                "The gui_backend argument is deprecated. "
-                "Integration with a GUI event loop can be "
-                "achieved by setting the 'eventloop' attribute on the "
-                "kernel instance",
+                (
+                    "The gui_backend argument is deprecated. "
+                    "Integration with a GUI event loop can be "
+                    "achieved by setting the 'eventloop' attribute on the "
+                    "kernel instance"
+                ),
                 DeprecationWarning,
             )
 
