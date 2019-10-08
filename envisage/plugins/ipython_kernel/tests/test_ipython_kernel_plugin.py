@@ -16,6 +16,7 @@ except ImportError:
     import mock
 
 import unittest
+import warnings
 
 from traits.api import List
 
@@ -66,7 +67,10 @@ class TestIPythonKernelPlugin(unittest.TestCase):
             def _kernel_namespace_default(self):
                 return [('y', 'hi')]
 
-        plugins = [IPythonKernelPlugin(), NamespacePlugin()]
+        plugins = [
+            IPythonKernelPlugin(init_ipkernel=True),
+            NamespacePlugin(),
+        ]
 
         with self.running_app(plugins=plugins) as app:
             kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
@@ -97,7 +101,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         )
 
         with patcher:
-            kernel_plugin = IPythonKernelPlugin()
+            kernel_plugin = IPythonKernelPlugin(init_ipkernel=True)
             with self.running_app(plugins=[kernel_plugin]):
                 pass
 
@@ -126,11 +130,30 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         )
 
         with patcher:
-            kernel_plugin = IPythonKernelPlugin()
+            kernel_plugin = IPythonKernelPlugin(init_ipkernel=True)
             with self.running_app(plugins=[kernel_plugin]) as app:
                 app.get_service(IPYTHON_KERNEL_PROTOCOL)
 
         self.assertEqual(len(kernel_instances), 1)
+
+    def test_no_init(self):
+        # Testing deprecated behaviour where the kernel is not initialised.
+        plugins = [IPythonKernelPlugin()]
+
+        with self.running_app(plugins=plugins) as app:
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+                app.get_service(IPYTHON_KERNEL_PROTOCOL)
+
+        matching_messages = [
+            msg for msg in warn_msgs
+            if isinstance(msg.message, DeprecationWarning)
+            if "kernel will be initialised" in str(msg.message)
+        ]
+        self.assertEqual(len(matching_messages), 1)
+
+
+
 
     @contextlib.contextmanager
     def running_app(self, plugins=None):
@@ -145,7 +168,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
             is instantiated and used.
         """
         if plugins is None:
-            plugins = [IPythonKernelPlugin()]
+            plugins = [IPythonKernelPlugin(init_ipkernel=True)]
 
         app = Application(plugins=[CorePlugin()] + plugins, id='test')
         app.start()

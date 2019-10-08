@@ -14,7 +14,7 @@ import warnings
 # Enthought library imports.
 from envisage.api import (
     bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
-from traits.api import Instance, List
+from traits.api import Bool, Instance, List
 
 
 IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa
@@ -40,6 +40,15 @@ class IPythonKernelPlugin(Plugin):
 
     def stop(self):
         self._destroy_kernel()
+
+    #### 'IPythonKernelPlugin' interface ######################################
+
+    #: Whether to initialise the kernel when the service is created.
+    #: The default is False, for backwards compatibility. It will change
+    #: to True in a future version of Envisage. External users wanting
+    #: to use the future behaviour now should pass ```init_ipkernel=True``
+    #: when creating the plugin.
+    init_ipkernel = Bool(False)
 
     #### Extension points offered by this plugin ##############################
 
@@ -77,7 +86,19 @@ class IPythonKernelPlugin(Plugin):
         kernel = self._kernel = InternalIPKernel()
         bind_extension_point(kernel, 'initial_namespace',
                              IPYTHON_NAMESPACE, self.application)
-        kernel.init_ipkernel()
+        if self.init_ipkernel:
+            kernel.init_ipkernel()
+        else:
+            warnings.warn(
+                (
+                    "In the future, the IPython kernel will be initialised "
+                    "automatically at creation time. To enable this "
+                    "future behaviour now, create the plugin using "
+                    "IPythonKernelPlugin(init_ipkernel=True)"
+                ),
+                DeprecationWarning,
+            )
+
         return kernel
 
     def _destroy_kernel(self):
@@ -87,7 +108,7 @@ class IPythonKernelPlugin(Plugin):
         if self._kernel is None:
             return
 
-        logger.debug('Shutting down the embedded ipython kernel')
+        logger.debug("Shutting down the embedded IPython kernel")
         self._kernel.shutdown()
         self._kernel = None
 
