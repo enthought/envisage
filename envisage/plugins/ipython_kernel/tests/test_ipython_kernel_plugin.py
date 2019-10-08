@@ -8,13 +8,15 @@
 # Thanks for using Enthought open source!
 
 import contextlib
+import os
 try:
     # Python 3: mock available in std. lib.
     from unittest import mock
 except ImportError:
     # Python 2: use 3rd party mock library
     import mock
-
+import shutil
+import tempfile
 import unittest
 import warnings
 
@@ -43,11 +45,26 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestIPythonKernelPlugin(unittest.TestCase):
-
     def setUp(self):
         ets_config_patcher = ETSConfigPatcher()
         ets_config_patcher.start()
         self.addCleanup(ets_config_patcher.stop)
+
+        # Make sure that IPython-related files are written to a temporary
+        # directory instead of the home directory.
+        tmpdir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmpdir)
+
+        self._old_ipythondir = os.environ.get("IPYTHONDIR")
+        os.environ["IPYTHONDIR"] = tmpdir
+
+    def tearDown(self):
+        # Restore previous state of the IPYTHONDIR environment variable.
+        old_ipythondir = self._old_ipythondir
+        if old_ipythondir is None:
+            del os.environ["IPYTHONDIR"]
+        else:
+            os.environ["IPYTHONDIR"] = old_ipythondir
 
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
