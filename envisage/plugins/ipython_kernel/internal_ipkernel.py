@@ -6,6 +6,7 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
+
 """ This code has been inspired from the IPython repository
 
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py

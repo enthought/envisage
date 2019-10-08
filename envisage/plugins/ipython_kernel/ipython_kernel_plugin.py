@@ -6,7 +6,8 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-""" An  IPython kernel plugin. """
+
+""" An IPython kernel plugin. """
 
 import logging
 import warnings
@@ -17,9 +18,12 @@ from envisage.api import (
 from traits.api import Bool, Instance, List
 
 
-IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa
+# Extension point IDs.
+SERVICE_OFFERS = 'envisage.service_offers'
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
+# Protocol for the contributed service offer.
+IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
 
 logger = logging.getLogger(__name__)
 
@@ -27,31 +31,13 @@ logger = logging.getLogger(__name__)
 class IPythonKernelPlugin(Plugin):
     """ An IPython kernel plugin. """
 
-    # Extension point IDs.
-    SERVICE_OFFERS = 'envisage.service_offers'
-
-    #### 'IPlugin' interface ##################################################
-
-    # The plugin unique identifier.
+    #: The plugin unique identifier.
     id = 'envisage.plugins.ipython_kernel'
 
-    # The plugin name (suitable for displaying to the user).
+    #: The plugin name (suitable for displaying to the user).
     name = 'IPython embedded kernel plugin'
 
-    def stop(self):
-        self._destroy_kernel()
-
-    #### 'IPythonKernelPlugin' interface ######################################
-
-    #: Whether to initialize the kernel when the service is created.
-    #: The default is False, for backwards compatibility. It will change
-    #: to True in a future version of Envisage. External users wanting
-    #: to use the future behaviour now should pass ```init_ipkernel=True``
-    #: when creating the plugin.
-    init_ipkernel = Bool(False)
-
-    #### Extension points offered by this plugin ##############################
-
+    #: Extension point for objects contributed to the IPython kernel namespace.
     kernel_namespace = ExtensionPoint(
         List, id=IPYTHON_NAMESPACE, desc="""
 
@@ -61,12 +47,23 @@ class IPythonKernelPlugin(Plugin):
         """
     )
 
-    #### Contributions to extension points made by this plugin ################
-
+    #: Service offers contributed by this plugin.
     service_offers = List(contributes_to=SERVICE_OFFERS)
+
+    #: Whether to initialize the kernel when the service is created.
+    #: The default is ``False```, for backwards compatibility. It will change
+    #: to ``True`` in a future version of Envisage. External users wanting
+    #: to use the future behaviour now should pass ``init_ipkernel=True``
+    #: when creating the plugin.
+    init_ipkernel = Bool(False)
+
+    def stop(self):
+        """ Stop the plugin. """
+        self._destroy_kernel()
 
     # Private traits and methods
 
+    #: The InternalIPKernel instance provided by the service.
     _kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
 
     def _create_kernel(self):
