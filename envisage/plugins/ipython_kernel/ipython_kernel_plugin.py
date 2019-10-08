@@ -9,10 +9,11 @@
 """ An  IPython kernel plugin. """
 
 import logging
+import warnings
 
 # Enthought library imports.
-from envisage.api import (bind_extension_point, ExtensionPoint, Plugin,
-    ServiceOffer)
+from envisage.api import (
+    bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
 from traits.api import Instance, List
 
 
@@ -38,8 +39,7 @@ class IPythonKernelPlugin(Plugin):
     name = 'IPython embedded kernel plugin'
 
     def stop(self):
-        logger.debug('Shutting down the embedded ipython kernel')
-        self.kernel.shutdown()
+        self._destroy_kernel()
 
     #### Extension points offered by this plugin ##############################
 
@@ -54,26 +54,45 @@ class IPythonKernelPlugin(Plugin):
 
     #### Contributions to extension points made by this plugin ################
 
-    kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
-
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
-    def _service_offers_default(self):
+    # Private traits and methods
 
+    _kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
+
+    def _create_kernel(self):
+        from .internal_ipkernel import InternalIPKernel
+
+        # This shouldn't happen with a normal lifecycle, but add a warning
+        # just in case.
+        if self._kernel is not None:
+            warnings.warn(
+                "A kernel already exists. "
+                "No new kernel will be created.",
+                RuntimeWarning,
+            )
+            return
+
+        logger.debug("Creating the embedded IPython kernel")
+        kernel = self._kernel = InternalIPKernel()
+        bind_extension_point(kernel, 'initial_namespace',
+                             IPYTHON_NAMESPACE, self.application)
+        return kernel
+
+    def _destroy_kernel(self):
+        """
+        Destroy any existing kernel.
+        """
+        if self._kernel is None:
+            return
+
+        logger.debug('Shutting down the embedded ipython kernel')
+        self._kernel.shutdown()
+        self._kernel = None
+
+    def _service_offers_default(self):
         ipython_kernel_service_offer = ServiceOffer(
             protocol=IPYTHON_KERNEL_PROTOCOL,
             factory=self._create_kernel,
         )
         return [ipython_kernel_service_offer]
-
-    def _create_kernel(self):
-        return self.kernel
-
-    #### Trait initializers ###################################################
-
-    def _kernel_default(self):
-        from .internal_ipkernel import InternalIPKernel
-        kernel = InternalIPKernel()
-        bind_extension_point(kernel, 'initial_namespace',
-                             IPYTHON_NAMESPACE, self.application)
-        return kernel
