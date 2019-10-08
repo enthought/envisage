@@ -15,6 +15,7 @@ from os.path import exists, join
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin, contributes_to
+from envisage.tests.ets_config_patcher import ETSConfigPatcher
 from traits.api import HasTraits, Instance, Int, Interface, List
 from traits.api import provides
 from traits.testing.unittest_tools import unittest
@@ -37,6 +38,11 @@ class TestApplication(Application):
 
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
+
+    def setUp(self):
+        ets_config_patcher = ETSConfigPatcher()
+        ets_config_patcher.start()
+        self.addCleanup(ets_config_patcher.stop)
 
     def test_id_policy(self):
         """ id policy """
