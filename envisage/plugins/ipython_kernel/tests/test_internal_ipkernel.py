@@ -11,9 +11,19 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import gc
+try:
+    # Python 3: mock part of standard library.
+    from unittest import mock
+except ImportError:
+    # Python 2: use 3rd-party mock
+    import mock
+import os
+import shutil
 import sys
+import tempfile
 import threading
 import unittest
+import warnings
 
 try:
     import ipykernel  # noqa: F401
@@ -22,13 +32,13 @@ except ImportError:
 else:
     ipykernel_available = True
 
-
 if ipykernel_available:
     import ipykernel.iostream
     import ipykernel.ipkernel
     import ipykernel.kernelapp
     import ipykernel.zmqshell
     import IPython.utils.io
+    import tornado.ioloop
     import zmq
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
@@ -38,6 +48,22 @@ if ipykernel_available:
 @unittest.skipUnless(ipykernel_available,
                      "skipping tests that require the ipykernel package")
 class TestInternalIPKernel(unittest.TestCase):
+    def setUp(self):
+        # Make sure that IPython-related files are written to a temporary
+        # directory instead of the home directory.
+        tmpdir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmpdir)
+
+        self._old_ipythondir = os.environ.get("IPYTHONDIR")
+        os.environ["IPYTHONDIR"] = tmpdir
+
+    def tearDown(self):
+        # Restore previous state of the IPYTHONDIR environment variable.
+        old_ipythondir = self._old_ipythondir
+        if old_ipythondir is None:
+            del os.environ["IPYTHONDIR"]
+        else:
+            os.environ["IPYTHONDIR"] = old_ipythondir
 
     def test_lifecycle(self):
         kernel = InternalIPKernel()
@@ -115,6 +141,26 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertIs(IPython.utils.io.stdout, original_io_stdout)
         self.assertIs(IPython.utils.io.stderr, original_io_stderr)
 
+    def test_ipython_util_io_globals_restored_if_they_dont_exist(self):
+        # Regression test for enthought/envisage#218
+        original_io_stdin = IPython.utils.io.stdin
+        original_io_stdout = IPython.utils.io.stdout
+        original_io_stderr = IPython.utils.io.stderr
+
+        del IPython.utils.io.stdin
+        del IPython.utils.io.stdout
+        del IPython.utils.io.stderr
+
+        try:
+            self.create_and_destroy_kernel()
+            self.assertFalse(hasattr(IPython.utils.io, "stdin"))
+            self.assertFalse(hasattr(IPython.utils.io, "stdout"))
+            self.assertFalse(hasattr(IPython.utils.io, "stderr"))
+        finally:
+            IPython.utils.io.stdin = original_io_stdin
+            IPython.utils.io.stdout = original_io_stdout
+            IPython.utils.io.stderr = original_io_stderr
+
     def test_io_pub_thread_stopped(self):
         self.create_and_destroy_kernel()
         io_pub_threads = self.objects_of_type(ipykernel.iostream.IOPubThread)
@@ -171,6 +217,55 @@ class TestInternalIPKernel(unittest.TestCase):
 
         kernel_apps = self.objects_of_type(ipykernel.kernelapp.IPKernelApp)
         self.assertEqual(kernel_apps, [])
+
+    def test_initialize_twice(self):
+        # Trying to re-initialize an already initialized IPKernelApp can
+        # happen right now as a result of refactoring, but eventually
+        # it should be an error. For now, it's a warning.
+        kernel = InternalIPKernel()
+        self.assertIsNone(kernel.ipkernel)
+        kernel.init_ipkernel(gui_backend=None)
+        try:
+            self.assertIsNotNone(kernel.ipkernel)
+            ipkernel = kernel.ipkernel
+
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+                kernel.init_ipkernel(gui_backend=None)
+
+            # Check that the existing kernel has not been replaced.
+            self.assertIs(ipkernel, kernel.ipkernel)
+        finally:
+            kernel.shutdown()
+
+        # Check that we got the expected warning message.
+        self.assertEqual(len(warn_msgs), 1)
+        message = str(warn_msgs[0].message)
+        self.assertIn("already been initialized", message)
+
+    def test_init_ipkernel_with_explicit_gui_backend(self):
+        loop = tornado.ioloop.IOLoop.current()
+
+        # Kernel initialization adds an "enter_eventloop" call to the
+        # ioloop event loop queue. Mock to avoid modifying the actual event
+        # loop.
+        with mock.patch.object(loop, "add_callback") as mock_add_callback:
+            with warnings.catch_warnings(record=True) as warn_msgs:
+                warnings.simplefilter("always", category=DeprecationWarning)
+
+                # Use of gui_backend is deprecated.
+                kernel = InternalIPKernel()
+                kernel.init_ipkernel(gui_backend="qt4")
+                kernel.shutdown()
+
+        mock_add_callback.reset_mock()
+
+        # Check that we got the expected warning message.
+        matching_messages = [
+            msg for msg in warn_msgs
+            if "gui_backend argument is deprecated" in str(msg.message)
+        ]
+        self.assertEqual(len(matching_messages), 1)
 
     # Helper functions.
 

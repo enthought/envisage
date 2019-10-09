@@ -10,7 +10,10 @@
 
 
 # Standard library imports.
-import os, shutil, unittest
+import os
+import shutil
+import tempfile
+import unittest
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
@@ -20,6 +23,7 @@ from traits.api import Bool, Int, List
 
 # Local imports.
 from envisage.tests.event_tracker import EventTracker
+from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
 
 def listener(obj, trait_name, old, new):
@@ -118,6 +122,10 @@ class ApplicationTestCase(unittest.TestCase):
         listener.trait_name = None
         listener.old = None
         listener.new = None
+
+        ets_config_patcher = ETSConfigPatcher()
+        ets_config_patcher.start()
+        self.addCleanup(ets_config_patcher.stop)
 
     def test_home(self):
         """ home """

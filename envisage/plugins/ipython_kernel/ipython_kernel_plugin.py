@@ -6,19 +6,24 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-""" An  IPython kernel plugin. """
+
+""" An IPython kernel plugin. """
 
 import logging
+import warnings
 
 # Enthought library imports.
-from envisage.api import (bind_extension_point, ExtensionPoint, Plugin,
-    ServiceOffer)
-from traits.api import Instance, List
+from envisage.api import (
+    bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
+from traits.api import Bool, Instance, List
 
 
-IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa
+# Extension point IDs.
+SERVICE_OFFERS = 'envisage.service_offers'
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
+# Protocol for the contributed service offer.
+IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
 
 logger = logging.getLogger(__name__)
 
@@ -26,23 +31,13 @@ logger = logging.getLogger(__name__)
 class IPythonKernelPlugin(Plugin):
     """ An IPython kernel plugin. """
 
-    # Extension point IDs.
-    SERVICE_OFFERS = 'envisage.service_offers'
-
-    #### 'IPlugin' interface ##################################################
-
-    # The plugin unique identifier.
+    #: The plugin unique identifier.
     id = 'envisage.plugins.ipython_kernel'
 
-    # The plugin name (suitable for displaying to the user).
+    #: The plugin name (suitable for displaying to the user).
     name = 'IPython embedded kernel plugin'
 
-    def stop(self):
-        logger.debug('Shutting down the embedded ipython kernel')
-        self.kernel.shutdown()
-
-    #### Extension points offered by this plugin ##############################
-
+    #: Extension point for objects contributed to the IPython kernel namespace.
     kernel_namespace = ExtensionPoint(
         List, id=IPYTHON_NAMESPACE, desc="""
 
@@ -52,28 +47,71 @@ class IPythonKernelPlugin(Plugin):
         """
     )
 
-    #### Contributions to extension points made by this plugin ################
-
-    kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
-
+    #: Service offers contributed by this plugin.
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
-    def _service_offers_default(self):
+    #: Whether to initialize the kernel when the service is created.
+    #: The default is ``False```, for backwards compatibility. It will change
+    #: to ``True`` in a future version of Envisage. External users wanting
+    #: to use the future behaviour now should pass ``init_ipkernel=True``
+    #: when creating the plugin.
+    init_ipkernel = Bool(False)
 
+    def stop(self):
+        """ Stop the plugin. """
+        self._destroy_kernel()
+
+    # Private traits and methods
+
+    #: The InternalIPKernel instance provided by the service.
+    _kernel = Instance(IPYTHON_KERNEL_PROTOCOL)
+
+    def _create_kernel(self):
+        from .internal_ipkernel import InternalIPKernel
+
+        # This shouldn't happen with a normal lifecycle, but add a warning
+        # just in case.
+        if self._kernel is not None:
+            warnings.warn(
+                "A kernel already exists. "
+                "No new kernel will be created.",
+                RuntimeWarning,
+            )
+            return
+
+        logger.debug("Creating the embedded IPython kernel")
+        kernel = self._kernel = InternalIPKernel()
+        bind_extension_point(kernel, 'initial_namespace',
+                             IPYTHON_NAMESPACE, self.application)
+        if self.init_ipkernel:
+            kernel.init_ipkernel()
+        else:
+            warnings.warn(
+                (
+                    "In the future, the IPython kernel will be initialized "
+                    "automatically at creation time. To enable this "
+                    "future behaviour now, create the plugin using "
+                    "IPythonKernelPlugin(init_ipkernel=True)"
+                ),
+                DeprecationWarning,
+            )
+
+        return kernel
+
+    def _destroy_kernel(self):
+        """
+        Destroy any existing kernel.
+        """
+        if self._kernel is None:
+            return
+
+        logger.debug("Shutting down the embedded IPython kernel")
+        self._kernel.shutdown()
+        self._kernel = None
+
+    def _service_offers_default(self):
         ipython_kernel_service_offer = ServiceOffer(
             protocol=IPYTHON_KERNEL_PROTOCOL,
             factory=self._create_kernel,
         )
         return [ipython_kernel_service_offer]
-
-    def _create_kernel(self):
-        return self.kernel
-
-    #### Trait initializers ###################################################
-
-    def _kernel_default(self):
-        from .internal_ipkernel import InternalIPKernel
-        kernel = InternalIPKernel()
-        bind_extension_point(kernel, 'initial_namespace',
-                             IPYTHON_NAMESPACE, self.application)
-        return kernel
