@@ -347,8 +347,9 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         """
         Undo changes made in init_profile_dir.
         """
-        if self.ipython_dir in sys.path:
-            sys.path.remove(self.ipython_dir)
+        ipython_dir_entry = os.path.abspath(self.ipython_dir)
+        if ipython_dir_entry in sys.path:
+            sys.path.remove(ipython_dir_entry)
 
     def cleanup_singletons(self):
         """
