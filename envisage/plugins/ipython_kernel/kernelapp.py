@@ -205,6 +205,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         atexit_unregister(self.cleanup_connection_file)
 
         self.close_crash_handler()
+        self.close_profile_dir()
         self.cleanup_singletons()
 
     def close_shell(self):
@@ -341,6 +342,14 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             self.log.debug("Terminating zmq context")
             self.context.term()
             self.log.debug("Terminated zmq context")
+
+    def close_profile_dir(self):
+        """
+        Undo changes made in init_profile_dir.
+        """
+        ipython_dir_entry = os.path.abspath(self.ipython_dir)
+        if ipython_dir_entry in sys.path:
+            sys.path.remove(ipython_dir_entry)
 
     def cleanup_singletons(self):
         """
