@@ -16,7 +16,7 @@ import logging
 
 # Enthought library imports
 from apptools.naming.api import Binding
-from traits.api import adapts, Any, HasTraits, Instance, Str
+from traits.api import register_factory, Any, HasTraits, Instance, Str
 from traitsui.api import Item, Group, TreeEditor, ITreeNode, \
     ITreeNodeAdapter, View
 
@@ -39,8 +39,6 @@ class EmptyProject(Project):
 class EmptyProjectAdapter(ITreeNodeAdapter):
     """ Adapter for our EmptyProject. """
 
-    adapts(EmptyProject, ITreeNode)
-
     #-- ITreeNodeAdapter Method Overrides --------------------------------------
 
     def get_label(self):
@@ -48,11 +46,11 @@ class EmptyProjectAdapter(ITreeNodeAdapter):
         """
         return 'No project loaded.'
 
+register_factory(EmptyProjectAdapter, EmptyProject, ITreeNode)
+
 
 class ProjectAdapter(ITreeNodeAdapter):
     """ Base ProjectAdapter for the root of the tree. """
-
-    adapts(Project, ITreeNode)
 
     #-- ITreeNodeAdapter Method Overrides --------------------------------------
 
@@ -91,6 +89,9 @@ class ProjectAdapter(ITreeNodeAdapter):
             closed.
         """
         return True
+
+register_factory(ProjectAdapter, Project, ITreeNode)
+
 
 class ProjectView(HasTraits):
     """
