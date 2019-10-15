@@ -10,6 +10,7 @@
 import unittest
 
 from traits.api import HasTraits, Supports
+from traits.interface_checker import check_implements
 from traitsui.api import ITreeNode
 
 from envisage.ui.single_project.api import Project
@@ -32,7 +33,7 @@ class TestProjectView(unittest.TestCase):
         view.tree_node = empty_project
 
         adapted = view.tree_node
-        self.assertIsInstance(adapted, ITreeNode)
+        check_implements(type(adapted), ITreeNode)
 
     def test_project_adapts_to_i_tree_node(self):
         my_project = MyProject()
@@ -41,4 +42,4 @@ class TestProjectView(unittest.TestCase):
         view.tree_node = my_project
 
         adapted = view.tree_node
-        self.assertIsInstance(adapted, ITreeNode)
+        check_implements(type(adapted), ITreeNode)
