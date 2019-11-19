@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.extension_point &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '4.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../index.html" >
+    <link rel="up" title="Module code" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.extension_point</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2019 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only</span>
+<span class="c1"># under the conditions described in the aforementioned license.  The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot; A trait type used to declare and access extension points. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">inspect</span><span class="o">,</span> <span class="nn">weakref</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">,</span> <span class="n">Undefined</span><span class="p">,</span> <span class="n">provides</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.i_extension_point</span> <span class="k">import</span> <span class="n">IExtensionPoint</span>
+
+
+
+<div class="viewcode-block" id="contributes_to"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.contributes_to">[docs]</a><span class="k">def</span> <span class="nf">contributes_to</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A factory for extension point decorators!</span>
+
+<span class="sd">    As an alternative to making contributions via traits, you can use this</span>
+<span class="sd">    decorator to mark any method on a &#39;Plugin&#39; as contributing to an extension</span>
+<span class="sd">    point (note this is *only* used on &#39;Plugin&#39; instances!).</span>
+
+<span class="sd">    e.g. Using a trait you might have something like::</span>
+
+<span class="sd">        class MyPlugin(Plugin):</span>
+<span class="sd">            messages = List(contributes_to=&#39;acme.messages&#39;)</span>
+
+<span class="sd">            def _messages_default(self):</span>
+<span class="sd">                return [&#39;Hello&#39;, &#39;Hola&#39;]</span>
+
+<span class="sd">    whereas, using the decorator, it would be::</span>
+
+<span class="sd">        class MyPlugin(Plugin):</span>
+<span class="sd">            @contributes_to(&#39;acme.messages&#39;)</span>
+<span class="sd">            def _get_messages(self):</span>
+<span class="sd">                return [&#39;Hello&#39;, &#39;Hola&#39;]</span>
+
+<span class="sd">    There is not much in it really, but the decorator version looks a little</span>
+<span class="sd">    less like &#39;magic&#39; since it doesn&#39;t require the developer to know about</span>
+<span class="sd">    Traits default initializers. However, if you know that you will want to</span>
+<span class="sd">    dynamically change your contributions then use the trait version  because</span>
+<span class="sd">    all you have to do is change the value of the trait and the framework will</span>
+<span class="sd">    react accordingly.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A decorator for marking methods as extension contributors. &quot;&quot;&quot;</span>
+
+        <span class="n">fn</span><span class="o">.</span><span class="n">__extension_point__</span> <span class="o">=</span> <span class="nb">id</span>
+
+        <span class="k">return</span> <span class="n">fn</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<span class="c1"># Exception message template.</span>
+<span class="n">INVALID_TRAIT_TYPE</span> <span class="o">=</span> <span class="s1">&#39;extension points must be &quot;List&quot;s e.g. List, List(Int)&#39;</span> \
+<span class="s1">&#39; but a value of </span><span class="si">%s</span><span class="s1"> was specified.&#39;</span>
+
+
+<span class="c1"># Even though trait types do not themselves have traits, we can still</span>
+<span class="c1"># declare that we implement an interface.</span>
+<div class="viewcode-block" id="ExtensionPoint"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IExtensionPoint</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ExtensionPoint</span><span class="p">(</span><span class="n">TraitType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A trait type used to declare and access extension points.</span>
+
+<span class="sd">    Note that this is a trait *type* and hence does *NOT* have traits itself</span>
+<span class="sd">    (i.e. it does *not* inherit from &#39;HasTraits&#39;).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;ExtensionPoint&#39; *CLASS* interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ExtensionPoint.bind"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.bind">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bind</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a binding to an extension point. &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">.extension_point_binding</span> <span class="k">import</span> <span class="n">bind_extension_point</span>
+
+        <span class="k">return</span> <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtensionPoint.connect_extension_point_traits"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.connect_extension_point_traits">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">connect_extension_point_traits</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Connect all of the &#39;ExtensionPoint&#39; traits on an object. &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">__extension_point__</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ExtensionPoint.disconnect_extension_point_traits"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">disconnect_extension_point_traits</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Disconnect all of the &#39;ExtensionPoint&#39; traits on an object. &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">__extension_point__</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_type</span><span class="o">=</span><span class="n">List</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor. &quot;&quot;&quot;</span>
+
+        <span class="c1"># We add &#39;__extension_point__&#39; to the metadata to make the extension</span>
+        <span class="c1"># point traits easier to find with the &#39;traits&#39; and &#39;trait_names&#39;</span>
+        <span class="c1"># methods on &#39;HasTraits&#39;.</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;__extension_point__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExtensionPoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+
+        <span class="c1"># The trait type that describes the extension point.</span>
+        <span class="c1">#</span>
+        <span class="c1"># If we are handed a trait type *class* e.g. List, instead of a trait</span>
+        <span class="c1"># type *instance* e.g. List() or List(Int) etc, then we instantiate it.</span>
+        <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">trait_type</span><span class="p">):</span>
+            <span class="n">trait_type</span> <span class="o">=</span> <span class="n">trait_type</span><span class="p">()</span>
+
+        <span class="c1"># Currently, we only support list extension points (we may in the</span>
+        <span class="c1"># future want to allow other collections e.g. dictionaries etc).</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trait_type</span><span class="p">,</span> <span class="n">List</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">INVALID_TRAIT_TYPE</span> <span class="o">%</span> <span class="n">trait_type</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">trait_type</span> <span class="o">=</span> <span class="n">trait_type</span>
+
+        <span class="c1"># The Id of the extension point.</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;an extension point must have an Id&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+
+        <span class="c1"># A dictionary that is used solely to keep a reference to all extension</span>
+        <span class="c1"># point listeners alive until their associated objects are garbage</span>
+        <span class="c1"># collected.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Dict(weakref.ref(Any), Dict(Str, Callable))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakKeyDictionary</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; String representation of an ExtensionPoint object &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;ExtensionPoint(id=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;TraitType&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ExtensionPoint.get"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait type getter. &quot;&quot;&quot;</span>
+
+        <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># Get the extensions to this extension point.</span>
+        <span class="n">extensions</span> <span class="o">=</span> <span class="n">extension_registry</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="c1"># Make sure the contributions are of the appropriate type.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtensionPoint.set"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait type setter. &quot;&quot;&quot;</span>
+
+        <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># Note that some extension registry implementations may not support the</span>
+        <span class="c1"># setting of extension points (the default, plugin extension registry</span>
+        <span class="c1"># for exxample ;^).</span>
+        <span class="n">extension_registry</span><span class="o">.</span><span class="n">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;ExtensionPoint&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ExtensionPoint.connect"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Connect the extension point to a trait on an object.</span>
+
+<span class="sd">        This allows the object to react when contributions are added or</span>
+<span class="sd">        removed from the extension point.</span>
+
+<span class="sd">        fixme: It would be nice to be able to make the connection automatically</span>
+<span class="sd">        but we would need a slight tweak to traits to allow the trait type to</span>
+<span class="sd">        be notified when a new instance that uses the trait type is created.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">listener</span><span class="p">(</span><span class="n">extension_registry</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Listener called when an extension point is changed. &quot;&quot;&quot;</span>
+
+            <span class="c1"># If an index was specified then we fire an &#39;_items&#39; changed event.</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">trait_name</span> <span class="o">+</span> <span class="s1">&#39;_items&#39;</span>
+                <span class="n">old</span>  <span class="o">=</span> <span class="n">Undefined</span>
+                <span class="n">new</span>  <span class="o">=</span> <span class="n">event</span>
+
+            <span class="c1"># Otherwise, we fire a normal trait changed event.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">trait_name</span>
+                <span class="n">old</span>  <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">removed</span>
+                <span class="n">new</span>  <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">added</span>
+
+            <span class="n">obj</span><span class="o">.</span><span class="n">trait_property_changed</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+
+            <span class="k">return</span>
+
+        <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># Add the listener to the extension registry.</span>
+        <span class="n">extension_registry</span><span class="o">.</span><span class="n">add_extension_point_listener</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="c1"># Save a reference to the listener so that it does not get garbage</span>
+        <span class="c1"># collected until its associated object does.</span>
+        <span class="n">listeners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">listeners</span><span class="p">[</span><span class="n">trait_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">listener</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ExtensionPoint.disconnect"><a class="viewcode-back" href="../../api/envisage.html#envisage.extension_point.ExtensionPoint.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Disconnect the extension point from a trait on an object. &quot;&quot;&quot;</span>
+
+        <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="n">listener</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trait_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">listener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Remove the listener from the extension registry.</span>
+            <span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span>
+                <span class="n">listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Clean up.</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="p">[</span><span class="n">obj</span><span class="p">][</span><span class="n">trait_name</span><span class="p">]</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the extension registry in effect for an object. &quot;&quot;&quot;</span>
+
+        <span class="n">extension_registry</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;extension_registry&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extension_registry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;The &quot;ExtensionPoint&quot; trait type can only be used in &#39;</span>
+                <span class="s1">&#39;objects that have a reference to an extension registry &#39;</span>
+                <span class="s1">&#39;via their &quot;extension_registry&quot; trait. &#39;</span>
+                <span class="s1">&#39;Extension point Id &lt;</span><span class="si">%s</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">extension_registry</span></div>
+
+<span class="c1">#### EOF ######################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Nov 19, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

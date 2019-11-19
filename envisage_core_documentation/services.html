@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Services &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="Plugins" href="plugins.html" >
+    <link rel="prev" title="Extension Points" href="extension_points.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="plugins.html" title="Plugins"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="extension_points.html" title="Extension Points"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="services">
+<h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
+<p>Services are the real “guts” of an Envisage application – they are the objects
+that do the actual work! To get the job done, services obviously need to
+interact, and so Envisage provides a way for them to find each other. This is
+where the <em>service registry</em> comes in.</p>
+<p>Don’t be fazed by the term <em>service</em>. In Envisage it just means any objects
+in your application that you want to share between plugins. Services can be
+any Python object and do not have to inherit from any Envisage class or even
+implement any particular interface!</p>
+</div>
+<div class="section" id="service-registry">
+<h1>Service Registry<a class="headerlink" href="#service-registry" title="Permalink to this headline">¶</a></h1>
+<p>The service registry provides a “Yellow Pages” style mechanism, in that
+services are published and looked up by <em>protocol</em> meaning <em>interface</em>, or
+<em>type</em>. It is called a “Yellow Pages” mechanism because it is just like looking
+up a telephone number in the “Yellow Pages” phone book. You use the
+“Yellow Pages” instead of the “White Pages” when you don’t know the <em>name</em> of
+the person you want to call but you do know what <em>kind</em> of service you require.
+For example, if you have a leaking pipe, you know you need a plumber, so you
+pick up your “Yellow Pages”, go to the “Plumbers” section and choose one that
+seems to fit the bill based on price, location, certification, etc. The service
+registry does exactly the same thing as the “Yellow Pages”, only with objects,
+and it even allows you to publish your own entries for free (unlike the “real”
+one)!</p>
+<p>In an Envisage application, the service registry is accessed through the
+following methods on the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_application.py">IApplication</a> interface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return at most one service that matches the specified query.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the dictionary of properties associated with a service.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return all services that match the specified query.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Register a service.</span>
+
+<span class="sd">    Returns a service ID that can be used to retrieve any service</span>
+<span class="sd">    properties, and to unregister the service.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Unregister a service.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The easiest way to explain the workings of these methods is to take a look at
+some examples, and so to continue our plumber theme, let’s assume we have the
+following interface and implementation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>class IPlumber(Interface):
+    &quot;&quot;&quot; What plumbers do! &quot;&quot;&quot;
+
+    # The plumber&#39;s name.
+    name = Str
+
+    # The plumber&#39;s location.
+    location = Str
+
+    # The price per hour (in say, Estonian Krooni ;^)
+    price = Int
+
+    def fix_leaking_pipe(self, pipe):
+        &quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;
+
+@provides(IPlumber)
+class Plumber(HasTraits):
+    &quot;&quot;&quot; An actual plumber implementation! &quot;&quot;&quot;
+
+    # The plumber&#39;s name.
+    name = Str
+
+    # The plumber&#39;s location.
+    location = Str
+
+    # The price per hour (in say, Estonian Krooni ;^)
+    price = Int
+
+    def fix_leaking_pipe(self, pipe):
+        &quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;
+
+        ... code that actually fixes it! ...
+</pre></div>
+</div>
+<div class="section" id="registering-a-service">
+<h2>Registering a service<a class="headerlink" href="#registering-a-service" title="Permalink to this headline">¶</a></h2>
+<p>To register a service, create an object and call the register_service() method,
+passing it the protocol (interface or type) to publish the object under
+(for “protocol” think “Yellow Pages” section), and the object to publish. Note
+that the object to publish does <em>not</em> have to inherit from any particular base
+class or implement any special interface – any arbitrary Python object will
+do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">fred_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">fred</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that each registered service gets assigned an ID that is unique within
+the current process. This can be used later
+to access its properties, or to unregister it, etc.</p>
+<p>You can also associate an arbitrary dictionary of properties with an object
+when you register it. These properties, along with the actual attributes of the
+service itself, can be used later to lookup the service using the query
+mechanism as shown in Section 4.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Note that the symbol name of the protocol can be specified instead of the
+actual type or class. Say, for example, that the <em>IPlumber</em> interface can be
+imported via ‘from acme.plumber.api import IPlumber’, then the registration
+can be written as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="s1">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This comes in handy when using service factories (see later) to make sure that
+implementation classes are imported only when necessary.</p>
+</div>
+<div class="section" id="looking-up-a-service">
+<h2>Looking up a service<a class="headerlink" href="#looking-up-a-service" title="Permalink to this headline">¶</a></h2>
+<p>Looking up a service is just as easy – call get_service() specifiying the
+protocol of the service required:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Assuming that we have registered both <em>fred</em> and <em>wilma</em> as in Section 1,
+then there is no way of knowing which of those objects would be returned.
+The choice of the object returned does <em>not</em> necessarily reflect the order in
+which they were added, so don’t depend on it.</p>
+<p>Note that the symbol name of the protocol can be specified instead of the
+actual type or class. Say, for example, that the <em>IPlumber</em> interface can be
+imported via ‘from acme.plumber.api import IPlumber’, then the service lookup
+can be written as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="s1">&#39;acme.plumber.api.IPlumber&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This comes in handy when using service factories (see later) to make sure that
+implementation classes are imported only when necessary.</p>
+</div>
+<div class="section" id="looking-up-a-list-of-services">
+<h2>Looking up a list of services<a class="headerlink" href="#looking-up-a-list-of-services" title="Permalink to this headline">¶</a></h2>
+<p>You can also look up <em>all</em> services of a particular protocol:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Assuming the registrations in Section 1, this returns a list containing
+both <em>fred</em> and <em>wilma</em>, again in arbitrary order.</p>
+</div>
+<div class="section" id="using-queries">
+<h2>Using queries<a class="headerlink" href="#using-queries" title="Permalink to this headline">¶</a></h2>
+<p>The get_service() and get_services() methods both take optional arguments
+that allow more control over the selection of an appropriate service. The first
+of these is the <em>query</em> argument, which is a string containing an arbitrary
+Python expression that is evaluated for each service, with the service only
+being returned if the expression evaluates to True. The namespace that the
+expression is evaluated in is created by first adding each of the service’s
+attributes, followed by any additional properties that were specified when the
+service was registered (i.e., properties take precedence over attributes).</p>
+<p>Once again, assuming that we have registered <em>fred</em> and <em>wilma</em> as in Section
+1, let’s look at how to use the query mechanism to be more selective
+about the plumber(s) we look up.</p>
+<p>Find all plumbers whose price is less than 100 Krooni/Hour:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;price &lt; 100&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This query would return a list containing one plumber, <em>fred</em>.</p>
+<p>Find plumbers named <em>fred</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumbers</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;name == &#39;fred&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This query, again (and unsurprisingly), would return a list containing just
+<em>fred</em>.</p>
+<p>Queries can be used with the singular form of the get_service() method too,
+in which case only one of the services that matches the query is returned:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plumber</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;price &lt; 200&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This query would return <em>either</em> <em>fred</em> or <em>wilma</em>.</p>
+</div>
+<div class="section" id="using-minimize-and-maximize">
+<h2>Using <em>minimize</em> and <em>maximize</em><a class="headerlink" href="#using-minimize-and-maximize" title="Permalink to this headline">¶</a></h2>
+<p>The <em>minimize</em> and <em>maximize</em> (optional) arguments to the get_service() and
+get_services() methods allow the services returned to be sorted by an
+attribute or property in either ascending or descending order respectively.</p>
+<p>To find the cheapest plumber:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cheapest</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, if you believe that you get what you pay for, the most expensive:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">most_expensive</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <em>minimize</em> and <em>maximize</em> arguments can also be used in conjunction with a
+query. For example to find the cheapest plumber in my area:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cheap_and_local</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="s2">&quot;location=&#39;BH6&#39;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This query would definitely give the job to <em>wilma</em>!</p>
+</div>
+<div class="section" id="unregistering-a-service">
+<h2>Unregistering a service<a class="headerlink" href="#unregistering-a-service" title="Permalink to this headline">¶</a></h2>
+<p>When you register a service, Envisage returns a value that uniquely
+identifies the service within the current process (i.e., it is not suitable for
+persisting to use next time the application is run). To unregister a service,
+call the unregister_service() method, passing in the appropriate identifier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fred</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fred&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH1&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">fred_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">fred</span><span class="p">)</span>
+
+<span class="o">...</span>
+
+<span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">fred_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-any-additional-service-properties">
+<h2>Getting any additional service properties<a class="headerlink" href="#getting-any-additional-service-properties" title="Permalink to this headline">¶</a></h2>
+<p>If you associate an arbitrary dictionary of properties with an object when
+you register it, you can retrieve those properties by calling the
+get_service_properties() method with the appropriate service identifier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+
+<span class="o">...</span>
+
+<span class="n">properties</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_service_properties</span><span class="p">(</span><span class="n">wilma_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This call would return a dictionary containing the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">125</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>To set the properties for a service that has already been registered, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wilma</span> <span class="o">=</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+<span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+
+<span class="o">...</span>
+
+<span class="n">application</span><span class="o">.</span><span class="n">set_service_properties</span><span class="p">(</span><span class="n">wilma_id</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span> <span class="p">:</span> <span class="mi">150</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Not however, that in practise, it is more common to use the actual attributes
+of a service object for the purposes of querying, but this is useful if you
+want additional properties that aren’t part of the object’s type.</p>
+</div>
+<div class="section" id="service-factories">
+<h2>Service Factories<a class="headerlink" href="#service-factories" title="Permalink to this headline">¶</a></h2>
+<p>Last, but not least, we will look at an important feature of the service
+registry, namely, service factories.</p>
+<p>Service factories allow a Python callable to be registered in place of an
+actual service object. The callable is invoked the first time anybody asks
+for a service with the same type that the factory was registered against, and
+the object returned by the callable replaces the factory in the registry (so
+that the next time it is asked for it is simply returned as normal).</p>
+<p>To register a service factory, just register any callable that takes two
+arguments. The first is the protocol (type) of the service being requested, and
+the second is the (possibly empty) dictionary of properties that were
+registered along with the factory, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wilma_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A service factory that creates wilma the plumber! &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To register the factory, we just use ‘application.register_service’ as usual:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wilma_id</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">,</span> <span class="n">wilma_factory</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;price&#39;</span><span class="p">:</span><span class="mi">125</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Now, the first time somebody tries to get any ‘IPlumber’ service, the factory
+is called and the returned plumber object replaces the factory in the registry.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Services</a></li>
+<li><a class="reference internal" href="#service-registry">Service Registry</a><ul>
+<li><a class="reference internal" href="#registering-a-service">Registering a service</a></li>
+<li><a class="reference internal" href="#looking-up-a-service">Looking up a service</a></li>
+<li><a class="reference internal" href="#looking-up-a-list-of-services">Looking up a list of services</a></li>
+<li><a class="reference internal" href="#using-queries">Using queries</a></li>
+<li><a class="reference internal" href="#using-minimize-and-maximize">Using <em>minimize</em> and <em>maximize</em></a></li>
+<li><a class="reference internal" href="#unregistering-a-service">Unregistering a service</a></li>
+<li><a class="reference internal" href="#getting-any-additional-service-properties">Getting any additional service properties</a></li>
+<li><a class="reference internal" href="#service-factories">Service Factories</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="extension_points.html"
+                        title="previous chapter">Extension Points</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="next chapter">Plugins</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/services.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Nov 19, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

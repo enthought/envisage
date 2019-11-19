@@ -1,0 +1,86 @@
+envisage.ui.single\_project.action package
+==========================================
+
+Submodules
+----------
+
+envisage.ui.single\_project.action.api module
+---------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.close\_project\_action module
+----------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.close_project_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.configure\_action module
+-----------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.configure_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.new\_project\_action module
+--------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.new_project_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.open\_project\_action module
+---------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.open_project_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.rename\_action module
+--------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.rename_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.save\_as\_project\_action module
+-------------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.save_as_project_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.save\_project\_action module
+---------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.save_project_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.ui.single\_project.action.switch\_to\_action module
+------------------------------------------------------------
+
+.. automodule:: envisage.ui.single_project.action.switch_to_action
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.ui.single_project.action
+    :members:
+    :undoc-members:
+    :show-inheritance:

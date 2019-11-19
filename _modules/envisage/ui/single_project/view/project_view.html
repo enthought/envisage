@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.single_project.view.project_view &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '4.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for envisage.ui.single_project.view.project_view</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2019 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only</span>
+<span class="c1"># under the conditions described in the aforementioned license.  The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The single project plugin&#39;s project view</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Enthought library imports</span>
+<span class="kn">from</span> <span class="nn">apptools.naming.api</span> <span class="k">import</span> <span class="n">Binding</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">register_factory</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">TreeEditor</span><span class="p">,</span> <span class="n">ITreeNode</span><span class="p">,</span> \
+    <span class="n">ITreeNodeAdapter</span><span class="p">,</span> <span class="n">View</span>
+
+<span class="c1"># Application specific imports.</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">IApplication</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.single_project.project</span> <span class="k">import</span> <span class="n">Project</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.single_project.services</span> <span class="k">import</span> <span class="n">IPROJECT_MODEL</span><span class="p">,</span> \
+    <span class="n">IPROJECT_UI</span>
+
+
+<span class="c1"># Setup a logger for this module.</span>
+<span class="n">logger</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># Dummy EmptyProject class for when the ProjectView doesn&#39;t have a reference</span>
+<span class="c1"># to a Project.</span>
+<div class="viewcode-block" id="EmptyProject"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.EmptyProject">[docs]</a><span class="k">class</span> <span class="nc">EmptyProject</span><span class="p">(</span><span class="n">Project</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="EmptyProjectAdapter"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.EmptyProjectAdapter">[docs]</a><span class="k">class</span> <span class="nc">EmptyProjectAdapter</span><span class="p">(</span><span class="n">ITreeNodeAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Adapter for our EmptyProject. &quot;&quot;&quot;</span>
+
+    <span class="c1">#-- ITreeNodeAdapter Method Overrides --------------------------------------</span>
+
+<div class="viewcode-block" id="EmptyProjectAdapter.get_label"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.EmptyProjectAdapter.get_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Gets the label to display for a specified object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;No project loaded.&#39;</span></div></div>
+
+<span class="n">register_factory</span><span class="p">(</span><span class="n">EmptyProjectAdapter</span><span class="p">,</span> <span class="n">EmptyProject</span><span class="p">,</span> <span class="n">ITreeNode</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ProjectAdapter"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter">[docs]</a><span class="k">class</span> <span class="nc">ProjectAdapter</span><span class="p">(</span><span class="n">ITreeNodeAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Base ProjectAdapter for the root of the tree. &quot;&quot;&quot;</span>
+
+    <span class="c1">#-- ITreeNodeAdapter Method Overrides --------------------------------------</span>
+
+<div class="viewcode-block" id="ProjectAdapter.allows_children"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.allows_children">[docs]</a>    <span class="k">def</span> <span class="nf">allows_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns whether this object can have children.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.has_children"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.has_children">[docs]</a>    <span class="k">def</span> <span class="nf">has_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns whether the object has children.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.get_children"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.get_children">[docs]</a>    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Gets the object&#39;s children.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.get_label"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.get_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Gets the label to display for a specified object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adaptee</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.get_tooltip"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.get_tooltip">[docs]</a>    <span class="k">def</span> <span class="nf">get_tooltip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Gets the tooltip to display for a specified object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Project&quot;</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.get_icon"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.get_icon">[docs]</a>    <span class="k">def</span> <span class="nf">get_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_expanded</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the icon for a specified object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;open&gt;&#39;</span></div>
+
+<div class="viewcode-block" id="ProjectAdapter.can_auto_close"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.can_auto_close">[docs]</a>    <span class="k">def</span> <span class="nf">can_auto_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns whether the object&#39;s children should be automatically</span>
+<span class="sd">            closed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+<span class="n">register_factory</span><span class="p">(</span><span class="n">ProjectAdapter</span><span class="p">,</span> <span class="n">Project</span><span class="p">,</span> <span class="n">ITreeNode</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ProjectView"><a class="viewcode-back" href="../../../../../api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectView">[docs]</a><span class="k">class</span> <span class="nc">ProjectView</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The single project plugin&#39;s project view</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Traits</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### public &#39;ProjectView&#39; interface ######################################</span>
+
+    <span class="c1"># The Envisage application that this service is part of.</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IApplication</span><span class="p">)</span>
+
+    <span class="c1"># The suffix currently applied to our name</span>
+    <span class="n">name_suffix</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># The suffix applied to titles when the current project is dirty.</span>
+    <span class="n">title_suffix</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Root node for the project.</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">Project</span><span class="p">)</span>
+
+    <span class="c1"># The traits view to display:</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="n">editor</span> <span class="o">=</span> <span class="n">TreeEditor</span><span class="p">(</span><span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_open</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">show_label</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;View&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ProjectView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># Make sure our view stays in sync with the current project</span>
+        <span class="n">model_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model_service</span><span class="p">()</span>
+        <span class="n">model_service</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_project_changed</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">)</span>
+        <span class="n">model_service</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_project_selection_changed</span><span class="p">,</span>
+            <span class="s1">&#39;selection&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Make sure our control is initialized to the current project.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_switch_projects</span><span class="p">(</span><span class="n">EmptyProject</span><span class="p">(),</span> <span class="n">model_service</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># &#39;ProjectView&#39; interface.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#### protected &#39;ProjectView&#39; interface #################################</span>
+
+    <span class="k">def</span> <span class="nf">_are_list_contents_different</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convenience method to determine if two lists contain different</span>
+<span class="sd">        items.  Returns True if the lists are different and False</span>
+<span class="sd">        otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">set1</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span>
+        <span class="n">set2</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">list2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">set1</span> <span class="o">!=</span> <span class="n">set2</span>
+
+
+    <span class="k">def</span> <span class="nf">_clear_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears out all indications of any project state from this view.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#self.name_suffix = &#39;&#39;</span>
+        <span class="c1"># Set the root to an EmptyProject.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">EmptyProject</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_model_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a reference to the single project plugin&#39;s model service.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPROJECT_MODEL</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_ui_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a reference to the single project plugin&#39;s UI service.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IPROJECT_UI</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_switch_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Switches this view to the specified new project from the old project.</span>
+
+<span class="sd">        Either value may be None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Remove listeners on the old project, if any.</span>
+        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">EmptyProject</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_project_listeners</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Update our state according to what the new project is, making sure</span>
+        <span class="c1"># to add listeners to any new project.</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Changing ProjectView to Project [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">new</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sync_state_to_project</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_project_listeners</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Changing ProjectView to no project&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clear_state</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_sync_state_to_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sync the state of this view to the specified project&#39;s state.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Syncing ProjectView [</span><span class="si">%s</span><span class="s1">] to project state [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="n">project</span><span class="p">)</span>
+
+        <span class="c1"># Update our Project reference.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">project</span>
+
+        <span class="c1"># Update our name suffix based on the dirty state of the project.</span>
+        <span class="c1">#self.name_suffix = (project.dirty and self.title_suffix) or &#39;&#39;</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_update_project_listeners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update listeners on the specified project instance.</span>
+
+<span class="sd">        If remove is False then listeners are added, else listeners</span>
+<span class="sd">        are removed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">project</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_project_name_changed</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">remove</span><span class="p">)</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_project_dirty_changed</span><span class="p">,</span> <span class="s1">&#39;dirty&#39;</span><span class="p">,</span>
+            <span class="n">remove</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="c1">#### trait handlers ######################################################</span>
+
+    <span class="k">def</span> <span class="nf">_name_suffix_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle changes to our name suffix.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected change in name suffix to [</span><span class="si">%s</span><span class="s1">] within &#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Update our own name by removing the old suffix, if any, and adding</span>
+        <span class="c1"># on the new suffix, if any.</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">old</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">old</span><span class="p">)</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">new</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="c1"># Update the containing window&#39;s suffix as well</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">title_suffix</span> <span class="o">=</span> <span class="n">new</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_control_right_clicked</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle events when the tree control itself is right-clicked.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;ProjectView control right-clicked&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_ui_service</span><span class="p">()</span><span class="o">.</span><span class="n">display_default_context_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_key_pressed_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle key presses while our control has focus.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ProjectView key pressed [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+
+        <span class="c1"># If the delete key was pressed, then delete the current selected</span>
+        <span class="c1"># object.</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key_code</span> <span class="o">==</span> <span class="mi">127</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_ui_service</span><span class="p">()</span><span class="o">.</span><span class="n">delete_selection</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_node_activated_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle nodes being activated (i.e. double-clicked.)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ProjectView node activated [</span><span class="si">%s</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_project_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle when the current project changes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1"> ***************** </span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected project changed from [</span><span class="si">%s</span><span class="s1">] to [</span><span class="si">%s</span><span class="s1">] in &#39;</span>
+            <span class="s1">&#39;ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_switch_projects</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_project_dirty_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the open project&#39;s dirty flag changing.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected change in project dirty to [</span><span class="si">%s</span><span class="s1">] within &#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">suffix</span> <span class="o">=</span> <span class="p">(</span><span class="n">new</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">title_suffix</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+        <span class="c1">#self.name_suffix = suffix</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_project_name_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the open project&#39;s name changing.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_project_control</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_project_selection_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the current project&#39;s selection changing.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected project selection changed from [</span><span class="si">%s</span><span class="s1">] &#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;to [</span><span class="si">%s</span><span class="s1">] within ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that the Tree control&#39;s selection matches the selection in</span>
+        <span class="c1"># the project.</span>
+        <span class="n">control_selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_control</span><span class="o">.</span><span class="n">selection</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_are_list_contents_different</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">control_selection</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;  Updating selection on tree control for &#39;</span> <span class="o">+</span> \
+                <span class="s1">&#39;ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_project_control</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that this view&#39;s selection contains whatever was selected</span>
+        <span class="c1"># within the project.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_are_list_contents_different</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;  Updating selection on ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="n">new</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_selection_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle selection changes in our tree control.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Detected tree control selection change from [</span><span class="si">%s</span><span class="s1">] &#39;</span> <span class="o">+</span> \
+            <span class="s1">&#39;to [</span><span class="si">%s</span><span class="s1">] within ProjectView [</span><span class="si">%s</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that the project model service&#39;s record of selection contains</span>
+        <span class="c1"># the same elements as the tree control.</span>
+        <span class="n">model_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model_service</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_are_list_contents_different</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">model_service</span><span class="o">.</span><span class="n">selection</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;  Updating selection on project model service&#39;</span><span class="p">)</span>
+            <span class="n">model_service</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="n">new</span>
+
+        <span class="c1"># Note that we don&#39;t have to update this view&#39;s selection record as</span>
+        <span class="c1"># we do that through our listener on the project selection.</span>
+
+        <span class="k">return</span>
+
+
+    <span class="k">def</span> <span class="nf">_on_closing_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle when this view closes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ProjectView [</span><span class="si">%s</span><span class="s2">] closing!&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+
+<span class="c1">#### EOF #####################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../../index.html">
+              <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Nov 19, 2019.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
