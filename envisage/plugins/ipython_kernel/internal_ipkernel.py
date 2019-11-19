@@ -6,6 +6,7 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
+
 """ This code has been inspired from the IPython repository
 
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
@@ -14,6 +15,7 @@ https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel
 from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
+import warnings
 
 import ipykernel.connect
 import six
@@ -37,7 +39,7 @@ else:
     from atexit import unregister as atexit_unregister
 
 
-def gui_kernel(gui_backend):
+def _gui_kernel(gui_backend):
     """ Launch and return an IPython kernel GUI with support.
 
     Parameters
@@ -77,17 +79,44 @@ class InternalIPKernel(HasStrictTraits):
     #: This is a list of tuples (name, value).
     initial_namespace = List()
 
-    def init_ipkernel(self, gui_backend):
+    def init_ipkernel(self, gui_backend=None):
         """ Initialize the IPython kernel.
 
         Parameters
         ----------
-        gui_backend -- string
-          The GUI mode used to initialize the GUI mode. For options, see
-          the `ipython --gui` help pages.
+        gui_backend -- string, optional
+            The GUI mode used to initialize the GUI event loop integration. For
+            options, see the `ipython --gui` help pages. If not given, no event
+            loop integration is set up.
+
+        .. note:: Use of this argument is deprecated!
         """
+        # For backwards compatibility, we allow a kernel to be initialized
+        # twice, and we ignore the second initialization, but warn.
+        if self.ipkernel is not None:
+            warnings.warn(
+                (
+                    "The IPython kernel has already been initialized. A "
+                    "second call to init_ipkernel has no effect. In the "
+                    "future, a second initialization may become an error."
+                ),
+                DeprecationWarning,
+            )
+            return
+
+        if gui_backend is not None:
+            warnings.warn(
+                (
+                    "The gui_backend argument is deprecated. "
+                    "Integration with a GUI event loop can be "
+                    "achieved by setting the 'eventloop' attribute on the "
+                    "kernel instance"
+                ),
+                DeprecationWarning,
+            )
+
         # Start IPython kernel with GUI event loop support
-        self.ipkernel = gui_kernel(gui_backend)
+        self.ipkernel = _gui_kernel(gui_backend)
 
         # This application will also act on the shell user namespace
         self.namespace = self.ipkernel.shell.user_ns

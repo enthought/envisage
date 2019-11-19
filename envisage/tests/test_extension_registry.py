@@ -19,27 +19,12 @@ from traits.testing.unittest_tools import unittest
 class ExtensionRegistryTestCase(unittest.TestCase):
     """ Tests for the base extension registry. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
         self.registry = Application(extension_registry=ExtensionRegistry())
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
 
     def test_empty_registry(self):
         """ empty registry """
@@ -53,8 +38,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
-
-        return
 
     def test_add_extension_point(self):
         """ add extension point """
@@ -73,8 +56,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         self.assertEqual(1, len(extension_points))
         self.assertEqual('my.ep', extension_points[0].id)
 
-        return
-
     def test_get_extension_point(self):
         """ get extension point """
 
@@ -87,8 +68,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         extension_point = registry.get_extension_point('my.ep')
         self.assertNotEqual(None, extension_point)
         self.assertEqual('my.ep', extension_point.id)
-
-        return
 
     def test_remove_empty_extension_point(self):
         """ remove empty_extension point """
@@ -104,8 +83,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
-
-        return
 
     def test_remove_non_empty_extension_point(self):
         """ remove non-empty extension point """
@@ -128,18 +105,13 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # And that the extensions are gone too.
         self.assertEqual([], registry.get_extensions('my.ep'))
 
-        return
-
     def test_remove_non_existent_extension_point(self):
         """ remove non existent extension point """
 
         registry = self.registry
 
-        self.failUnlessRaises(
-            UnknownExtensionPoint, registry.remove_extension_point, 'my.ep'
-        )
-
-        return
+        with self.assertRaises(UnknownExtensionPoint):
+            registry.remove_extension_point("my.ep")
 
     def test_remove_non_existent_listener(self):
         """ remove non existent listener """
@@ -151,13 +123,8 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
             self.listener_called = (registry, extension_point, added, removed)
 
-            return
-
-        self.failUnlessRaises(
-            ValueError, registry.remove_extension_point_listener, listener
-        )
-
-        return
+        with self.assertRaises(ValueError):
+            registry.remove_extension_point_listener(listener)
 
     def test_set_extensions(self):
         """ set extensions """
@@ -173,8 +140,6 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure we can get them.
         self.assertEqual([1, 2, 3], registry.get_extensions('my.ep'))
 
-        return
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -183,10 +148,3 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

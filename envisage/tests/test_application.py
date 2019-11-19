@@ -10,7 +10,10 @@
 
 
 # Standard library imports.
-import os, shutil, unittest
+import os
+import shutil
+import tempfile
+import unittest
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
@@ -20,6 +23,7 @@ from traits.api import Bool, Int, List
 
 # Local imports.
 from envisage.tests.event_tracker import EventTracker
+from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
 
 def listener(obj, trait_name, old, new):
@@ -30,15 +34,11 @@ def listener(obj, trait_name, old, new):
     listener.old = old
     listener.new = new
 
-    return
-
 
 def vetoer(event):
     """ A function that will veto an event. """
 
     event.veto = True
-
-    return
 
 
 class TestApplication(Application):
@@ -65,15 +65,11 @@ class SimplePlugin(Plugin):
         self.started = True
         self.stopped = False
 
-        return
-
     def stop(self):
         """ Stop the plugin. """
 
         self.started = False
         self.stopped = True
-
-        return
 
 
 class BadPlugin(Plugin):
@@ -118,10 +114,6 @@ class PluginC(Plugin):
 class ApplicationTestCase(unittest.TestCase):
     """ Tests for applications and plugins. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
@@ -131,16 +123,9 @@ class ApplicationTestCase(unittest.TestCase):
         listener.old = None
         listener.new = None
 
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
+        ets_config_patcher = ETSConfigPatcher()
+        ets_config_patcher.start()
+        self.addCleanup(ets_config_patcher.stop)
 
     def test_home(self):
         """ home """
@@ -161,8 +146,6 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Delete the directory.
         shutil.rmtree(application.home)
-
-        return
 
     def test_no_plugins(self):
         """ no plugins """
@@ -190,8 +173,6 @@ class ApplicationTestCase(unittest.TestCase):
             ['starting', 'started', 'stopping', 'stopped'], tracker.event_names
         )
 
-        return
-
     def test_veto_starting(self):
         """ veto starting """
 
@@ -213,8 +194,6 @@ class ApplicationTestCase(unittest.TestCase):
         started = application.start()
         self.assertEqual(False, started)
         self.assertTrue('started' not in tracker.event_names)
-
-        return
 
     def test_veto_stopping(self):
         """ veto stopping """
@@ -243,8 +222,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(False, stopped)
         self.assertTrue('stopped' not in tracker.event_names)
 
-        return
-
     def test_start_and_stop_errors(self):
         """ start and stop errors """
 
@@ -253,22 +230,20 @@ class ApplicationTestCase(unittest.TestCase):
         application   = TestApplication(plugins=[simple_plugin, bad_plugin])
 
         # Try to start the application - the bad plugin should barf.
-        self.assertRaises(ZeroDivisionError, application.start)
+        with self.assertRaises(ZeroDivisionError):
+            application.start()
 
         # Try to stop the application - the bad plugin should barf.
-        self.assertRaises(ZeroDivisionError, application.stop)
+        with self.assertRaises(ZeroDivisionError):
+            application.stop()
 
         # Try to start a non-existent plugin.
-        self.assertRaises(
-            SystemError, application.start_plugin, plugin_id='bogus'
-        )
+        with self.assertRaises(SystemError):
+            application.start_plugin(plugin_id="bogus")
 
         # Try to stop a non-existent plugin.
-        self.assertRaises(
-            SystemError, application.stop_plugin, plugin_id='bogus'
-        )
-
-        return
+        with self.assertRaises(SystemError):
+            application.stop_plugin(plugin_id="bogus")
 
     def test_extension_point(self):
         """ extension point """
@@ -290,8 +265,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
-        return
-
     def test_add_extension_point_listener(self):
         """ add extension point listener """
 
@@ -310,8 +283,6 @@ class ApplicationTestCase(unittest.TestCase):
             listener.added              = event.added
             listener.removed            = event.removed
 
-            return
-
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
         self.assertEqual(3, len(extensions))
@@ -327,8 +298,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual('a.x', listener.extension_point_id)
         self.assertEqual([], listener.removed)
         self.assertEqual([98, 99, 100], listener.added)
-
-        return
 
     def test_remove_extension_point_listener(self):
         """ remove extension point listener """
@@ -347,8 +316,6 @@ class ApplicationTestCase(unittest.TestCase):
             listener.extension_point_id = event.extension_point_id
             listener.added   = event.added
             listener.removed = event.removed
-
-            return
 
         # Make sure we can get the contributions via the application.
         extensions = application.get_extensions('a.x')
@@ -374,8 +341,6 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure the listener was *not* called.
         self.assertEqual(None, listener.extension_point_id)
-
-        return
 
     def test_add_plugin(self):
         """ add plugin """
@@ -411,8 +376,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
-        return
-
     def test_get_plugin(self):
         """ get plugin """
 
@@ -431,8 +394,6 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can't get one that isn't there ;^)
         self.assertEqual(None, application.get_plugin('BOGUS'))
-
-        return
 
     def test_remove_plugin(self):
         """ remove plugin """
@@ -467,8 +428,6 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
 
-        return
-
     def test_set_plugin_manager_at_contruction_time(self):
         """ set plugin manager at construction time"""
 
@@ -489,12 +448,3 @@ class ApplicationTestCase(unittest.TestCase):
 
         # Make sure we can't get one that isn't there ;^)
         self.assertEqual(None, application.get_plugin('BOGUS'))
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

@@ -121,7 +121,7 @@ source_dependencies = {
     "traitsui",
 }
 
-extra_dependencies = {
+toolkit_dependencies = {
     'pyside': {'pyside'},
     # XXX once pyside2 is available in EDM, we will want it here
     'pyside2': set(),
@@ -131,6 +131,10 @@ extra_dependencies = {
     # FIXME: wxpython 3.0.2.0-6 is broken of OS-X
     'wx': {'wxpython<3.0.2.0-6'},
     'null': set()
+}
+
+runtime_dependencies = {
+    "2.7": {"mock"},
 }
 
 environment_vars = {
@@ -206,7 +210,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
     packages = ' '.join(
-        dependencies | extra_dependencies.get(toolkit, set()))
+        dependencies
+        | toolkit_dependencies.get(toolkit, set())
+        | runtime_dependencies.get(runtime, set())
+    )
     # edm commands to setup the development environment
     commands = [
         "{edm} environments create {environment} --force --version={runtime}",

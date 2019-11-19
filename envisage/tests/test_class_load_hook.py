@@ -21,24 +21,6 @@ PKG = 'envisage.tests'
 class ClassLoadHookTestCase(unittest.TestCase):
     """ Tests for class load hooks. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
     def test_connect(self):
         """ connect """
 
@@ -46,8 +28,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
             """ Called when a class is loaded. """
 
             on_class_loaded.cls = cls
-
-            return
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
@@ -61,8 +41,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         self.assertEqual(Foo, on_class_loaded.cls)
 
-        return
-
     def test_class_already_loaded(self):
         """ class already loaded """
 
@@ -70,8 +48,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
             """ Called when a class is loaded. """
 
             on_class_loaded.cls = cls
-
-            return
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
@@ -84,8 +60,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
         # already loaded.
         self.assertEqual(ClassLoadHookTestCase, on_class_loaded.cls)
 
-        return
-
     def test_disconnect(self):
         """ disconnect """
 
@@ -93,8 +67,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
             """ Called when a class is loaded. """
 
             on_class_loaded.cls = cls
-
-            return
 
         # To register with 'MetaHasTraits' we use 'module_name.class_name'.
         hook = ClassLoadHook(
@@ -119,8 +91,6 @@ class ClassLoadHookTestCase(unittest.TestCase):
 
         self.assertEqual(None, on_class_loaded.cls)
 
-        return
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -129,10 +99,3 @@ class ClassLoadHookTestCase(unittest.TestCase):
         """ Return the full (possibly) dotted name of a class. """
 
         return cls.__module__ + '.' + cls.__name__
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

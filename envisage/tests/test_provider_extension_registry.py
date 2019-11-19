@@ -24,25 +24,10 @@ from .test_extension_registry import ExtensionRegistryTestCase
 class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
     """ Tests for the provider extension registry. """
 
-    ###########################################################################
-    # 'TestCase' interface.
-    ###########################################################################
-
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
         self.registry = ProviderExtensionRegistry()
-
-        return
-
-    def tearDown(self):
-        """ Called immediately after each test method has been called. """
-
-        return
-
-    ###########################################################################
-    # Tests.
-    ###########################################################################
 
     def test_providers(self):
         """ providers """
@@ -106,8 +91,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(1, len(extension_points))
         self.assertEqual('x', extension_points[0].id)
 
-        return
-
     def test_provider_extensions_changed(self):
         """ provider extensions changed """
 
@@ -144,16 +127,12 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                     'my.ep', new, old, slice(0, len(old))
                 )
 
-                return
-
             def _x_items_changed(self, event):
                 """ Static trait change handler. """
 
                 self._fire_extension_point_changed(
                     'my.ep', event.added, event.removed, event.index
                 )
-
-                return
 
 
         class ProviderB(ExtensionProvider):
@@ -181,16 +160,12 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                     'my.ep', new, old, slice(0, len(old))
                 )
 
-                return
-
             def _x_items_changed(self, event):
                 """ Static trait change handler. """
 
                 self._fire_extension_point_changed(
                     'my.ep', event.added, event.removed, event.index
                 )
-
-                return
 
         # Add the providers to the registry.
         a = ProviderA(x=[42])
@@ -212,8 +187,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             listener.added = event.added
             listener.removed = event.removed
             listener.index = event.index
-
-            return
 
         registry.add_extension_point_listener(listener, 'my.ep')
 
@@ -260,8 +233,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual(4, len(extensions))
         self.assertEqual([42, 43, 1, 2], extensions)
 
-        return
-
     def test_add_provider(self):
         """ add provider """
 
@@ -296,15 +267,13 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                     'x', event.added, event.removed, event.index
                 )
 
-                return
-
         # Add the provider to the registry.
         registry.add_provider(ProviderA())
 
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
         self.assertEqual(1, len(extensions))
-        self.assert_(42 in extensions)
+        self.assertTrue(42 in extensions)
 
         # Add an extension listener to the registry.
         def listener(registry, event):
@@ -315,8 +284,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             listener.added = event.added
             listener.removed = event.removed
             listener.index = event.index
-
-            return
 
         registry.add_extension_point_listener(listener, 'x')
 
@@ -347,11 +314,9 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # Now we should get the new extensions.
         extensions = registry.get_extensions('x')
         self.assertEqual(3, len(extensions))
-        self.assert_(42 in extensions)
-        self.assert_(43 in extensions)
-        self.assert_(44 in extensions)
-
-        return
+        self.assertTrue(42 in extensions)
+        self.assertTrue(43 in extensions)
+        self.assertTrue(44 in extensions)
 
     def test_get_providers(self):
         """ get providers """
@@ -374,8 +339,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         # Make sure we can get them.
         self.assertEqual([a, b], registry.get_providers())
-
-        return
 
     def test_remove_provider(self):
         """ remove provider """
@@ -411,8 +374,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
                     'x', event.added, event.removed, event.index
                 )
 
-                return
-
         class ProviderB(ExtensionProvider):
             """ An extension provider. """
 
@@ -438,9 +399,9 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # The provider's extensions should now be in the registry.
         extensions = registry.get_extensions('x')
         self.assertEqual(3, len(extensions))
-        self.assert_(42 in extensions)
-        self.assert_(43 in extensions)
-        self.assert_(44 in extensions)
+        self.assertTrue(42 in extensions)
+        self.assertTrue(43 in extensions)
+        self.assertTrue(44 in extensions)
 
         # Add an extension listener to the registry.
         def listener(registry, event):
@@ -450,8 +411,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             listener.extension_point = event.extension_point_id
             listener.added = event.added
             listener.removed = event.removed
-
-            return
 
         registry.add_extension_point_listener(listener, 'x')
 
@@ -466,7 +425,7 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # Make sure we don't get the removed extensions.
         extensions = registry.get_extensions('x')
         self.assertEqual(1, len(extensions))
-        self.assert_(42 in extensions)
+        self.assertTrue(42 in extensions)
 
         # Now remove the provider that declared the extension point.
         registry.remove_provider(a)
@@ -482,8 +441,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         self.assertEqual('x', listener.extension_point)
         self.assertEqual([], listener.added)
         self.assertEqual([42], listener.removed)
-
-        return
 
     def test_remove_provider_with_no_contributions(self):
         """ remove provider with no contributions """
@@ -523,8 +480,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
             listener.added = event.added
             listener.removed = event.removed
 
-            return
-
         registry.add_extension_point_listener(listener, 'x')
 
         # Remove the provider that declared the extension point.
@@ -541,8 +496,6 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         # not make any contributions anyway!).
         self.assertEqual(None, getattr(listener, 'registry', None))
 
-        return
-
     def test_remove_non_existent_provider(self):
         """ remove provider """
 
@@ -557,9 +510,8 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         a = ProviderA()
 
         # Remove one of the providers.
-        self.failUnlessRaises(ValueError, registry.remove_provider, a)
-
-        return
+        with self.assertRaises(ValueError):
+            registry.remove_provider(a)
 
     # Overriden to test differing behavior between the provider registry and
     # the base class.
@@ -572,11 +524,8 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         registry.add_extension_point(self._create_extension_point('my.ep'))
 
         # Set some extensions.
-        self.failUnlessRaises(
-            SystemError, registry.set_extensions, 'my.ep', [1, 2, 3]
-        )
-
-        return
+        with self.assertRaises(SystemError):
+            registry.set_extensions("my.ep", [1, 2, 3])
 
     def test_remove_non_empty_extension_point(self):
         """ remove non-empty extension point """
@@ -627,12 +576,3 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
 
         # And that the extensions are gone too.
         self.assertEqual([], registry.get_extensions('x'))
-
-        return
-
-
-# Entry point for stand-alone testing.
-if __name__ == '__main__':
-    unittest.main()
-
-#### EOF ######################################################################

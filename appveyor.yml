@@ -3,7 +3,7 @@ build: false
 environment:
   global:
     PYTHONUNBUFFERED: "1"
-    INSTALL_EDM_VERSION: "1.11.0"
+    INSTALL_EDM_VERSION: "2.0.0"
 
   matrix:
     - RUNTIME: '3.5'

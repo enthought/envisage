@@ -39,6 +39,9 @@ if six.PY2:
 else:
     from atexit import unregister as atexit_unregister
 
+# Sentinel object used to represent a missing attribute.
+_MISSING = object()
+
 
 class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
     """
@@ -173,8 +176,10 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         Extended to store the original values of IPython.utils.io.stdout
         and IPython.utils.io.stderr, so that they can be restored later.
         """
-        self._original_ipython_utils_io_stdout = IPython.utils.io.stdout
-        self._original_ipython_utils_io_stderr = IPython.utils.io.stderr
+        self._original_ipython_utils_io_stdout = getattr(
+            IPython.utils.io, "stdout", _MISSING)
+        self._original_ipython_utils_io_stderr = getattr(
+            IPython.utils.io, "stderr", _MISSING)
         super(IPKernelApp, self).init_kernel()
 
     # New methods, mostly to control shutdown #################################
@@ -200,6 +205,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         atexit_unregister(self.cleanup_connection_file)
 
         self.close_crash_handler()
+        self.close_profile_dir()
         self.cleanup_singletons()
 
     def close_shell(self):
@@ -257,10 +263,16 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # Undo changes to IPython.utils.io made at shell creation time.
         # The values written by the shell keep references that prevent
         # proper garbage collection from taking place.
-        IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
+        if self._original_ipython_utils_io_stderr is _MISSING:
+            del IPython.utils.io.stderr
+        else:
+            IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
         del self._original_ipython_utils_io_stderr
 
-        IPython.utils.io.stdout = self._original_ipython_utils_io_stdout
+        if self._original_ipython_utils_io_stdout is _MISSING:
+            del IPython.utils.io.stdout
+        else:
+            IPython.utils.io.stdout = self._original_ipython_utils_io_stdout
         del self._original_ipython_utils_io_stdout
 
     def close_io(self):
@@ -330,6 +342,14 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             self.log.debug("Terminating zmq context")
             self.context.term()
             self.log.debug("Terminated zmq context")
+
+    def close_profile_dir(self):
+        """
+        Undo changes made in init_profile_dir.
+        """
+        ipython_dir_entry = os.path.abspath(self.ipython_dir)
+        if ipython_dir_entry in sys.path:
+            sys.path.remove(ipython_dir_entry)
 
     def cleanup_singletons(self):
         """
