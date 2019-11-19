@@ -1,0 +1,22 @@
+envisage.plugins.event\_manager package
+=======================================
+
+Submodules
+----------
+
+envisage.plugins.event\_manager.plugin module
+---------------------------------------------
+
+.. automodule:: envisage.plugins.event_manager.plugin
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.event_manager
+    :members:
+    :undoc-members:
+    :show-inheritance:
