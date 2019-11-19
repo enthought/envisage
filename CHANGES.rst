@@ -30,6 +30,7 @@ Fixes
 Tests
 -----
 
+- Remove a ``print`` call from a unit test. (#240)
 - Add unit tests for the ``envisage.ui.single_project`` adapters. (#235)
 - Add unit tests to check that ``InternalIPKernel`` doesn't affect
   ``sys.path``. (#233)
