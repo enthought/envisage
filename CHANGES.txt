@@ -31,11 +31,16 @@ Tests
 -----
 
 - Add unit tests for the ``envisage.ui.single_project`` adapters. (#235)
-- Add unit tests to check that ``InternalIPKernel`` doesn't affect ``sys.path``. (#233)
-- Fix the test suite not to write to the user's ``~/.ipython`` directory. (#231)
-- Fix the test suite not to write to the user's ``~/.enthought`` directory. (#230)
-- Remove an unused import and a useless tearDown in the ``IPythonKernel`` tests. (#223)
-- Fix ``DeprecationWarning``s from uses of long-deprecated ``TestCase`` methods. (#222)
+- Add unit tests to check that ``InternalIPKernel`` doesn't affect
+  ``sys.path``. (#233)
+- Fix the test suite not to write to the user's ``~/.ipython`` directory.
+  (#231)
+- Fix the test suite not to write to the user's ``~/.enthought`` directory.
+  (#230)
+- Remove an unused import and a useless ``tearDown`` method in the
+  ``IPythonKernel`` tests. (#223)
+- Fix ``DeprecationWarning``s from uses of long-deprecated ``TestCase``
+  methods. (#222)
 - Add test eggs for Python 3.8. (#214)
 
 Build
