@@ -46,6 +46,7 @@ Tests
 Build
 -----
 
+- Rename changelog extension from ``.txt`` to ``.rst``. (#238)
 - Update EDM version used in Travis CI and Appveyor. (#236)
 - Add ``mock`` to test dependencies on Python 2. (#229)
 - Fix status badges in ``README``. (#216)
