@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '4.8.0',
+        VERSION:     '4.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -83,19 +83,24 @@
 <span class="c1"># under the conditions described in the aforementioned license.  The license</span>
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; An  IPython kernel plugin. &quot;&quot;&quot;</span>
+
+<span class="sd">&quot;&quot;&quot; An IPython kernel plugin. &quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="p">(</span><span class="n">bind_extension_point</span><span class="p">,</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span>
-    <span class="n">ServiceOffer</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">bind_extension_point</span><span class="p">,</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
 
 
-<span class="n">IPYTHON_KERNEL_PROTOCOL</span> <span class="o">=</span> <span class="s1">&#39;envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel&#39;</span>  <span class="c1"># noqa</span>
+<span class="c1"># Extension point IDs.</span>
+<span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s1">&#39;envisage.service_offers&#39;</span>
 <span class="n">IPYTHON_NAMESPACE</span> <span class="o">=</span> <span class="s1">&#39;ipython_plugin.namespace&#39;</span>
 
+<span class="c1"># Protocol for the contributed service offer.</span>
+<span class="n">IPYTHON_KERNEL_PROTOCOL</span> <span class="o">=</span> <span class="s1">&#39;envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel&#39;</span>  <span class="c1"># noqa: E501</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -103,23 +108,13 @@
 <div class="viewcode-block" id="IPythonKernelPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin">[docs]</a><span class="k">class</span> <span class="nc">IPythonKernelPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; An IPython kernel plugin. &quot;&quot;&quot;</span>
 
-    <span class="c1"># Extension point IDs.</span>
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s1">&#39;envisage.service_offers&#39;</span>
-
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
-
-    <span class="c1"># The plugin unique identifier.</span>
+    <span class="c1">#: The plugin unique identifier.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;envisage.plugins.ipython_kernel&#39;</span>
 
-    <span class="c1"># The plugin name (suitable for displaying to the user).</span>
+    <span class="c1">#: The plugin name (suitable for displaying to the user).</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;IPython embedded kernel plugin&#39;</span>
 
-<div class="viewcode-block" id="IPythonKernelPlugin.stop"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Shutting down the embedded ipython kernel&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span></div>
-
-    <span class="c1">#### Extension points offered by this plugin ##############################</span>
-
+    <span class="c1">#: Extension point for objects contributed to the IPython kernel namespace.</span>
     <span class="n">kernel_namespace</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">IPYTHON_NAMESPACE</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
 
@@ -129,31 +124,74 @@
 <span class="s2">        &quot;&quot;&quot;</span>
     <span class="p">)</span>
 
-    <span class="c1">#### Contributions to extension points made by this plugin ################</span>
-
-    <span class="n">kernel</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IPYTHON_KERNEL_PROTOCOL</span><span class="p">)</span>
-
+    <span class="c1">#: Service offers contributed by this plugin.</span>
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1">#: Whether to initialize the kernel when the service is created.</span>
+    <span class="c1">#: The default is ``False```, for backwards compatibility. It will change</span>
+    <span class="c1">#: to ``True`` in a future version of Envisage. External users wanting</span>
+    <span class="c1">#: to use the future behaviour now should pass ``init_ipkernel=True``</span>
+    <span class="c1">#: when creating the plugin.</span>
+    <span class="n">init_ipkernel</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
+<div class="viewcode-block" id="IPythonKernelPlugin.stop"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the plugin. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_destroy_kernel</span><span class="p">()</span></div>
+
+    <span class="c1"># Private traits and methods</span>
+
+    <span class="c1">#: The InternalIPKernel instance provided by the service.</span>
+    <span class="n">_kernel</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IPYTHON_KERNEL_PROTOCOL</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.internal_ipkernel</span> <span class="k">import</span> <span class="n">InternalIPKernel</span>
+
+        <span class="c1"># This shouldn&#39;t happen with a normal lifecycle, but add a warning</span>
+        <span class="c1"># just in case.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;A kernel already exists. &quot;</span>
+                <span class="s2">&quot;No new kernel will be created.&quot;</span><span class="p">,</span>
+                <span class="ne">RuntimeWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating the embedded IPython kernel&quot;</span><span class="p">)</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="n">InternalIPKernel</span><span class="p">()</span>
+        <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="s1">&#39;initial_namespace&#39;</span><span class="p">,</span>
+                             <span class="n">IPYTHON_NAMESPACE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_ipkernel</span><span class="p">:</span>
+            <span class="n">kernel</span><span class="o">.</span><span class="n">init_ipkernel</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;In the future, the IPython kernel will be initialized &quot;</span>
+                    <span class="s2">&quot;automatically at creation time. To enable this &quot;</span>
+                    <span class="s2">&quot;future behaviour now, create the plugin using &quot;</span>
+                    <span class="s2">&quot;IPythonKernelPlugin(init_ipkernel=True)&quot;</span>
+                <span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kernel</span>
+
+    <span class="k">def</span> <span class="nf">_destroy_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Destroy any existing kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Shutting down the embedded IPython kernel&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ipython_kernel_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
             <span class="n">protocol</span><span class="o">=</span><span class="n">IPYTHON_KERNEL_PROTOCOL</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_kernel</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">ipython_kernel_service_offer</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">_create_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span>
-
-    <span class="c1">#### Trait initializers ###################################################</span>
-
-    <span class="k">def</span> <span class="nf">_kernel_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.internal_ipkernel</span> <span class="k">import</span> <span class="n">InternalIPKernel</span>
-        <span class="n">kernel</span> <span class="o">=</span> <span class="n">InternalIPKernel</span><span class="p">()</span>
-        <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="s1">&#39;initial_namespace&#39;</span><span class="p">,</span>
-                             <span class="n">IPYTHON_NAMESPACE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">kernel</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ipython_kernel_service_offer</span><span class="p">]</span></div>
 </pre></div>
 
           </div>
@@ -195,7 +233,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Sep 13, 2019.
+      Last updated on Nov 19, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

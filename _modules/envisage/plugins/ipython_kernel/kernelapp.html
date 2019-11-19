@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '4.8.0',
+        VERSION:     '4.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -115,6 +115,9 @@
         <span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">atexit</span> <span class="k">import</span> <span class="n">unregister</span> <span class="k">as</span> <span class="n">atexit_unregister</span>
+
+<span class="c1"># Sentinel object used to represent a missing attribute.</span>
+<span class="n">_MISSING</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="IPKernelApp"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp">[docs]</a><span class="k">class</span> <span class="nc">IPKernelApp</span><span class="p">(</span><span class="n">ipykernel</span><span class="o">.</span><span class="n">kernelapp</span><span class="o">.</span><span class="n">IPKernelApp</span><span class="p">):</span>
@@ -250,8 +253,10 @@
 <span class="sd">        Extended to store the original values of IPython.utils.io.stdout</span>
 <span class="sd">        and IPython.utils.io.stderr, so that they can be restored later.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stdout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stderr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="p">,</span> <span class="s2">&quot;stdout&quot;</span><span class="p">,</span> <span class="n">_MISSING</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="p">,</span> <span class="s2">&quot;stderr&quot;</span><span class="p">,</span> <span class="n">_MISSING</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IPKernelApp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">init_kernel</span><span class="p">()</span></div>
 
     <span class="c1"># New methods, mostly to control shutdown #################################</span>
@@ -277,6 +282,7 @@
         <span class="n">atexit_unregister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleanup_connection_file</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">close_crash_handler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close_profile_dir</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_singletons</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="IPKernelApp.close_shell"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_shell">[docs]</a>    <span class="k">def</span> <span class="nf">close_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -334,10 +340,16 @@
         <span class="c1"># Undo changes to IPython.utils.io made at shell creation time.</span>
         <span class="c1"># The values written by the shell keep references that prevent</span>
         <span class="c1"># proper garbage collection from taking place.</span>
-        <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span> <span class="ow">is</span> <span class="n">_MISSING</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stderr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stderr</span>
 
-        <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span> <span class="ow">is</span> <span class="n">_MISSING</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IPython</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_ipython_utils_io_stdout</span></div>
 
 <div class="viewcode-block" id="IPKernelApp.close_io"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_io">[docs]</a>    <span class="k">def</span> <span class="nf">close_io</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -408,6 +420,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">term</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Terminated zmq context&quot;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="IPKernelApp.close_profile_dir"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.close_profile_dir">[docs]</a>    <span class="k">def</span> <span class="nf">close_profile_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Undo changes made in init_profile_dir.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ipython_dir_entry</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipython_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ipython_dir_entry</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ipython_dir_entry</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="IPKernelApp.cleanup_singletons"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.cleanup_singletons">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup_singletons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clear SingletonConfigurable instances.</span>
@@ -457,7 +477,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Sep 13, 2019.
+      Last updated on Nov 19, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

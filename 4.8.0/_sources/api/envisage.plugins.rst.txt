@@ -1,0 +1,21 @@
+envisage.plugins package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    envisage.plugins.event_manager
+    envisage.plugins.ipython_kernel
+    envisage.plugins.python_shell
+    envisage.plugins.tasks
+    envisage.plugins.text_editor
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '4.8.0',
+        VERSION:     '4.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -83,6 +83,7 @@
 <span class="c1"># under the conditions described in the aforementioned license.  The license</span>
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
+
 <span class="sd">&quot;&quot;&quot; This code has been inspired from the IPython repository</span>
 
 <span class="sd">https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py</span>
@@ -91,6 +92,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
 <span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">ipykernel.connect</span>
 <span class="kn">import</span> <span class="nn">six</span>
@@ -114,7 +116,7 @@
     <span class="kn">from</span> <span class="nn">atexit</span> <span class="k">import</span> <span class="n">unregister</span> <span class="k">as</span> <span class="n">atexit_unregister</span>
 
 
-<div class="viewcode-block" id="gui_kernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.gui_kernel">[docs]</a><span class="k">def</span> <span class="nf">gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Launch and return an IPython kernel GUI with support.</span>
 
 <span class="sd">    Parameters</span>
@@ -132,7 +134,7 @@
         <span class="n">argv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--gui=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">))</span>
     <span class="n">kernel</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">kernel</span></div>
+    <span class="k">return</span> <span class="n">kernel</span>
 
 
 <div class="viewcode-block" id="InternalIPKernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel">[docs]</a><span class="k">class</span> <span class="nc">InternalIPKernel</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
@@ -154,17 +156,44 @@
     <span class="c1">#: This is a list of tuples (name, value).</span>
     <span class="n">initial_namespace</span> <span class="o">=</span> <span class="n">List</span><span class="p">()</span>
 
-<div class="viewcode-block" id="InternalIPKernel.init_ipkernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.init_ipkernel">[docs]</a>    <span class="k">def</span> <span class="nf">init_ipkernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gui_backend</span><span class="p">):</span>
+<div class="viewcode-block" id="InternalIPKernel.init_ipkernel"><a class="viewcode-back" href="../../../../api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.init_ipkernel">[docs]</a>    <span class="k">def</span> <span class="nf">init_ipkernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gui_backend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initialize the IPython kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        gui_backend -- string</span>
-<span class="sd">          The GUI mode used to initialize the GUI mode. For options, see</span>
-<span class="sd">          the `ipython --gui` help pages.</span>
+<span class="sd">        gui_backend -- string, optional</span>
+<span class="sd">            The GUI mode used to initialize the GUI event loop integration. For</span>
+<span class="sd">            options, see the `ipython --gui` help pages. If not given, no event</span>
+<span class="sd">            loop integration is set up.</span>
+
+<span class="sd">        .. note:: Use of this argument is deprecated!</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For backwards compatibility, we allow a kernel to be initialized</span>
+        <span class="c1"># twice, and we ignore the second initialization, but warn.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The IPython kernel has already been initialized. A &quot;</span>
+                    <span class="s2">&quot;second call to init_ipkernel has no effect. In the &quot;</span>
+                    <span class="s2">&quot;future, a second initialization may become an error.&quot;</span>
+                <span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">gui_backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The gui_backend argument is deprecated. &quot;</span>
+                    <span class="s2">&quot;Integration with a GUI event loop can be &quot;</span>
+                    <span class="s2">&quot;achieved by setting the &#39;eventloop&#39; attribute on the &quot;</span>
+                    <span class="s2">&quot;kernel instance&quot;</span>
+                <span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="c1"># Start IPython kernel with GUI event loop support</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="o">=</span> <span class="n">gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span> <span class="o">=</span> <span class="n">_gui_kernel</span><span class="p">(</span><span class="n">gui_backend</span><span class="p">)</span>
 
         <span class="c1"># This application will also act on the shell user namespace</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipkernel</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span>
@@ -244,7 +273,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Sep 13, 2019.
+      Last updated on Nov 19, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

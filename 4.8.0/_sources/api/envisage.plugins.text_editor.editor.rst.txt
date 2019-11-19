@@ -1,0 +1,30 @@
+envisage.plugins.text\_editor.editor package
+============================================
+
+Submodules
+----------
+
+envisage.plugins.text\_editor.editor.text\_editor module
+--------------------------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.editor.text_editor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+envisage.plugins.text\_editor.editor.text\_editor\_handler module
+-----------------------------------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.editor.text_editor_handler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.text_editor.editor
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.8.0',
+        VERSION:     '4.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -115,7 +115,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="envisage.ui.single_project.view.html">envisage.ui.single_project.view package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="envisage.ui.single_project.view.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="envisage.ui.single_project.view.html#envisage-ui-single-project-view-project-view-module">envisage.ui.single_project.view.project_view module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.single_project.view.html#module-envisage.ui.single_project.view.project_view">envisage.ui.single_project.view.project_view module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="envisage.ui.single_project.view.html#module-envisage.ui.single_project.view">Module contents</a></li>
 </ul>
 </li>
@@ -125,8 +125,8 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="envisage-ui-single-project-api-module">
-<h2>envisage.ui.single_project.api module<a class="headerlink" href="#envisage-ui-single-project-api-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-envisage.ui.single_project.api">
+<span id="envisage-ui-single-project-api-module"></span><h2>envisage.ui.single_project.api module<a class="headerlink" href="#module-envisage.ui.single_project.api" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-envisage.ui.single_project.default_path_preference_page">
 <span id="envisage-ui-single-project-default-path-preference-page-module"></span><h2>envisage.ui.single_project.default_path_preference_page module<a class="headerlink" href="#module-envisage.ui.single_project.default_path_preference_page" title="Permalink to this headline">¶</a></h2>
@@ -401,8 +401,71 @@ the specified location.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="envisage-ui-single-project-project-plugin-module">
-<h2>envisage.ui.single_project.project_plugin module<a class="headerlink" href="#envisage-ui-single-project-project-plugin-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-envisage.ui.single_project.project_plugin">
+<span id="envisage-ui-single-project-project-plugin-module"></span><h2>envisage.ui.single_project.project_plugin module<a class="headerlink" href="#module-envisage.ui.single_project.project_plugin" title="Permalink to this headline">¶</a></h2>
+<p>The Envisage single project plugin.</p>
+<dl class="class">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPerspective">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_plugin.</code><code class="descname">ProjectPerspective</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPerspective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPerspective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.perspective.Perspective</span></code></p>
+<p>A default perspective for the single_project plugin.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_plugin.</code><code class="descname">ProjectPlugin</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="envisage.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
+<p>The single-project plugin.</p>
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.ACTION_SETS">
+<code class="descname">ACTION_SETS</code><em class="property"> = 'envisage.ui.workbench.action_sets'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.ACTION_SETS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.FACTORY_DEFINITIONS">
+<code class="descname">FACTORY_DEFINITIONS</code><em class="property"> = 'envisage.ui.single_project.factory_definitions'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.FACTORY_DEFINITIONS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PERSPECTIVES">
+<code class="descname">PERSPECTIVES</code><em class="property"> = 'envisage.ui.workbench.perspectives'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PERSPECTIVES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES">
+<code class="descname">PREFERENCES</code><em class="property"> = 'envisage.preferences'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES_PAGES">
+<code class="descname">PREFERENCES_PAGES</code><em class="property"> = 'envisage.ui.workbench.preferences_pages'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES_PAGES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.SERVICE_OFFERS">
+<code class="descname">SERVICE_OFFERS</code><em class="property"> = 'envisage.service_offers'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.UI_SERVICE_FACTORY">
+<code class="descname">UI_SERVICE_FACTORY</code><em class="property"> = 'envisage.ui.single_project.ui_service_factory'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.UI_SERVICE_FACTORY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.VIEWS">
+<code class="descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.VIEWS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the plugin.</p>
+<p>Overridden here to start up our services and load the project
+that was open when we were last shut-down.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-envisage.ui.single_project.services">
 <span id="envisage-ui-single-project-services-module"></span><h2>envisage.ui.single_project.services module<a class="headerlink" href="#module-envisage.ui.single_project.services" title="Permalink to this headline">¶</a></h2>
@@ -518,7 +581,7 @@ and it insists on starting us first.</p>
 <li><a class="reference internal" href="#">envisage.ui.single_project package</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#envisage-ui-single-project-api-module">envisage.ui.single_project.api module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.single_project.api">envisage.ui.single_project.api module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.default_path_preference_page">envisage.ui.single_project.default_path_preference_page module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.factory_definition">envisage.ui.single_project.factory_definition module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.model_service">envisage.ui.single_project.model_service module</a></li>
@@ -526,7 +589,7 @@ and it insists on starting us first.</p>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.project_action">envisage.ui.single_project.project_action module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.project_action_set">envisage.ui.single_project.project_action_set module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.project_factory">envisage.ui.single_project.project_factory module</a></li>
-<li><a class="reference internal" href="#envisage-ui-single-project-project-plugin-module">envisage.ui.single_project.project_plugin module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.single_project.project_plugin">envisage.ui.single_project.project_plugin module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.services">envisage.ui.single_project.services module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.ui_service">envisage.ui.single_project.ui_service module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.ui_service_factory">envisage.ui.single_project.ui_service_factory module</a></li>
@@ -577,7 +640,7 @@ and it insists on starting us first.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Sep 13, 2019.
+      Last updated on Nov 19, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.

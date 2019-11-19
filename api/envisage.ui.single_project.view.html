@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.8.0',
+        VERSION:     '4.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -93,8 +93,85 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="envisage-ui-single-project-view-project-view-module">
-<h2>envisage.ui.single_project.view.project_view module<a class="headerlink" href="#envisage-ui-single-project-view-project-view-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-envisage.ui.single_project.view.project_view">
+<span id="envisage-ui-single-project-view-project-view-module"></span><h2>envisage.ui.single_project.view.project_view module<a class="headerlink" href="#module-envisage.ui.single_project.view.project_view" title="Permalink to this headline">¶</a></h2>
+<p>The single project plugin’s project view</p>
+<dl class="class">
+<dt id="envisage.ui.single_project.view.project_view.EmptyProject">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.view.project_view.</code><code class="descname">EmptyProject</code><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#EmptyProject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.EmptyProject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="envisage.ui.single_project.html#envisage.ui.single_project.project.Project" title="envisage.ui.single_project.project.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.single_project.project.Project</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.single_project.view.project_view.EmptyProjectAdapter">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.view.project_view.</code><code class="descname">EmptyProjectAdapter</code><span class="sig-paren">(</span><em>adaptee</em>, <em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#EmptyProjectAdapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.EmptyProjectAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traitsui.tree_node.ITreeNodeAdapter</span></code></p>
+<p>Adapter for our EmptyProject.</p>
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.EmptyProjectAdapter.get_label">
+<code class="descname">get_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#EmptyProjectAdapter.get_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.EmptyProjectAdapter.get_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the label to display for a specified object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.view.project_view.</code><code class="descname">ProjectAdapter</code><span class="sig-paren">(</span><em>adaptee</em>, <em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traitsui.tree_node.ITreeNodeAdapter</span></code></p>
+<p>Base ProjectAdapter for the root of the tree.</p>
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.allows_children">
+<code class="descname">allows_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.allows_children"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.allows_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether this object can have children.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.can_auto_close">
+<code class="descname">can_auto_close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.can_auto_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.can_auto_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the object’s children should be automatically
+closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.get_children">
+<code class="descname">get_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.get_children"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.get_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the object’s children.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.get_icon">
+<code class="descname">get_icon</code><span class="sig-paren">(</span><em>is_expanded</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.get_icon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.get_icon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the icon for a specified object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.get_label">
+<code class="descname">get_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.get_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.get_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the label to display for a specified object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.get_tooltip">
+<code class="descname">get_tooltip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.get_tooltip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.get_tooltip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the tooltip to display for a specified object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.single_project.view.project_view.ProjectAdapter.has_children">
+<code class="descname">has_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectAdapter.has_children"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectAdapter.has_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the object has children.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.single_project.view.project_view.ProjectView">
+<em class="property">class </em><code class="descclassname">envisage.ui.single_project.view.project_view.</code><code class="descname">ProjectView</code><span class="sig-paren">(</span><em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/view/project_view.html#ProjectView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.view.project_view.ProjectView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
+<p>The single project plugin’s project view</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-envisage.ui.single_project.view">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-envisage.ui.single_project.view" title="Permalink to this headline">¶</a></h2>
@@ -114,7 +191,7 @@
   <ul>
 <li><a class="reference internal" href="#">envisage.ui.single_project.view package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#envisage-ui-single-project-view-project-view-module">envisage.ui.single_project.view.project_view module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.single_project.view.project_view">envisage.ui.single_project.view.project_view module</a></li>
 <li><a class="reference internal" href="#module-envisage.ui.single_project.view">Module contents</a></li>
 </ul>
 </li>
@@ -162,7 +239,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Sep 13, 2019.
+      Last updated on Nov 19, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
