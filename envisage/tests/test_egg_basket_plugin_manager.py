@@ -7,7 +7,6 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 """ Tests for the 'Egg Basket' plugin manager. """
-from __future__ import print_function
 
 import glob
 import sys
@@ -39,8 +38,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         for path in sys.path:
             if self.bad_eggs_dir not in path:
                 sys_path.append(path)
-            else:
-                print("Removed", path)
         sys.path = sys_path
 
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
