@@ -11,7 +11,7 @@ This is a minor feature release with a small handful of fixes, and a single
 new feature to make the ``IPythonKernelPlugin`` easier to use for applications.
 
 Features
--------
+--------
 
 - Add an option to allow the ``InternalIPKernel`` to initialise its kernel at
   kernel creation time. At some point in the future, this will become the
