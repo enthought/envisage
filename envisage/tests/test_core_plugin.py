@@ -13,7 +13,7 @@
 from pkg_resources import resource_filename
 
 # Enthought library imports.
-from envisage.api import Application, Category, ClassLoadHook, Plugin
+from envisage.api import Application, ClassLoadHook, Plugin
 from envisage.api import ServiceOffer
 from traits.api import HasTraits, Int, Interface, List
 from traits.testing.unittest_tools import unittest
@@ -136,83 +136,6 @@ class CorePluginTestCase(unittest.TestCase):
         # published it in the service registry.
         service = application.get_service(IMyService)
         self.assertEqual(42, service)
-
-    def test_categories(self):
-        """ categories """
-
-        from envisage.core_plugin import CorePlugin
-
-        class PluginA(Plugin):
-            id = 'A'
-
-            categories = List(contributes_to='envisage.categories')
-
-            def _categories_default(self):
-                """ Trait initializer. """
-
-                bar_category = Category(
-                    class_name = PKG + '.bar_category.BarCategory',
-                    target_class_name = CorePluginTestCase.__module__ + '.Bar'
-                )
-
-                return [bar_category]
-
-
-        core = CorePlugin()
-        a    = PluginA()
-
-        application = TestApplication(plugins=[core, a])
-        application.start()
-
-        # Create the target class.
-        class Bar(HasTraits):
-            x = Int
-
-        # Make sure the category was imported and added.
-        #
-        # fixme: The following assertion was commented out. Please don't do
-        # that! If a test fails we need to work out why - otherwise you have
-        # just completely removed the benefits of having tests in the first
-        # place! This test works for me on Python 2.4!
-        self.assertTrue('y' in Bar.class_traits())
-
-    def test_dynamically_added_category(self):
-        """ dynamically added category """
-
-        from envisage.core_plugin import CorePlugin
-
-        class PluginA(Plugin):
-            id = 'A'
-
-            categories = List(contributes_to='envisage.categories')
-
-            def _categories_default(self):
-                """ Trait initializer. """
-
-                bar_category = Category(
-                    class_name = PKG + '.bar_category.BarCategory',
-                    target_class_name = CorePluginTestCase.__module__ + '.Bar'
-                )
-
-                return [bar_category]
-
-
-        core = CorePlugin()
-        a    = PluginA()
-
-        # Start with just the core plugin.
-        application = TestApplication(plugins=[core])
-        application.start()
-
-        # Now add a plugin that contains a category.
-        application.add_plugin(a)
-
-        # Create the target class.
-        class Bar(HasTraits):
-            x = Int
-
-        # Make sure the category was imported and added.
-        self.assertTrue('y' in Bar.class_traits())
 
     def test_class_load_hooks(self):
         """ class load hooks """
