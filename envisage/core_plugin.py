@@ -18,7 +18,7 @@ class CorePlugin(Plugin):
     """ The Envisage core plugin.
 
     The core plugin offers facilities that are generally useful when building
-    extensible applications such as adapters, categories and hooks etc. It does
+    extensible applications such as adapters and hooks etc. It does
     not contain anything to do with user interfaces!
 
     The core plugin should be started before any other plugin. It is up to
@@ -27,7 +27,6 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CATEGORIES       = 'envisage.categories'
     CLASS_LOAD_HOOKS = 'envisage.class_load_hooks'
     PREFERENCES      = 'envisage.preferences'
     SERVICE_OFFERS   = 'envisage.service_offers'
