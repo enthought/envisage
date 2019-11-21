@@ -18,7 +18,7 @@ class CorePlugin(Plugin):
     """ The Envisage core plugin.
 
     The core plugin offers facilities that are generally useful when building
-    extensible applications such as adapters, categories and hooks etc. It does
+    extensible applications such as adapters and hooks etc. It does
     not contain anything to do with user interfaces!
 
     The core plugin should be started before any other plugin. It is up to
@@ -27,7 +27,6 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CATEGORIES       = 'envisage.categories'
     CLASS_LOAD_HOOKS = 'envisage.class_load_hooks'
     PREFERENCES      = 'envisage.preferences'
     SERVICE_OFFERS   = 'envisage.service_offers'
@@ -41,44 +40,6 @@ class CorePlugin(Plugin):
     name = 'Core'
 
     #### Extension points offered by this plugin ##############################
-
-    # Categories are actually implemented via standard 'ClassLoadHooks', but
-    # for (hopefully) readability and convenience we have a specific extension
-    # point.
-    categories = ExtensionPoint(
-        List(Instance('envisage.category.Category')),
-        id   = CATEGORIES,
-        desc = """
-
-        Traits categories allow you to dynamically extend a Python class with
-        extra attributes, methods and events.
-
-        Contributions to this extension point allow you to import categories
-        *lazily* when the class to be extended is imported or created. Each
-        contribution contains the name of the category class that you want to
-        add (the 'class_name') and the name of the class that you want to
-        extend (the 'target_class_name').
-
-        e.g. To add the 'FooCategory' category to the 'Foo' class::
-
-            Category(
-                class_name        = 'foo_category.FooCategory',
-                target_class_name = 'foo.Foo'
-            )
-
-        """
-    )
-    @on_trait_change('categories_items')
-    def _categories_items_changed(self, event):
-        """ React to new categories being *added*.
-
-        Note that we don't currently do anything if categories are *removed*.
-
-        """
-
-        self._add_category_class_load_hooks(event.added)
-
-        return
 
     class_load_hooks = ExtensionPoint(
         List(Instance('envisage.class_load_hook.ClassLoadHook')),
@@ -202,11 +163,6 @@ class CorePlugin(Plugin):
         # Connect all class load hooks.
         self._connect_class_load_hooks(self.class_load_hooks)
 
-        # Add class load hooks for all of the contributed categories. The
-        # category will be imported and added when the associated target class
-        # is imported/created.
-        self._add_category_class_load_hooks(self.categories)
-
         # Register all service offers.
         #
         # These services are unregistered by the default plugin activation
@@ -220,15 +176,6 @@ class CorePlugin(Plugin):
     # Private interface.
     ###########################################################################
 
-    def _add_category_class_load_hooks(self, categories):
-        """ Add class load hooks for a list of categories. """
-
-        for category in categories:
-            class_load_hook = self._create_category_class_load_hook(category)
-            class_load_hook.connect()
-
-        return
-
     def _connect_class_load_hooks(self, class_load_hooks):
         """ Connect all class load hooks. """
 
@@ -236,31 +183,6 @@ class CorePlugin(Plugin):
             class_load_hook.connect()
 
         return
-
-    def _create_category_class_load_hook(self, category):
-        """ Create a category class load hook. """
-
-        # Local imports.
-        from .class_load_hook import ClassLoadHook
-
-        def import_and_add_category(cls):
-            """ Import a category and add it to a class.
-
-            This is a closure that binds 'self' and 'category'.
-
-            """
-
-            category_cls = self.application.import_symbol(category.class_name)
-            cls.add_trait_category(category_cls)
-
-            return
-
-        category_class_load_hook = ClassLoadHook(
-            class_name = category.target_class_name,
-            on_load    = import_and_add_category
-        )
-
-        return category_class_load_hook
 
     def _load_preferences(self, preferences):
         """ Load all contributed preferences into a preferences node. """
