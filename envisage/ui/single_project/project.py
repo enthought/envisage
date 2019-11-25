@@ -213,6 +213,8 @@ class Project(HasTraits):
 
         path = self.get_default_path(application)
         name = clean_filename(self.get_default_name())
+        enc = sys.getfilesystemencoding()
+        name = name.decode(enc)
         location = os.path.join(path, name)
         location = self._make_location_unique(location)
 
