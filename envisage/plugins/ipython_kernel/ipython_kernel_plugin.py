@@ -17,8 +17,7 @@ from envisage.api import (
     bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
 from traits.api import Bool, Instance, List
 
-
-# Extension point IDs.
+# Constants kept around for backwards compatibility.
 SERVICE_OFFERS = 'envisage.service_offers'
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
@@ -31,6 +30,9 @@ logger = logging.getLogger(__name__)
 class IPythonKernelPlugin(Plugin):
     """ An IPython kernel plugin. """
 
+    # Extension point IDs this plugin contributes to.
+    SERVICE_OFFERS = 'envisage.service_offers'
+
     #: The plugin unique identifier.
     id = 'envisage.plugins.ipython_kernel'
 
@@ -38,6 +40,8 @@ class IPythonKernelPlugin(Plugin):
     name = 'IPython embedded kernel plugin'
 
     #: Extension point for objects contributed to the IPython kernel namespace.
+    IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
+
     kernel_namespace = ExtensionPoint(
         List, id=IPYTHON_NAMESPACE, desc="""
 
@@ -82,7 +86,7 @@ class IPythonKernelPlugin(Plugin):
         logger.debug("Creating the embedded IPython kernel")
         kernel = self._kernel = InternalIPKernel()
         bind_extension_point(kernel, 'initial_namespace',
-                             IPYTHON_NAMESPACE, self.application)
+                             self.IPYTHON_NAMESPACE, self.application)
         if self.init_ipkernel:
             kernel.init_ipkernel()
         else:

@@ -46,4 +46,10 @@ PREFERENCES_PAGES = WorkbenchPlugin.PREFERENCES_PAGES
 WORKBENCH_SERVICE_OFFERS = WorkbenchPlugin.WORKBENCH_SERVICE_OFFERS
 VIEWS = WorkbenchPlugin.VIEWS
 
-del envisage
+# Ensure that a `from envisage.ids import *` import only brings in ids.
+del CorePlugin
+del IPythonKernelPlugin
+del PythonShellPlugin
+del ProjectPlugin
+del TasksPlugin
+del WorkbenchPlugin
