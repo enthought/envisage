@@ -36,7 +36,6 @@ from .provider_extension_registry import ProviderExtensionRegistry
 from .service import Service
 from .service_offer import ServiceOffer
 from .service_registry import NoSuchServiceError, ServiceRegistry
-from .twisted_application import TwistedApplication
 from .unknown_extension import UnknownExtension
 from .unknown_extension_point import UnknownExtensionPoint
 
