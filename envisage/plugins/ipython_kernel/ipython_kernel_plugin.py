@@ -17,11 +17,10 @@ from envisage.api import (
     bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
 from traits.api import Bool, Instance, List
 
-# Constants kept around for backwards compatibility.
 SERVICE_OFFERS = 'envisage.service_offers'
+# Constants kept around for backwards compatibility.
+# These will be removed in a future release.
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
-
-# Protocol for the contributed service offer.
 IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
 
 logger = logging.getLogger(__name__)
@@ -29,9 +28,6 @@ logger = logging.getLogger(__name__)
 
 class IPythonKernelPlugin(Plugin):
     """ An IPython kernel plugin. """
-
-    # Extension point IDs this plugin contributes to.
-    SERVICE_OFFERS = 'envisage.service_offers'
 
     #: The plugin unique identifier.
     id = 'envisage.plugins.ipython_kernel'

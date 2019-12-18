@@ -39,7 +39,7 @@ if ipykernel_available:
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
         InternalIPKernel)
     from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
-        IPYTHON_KERNEL_PROTOCOL, IPythonKernelPlugin)
+        IPYTHON_KERNEL_PROTOCOL, IPYTHON_NAMESPACE, IPythonKernelPlugin)
 
 
 @unittest.skipUnless(ipykernel_available,
@@ -85,7 +85,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
     def test_kernel_namespace_extension_point(self):
         class NamespacePlugin(Plugin):
-            kernel_namespace = List(contributes_to=IPythonKernelPlugin.IPYTHON_NAMESPACE)
+            kernel_namespace = List(contributes_to=IPYTHON_NAMESPACE)
 
             def _kernel_namespace_default(self):
                 return [('y', 'hi')]
