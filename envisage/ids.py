@@ -8,7 +8,9 @@
 # Thanks for using Enthought open source!
 
 from envisage.core_plugin import CorePlugin
-from envisage.plugins.ipython_kernel.ipython_kernel_plugin import IPythonKernelPlugin
+from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
+    IPythonKernelPlugin
+)
 from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
 from envisage.ui.single_project.project_plugin import ProjectPlugin
 from envisage.ui.tasks.tasks_plugin import TasksPlugin
@@ -45,6 +47,11 @@ PERSPECTIVES = WorkbenchPlugin.PERSPECTIVES
 PREFERENCES_PAGES = WorkbenchPlugin.PREFERENCES_PAGES
 WORKBENCH_SERVICE_OFFERS = WorkbenchPlugin.WORKBENCH_SERVICE_OFFERS
 VIEWS = WorkbenchPlugin.VIEWS
+
+#### Services ################################################################
+
+# Services offered by the IPythonKernelPlugin
+IPYTHON_KERNEL_PROTOCOL = IPythonKernelPlugin.IPYTHON_KERNEL_PROTOCOL
 
 # Ensure that a `from envisage.ids import *` import only brings in ids.
 del CorePlugin

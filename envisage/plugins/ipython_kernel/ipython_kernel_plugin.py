@@ -50,6 +50,9 @@ class IPythonKernelPlugin(Plugin):
     #: Service offers contributed by this plugin.
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
+    # Protocol for the contributed service offer.
+    IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
+
     #: Whether to initialize the kernel when the service is created.
     #: The default is ``False```, for backwards compatibility. It will change
     #: to ``True`` in a future version of Envisage. External users wanting
@@ -82,7 +85,7 @@ class IPythonKernelPlugin(Plugin):
         logger.debug("Creating the embedded IPython kernel")
         kernel = self._kernel = InternalIPKernel()
         bind_extension_point(kernel, 'initial_namespace',
-                             self.IPYTHON_NAMESPACE, self.application)
+                             IPYTHON_NAMESPACE, self.application)
         if self.init_ipkernel:
             kernel.init_ipkernel()
         else:
