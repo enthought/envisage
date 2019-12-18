@@ -23,6 +23,7 @@ class TestIds(unittest.TestCase):
             "BINDINGS",
             "COMMANDS",
             "IPYTHON_NAMESPACE",
+            "IPYTHON_KERNEL_PROTOCOL",
             "FACTORY_DEFINITIONS",
             "UI_SERVICE_FACTORY",
             "PREFERENCES_CATEGORIES",
