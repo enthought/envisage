@@ -17,24 +17,16 @@ import envisage.ids
 class TestIds(unittest.TestCase):
     def test_envisage_extension_points(self):
         extension_point_ids = [
-            "CLASS_LOAD_HOOKS",
             "PREFERENCES",
             "SERVICE_OFFERS",
             "BINDINGS",
             "COMMANDS",
             "IPYTHON_NAMESPACE",
             "IPYTHON_KERNEL_PROTOCOL",
-            "FACTORY_DEFINITIONS",
-            "UI_SERVICE_FACTORY",
             "PREFERENCES_CATEGORIES",
             "PREFERENCES_PANES",
             "TASKS",
             "TASK_EXTENSIONS",
-            "ACTION_SETS",
-            "PERSPECTIVES",
-            "PREFERENCES_PAGES",
-            "WORKBENCH_SERVICE_OFFERS",
-            "VIEWS",
         ]
 
         for extension_point_id in extension_point_ids:
