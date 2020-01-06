@@ -13,12 +13,9 @@ plugin.
 """
 
 # Standard library imports.
-import datetime
 import logging
-import keyword
 import os
 import re
-import sys
 import unicodedata
 
 # Enthought library imports
@@ -723,7 +720,6 @@ class Project(HasTraits):
 
 # Helper functions
 
-# Added so that the dependency on this function from Traits can be removed
 def clean_filename(name, replace_empty=""):
     """
     Make a user-supplied string safe for filename use.
@@ -733,6 +729,7 @@ def clean_filename(name, replace_empty=""):
     '_'.
     This does not give a faithful representation of the original string:
     different input strings can result in the same output string.
+
     Parameters
     ----------
     name : str
@@ -742,6 +739,7 @@ def clean_filename(name, replace_empty=""):
         string ends up being empty. No validation is done on this
         input - it's up to the user to ensure that the default is
         itself safe. The default is to return the empty string.
+
     Returns
     -------
     safe_string : str
