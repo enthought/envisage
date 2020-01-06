@@ -723,6 +723,7 @@ class Project(HasTraits):
 def clean_filename(name, replace_empty=""):
     """
     Make a user-supplied string safe for filename use.
+
     Returns an ASCII-encodable string based on the input string that's safe for
     use as a component of a filename or URL. The returned value is a string
     containing only lowercase ASCII letters, digits, and the characters '-' and
