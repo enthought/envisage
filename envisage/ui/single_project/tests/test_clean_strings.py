@@ -20,7 +20,7 @@ import six
 from envisage.ui.single_project.project import clean_filename
 
 # Safe strings should only contain the following characters.
-LEGAL_CHARS = set("-0123456789_abcdefghijklmnopqrstuvwxyz0123456789")
+LEGAL_CHARS = set("-0123456789_abcdefghijklmnopqrstuvwxyz")
 
 
 class TestCleanStrings(unittest.TestCase):
@@ -80,8 +80,3 @@ class TestCleanStrings(unittest.TestCase):
         self.assertIsInstance(safe_string, six.text_type)
         chars_in_string = set(safe_string)
         self.assertLessEqual(chars_in_string, LEGAL_CHARS)
-
-
-if __name__ == '__main__':
-    unittest.main()
-
