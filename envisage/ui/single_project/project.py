@@ -15,7 +15,8 @@ plugin.
 # Standard library imports.
 import logging
 import os
-import sys
+import re
+import unicodedata
 
 # Enthought library imports
 from traits.etsconfig.api import ETSConfig
@@ -24,7 +25,6 @@ from apptools.io.api import File
 from traits.api import Any, Bool, Dict, Directory, HasTraits, \
     Instance, Property, Str
 from traitsui.api import Group, View
-from traits.util.clean_strings import clean_filename
 
 # Local imports.
 #from envisage.ui.single_project.editor.project_editor import \
@@ -717,5 +717,46 @@ class Project(HasTraits):
         # Indicate this project is now dirty
         self.dirty = True
 
+
+# Helper functions
+
+def clean_filename(name, replace_empty=""):
+    """
+    Make a user-supplied string safe for filename use.
+
+    Returns an ASCII-encodable string based on the input string that's safe for
+    use as a component of a filename or URL. The returned value is a string
+    containing only lowercase ASCII letters, digits, and the characters '-' and
+    '_'.
+    This does not give a faithful representation of the original string:
+    different input strings can result in the same output string.
+
+    Parameters
+    ----------
+    name : str
+        The string to be made safe.
+    replace_empty : str, optional
+        The return value to be used in the event that the sanitised
+        string ends up being empty. No validation is done on this
+        input - it's up to the user to ensure that the default is
+        itself safe. The default is to return the empty string.
+
+    Returns
+    -------
+    safe_string : str
+        A filename-safe version of string.
+    """
+    # Code is based on Django's slugify utility.
+    # https://docs.djangoproject.com/en/1.9/_modules/django/utils/text/#slugify
+    name = (
+        unicodedata.normalize('NFKD', name)
+        .encode('ascii', 'ignore')
+        .decode('ascii')
+    )
+    name = re.sub(r'[^\w\s-]', '', name).strip().lower()
+    safe_name = re.sub(r'[-\s]+', '-', name)
+    if safe_name == "":
+        return replace_empty
+    return safe_name
 
 #### EOF #####################################################################

@@ -28,8 +28,16 @@ def listener(obj, trait_name, old, event):
 
     clone = TEST_LIST[:]
 
+    added = event.added
+    # Backwards compatibility for Traits < 6.0, where event.added may
+    # be a list containing a list containing the added elements. This
+    # block can be removed once compatibility with Traits < 6.0 is no
+    # longer needed. Ref: enthought/traits#300.
+    if len(added) == 1 and isinstance(added[0], list):
+        added = added[0]
+
     # If nothing was added then this is a 'del' or 'remove' operation.
-    if len(event.added) == 0:
+    if len(added) == 0:
         if isinstance(event.index, slice):
             del clone[event.index]
 
@@ -43,19 +51,19 @@ def listener(obj, trait_name, old, event):
     # operation.
     elif len(event.removed) == 0:
         if isinstance(event.index, slice):
-            clone[event.index] = event.added[0]
+            clone[event.index] = added
 
         else:
-            clone.insert(event.index, event.added[0])
+            clone[event.index:event.index] = added
 
     # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
     # category).
     else:
         if isinstance(event.index, slice):
-            clone[event.index] = event.added[0]
+            clone[event.index] = added
 
         else:
-            clone[event.index : event.index + len(event.added)] = event.added
+            clone[event.index : event.index + len(added)] = added
 
     listener.clone = clone
 
@@ -89,7 +97,7 @@ class SliceTestCase(unittest.TestCase):
     def test_extend(self):
         """ extend """
 
-        self.f.l.append([99, 100])
+        self.f.l.extend([99, 100])
         # Make sure we successfully recreated the operation.
         self.assertEqual(self.f.l, listener.clone)
 
