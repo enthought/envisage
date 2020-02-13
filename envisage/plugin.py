@@ -360,7 +360,7 @@ class Plugin(ExtensionProvider):
         # trait.
         #
         # fixme: This works for 'Instance' traits, but what about 'AdaptsTo'
-        # and 'AdaptedTo' traits?
+        # and 'Supports' traits?
         else:
             # Note that in traits the protocol can be an actual class or
             # interfacem or the *name* of a class or interface. This allows

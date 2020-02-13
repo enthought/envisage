@@ -18,7 +18,7 @@ from envisage.api import ExtensionPoint
 from envisage.plugins.python_shell.api import IPythonShell
 from pyface.api import PythonShell
 from pyface.workbench.api import View
-from traits.api import Any, Event, Instance, Property, DictStrAny, provides
+from traits.api import Any, Dict, Event, Instance, Property, provides, Str
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ class PythonShellView(View):
     #### 'PythonShellView' interface ##########################################
 
     # The interpreter's namespace.
-    namespace = Property(DictStrAny)
+    namespace = Property(Dict(Str, Any))
 
     # The names bound in the interpreter's namespace.
     names = Property
