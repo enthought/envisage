@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -93,16 +93,16 @@ all of your user interfaces must fit this pattern – just that if they do, then
 we have done a lot of the work for you.</p>
 <p>Workbench user interfaces are based on 3 simple concepts:</p>
 <ol class="arabic">
-<li><p class="first">Views</p>
+<li><p>Views</p>
 <p>Views are primarily used to present information to the user to help them
 perform their current task.</p>
 <p>In an IDE application, views might be:</p>
 <ul class="simple">
-<li>file tree</li>
-<li>class outlines</li>
+<li><p>file tree</p></li>
+<li><p>class outlines</p></li>
 </ul>
 </li>
-<li><p class="first">Editors</p>
+<li><p>Editors</p>
 <p>Editors allow the user to manipulate data and objects to perform their
 current task. Editors are really the focus of users attention with the
 views used to provide supporting information. Editors are grouped together
@@ -110,19 +110,19 @@ geographically in what is known as the <em>editor area</em>.</p>
 <p>In an IDE application, editors would contain the source code that a
 developer is currently working on.</p>
 </li>
-<li><p class="first">Perspectives</p>
+<li><p>Perspectives</p>
 <p>A perspective is a particular grouping of views (usually around the editor
 area) that correspond to a user task.</p>
 <p>For example, in an IDE, I might have the following perspectives:</p>
 <ul>
-<li><p class="first">Coding perspective</p>
+<li><p>Coding perspective</p>
 <p>This is the perspective that the user (in this case a developer) would be
 in when they are actually writing the code. It might contain views that
 show the files in the current project, the outline of the current class
 etc, and the editors would contain the source code that they are actually
 working on.</p>
 </li>
-<li><p class="first">Debugging perspective</p>
+<li><p>Debugging perspective</p>
 <p>In this perspective, the user would still see the source code in the
 editors, but the views might show things like breakpoints,
 variable watches, stack information etc.</p>
@@ -165,13 +165,11 @@ widget to allow views, editors and perspectives to be contributed via plugins.</
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -195,10 +193,10 @@ widget to allow views, editors and perspectives to be contributed via plugins.</
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

@@ -6,7 +6,7 @@ Subpackages
 
 .. toctree::
 
-    envisage.ui.tasks.action
+   envisage.ui.tasks.action
 
 Submodules
 ----------
@@ -15,87 +15,87 @@ envisage.ui.tasks.api module
 ----------------------------
 
 .. automodule:: envisage.ui.tasks.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.preferences\_category module
 ----------------------------------------------
 
 .. automodule:: envisage.ui.tasks.preferences_category
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.preferences\_dialog module
 --------------------------------------------
 
 .. automodule:: envisage.ui.tasks.preferences_dialog
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.preferences\_pane module
 ------------------------------------------
 
 .. automodule:: envisage.ui.tasks.preferences_pane
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.task\_extension module
 ----------------------------------------
 
 .. automodule:: envisage.ui.tasks.task_extension
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.task\_factory module
 --------------------------------------
 
 .. automodule:: envisage.ui.tasks.task_factory
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.task\_window module
 -------------------------------------
 
 .. automodule:: envisage.ui.tasks.task_window
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.task\_window\_event module
 --------------------------------------------
 
 .. automodule:: envisage.ui.tasks.task_window_event
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.tasks\_application module
 -------------------------------------------
 
 .. automodule:: envisage.ui.tasks.tasks_application
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.tasks.tasks\_plugin module
 --------------------------------------
 
 .. automodule:: envisage.ui.tasks.tasks_plugin
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: envisage.ui.tasks
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

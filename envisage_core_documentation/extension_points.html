@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -112,8 +112,8 @@ chosen at random from a list of contributed messages.</p>
 <h2>Declaring an Extension Point<a class="headerlink" href="#declaring-an-extension-point" title="Permalink to this headline">¶</a></h2>
 <p>Plugins declare their extension points in one of two ways:</p>
 <ol class="arabic simple">
-<li>Declaratively - using the ‘ExtensionPoint’ trait type</li>
-<li>Programmatically - by overriding the ‘get_extension_points’ method.</li>
+<li><p>Declaratively - using the ‘ExtensionPoint’ trait type</p></li>
+<li><p>Programmatically - by overriding the ‘get_extension_points’ method.</p></li>
 </ol>
 <p>In the MOTD example, the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin needs to advertise an extension
 point that allows other plugins to contribute new messages. Using the
@@ -161,10 +161,10 @@ point that allows other plugins to contribute new messages. Using the
 </div>
 <p>Either way, this tells us three things about the extension point:</p>
 <ol class="arabic simple">
-<li>That the extension point is called “acme.motd.messages”</li>
-<li>That every item in a list of contributions to the extension point must
-implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface.</li>
-<li>That the extension point allows you to contribute messages!</li>
+<li><p>That the extension point is called “acme.motd.messages”</p></li>
+<li><p>That every item in a list of contributions to the extension point must
+implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface.</p></li>
+<li><p>That the extension point allows you to contribute messages!</p></li>
 </ol>
 </div>
 <div class="section" id="making-contributions-to-an-extension-point">
@@ -200,8 +200,8 @@ a simple module (<a class="reference external" href="https://github.com/enthough
 Envisage about the messages that we have just created. Again there are are
 two ways that a plugin can do this:</p>
 <ol class="arabic simple">
-<li>Declaratively - using the ‘contributes_to’ trait metadata</li>
-<li>Programmatically - by overriding the ‘get_extensions’ method.</li>
+<li><p>Declaratively - using the ‘contributes_to’ trait metadata</p></li>
+<li><p>Programmatically - by overriding the ‘get_extensions’ method.</p></li>
 </ol>
 <p>The declarative version looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
@@ -356,13 +356,11 @@ events if extensions are added/removed to/from the extension point at runtime.</
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -386,10 +384,10 @@ events if extensions are added/removed to/from the extension point at runtime.</
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

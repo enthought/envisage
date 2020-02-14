@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -92,13 +92,13 @@ framework for building extensible, pluggable applications, and in particular
 engineers.</p>
 <p>The project is really divided into 3 sub-projects:-</p>
 <ol class="arabic">
-<li><p class="first"><a class="reference external" href="core.html">Core</a></p>
+<li><p><a class="reference external" href="core.html">Core</a></p>
 <p>The Envisage Core, found in the top-level <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/api.py">envisage</a> package,
 defines the basic application architecture including the plugin and
 extension mechanisms. All of the other sub-projects are simply collections
 of plugins that are built on top of the core.</p>
 </li>
-<li><p class="first">User Interface (UI)</p>
+<li><p>User Interface (UI)</p>
 <p>This is small (but hopefully expanding) set of plugins useful for building
 applications with (graphical) User Interfaces. It is found in the
 <em>envisage.ui</em> package (and its subpackages), and aims to provide
@@ -109,7 +109,7 @@ useful plugins in this project is the <a class="reference external" href="Workbe
 user interface that is often (but not exclusively) found in integrated
 development environments (IDEs).</p>
 </li>
-<li><p class="first">Science/Enginneering</p>
+<li><p>Science/Enginneering</p>
 <p>This is the holy grail, and in truth, we haven’t got much here yet, but the
 goal is to build up a set of plugins targeted towards scientific and
 engineering applications (data import/export, 2D/3D visualization etc).</p>
@@ -169,13 +169,11 @@ documentation and examples first).</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -199,10 +197,10 @@ documentation and examples first).</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

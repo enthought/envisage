@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -171,7 +171,7 @@
       </ul></li>
       <li><a href="tasks_user_manual/extensibility.html#index-11">after</a>
 </li>
-      <li><a href="api/envisage.html#envisage.safeweakref.finalize.alive">alive (envisage.safeweakref.finalize attribute)</a>
+      <li><a href="api/envisage.html#envisage.safeweakref.finalize.alive">alive() (envisage.safeweakref.finalize property)</a>
 </li>
       <li><a href="api/envisage.ui.single_project.view.html#envisage.ui.single_project.view.project_view.ProjectAdapter.allows_children">allows_children() (envisage.ui.single_project.view.project_view.ProjectAdapter method)</a>
 </li>
@@ -207,7 +207,7 @@
       </ul></li>
       <li><a href="api/envisage.ui.single_project.html#envisage.ui.single_project.model_service.ModelService.are_projects_files">are_projects_files() (envisage.ui.single_project.model_service.ModelService method)</a>
 </li>
-      <li><a href="api/envisage.html#envisage.safeweakref.finalize.atexit">atexit (envisage.safeweakref.finalize attribute)</a>
+      <li><a href="api/envisage.html#envisage.safeweakref.finalize.atexit">atexit() (envisage.safeweakref.finalize property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -267,6 +267,8 @@
 </li>
       <li><a href="api/envisage.html#envisage.class_load_hook.ClassLoadHook">ClassLoadHook (class in envisage.class_load_hook)</a>
 </li>
+      <li><a href="api/envisage.ui.single_project.html#envisage.ui.single_project.project.clean_filename">clean_filename() (in module envisage.ui.single_project.project)</a>
+</li>
       <li><a href="api/envisage.ui.single_project.html#envisage.ui.single_project.model_service.ModelService.clean_location">clean_location() (envisage.ui.single_project.model_service.ModelService method)</a>
 </li>
       <li><a href="api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.cleanup_consoles">cleanup_consoles() (envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel method)</a>
@@ -303,14 +305,14 @@
 </li>
       <li><a href="api/envisage.ui.single_project.action.html#envisage.ui.single_project.action.close_project_action.CloseProjectAction">CloseProjectAction (class in envisage.ui.single_project.action.close_project_action)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.plugins.python_shell.html#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.COMMANDS">COMMANDS (envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin attribute)</a>
 
       <ul>
         <li><a href="api/envisage.plugins.tasks.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.COMMANDS">(envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager">CompositePluginManager (class in envisage.composite_plugin_manager)</a>
 </li>
       <li><a href="api/envisage.plugins.ipython_kernel.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.configure_tornado_logger">configure_tornado_logger() (envisage.plugins.ipython_kernel.kernelapp.IPKernelApp method)</a>
@@ -1979,13 +1981,11 @@
               <img class="logo" src="_static/img/e-logo.png" alt="Logo">
             </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -2009,10 +2009,10 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

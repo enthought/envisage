@@ -8,39 +8,39 @@ envisage.ui.workbench.action.about\_action module
 -------------------------------------------------
 
 .. automodule:: envisage.ui.workbench.action.about_action
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.workbench.action.api module
 ---------------------------------------
 
 .. automodule:: envisage.ui.workbench.action.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.workbench.action.edit\_preferences\_action module
 -------------------------------------------------------------
 
 .. automodule:: envisage.ui.workbench.action.edit_preferences_action
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 envisage.ui.workbench.action.exit\_action module
 ------------------------------------------------
 
 .. automodule:: envisage.ui.workbench.action.exit_action
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: envisage.ui.workbench.action
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

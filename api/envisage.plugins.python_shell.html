@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -115,30 +115,30 @@
 <p>A simple interface for the Python shell.</p>
 <dl class="class">
 <dt id="envisage.plugins.python_shell.i_python_shell.IPythonShell">
-<em class="property">class </em><code class="descclassname">envisage.plugins.python_shell.i_python_shell.</code><code class="descname">IPythonShell</code><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.python_shell.i_python_shell.</code><code class="sig-name descname">IPythonShell</code><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></p>
 <p>A simple interface for the Python shell.</p>
 <dl class="method">
 <dt id="envisage.plugins.python_shell.i_python_shell.IPythonShell.bind">
-<code class="descname">bind</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.bind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bind</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.bind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Binds a name to a value in the interpreter’s namespace.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command">
-<code class="descname">execute_command</code><span class="sig-paren">(</span><em>command</em>, <em>hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.execute_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">execute_command</code><span class="sig-paren">(</span><em class="sig-param">command</em>, <em class="sig-param">hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.execute_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a command in the interpreter.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file">
-<code class="descname">execute_file</code><span class="sig-paren">(</span><em>path</em>, <em>hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.execute_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">execute_file</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.execute_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a file in the interpreter.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup">
-<code class="descname">lookup</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lookup</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/i_python_shell.html#IPythonShell.lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the value bound to a name in the interpreter’s namespace.</p>
 </dd></dl>
 
@@ -150,22 +150,22 @@
 <p>The interactive Python shell plugin.</p>
 <dl class="class">
 <dt id="envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin">
-<em class="property">class </em><code class="descclassname">envisage.plugins.python_shell.python_shell_plugin.</code><code class="descname">PythonShellPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/python_shell/python_shell_plugin.html#PythonShellPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.python_shell.python_shell_plugin.</code><code class="sig-name descname">PythonShellPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/python_shell/python_shell_plugin.html#PythonShellPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>The interactive Python shell plugin.</p>
 <dl class="attribute">
 <dt id="envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.BINDINGS">
-<code class="descname">BINDINGS</code><em class="property"> = 'envisage.plugins.python_shell.bindings'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.BINDINGS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">BINDINGS</code><em class="property"> = 'envisage.plugins.python_shell.bindings'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.BINDINGS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.COMMANDS">
-<code class="descname">COMMANDS</code><em class="property"> = 'envisage.plugins.python_shell.commands'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.COMMANDS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">COMMANDS</code><em class="property"> = 'envisage.plugins.python_shell.commands'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.COMMANDS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.VIEWS">
-<code class="descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.VIEWS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.VIEWS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -210,13 +210,11 @@
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -240,10 +238,10 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

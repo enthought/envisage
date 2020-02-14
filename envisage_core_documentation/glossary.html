@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -86,36 +86,35 @@
             
   <div class="section" id="glossary">
 <h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
-<dl class="docutils">
-<dt>Application</dt>
-<dd>The thing that plugins plugin to!</dd>
-<dt>Extension Point</dt>
-<dd>A well defined place where new functionality and/or data can be contributed
-to an application.</dd>
-<dt>Extension (aka Contribution)</dt>
-<dd>An <em>actual</em> piece of functionality or data that is contributed (this is why
+<dl class="simple">
+<dt>Application</dt><dd><p>The thing that plugins plugin to!</p>
+</dd>
+<dt>Extension Point</dt><dd><p>A well defined place where new functionality and/or data can be contributed
+to an application.</p>
+</dd>
+<dt>Extension (aka Contribution)</dt><dd><p>An <em>actual</em> piece of functionality or data that is contributed (this is why
 extensions are often known as contributions). Think of ‘extension points’ as
-the ‘where’ and ‘extensions’ as the ‘what’.</dd>
-<dt>Extension Registry</dt>
-<dd>The place where (by default) all of the extension points and their associated
-extensions are stored.</dd>
-<dt>Service</dt>
-<dd>In Envisage, a service is <em>any</em> object that a developer thinks is
-sufficiently useful to want to share it.</dd>
-<dt>Service Registry</dt>
-<dd>The ‘yellow pages’ style mechanism that is used to publish and look up
-services.</dd>
-<dt>Plugin</dt>
-<dd><p class="first">The mechanism for delivering new functionality to an application. A plugin
+the ‘where’ and ‘extensions’ as the ‘what’.</p>
+</dd>
+<dt>Extension Registry</dt><dd><p>The place where (by default) all of the extension points and their associated
+extensions are stored.</p>
+</dd>
+<dt>Service</dt><dd><p>In Envisage, a service is <em>any</em> object that a developer thinks is
+sufficiently useful to want to share it.</p>
+</dd>
+<dt>Service Registry</dt><dd><p>The ‘yellow pages’ style mechanism that is used to publish and look up
+services.</p>
+</dd>
+<dt>Plugin</dt><dd><p>The mechanism for delivering new functionality to an application. A plugin
 can do 3 simple things:</p>
-<ol class="last arabic simple">
-<li>offer extension points</li>
-<li>make contributions to extension points (including its own)</li>
-<li>create and publish services</li>
+<ol class="arabic simple">
+<li><p>offer extension points</p></li>
+<li><p>make contributions to extension points (including its own)</p></li>
+<li><p>create and publish services</p></li>
 </ol>
 </dd>
-<dt>Plugin Manager</dt>
-<dd>Finds, starts, and manages the plugins that make up an application.</dd>
+<dt>Plugin Manager</dt><dd><p>Finds, starts, and manages the plugins that make up an application.</p>
+</dd>
 </dl>
 </div>
 
@@ -140,13 +139,11 @@ can do 3 simple things:</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -170,10 +167,10 @@ can do 3 simple things:</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

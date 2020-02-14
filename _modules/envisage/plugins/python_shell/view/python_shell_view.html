@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -95,7 +95,7 @@
 <span class="kn">from</span> <span class="nn">envisage.plugins.python_shell.api</span> <span class="k">import</span> <span class="n">IPythonShell</span>
 <span class="kn">from</span> <span class="nn">pyface.api</span> <span class="k">import</span> <span class="n">PythonShell</span>
 <span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="k">import</span> <span class="n">View</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">DictStrAny</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
 
 <span class="c1"># Setup a logger for this module.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -141,7 +141,7 @@
     <span class="c1">#### &#39;PythonShellView&#39; interface ##########################################</span>
 
     <span class="c1"># The interpreter&#39;s namespace.</span>
-    <span class="n">namespace</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">DictStrAny</span><span class="p">)</span>
+    <span class="n">namespace</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Dict</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">Any</span><span class="p">))</span>
 
     <span class="c1"># The names bound in the interpreter&#39;s namespace.</span>
     <span class="n">names</span> <span class="o">=</span> <span class="n">Property</span>
@@ -340,13 +340,11 @@
               <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
             </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -370,10 +368,10 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>
