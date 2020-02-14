@@ -2,6 +2,25 @@
  Envisage CHANGELOG
 ====================
 
+Version 4.9.1
+=============
+
+Released: 2020-02-13
+
+This is a bugfix release aimed at ensuring compatibility with the
+upcoming Traits 6.0.0 release.
+
+Fixes
+-----
+
+- Fix tests that fail against Traits 6.0.0 due to the removal
+  of double nesting in list events. (#255)
+- Replace a comment mention of ``AdaptedTo`` with ``Supports``. (#253)
+- Remove dependence on ``clean_filename`` from Traits. (#252)
+- Replace a use of the deprecated ``DictStrAny`` trait with
+  ``Dict(Str, Any)``. (#250)
+
+
 Version 4.9.0
 =============
 
