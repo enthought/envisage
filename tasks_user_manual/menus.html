@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -99,7 +99,7 @@ on <a class="reference internal" href="extensibility.html#extensibility"><span c
 <span id="index-0"></span><h2>Defining a Menu Bar<a class="headerlink" href="#defining-a-menu-bar" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">Resuming our example of the script editing task from the previous section, we
 shall define some menu items for opening and saving files. As in Traits UI and
-Pyface, individual menu items are instances of the <code class="docutils literal notranslate"><span class="pre">Action</span></code> class <a class="footnote-reference" href="#id2" id="id1">[1]</a>. We
+Pyface, individual menu items are instances of the <code class="docutils literal notranslate"><span class="pre">Action</span></code> class <a class="footnote-reference brackets" href="#id2" id="id1">1</a>. We
 might define the ‘Open’ action as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="k">import</span> <span class="n">Action</span>
 
@@ -130,20 +130,19 @@ might define the ‘Open’ action as follows:</p>
 <p id="index-2">Now let us suppose that we have similarly implemented a <code class="docutils literal notranslate"><span class="pre">SaveAction</span></code> and a
 <code class="docutils literal notranslate"><span class="pre">save()</span></code> method on our task. We would like to add these actions to a menu
 bar. Tasks provides several <code class="docutils literal notranslate"><span class="pre">Schema</span></code> classes for this purpose:</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name"><code class="docutils literal notranslate"><span class="pre">MenuBarSchema</span></code>:</th><td class="field-body">The root of a menu hierarchy. Contains some number of menu
-schemas.</td>
-</tr>
-<tr class="field-even field"><th class="field-name"><code class="docutils literal notranslate"><span class="pre">MenuSchema</span></code>:</th><td class="field-body">A menu or sub-menu in the menu hierarchy.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name"><code class="docutils literal notranslate"><span class="pre">GroupSchema</span></code>:</th><td class="field-body">A group of menu items that are logically related and that
-may or may not require separators from other groups.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd"><code class="docutils literal notranslate"><span class="pre">MenuBarSchema</span></code></dt>
+<dd class="field-odd"><p>The root of a menu hierarchy. Contains some number of menu
+schemas.</p>
+</dd>
+<dt class="field-even"><code class="docutils literal notranslate"><span class="pre">MenuSchema</span></code></dt>
+<dd class="field-even"><p>A menu or sub-menu in the menu hierarchy.</p>
+</dd>
+<dt class="field-odd"><code class="docutils literal notranslate"><span class="pre">GroupSchema</span></code></dt>
+<dd class="field-odd"><p>A group of menu items that are logically related and that
+may or may not require separators from other groups.</p>
+</dd>
+</dl>
 <p>For convenience, these classes also have the abbreviated names <code class="docutils literal notranslate"><span class="pre">SMenuBar</span></code>,
 <code class="docutils literal notranslate"><span class="pre">SMenu</span></code>, and <code class="docutils literal notranslate"><span class="pre">SGroup</span></code>, respectively. We can implement the menu bar for our
 task using these abbreviations:</p>
@@ -179,18 +178,16 @@ define separately the <code class="docutils literal notranslate"><span class="pr
 <span id="index-4"></span><h2>Defining a Tool Bar<a class="headerlink" href="#defining-a-tool-bar" title="Permalink to this headline">¶</a></h2>
 <p id="index-5">Like a menu bar, a tool bar uses the <code class="docutils literal notranslate"><span class="pre">Action</span></code> class to represent individual
 items. A tool bar, however, is defined with a different set of schemas:</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name"><code class="docutils literal notranslate"><span class="pre">ToolBarSchema</span></code>:</th><td class="field-body">The root of a tool bar hierarchy. Contains some number of
-group schemas and actions.</td>
-</tr>
-<tr class="field-even field"><th class="field-name"><code class="docutils literal notranslate"><span class="pre">GroupSchema</span></code>:</th><td class="field-body">A group of tool bar buttons that are logically related and
-that may or may not require separators from other groups.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd"><code class="docutils literal notranslate"><span class="pre">ToolBarSchema</span></code></dt>
+<dd class="field-odd"><p>The root of a tool bar hierarchy. Contains some number of
+group schemas and actions.</p>
+</dd>
+<dt class="field-even"><code class="docutils literal notranslate"><span class="pre">GroupSchema</span></code></dt>
+<dd class="field-even"><p>A group of tool bar buttons that are logically related and
+that may or may not require separators from other groups.</p>
+</dd>
+</dl>
 <p>As above, these classes are often abbreviated as <code class="docutils literal notranslate"><span class="pre">SToolBar</span></code> and <code class="docutils literal notranslate"><span class="pre">SGroup</span></code>,
 respectively. Let us now add a tool bar with buttons for opening and saving
 files to our script editing task:</p>
@@ -210,12 +207,11 @@ files to our script editing task:</p>
 </pre></div>
 </div>
 <p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The most convenient reference in this case is the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py">source code</a> itself.</td></tr>
-</tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The most convenient reference in this case is the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py">source code</a> itself.</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -249,13 +245,11 @@ files to our script editing task:</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -279,10 +273,10 @@ files to our script editing task:</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -115,20 +115,20 @@ add extensibility to their UI.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">GUIApplication</span></code> exposes the following public API:</p>
 <dl class="attribute">
 <dt id="gui">
-<code class="descname">gui</code><a class="headerlink" href="#gui" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gui</code><a class="headerlink" href="#gui" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Pyface <code class="xref py py-class docutils literal notranslate"><span class="pre">GUI</span></code> instance the <code class="xref py py-class docutils literal notranslate"><span class="pre">GUIApplication</span></code> creates.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="splash_screen">
-<code class="descname">splash_screen</code><a class="headerlink" href="#splash_screen" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">splash_screen</code><a class="headerlink" href="#splash_screen" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optional Pyface <code class="xref py py-class docutils literal notranslate"><span class="pre">ISplashScreen</span></code> that gets shown while
 the plugins are started.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="application_initialized">
-<code class="descname">application_initialized</code><a class="headerlink" href="#application_initialized" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">application_initialized</code><a class="headerlink" href="#application_initialized" title="Permalink to this definition">¶</a></dt>
 <dd><p>An event which is fired after the UI mainloop has started.</p>
 </dd></dl>
 
@@ -155,13 +155,11 @@ the plugins are started.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -185,10 +183,10 @@ the plugins are started.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

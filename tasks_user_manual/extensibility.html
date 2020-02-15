@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -100,13 +100,13 @@ referred to the <a class="reference internal" href="../envisage_core_documentati
 <p>In creating an extensible Tasks application, we imagine two primary
 extensibility use cases:</p>
 <ol class="arabic">
-<li><p class="first"><strong>Contributing to an existing task:</strong></p>
+<li><p><strong>Contributing to an existing task:</strong></p>
 <p>In this case, the user wishes to add some combination of dock panes, menu
 items, and tool bar buttons to an existing task. In other words, the user
 would like to extend a task’s functionality without changing its fundamental
 purpose.</p>
 </li>
-<li><p class="first"><strong>Contributing a new task:</strong></p>
+<li><p><strong>Contributing a new task:</strong></p>
 <p>Alternatively, the user may find that the none of the existing tasks are
 suitable for the functonality that he or she wishes to implement. Thus the
 user decides to contribute an entirely new task.</p>
@@ -115,14 +115,14 @@ user decides to contribute an entirely new task.</p>
 <p>The Tasks plugin has an extension point corresponding to each of these two use
 cases. These extensions points are:</p>
 <ol class="arabic" id="index-1">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.tasks</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.tasks</span></code>:</p>
 <p>A list of <code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code> instances. <code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code> is a lightweight class
 for associating a task factory with a name and an ID. We shall see an example
 of its use in the following subsection.</p>
 </li>
 </ol>
 <ol class="arabic" id="index-2" start="2">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.task_extensions</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.task_extensions</span></code>:</p>
 <p>A list of <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> instances. A <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> is a bundle of
 menu bar, tool bar, and dock pane additions to an existing task. This class
 is discussed in detail in the subsection on <a class="reference internal" href="#extending-a-task"><span class="std std-ref">Extending an Existing Task</span></a>.</p>
@@ -136,7 +136,7 @@ functionality to the subsection on <a class="reference internal" href="#creating
 <span id="index-3"></span><h2>Creating a Tasks Application<a class="headerlink" href="#creating-a-tasks-application" title="Permalink to this headline">¶</a></h2>
 <p>Let us imagine that we are building a (slightly whimsical) application for
 visualizing <a class="reference external" href="http://en.wikipedia.org/wiki/Attractor">strange attractors</a>, in
-two and three dimensions <a class="footnote-reference" href="#id7" id="id2">[1]</a>. We take for granted the existence of tasks
+two and three dimensions <a class="footnote-reference brackets" href="#id7" id="id2">1</a>. We take for granted the existence of tasks
 for performing each of these two kinds of visualization.</p>
 <p>Like any Envisage application, our application will contain a <code class="docutils literal notranslate"><span class="pre">Plugin</span></code>
 instance to expose functionality to other plugins. In this case, we will
@@ -222,13 +222,13 @@ extensions for implementing common behaviors.</p>
 extension points is built into the Envisage core plugin, while the other two
 belong to the Tasks plugin. Let us survey each of them in turn.</p>
 <ol class="arabic">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">envisage.preferences</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.preferences</span></code>:</p>
 <p>A list of locators for default preferences files (INI files). This extension
 point is at the model level in the preferences system.</p>
 </li>
 </ol>
 <ol class="arabic" id="index-7" start="2">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.preferences_categories</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.preferences_categories</span></code>:</p>
 <p>A list of <code class="docutils literal notranslate"><span class="pre">PreferencesCategory</span></code> instances. Preference categories have name
 and ID attributes. To each category with a given name corresponds a tab with
 that name in the preferences dialog, unless there is only a single category,
@@ -236,7 +236,7 @@ in which the case the tab bar will not be shown.</p>
 </li>
 </ol>
 <ol class="arabic" id="index-8" start="3">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.preferences_panes</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.preferences_panes</span></code>:</p>
 <p>A list of <code class="docutils literal notranslate"><span class="pre">PreferencesPane</span></code> instances. A preferences pane defines a set of
 user interface elements for changing application preferences via a model
 object called a <code class="docutils literal notranslate"><span class="pre">PreferencesHelper</span></code>. A preferences pane has a name and an
@@ -368,9 +368,9 @@ above, exposes a Traits UI view for this helper object:</p>
 which was briefly introduced above. <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> is a simple class with
 three attributes:</p>
 <ol class="arabic simple">
-<li><code class="docutils literal notranslate"><span class="pre">task_id</span></code>: The ID of the task to extend.</li>
-<li><code class="docutils literal notranslate"><span class="pre">actions</span></code>: A list of <code class="docutils literal notranslate"><span class="pre">SchemaAddition</span></code> objects.</li>
-<li><code class="docutils literal notranslate"><span class="pre">dock_pane_factories</span></code>: A list of callables for creating dock panes.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">task_id</span></code>: The ID of the task to extend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">actions</span></code>: A list of <code class="docutils literal notranslate"><span class="pre">SchemaAddition</span></code> objects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dock_pane_factories</span></code>: A list of callables for creating dock panes.</p></li>
 </ol>
 <p id="index-9">The second attributes requires further discussion. In the previous section, we
 remarked that a task’s menu and tool bars are defined using schemas; the
@@ -394,7 +394,7 @@ menu as follows:</p>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">factory</span></code> is a callable that produces either a schema or an object from
-the Pyface action API <a class="footnote-reference" href="#id8" id="id4">[2]</a>. A schema addition that produces a schema can in turn
+the Pyface action API <a class="footnote-reference brackets" href="#id8" id="id4">2</a>. A schema addition that produces a schema can in turn
 be extended by another schema addition. If it produces a Pyface object, it
 cannot be further extended. In this case we have opted for latter, using a
 custom subclass of <code class="docutils literal notranslate"><span class="pre">Group</span></code>.</p>
@@ -410,7 +410,7 @@ that schema. For example, in the expanded addition:</p>
 </pre></div>
 </div>
 <p>the created group would be inserted before the save group. If both <code class="docutils literal notranslate"><span class="pre">before</span></code>
-and <code class="docutils literal notranslate"><span class="pre">after</span></code> are set, Tasks will attempt to honor both of them <a class="footnote-reference" href="#id9" id="id5">[3]</a>. In the
+and <code class="docutils literal notranslate"><span class="pre">after</span></code> are set, Tasks will attempt to honor both of them <a class="footnote-reference brackets" href="#id9" id="id5">3</a>. In the
 event that Tasks cannot, the menu order is undefined (although the insertions
 are guaranteed to made) and an error is logged.</p>
 </div>
@@ -427,11 +427,11 @@ Tasks provides an alternative that may be more convenient.</p>
 <code class="docutils literal notranslate"><span class="pre">task_id</span></code> attribute. Tasks itself contributes a global task extension with the
 following menu items:</p>
 <ul class="simple">
-<li>A group of actions in the menu with ID “View” for toggling the visibility of
-dock panes (see <code class="docutils literal notranslate"><span class="pre">pyface.tasks.action.api.DockPaneToggleGroup</span></code>)</li>
-<li>A “Preferences” action in the menu with ID “Edit”, if the application has any
-preferences panes</li>
-<li>An “Exit” action in the menu with ID “File”</li>
+<li><p>A group of actions in the menu with ID “View” for toggling the visibility of
+dock panes (see <code class="docutils literal notranslate"><span class="pre">pyface.tasks.action.api.DockPaneToggleGroup</span></code>)</p></li>
+<li><p>A “Preferences” action in the menu with ID “Edit”, if the application has any
+preferences panes</p></li>
+<li><p>An “Exit” action in the menu with ID “File”</p></li>
 </ul>
 <p>The user is free to supplement these items by contributing additional global
 task extensions. For example, to provide a simple mechanism for changing tasks,
@@ -442,30 +442,23 @@ windows, Tasks includes the <code class="docutils literal notranslate"><span cla
 several other menu-related conveniences, can be found in
 <code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.action.api</span></code>.</p>
 <p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>In this section, we shall be referencing–often with considerable
+<dl class="footnote brackets">
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>In this section, we shall be referencing–often with considerable
 simplification–the Attractors example code in the EnvisagePlugins
 package, available <a class="reference external" href="https://github.com/enthought/envisageplugins/tree/master/examples/tasks/attractors">online</a>
-and in the ETS distribution.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Although they are expanded into Pyface action items, schemas belong to a
+and in the ETS distribution.</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
+<dd><p>Although they are expanded into Pyface action items, schemas belong to a
 distinct API. It is beyond the scope of this document to describe the
 Pyface action API. For lack of more complete documentation, the reader is
-referred to the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/">source code</a>.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>Tasks differs from the Workbench in this regard.</td></tr>
-</tbody>
-</table>
+referred to the <a class="reference external" href="https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/">source code</a>.</p>
+</dd>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p>Tasks differs from the Workbench in this regard.</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -502,13 +495,11 @@ referred to the <a class="reference external" href="https://github.com/enthought
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -532,10 +523,10 @@ referred to the <a class="reference external" href="https://github.com/enthought
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

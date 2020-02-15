@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -90,10 +90,10 @@
 with a Workbench-based application.</p>
 <p>There are several questions to consider when designing a plugin:</p>
 <ul class="simple">
-<li>What does it do?</li>
-<li>What functionality does it offer to other plugins?</li>
-<li>What does it add to what other plugins already do?</li>
-<li>What does it need from other plugins?</li>
+<li><p>What does it do?</p></li>
+<li><p>What functionality does it offer to other plugins?</p></li>
+<li><p>What does it add to what other plugins already do?</p></li>
+<li><p>What does it need from other plugins?</p></li>
 </ul>
 <div class="section" id="what-does-your-plugin-do">
 <h2>What Does Your Plugin Do?<a class="headerlink" href="#what-does-your-plugin-do" title="Permalink to this headline">¶</a></h2>
@@ -136,16 +136,16 @@ integrated into the application by a plugin.</p>
 <p>There are two ways that a plugin can provide functionality to other
 plugins.</p>
 <ul class="simple">
-<li><strong>Offering services:</strong> Your plugin may provide an API, the core functionality
+<li><p><strong>Offering services:</strong> Your plugin may provide an API, the core functionality
 of your library, as a service. Yours might be the only provider of that type
-of service in an application, or it might be one of many.</li>
-<li><strong>Defining extension points:</strong> Your plugin may offer one or more extension
+of service in an application, or it might be one of many.</p></li>
+<li><p><strong>Defining extension points:</strong> Your plugin may offer one or more extension
 points, which means that your plugin will do something specific with
 contributions to that extension point. Contributions to an extension point
 must be instances of a type or interface that you specify. An extension point
 is a trait attribute whose type is ExtensionPoint, which consists of a List
 of some other type, plus an ID. In other words, an extension point is a list,
-used by your plugin, that is populated by plugins.</li>
+used by your plugin, that is populated by plugins.</p></li>
 </ul>
 <div class="section" id="examples-of-offering-functionality-to-other-plugins">
 <h3>Examples of Offering Functionality to Other Plugins<a class="headerlink" href="#examples-of-offering-functionality-to-other-plugins" title="Permalink to this headline">¶</a></h3>
@@ -197,11 +197,11 @@ set the values of the preference attributes. A plugin may have multiple
 preferences pages, depending on how it groups the items to be configured.</p>
 <p>There are two strategies for defining a callable that returns an object:</p>
 <ul class="simple">
-<li>Subclass from a class that implements the interface, in this case
-<cite>apptools.preferences.ui.api.PreferencesPage</cite>.</li>
-<li>Define a factory function that returns an appropriate object. This strategy
+<li><p>Subclass from a class that implements the interface, in this case
+<cite>apptools.preferences.ui.api.PreferencesPage</cite>.</p></li>
+<li><p>Define a factory function that returns an appropriate object. This strategy
 is not needed for preferences pages, but can be helpful when the object
-being returned contains a reference to a service.</li>
+being returned contains a reference to a service.</p></li>
 </ul>
 <p>In either case, the contribution is a trait attribute on the plugin object.</p>
 </div>
@@ -345,13 +345,11 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -375,10 +373,10 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

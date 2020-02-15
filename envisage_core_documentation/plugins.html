@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -91,9 +91,9 @@ points, and <a class="reference external" href="services.html">Services</a> into
 thought of as simply being “delivery trucks” – they rarely (if ever) do any
 <em>real</em> work themselves. In other words, plugins can do 3 things:</p>
 <ol class="arabic simple">
-<li>Declare extension points</li>
-<li>Make contributions to extension points (including its own)</li>
-<li>Create and publish services</li>
+<li><p>Declare extension points</p></li>
+<li><p>Make contributions to extension points (including its own)</p></li>
+<li><p>Create and publish services</p></li>
 </ol>
 <p>Plugins are located and managed by the <em>plugin manager</em>, and, whilst Envisage
 is designed such that you can write your own plugin manager, by default, it
@@ -104,17 +104,17 @@ uses an implementation based on <a class="reference external" href="http://peak.
 is to subclass the base <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/plugin.py">Plugin</a> class), and should provide the following
 “housekeeping” information:</p>
 <ul>
-<li><p class="first">a globally unique identifier (e.g., “acme.motd”)</p>
+<li><p>a globally unique identifier (e.g., “acme.motd”)</p>
 <p>This obviously allows Envisage to identify a particular plugin in a sea of
 other plugins. Technically, this identifier only need be unique within your
 application, but since the intent is for applications to be able to include
 plugins from (potentially) all over the world, using the common reverse
 domain name notation is probably a good idea!</p>
 </li>
-<li><p class="first">a name</p>
+<li><p>a name</p>
 <p>This name should be suitable for display to the user.</p>
 </li>
-<li><p class="first">a doc string!</p>
+<li><p>a doc string!</p>
 <p>A nice description of the intent and features of your plugin.</p>
 </li>
 </ul>
@@ -201,13 +201,11 @@ method of each plugin in the reverse order that they were started in.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -231,10 +229,10 @@ method of each plugin in the reverse order that they were started in.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

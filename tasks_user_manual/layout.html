@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -91,19 +91,19 @@ modern, customizable user interfaces. Accordingly, we shall begin by learning
 how to use Tasks to perform basic window layout.</p>
 <div class="section" id="lifecycle-of-a-task">
 <span id="index-0"></span><h2>Lifecycle of a Task<a class="headerlink" href="#lifecycle-of-a-task" title="Permalink to this headline">¶</a></h2>
-<p id="index-1">The Tasks plugin adheres to the model-view-controller (MVC) design pattern <a class="footnote-reference" href="#id4" id="id1">[1]</a>,
+<p id="index-1">The Tasks plugin adheres to the model-view-controller (MVC) design pattern <a class="footnote-reference brackets" href="#id4" id="id1">1</a>,
 for which the <code class="docutils literal notranslate"><span class="pre">Task</span></code> class functions as the controller and the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>
-class as the view, with the model being application-specific <a class="footnote-reference" href="#id5" id="id2">[2]</a>. Insofar as a
+class as the view, with the model being application-specific <a class="footnote-reference brackets" href="#id5" id="id2">2</a>. Insofar as a
 <code class="docutils literal notranslate"><span class="pre">Task</span></code> is a controller, it does not itself instantiate or contain any GUI
 controls, although it does provide factories and a default layout for the
 controls that it manages. Controls are instantiated when a <code class="docutils literal notranslate"><span class="pre">Task</span></code> is assigned
 to a <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>. Specifically, the following actions are taken at this time:</p>
 <ol class="arabic simple">
-<li>The task’s central pane is constructed and attached to the window</li>
-<li>All of the task’s dock panes are constructed, even if they are not by default
-visible</li>
-<li>The visible dock panes are laid out around the central pane according to the
-task’s default layout or persisted UI state information</li>
+<li><p>The task’s central pane is constructed and attached to the window</p></li>
+<li><p>All of the task’s dock panes are constructed, even if they are not by default
+visible</p></li>
+<li><p>The visible dock panes are laid out around the central pane according to the
+task’s default layout or persisted UI state information</p></li>
 </ol>
 <p>While the <code class="docutils literal notranslate"><span class="pre">Task</span></code> remains connected to the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>, neither its central
 pane nor its dock panes will be destroyed. If the user “closes” a dock pane, the
@@ -116,7 +116,7 @@ constructed.</p>
 <div class="section" id="defining-a-task">
 <span id="index-2"></span><h2>Defining a Task<a class="headerlink" href="#defining-a-task" title="Permalink to this headline">¶</a></h2>
 <p>Minimally, a task is defined by subclassing <code class="docutils literal notranslate"><span class="pre">Task</span></code> and providing a central
-pane. For example, we define a task for editing Python scripts <a class="footnote-reference" href="#id6" id="id3">[3]</a>:</p>
+pane. For example, we define a task for editing Python scripts <a class="footnote-reference brackets" href="#id6" id="id3">3</a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="k">import</span> <span class="n">Task</span>
 
 <span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
@@ -281,31 +281,24 @@ layout; in both cases, only the central pane will be visible by
 default. Finally, note that the layout behavior is undefined if a dock pane
 appears multiple times in a layout.</p>
 <p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>For more information about the MVC pattern as used in ETS, the reader is
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>For more information about the MVC pattern as used in ETS, the reader is
 referred to the <a class="reference external" href="http://enthought.github.com/traits/TUIUG/intro.html">Introduction</a> of the Traits UI
-User Guide.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Throughout this document, “<code class="docutils literal notranslate"><span class="pre">Task</span></code>” will refer to the class of that name
+User Guide.</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Throughout this document, “<code class="docutils literal notranslate"><span class="pre">Task</span></code>” will refer to the class of that name
 in the Tasks API, while “task” will be reserved for the general UI
-concept, and similarly for other terms.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>In this and the subsequent section, we will be referencing (often in
+concept, and similarly for other terms.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>In this and the subsequent section, we will be referencing (often in
 abbreviated form) the Tasks example code in the TraitsGUI package,
 available <a class="reference external" href="https://github.com/enthought/traitsgui/tree/master/examples/tasks">online</a> and
-in the ETS distribution.</td></tr>
-</tbody>
-</table>
+in the ETS distribution.</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -341,13 +334,11 @@ in the ETS distribution.</td></tr>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -371,10 +362,10 @@ in the ETS distribution.</td></tr>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

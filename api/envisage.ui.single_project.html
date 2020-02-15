@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -133,7 +133,7 @@
 <p>Preference page for default path for a project</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.default_path_preference_page.DefaultPathPreferencePage">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.default_path_preference_page.</code><code class="descname">DefaultPathPreferencePage</code><span class="sig-paren">(</span><em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/default_path_preference_page.html#DefaultPathPreferencePage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.default_path_preference_page.DefaultPathPreferencePage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.default_path_preference_page.</code><code class="sig-name descname">DefaultPathPreferencePage</code><span class="sig-paren">(</span><em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/default_path_preference_page.html#DefaultPathPreferencePage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.default_path_preference_page.DefaultPathPreferencePage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">apptools.preferences.ui.preferences_page.PreferencesPage</span></code></p>
 <p>Preference page for default path for a plugin.</p>
 </dd></dl>
@@ -143,7 +143,7 @@
 <span id="envisage-ui-single-project-factory-definition-module"></span><h2>envisage.ui.single_project.factory_definition module<a class="headerlink" href="#module-envisage.ui.single_project.factory_definition" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="envisage.ui.single_project.factory_definition.FactoryDefinition">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.factory_definition.</code><code class="descname">FactoryDefinition</code><a class="reference internal" href="../_modules/envisage/ui/single_project/factory_definition.html#FactoryDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.factory_definition.FactoryDefinition" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.factory_definition.</code><code class="sig-name descname">FactoryDefinition</code><a class="reference internal" href="../_modules/envisage/ui/single_project/factory_definition.html#FactoryDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.factory_definition.FactoryDefinition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>A project factory definition.</p>
 <p>An instance of the specified class is used to open and/or create new
@@ -159,20 +159,20 @@ the first instance wins.</p>
 project plugin.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.model_service.ModelService">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.model_service.</code><code class="descname">ModelService</code><span class="sig-paren">(</span><em>application</em>, <em>factory</em>, <em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.model_service.</code><code class="sig-name descname">ModelService</code><span class="sig-paren">(</span><em class="sig-param">application</em>, <em class="sig-param">factory</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>The Envisage service providing the model state for the single
 project plugin.</p>
 <dl class="method">
 <dt id="envisage.ui.single_project.model_service.ModelService.are_projects_files">
-<code class="descname">are_projects_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.are_projects_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.are_projects_files" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">are_projects_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.are_projects_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.are_projects_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if project instances are saved as files and False if
 they are saved as directories.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.model_service.ModelService.clean_location">
-<code class="descname">clean_location</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.clean_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.clean_location" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clean_location</code><span class="sig-paren">(</span><em class="sig-param">location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.clean_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.clean_location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensures that there are no existing files or directories at the
 specified location by removing them.  Exceptions are raised if
 there are any errors cleaning out existing files or directories.</p>
@@ -180,7 +180,7 @@ there are any errors cleaning out existing files or directories.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.model_service.ModelService.get_default_path">
-<code class="descname">get_default_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.get_default_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.get_default_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_default_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/model_service.html#ModelService.get_default_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.model_service.ModelService.get_default_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the default location for projects.</p>
 </dd></dl>
 
@@ -193,36 +193,36 @@ there are any errors cleaning out existing files or directories.</p>
 plugin.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.project.Project">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project.</code><code class="descname">Project</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project.</code><code class="sig-name descname">Project</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>A base class for projects that can be displayed by the single_project
 plugin.</p>
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project.Project.PROJECTS_ARE_FILES">
-<code class="descname">PROJECTS_ARE_FILES</code><em class="property"> = True</em><a class="headerlink" href="#envisage.ui.single_project.project.Project.PROJECTS_ARE_FILES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PROJECTS_ARE_FILES</code><em class="property"> = True</em><a class="headerlink" href="#envisage.ui.single_project.project.Project.PROJECTS_ARE_FILES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.get_default_name">
-<code class="descname">get_default_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_default_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the default name for a new project.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="envisage.ui.single_project.project.Project.get_default_path">
-<em class="property">classmethod </em><code class="descname">get_default_path</code><span class="sig-paren">(</span><em>application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_path" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">get_default_path</code><span class="sig-paren">(</span><em class="sig-param">application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the default path to the parent directory for a new project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.get_default_project_location">
-<code class="descname">get_default_project_location</code><span class="sig-paren">(</span><em>application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_project_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_project_location" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_default_project_location</code><span class="sig-paren">(</span><em class="sig-param">application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_default_project_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_default_project_location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the default location for a new project.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="envisage.ui.single_project.project.Project.get_pickle_filename">
-<em class="property">classmethod </em><code class="descname">get_pickle_filename</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_pickle_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_pickle_filename" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">get_pickle_filename</code><span class="sig-paren">(</span><em class="sig-param">location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_pickle_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_pickle_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate the project’s pickle filename given a source location.</p>
 <p>By default, the filename IS the specified location or, when saving
 projects as directories, a file called ‘project’ within a directory
@@ -231,9 +231,9 @@ that is the specified location,</p>
 identifying the real pickle file.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="envisage.ui.single_project.project.Project.get_pickle_package">
-<em class="property">classmethod </em><code class="descname">get_pickle_package</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_pickle_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_pickle_package" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">get_pickle_package</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.get_pickle_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.get_pickle_package" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the pickle package to use for pickling and unpickling
 projects.</p>
 <p>Implementors can override this to customize the way in which
@@ -242,9 +242,9 @@ projects are pickled and unpickled.</p>
 supports versioning and refactoring of classes.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="envisage.ui.single_project.project.Project.load">
-<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>location</em>, <em>application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">location</em>, <em class="sig-param">application</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a project from a specified location.</p>
 <p>The loaded project’s location is always set to the location the project
 was actually loaded from.  Additionally, the dirty flag is cleared
@@ -254,7 +254,7 @@ on the loaded project.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.register_editor">
-<code class="descname">register_editor</code><span class="sig-paren">(</span><em>resource</em>, <em>editor</em>, <em>remove=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.register_editor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.register_editor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">register_editor</code><span class="sig-paren">(</span><em class="sig-param">resource</em>, <em class="sig-param">editor</em>, <em class="sig-param">remove=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.register_editor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.register_editor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inform us that an editor has been opened for what is believed to be
 a resource in this project.</p>
 <p>Note that if this project can be represented as a hierarchy, the
@@ -263,7 +263,7 @@ resource may not be a top level object in that hierarchy!</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>location=None</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.save" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save this project.</p>
 <p>The project is saved to its current location, identified by the value
 of the <em>location</em> trait, unless a new location is explicitly provided.
@@ -288,7 +288,7 @@ successfully.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Notify this project that it is now the ‘current’ project.</p>
 <p>This call should only be made by the project plugin framework!</p>
 <p>This call <em>could</em> happen multiple times to a project, but
@@ -300,7 +300,7 @@ becomes current.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project.Project.stop">
-<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#Project.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.Project.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called only by the project plugin framework to notify this
 project it is no longer the current project.</p>
 <p>This call <em>could</em> happen multiple times to a project, but
@@ -312,6 +312,35 @@ stops being current.</p>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="envisage.ui.single_project.project.clean_filename">
+<code class="sig-prename descclassname">envisage.ui.single_project.project.</code><code class="sig-name descname">clean_filename</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">replace_empty=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project.html#clean_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project.clean_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a user-supplied string safe for filename use.</p>
+<p>Returns an ASCII-encodable string based on the input string that’s safe for
+use as a component of a filename or URL. The returned value is a string
+containing only lowercase ASCII letters, digits, and the characters ‘-‘ and
+‘_’.
+This does not give a faithful representation of the original string:
+different input strings can result in the same output string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The string to be made safe.</p></li>
+<li><p><strong>replace_empty</strong> (<em>str</em><em>, </em><em>optional</em>) – The return value to be used in the event that the sanitised
+string ends up being empty. No validation is done on this
+input - it’s up to the user to ensure that the default is
+itself safe. The default is to return the empty string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>safe_string</strong> – A filename-safe version of string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-envisage.ui.single_project.project_action">
 <span id="envisage-ui-single-project-project-action-module"></span><h2>envisage.ui.single_project.project_action module<a class="headerlink" href="#module-envisage.ui.single_project.project_action" title="Permalink to this headline">¶</a></h2>
@@ -319,7 +348,7 @@ stops being current.</p>
 the state of the current project.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.project_action.ProjectAction">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_action.</code><code class="descname">ProjectAction</code><span class="sig-paren">(</span><em>*args</em>, <em>**kws</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project_action.</code><code class="sig-name descname">ProjectAction</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kws</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.action.action.Action</span></code></p>
 <p>A base class for actions that determine their enabled status based on
 the state of the current project.</p>
@@ -328,14 +357,14 @@ the state of the current project.</p>
 the enabled state as a function of the current project.</p>
 <dl class="method">
 <dt id="envisage.ui.single_project.project_action.ProjectAction.destroy">
-<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.destroy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.destroy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Destroy this action.</p>
 <p>Overridden here to remove our project model service listeners.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project_action.ProjectAction.perform">
-<code class="descname">perform</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.perform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.perform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">perform</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.perform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.perform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the action.</p>
 <p>This implementation simply performs the action specified by <strong>uol</strong>
 and <strong>method_name</strong>.</p>
@@ -345,7 +374,7 @@ action.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project_action.ProjectAction.refresh">
-<code class="descname">refresh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.refresh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">refresh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action.html#ProjectAction.refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action.ProjectAction.refresh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refresh the enabled state of this action.</p>
 <p>This default implementation enables the action only when there is a
 current project.</p>
@@ -359,7 +388,7 @@ current project.</p>
 <p>Single project action set.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.project_action_set.ProjectActionSet">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_action_set.</code><code class="descname">ProjectActionSet</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action_set.html#ProjectActionSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action_set.ProjectActionSet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project_action_set.</code><code class="sig-name descname">ProjectActionSet</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_action_set.html#ProjectActionSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_action_set.ProjectActionSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.ui.workbench.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet" title="envisage.ui.workbench.workbench_action_set.WorkbenchActionSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.workbench.workbench_action_set.WorkbenchActionSet</span></code></a></p>
 <p>Action set of a default Project.</p>
 </dd></dl>
@@ -370,18 +399,18 @@ current project.</p>
 <p>A base class for project factories.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.project_factory.ProjectFactory">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_factory.</code><code class="descname">ProjectFactory</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project_factory.</code><code class="sig-name descname">ProjectFactory</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>A base class for project factories.</p>
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_factory.ProjectFactory.PROJECT_CLASS">
-<code class="descname">PROJECT_CLASS</code><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.PROJECT_CLASS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PROJECT_CLASS</code><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.PROJECT_CLASS" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <a class="reference internal" href="#envisage.ui.single_project.project.Project" title="envisage.ui.single_project.project.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.single_project.project.Project</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project_factory.ProjectFactory.create">
-<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.create" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new project from scratch.</p>
 <p>This must return an instance of a Project or ‘None’.  A return
 value of ‘None’ indicates that no project could be created.  The
@@ -391,7 +420,7 @@ they can configure this new project.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project_factory.ProjectFactory.open">
-<code class="descname">open</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.open" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">open</code><span class="sig-paren">(</span><em class="sig-param">location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_factory.html#ProjectFactory.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_factory.ProjectFactory.open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a project from the specified location.</p>
 <p>This must return an instance of a Project or ‘None’.  A return
 value of ‘None’ indicates that no project could be opened from
@@ -406,59 +435,59 @@ the specified location.</p>
 <p>The Envisage single project plugin.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPerspective">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_plugin.</code><code class="descname">ProjectPerspective</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPerspective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPerspective" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project_plugin.</code><code class="sig-name descname">ProjectPerspective</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPerspective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPerspective" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.perspective.Perspective</span></code></p>
 <p>A default perspective for the single_project plugin.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.project_plugin.</code><code class="descname">ProjectPlugin</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.project_plugin.</code><code class="sig-name descname">ProjectPlugin</code><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>The single-project plugin.</p>
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.ACTION_SETS">
-<code class="descname">ACTION_SETS</code><em class="property"> = 'envisage.ui.workbench.action_sets'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.ACTION_SETS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ACTION_SETS</code><em class="property"> = 'envisage.ui.workbench.action_sets'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.ACTION_SETS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.FACTORY_DEFINITIONS">
-<code class="descname">FACTORY_DEFINITIONS</code><em class="property"> = 'envisage.ui.single_project.factory_definitions'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.FACTORY_DEFINITIONS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">FACTORY_DEFINITIONS</code><em class="property"> = 'envisage.ui.single_project.factory_definitions'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.FACTORY_DEFINITIONS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PERSPECTIVES">
-<code class="descname">PERSPECTIVES</code><em class="property"> = 'envisage.ui.workbench.perspectives'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PERSPECTIVES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PERSPECTIVES</code><em class="property"> = 'envisage.ui.workbench.perspectives'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PERSPECTIVES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES">
-<code class="descname">PREFERENCES</code><em class="property"> = 'envisage.preferences'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PREFERENCES</code><em class="property"> = 'envisage.preferences'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES_PAGES">
-<code class="descname">PREFERENCES_PAGES</code><em class="property"> = 'envisage.ui.workbench.preferences_pages'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES_PAGES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PREFERENCES_PAGES</code><em class="property"> = 'envisage.ui.workbench.preferences_pages'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.PREFERENCES_PAGES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.SERVICE_OFFERS">
-<code class="descname">SERVICE_OFFERS</code><em class="property"> = 'envisage.service_offers'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SERVICE_OFFERS</code><em class="property"> = 'envisage.service_offers'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.UI_SERVICE_FACTORY">
-<code class="descname">UI_SERVICE_FACTORY</code><em class="property"> = 'envisage.ui.single_project.ui_service_factory'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.UI_SERVICE_FACTORY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">UI_SERVICE_FACTORY</code><em class="property"> = 'envisage.ui.single_project.ui_service_factory'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.UI_SERVICE_FACTORY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.VIEWS">
-<code class="descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.VIEWS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.VIEWS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.project_plugin.ProjectPlugin.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/project_plugin.html#ProjectPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.project_plugin.ProjectPlugin.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the plugin.</p>
 <p>Overridden here to start up our services and load the project
 that was open when we were last shut-down.</p>
@@ -475,30 +504,30 @@ that was open when we were last shut-down.</p>
 <p>A service to enable UI interactions with the single project plugin.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.ui_service.UiService">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.ui_service.</code><code class="descname">UiService</code><span class="sig-paren">(</span><em>model_service</em>, <em>menu_manager</em>, <em>**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.ui_service.</code><code class="sig-name descname">UiService</code><span class="sig-paren">(</span><em class="sig-param">model_service</em>, <em class="sig-param">menu_manager</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>A service to enable UI interactions with the single project plugin.</p>
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.close">
-<code class="descname">close</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.close" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the current project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.create">
-<code class="descname">create</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.create" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.delete_selection">
-<code class="descname">delete_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.delete_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.delete_selection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">delete_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.delete_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.delete_selection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete the current selection within the current project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.display_default_context_menu">
-<code class="descname">display_default_context_menu</code><span class="sig-paren">(</span><em>parent</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.display_default_context_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.display_default_context_menu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">display_default_context_menu</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.display_default_context_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.display_default_context_menu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the default context menu for the plugin’s ui.  This is the
 context menu used when neither a project nor the project’s contents
 are right-clicked.</p>
@@ -506,7 +535,7 @@ are right-clicked.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.is_current_project_saved">
-<code class="descname">is_current_project_saved</code><span class="sig-paren">(</span><em>parent_window</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.is_current_project_saved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.is_current_project_saved" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_current_project_saved</code><span class="sig-paren">(</span><em class="sig-param">parent_window</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.is_current_project_saved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.is_current_project_saved" title="Permalink to this definition">¶</a></dt>
 <dd><p>Give the user the option to save any modifications to the current
 project prior to closing it.</p>
 <p>If the user wanted to cancel the closing of the current project,
@@ -515,7 +544,7 @@ this method returns False.  Otherwise, it returns True.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.listen_for_application_exit">
-<code class="descname">listen_for_application_exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.listen_for_application_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.listen_for_application_exit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">listen_for_application_exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.listen_for_application_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.listen_for_application_exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensure that we get notified of any attempts to, and thus have a chance
 to veto, the closing of the application.</p>
 <p>FIXME: Normally this should be called during startup of this
@@ -526,19 +555,19 @@ and it insists on starting us first.</p>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.open">
-<code class="descname">open</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.open" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">open</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.save" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a project.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service.UiService.save_as">
-<code class="descname">save_as</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.save_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.save_as" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_as</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service.html#UiService.save_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service.UiService.save_as" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the current project to a different location.</p>
 </dd></dl>
 
@@ -550,12 +579,12 @@ and it insists on starting us first.</p>
 <p>The default UI service factory.</p>
 <dl class="class">
 <dt id="envisage.ui.single_project.ui_service_factory.UIServiceFactory">
-<em class="property">class </em><code class="descclassname">envisage.ui.single_project.ui_service_factory.</code><code class="descname">UIServiceFactory</code><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service_factory.html#UIServiceFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service_factory.UIServiceFactory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.single_project.ui_service_factory.</code><code class="sig-name descname">UIServiceFactory</code><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service_factory.html#UIServiceFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service_factory.UIServiceFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
 <p>The default UI service factory.</p>
 <dl class="method">
 <dt id="envisage.ui.single_project.ui_service_factory.UIServiceFactory.create_ui_service">
-<code class="descname">create_ui_service</code><span class="sig-paren">(</span><em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service_factory.html#UIServiceFactory.create_ui_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service_factory.UIServiceFactory.create_ui_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">create_ui_service</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/single_project/ui_service_factory.html#UIServiceFactory.create_ui_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.single_project.ui_service_factory.UIServiceFactory.create_ui_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the UI service.</p>
 </dd></dl>
 
@@ -610,13 +639,11 @@ and it insists on starting us first.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -640,10 +667,10 @@ and it insists on starting us first.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

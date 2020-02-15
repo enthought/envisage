@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -129,7 +129,7 @@ applications—it was designed for this purpose—there is a large class
 of applications for which it is too inflexible. Significant issues
 include:</p>
 <ul class="simple">
-<li><strong>A lack of distinction between the semantics of UI elements and the layout of
+<li><p><strong>A lack of distinction between the semantics of UI elements and the layout of
 those elements.</strong> A perspective (the Workbench analogue of a task) has very
 little responsibility besides saving the state the user interface. Views (the
 analogues of dock panes) are added directly to the Workbench, which means that
@@ -138,19 +138,19 @@ exercise meaningful control over the layout of its views. Furthermore, since
 there is no structure imposed on views by the active perspective, there is no
 mechanism for coupling UI components, if this becomes necessary. Finally,
 since the application menus are not connected to perspectives, it is very
-difficult to maintain multiple sets of menus over the application lifecycle.</li>
-<li><strong>A non-customizable central pane.</strong> The notion of editors is inextricably
+difficult to maintain multiple sets of menus over the application lifecycle.</p></li>
+<li><p><strong>A non-customizable central pane.</strong> The notion of editors is inextricably
 connected to the Workbench; the central pane must be a notebook-style
-collection of editors.</li>
+collection of editors.</p></li>
 </ul>
 <p>The above are design considerations that could not be remedied without a vast
 degree of backwards-incompatible change. Less systemic deficiencies of the
 Workbench include:</p>
 <ul class="simple">
-<li><strong>A lack of robust support for multi-window applications.</strong> The Workbench
-does not correctly persist layout state for multiple windows.</li>
-<li><strong>An inflexible API for exposing user-configurable preferences.</strong> The
-preferences dialog does not permit fine-grained layout of UI elements.</li>
+<li><p><strong>A lack of robust support for multi-window applications.</strong> The Workbench
+does not correctly persist layout state for multiple windows.</p></li>
+<li><p><strong>An inflexible API for exposing user-configurable preferences.</strong> The
+preferences dialog does not permit fine-grained layout of UI elements.</p></li>
 </ul>
 <p>Tasks has been designed specifically to address these issues.</p>
 </div>
@@ -186,13 +186,11 @@ preferences dialog does not permit fine-grained layout of UI elements.</li>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -216,10 +214,10 @@ preferences dialog does not permit fine-grained layout of UI elements.</li>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>

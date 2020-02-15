@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.0',
+        VERSION:     '4.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -99,7 +99,7 @@
 confused with a more full-featured shell, such as those provided by IPython.</p>
 <dl class="class">
 <dt id="envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask">
-<em class="property">class </em><code class="descclassname">envisage.plugins.tasks.python_shell_plugin.</code><code class="descname">EnvisagePythonShellTask</code><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#EnvisagePythonShellTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.tasks.python_shell_plugin.</code><code class="sig-name descname">EnvisagePythonShellTask</code><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#EnvisagePythonShellTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.tasks.contrib.python_shell.PythonShellTask</span></code></p>
 <p>Subclass of PythonShellTask that gets its bindings and commands from
 an Envisage ExtensionPoint</p>
@@ -107,27 +107,27 @@ an Envisage ExtensionPoint</p>
 
 <dl class="class">
 <dt id="envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin">
-<em class="property">class </em><code class="descclassname">envisage.plugins.tasks.python_shell_plugin.</code><code class="descname">PythonShellPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#PythonShellPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.tasks.python_shell_plugin.</code><code class="sig-name descname">PythonShellPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#PythonShellPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>A tasks plugin to display a simple Python shell to the user.</p>
 <dl class="attribute">
 <dt id="envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.BINDINGS">
-<code class="descname">BINDINGS</code><em class="property"> = 'envisage.plugins.python_shell.bindings'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.BINDINGS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">BINDINGS</code><em class="property"> = 'envisage.plugins.python_shell.bindings'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.BINDINGS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.COMMANDS">
-<code class="descname">COMMANDS</code><em class="property"> = 'envisage.plugins.python_shell.commands'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.COMMANDS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">COMMANDS</code><em class="property"> = 'envisage.plugins.python_shell.commands'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.COMMANDS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.TASKS">
-<code class="descname">TASKS</code><em class="property"> = 'envisage.ui.tasks.tasks'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.TASKS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">TASKS</code><em class="property"> = 'envisage.ui.tasks.tasks'</em><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.TASKS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#PythonShellPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/tasks/python_shell_plugin.html#PythonShellPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the plugin.</p>
 <p>This method will <em>always</em> be empty so that you never have to call
 ‘super(xxx, self).start()’ if you provide an implementation in a
@@ -175,13 +175,11 @@ of the plugin’s activator.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -205,10 +203,10 @@ of the plugin’s activator.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Nov 19, 2019.
+      Last updated on Feb 14, 2020.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>
