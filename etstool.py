@@ -80,7 +80,7 @@ import glob
 import os
 import subprocess
 import sys
-from shutil import rmtree, copy as copyfile
+from shutil import rmtree, copy as copyfile, which
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
@@ -483,18 +483,11 @@ def locate_edm():
     click.ClickException
         If no EDM executable is found in the path.
     """
-    # Once Python 2 no longer needs to be supported, we should use
-    # shutil.which instead.
-    which_cmd = "where" if sys.platform == "win32" else "which"
-    try:
-        cmd_output = subprocess.check_output([which_cmd, "edm"])
-    except subprocess.CalledProcessError:
+    edm = which("edm")
+    if edm is None:
         raise click.ClickException(
-            "This script requires EDM, but no EDM executable was found.")
-
-    # Don't try to be clever; just use the first candidate.
-    edm_candidates = cmd_output.decode("utf-8").splitlines()
-    edm = edm_candidates[0]
+            "This script requires EDM, but no EDM executable "
+            "was found on the path.")
 
     # Resolve edm.bat on Windows.
     if sys.platform == "win32" and os.path.basename(edm) == "edm.bat":
