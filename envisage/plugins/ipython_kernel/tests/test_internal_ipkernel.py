@@ -9,18 +9,13 @@
 
 import atexit
 import gc
-try:
-    # Python 3: mock part of standard library.
-    from unittest import mock
-except ImportError:
-    # Python 2: use 3rd-party mock
-    import mock
 import os
 import shutil
 import sys
 import tempfile
 import threading
 import unittest
+from unittest import mock
 import warnings
 
 try:

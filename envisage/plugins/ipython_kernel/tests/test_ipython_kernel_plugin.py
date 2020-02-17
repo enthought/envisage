@@ -9,15 +9,10 @@
 
 import contextlib
 import os
-try:
-    # Python 3: mock available in std. lib.
-    from unittest import mock
-except ImportError:
-    # Python 2: use 3rd party mock library
-    import mock
 import shutil
 import tempfile
 import unittest
+from unittest import mock
 import warnings
 
 from traits.api import List
