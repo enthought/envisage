@@ -8,7 +8,7 @@
 # Thanks for using Enthought open source!
 # Enthought library imports.
 from pyface.action.api import Action, ActionItem, Group
-from traits.api import Any, Instance, List, Property, Unicode, on_trait_change
+from traits.api import Any, Instance, List, Property, Str, on_trait_change
 
 
 class TaskWindowToggleAction(Action):
@@ -17,7 +17,7 @@ class TaskWindowToggleAction(Action):
 
     #### 'Action' interface ###################################################
 
-    name = Property(Unicode, depends_on="window.active_task.name")
+    name = Property(Str, depends_on="window.active_task.name")
     style = "toggle"
 
     #### 'TaskWindowToggleAction' interface ###################################

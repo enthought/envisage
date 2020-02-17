@@ -7,14 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import (
-    Bool,
-    HasTraits,
-    Instance,
-    List,
-    Unicode,
-    on_trait_change,
-)
+from traits.api import Bool, HasTraits, Instance, List, Str, on_trait_change
 from traitsui.api import Item, Handler, ListEditor, View
 from pyface.tasks.topological_sort import before_after_sort
 
@@ -27,7 +20,7 @@ class PreferencesTab(HasTraits):
     """ An object used internally by PreferencesDialog.
     """
 
-    name = Unicode
+    name = Str
     panes = List(PreferencesPane)
 
     view = View(

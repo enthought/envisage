@@ -4,7 +4,7 @@ import os.path
 
 # Enthought library imports.
 from pyface.tasks.api import TraitsDockPane
-from traits.api import HasTraits, Instance, Property, Unicode, cached_property
+from traits.api import HasTraits, Instance, Property, Str, cached_property
 from traitsui.api import HTMLEditor, Item, View
 
 # Constants.
@@ -24,7 +24,7 @@ class ModelHelpPane(TraitsDockPane):
 
     model = Instance(HasTraits)
 
-    html = Property(Unicode, depends_on="model")
+    html = Property(Str, depends_on="model")
 
     view = View(
         Item(

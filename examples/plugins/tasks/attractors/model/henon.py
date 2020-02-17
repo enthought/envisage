@@ -9,7 +9,6 @@ from traits.api import (
     Int,
     Property,
     Str,
-    Unicode,
     cached_property,
     provides,
 )
@@ -48,12 +47,12 @@ class Henon(HasTraits):
 
     #### 'IPlottable2D' interface #############################################
 
-    name = Unicode("Henon Map")
+    name = Str("Henon Map")
     plot_type = Str("scatter")
     x_data = Property(Array, depends_on="points")
     y_data = Property(Array, depends_on="points")
-    x_label = Unicode("x")
-    y_label = Unicode("y")
+    x_label = Str("x")
+    y_label = Str("y")
 
     ###########################################################################
     # Protected interface.

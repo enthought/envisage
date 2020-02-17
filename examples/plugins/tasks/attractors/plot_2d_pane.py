@@ -7,7 +7,7 @@ from traits.api import (
     Instance,
     List,
     Property,
-    Unicode,
+    Str,
     on_trait_change,
 )
 from traitsui.api import EnumEditor, HGroup, Item, Label, View
@@ -28,12 +28,12 @@ class Plot2dPane(TraitsTaskPane):
     active_model = Instance(IPlottable2d)
     models = List(IPlottable2d)
 
-    plot_type = Property(Unicode, depends_on="active_model.plot_type")
-    title = Property(Unicode, depends_on="active_model.name")
+    plot_type = Property(Str, depends_on="active_model.plot_type")
+    title = Property(Str, depends_on="active_model.name")
     x_data = Property(depends_on="active_model.x_data")
     y_data = Property(depends_on="active_model.y_data")
-    x_label = Property(Unicode, depends_on="active_model.x_label")
-    y_label = Property(Unicode, depends_on="active_model.y_label")
+    x_label = Property(Str, depends_on="active_model.x_label")
+    y_label = Property(Str, depends_on="active_model.y_label")
 
     view = View(
         HGroup(
@@ -63,7 +63,7 @@ class Plot2dPane(TraitsTaskPane):
 
     #### Private traits #######################################################
 
-    _enum_map = Dict(IPlottable2d, Unicode)
+    _enum_map = Dict(IPlottable2d, Str)
 
     ###########################################################################
     # Protected interface.

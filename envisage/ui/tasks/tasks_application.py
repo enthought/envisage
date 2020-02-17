@@ -22,7 +22,7 @@ from traits.api import (
     Instance,
     Int,
     List,
-    Unicode,
+    Str,
     Vetoable,
 )
 from traits.etsconfig.api import ETSConfig
@@ -66,7 +66,7 @@ class TasksApplication(Application):
     icon = Instance("pyface.image_resource.ImageResource", allow_none=True)
 
     # The name of the application (also used on window title bars).
-    name = Unicode
+    name = Str
 
     # The splash screen for the application. By default, there is no splash
     # screen.
@@ -78,7 +78,7 @@ class TasksApplication(Application):
 
     # The filename that the application uses to persist window layout
     # information.
-    state_filename = Unicode(DEFAULT_STATE_FILENAME)
+    state_filename = Str(DEFAULT_STATE_FILENAME)
 
     # Contributed task factories. This attribute is primarily for run-time
     # inspection; to instantiate a task, use the 'create_task' method.

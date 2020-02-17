@@ -1,7 +1,7 @@
 # Enthought library imports.
 from envisage.ui.tasks.api import PreferencesPane, TaskFactory
 from apptools.preferences.api import PreferencesHelper
-from traits.api import Bool, Dict, Enum, List, Str, Unicode
+from traits.api import Bool, Dict, Enum, List, Str
 from traitsui.api import EnumEditor, HGroup, VGroup, Item, Label, View
 
 
@@ -35,7 +35,7 @@ class AttractorsPreferencesPane(PreferencesPane):
 
     #### 'AttractorsPreferencesPane' interface ################################
 
-    task_map = Dict(Str, Unicode)
+    task_map = Dict(Str, Str)
 
     view = View(
         VGroup(

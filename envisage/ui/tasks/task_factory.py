@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import Callable, HasTraits, Str, Unicode
+from traits.api import Callable, HasTraits, Str
 
 
 class TaskFactory(HasTraits):
@@ -19,7 +19,7 @@ class TaskFactory(HasTraits):
     id = Str
 
     # The task factory's user-visible name.
-    name = Unicode
+    name = Str
 
     # A callable with the following signature:
     #

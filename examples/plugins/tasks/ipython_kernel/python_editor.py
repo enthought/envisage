@@ -5,7 +5,7 @@ from os.path import basename
 from pyface.qt import QtCore, QtGui
 
 # Enthought library imports.
-from traits.api import Bool, Event, Instance, File, Unicode, Property, provides
+from traits.api import Bool, Event, Instance, File, Property, provides, Str
 from pyface.tasks.api import Editor
 
 # Local imports.
@@ -23,13 +23,13 @@ class PythonEditor(Editor):
 
     obj = Instance(File)
 
-    path = Unicode
+    path = Str
 
     dirty = Bool(False)
 
-    name = Property(Unicode, depends_on="path")
+    name = Property(Str, depends_on="path")
 
-    tooltip = Property(Unicode, depends_on="path")
+    tooltip = Property(Str, depends_on="path")
 
     show_line_numbers = Bool(True)
 

@@ -8,7 +8,7 @@ from traits.api import (
     Instance,
     List,
     Property,
-    Unicode,
+    Str,
     on_trait_change,
 )
 from traitsui.api import EnumEditor, HGroup, Item, Label, View
@@ -48,7 +48,7 @@ class Plot3dPane(TraitsTaskPane):
 
     #### Private traits #######################################################
 
-    _enum_map = Dict(IModel3d, Unicode)
+    _enum_map = Dict(IModel3d, Str)
 
     ###########################################################################
     # Protected interface.

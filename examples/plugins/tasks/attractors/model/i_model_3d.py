@@ -6,8 +6,8 @@ from traits.api import (
     Interface,
     Instance,
     Property,
+    Str,
     Trait,
-    Unicode,
     cached_property,
 )
 from traitsui.api import Group, Item, View
@@ -18,7 +18,7 @@ class IModel3d(Interface):
     """
 
     # The user-visible name of the model.
-    name = Unicode
+    name = Str
 
     # An n-by-3 array.
     points = Array
