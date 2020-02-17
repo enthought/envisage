@@ -18,6 +18,14 @@ from envisage.api import ServiceOffer
 from traits.api import HasTraits, Int, Interface, List
 from traits.testing.unittest_tools import unittest
 
+# Categories were removed in Traits 6.0
+try:
+    from traits.api import Category as traits_category  # noqa: F401
+except ImportError:
+    categories_available = False
+else:
+    categories_available = True
+
 
 # This module's package.
 PKG = 'envisage.tests'
@@ -137,6 +145,8 @@ class CorePluginTestCase(unittest.TestCase):
         service = application.get_service(IMyService)
         self.assertEqual(42, service)
 
+    @unittest.skipUnless(
+        categories_available, "Traits categories not available")
     def test_categories(self):
         """ categories """
 
@@ -176,6 +186,8 @@ class CorePluginTestCase(unittest.TestCase):
         # place! This test works for me on Python 2.4!
         self.assertTrue('y' in Bar.class_traits())
 
+    @unittest.skipUnless(
+        categories_available, "Traits categories not available")
     def test_dynamically_added_category(self):
         """ dynamically added category """
 

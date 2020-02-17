@@ -20,7 +20,7 @@ from setuptools import setup, find_packages
 # into the package source.
 MAJOR = 4
 MINOR = 9
-MICRO = 1
+MICRO = 2
 IS_RELEASED = True
 
 # If this file is part of a Git export (for example created with "git archive",
