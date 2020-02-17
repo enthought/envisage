@@ -133,9 +133,7 @@ toolkit_dependencies = {
     'null': set()
 }
 
-runtime_dependencies = {
-    "2.7": {"mock"},
-}
+runtime_dependencies = {}
 
 environment_vars = {
     'pyside': {'ETS_TOOLKIT': 'qt4', 'QT_API': 'pyside'},
