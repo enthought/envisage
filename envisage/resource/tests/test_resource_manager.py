@@ -107,9 +107,8 @@ class ResourceManagerTestCase(unittest.TestCase):
         filename = resource_filename('envisage.resource', 'api.py')
 
         # Open the api file via the file system.
-        g = open(filename, 'rb')
-        self.assertEqual(g.read(), contents)
-        g.close()
+        with open(filename, 'rb') as g:
+            self.assertEqual(g.read(), contents)
 
     def test_no_such_package_resource(self):
         """ no such package resource """

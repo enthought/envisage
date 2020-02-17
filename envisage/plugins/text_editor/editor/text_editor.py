@@ -60,9 +60,8 @@ class TextEditor(TraitsUIEditor):
             self.save_as()
 
         else:
-            f = open(self.obj.path, 'w')
-            f.write(self.text)
-            f.close()
+            with open(self.obj.path, 'w', encoding="utf-8") as f:
+                f.write(self.text)
 
             # We have just saved the file so we ain't dirty no more!
             self.dirty = False
@@ -174,9 +173,8 @@ class TextEditor(TraitsUIEditor):
             self.id   = new.path
             self.name = basename(new.path)
 
-            f = open(new.path, 'r')
-            self.text = f.read()
-            f.close()
+            with open(new.path, 'r', encoding="utf-8") as f:
+                self.text = f.read()
 
         return
 
