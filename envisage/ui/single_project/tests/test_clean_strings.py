@@ -15,8 +15,6 @@ from __future__ import unicode_literals
 
 import unittest
 
-import six
-
 from envisage.ui.single_project.project import clean_filename
 
 # Safe strings should only contain the following characters.
@@ -63,11 +61,10 @@ class TestCleanStrings(unittest.TestCase):
             self.assertEqual(safe_string, "abcdef")
 
     def test_clean_filename_all_chars(self):
-        chr_ = unichr if six.PY2 else chr
         test_strings = [
-            "".join(chr_(n) for n in range(10000)),
-            "".join(chr_(n) for n in range(10000)) * 2,
-            "".join(chr_(n) for n in reversed(range(10000))),
+            "".join(chr(n) for n in range(10000)),
+            "".join(chr(n) for n in range(10000)) * 2,
+            "".join(chr(n) for n in reversed(range(10000))),
         ]
         for test_string in test_strings:
             safe_string = clean_filename(test_string)
@@ -77,6 +74,6 @@ class TestCleanStrings(unittest.TestCase):
         """
         Check that a supposedly safe string is actually safe.
         """
-        self.assertIsInstance(safe_string, six.text_type)
+        self.assertIsInstance(safe_string, str)
         chars_in_string = set(safe_string)
         self.assertLessEqual(chars_in_string, LEGAL_CHARS)
