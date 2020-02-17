@@ -3,7 +3,6 @@ This module contains an extended version of the upstream ipykernel IPKernelApp.
 
 The main reason for extending is to support clean shutdown.
 """
-from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import logging

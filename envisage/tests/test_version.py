@@ -11,8 +11,6 @@ Tests for the envisage.__version__ attribute and the envisage.version
 module contents.
 """
 
-from __future__ import absolute_import, print_function, unicode_literals
-
 import unittest
 
 import pkg_resources

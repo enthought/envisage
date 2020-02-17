@@ -12,7 +12,6 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
-from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import warnings
