@@ -39,7 +39,7 @@ def stubout_urlopen(url):
         raise HTTPError(url, '404', 'No such resource', '', None)
 
     elif 'localhost' in url:
-        return StringIO(u'This is a test file.\n')
+        return StringIO('This is a test file.\n')
 
     else:
         raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
