@@ -4,7 +4,7 @@ from scipy.integrate import odeint
 
 # Enthought libary imports.
 from traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Str, Unicode, cached_property, provides, register_factory
+     Property, Str, cached_property, provides, register_factory
 from traitsui.api import View, Item
 
 # Local imports
@@ -19,7 +19,7 @@ class Lorenz(HasTraits):
 
     #### 'IModel3d' interface #################################################
 
-    name = Unicode('Lorenz Attractor')
+    name = Str('Lorenz Attractor')
     points = Property(Array, depends_on=['prandtl', 'rayleigh', 'beta',
                                          'initial_point', 'times'])
 

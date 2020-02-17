@@ -2,8 +2,8 @@
 from mayavi.tools.mlab_scene_model import MlabSceneModel
 from mayavi.core.ui.mayavi_scene import MayaviScene
 from pyface.tasks.api import TraitsTaskPane
-from traits.api import Dict, Enum, Instance, List, Property, \
-     Unicode, on_trait_change
+from traits.api import Dict, Enum, Instance, List, Property, Str, \
+    on_trait_change
 from traitsui.api import EnumEditor, HGroup, Item, Label, View
 from tvtk.pyface.scene_editor import SceneEditor
 
@@ -36,7 +36,7 @@ class Plot3dPane(TraitsTaskPane):
 
     #### Private traits #######################################################
 
-    _enum_map = Dict(IModel3d, Unicode)
+    _enum_map = Dict(IModel3d, Str)
 
     ###########################################################################
     # Protected interface.
