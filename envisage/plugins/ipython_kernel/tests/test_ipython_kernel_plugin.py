@@ -22,7 +22,6 @@ import warnings
 
 from traits.api import List
 
-from envisage._compat import STRING_BASE_CLASS
 from envisage.api import Application, Plugin
 from envisage.core_plugin import CorePlugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
@@ -69,7 +68,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
         from envisage.plugins.ipython_kernel.api import IPYTHON_KERNEL_PROTOCOL
-        self.assertIsInstance(IPYTHON_KERNEL_PROTOCOL, STRING_BASE_CLASS)
+        self.assertIsInstance(IPYTHON_KERNEL_PROTOCOL, str)
 
     def test_kernel_service(self):
         # See that we can get the IPython kernel service when the plugin is

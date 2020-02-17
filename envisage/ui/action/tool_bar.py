@@ -14,7 +14,6 @@ from traits.api import Instance, List, Str
 # Local imports.
 from .group import Group
 from .location import Location
-from ..._compat import STRING_BASE_CLASS
 
 
 # fixme: Remove duplication (in menu.py too!)
@@ -44,7 +43,7 @@ class CGroup(Instance):
     def validate(self, object, name, value):
         """ Validate a value. """
 
-        if isinstance(value, STRING_BASE_CLASS):
+        if isinstance(value, str):
             value = Group(id=value)
 
         return super(CGroup, self).validate(object, name, value)

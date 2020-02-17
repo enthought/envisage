@@ -18,7 +18,6 @@ from traits.api import Dict, Event, HasTraits, Int, provides
 # Local imports.
 from .i_service_registry import IServiceRegistry
 from .import_manager import ImportManager
-from ._compat import STRING_BASE_CLASS
 
 
 # Logging.
@@ -109,7 +108,7 @@ class ServiceRegistry(HasTraits):
         for service_id, (name, obj, properties) in self._services.items():
             if self._get_protocol_name(protocol) == name:
                 # If the protocol is a string then we need to import it!
-                if isinstance(protocol, STRING_BASE_CLASS):
+                if isinstance(protocol, str):
                     actual_protocol = ImportManager().import_symbol(protocol)
 
                 # Otherwise, it is an actual protocol, so just use it!
@@ -224,7 +223,7 @@ class ServiceRegistry(HasTraits):
     def _get_protocol_name(self, protocol_or_name):
         """ Returns the full class name for a protocol. """
 
-        if isinstance(protocol_or_name, STRING_BASE_CLASS):
+        if isinstance(protocol_or_name, str):
             name = protocol_or_name
 
         else:
@@ -260,7 +259,7 @@ class ServiceRegistry(HasTraits):
             # dictionary of properties that were registered with the service.
             #
             # If the factory is specified as a symbol path then import it.
-            if isinstance(obj, STRING_BASE_CLASS):
+            if isinstance(obj, str):
                 obj = ImportManager().import_symbol(obj)
 
             obj = obj(**properties)
