@@ -12,9 +12,6 @@ from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
 from traits.api import Instance, Property
 
-# Local imports.
-from envisage._compat import unicode_str
-
 
 class TaskWindow(PyfaceTaskWindow):
     """ A TaskWindow for use with the Envisage Tasks plugin.
@@ -44,7 +41,7 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            form = unicode_str('%s - %s')
+            form = '%s - %s'
             title = form % (title, self.application.name)
         return title
 

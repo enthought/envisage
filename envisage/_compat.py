@@ -17,6 +17,3 @@ if PY_VER >= 3:
     import pickle
 else:
     import cPickle as pickle
-
-def unicode_str(x=''):
-    return str(x) if PY_VER == 3 else unicode(x, encoding='utf-8')
