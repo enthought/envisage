@@ -11,6 +11,8 @@
 
 # Standard library imports.
 import unittest
+from urllib.error import HTTPError
+import urllib.request
 
 from io import StringIO
 
@@ -20,9 +22,10 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from envisage.resource.api import ResourceManager
 from envisage.resource.api import NoSuchResourceError
-from envisage._compat import HTTPError, unicode_str
-import envisage._compat
-url_library = envisage._compat
+from envisage._compat import unicode_str
+
+# Module to patch urlopen in during testing.
+url_library = urllib.request
 
 
 # This module's package.

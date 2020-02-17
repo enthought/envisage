@@ -15,11 +15,8 @@ PY_VER = sys.version_info[0]
 
 if PY_VER >= 3:
     import pickle
-    from urllib.request import urlopen
-    from urllib.error import HTTPError
 else:
     import cPickle as pickle
-    from urllib2 import urlopen, HTTPError
 
 def unicode_str(x=''):
     return str(x) if PY_VER == 3 else unicode(x, encoding='utf-8')
