@@ -8,12 +8,12 @@
 # Thanks for using Enthought open source!
 
 import os
+import pickle
 import shutil
 import tempfile
 import unittest
 
 import pkg_resources
-from six.moves import cPickle as pickle
 
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME

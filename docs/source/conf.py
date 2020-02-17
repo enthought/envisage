@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # This file is execfile()d with the current directory set to its containing dir.
 #
 # The contents of this file are pickled, so don't put values in the namespace

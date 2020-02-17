@@ -27,9 +27,10 @@ class HTTPResourceProtocol(HasTraits):
     def file(self, address):
         """ Return a readable file-like object for the specified address. """
 
-        # Do the import here 'cos I'm not sure how much this will actually
+        # Do the imports here 'cos I'm not sure how much this will actually
         # be used.
-        from .._compat import urlopen, HTTPError
+        from urllib.error import HTTPError
+        from urllib.request import urlopen
 
         try:
             f = urlopen('http://' + address)

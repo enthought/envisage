@@ -3,7 +3,6 @@ This module contains an extended version of the upstream ipykernel IPKernelApp.
 
 The main reason for extending is to support clean shutdown.
 """
-from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import logging
@@ -14,30 +13,9 @@ import ipykernel.ipkernel
 import ipykernel.kernelapp
 import ipykernel.zmqshell
 import IPython.utils.io
-import six
 import zmq
 
 from envisage.plugins.ipython_kernel.heartbeat import Heartbeat
-
-
-# The IPython machinery registers various atexit cleanup handlers. We
-# need to be able to do cleanup *before* process exit time, and some
-# of the registered handlers are not idempotent, and so cause errors
-# at process exit time. Those handlers also interfere with timely garbage
-# collection by holding onto references to otherwise dead objects. So we
-# deliberately unregister all registered handlers.
-
-if six.PY2:
-    def atexit_unregister(func):
-        # Replace the contents, not the list itself, in case anyone else
-        # is keeping references to it. Also use 'not thing == func' instead
-        # of 'thing != func' to match the semantics of the Python 3 code.
-        atexit._exithandlers[:] = list(
-            handler for handler in atexit._exithandlers
-            if not handler[0] == func
-        )
-else:
-    from atexit import unregister as atexit_unregister
 
 # Sentinel object used to represent a missing attribute.
 _MISSING = object()
@@ -202,7 +180,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         self.close_sockets()
 
         self.cleanup_connection_file()
-        atexit_unregister(self.cleanup_connection_file)
+        atexit.unregister(self.cleanup_connection_file)
 
         self.close_crash_handler()
         self.close_profile_dir()
@@ -219,7 +197,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         magics_manager = shell.magics_manager
         script_magics = magics_manager.registry["ScriptMagics"]
         script_magics.kill_bg_processes()
-        atexit_unregister(script_magics.kill_bg_processes)
+        atexit.unregister(script_magics.kill_bg_processes)
         script_magics.magics.clear()
         script_magics.shell = None
         script_magics.parent = None
@@ -231,10 +209,10 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # but doesn't stop the history manager's save_thread, so we need
         # to do that separately.
         shell.atexit_operations()
-        atexit_unregister(shell.atexit_operations)
+        atexit.unregister(shell.atexit_operations)
 
         shell.history_manager.save_thread.stop()
-        atexit_unregister(shell.history_manager.save_thread.stop)
+        atexit.unregister(shell.history_manager.save_thread.stop)
 
         # Rely on garbage collection to clean up the file connection.
         shell.history_manager.db.close()
@@ -302,7 +280,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
 
         # Remove the atexit handler that's registered.
         self.iopub_thread.stop()
-        atexit_unregister(self.iopub_thread.stop)
+        atexit.unregister(self.iopub_thread.stop)
 
         iopub_socket.close()
 

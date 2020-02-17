@@ -11,9 +11,6 @@ from pyface.action.api import Action, ActionItem, Group
 from traits.api import Any, Instance, List, Property, Unicode, \
      on_trait_change
 
-# Local imports.
-from envisage._compat import unicode_str
-
 
 class TaskWindowToggleAction(Action):
     """ An action for activating an application window.
@@ -44,7 +41,7 @@ class TaskWindowToggleAction(Action):
     def _get_name(self):
         if self.window.active_task:
             return self.window.active_task.name
-        return unicode_str()
+        return ""
 
     @on_trait_change('window:activated')
     def _window_activated(self):
