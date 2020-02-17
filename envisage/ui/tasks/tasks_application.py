@@ -8,6 +8,7 @@
 # Thanks for using Enthought open source!
 # Standard library imports.
 import logging
+import pickle
 import os.path
 
 # Enthought library imports.
@@ -16,9 +17,6 @@ from traits.api import (
     Bool, Callable, Directory, Event, HasStrictTraits,
     Instance, Int, List, Unicode, Vetoable)
 from traits.etsconfig.api import ETSConfig
-
-# Local imports
-from envisage._compat import pickle
 
 
 # Logging.

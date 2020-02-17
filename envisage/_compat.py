@@ -8,12 +8,3 @@
 # Thanks for using Enthought open source!
 """Compatibility layer for Python version 2.x and 3.x.
 """
-
-import sys
-
-PY_VER = sys.version_info[0]
-
-if PY_VER >= 3:
-    import pickle
-else:
-    import cPickle as pickle
