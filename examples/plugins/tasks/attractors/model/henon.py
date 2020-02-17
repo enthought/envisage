@@ -3,7 +3,7 @@ from scipy import array, zeros
 
 # Enthought library imports.
 from traits.api import Array, Float, HasTraits, Int, Property, Str, \
-     Unicode, cached_property, provides
+    cached_property, provides
 from traitsui.api import Item, View
 
 # Local imports.
@@ -37,12 +37,12 @@ class Henon(HasTraits):
 
     #### 'IPlottable2D' interface #############################################
 
-    name = Unicode('Henon Map')
+    name = Str('Henon Map')
     plot_type = Str('scatter')
     x_data = Property(Array, depends_on='points')
     y_data = Property(Array, depends_on='points')
-    x_label = Unicode('x')
-    y_label = Unicode('y')
+    x_label = Str('x')
+    y_label = Str('y')
 
     ###########################################################################
     # Protected interface.

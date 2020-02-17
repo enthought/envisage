@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import HasTraits, Str, Unicode
+from traits.api import HasTraits, Str
 
 
 class PreferencesCategory(HasTraits):
@@ -18,7 +18,7 @@ class PreferencesCategory(HasTraits):
     id = Str
 
     # The user-visible name of the category.
-    name = Unicode
+    name = Str
 
     # The category appears after the category with this ID.
     before = Str

@@ -259,7 +259,7 @@ above, exposes a Traits UI view for this helper object::
 
         #### 'AttractorsPreferencesPane' interface ############################
 
-        task_map = Dict(Str, Unicode)
+        task_map = Dict(Str, Str)
 
         # Notice that the default context for trait names is that of the model
         # object, and that we must prefix names for this object with 'handler.'.

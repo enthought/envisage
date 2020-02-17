@@ -67,7 +67,7 @@ GIT = "git"
 
 def _git_output(args):
     """
-    Call Git with the given arguments and return the output as (Unicode) text.
+    Call Git with the given arguments and return the output as text.
     """
     return subprocess.check_output([GIT] + args).decode("utf-8")
 

@@ -1,6 +1,6 @@
 # Enthought library imports.
 from traits.api import Array, DelegatesTo, HasTraits, Interface, \
-    Instance, Property, Trait, Unicode, cached_property
+    Instance, Property, Str, Trait, cached_property
 from traitsui.api import Group, Item, View
 
 
@@ -9,7 +9,7 @@ class IModel3d(Interface):
     """
 
     # The user-visible name of the model.
-    name = Unicode
+    name = Str
 
     # An n-by-3 array.
     points = Array
