@@ -30,7 +30,7 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
     def create_menu_bar_manager(self, root):
         """ Create a menu bar manager from the builder's action sets. """
 
-        menu_bar_manager = MenuBarManager(id='MenuBar')
+        menu_bar_manager = MenuBarManager(id="MenuBar")
 
         self.initialize_action_manager(menu_bar_manager, root)
 
@@ -58,5 +58,6 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
             menu_manager.insert(-1, Group(id=group_definition.id))
 
         return menu_manager
+
 
 #### EOF ######################################################################

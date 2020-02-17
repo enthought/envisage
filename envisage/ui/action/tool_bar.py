@@ -73,7 +73,7 @@ class ToolBar(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'ToolBar(%s)' % self.name
+        return "ToolBar(%s)" % self.name
 
     __repr__ = __str__
 
@@ -84,7 +84,7 @@ class ToolBar(Location):
     def _path_default(self):
         """ Trait initializer. """
 
-        return 'ToolBar'
+        return "ToolBar"
 
     ###########################################################################
     # 'ToolBar' interface
@@ -94,5 +94,6 @@ class ToolBar(Location):
         """ Trait initializer. """
 
         return self.name
+
 
 #### EOF ######################################################################

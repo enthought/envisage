@@ -77,78 +77,79 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         plugin_manager = CompositePluginManager(
             plugin_managers=[
                 PluginManager(
-                    plugins=[SimplePlugin(id='red'), SimplePlugin(id='yellow')]
+                    plugins=[SimplePlugin(id="red"), SimplePlugin(id="yellow")]
                 )
             ]
         )
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(2, len(ids))
-        self.assertIn('red', ids)
-        self.assertIn('yellow', ids)
+        self.assertIn("red", ids)
+        self.assertIn("yellow", ids)
 
-        self._test_start_and_stop(plugin_manager, ['red', 'yellow'])
+        self._test_start_and_stop(plugin_manager, ["red", "yellow"])
 
     def test_find_plugins_in_a_multiple_plugin_managers(self):
 
         plugin_manager = CompositePluginManager(
             plugin_managers=[
                 PluginManager(
-                    plugins=[SimplePlugin(id='red'), SimplePlugin(id='yellow')]
+                    plugins=[SimplePlugin(id="red"), SimplePlugin(id="yellow")]
                 ),
-
-                PluginManager(
-                    plugins=[SimplePlugin(id='green')]
-                )
+                PluginManager(plugins=[SimplePlugin(id="green")]),
             ]
         )
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(3, len(ids))
-        self.assertIn('red', ids)
-        self.assertIn('yellow', ids)
-        self.assertIn('green', ids)
+        self.assertIn("red", ids)
+        self.assertIn("yellow", ids)
+        self.assertIn("green", ids)
 
-        self._test_start_and_stop(plugin_manager, ['red', 'yellow', 'green'])
+        self._test_start_and_stop(plugin_manager, ["red", "yellow", "green"])
 
     def test_application_gets_propogated_to_plugin_managers(self):
 
         application = Application()
 
         composite_plugin_manager = CompositePluginManager(
-            application     = application,
-            plugin_managers = [PluginManager(), PluginManager()]
+            application=application,
+            plugin_managers=[PluginManager(), PluginManager()],
         )
 
         for plugin_manager in composite_plugin_manager.plugin_managers:
             self.assertEqual(application, plugin_manager.application)
 
-    def test_propogate_plugin_added_or_remove_events_from_plugin_managers(self):
+    def test_propogate_plugin_added_or_remove_events_from_plugin_managers(
+        self,
+    ):
 
         a = PluginManager()
         b = PluginManager()
 
         composite_plugin_manager = CompositePluginManager(
-            plugin_managers = [a, b]
+            plugin_managers=[a, b]
         )
         composite_plugin_manager._plugins
 
         def added(obj, trait_name, old, new):
             added.count += 1
+
         added.count = 0
 
-        composite_plugin_manager.on_trait_change(added, 'plugin_added')
+        composite_plugin_manager.on_trait_change(added, "plugin_added")
 
         def removed(obj, trait_name, old, new):
             removed.count += 1
+
         removed.count = 0
 
-        composite_plugin_manager.on_trait_change(removed, 'plugin_removed')
+        composite_plugin_manager.on_trait_change(removed, "plugin_removed")
 
-        a.add_plugin(Plugin(id='foo'))
+        a.add_plugin(Plugin(id="foo"))
         self.assertEqual(1, self._plugin_count(composite_plugin_manager))
 
-        a.remove_plugin(a.get_plugin('foo'))
+        a.remove_plugin(a.get_plugin("foo"))
         self.assertEqual(0, self._plugin_count(composite_plugin_manager))
 
     def test_correct_exception_propagated_from_plugin_manager(self):

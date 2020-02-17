@@ -23,7 +23,7 @@ class IPlugin(Interface):
     activator = Instance(IPluginActivator)
 
     # The application that the plugin is part of.
-    application = Instance('envisage.api.IApplication')
+    application = Instance("envisage.api.IApplication")
 
     # The name of a directory (created for you) that the plugin can read and
     # write to at will.
@@ -59,5 +59,6 @@ class IPlugin(Interface):
           application.stop_plugin(plugin)
 
         """
+
 
 #### EOF ######################################################################

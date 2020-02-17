@@ -35,9 +35,9 @@ def _gui_kernel(gui_backend):
 
     kernel = IPKernelApp.instance()
 
-    argv = ['python']
+    argv = ["python"]
     if gui_backend is not None:
-        argv.append('--gui={}'.format(gui_backend))
+        argv.append("--gui={}".format(gui_backend))
     kernel.initialize(argv)
 
     return kernel
@@ -108,8 +108,7 @@ class InternalIPKernel(HasStrictTraits):
     def new_qt_console(self):
         """ Start a new qtconsole connected to our kernel. """
         console = ipykernel.connect.connect_qtconsole(
-            self.ipkernel.connection_file,
-            argv=['--no-confirm-exit'],
+            self.ipkernel.connection_file, argv=["--no-confirm-exit"],
         )
         self.consoles.append(console)
         return console

@@ -16,9 +16,9 @@ class StartQtConsoleAction(TaskAction):
     """ Open in a separate window a Qt console attached to a, existing kernel.
     """
 
-    id = 'ipython_qtconsole'
+    id = "ipython_qtconsole"
 
-    name = 'IPython Console'
+    name = "IPython Console"
 
     kernel = Instance(InternalIPKernel)
 

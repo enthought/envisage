@@ -16,26 +16,27 @@ from pyface.api import ImageResource
 # class 'SaveProjectAction'
 ##############################################################################
 
+
 class SaveProjectAction(ProjectAction):
     """ An action that saves the current project. """
 
     # The universal object locator (UOL).
-    uol = 'envisage.ui.single_project.ui_service.UiService'
+    uol = "envisage.ui.single_project.ui_service.UiService"
 
     # The name of the method to invoke on the object.
-    method_name = 'save'
+    method_name = "save"
 
     # A longer description of the action.
-    description = 'Save the current project'
+    description = "Save the current project"
 
     # The action's image (displayed on tool bar tools etc).
-    image = ImageResource('save_project')
+    image = ImageResource("save_project")
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Save'
+    name = "Save"
 
     # A short description of the action used for tooltip text etc.
-    tooltip = 'Save this project'
+    tooltip = "Save this project"
 
     #### public interface ####################################################
 
@@ -48,11 +49,11 @@ class SaveProjectAction(ProjectAction):
 
         """
 
-        self.enabled = self._refresh_project_exists() and \
-            self._refresh_is_save_allowed()
+        self.enabled = (
+            self._refresh_project_exists() and self._refresh_is_save_allowed()
+        )
 
         return
-
 
     #### trait handlers ######################################################
 
@@ -72,7 +73,6 @@ class SaveProjectAction(ProjectAction):
 
         super(SaveAction, self)._on_project_changed(obj, trait_name, old, new)
 
-
     ##########################################################################
     # 'SaveAction' interface
     ##########################################################################
@@ -90,21 +90,24 @@ class SaveProjectAction(ProjectAction):
 
         return self.model_service.project.is_save_allowed
 
-
     def _update_project_listeners(self, project, remove):
         """
         Update listeners on the specified project.
 
         """
 
-        logger.debug( (remove and 'Removing ' or 'Adding ') + \
-            'listeners on project [%s] for SaveAction [%s]', project, self)
+        logger.debug(
+            (remove and "Removing " or "Adding ")
+            + "listeners on project [%s] for SaveAction [%s]",
+            project,
+            self,
+        )
 
-        project.on_trait_change(self._on_is_save_allowed, 'is_save_allowed',
-            remove=remove)
+        project.on_trait_change(
+            self._on_is_save_allowed, "is_save_allowed", remove=remove
+        )
 
         return
-
 
     #### trait handlers ######################################################
 

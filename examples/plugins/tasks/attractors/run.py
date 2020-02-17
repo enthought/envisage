@@ -15,13 +15,14 @@ def main(argv):
     """
     logging.basicConfig(level=logging.WARNING)
 
-    plugins = [ CorePlugin(), TasksPlugin(), AttractorsPlugin() ]
+    plugins = [CorePlugin(), TasksPlugin(), AttractorsPlugin()]
     app = AttractorsApplication(plugins=plugins)
     app.run()
 
     logging.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     main(sys.argv)

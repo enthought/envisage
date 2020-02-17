@@ -3,8 +3,19 @@ from scipy import arange, array
 from scipy.integrate import odeint
 
 # Enthought libary imports.
-from traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Str, Unicode, cached_property, provides, register_factory
+from traits.api import (
+    Adapter,
+    Array,
+    Float,
+    HasTraits,
+    Instance,
+    Property,
+    Str,
+    Unicode,
+    cached_property,
+    provides,
+    register_factory,
+)
 from traitsui.api import View, Item
 
 # Local imports
@@ -19,9 +30,11 @@ class Lorenz(HasTraits):
 
     #### 'IModel3d' interface #################################################
 
-    name = Unicode('Lorenz Attractor')
-    points = Property(Array, depends_on=['prandtl', 'rayleigh', 'beta',
-                                         'initial_point', 'times'])
+    name = Unicode("Lorenz Attractor")
+    points = Property(
+        Array,
+        depends_on=["prandtl", "rayleigh", "beta", "initial_point", "times"],
+    )
 
     #### 'Lorenz' interface ###################################################
 
@@ -35,17 +48,19 @@ class Lorenz(HasTraits):
     time_start = Float(0.0)
     time_stop = Float(100.0)
     time_step = Float(0.01)
-    times = Property(Array, depends_on='time_start, time_stop, time_step')
+    times = Property(Array, depends_on="time_start, time_stop, time_step")
 
     # Configuration view.
-    view = View(Item('prandtl'),
-                Item('rayleigh'),
-                Item('beta'),
-                Item('initial_point'),
-                Item('time_start'),
-                Item('time_stop'),
-                Item('time_step'),
-                resizable=True)
+    view = View(
+        Item("prandtl"),
+        Item("rayleigh"),
+        Item("beta"),
+        Item("initial_point"),
+        Item("time_start"),
+        Item("time_stop"),
+        Item("time_step"),
+        resizable=True,
+    )
 
     ###########################################################################
     # 'Lorenz' interface.
@@ -53,9 +68,13 @@ class Lorenz(HasTraits):
 
     def compute_step(self, point, time):
         x, y, z = point
-        return array([ self.prandtl * (y - x),
-                       x * (self.rayleigh - z) - y,
-                       x * y - self.beta * z ])
+        return array(
+            [
+                self.prandtl * (y - x),
+                x * (self.rayleigh - z) - y,
+                x * y - self.beta * z,
+            ]
+        )
 
     ###########################################################################
     # Protected interface.
@@ -75,7 +94,7 @@ class LorenzIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
 
     adaptee = Instance(Lorenz)
 
-    plot_type = Str('line')
+    plot_type = Str("line")
 
 
 register_factory(LorenzIPlottable2dAdapter, Lorenz, IPlottable2d)

@@ -30,6 +30,7 @@ class Heartbeat(ipykernel.heartbeat.Heartbeat):
 
     Modified from upstream to enable the thread to be shut down cleanly.
     """
+
     def run(self):
         try:
             super(Heartbeat, self).run()

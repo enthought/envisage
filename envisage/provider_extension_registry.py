@@ -41,7 +41,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions to an extension point. """
 
-        raise SystemError('extension points cannot be set')
+        raise SystemError("extension points cannot be set")
 
     ###########################################################################
     # 'ProviderExtensionRegistry' interface.
@@ -87,7 +87,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # any extensions!
         if not extension_point_id in self._extension_points:
             logger.warning(
-                'getting extensions of unknown extension point <%s>' \
+                "getting extensions of unknown extension point <%s>"
                 % extension_point_id
             )
             extensions = []
@@ -153,7 +153,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             # provider contributes any extensions.
             if len(new) > 0:
                 index = sum(map(len, extensions))
-                refs  = self._get_listener_refs(extension_point_id)
+                refs = self._get_listener_refs(extension_point_id)
                 events[extension_point_id] = (refs, new[:], index)
 
             extensions.append(new)
@@ -203,7 +203,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             # provider contributed any extensions.
             if len(old) > 0:
                 offset = sum(map(len, extensions[:index]))
-                refs  = self._get_listener_refs(extension_point_id)
+                refs = self._get_listener_refs(extension_point_id)
                 events[extension_point_id] = (refs, old[:], offset)
 
             del extensions[index]
@@ -225,11 +225,11 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     #### Trait change handlers ################################################
 
-    @on_trait_change('_providers:extension_point_changed')
+    @on_trait_change("_providers:extension_point_changed")
     def _providers_extension_point_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
-        logger.debug('provider <%s> extension point changed', obj)
+        logger.debug("provider <%s> extension point changed", obj)
 
         extension_point_id = event.extension_point_id
 
@@ -287,7 +287,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         for provider in self._providers:
             extensions.append(provider.get_extensions(extension_point_id)[:])
 
-        logger.debug('extensions to <%s> <%s>', extension_point_id, extensions)
+        logger.debug("extensions to <%s> <%s>", extension_point_id, extensions)
 
         return extensions
 
@@ -295,11 +295,14 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """ Translate an event index by the given offset. """
 
         if isinstance(index, slice):
-            index = slice(index.start+offset, index.stop+offset, index.step)
+            index = slice(
+                index.start + offset, index.stop + offset, index.step
+            )
 
         else:
             index = index + offset
 
         return index
+
 
 #### EOF ######################################################################

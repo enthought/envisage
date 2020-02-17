@@ -31,13 +31,18 @@ else:
 
 if ipykernel_available:
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
-        InternalIPKernel)
+        InternalIPKernel,
+    )
     from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
-        IPYTHON_KERNEL_PROTOCOL, IPYTHON_NAMESPACE, IPythonKernelPlugin)
+        IPYTHON_KERNEL_PROTOCOL,
+        IPYTHON_NAMESPACE,
+        IPythonKernelPlugin,
+    )
 
 
-@unittest.skipUnless(ipykernel_available,
-                     "skipping tests that require the ipykernel package")
+@unittest.skipUnless(
+    ipykernel_available, "skipping tests that require the ipykernel package"
+)
 class TestIPythonKernelPlugin(unittest.TestCase):
     def setUp(self):
         ets_config_patcher = ETSConfigPatcher()
@@ -63,6 +68,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
     def test_import_from_api(self):
         # Regression test for enthought/envisage#108
         from envisage.plugins.ipython_kernel.api import IPYTHON_KERNEL_PROTOCOL
+
         self.assertIsInstance(IPYTHON_KERNEL_PROTOCOL, str)
 
     def test_kernel_service(self):
@@ -82,7 +88,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
             kernel_namespace = List(contributes_to=IPYTHON_NAMESPACE)
 
             def _kernel_namespace_default(self):
-                return [('y', 'hi')]
+                return [("y", "hi")]
 
         plugins = [
             IPythonKernelPlugin(init_ipkernel=True),
@@ -91,8 +97,8 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
         with self.running_app(plugins=plugins) as app:
             kernel = app.get_service(IPYTHON_KERNEL_PROTOCOL)
-            self.assertIn('y', kernel.namespace)
-            self.assertEqual(kernel.namespace['y'], 'hi')
+            self.assertIn("y", kernel.namespace)
+            self.assertEqual(kernel.namespace["y"], "hi")
 
     def test_get_service_twice(self):
         with self.running_app() as app:
@@ -112,9 +118,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
                 kernel_instances.append(self)
 
         patcher = mock.patch.object(
-            internal_ipkernel,
-            "InternalIPKernel",
-            TrackingInternalIPKernel,
+            internal_ipkernel, "InternalIPKernel", TrackingInternalIPKernel,
         )
 
         with patcher:
@@ -141,9 +145,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
                 kernel_instances.append(self)
 
         patcher = mock.patch.object(
-            internal_ipkernel,
-            "InternalIPKernel",
-            TrackingInternalIPKernel,
+            internal_ipkernel, "InternalIPKernel", TrackingInternalIPKernel,
         )
 
         with patcher:
@@ -163,7 +165,8 @@ class TestIPythonKernelPlugin(unittest.TestCase):
                 app.get_service(IPYTHON_KERNEL_PROTOCOL)
 
         matching_messages = [
-            msg for msg in warn_msgs
+            msg
+            for msg in warn_msgs
             if isinstance(msg.message, DeprecationWarning)
             if "kernel will be initialized" in str(msg.message)
         ]
@@ -184,7 +187,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
         if plugins is None:
             plugins = [IPythonKernelPlugin(init_ipkernel=True)]
 
-        app = Application(plugins=[CorePlugin()] + plugins, id='test')
+        app = Application(plugins=[CorePlugin()] + plugins, id="test")
         app.start()
         try:
             yield app

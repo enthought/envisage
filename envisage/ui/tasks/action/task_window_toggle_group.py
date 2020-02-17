@@ -8,8 +8,7 @@
 # Thanks for using Enthought open source!
 # Enthought library imports.
 from pyface.action.api import Action, ActionItem, Group
-from traits.api import Any, Instance, List, Property, Unicode, \
-     on_trait_change
+from traits.api import Any, Instance, List, Property, Unicode, on_trait_change
 
 
 class TaskWindowToggleAction(Action):
@@ -18,13 +17,13 @@ class TaskWindowToggleAction(Action):
 
     #### 'Action' interface ###################################################
 
-    name = Property(Unicode, depends_on='window.active_task.name')
-    style = 'toggle'
+    name = Property(Unicode, depends_on="window.active_task.name")
+    style = "toggle"
 
     #### 'TaskWindowToggleAction' interface ###################################
 
     # The window to use for this action.
-    window = Instance('envisage.ui.tasks.task_window.TaskWindow')
+    window = Instance("envisage.ui.tasks.task_window.TaskWindow")
 
     ###########################################################################
     # 'Action' interface.
@@ -43,11 +42,11 @@ class TaskWindowToggleAction(Action):
             return self.window.active_task.name
         return ""
 
-    @on_trait_change('window:activated')
+    @on_trait_change("window:activated")
     def _window_activated(self):
         self.checked = True
 
-    @on_trait_change('window:deactivated')
+    @on_trait_change("window:deactivated")
     def _window_deactivated(self):
         self.checked = False
 
@@ -58,14 +57,15 @@ class TaskWindowToggleGroup(Group):
 
     #### 'Group' interface ####################################################
 
-    id = 'TaskWindowToggleGroup'
+    id = "TaskWindowToggleGroup"
     items = List
 
     #### 'TaskWindowToggleGroup' interface ####################################
 
     # The application that contains the group.
-    application = Instance('envisage.ui.tasks.tasks_application.'
-                           'TasksApplication')
+    application = Instance(
+        "envisage.ui.tasks.tasks_application." "TasksApplication"
+    )
 
     # The ActionManager to which the group belongs.
     manager = Any
@@ -80,7 +80,8 @@ class TaskWindowToggleGroup(Group):
         super(TaskWindowToggleGroup, self).destroy()
         if self.application:
             self.application.on_trait_change(
-                self._rebuild, 'window_opened, window_closed', remove=True)
+                self._rebuild, "window_opened, window_closed", remove=True
+            )
 
     ###########################################################################
     # Private interface.
@@ -109,8 +110,9 @@ class TaskWindowToggleGroup(Group):
         return self.manager.controller.task.window.application
 
     def _items_default(self):
-        self.application.on_trait_change(self._rebuild,
-                                         'window_opened, window_closed')
+        self.application.on_trait_change(
+            self._rebuild, "window_opened, window_closed"
+        )
         return self._get_items()
 
     def _manager_default(self):

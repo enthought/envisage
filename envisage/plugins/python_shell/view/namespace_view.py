@@ -13,12 +13,21 @@ import types
 # Enthought library imports.
 
 from envisage.plugins.python_shell.api import IPythonShell
-from envisage.plugins.python_shell.view.python_shell_view import PythonShellView
+from envisage.plugins.python_shell.view.python_shell_view import (
+    PythonShellView,
+)
 
 from pyface.workbench.api import View
 
-from traits.api import HasTraits, Str, Property, List, Instance, \
-        DelegatesTo, cached_property
+from traits.api import (
+    HasTraits,
+    Str,
+    Property,
+    List,
+    Instance,
+    DelegatesTo,
+    cached_property,
+)
 
 from traitsui.api import Item, TableEditor, VGroup
 from traitsui.api import View as TraitsView
@@ -33,17 +42,17 @@ from traitsui.table_filter import RuleFilterTemplate
 filters = [EvalFilterTemplate, MenuFilterTemplate, RuleFilterTemplate]
 
 table_editor = TableEditor(
-    columns     = [
-        ObjectColumn(name='name'),
-        ObjectColumn(name='type'),
-        ObjectColumn(name='module'),
+    columns=[
+        ObjectColumn(name="name"),
+        ObjectColumn(name="type"),
+        ObjectColumn(name="module"),
     ],
-    editable    = False,
-    deletable   = False,
-    sortable    = True,
-    sort_model  = False,
-    filters     = filters,
-    search      = RuleTableFilter(),
+    editable=False,
+    deletable=False,
+    sortable=True,
+    sort_model=False,
+    filters=filters,
+    search=RuleTableFilter(),
 )
 
 
@@ -52,13 +61,13 @@ def type_to_str(obj):
     Make a string out `obj`'s type robustly.
     """
     typ = type(obj)
-    if typ.__name__ == 'vtkobject' or typ is types.InstanceType:
+    if typ.__name__ == "vtkobject" or typ is types.InstanceType:
         typ = obj.__class__
-    if type.__module__ == '__builtin__':
+    if type.__module__ == "__builtin__":
         # Make things like int and str easier to read.
         return typ.__name__
     else:
-        name = '%s.%s' % (typ.__module__, typ.__name__)
+        name = "%s.%s" % (typ.__module__, typ.__name__)
         return name
 
 
@@ -67,10 +76,10 @@ def module_to_str(obj):
     Return the string representation of *obj*'s ``__module__`` attribute, or
     an empty string if there is no such attribute.
     """
-    if hasattr(obj, '__module__'):
+    if hasattr(obj, "__module__"):
         return str(obj.__module__)
     else:
-        return ''
+        return ""
 
 
 class NamespaceView(View):
@@ -79,41 +88,39 @@ class NamespaceView(View):
     #### 'IView' interface ####################################################
 
     # The part's globally unique identifier.
-    id = 'enthought.plugins.python_shell.view.namespace_view'
+    id = "enthought.plugins.python_shell.view.namespace_view"
 
     # The view's name.
-    name = 'Namespace'
+    name = "Namespace"
 
     # The default position of the view relative to the item specified in the
     # 'relative_to' trait.
-    position = 'left'
+    position = "left"
 
     #### 'NamespaceView' interface ############################################
 
     # The bindings in the namespace.  This is a list of HasTraits objects with
     # 'name', 'type' and 'module' string attributes.
-    bindings = Property(List, depends_on=['namespace'])
+    bindings = Property(List, depends_on=["namespace"])
 
     shell_view = Instance(PythonShellView)
 
-    namespace = DelegatesTo('shell_view')
-
+    namespace = DelegatesTo("shell_view")
 
     # The default traits UI view.
     traits_view = TraitsView(
         VGroup(
             Item(
-                'bindings',
-                id     = 'table',
-                editor = table_editor,
-                springy = True,
-                resizable = True,
+                "bindings",
+                id="table",
+                editor=table_editor,
+                springy=True,
+                resizable=True,
             ),
-
-            show_border = True,
-            show_labels = False
+            show_border=True,
+            show_labels=False,
         ),
-        resizable = True,
+        resizable=True,
     )
 
     ###########################################################################
@@ -127,7 +134,7 @@ class NamespaceView(View):
 
         """
 
-        self.ui = self.edit_traits(parent=parent, kind='subpanel')
+        self.ui = self.edit_traits(parent=parent, kind="subpanel")
 
         self.shell_view = self.window.application.get_service(IPythonShell)
         # 'shell_view' is an instance of the class PythonShellView from the module
@@ -153,7 +160,11 @@ class NamespaceView(View):
             type = Str
             module = Str
 
-        data = [item(name=name, type=type_to_str(value), module=module_to_str(value))
-                    for name, value in self.shell_view.namespace.items()]
+        data = [
+            item(
+                name=name, type=type_to_str(value), module=module_to_str(value)
+            )
+            for name, value in self.shell_view.namespace.items()
+        ]
 
         return data

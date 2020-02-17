@@ -1,9 +1,9 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 An action to edit the data parameters of a Data.
@@ -40,7 +40,7 @@ class EditDataAction(DataPluginAction):
 
         """
 
-        logger.debug('Performing EditDataAction [%s]', self)
+        logger.debug("Performing EditDataAction [%s]", self)
 
         # Pull the parent for any displayed UI from the event.
         window = event.window.control

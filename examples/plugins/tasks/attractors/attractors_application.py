@@ -4,8 +4,10 @@ from pyface.tasks.api import TaskWindowLayout
 from traits.api import Bool, Instance, List, Property
 
 # Local imports.
-from attractors_preferences import AttractorsPreferences, \
-    AttractorsPreferencesPane
+from attractors_preferences import (
+    AttractorsPreferences,
+    AttractorsPreferencesPane,
+)
 
 
 class AttractorsApplication(TasksApplication):
@@ -15,10 +17,10 @@ class AttractorsApplication(TasksApplication):
     #### 'IApplication' interface #############################################
 
     # The application's globally unique identifier.
-    id = 'example.attractors'
+    id = "example.attractors"
 
     # The application's user-visible name.
-    name = 'Attractors'
+    name = "Attractors"
 
     #### 'TasksApplication' interface #########################################
 
@@ -41,13 +43,13 @@ class AttractorsApplication(TasksApplication):
 
     def _default_layout_default(self):
         active_task = self.preferences_helper.default_task
-        tasks = [ factory.id for factory in self.task_factories ]
-        return [ TaskWindowLayout(*tasks,
-                                  active_task = active_task,
-                                  size = (800, 600)) ]
+        tasks = [factory.id for factory in self.task_factories]
+        return [
+            TaskWindowLayout(*tasks, active_task=active_task, size=(800, 600))
+        ]
 
     def _preferences_helper_default(self):
-        return AttractorsPreferences(preferences = self.preferences)
+        return AttractorsPreferences(preferences=self.preferences)
 
     #### Trait property getter/setters ########################################
 

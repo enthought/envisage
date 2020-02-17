@@ -29,10 +29,11 @@ def _id_generator():
 
     i = 1
     while True:
-        yield(i)
+        yield (i)
         i += 1
 
     return
+
 
 _id_generator = _id_generator()
 
@@ -60,7 +61,7 @@ class TextEditor(TraitsUIEditor):
             self.save_as()
 
         else:
-            with open(self.obj.path, 'w', encoding="utf-8") as f:
+            with open(self.obj.path, "w", encoding="utf-8") as f:
                 f.write(self.text)
 
             # We have just saved the file so we ain't dirty no more!
@@ -72,14 +73,14 @@ class TextEditor(TraitsUIEditor):
         """ Saves the text to disk after prompting for the file name. """
 
         dialog = FileDialog(
-            parent           = self.window.control,
-            action           = 'save as',
-            default_filename = self.name,
-            wildcard         = FileDialog.WILDCARD_PY
+            parent=self.window.control,
+            action="save as",
+            default_filename=self.name,
+            wildcard=FileDialog.WILDCARD_PY,
         )
         if dialog.open() != CANCEL:
             # Update the editor.
-            self.id   = dialog.path
+            self.id = dialog.path
             self.name = basename(dialog.path)
 
             # Update the resource.
@@ -98,7 +99,7 @@ class TextEditor(TraitsUIEditor):
         """ Creates the traits UI that represents the editor. """
 
         ui = self.edit_traits(
-            parent=parent, view=self._create_traits_ui_view(), kind='subpanel'
+            parent=parent, view=self._create_traits_ui_view(), kind="subpanel"
         )
 
         return ui
@@ -116,7 +117,7 @@ class TextEditor(TraitsUIEditor):
         # Execute the code.
         if len(self.obj.path) > 0:
             view = self.window.get_view_by_id(
-                'envisage.plugins.python_shell_view'
+                "envisage.plugins.python_shell_view"
             )
 
             if view is not None:
@@ -144,16 +145,15 @@ class TextEditor(TraitsUIEditor):
 
         key_bindings = KeyBindings(
             KeyBinding(
-                binding1    = 'Ctrl-s',
-                description = 'Save the file',
-                method_name = 'save'
+                binding1="Ctrl-s",
+                description="Save the file",
+                method_name="save",
             ),
-
             KeyBinding(
-                binding1    = 'Ctrl-r',
-                description = 'Run the file',
-                method_name = 'run'
-            )
+                binding1="Ctrl-r",
+                description="Run the file",
+                method_name="run",
+            ),
         )
 
         return key_bindings
@@ -166,14 +166,14 @@ class TextEditor(TraitsUIEditor):
         # The path will be the empty string if we are editing a file that has
         # not yet been saved.
         if len(new.path) == 0:
-            self.id   = self._get_unique_id()
+            self.id = self._get_unique_id()
             self.name = self.id
 
         else:
-            self.id   = new.path
+            self.id = new.path
             self.name = basename(new.path)
 
-            with open(new.path, 'r', encoding="utf-8") as f:
+            with open(new.path, "r", encoding="utf-8") as f:
                 self.text = f.read()
 
         return
@@ -191,7 +191,7 @@ class TextEditor(TraitsUIEditor):
 
         if len(self.obj.path) > 0:
             if dirty:
-                self.name = basename(self.obj.path) + '*'
+                self.name = basename(self.obj.path) + "*"
 
             else:
                 self.name = basename(self.obj.path)
@@ -212,23 +212,22 @@ class TextEditor(TraitsUIEditor):
         view = View(
             Group(
                 Item(
-                    'text', editor=CodeEditor(key_bindings=self.key_bindings)
+                    "text", editor=CodeEditor(key_bindings=self.key_bindings)
                 ),
-                show_labels = False
+                show_labels=False,
             ),
-
-            id        = 'envisage.editor.text_editor',
-            handler   = TextEditorHandler(),
-            kind      = 'live',
-            resizable = True,
-            width     = 1.0,
-            height    = 1.0,
-            buttons   = NoButtons,
+            id="envisage.editor.text_editor",
+            handler=TextEditorHandler(),
+            kind="live",
+            resizable=True,
+            width=1.0,
+            height=1.0,
+            buttons=NoButtons,
         )
 
         return view
 
-    def _get_unique_id(self, prefix='Untitled '):
+    def _get_unique_id(self, prefix="Untitled "):
         """ Return a unique id for a new file. """
 
         id = prefix + str(next(_id_generator))
@@ -236,5 +235,6 @@ class TextEditor(TraitsUIEditor):
             id = prefix + str(next(_id_generator))
 
         return id
+
 
 #### EOF ######################################################################

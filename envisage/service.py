@@ -33,7 +33,7 @@ class Service(TraitType):
     ###########################################################################
 
     def __init__(
-        self, protocol=None, query='', minimize='', maximize='', **metadata
+        self, protocol=None, query="", minimize="", maximize="", **metadata
     ):
         """ Constructor. """
 
@@ -62,7 +62,6 @@ class Service(TraitType):
 
         service_registry = self._get_service_registry(obj)
 
-
         obj = service_registry.get_service(
             self._protocol, self._query, self._minimize, self._maximize
         )
@@ -72,7 +71,7 @@ class Service(TraitType):
     def set(self, obj, name, value):
         """ Trait type setter. """
 
-        raise SystemError('Service traits cannot be set')
+        raise SystemError("Service traits cannot be set")
 
     ###########################################################################
     # Private interface.
@@ -81,15 +80,16 @@ class Service(TraitType):
     def _get_service_registry(self, obj):
         """ Return the service registry in effect for an object. """
 
-        service_registry = getattr(obj, 'service_registry', None)
+        service_registry = getattr(obj, "service_registry", None)
         if service_registry is None:
             raise ValueError(
-                'The "Service" trait type can only be used within objects ' \
-                'that have a reference to a service registry via their ' \
-                '"service_registry" trait. \n' \
-                'Object %s\nService protocol %s' % (obj, self._protocol)
+                'The "Service" trait type can only be used within objects '
+                "that have a reference to a service registry via their "
+                '"service_registry" trait. \n'
+                "Object %s\nService protocol %s" % (obj, self._protocol)
             )
 
         return service_registry
+
 
 #### EOF ######################################################################

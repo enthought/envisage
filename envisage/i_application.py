@@ -22,8 +22,8 @@ from .application_event import ApplicationEvent
 
 
 class IApplication(
-        IExtensionRegistry, IImportManager, IPluginManager, IServiceRegistry
-    ):
+    IExtensionRegistry, IImportManager, IPluginManager, IServiceRegistry
+):
     """ The application interface. """
 
     # The application's globally unique identifier.
@@ -67,5 +67,6 @@ class IApplication(
               application.stop()
 
         """
+
 
 #### EOF ######################################################################

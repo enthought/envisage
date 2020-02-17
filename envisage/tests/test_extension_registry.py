@@ -32,7 +32,7 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Make sure there are no extensions.
-        extensions = registry.get_extensions('my.ep')
+        extensions = registry.get_extensions("my.ep")
         self.assertEqual(0, len(extensions))
 
         # Make sure there are no extension points.
@@ -45,16 +45,16 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Make sure there's NO extensions.
-        extensions = registry.get_extensions('my.ep')
+        extensions = registry.get_extensions("my.ep")
         self.assertEqual(0, len(extensions))
 
         # Make sure there's one and only one extension point.
         extension_points = registry.get_extension_points()
         self.assertEqual(1, len(extension_points))
-        self.assertEqual('my.ep', extension_points[0].id)
+        self.assertEqual("my.ep", extension_points[0].id)
 
     def test_get_extension_point(self):
         """ get extension point """
@@ -62,12 +62,12 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Make sure we can get it.
-        extension_point = registry.get_extension_point('my.ep')
+        extension_point = registry.get_extension_point("my.ep")
         self.assertNotEqual(None, extension_point)
-        self.assertEqual('my.ep', extension_point.id)
+        self.assertEqual("my.ep", extension_point.id)
 
     def test_remove_empty_extension_point(self):
         """ remove empty_extension point """
@@ -75,10 +75,10 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point...
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # ...and remove it!
-        registry.remove_extension_point('my.ep')
+        registry.remove_extension_point("my.ep")
 
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
@@ -90,20 +90,20 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point...
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # ... with some extensions...
-        registry.set_extensions('my.ep', [42])
+        registry.set_extensions("my.ep", [42])
 
         # ...and remove it!
-        registry.remove_extension_point('my.ep')
+        registry.remove_extension_point("my.ep")
 
         # Make sure there are no extension points.
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
         # And that the extensions are gone too.
-        self.assertEqual([], registry.get_extensions('my.ep'))
+        self.assertEqual([], registry.get_extensions("my.ep"))
 
     def test_remove_non_existent_extension_point(self):
         """ remove non existent extension point """
@@ -132,19 +132,19 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set some extensions.
-        registry.set_extensions('my.ep', [1, 2, 3])
+        registry.set_extensions("my.ep", [1, 2, 3])
 
         # Make sure we can get them.
-        self.assertEqual([1, 2, 3], registry.get_extensions('my.ep'))
+        self.assertEqual([1, 2, 3], registry.get_extensions("my.ep"))
 
     ###########################################################################
     # Private interface.
     ###########################################################################
 
-    def _create_extension_point(self, id, trait_type=List, desc=''):
+    def _create_extension_point(self, id, trait_type=List, desc=""):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

@@ -65,7 +65,9 @@ class ServiceRegistry(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
-    def get_required_service(self, protocol, query='', minimize='',maximize=''):
+    def get_required_service(
+        self, protocol, query="", minimize="", maximize=""
+    ):
         """ Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.
@@ -78,7 +80,7 @@ class ServiceRegistry(HasTraits):
 
         return service
 
-    def get_service(self, protocol, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query="", minimize="", maximize=""):
         """ Return at most one service that matches the specified query. """
 
         services = self.get_services(protocol, query, minimize, maximize)
@@ -97,11 +99,11 @@ class ServiceRegistry(HasTraits):
             protocol, obj, properties = self._services[service_id]
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return obj
 
-    def get_services(self, protocol, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query="", minimize="", maximize=""):
         """ Return all services that match the specified query. """
 
         services = []
@@ -128,10 +130,10 @@ class ServiceRegistry(HasTraits):
 
         # Are we minimizing or maximising anything? If so then sort the list
         # of services by the specified attribute/property.
-        if minimize != '':
+        if minimize != "":
             services.sort(key=lambda x: getattr(x, minimize))
 
-        elif maximize != '':
+        elif maximize != "":
             services.sort(key=lambda x: getattr(x, maximize), reverse=True)
 
         return services
@@ -144,7 +146,7 @@ class ServiceRegistry(HasTraits):
             properties = properties.copy()
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return properties
 
@@ -161,7 +163,7 @@ class ServiceRegistry(HasTraits):
         self._services[service_id] = (protocol_name, obj, properties)
         self.registered = service_id
 
-        logger.debug('service <%d> registered %s', service_id, protocol_name)
+        logger.debug("service <%d> registered %s", service_id, protocol_name)
 
         return service_id
 
@@ -173,7 +175,7 @@ class ServiceRegistry(HasTraits):
             self._services[service_id] = protocol, obj, properties.copy()
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return
 
@@ -184,10 +186,10 @@ class ServiceRegistry(HasTraits):
             protocol, obj, properties = self._services.pop(service_id)
             self.unregistered = service_id
 
-            logger.debug('service <%d> unregistered', service_id)
+            logger.debug("service <%d> unregistered", service_id)
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return
 
@@ -227,8 +229,9 @@ class ServiceRegistry(HasTraits):
             name = protocol_or_name
 
         else:
-            name = '%s.%s' % (
-                protocol_or_name.__module__, protocol_or_name.__name__
+            name = "%s.%s" % (
+                protocol_or_name.__module__,
+                protocol_or_name.__name__,
             )
 
         return name
@@ -270,5 +273,6 @@ class ServiceRegistry(HasTraits):
             self._services[service_id] = (name, obj, properties)
 
         return obj
+
 
 #### EOF ######################################################################

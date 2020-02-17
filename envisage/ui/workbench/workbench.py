@@ -40,7 +40,7 @@ class Workbench(pyface.Workbench):
     application = Instance(IApplication)
 
     # Should the user be prompted before exiting the workbench?
-    prompt_on_exit = Delegate('_preferences')
+    prompt_on_exit = Delegate("_preferences")
 
     #### Private interface ####################################################
 
@@ -62,5 +62,6 @@ class Workbench(pyface.Workbench):
                 event.veto = True
 
         return
+
 
 #### EOF ######################################################################

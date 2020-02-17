@@ -31,22 +31,22 @@ class ActionSetManager(HasTraits):
     def get_actions(self, root):
         """ Return all action definitions for a root. """
 
-        return self._get_items(self.action_sets, 'actions', root)
+        return self._get_items(self.action_sets, "actions", root)
 
     def get_groups(self, root):
         """ Return all group definitions for a root. """
 
-        return self._get_items(self.action_sets, 'groups', root)
+        return self._get_items(self.action_sets, "groups", root)
 
     def get_menus(self, root):
         """ Return all menu definitions for a root. """
 
-        return self._get_items(self.action_sets, 'menus', root)
+        return self._get_items(self.action_sets, "menus", root)
 
     def get_tool_bars(self, root):
         """ Return all tool bar definitions for a root. """
 
-        return self._get_items(self.action_sets, 'tool_bars', root)
+        return self._get_items(self.action_sets, "tool_bars", root)
 
     ###########################################################################
     # 'Private' interface.
@@ -73,7 +73,7 @@ class ActionSetManager(HasTraits):
 
                     # fixme: Even hackier if this is a menu then we need to
                     # tag the action set onto all of the groups.
-                    if attribute_name in ['menus', 'toolbars']:
+                    if attribute_name in ["menus", "toolbars"]:
                         for group in item.groups:
                             group._action_set_ = action_set
 
@@ -114,7 +114,7 @@ class ActionSetManager(HasTraits):
 
         """
 
-        components = path.split('/')
+        components = path.split("/")
         if components[0] in aliases:
             root = aliases[components[0]]
 
@@ -122,5 +122,6 @@ class ActionSetManager(HasTraits):
             root = components[0]
 
         return root
+
 
 #### EOF ######################################################################

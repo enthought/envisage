@@ -42,8 +42,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # messages
         hb_ctx = zmq.Context()
         self.heartbeat = Heartbeat(
-            hb_ctx,
-            (self.transport, self.ip, self.hb_port),
+            hb_ctx, (self.transport, self.ip, self.hb_port),
         )
         self.hb_port = self.heartbeat.port
         self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
@@ -94,8 +93,10 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         to the case where IPython effectively *is* the application).
         """
         basename = os.path.basename(self.connection_file)
-        if (basename == self.connection_file or
-                os.path.dirname(self.connection_file) == self.connection_dir):
+        if (
+            basename == self.connection_file
+            or os.path.dirname(self.connection_file) == self.connection_dir
+        ):
             # use shortname
             tail = basename
         else:
@@ -155,9 +156,11 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         and IPython.utils.io.stderr, so that they can be restored later.
         """
         self._original_ipython_utils_io_stdout = getattr(
-            IPython.utils.io, "stdout", _MISSING)
+            IPython.utils.io, "stdout", _MISSING
+        )
         self._original_ipython_utils_io_stderr = getattr(
-            IPython.utils.io, "stderr", _MISSING)
+            IPython.utils.io, "stderr", _MISSING
+        )
         super(IPKernelApp, self).init_kernel()
 
     # New methods, mostly to control shutdown #################################
@@ -308,7 +311,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         """
         self.close_iopub()
 
-        for channel in ('shell', 'control', 'stdin'):
+        for channel in ("shell", "control", "stdin"):
             self.log.debug("Closing %s channel", channel)
             socket = getattr(self, channel + "_socket", None)
             if socket and not socket.closed:

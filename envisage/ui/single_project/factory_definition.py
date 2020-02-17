@@ -6,8 +6,9 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-#Enthought imports
+# Enthought imports
 from traits.api import HasTraits, Int, Str
+
 
 class FactoryDefinition(HasTraits):
     """

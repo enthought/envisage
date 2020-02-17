@@ -22,17 +22,15 @@ from traits.api import List, Any
 class EventManagerPlugin(Plugin):
     """ Plugin to add event manager to the application. """
 
-    id = 'envisage.event_manager'
+    id = "envisage.event_manager"
 
-    SERVICE_OFFERS = 'envisage.service_offers'
+    SERVICE_OFFERS = "envisage.service_offers"
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
     def _service_offers_default(self):
         from encore.events.api import BaseEventManager, get_event_manager
 
         evt_mgr_service_offer = ServiceOffer(
-            protocol   = BaseEventManager,
-            factory    = get_event_manager,
+            protocol=BaseEventManager, factory=get_event_manager,
         )
         return [evt_mgr_service_offer]
-

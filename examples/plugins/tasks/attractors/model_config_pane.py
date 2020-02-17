@@ -11,14 +11,13 @@ class ModelConfigPane(TraitsDockPane):
 
     #### 'ITaskPane' interface ################################################
 
-    id = 'example.attractors.model_config_pane'
-    name = 'Model Configuration'
+    id = "example.attractors.model_config_pane"
+    name = "Model Configuration"
 
     #### 'ModelConfigPane' interface ##########################################
 
     model = Instance(HasTraits)
 
-    view = View(Item('pane.model',
-                     style = 'custom',
-                     show_label = False),
-                resizable = True)
+    view = View(
+        Item("pane.model", style="custom", show_label=False), resizable=True
+    )

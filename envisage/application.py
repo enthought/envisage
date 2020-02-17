@@ -80,10 +80,10 @@ class Application(HasTraits):
     #### Events ####
 
     # Fired when a plugin has been added.
-    plugin_added = Delegate('plugin_manager', modify=True)
+    plugin_added = Delegate("plugin_manager", modify=True)
 
     # Fired when a plugin has been removed.
-    plugin_removed = Delegate('plugin_manager', modify=True)
+    plugin_removed = Delegate("plugin_manager", modify=True)
 
     #### 'Application' interface ##############################################
 
@@ -160,9 +160,7 @@ class Application(HasTraits):
     def _user_data_default(self):
         """ Trait initializer. """
 
-        user_data = os.path.join(
-            ETSConfig.user_data, self.id
-        )
+        user_data = os.path.join(ETSConfig.user_data, self.id)
 
         # Make sure it exists!
         if not os.path.exists(user_data):
@@ -224,7 +222,9 @@ class Application(HasTraits):
 
         return self.extension_registry.get_extension_points()
 
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
+    def remove_extension_point_listener(
+        self, listener, extension_point_id=None
+    ):
         """ Remove a listener for extensions being added/removed. """
 
         self.extension_registry.remove_extension_point_listener(
@@ -294,7 +294,7 @@ class Application(HasTraits):
         # fixme: This method is notionally on the 'IPluginManager' interface
         # but that interface knows nothing about the vetoable events etc and
         # hence doesn't have a return value.
-        logger.debug('---------- application starting ----------')
+        logger.debug("---------- application starting ----------")
 
         # Lifecycle event.
         self.starting = event = self._create_application_event()
@@ -306,10 +306,10 @@ class Application(HasTraits):
             # Lifecycle event.
             self.started = self._create_application_event()
 
-            logger.debug('---------- application started ----------')
+            logger.debug("---------- application started ----------")
 
         else:
-            logger.debug('---------- application start vetoed ----------')
+            logger.debug("---------- application start vetoed ----------")
 
         return not event.veto
 
@@ -328,7 +328,7 @@ class Application(HasTraits):
         # fixme: This method is notionally on the 'IPluginManager' interface
         # but that interface knows nothing about the vetoable events etc and
         # hence doesn't have a return value.
-        logger.debug('---------- application stopping ----------')
+        logger.debug("---------- application stopping ----------")
 
         # Lifecycle event.
         self.stopping = event = self._create_application_event()
@@ -343,10 +343,10 @@ class Application(HasTraits):
             # Lifecycle event.
             self.stopped = self._create_application_event()
 
-            logger.debug('---------- application stopped ----------')
+            logger.debug("---------- application stopped ----------")
 
         else:
-            logger.debug('---------- application stop vetoed ----------')
+            logger.debug("---------- application stop vetoed ----------")
 
         return not event.veto
 
@@ -359,7 +359,9 @@ class Application(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
-    def get_required_service(self, protocol, query='', minimize='',maximize=''):
+    def get_required_service(
+        self, protocol, query="", minimize="", maximize=""
+    ):
         """ Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.
@@ -372,7 +374,7 @@ class Application(HasTraits):
 
         return service
 
-    def get_service(self, protocol, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query="", minimize="", maximize=""):
         """ Return at most one service that matches the specified query. """
 
         service = self.service_registry.get_service(
@@ -391,7 +393,7 @@ class Application(HasTraits):
 
         return self.service_registry.get_service_properties(service_id)
 
-    def get_services(self, protocol, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query="", minimize="", maximize=""):
         """ Return all services that match the specified query. """
 
         services = self.service_registry.get_services(
@@ -511,5 +513,6 @@ class Application(HasTraits):
             os.makedirs(ETSConfig.application_home)
 
         return
+
 
 #### EOF ######################################################################

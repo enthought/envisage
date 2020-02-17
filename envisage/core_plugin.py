@@ -27,33 +27,34 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CLASS_LOAD_HOOKS = 'envisage.class_load_hooks'
-    PREFERENCES      = 'envisage.preferences'
-    SERVICE_OFFERS   = 'envisage.service_offers'
+    CLASS_LOAD_HOOKS = "envisage.class_load_hooks"
+    PREFERENCES = "envisage.preferences"
+    SERVICE_OFFERS = "envisage.service_offers"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'envisage.core'
+    id = "envisage.core"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Core'
+    name = "Core"
 
     #### Extension points offered by this plugin ##############################
 
     class_load_hooks = ExtensionPoint(
-        List(Instance('envisage.class_load_hook.ClassLoadHook')),
-        id   = CLASS_LOAD_HOOKS,
-        desc = """
+        List(Instance("envisage.class_load_hook.ClassLoadHook")),
+        id=CLASS_LOAD_HOOKS,
+        desc="""
 
         Class load hooks allow you to be notified when any 'HasTraits' class
         is imported or created.
 
         See the documentation for 'ClassLoadHook' for more details.
 
-        """
+        """,
     )
-    @on_trait_change('class_load_hooks_items')
+
+    @on_trait_change("class_load_hooks_items")
     def _class_load_hooks_changed(self, event):
         """ React to new class load hooks being *added*.
 
@@ -68,8 +69,8 @@ class CorePlugin(Plugin):
 
     preferences = ExtensionPoint(
         List(Str),
-        id   = PREFERENCES,
-        desc = """
+        id=PREFERENCES,
+        desc="""
 
         Preferences files allow plugins to contribute default values for
         user preferences. Each contributed string must be the URL of a
@@ -96,9 +97,10 @@ class CorePlugin(Plugin):
 
         http://www.voidspace.org.uk/python/configobj.html
 
-        """
+        """,
     )
-    @on_trait_change('preferences_items')
+
+    @on_trait_change("preferences_items")
     def _preferences_changed(self, event):
         """ React to new preferencess being *added*.
 
@@ -112,8 +114,8 @@ class CorePlugin(Plugin):
 
     service_offers = ExtensionPoint(
         List(ServiceOffer),
-        id   = SERVICE_OFFERS,
-        desc = """
+        id=SERVICE_OFFERS,
+        desc="""
 
         Services are simply objects that a plugin wants to make available to
         other plugins. This extension point allows you to offer services
@@ -129,9 +131,10 @@ class CorePlugin(Plugin):
 
         See the documentation for 'ServiceOffer' for more details.
 
-        """
+        """,
     )
-    @on_trait_change('service_offers_items')
+
+    @on_trait_change("service_offers_items")
     def _service_offers_changed(self, event):
         """ React to new service offers being *added*.
 
@@ -195,7 +198,7 @@ class CorePlugin(Plugin):
         # save the actual default plugin preference values. They will only get
         # saved if a value has been set in another (persistent) scope - which
         # is exactly what happens in the preferences UI.
-        default = self.application.preferences.node('default/')
+        default = self.application.preferences.node("default/")
 
         # The resource manager is used to find the preferences files.
         resource_manager = ResourceManager()
@@ -218,11 +221,12 @@ class CorePlugin(Plugin):
         """ Register a service offer. """
 
         service_id = self.application.register_service(
-            protocol   = service_offer.protocol,
-            obj        = service_offer.factory,
-            properties = service_offer.properties
+            protocol=service_offer.protocol,
+            obj=service_offer.factory,
+            properties=service_offer.properties,
         )
 
         return service_id
+
 
 ### EOF ######################################################################

@@ -1,6 +1,15 @@
 # Enthought library imports.
-from traits.api import Array, DelegatesTo, HasTraits, Interface, \
-    Instance, Property, Trait, Unicode, cached_property
+from traits.api import (
+    Array,
+    DelegatesTo,
+    HasTraits,
+    Interface,
+    Instance,
+    Property,
+    Trait,
+    Unicode,
+    cached_property,
+)
 from traitsui.api import Group, Item, View
 
 
@@ -25,23 +34,27 @@ class IModel3dIPlottable2dMixin(HasTraits):
 
     #### 'IPlottable2D' interface #############################################
 
-    name = DelegatesTo('adaptee')
+    name = DelegatesTo("adaptee")
 
-    x_data = Property(Array, depends_on='adaptee.points, x_label')
-    y_data = Property(Array, depends_on='adaptee.points, y_label')
+    x_data = Property(Array, depends_on="adaptee.points, x_label")
+    y_data = Property(Array, depends_on="adaptee.points, y_label")
 
-    x_label = Trait('x', { 'x':0, 'y':1, 'z':2 })
-    y_label = Trait('y', { 'x':0, 'y':1, 'z':2 })
+    x_label = Trait("x", {"x": 0, "y": 1, "z": 2})
+    y_label = Trait("y", {"x": 0, "y": 1, "z": 2})
 
-    view = View(Group(Group(Item('adaptee',
-                                 style = 'custom',
-                                 show_label = False),
-                            label = 'Model'),
-                      Group(Item('x_label',
-                                 label = 'X axis'),
-                            Item('y_label',
-                                 label = 'Y axis'),
-                            label = 'Plot')))
+    view = View(
+        Group(
+            Group(
+                Item("adaptee", style="custom", show_label=False),
+                label="Model",
+            ),
+            Group(
+                Item("x_label", label="X axis"),
+                Item("y_label", label="Y axis"),
+                label="Plot",
+            ),
+        )
+    )
 
     ###########################################################################
     # Protected interface.
@@ -49,8 +62,8 @@ class IModel3dIPlottable2dMixin(HasTraits):
 
     @cached_property
     def _get_x_data(self):
-        return self.adaptee.points[:,self.x_label_]
+        return self.adaptee.points[:, self.x_label_]
 
     @cached_property
     def _get_y_data(self):
-        return self.adaptee.points[:,self.y_label_]
+        return self.adaptee.points[:, self.y_label_]

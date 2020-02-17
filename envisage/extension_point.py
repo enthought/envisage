@@ -19,7 +19,6 @@ from traits.api import List, TraitType, Undefined, provides
 from .i_extension_point import IExtensionPoint
 
 
-
 def contributes_to(id):
     """ A factory for extension point decorators!
 
@@ -62,8 +61,10 @@ def contributes_to(id):
 
 
 # Exception message template.
-INVALID_TRAIT_TYPE = 'extension points must be "List"s e.g. List, List(Int)' \
-' but a value of %s was specified.'
+INVALID_TRAIT_TYPE = (
+    'extension points must be "List"s e.g. List, List(Int)'
+    " but a value of %s was specified."
+)
 
 
 # Even though trait types do not themselves have traits, we can still
@@ -117,7 +118,7 @@ class ExtensionPoint(TraitType):
         # We add '__extension_point__' to the metadata to make the extension
         # point traits easier to find with the 'traits' and 'trait_names'
         # methods on 'HasTraits'.
-        metadata['__extension_point__'] = True
+        metadata["__extension_point__"] = True
         super(ExtensionPoint, self).__init__(**metadata)
 
         # The trait type that describes the extension point.
@@ -136,7 +137,7 @@ class ExtensionPoint(TraitType):
 
         # The Id of the extension point.
         if id is None:
-            raise ValueError('an extension point must have an Id')
+            raise ValueError("an extension point must have an Id")
 
         self.id = id
 
@@ -201,15 +202,15 @@ class ExtensionPoint(TraitType):
 
             # If an index was specified then we fire an '_items' changed event.
             if event.index is not None:
-                name = trait_name + '_items'
-                old  = Undefined
-                new  = event
+                name = trait_name + "_items"
+                old = Undefined
+                new = event
 
             # Otherwise, we fire a normal trait changed event.
             else:
                 name = trait_name
-                old  = event.removed
-                new  = event.added
+                old = event.removed
+                new = event.added
 
             obj.trait_property_changed(name, old, new)
 
@@ -251,15 +252,16 @@ class ExtensionPoint(TraitType):
     def _get_extension_registry(self, obj):
         """ Return the extension registry in effect for an object. """
 
-        extension_registry = getattr(obj, 'extension_registry', None)
+        extension_registry = getattr(obj, "extension_registry", None)
         if extension_registry is None:
             raise ValueError(
                 'The "ExtensionPoint" trait type can only be used in '
-                'objects that have a reference to an extension registry '
+                "objects that have a reference to an extension registry "
                 'via their "extension_registry" trait. '
-                'Extension point Id <%s>' % self.id
+                "Extension point Id <%s>" % self.id
             )
 
         return extension_registry
+
 
 #### EOF ######################################################################

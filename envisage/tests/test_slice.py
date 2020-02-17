@@ -45,7 +45,7 @@ def listener(obj, trait_name, old, event):
             # workaroud for traits bug in Python 3
             # https://github.com/enthought/traits/issues/334
             index = event.index if event.index is not None else 0
-            del clone[index:index + len(event.removed)]
+            del clone[index : index + len(event.removed)]
 
     # If nothing was removed then it is an 'append', 'insert' or 'extend'
     # operation.
@@ -54,7 +54,7 @@ def listener(obj, trait_name, old, event):
             clone[event.index] = added
 
         else:
-            clone[event.index:event.index] = added
+            clone[event.index : event.index] = added
 
     # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
     # category).
@@ -78,7 +78,7 @@ class SliceTestCase(unittest.TestCase):
             l = List
 
         self.f = Foo(l=TEST_LIST)
-        self.f.on_trait_change(listener, 'l_items')
+        self.f.on_trait_change(listener, "l_items")
 
     def test_append(self):
         """ append """

@@ -11,12 +11,12 @@ from traits.api import List
 class LorenzPerspective(Perspective):
     """ A perspective containing the default Lorenz views. """
 
-    name             = 'Lorenz'
+    name = "Lorenz"
     show_editor_area = False
 
     contents = [
-        PerspectiveItem(id='lorenz.data'),
-        PerspectiveItem(id='lorenz.plot2d')
+        PerspectiveItem(id="lorenz.data"),
+        PerspectiveItem(id="lorenz.plot2d"),
     ]
 
 
@@ -28,16 +28,16 @@ class LorenzUIPlugin(Plugin):
     """
 
     # Extension points Ids.
-    PERSPECTIVES   = 'envisage.ui.workbench.perspectives'
-    VIEWS          = 'envisage.ui.workbench.views'
+    PERSPECTIVES = "envisage.ui.workbench.perspectives"
+    VIEWS = "envisage.ui.workbench.views"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.lorenz.ui'
+    id = "acme.lorenz.ui"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Lorenz UI'
+    name = "Lorenz UI"
 
     #### Contributions to extension points made by this plugin ################
 
@@ -67,10 +67,10 @@ class LorenzUIPlugin(Plugin):
         from acme.lorenz.api import DataView, Lorenz
 
         data_view = TraitsUIView(
-            id   = 'lorenz.data',
-            name = 'Data',
-            obj  = DataView(lorenz=self.application.get_service(Lorenz)),
-            **traits
+            id="lorenz.data",
+            name="Data",
+            obj=DataView(lorenz=self.application.get_service(Lorenz)),
+            **traits,
         )
 
         return data_view
@@ -81,12 +81,13 @@ class LorenzUIPlugin(Plugin):
         from acme.lorenz.api import Lorenz, Plot2DView
 
         plot2d_view = TraitsUIView(
-            id   = 'lorenz.plot2d',
-            name = 'Plot 2D',
-            obj  = Plot2DView(lorenz=self.application.get_service(Lorenz)),
-            **traits
+            id="lorenz.plot2d",
+            name="Plot 2D",
+            obj=Plot2DView(lorenz=self.application.get_service(Lorenz)),
+            **traits,
         )
 
         return plot2d_view
+
 
 #### EOF ######################################################################

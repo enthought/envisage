@@ -72,7 +72,7 @@ class Menu(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Menu(%s)' % self.name
+        return "Menu(%s)" % self.name
 
     __repr__ = __str__
 
@@ -83,6 +83,7 @@ class Menu(Location):
     def _id_default(self):
         """ Trait initializer. """
 
-        return self.name.strip('&')
+        return self.name.strip("&")
+
 
 #### EOF ######################################################################

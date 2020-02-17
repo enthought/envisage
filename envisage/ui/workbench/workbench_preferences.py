@@ -20,11 +20,12 @@ class WorkbenchPreferences(PreferencesHelper):
     #### 'PreferencesHelper' interface ########################################
 
     # The path to the preferences node that contains the preferences.
-    preferences_path = 'envisage.ui.workbench'
+    preferences_path = "envisage.ui.workbench"
 
     #### Preferences ##########################################################
 
     # Should the user be prompted before exiting the workbench?
     prompt_on_exit = Bool(True)
+
 
 #### EOF ######################################################################

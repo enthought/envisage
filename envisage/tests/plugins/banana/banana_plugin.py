@@ -19,7 +19,7 @@ class BananaPlugin(Plugin):
     #### 'IPlugin' protocol ####################################################
 
     # The plugin's unique identifier.
-    id = 'banana'
+    id = "banana"
 
     def start(self):
         """ Start the plugin. """
@@ -41,5 +41,6 @@ class BananaPlugin(Plugin):
 
     started = Bool(False)
     stopped = Bool(False)
+
 
 #### EOF ######################################################################
