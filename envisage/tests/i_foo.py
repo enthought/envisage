@@ -16,4 +16,5 @@ from traits.api import Interface
 class IFoo(Interface):
     pass
 
+
 #### EOF ######################################################################

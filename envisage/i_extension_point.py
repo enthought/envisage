@@ -37,4 +37,5 @@ class IExtensionPoint(Interface):
     # e.g. List(Str)
     trait_type = Instance(TraitType)
 
+
 #### EOF ######################################################################

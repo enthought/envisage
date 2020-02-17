@@ -10,14 +10,15 @@
 
 # Enthought library imports.
 from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
-    IPYTHON_KERNEL_PROTOCOL)
+    IPYTHON_KERNEL_PROTOCOL,
+)
 from envisage.ui.tasks.api import TaskExtension
 from envisage.api import Plugin
 from traits.api import List
 from pyface.tasks.action.api import SGroup, SchemaAddition
 
 
-TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
+TASK_EXTENSIONS = "envisage.ui.tasks.task_extensions"
 
 
 class IPythonKernelUIPlugin(Plugin):
@@ -26,10 +27,10 @@ class IPythonKernelUIPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin unique identifier.
-    id = 'envisage.plugins.ipython_kernel_ui'
+    id = "envisage.plugins.ipython_kernel_ui"
 
     # The plugin name (suitable for displaying to the user).
-    name = 'IPython embedded kernel UI plugin'
+    name = "IPython embedded kernel UI plugin"
 
     #### Contributions to extension points made by this plugin ################
 
@@ -43,18 +44,15 @@ class IPythonKernelUIPlugin(Plugin):
 
         def menu_factory():
             kernel = self.application.get_service(IPYTHON_KERNEL_PROTOCOL)
-            return SGroup(
-                StartQtConsoleAction(kernel=kernel),
-                id='ipython'
-            )
+            return SGroup(StartQtConsoleAction(kernel=kernel), id="ipython")
 
         return [
             TaskExtension(
                 actions=[
                     SchemaAddition(
-                        path='MenuBar/View',
+                        path="MenuBar/View",
                         factory=menu_factory,
-                        id='IPythonSchema',
+                        id="IPythonSchema",
                     ),
                 ]
             )

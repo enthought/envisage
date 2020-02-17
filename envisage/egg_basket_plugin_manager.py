@@ -40,7 +40,7 @@ class EggBasketPluginManager(PluginManager):
     """
 
     # Entry point Id.
-    ENVISAGE_PLUGINS_ENTRY_POINT = 'envisage.plugins'
+    ENVISAGE_PLUGINS_ENTRY_POINT = "envisage.plugins"
 
     #### 'EggBasketPluginManager' protocol #####################################
 
@@ -51,6 +51,7 @@ class EggBasketPluginManager(PluginManager):
     def _on_broken_plugin_default(self):
         def handle_broken_plugin(entry_point, exc):
             raise exc
+
         return handle_broken_plugin
 
     # If a distribution cannot be loaded for any reason
@@ -61,10 +62,10 @@ class EggBasketPluginManager(PluginManager):
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
-    @on_trait_change('plugin_path[]')
+    @on_trait_change("plugin_path[]")
     def _plugin_path_changed(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
-        self.reset_traits(['_plugins'])
+        self.reset_traits(["_plugins"])
 
     # Protected 'PluginManager' protocol ######################################
 
@@ -73,7 +74,7 @@ class EggBasketPluginManager(PluginManager):
 
         plugins = self._harvest_plugins_in_eggs(self.application)
 
-        logger.debug('egg basket plugin manager found plugins <%s>', plugins)
+        logger.debug("egg basket plugin manager found plugins <%s>", plugins)
 
         return plugins
 
@@ -82,15 +83,15 @@ class EggBasketPluginManager(PluginManager):
     def _create_plugin_from_entry_point(self, ep, application):
         """ Create a plugin from an entry point. """
 
-        klass  = ep.load()
+        klass = ep.load()
         plugin = klass(application=application)
 
         # Warn if the entry point is an old-style one where the LHS didn't have
         # to be the same as the plugin Id.
         if ep.name != plugin.id:
             logger.warning(
-                'entry point name <%s> should be the same as the '
-                'plugin id <%s>' % (ep.name, plugin.id)
+                "entry point name <%s> should be the same as the "
+                "plugin id <%s>" % (ep.name, plugin.id)
             )
 
         return plugin
@@ -111,34 +112,44 @@ class EggBasketPluginManager(PluginManager):
         # the plugin entry points we don't pick up any from other eggs
         # installed on sys.path.
         plugin_working_set = pkg_resources.WorkingSet(self.plugin_path)
-        add_eggs_on_path(plugin_working_set, self.plugin_path,
-                         self._handle_broken_distributions)
+        add_eggs_on_path(
+            plugin_working_set,
+            self.plugin_path,
+            self._handle_broken_distributions,
+        )
 
         # We also add the eggs to the global working set as otherwise the
         # plugin classes can't be imported!
-        add_eggs_on_path(pkg_resources.working_set, self.plugin_path,
-                         self._handle_broken_distributions)
+        add_eggs_on_path(
+            pkg_resources.working_set,
+            self.plugin_path,
+            self._handle_broken_distributions,
+        )
 
         plugins = []
         for entry_point in self._get_plugin_entry_points(plugin_working_set):
             if self._include_plugin(entry_point.name):
                 try:
-                    plugin = self._create_plugin_from_entry_point(entry_point,
-                                                                  application)
+                    plugin = self._create_plugin_from_entry_point(
+                        entry_point, application
+                    )
                     plugins.append(plugin)
                 except Exception as exc:
                     exc_tb = traceback.format_exc()
-                    msg = 'Error loading plugin: %s (from %s)\n%s'\
-                        %(entry_point.name, entry_point.dist.location, exc_tb)
+                    msg = "Error loading plugin: %s (from %s)\n%s" % (
+                        entry_point.name,
+                        entry_point.dist.location,
+                        exc_tb,
+                    )
                     logger.error(msg)
                     self.on_broken_plugin(entry_point, exc)
 
         return plugins
 
     def _handle_broken_distributions(self, errors):
-        logger.error('Error loading distributions: %s', errors)
+        logger.error("Error loading distributions: %s", errors)
         if self.on_broken_distribution is None:
-            raise SystemError('Cannot find eggs %s' % errors)
+            raise SystemError("Cannot find eggs %s" % errors)
         else:
             for dist, exc in errors.items():
                 self.on_broken_distribution(dist, exc)
@@ -153,5 +164,6 @@ class EggBasketPluginManager(PluginManager):
         for dirname in added:
             if dirname not in sys.path:
                 sys.path.append(dirname)
+
 
 #### EOF ######################################################################

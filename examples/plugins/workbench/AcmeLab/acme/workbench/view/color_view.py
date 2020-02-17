@@ -17,7 +17,7 @@ class ColorView(View):
     #### 'IView' interface ####################################################
 
     # The category that the view belongs to.
-    category = 'Color'
+    category = "Color"
 
     ###########################################################################
     # 'IWorkbenchPart' interface.
@@ -43,9 +43,9 @@ class ColorView(View):
 
         """
 
-        method = getattr(self, '_%s_create_control' % ETSConfig.toolkit, None)
+        method = getattr(self, "_%s_create_control" % ETSConfig.toolkit, None)
         if method is None:
-            raise SystemError('Unknown toolkit %s', ETSConfig.toolkit)
+            raise SystemError("Unknown toolkit %s", ETSConfig.toolkit)
 
         color = self.name.lower()
 
@@ -78,5 +78,6 @@ class ColorView(View):
         widget.setAutoFillBackground(True)
 
         return widget
+
 
 #### EOF ######################################################################

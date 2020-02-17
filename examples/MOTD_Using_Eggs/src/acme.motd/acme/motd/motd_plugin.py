@@ -23,18 +23,18 @@ class MOTDPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin offers.
-    MESSAGES = 'acme.motd.messages'
+    MESSAGES = "acme.motd.messages"
 
     # The Ids of the extension points that this plugin contributes to.
-    SERVICE_OFFERS = 'envisage.service_offers'
+    SERVICE_OFFERS = "envisage.service_offers"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.motd'
+    id = "acme.motd"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'MOTD'
+    name = "MOTD"
 
     #### Extension points offered by this plugin ##############################
 
@@ -44,12 +44,14 @@ class MOTDPlugin(Plugin):
     # than actually importing it. This makes sure that the import only happens
     # when somebody actually gets the contributions to the extension point.
     messages = ExtensionPoint(
-        List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc="""
+        List(Instance("acme.motd.api.IMessage")),
+        id=MESSAGES,
+        desc="""
 
         This extension point allows you to contribute messages to the 'Message
         Of The Day'.
 
-        """
+        """,
     )
 
     #### Contributions to extension points made by this plugin ################
@@ -65,8 +67,8 @@ class MOTDPlugin(Plugin):
         # protocol as coming from an 'api.py' file as this is not the actual
         # module name known to Python.
         motd_service_offer = ServiceOffer(
-            protocol = 'acme.motd.i_motd.IMOTD',
-            factory  = self._create_motd_service
+            protocol="acme.motd.i_motd.IMOTD",
+            factory=self._create_motd_service,
         )
 
         return [motd_service_offer]
@@ -86,7 +88,7 @@ class MOTDPlugin(Plugin):
 
     # This plugin does all of its work in this method which gets called when
     # the application has started all of its plugins.
-    @on_trait_change('application:started')
+    @on_trait_change("application:started")
     def _print_motd(self):
         """ Print the 'Message of the Day' to stdout! """
 
@@ -102,5 +104,6 @@ class MOTDPlugin(Plugin):
 
         # ... and print it.
         print('\n"%s"\n\n- %s' % (message.text, message.author))
+
 
 #### EOF ######################################################################

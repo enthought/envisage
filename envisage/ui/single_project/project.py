@@ -22,12 +22,20 @@ import unicodedata
 from traits.etsconfig.api import ETSConfig
 import apptools.sweet_pickle
 from apptools.io.api import File
-from traits.api import Any, Bool, Dict, Directory, HasTraits, \
-    Instance, Property, Str
+from traits.api import (
+    Any,
+    Bool,
+    Dict,
+    Directory,
+    HasTraits,
+    Instance,
+    Property,
+    Str,
+)
 from traitsui.api import Group, View
 
 # Local imports.
-#from envisage.ui.single_project.editor.project_editor import \
+# from envisage.ui.single_project.editor.project_editor import \
 #    ProjectEditor
 from envisage.api import Application
 
@@ -59,12 +67,10 @@ class Project(HasTraits):
     # Current envisage application.
     application = Instance(Application, transient=True)
 
-
     #### protected 'Project' class interface #################################
 
     # Format used to create a unique name from a location and a counter.
-    _unique_name_format = '%s_%s'
-
+    _unique_name_format = "%s_%s"
 
     ##########################################################################
     # Attributes
@@ -93,31 +99,27 @@ class Project(HasTraits):
 
     # The UI view to use when creating a new project
     traits_view = View(
-        Group('location'),
-        title = 'New Project',
-        id = 'envisage.single_project.project.Project',
-        buttons = [ 'OK', 'Cancel' ],
-        width = 0.33,
-
+        Group("location"),
+        title="New Project",
+        id="envisage.single_project.project.Project",
+        buttons=["OK", "Cancel"],
+        width=0.33,
         # Ensure closing via the dialog close button is the same
         # as clicking cancel.
-        close_result = False,
-
+        close_result=False,
         # Ensure the user can resize the dialog.
-        resizable = True,
-        )
-
+        resizable=True,
+    )
 
     #### protected 'Project' interface #######################################
 
     # A list of editors currently open to visualize our resources
     # FIXME: Re-add the ProjectEditor's(if we need them) once they are fixed.
-    #_editors = Dict(Any, ProjectEditor, transient=True)
+    # _editors = Dict(Any, ProjectEditor, transient=True)
 
     # The cache of this project's name.  We can't just initialize it to a
     # default value since the location may be cleared at any time.
     _name = Str(transient=True)
-
 
     ##########################################################################
     # 'Object' interface.
@@ -152,11 +154,10 @@ class Project(HasTraits):
         # Add in our current version number.  Note use a different attribute
         # name from any base or derived class so that our numbers don't
         # override theirs.
-        state['_project_version_major'] = 1
-        state['_project_version_minor'] = 0
+        state["_project_version_major"] = 1
+        state["_project_version_minor"] = 0
 
         return state
-
 
     def __setstate__(self, state):
         """
@@ -174,20 +175,19 @@ class Project(HasTraits):
         """
 
         # Get the version info out of the state dictionary.
-        major = state.pop('_project_version_major', 0)
-        minor = state.pop('_project_version_minor', 0)
+        major = state.pop("_project_version_major", 0)
+        minor = state.pop("_project_version_minor", 0)
 
         # Upgrade to version 1.
         if major < 1:
 
             # Remove any old attributes.
             # - name is now a calculated property instead of stored value.
-            for key in ['name']:
+            for key in ["name"]:
                 state.pop(key, None)
 
         # Restore our state.
         return super(Project, self).__setstate__(state)
-
 
     def __str__(self):
         """
@@ -195,9 +195,8 @@ class Project(HasTraits):
 
         """
 
-        result ='%s(name=%s)' % (super(Project, self).__str__(), self.name)
+        result = "%s(name=%s)" % (super(Project, self).__str__(), self.name)
         return result
-
 
     ##########################################################################
     # 'Project' interface.
@@ -230,8 +229,7 @@ class Project(HasTraits):
             return ETSConfig.application_home
 
         app_preferences = application.preferences
-        path_id = 'envisage.ui.' \
-            'single_project.preferred_path'
+        path_id = "envisage.ui." "single_project.preferred_path"
         path = app_preferences.get(path_id)
 
         # If the 'preferred_path' variable isn't set in the user's preferences,
@@ -251,7 +249,7 @@ class Project(HasTraits):
 
         """
 
-        return 'New Project'
+        return "New Project"
 
     def get_pickle_filename(cls, location):
         """
@@ -269,7 +267,7 @@ class Project(HasTraits):
         if cls.PROJECTS_ARE_FILES:
             result = location
         else:
-            result = os.path.join(location, 'project')
+            result = os.path.join(location, "project")
 
         return result
 
@@ -332,15 +330,16 @@ class Project(HasTraits):
         # Warn if the resource is not part of this project
         if not self._contains_resource(resource):
             logger.warning(
-                'This Project [%s] does not contain resource [%s]',
-                self, resource)
+                "This Project [%s] does not contain resource [%s]",
+                self,
+                resource,
+            )
 
         # Add or remove from our set of editors as requested
         if not remove:
             self._editors[resource] = editor
         else:
             del self._editors[resource]
-
 
     def save(self, location=None, overwrite=False):
         """
@@ -376,10 +375,10 @@ class Project(HasTraits):
         # Ensure saving (or save as) is allowed at this time.
         if location is None or location == self.location:
             if not self.is_save_allowed:
-                raise AssertionError('Saving is currently not allowed.')
+                raise AssertionError("Saving is currently not allowed.")
         elif location != self.location:
             if not self.is_save_as_allowed:
-                raise AssertionError('Save as is currently not allowed.')
+                raise AssertionError("Save as is currently not allowed.")
 
         # Use the internally-specified location unless a new location was
         # explicitly provided.  The new location can not contain any starting
@@ -395,8 +394,10 @@ class Project(HasTraits):
                 # correction of overwriting requires prompting of the user and
                 # is thus not part of the project model.)
                 if os.path.exists(location) and overwrite is False:
-                    raise AssertionError('Can not overwrite existing ' + \
-                        'location [%s]' % location)
+                    raise AssertionError(
+                        "Can not overwrite existing "
+                        + "location [%s]" % location
+                    )
 
                 # The requested location is valid so let's use it.
                 loc = location
@@ -425,7 +426,6 @@ class Project(HasTraits):
 
         return
 
-
     def start(self):
         """
         Notify this project that it is now the 'current' project.
@@ -441,11 +441,10 @@ class Project(HasTraits):
 
         """
 
-        logger.debug('Project [%s] started', self)
+        logger.debug("Project [%s] started", self)
 
         # Ensure we start with an empty set of editors
         self._editors = {}
-
 
     def stop(self):
         """
@@ -464,8 +463,7 @@ class Project(HasTraits):
         # Close all of the editors displaying our resources
         self._close_all_editors()
 
-        logger.debug('Project [%s] stopped', self)
-
+        logger.debug("Project [%s] stopped", self)
 
     #### protected interface #################################################
 
@@ -479,10 +477,10 @@ class Project(HasTraits):
         # itself from our set of registered editors.  (This assumes the
         # editor is derived from ProjectEditor.)
         for editor in self._editors.values():
-            logger.debug('Project requesting close of ProjectEditor [%s]',
-                editor)
+            logger.debug(
+                "Project requesting close of ProjectEditor [%s]", editor
+            )
             editor.close()
-
 
     def _close_resource_editors(self, resource):
         """
@@ -502,12 +500,15 @@ class Project(HasTraits):
         for r in resource:
             editor = self._editors.get(r, None)
             if editor is not None:
-                logger.debug('Requesting close of ProjectEditor [%s] from ' + \
-                    'Project [%s]', editor, self)
+                logger.debug(
+                    "Requesting close of ProjectEditor [%s] from "
+                    + "Project [%s]",
+                    editor,
+                    self,
+                )
                 editor.close()
 
         return
-
 
     def _contains_resource(self, resource):
         """
@@ -522,7 +523,6 @@ class Project(HasTraits):
         """
 
         return False
-
 
     def _get_name(self):
         """
@@ -550,7 +550,6 @@ class Project(HasTraits):
 
         return result
 
-
     def _load(cls, location):
         """
         Load a project from the specified location.
@@ -566,14 +565,13 @@ class Project(HasTraits):
         # Allow derived classes to determine the actual pickle file given the
         # requested source location.
         filename = cls.get_pickle_filename(location)
-        logger.debug('Loading Project of class [%s] from [%s]', cls,
-            filename)
+        logger.debug("Loading Project of class [%s] from [%s]", cls, filename)
 
         # Try to unpickle the project while making sure to close any file we
         # opened.
         fh = None
         try:
-            fh = open(filename, 'rb')
+            fh = open(filename, "rb")
             pickle_package = cls.get_pickle_package()
             project = pickle_package.load(fh)
 
@@ -581,8 +579,9 @@ class Project(HasTraits):
             # is complete.
             project._load_hook(location)
 
-            logger.debug('Loaded Project [%s] from location [%s]', project,
-                filename)
+            logger.debug(
+                "Loaded Project [%s] from location [%s]", project, filename
+            )
 
         # Ensure any opened file is closed
         finally:
@@ -590,12 +589,13 @@ class Project(HasTraits):
                 try:
                     fh.close()
                 except:
-                    logger.exception('Unable to close project file [%s]',
-                        filename)
+                    logger.exception(
+                        "Unable to close project file [%s]", filename
+                    )
 
         return project
-    _load = classmethod(_load)
 
+    _load = classmethod(_load)
 
     def _load_hook(self, location):
         """
@@ -613,7 +613,6 @@ class Project(HasTraits):
 
         pass
 
-
     def _location_default(self):
         """
         Generates the default value for our location trait.
@@ -621,7 +620,6 @@ class Project(HasTraits):
         """
 
         return self.get_default_project_location(self.application)
-
 
     def _make_location_unique(cls, location):
         """
@@ -634,11 +632,11 @@ class Project(HasTraits):
         counter = 1
         while os.path.exists(result):
             result = cls._unique_name_format % (location, counter)
-            counter+=1
+            counter += 1
 
         return result
-    _make_location_unique = classmethod(_make_location_unique)
 
+    _make_location_unique = classmethod(_make_location_unique)
 
     def _save(self, location):
         """
@@ -655,7 +653,7 @@ class Project(HasTraits):
         # Allow derived classes to determine the actual pickle file from the
         # specified location.
         filename = self.get_pickle_filename(location)
-        logger.debug('Saving Project [%s] to [%s]', self, filename)
+        logger.debug("Saving Project [%s] to [%s]", self, filename)
 
         # Pickle the object to a file while making sure to close any file we
         # open.  Note that we can't just log or ignore errors here as the
@@ -667,21 +665,21 @@ class Project(HasTraits):
             # applied.
             self._save_hook(location)
 
-            fh = open(filename, 'wb')
+            fh = open(filename, "wb")
             pickle_package = self.get_pickle_package()
             pickle_package.dump(self, fh, 1)
 
-            logger.debug('Saved Project [%s] to [%s]', self, filename)
+            logger.debug("Saved Project [%s] to [%s]", self, filename)
         finally:
             try:
                 if fh is not None:
                     fh.close()
             except:
-                logger.exception('Unable to close project pickle file [%s]',
-                    filename)
+                logger.exception(
+                    "Unable to close project pickle file [%s]", filename
+                )
 
         return
-
 
     def _save_hook(self, location):
         """
@@ -697,7 +695,6 @@ class Project(HasTraits):
 
         pass
 
-
     #### trait handlers ######################################################
 
     def _location_changed(self, old, new):
@@ -706,19 +703,24 @@ class Project(HasTraits):
 
         """
 
-        logger.debug('Location changed from [%s] to [%s] for Project [%s]',
-            old, new, self)
+        logger.debug(
+            "Location changed from [%s] to [%s] for Project [%s]",
+            old,
+            new,
+            self,
+        )
 
         # Invalidate any cached project name
         old_name = self._name
-        self._name = ''
-        self.trait_property_changed('name', old_name, self.name)
+        self._name = ""
+        self.trait_property_changed("name", old_name, self.name)
 
         # Indicate this project is now dirty
         self.dirty = True
 
 
 # Helper functions
+
 
 def clean_filename(name, replace_empty=""):
     """
@@ -749,14 +751,15 @@ def clean_filename(name, replace_empty=""):
     # Code is based on Django's slugify utility.
     # https://docs.djangoproject.com/en/1.9/_modules/django/utils/text/#slugify
     name = (
-        unicodedata.normalize('NFKD', name)
-        .encode('ascii', 'ignore')
-        .decode('ascii')
+        unicodedata.normalize("NFKD", name)
+        .encode("ascii", "ignore")
+        .decode("ascii")
     )
-    name = re.sub(r'[^\w\s-]', '', name).strip().lower()
-    safe_name = re.sub(r'[-\s]+', '-', name)
+    name = re.sub(r"[^\w\s-]", "", name).strip().lower()
+    safe_name = re.sub(r"[-\s]+", "-", name)
     if safe_name == "":
         return replace_empty
     return safe_name
+
 
 #### EOF #####################################################################

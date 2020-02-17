@@ -46,12 +46,13 @@ class ExtensionProvider(HasTraits):
         """ Fire an extension point changed event. """
 
         self.extension_point_changed = ExtensionPointChangedEvent(
-            extension_point_id = extension_point_id,
-            added              = added,
-            removed            = removed,
-            index              = index
+            extension_point_id=extension_point_id,
+            added=added,
+            removed=removed,
+            index=index,
         )
 
         return
+
 
 #### EOF ######################################################################

@@ -86,11 +86,11 @@ class ClassLoadHook(HasTraits):
         # Only check if the class name has at least a partial hierarchy.
         #
         # fixme: Comment should say why!
-        if '.' in class_path:
-            components = class_path.split('.')
+        if "." in class_path:
+            components = class_path.split(".")
 
-            module_name = '.'.join(components[:-1])
-            class_name  = components[-1]
+            module_name = ".".join(components[:-1])
+            class_name = components[-1]
 
             # The class is loaded if its module has been imported and the class
             # is defined in the module dictionary.
@@ -105,5 +105,6 @@ class ClassLoadHook(HasTraits):
             klass = None
 
         return klass
+
 
 #### EOF ######################################################################

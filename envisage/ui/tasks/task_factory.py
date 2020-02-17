@@ -41,5 +41,7 @@ class TaskFactory(HasTraits):
         task = self.create(**traits)
         for extension in extensions:
             task.extra_actions.extend(extension.actions)
-            task.extra_dock_pane_factories.extend(extension.dock_pane_factories)
+            task.extra_dock_pane_factories.extend(
+                extension.dock_pane_factories
+            )
         return task

@@ -49,14 +49,14 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set the extensions.
-        registry.set_extensions('my.ep', 'xxx')
+        registry.set_extensions("my.ep", "xxx")
 
         # Declare a class that consumes the extension.
         class Foo(HasTraits):
-            x = ExtensionPoint(List(Int), id='my.ep')
+            x = ExtensionPoint(List(Int), id="my.ep")
 
         # We should get an exception because the object does not have an
         # 'extension_registry' trait.
@@ -70,11 +70,11 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(id='my.ep')
+            x = ExtensionPoint(id="my.ep")
 
             def _x_changed(self):
                 """ Static trait change handler. """
@@ -88,11 +88,11 @@ class ExtensionPointTestCase(unittest.TestCase):
         ExtensionPoint.connect_extension_point_traits(f)
 
         # Set the extensions.
-        registry.set_extensions('my.ep', [42, 'a string', True])
+        registry.set_extensions("my.ep", [42, "a string", True])
 
         # Make sure that instances of the class pick up the extensions.
         self.assertEqual(3, len(f.x))
-        self.assertEqual([42, 'a string', True],  f.x)
+        self.assertEqual([42, "a string", True], f.x)
 
         # Make sure the trait change handler was called.
         self.assertTrue(f.x_changed_called)
@@ -104,7 +104,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         ExtensionPoint.disconnect_extension_point_traits(f)
 
         # Set the extensions.
-        registry.set_extensions('my.ep', [98, 99, 100])
+        registry.set_extensions("my.ep", [98, 99, 100])
 
         # Make sure the trait change handler was *not* called.
         self.assertEqual(False, f.x_changed_called)
@@ -115,23 +115,23 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set the extensions.
-        registry.set_extensions('my.ep', [42, 'a string', True])
+        registry.set_extensions("my.ep", [42, "a string", True])
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(id='my.ep')
+            x = ExtensionPoint(id="my.ep")
 
         # Make sure that instances of the class pick up the extensions.
         f = Foo()
         self.assertEqual(3, len(f.x))
-        self.assertEqual([42, 'a string', True],  f.x)
+        self.assertEqual([42, "a string", True], f.x)
 
         g = Foo()
         self.assertEqual(3, len(g.x))
-        self.assertEqual([42, 'a string', True],  g.x)
+        self.assertEqual([42, "a string", True], g.x)
 
     def test_typed_extension_point(self):
         """ typed extension point """
@@ -139,14 +139,14 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set the extensions.
-        registry.set_extensions('my.ep', [42, 43, 44])
+        registry.set_extensions("my.ep", [42, 43, 44])
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(List(Int), id='my.ep')
+            x = ExtensionPoint(List(Int), id="my.ep")
 
         # Make sure that instances of the class pick up the extensions.
         f = Foo()
@@ -163,14 +163,14 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set the extensions.
-        registry.set_extensions('my.ep', 'xxx')
+        registry.set_extensions("my.ep", "xxx")
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(List(Int), id='my.ep')
+            x = ExtensionPoint(List(Int), id="my.ep")
 
         # Make sure we get a trait error because the type of the extension
         # doesn't match that of the extension point.
@@ -194,18 +194,18 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(id='my.ep')
+            x = ExtensionPoint(id="my.ep")
 
         # Make sure that when we set the trait the extension registry gets
         # updated.
         f = Foo()
         f.x = [42]
 
-        self.assertEqual([42], registry.get_extensions('my.ep'))
+        self.assertEqual([42], registry.get_extensions("my.ep"))
 
     def test_set_typed_extension_point(self):
         """ set typed extension point """
@@ -213,31 +213,31 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry = self.registry
 
         # Add an extension point.
-        registry.add_extension_point(self._create_extension_point('my.ep'))
+        registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
-            x = ExtensionPoint(List(Int), id='my.ep')
+            x = ExtensionPoint(List(Int), id="my.ep")
 
         # Make sure that when we set the trait the extension registry gets
         # updated.
         f = Foo()
         f.x = [42]
 
-        self.assertEqual([42], registry.get_extensions('my.ep'))
+        self.assertEqual([42], registry.get_extensions("my.ep"))
 
     def test_extension_point_str_representation(self):
         """ test the string representation of the extension point """
         ep_repr = "ExtensionPoint(id={})"
-        ep = self._create_extension_point('my.ep')
-        self.assertEqual(ep_repr.format('my.ep'), str(ep))
-        self.assertEqual(ep_repr.format('my.ep'), repr(ep))
+        ep = self._create_extension_point("my.ep")
+        self.assertEqual(ep_repr.format("my.ep"), str(ep))
+        self.assertEqual(ep_repr.format("my.ep"), repr(ep))
 
     ###########################################################################
     # Private interface.
     ###########################################################################
 
-    def _create_extension_point(self, id, trait_type=List, desc=''):
+    def _create_extension_point(self, id, trait_type=List, desc=""):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

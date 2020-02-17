@@ -33,11 +33,12 @@ class HTTPResourceProtocol(HasTraits):
         from urllib.request import urlopen
 
         try:
-            f = urlopen('http://' + address)
+            f = urlopen("http://" + address)
 
         except HTTPError:
-            raise NoSuchResourceError('http:://' + address)
+            raise NoSuchResourceError("http:://" + address)
 
         return f
+
 
 #### EOF ######################################################################

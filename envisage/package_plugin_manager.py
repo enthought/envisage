@@ -38,17 +38,17 @@ class PackagePluginManager(PluginManager):
     """
 
     # Plugin manifest.
-    PLUGIN_MANIFEST = 'plugins.py'
+    PLUGIN_MANIFEST = "plugins.py"
 
     #### 'PackagePluginManager' protocol #######################################
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
 
-    @on_trait_change('plugin_path[]')
+    @on_trait_change("plugin_path[]")
     def _plugin_path_changed(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
-        self.reset_traits(['_plugins'])
+        self.reset_traits(["_plugins"])
 
     #### Protected 'PluginManager' protocol ###################################
 
@@ -56,12 +56,12 @@ class PackagePluginManager(PluginManager):
         """ Trait initializer. """
 
         plugins = [
-            plugin for plugin in self._harvest_plugins_in_packages()
-
+            plugin
+            for plugin in self._harvest_plugins_in_packages()
             if self._include_plugin(plugin.id)
         ]
 
-        logger.debug('package plugin manager found plugins <%s>', plugins)
+        logger.debug("package plugin manager found plugins <%s>", plugins)
 
         return plugins
 
@@ -76,7 +76,9 @@ class PackagePluginManager(PluginManager):
         """
 
         try:
-            module = __import__(package_name + '.plugins', fromlist=['plugins'])
+            module = __import__(
+                package_name + ".plugins", fromlist=["plugins"]
+            )
 
         except ImportError:
             module = None
@@ -92,7 +94,7 @@ class PackagePluginManager(PluginManager):
         # a list of plugins (i.e. instances that implement 'IPlugin'!).
         plugins_module = self._get_plugins_module(package_name)
         if plugins_module is not None:
-            factory = getattr(plugins_module, 'get_plugins', None)
+            factory = getattr(plugins_module, "get_plugins", None)
             if factory is not None:
                 plugins = factory()
 
@@ -101,16 +103,16 @@ class PackagePluginManager(PluginManager):
         # do, call it with no arguments to get a plugin!
         else:
             plugins = []
-            logger.debug('Looking for plugins in %s' % package_dirname)
+            logger.debug("Looking for plugins in %s" % package_dirname)
             for child in File(package_dirname).children or []:
-                if child.ext == '.py' and child.name.endswith('_plugin'):
+                if child.ext == ".py" and child.name.endswith("_plugin"):
                     module = __import__(
-                        package_name + '.' + child.name, fromlist=[child.name]
+                        package_name + "." + child.name, fromlist=[child.name]
                     )
 
-                    atoms        = child.name.split('_')
-                    capitalized  = [atom.capitalize() for atom in atoms]
-                    factory_name = ''.join(capitalized)
+                    atoms = child.name.split("_")
+                    capitalized = [atom.capitalize() for atom in atoms]
+                    factory_name = "".join(capitalized)
 
                     factory = getattr(module, factory_name, None)
                     if factory is not None:
@@ -128,7 +130,7 @@ class PackagePluginManager(PluginManager):
                     plugins.extend(
                         self._harvest_plugins_in_package(
                             child.name, child.path
-                       )
+                        )
                     )
 
         return plugins
@@ -143,5 +145,6 @@ class PackagePluginManager(PluginManager):
         for dirname in added:
             if dirname not in sys.path:
                 sys.path.append(dirname)
+
 
 #### EOF ######################################################################

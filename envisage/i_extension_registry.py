@@ -66,7 +66,9 @@ class IExtensionRegistry(Interface):
 
         """
 
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
+    def remove_extension_point_listener(
+        self, listener, extension_point_id=None
+    ):
         """ Remove a listener for extensions being added or removed.
 
         Raise a 'ValueError' if the listener does not exist.
@@ -85,5 +87,6 @@ class IExtensionRegistry(Interface):
         """ Set the extensions contributed to an extension point.
 
         """
+
 
 #### EOF ######################################################################

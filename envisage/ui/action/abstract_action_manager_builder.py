@@ -67,15 +67,15 @@ class AbstractActionManagerBuilder(HasTraits):
             # Get all of the groups for the tool bar.
             groups = []
             for group in self._action_set_manager.get_groups(root):
-                if group.path.startswith('%s/%s' % (root, tool_bar.name)):
-                    group.path = '/'.join(action.path.split('/')[1:])
+                if group.path.startswith("%s/%s" % (root, tool_bar.name)):
+                    group.path = "/".join(action.path.split("/")[1:])
                     groups.append(group)
 
             # Get all of the actions for the tool bar.
             actions = []
             for action in self._action_set_manager.get_actions(root):
-                if action.path.startswith('%s/%s' % (root, tool_bar.name)):
-                    action.path = '/'.join(action.path.split('/')[1:])
+                if action.path.startswith("%s/%s" % (root, tool_bar.name)):
+                    action.path = "/".join(action.path.split("/")[1:])
                     actions.append(action)
 
             # We don't add the tool bar if it is empty!
@@ -112,7 +112,7 @@ class AbstractActionManagerBuilder(HasTraits):
             from .tool_bar import ToolBar
 
             tool_bar_manager = self._create_tool_bar_manager(
-                ToolBar(name='Tool Bar', path=root, _action_set_=None)
+                ToolBar(name="Tool Bar", path=root, _action_set_=None)
             )
 
             # Add all groups and menus.
@@ -216,7 +216,7 @@ class AbstractActionManagerBuilder(HasTraits):
             # If we didn't succeed in placing *any* actions then we must have a
             # problem!
             if start == end:
-                raise ValueError('Could not place %s' % actions)
+                raise ValueError("Could not place %s" % actions)
 
         return
 
@@ -232,7 +232,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
         group = self._find_group(action_manager, action.group)
         if group is None:
-            msg = 'No such group (%s) for %s' % (action.group, action)
+            msg = "No such group (%s) for %s" % (action.group, action)
             raise ValueError(msg)
 
         if len(action.before) > 0:
@@ -286,7 +286,7 @@ class AbstractActionManagerBuilder(HasTraits):
             # If we didn't succeed in adding *any* menus or groups then we
             # must have a problem!
             if start == end:
-                raise ValueError('Could not place %s' % groups_and_menus)
+                raise ValueError("Could not place %s" % groups_and_menus)
 
         return
 
@@ -322,7 +322,7 @@ class AbstractActionManagerBuilder(HasTraits):
                 # that it is always the last one! In Pyface, the 'additions'
                 # groups is created by default, so unless someone has
                 # explicitly removed it, it *will* be there!
-                additions = action_manager.find_group('additions')
+                additions = action_manager.find_group("additions")
                 if additions is not None:
                     index = action_manager.groups.index(additions)
 
@@ -383,7 +383,7 @@ class AbstractActionManagerBuilder(HasTraits):
             group = action_manager.find_group(id)
 
         else:
-            group = action_manager.find_group('additions')
+            group = action_manager.find_group("additions")
 
         return group
 
@@ -394,12 +394,12 @@ class AbstractActionManagerBuilder(HasTraits):
 
         """
 
-        components = path.split('/')
+        components = path.split("/")
         if len(components) == 1:
             action_manager = action_manager
 
         else:
-            action_manager = action_manager.find_item('/'.join(components[1:]))
+            action_manager = action_manager.find_item("/".join(components[1:]))
 
         return action_manager
 
@@ -410,7 +410,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
         """
 
-        components = path.split('/')
+        components = path.split("/")
 
         # We skip the first component, because if the path is of length 1, then
         # the target menu manager is the menu manager passed in.
@@ -426,11 +426,12 @@ class AbstractActionManagerBuilder(HasTraits):
             # If the menu manager *does* already contain an item with this ID
             # then make sure it is a menu and not an action!
             elif not isinstance(item, ActionManager):
-                msg = '%s is not a menu in path %s' % (item, path)
+                msg = "%s is not a menu in path %s" % (item, path)
                 raise ValueError(msg)
 
             menu_manager = item
 
         return menu_manager
+
 
 #### EOF ######################################################################

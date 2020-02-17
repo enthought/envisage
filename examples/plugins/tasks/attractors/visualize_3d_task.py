@@ -1,6 +1,5 @@
 # Enthought library imports.
-from pyface.tasks.action.api import SGroup, SMenu, SMenuBar, \
-    TaskToggleGroup
+from pyface.tasks.action.api import SGroup, SMenu, SMenuBar, TaskToggleGroup
 from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
 from traits.api import Any, List
 
@@ -16,13 +15,14 @@ class Visualize3dTask(Task):
 
     #### 'Task' interface #####################################################
 
-    id = 'example.attractors.task_3d'
-    name = '3D Visualization'
+    id = "example.attractors.task_3d"
+    name = "3D Visualization"
 
-    menu_bar = SMenuBar(SMenu(id='File', name='&File'),
-                        SMenu(id='Edit', name='&Edit'),
-                        SMenu(TaskToggleGroup(),
-                              id='View', name='&View'))
+    menu_bar = SMenuBar(
+        SMenu(id="File", name="&File"),
+        SMenu(id="Edit", name="&Edit"),
+        SMenu(TaskToggleGroup(), id="View", name="&View"),
+    )
 
     #### 'Visualize3dTask' interface ##########################################
 
@@ -43,13 +43,15 @@ class Visualize3dTask(Task):
         pane = Plot3dPane(models=self.models)
 
         self.active_model = pane.active_model
-        pane.on_trait_change(self._update_active_model, 'active_model')
+        pane.on_trait_change(self._update_active_model, "active_model")
 
         return pane
 
     def create_dock_panes(self):
-        return [ ModelConfigPane(model=self.active_model),
-                 ModelHelpPane(model=self.active_model) ]
+        return [
+            ModelConfigPane(model=self.active_model),
+            ModelHelpPane(model=self.active_model),
+        ]
 
     ###########################################################################
     # Protected interface.
@@ -59,13 +61,17 @@ class Visualize3dTask(Task):
 
     def _default_layout_default(self):
         return TaskLayout(
-            left=Tabbed(PaneItem('example.attractors.model_config_pane'),
-                        PaneItem('example.attractors.model_help_pane')))
+            left=Tabbed(
+                PaneItem("example.attractors.model_config_pane"),
+                PaneItem("example.attractors.model_help_pane"),
+            )
+        )
 
     def _models_default(self):
         from model.lorenz import Lorenz
         from model.rossler import Rossler
-        return [ Lorenz(), Rossler() ]
+
+        return [Lorenz(), Rossler()]
 
     #### Trait change handlers ################################################
 

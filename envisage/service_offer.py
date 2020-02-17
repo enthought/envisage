@@ -41,4 +41,5 @@ class ServiceOffer(HasTraits):
     # This dictionary is passed as keyword arguments to the factory.
     properties = Dict
 
+
 #### EOF ######################################################################

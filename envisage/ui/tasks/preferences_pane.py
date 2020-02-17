@@ -27,7 +27,7 @@ class PreferencesPane(Controller):
     id = Str
 
     # The ID of the category in which to place the pane.
-    category = Str('General')
+    category = Str("General")
 
     # The pane appears after the pane with this ID.
     before = Str
@@ -36,8 +36,7 @@ class PreferencesPane(Controller):
     after = Str
 
     # The preferences dialog to which the pane belongs. Set by the framework.
-    dialog = Instance(
-        'envisage.ui.tasks.preferences_dialog.PreferencesDialog')
+    dialog = Instance("envisage.ui.tasks.preferences_dialog.PreferencesDialog")
 
     # # The factory to use for creating the preferences model object, of form:
     #     callable(**traits) -> PreferencesHelper
@@ -52,20 +51,20 @@ class PreferencesPane(Controller):
     # 'HasTraits' interface.
     ###########################################################################
 
-    def trait_context ( self ):
+    def trait_context(self):
         """ Re-implemented to use a copy of the model that is not connected to
             the preferences node.
         """
         if self.model is None:
             if self.model_factory is not None:
                 preferences = self.dialog.application.preferences
-                self.model = self.model_factory(preferences = preferences)
+                self.model = self.model_factory(preferences=preferences)
             else:
-                raise ValueError('A preferences pane must have a model!')
+                raise ValueError("A preferences pane must have a model!")
 
         self._model = self.model.clone_traits()
         self._model.preferences = None
-        return { 'object': self._model, 'controller': self, 'handler': self }
+        return {"object": self._model, "controller": self, "handler": self}
 
     ###########################################################################
     # 'Handler' interface.
@@ -74,8 +73,9 @@ class PreferencesPane(Controller):
     def apply(self, info=None):
         """ Handles the Apply button being clicked.
         """
-        trait_names = list(filter(self._model._is_preference_trait,
-                                  self._model.trait_names()))
+        trait_names = list(
+            filter(self._model._is_preference_trait, self._model.trait_names())
+        )
         self.model.copy_traits(self._model, trait_names)
 
     def close(self, info, is_ok):

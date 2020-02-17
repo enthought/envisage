@@ -14,13 +14,14 @@ from envisage.api import Plugin
 from traits.api import Bool
 import busted_module
 
+
 class BadPlugin(Plugin):
     """ The 'Bad' plugin """
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.bad'
+    id = "acme.bad"
 
     #### 'BadPlugin' interface ################################################
 
@@ -46,5 +47,6 @@ class BadPlugin(Plugin):
         self.stopped = True
 
         return
+
 
 #### EOF ######################################################################

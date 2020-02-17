@@ -42,9 +42,9 @@ class ResourceManager(HasTraits):
         from .package_resource_protocol import PackageResourceProtocol
 
         resource_protocols = {
-            'file'    : FileResourceProtocol(),
-            'http'    : HTTPResourceProtocol(),
-            'pkgfile' : PackageResourceProtocol()
+            "file": FileResourceProtocol(),
+            "http": HTTPResourceProtocol(),
+            "pkgfile": PackageResourceProtocol(),
         }
 
         return resource_protocols
@@ -54,12 +54,13 @@ class ResourceManager(HasTraits):
     def file(self, url):
         """ Return a readable file-like object for the specified url. """
 
-        protocol_name, address = url.split('://')
+        protocol_name, address = url.split("://")
 
         protocol = self.resource_protocols.get(protocol_name)
         if protocol is None:
-            raise ValueError('unknown protocol in URL %s' % url)
+            raise ValueError("unknown protocol in URL %s" % url)
 
         return protocol.file(address)
+
 
 #### EOF ######################################################################

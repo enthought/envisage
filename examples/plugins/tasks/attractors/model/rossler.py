@@ -3,8 +3,18 @@ from scipy import arange, array
 from scipy.integrate import odeint
 
 # Enthought libary imports.
-from traits.api import Adapter, Array, Float, HasTraits, Instance, \
-     Property, Str, cached_property, provides, register_factory
+from traits.api import (
+    Adapter,
+    Array,
+    Float,
+    HasTraits,
+    Instance,
+    Property,
+    Str,
+    cached_property,
+    provides,
+    register_factory,
+)
 from traitsui.api import View, Item
 
 # Local imports
@@ -19,8 +29,8 @@ class Rossler(HasTraits):
 
     #### 'IModel3d' interface #################################################
 
-    name = Str('Rossler Attractor')
-    points = Property(Array, depends_on=['a, b, c, initial_point, times'])
+    name = Str("Rossler Attractor")
+    points = Property(Array, depends_on=["a, b, c, initial_point, times"])
 
     #### 'Rossler' interface ##################################################
 
@@ -34,17 +44,19 @@ class Rossler(HasTraits):
     time_start = Float(0.0)
     time_stop = Float(100.0)
     time_step = Float(0.01)
-    times = Property(Array, depends_on='time_start, time_stop, time_step')
+    times = Property(Array, depends_on="time_start, time_stop, time_step")
 
     # Configuration view.
-    view = View(Item('a'),
-                Item('b'),
-                Item('c'),
-                Item('initial_point'),
-                Item('time_start'),
-                Item('time_stop'),
-                Item('time_step'),
-                resizable=True)
+    view = View(
+        Item("a"),
+        Item("b"),
+        Item("c"),
+        Item("initial_point"),
+        Item("time_start"),
+        Item("time_stop"),
+        Item("time_step"),
+        resizable=True,
+    )
 
     ###########################################################################
     # 'Rossler' interface.
@@ -52,7 +64,7 @@ class Rossler(HasTraits):
 
     def compute_step(self, point, time):
         x, y, z = point
-        return array([ -y - z, x + self.a * y, self.b + z * (x - self.c) ])
+        return array([-y - z, x + self.a * y, self.b + z * (x - self.c)])
 
     ###########################################################################
     # Protected interface.
@@ -72,7 +84,7 @@ class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
 
     adaptee = Instance(Rossler)
 
-    plot_type = Str('line')
+    plot_type = Str("line")
 
 
 register_factory(RosslerIPlottable2dAdapter, Rossler, IPlottable2d)

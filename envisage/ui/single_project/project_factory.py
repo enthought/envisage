@@ -49,7 +49,6 @@ class ProjectFactory(HasTraits):
     # Current envisage application.
     application = Instance(IApplication)
 
-
     ##########################################################################
     # 'ProjectFactory' interface.
     ##########################################################################
@@ -69,7 +68,6 @@ class ProjectFactory(HasTraits):
 
         return self.PROJECT_CLASS(application=self.application)
 
-
     def open(self, location):
         """
         Open a project from the specified location.
@@ -83,12 +81,12 @@ class ProjectFactory(HasTraits):
         try:
             project = self.PROJECT_CLASS.load(location, self.application)
         except:
-            logger.exception('Unable to load Project from location %s',
-                location)
+            logger.exception(
+                "Unable to load Project from location %s", location
+            )
             project = None
 
         return project
 
 
 #### EOF #####################################################################
-

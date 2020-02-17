@@ -28,8 +28,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         # The location of the 'eggs' test data directory.
-        self.eggs_dir = join(dirname(__file__), 'eggs')
-        self.bad_eggs_dir = join(dirname(__file__), 'bad_eggs')
+        self.eggs_dir = join(dirname(__file__), "eggs")
+        self.bad_eggs_dir = join(dirname(__file__), "bad_eggs")
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
@@ -48,29 +48,26 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir]
-        )
+        plugin_manager = EggBasketPluginManager(plugin_path=[self.eggs_dir])
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
+        self.assertIn("acme.foo", ids)
+        self.assertIn("acme.bar", ids)
+        self.assertIn("acme.baz", ids)
 
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['acme.foo', 'acme.bar']
+        include = ["acme.foo", "acme.bar"]
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.eggs_dir],
-            include     = include
+            plugin_path=[self.eggs_dir], include=include
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo', 'acme.bar']
+        expected = ["acme.foo", "acme.bar"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -80,15 +77,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['acme.b*']
+        include = ["acme.b*"]
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.eggs_dir],
-            include     = include
+            plugin_path=[self.eggs_dir], include=include
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar', 'acme.baz']
+        expected = ["acme.bar", "acme.baz"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -98,15 +94,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['acme.foo', 'acme.baz']
+        exclude = ["acme.foo", "acme.baz"]
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.eggs_dir],
-            exclude     = exclude
+            plugin_path=[self.eggs_dir], exclude=exclude
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar']
+        expected = ["acme.bar"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -116,15 +111,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['acme.b*']
+        exclude = ["acme.b*"]
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.eggs_dir],
-            exclude     = exclude
+            plugin_path=[self.eggs_dir], exclude=exclude
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo']
+        expected = ["acme.foo"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -138,9 +132,9 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         plugin_manager.plugin_path.append(self.eggs_dir)
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
+        self.assertIn("acme.foo", ids)
+        self.assertIn("acme.bar", ids)
+        self.assertIn("acme.baz", ids)
 
         del plugin_manager.plugin_path[0]
         ids = [plugin.id for plugin in plugin_manager]
@@ -148,65 +142,70 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def test_ignore_broken_plugins_raises_exceptions_by_default(self):
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.bad_eggs_dir, self.eggs_dir],
+            plugin_path=[self.bad_eggs_dir, self.eggs_dir],
         )
         with self.assertRaises(ImportError):
             list(plugin_manager)
 
     def test_ignore_broken_plugins_loads_good_plugins(self):
-        data = {'count': 0}
+        data = {"count": 0}
 
         def on_broken_plugin(ep, exc):
-            data['count'] += 1
-            data['entry_point'] = ep
-            data['exc'] = exc
+            data["count"] += 1
+            data["entry_point"] = ep
+            data["exc"] = exc
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path           = [self.bad_eggs_dir, self.eggs_dir],
-            on_broken_plugin      = on_broken_plugin,
+            plugin_path=[self.bad_eggs_dir, self.eggs_dir],
+            on_broken_plugin=on_broken_plugin,
         )
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
+        self.assertIn("acme.foo", ids)
+        self.assertIn("acme.bar", ids)
+        self.assertIn("acme.baz", ids)
 
-        self.assertEqual(data['count'], 1)
-        self.assertEqual(data['entry_point'].name, 'acme.bad')
-        exc = data['exc']
+        self.assertEqual(data["count"], 1)
+        self.assertEqual(data["entry_point"].name, "acme.bad")
+        exc = data["exc"]
         self.assertTrue(isinstance(exc, ImportError))
 
     def test_ignore_broken_distributions_raises_exceptions_by_default(self):
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.bad_eggs_dir,
-                self._create_broken_distribution_eggdir('acme.foo*.egg')],
+            plugin_path=[
+                self.bad_eggs_dir,
+                self._create_broken_distribution_eggdir("acme.foo*.egg"),
+            ],
         )
         with self.assertRaises(SystemError):
             iter(plugin_manager)
 
     def test_ignore_broken_distributions_loads_good_distributions(self):
-        data = {'count':0}
+        data = {"count": 0}
+
         def on_broken_distribution(dist, exc):
-            data['count'] += 1
-            data['distribution'] = dist
-            data['exc'] = exc
+            data["count"] += 1
+            data["distribution"] = dist
+            data["exc"] = exc
 
         plugin_manager = EggBasketPluginManager(
-            plugin_path = [self.eggs_dir,
-                self._create_broken_distribution_eggdir('acme.foo*.egg')],
-            on_broken_distribution = on_broken_distribution,
+            plugin_path=[
+                self.eggs_dir,
+                self._create_broken_distribution_eggdir("acme.foo*.egg"),
+            ],
+            on_broken_distribution=on_broken_distribution,
         )
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
-        self.assertIn('acme.foo', ids)
-        self.assertIn('acme.bar', ids)
-        self.assertIn('acme.baz', ids)
+        self.assertIn("acme.foo", ids)
+        self.assertIn("acme.bar", ids)
+        self.assertIn("acme.baz", ids)
 
-        self.assertEqual(data['count'], 1)
-        self.assertEqual(data['distribution'].project_name, 'acme.foo')
-        exc = data['exc']
+        self.assertEqual(data["count"], 1)
+        self.assertEqual(data["distribution"].project_name, "acme.foo")
+        exc = data["exc"]
         self.assertTrue(isinstance(exc, pkg_resources.VersionConflict))
 
     #### Private protocol #####################################################
@@ -262,12 +261,12 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         eggs = glob.glob(join(self.eggs_dir, egg_pat))
         for egg in eggs:
             egg_name = basename(egg)
-            split_name = egg_name.split('-')
+            split_name = egg_name.split("-")
             if replacement is None:
-                split_name[1] += '1'
+                split_name[1] += "1"
             else:
                 split_name[1] = replacement
-            new_name = '-'.join(split_name)
+            new_name = "-".join(split_name)
             shutil.copy(egg, join(tmpdir, new_name))
 
         return tmpdir

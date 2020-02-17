@@ -19,7 +19,7 @@ class PearPlugin(Plugin):
     #### 'IPlugin' protocol ####################################################
 
     # The plugin's unique identifier.
-    id = 'pear'
+    id = "pear"
 
     def start(self):
         """ Start the plugin. """
@@ -41,5 +41,6 @@ class PearPlugin(Plugin):
 
     started = Bool(False)
     stopped = Bool(False)
+
 
 #### EOF ######################################################################

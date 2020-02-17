@@ -28,21 +28,21 @@ url_library = urllib.request
 
 
 # This module's package.
-PKG = 'envisage.resource.tests'
+PKG = "envisage.resource.tests"
 
 
 # mimics `urlopen` for some tests.
 # In setUp it replaces `urlopen` for some tests,
 # and in tearDown, the regular `urlopen` is put back into place.
 def stubout_urlopen(url):
-    if 'bogus' in url:
-        raise HTTPError(url, '404', 'No such resource', '', None)
+    if "bogus" in url:
+        raise HTTPError(url, "404", "No such resource", "", None)
 
-    elif 'localhost' in url:
-        return StringIO('This is a test file.\n')
+    elif "localhost" in url:
+        return StringIO("This is a test file.\n")
 
     else:
-        raise ValueError('Unexpected URL %r in stubout_urlopen' % url)
+        raise ValueError("Unexpected URL %r in stubout_urlopen" % url)
 
 
 class ResourceManagerTestCase(unittest.TestCase):
@@ -73,16 +73,16 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Get the filename of the 'api.py' file.
-        filename = resource_filename('envisage.resource', 'api.py')
+        filename = resource_filename("envisage.resource", "api.py")
 
         # Open a file resource.
-        f = rm.file('file://' + filename)
+        f = rm.file("file://" + filename)
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
 
         # Open the api file via the file system.
-        with open(filename, 'rb') as g:
+        with open(filename, "rb") as g:
             self.assertEqual(g.read(), contents)
 
     def test_no_such_file_resource(self):
@@ -100,16 +100,16 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Open a package resource.
-        f = rm.file('pkgfile://envisage.resource/api.py')
+        f = rm.file("pkgfile://envisage.resource/api.py")
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
 
         # Get the filename of the 'api.py' file.
-        filename = resource_filename('envisage.resource', 'api.py')
+        filename = resource_filename("envisage.resource", "api.py")
 
         # Open the api file via the file system.
-        with open(filename, 'rb') as g:
+        with open(filename, "rb") as g:
             self.assertEqual(g.read(), contents)
 
     def test_no_such_package_resource(self):
@@ -130,12 +130,12 @@ class ResourceManagerTestCase(unittest.TestCase):
         # Open an HTTP document resource.
         rm = ResourceManager()
 
-        f = rm.file('http://localhost:1234/file.dat')
+        f = rm.file("http://localhost:1234/file.dat")
         self.assertNotEqual(f, None)
         contents = f.read()
         f.close()
 
-        self.assertEqual(contents, 'This is a test file.\n')
+        self.assertEqual(contents, "This is a test file.\n")
 
     def test_no_such_http_resource(self):
         """ no such http resource """

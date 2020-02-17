@@ -20,13 +20,13 @@ from traits.testing.unittest_tools import unittest
 
 
 # This module's package.
-PKG = 'envisage.tests'
+PKG = "envisage.tests"
 
 
 class TestApplication(Application):
     """ The type of application used in the tests. """
 
-    id = 'core.plugin.test'
+    id = "core.plugin.test"
 
 
 class CorePluginTestCase(unittest.TestCase):
@@ -41,11 +41,9 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
-            service_offers = List(
-                contributes_to='envisage.service_offers'
-            )
+            service_offers = List(contributes_to="envisage.service_offers")
 
             def _service_offers_default(self):
                 """ Trait initializer. """
@@ -63,9 +61,8 @@ class CorePluginTestCase(unittest.TestCase):
 
                 return 42
 
-
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         application = TestApplication(plugins=[core, a])
         application.start()
@@ -88,11 +85,9 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
-            service_offers = List(
-                contributes_to='envisage.service_offers'
-            )
+            service_offers = List(contributes_to="envisage.service_offers")
 
             def _service_offers_default(self):
                 """ Trait initializer. """
@@ -111,7 +106,7 @@ class CorePluginTestCase(unittest.TestCase):
                 return 42
 
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         # Start off with just the core plugin.
         application = TestApplication(plugins=[core])
@@ -122,14 +117,14 @@ class CorePluginTestCase(unittest.TestCase):
         self.assertIsNone(service)
 
         # Make sure the service offer exists...
-        extensions = application.get_extensions('envisage.service_offers')
+        extensions = application.get_extensions("envisage.service_offers")
         self.assertEqual(0, len(extensions))
 
         # Now add a plugin that contains a service offer.
         application.add_plugin(a)
 
         # Make sure the service offer exists...
-        extensions = application.get_extensions('envisage.service_offers')
+        extensions = application.get_extensions("envisage.service_offers")
         self.assertEqual(1, len(extensions))
 
         # ... and that the core plugin responded to the new service offer and
@@ -148,21 +143,20 @@ class CorePluginTestCase(unittest.TestCase):
             on_class_loaded.cls = cls
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
             class_load_hooks = List(
                 [
                     ClassLoadHook(
-                        class_name = CorePluginTestCase.__module__ + '.Baz',
-                        on_load    = on_class_loaded,
+                        class_name=CorePluginTestCase.__module__ + ".Baz",
+                        on_load=on_class_loaded,
                     )
                 ],
-
-                contributes_to='envisage.class_load_hooks'
+                contributes_to="envisage.class_load_hooks",
             )
 
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         application = TestApplication(plugins=[core, a])
         application.start()
@@ -172,7 +166,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, "cls"))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -196,23 +190,21 @@ class CorePluginTestCase(unittest.TestCase):
 
             on_class_loaded.cls = cls
 
-
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
             class_load_hooks = List(
                 [
                     ClassLoadHook(
-                        class_name = CorePluginTestCase.__module__ + '.Baz',
-                        on_load    = on_class_loaded,
+                        class_name=CorePluginTestCase.__module__ + ".Baz",
+                        on_load=on_class_loaded,
                     )
                 ],
-
-                contributes_to='envisage.class_load_hooks'
+                contributes_to="envisage.class_load_hooks",
             )
 
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         # Start with just the core plugin.
         application = TestApplication(plugins=[core])
@@ -226,7 +218,7 @@ class CorePluginTestCase(unittest.TestCase):
             pass
 
         # Make sure the class load hook was *ignored*.
-        self.assertTrue(not hasattr(on_class_loaded, 'cls'))
+        self.assertTrue(not hasattr(on_class_loaded, "cls"))
 
         # Create the target class.
         class Baz(HasTraits):
@@ -243,23 +235,22 @@ class CorePluginTestCase(unittest.TestCase):
         from envisage.core_plugin import CorePlugin
 
         class PluginA(Plugin):
-            id = 'A'
-            preferences = List(contributes_to='envisage.preferences')
+            id = "A"
+            preferences = List(contributes_to="envisage.preferences")
 
             def _preferences_default(self):
                 """ Trait initializer. """
 
-                return ['file://' + resource_filename(PKG, 'preferences.ini')]
-
+                return ["file://" + resource_filename(PKG, "preferences.ini")]
 
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         application = TestApplication(plugins=[core, a])
         application.run()
 
         # Make sure we can get one of the preferences.
-        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+        self.assertEqual("42", application.preferences.get("enthought.test.x"))
 
     def test_dynamically_added_preferences(self):
         """ dynamically added preferences """
@@ -269,16 +260,16 @@ class CorePluginTestCase(unittest.TestCase):
         from envisage.core_plugin import CorePlugin
 
         class PluginA(Plugin):
-            id = 'A'
-            preferences = List(contributes_to='envisage.preferences')
+            id = "A"
+            preferences = List(contributes_to="envisage.preferences")
 
             def _preferences_default(self):
                 """ Trait initializer. """
 
-                return ['file://' + resource_filename(PKG, 'preferences.ini')]
+                return ["file://" + resource_filename(PKG, "preferences.ini")]
 
         core = CorePlugin()
-        a    = PluginA()
+        a = PluginA()
 
         # Start with just the core plugin.
         application = TestApplication(plugins=[core])
@@ -288,4 +279,4 @@ class CorePluginTestCase(unittest.TestCase):
         application.add_plugin(a)
 
         # Make sure we can get one of the preferences.
-        self.assertEqual('42', application.preferences.get('enthought.test.x'))
+        self.assertEqual("42", application.preferences.get("enthought.test.x"))

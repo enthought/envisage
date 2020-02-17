@@ -17,8 +17,10 @@ class ETSConfigPatcher(object):
     Object that patches the directories in ETSConfig, to avoid having
     tests write to the home directory.
     """
+
     def __init__(self):
         from traits.etsconfig.api import ETSConfig
+
         self.etsconfig = ETSConfig
 
         self.tmpdir = None
@@ -31,11 +33,13 @@ class ETSConfigPatcher(object):
 
         self.old_application_data = self.etsconfig._application_data
         self.etsconfig._application_data = os.path.join(
-            tmpdir, "application_data")
+            tmpdir, "application_data"
+        )
 
         self.old_application_home = self.etsconfig._application_home
         self.etsconfig._application_home = os.path.join(
-            tmpdir, "application_home")
+            tmpdir, "application_home"
+        )
 
         self.old_user_data = self.etsconfig._user_data
         self.etsconfig._user_data = os.path.join(tmpdir, "user_home")

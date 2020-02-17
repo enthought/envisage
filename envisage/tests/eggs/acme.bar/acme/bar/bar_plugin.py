@@ -20,7 +20,7 @@ class BarPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.bar'
+    id = "acme.bar"
 
     #### 'BarPlugin' interface ################################################
 
@@ -46,5 +46,6 @@ class BarPlugin(Plugin):
         self.stopped = True
 
         return
+
 
 #### EOF ######################################################################

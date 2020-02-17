@@ -19,7 +19,7 @@ class OrangePlugin(Plugin):
     #### 'IPlugin' protocol ####################################################
 
     # The plugin's unique identifier.
-    id = 'orange'
+    id = "orange"
 
     def start(self):
         """ Start the plugin. """
@@ -41,5 +41,6 @@ class OrangePlugin(Plugin):
 
     started = Bool(False)
     stopped = Bool(False)
+
 
 #### EOF ######################################################################

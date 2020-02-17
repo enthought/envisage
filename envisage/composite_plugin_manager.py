@@ -57,6 +57,7 @@ class CompositePluginManager(HasTraits):
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
+
     def _application_changed(self, trait_name, old, new):
         for plugin_manager in self.plugin_managers:
             plugin_manager.application = new
@@ -70,7 +71,8 @@ class CompositePluginManager(HasTraits):
     # have an 'application' trait. Should we move 'application' up to
     # 'IPluginManager'?
     plugin_managers = List(PluginManager)
-    @on_trait_change('plugin_managers[]')
+
+    @on_trait_change("plugin_managers[]")
     def _update_application(self, obj, trait_named, removed, added):
         for plugin_manager in removed:
             plugin_manager.application = self.application
@@ -78,11 +80,11 @@ class CompositePluginManager(HasTraits):
         for plugin_manager in added:
             plugin_manager.application = self.application
 
-    @on_trait_change('plugin_managers:plugin_added')
+    @on_trait_change("plugin_managers:plugin_added")
     def _plugin_added(self, obj, trait_name, old, new):
         self.plugin_added = new
 
-    @on_trait_change('plugin_managers:plugin_removed')
+    @on_trait_change("plugin_managers:plugin_removed")
     def _plugin_removed(self, obj, trait_name, old, new):
         self.plugin_removed = new
 
@@ -90,6 +92,7 @@ class CompositePluginManager(HasTraits):
 
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
+
     def __plugins_default(self):
         plugins = []
         for plugin_manager in self.plugin_managers:
@@ -147,12 +150,12 @@ class CompositePluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
-            logger.debug('plugin %s starting', plugin.id)
+            logger.debug("plugin %s starting", plugin.id)
             plugin.activator.start_plugin(plugin)
-            logger.debug('plugin %s started', plugin.id)
+            logger.debug("plugin %s started", plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % plugin_id)
+            raise SystemError("no such plugin %s" % plugin_id)
 
         return
 
@@ -173,13 +176,14 @@ class CompositePluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
-            logger.debug('plugin %s stopping', plugin.id)
+            logger.debug("plugin %s stopping", plugin.id)
             plugin.activator.stop_plugin(plugin)
-            logger.debug('plugin %s stopped', plugin.id)
+            logger.debug("plugin %s stopped", plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % plugin_id)
+            raise SystemError("no such plugin %s" % plugin_id)
 
         return
+
 
 #### EOF ######################################################################

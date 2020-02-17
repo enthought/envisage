@@ -40,11 +40,11 @@ class GUIApplication(Application):
     #### 'GUIApplication' interface #########################################
 
     #: The Pyface GUI for the application.
-    gui = Supports('pyface.i_gui.IGUI')
+    gui = Supports("pyface.i_gui.IGUI")
 
     #: The splash screen for the application. By default, there is no splash
     #: screen.
-    splash_screen = Supports('pyface.i_splash_screen.ISplashScreen')
+    splash_screen = Supports("pyface.i_splash_screen.ISplashScreen")
 
     #### Application lifecycle events #########################################
 
@@ -72,7 +72,7 @@ class GUIApplication(Application):
 
         started = self.start()
         if started:
-            gui.set_trait_later(self, 'application_initialized', self)
+            gui.set_trait_later(self, "application_initialized", self)
             # Start the GUI event loop.  The application will block here.
             gui.start_event_loop()
 
@@ -85,4 +85,5 @@ class GUIApplication(Application):
 
     def _gui_default(self):
         from pyface.api import GUI
+
         return GUI(splash_screen=self.splash_screen)

@@ -69,7 +69,7 @@ class ExtensionRegistry(HasTraits):
         """ Add an extension point. """
 
         self._extension_points[extension_point.id] = extension_point
-        logger.debug('extension point <%s> added', extension_point.id)
+        logger.debug("extension point <%s> added", extension_point.id)
 
         return
 
@@ -88,7 +88,9 @@ class ExtensionRegistry(HasTraits):
 
         return list(self._extension_points.values())
 
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
+    def remove_extension_point_listener(
+        self, listener, extension_point_id=None
+    ):
         """ Remove a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
@@ -115,7 +117,7 @@ class ExtensionRegistry(HasTraits):
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], old, 0)
 
-        logger.debug('extension point <%s> removed', extension_point_id)
+        logger.debug("extension point <%s> removed", extension_point_id)
 
         return
 
@@ -140,10 +142,10 @@ class ExtensionRegistry(HasTraits):
         """ Call listeners that are listening to an extension point. """
 
         event = ExtensionPointChangedEvent(
-            extension_point_id = extension_point_id,
-            added              = added,
-            removed            = removed,
-            index              = index
+            extension_point_id=extension_point_id,
+            added=added,
+            removed=removed,
+            index=index,
         )
 
         for ref in refs:
@@ -184,5 +186,6 @@ class ExtensionRegistry(HasTraits):
         refs.extend(self._listeners.get(None, []))
 
         return refs
+
 
 #### EOF ######################################################################

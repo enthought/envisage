@@ -14,15 +14,15 @@ class LorenzPlugin(Plugin):
     """
 
     # Extension points Ids.
-    SERVICE_OFFERS = 'envisage.service_offers'
+    SERVICE_OFFERS = "envisage.service_offers"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.lorenz'
+    id = "acme.lorenz"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Lorenz'
+    name = "Lorenz"
 
     #### Contributions to extension points made by this plugin ################
 
@@ -33,10 +33,11 @@ class LorenzPlugin(Plugin):
         """ Trait initializer. """
 
         lorenz_service_offer = ServiceOffer(
-            protocol = 'acme.lorenz.lorenz.Lorenz',
-            factory  = 'acme.lorenz.lorenz.Lorenz'
+            protocol="acme.lorenz.lorenz.Lorenz",
+            factory="acme.lorenz.lorenz.Lorenz",
         )
 
         return [lorenz_service_offer]
+
 
 #### EOF ######################################################################

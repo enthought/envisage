@@ -40,9 +40,9 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # 'acme' test eggs should be in there!
         ids = [plugin.id for plugin in plugin_manager]
 
-        self.assertTrue('acme.foo' in ids)
-        self.assertTrue('acme.bar' in ids)
-        self.assertTrue('acme.baz' in ids)
+        self.assertTrue("acme.foo" in ids)
+        self.assertTrue("acme.bar" in ids)
+        self.assertTrue("acme.baz" in ids)
 
         return
 
@@ -52,12 +52,12 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo', 'acme.bar']
+        expected = ["acme.foo", "acme.bar"]
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
-        include = ['acme\.foo', 'acme\.bar']
+        include = ["acme\.foo", "acme\.bar"]
 
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager(include=include)
@@ -75,12 +75,12 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo', 'acme.bar', 'acme.baz']
+        expected = ["acme.foo", "acme.bar", "acme.baz"]
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
-        include = ['acme.*']
+        include = ["acme.*"]
 
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager(include=include)
@@ -98,15 +98,15 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.bar']
+        expected = ["acme.bar"]
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
-        include = ['acme.*']
+        include = ["acme.*"]
 
         # Now exclude all but 'acme.bar'...
-        exclude = ['acme\.foo', 'acme\.baz']
+        exclude = ["acme\.foo", "acme\.baz"]
 
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)
@@ -124,15 +124,15 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['acme.foo']
+        expected = ["acme.foo"]
 
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
-        include = ['acme.*']
+        include = ["acme.*"]
 
         # Now exclude every plugin that starts with 'acme.b'.
-        exclude = ['acme\.b.*']
+        exclude = ["acme\.b.*"]
 
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)

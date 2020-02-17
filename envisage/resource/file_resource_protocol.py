@@ -34,7 +34,7 @@ class FileResourceProtocol(HasTraits):
         # Opened in binary mode to be consistent with package resources. This
         # means, for example, that line-endings will not be converted.
         try:
-            f = open(address, 'rb')
+            f = open(address, "rb")
 
         except IOError as e:
             if e.errno == errno.ENOENT:
@@ -44,5 +44,6 @@ class FileResourceProtocol(HasTraits):
                 raise
 
         return f
+
 
 #### EOF ######################################################################

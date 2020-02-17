@@ -20,7 +20,7 @@ class BazPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.baz'
+    id = "acme.baz"
 
     #### 'BazPlugin' interface ################################################
 
@@ -46,5 +46,6 @@ class BazPlugin(Plugin):
         self.stopped = True
 
         return
+
 
 #### EOF ######################################################################

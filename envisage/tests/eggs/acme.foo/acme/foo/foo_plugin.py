@@ -20,7 +20,7 @@ class FooPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.foo'
+    id = "acme.foo"
 
     #### 'FooPlugin' interface ################################################
 
@@ -46,5 +46,6 @@ class FooPlugin(Plugin):
         self.stopped = True
 
         return
+
 
 #### EOF ######################################################################

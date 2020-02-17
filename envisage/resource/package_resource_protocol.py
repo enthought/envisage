@@ -44,10 +44,10 @@ class PackageResourceProtocol(HasTraits):
     def file(self, address):
         """ Return a readable file-like object for the specified address. """
 
-        first_forward_slash = address.index('/')
+        first_forward_slash = address.index("/")
 
-        package       = address[:first_forward_slash]
-        resource_name = address[first_forward_slash+1:]
+        package = address[:first_forward_slash]
+        resource_name = address[first_forward_slash + 1 :]
 
         try:
             f = pkg_resources.resource_stream(package, resource_name)
@@ -63,5 +63,6 @@ class PackageResourceProtocol(HasTraits):
             raise NoSuchResourceError(address)
 
         return f
+
 
 #### EOF ######################################################################

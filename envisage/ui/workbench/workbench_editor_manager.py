@@ -48,4 +48,5 @@ class WorkbenchEditorManager(EditorManager):
             kind = TraitsUIEditor
         return self.get_editor_kind(editor) is kind and editor.obj == obj
 
+
 #### EOF ######################################################################

@@ -22,17 +22,17 @@ class WorkbenchPreferencesPage(PreferencesPage):
 
     # The page's category (e.g. 'General/Appearance'). The empty string means
     # that this is a top-level page.
-    category = ''
+    category = ""
 
     # The page's help identifier (optional). If a help Id *is* provided then
     # there will be a 'Help' button shown on the preference page.
-    help_id = ''
+    help_id = ""
 
     # The page name (this is what is shown in the preferences dialog.
-    name = 'General'
+    name = "General"
 
     # The path to the preferences node that contains the preferences.
-    preferences_path = 'envisage.ui.workbench'
+    preferences_path = "envisage.ui.workbench"
 
     #### Preferences ##########################################################
 
@@ -41,6 +41,7 @@ class WorkbenchPreferencesPage(PreferencesPage):
 
     #### Traits UI views ######################################################
 
-    trait_view = View('prompt_on_exit')
+    trait_view = View("prompt_on_exit")
+
 
 #### EOF ######################################################################

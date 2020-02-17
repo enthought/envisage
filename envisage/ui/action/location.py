@@ -50,4 +50,5 @@ class Location(HasTraits):
     # - for menus and actions, this is the ID of another menu or action.
     before = Str
 
+
 #### EOF ######################################################################

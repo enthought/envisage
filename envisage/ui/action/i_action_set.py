@@ -79,4 +79,5 @@ class IActionSet(Interface):
     #
     aliases = Dict(Str, Str)
 
+
 #### EOF ######################################################################

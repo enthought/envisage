@@ -55,7 +55,7 @@ class TaskWindowLaunchGroup(Group):
 
     #### 'Group' interface ####################################################
 
-    id = 'TaskWindowLaunchGroup'
+    id = "TaskWindowLaunchGroup"
     items = List
 
     ###########################################################################
