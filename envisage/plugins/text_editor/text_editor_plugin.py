@@ -26,7 +26,7 @@ class TextEditorPlugin(Plugin):
 
     name = "Text Editor plugin"
 
-    #### Contributions made by this plugin #####################################
+    #### Contributions made by this plugin ####################################
 
     ACTION_SETS = "envisage.ui.workbench.action_sets"
     action_sets = List(contributes_to=ACTION_SETS)

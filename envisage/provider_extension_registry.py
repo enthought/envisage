@@ -85,7 +85,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         # If we don't know about the extension point then it sure ain't got
         # any extensions!
-        if not extension_point_id in self._extension_points:
+        if extension_point_id not in self._extension_points:
             logger.warning(
                 "getting extensions of unknown extension point <%s>"
                 % extension_point_id
@@ -239,7 +239,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         # This is because we only access extension points lazily and so we
         # can't tell what has actually changed because we have nothing to
         # compare it to!
-        if not extension_point_id in self._extensions:
+        if extension_point_id not in self._extensions:
             return
 
         # This is a list of lists where each inner list contains the

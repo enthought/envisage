@@ -9,7 +9,9 @@
 """ The default implementation of the 'IPlugin' interface. """
 
 # Standard library imports.
-import inspect, logging, os
+import inspect
+import logging
+import os
 from os.path import exists, join
 
 # Enthought library imports.
@@ -339,7 +341,7 @@ class Plugin(ExtensionProvider):
         try:
             extensions = getattr(self, trait_name)
 
-        except:
+        except Exception:
             logger.exception(
                 "getting extensions from %s, trait <%s>" % (self, trait_name)
             )

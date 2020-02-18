@@ -9,8 +9,11 @@
 """ A plugin manager that finds plugins in eggs on the 'plugin_path'. """
 
 
-import logging, pkg_resources, sys
+import logging
+import sys
 import traceback
+
+import pkg_resources
 
 from traits.api import Callable, Directory, List, on_trait_change
 
@@ -42,7 +45,7 @@ class EggBasketPluginManager(PluginManager):
     # Entry point Id.
     ENVISAGE_PLUGINS_ENTRY_POINT = "envisage.plugins"
 
-    #### 'EggBasketPluginManager' protocol #####################################
+    #### 'EggBasketPluginManager' protocol ####################################
 
     # If a plugin cannot be loaded for any reason, this callable is called
     # with the following arguments: entry_point, exception.

@@ -42,7 +42,7 @@ class PluginManager(HasTraits):
 
     """
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
@@ -50,7 +50,7 @@ class PluginManager(HasTraits):
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
-    #### 'PluginManager' protocol ##############################################
+    #### 'PluginManager' protocol #############################################
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
@@ -75,7 +75,7 @@ class PluginManager(HasTraits):
     # Each item in the list is actually an 'fnmatch' expression.
     include = List(Str)
 
-    #### 'object' protocol #####################################################
+    #### 'object' protocol ####################################################
 
     def __init__(self, plugins=None, **traits):
         """ Constructor.
@@ -106,7 +106,7 @@ class PluginManager(HasTraits):
 
         return iter(plugins)
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
@@ -187,7 +187,7 @@ class PluginManager(HasTraits):
 
         return
 
-    #### Protected 'PluginManager' #############################################
+    #### Protected 'PluginManager' ############################################
 
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
@@ -220,7 +220,7 @@ class PluginManager(HasTraits):
             plugin_id
         )
 
-    #### Private protocol ######################################################
+    #### Private protocol #####################################################
 
     def _is_excluded(self, plugin_id):
         """ Return True if the plugin Id is excluded.

@@ -10,7 +10,8 @@
 
 
 # Standard library imports.
-import inspect, weakref
+import inspect
+import weakref
 
 # Enthought library imports.
 from traits.api import List, TraitType, Undefined, provides

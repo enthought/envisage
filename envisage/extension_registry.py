@@ -162,7 +162,7 @@ class ExtensionRegistry(HasTraits):
 
         """
 
-        if not extension_point_id in self._extension_points:
+        if extension_point_id not in self._extension_points:
             raise UnknownExtensionPoint(extension_point_id)
 
         return

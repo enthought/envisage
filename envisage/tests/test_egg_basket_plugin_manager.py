@@ -9,11 +9,12 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
 import glob
-import sys
 from os.path import basename, dirname, join
-import pkg_resources
 import shutil
 import tempfile
+import sys
+
+import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
 from traits.testing.unittest_tools import unittest

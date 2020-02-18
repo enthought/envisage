@@ -9,8 +9,9 @@
 """ Base class for Egg-based test cases. """
 
 
-import pkg_resources
 from os.path import dirname, join
+
+import pkg_resources
 
 from traits.testing.unittest_tools import unittest
 

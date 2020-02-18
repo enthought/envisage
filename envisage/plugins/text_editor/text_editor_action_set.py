@@ -15,7 +15,7 @@ class TextEditorActionSet(ActionSet):
     """
 
     groups = [
-        Group(id="TextFileGroup", path="MenuBar/File", before="ExitGroup",)
+        Group(id="TextFileGroup", path="MenuBar/File", before="ExitGroup")
     ]
 
     actions = [

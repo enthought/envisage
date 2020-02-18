@@ -217,7 +217,7 @@ class ServiceRegistry(HasTraits):
         try:
             result = eval(query, namespace)
 
-        except:
+        except Exception:
             result = False
 
         return result

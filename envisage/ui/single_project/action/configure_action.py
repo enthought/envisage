@@ -34,7 +34,7 @@ class ConfigureAction(ProjectAction):
         # work! The bug we see is that when the dialog is complete the
         # viscosity model assigned to the trait is NOT the same as the
         # viscosity model in the material's '_dirty_objects' collection!
-        ui = event.node.obj.edit_traits(
+        event.node.obj.edit_traits(
             parent=event.window.control, kind="livemodal"
         )
 

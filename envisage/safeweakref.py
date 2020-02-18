@@ -19,13 +19,14 @@ used as a drop-in replacement for 'weakref.ref'.
 """
 
 # Standard library imports.
-import sys, weakref
+import sys
+import weakref
 
 # Because this module is intended as a drop-in replacement for weakref, we
 # import everything from that module here (so the user can do things like
 # "import safeweakref as weakref" etc).
 
-from weakref import *
+from weakref import *  # noqa: F403
 
 __all__ = weakref.__all__
 
@@ -53,8 +54,8 @@ else:
                 )
 
             def _cb(arg):
-                # The self-weakref trick is needed to avoid creating a reference
-                # cycle.
+                # The self-weakref trick is needed to avoid creating a
+                # reference cycle.
                 self = self_wr()
                 if self._alive:
                     self._alive = False

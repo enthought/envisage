@@ -43,7 +43,7 @@ class CompositePluginManager(HasTraits):
 
     """
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     #### Events ####
 
@@ -53,7 +53,7 @@ class CompositePluginManager(HasTraits):
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
-    #### 'CompositePluginManager' protocol #####################################
+    #### 'CompositePluginManager' protocol ####################################
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
@@ -88,7 +88,7 @@ class CompositePluginManager(HasTraits):
     def _plugin_removed(self, obj, trait_name, old, new):
         self.plugin_removed = new
 
-    #### Private protocol ######################################################
+    #### Private protocol #####################################################
 
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
@@ -113,7 +113,7 @@ class CompositePluginManager(HasTraits):
 
         return iter(plugins)
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """

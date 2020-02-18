@@ -10,7 +10,8 @@
 
 
 # Standard library imports.
-import logging, sys
+import logging
+import sys
 
 # Enthought library imports.
 from envisage.api import IExtensionRegistry
@@ -213,7 +214,8 @@ class PythonShellView(View):
         """ Dynamic trait change handler. """
 
         if self.control is not None:
-            # Get the set of tuples of names and types in the current namespace.
+            # Get the set of tuples of names and types in the current
+            # namespace.
             namespace_types = set(
                 (name, type(value)) for name, value in self.namespace.items()
             )

@@ -68,7 +68,7 @@ class AbstractActionManagerBuilder(HasTraits):
             groups = []
             for group in self._action_set_manager.get_groups(root):
                 if group.path.startswith("%s/%s" % (root, tool_bar.name)):
-                    group.path = "/".join(action.path.split("/")[1:])
+                    group.path = "/".join(group.path.split("/")[1:])
                     groups.append(group)
 
             # Get all of the actions for the tool bar.

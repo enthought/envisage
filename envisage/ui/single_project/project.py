@@ -176,7 +176,7 @@ class Project(HasTraits):
 
         # Get the version info out of the state dictionary.
         major = state.pop("_project_version_major", 0)
-        minor = state.pop("_project_version_minor", 0)
+        state.pop("_project_version_minor", 0)
 
         # Upgrade to version 1.
         if major < 1:

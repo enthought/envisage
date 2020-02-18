@@ -216,7 +216,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
     commands = [
         "{edm} environments create {environment} --force --version={runtime}",
         "{edm} install -y -e {environment} " + packages,
-        "{edm} run -e {environment} -- pip install -r ci-src-requirements.txt --no-dependencies",
+        (
+            "{edm} run -e {environment} -- "
+            "pip install -r ci-src-requirements.txt --no-dependencies"
+        ),
     ]
     # pip install pyqt5 and pyside2, because we don't have them in EDM yet
     if toolkit == "pyqt5":
@@ -229,7 +232,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
         )
 
     if editable:
-        install_cmd = "{edm} run -e {environment} -- pip install --editable . --no-dependencies"
+        install_cmd = (
+            "{edm} run -e {environment} -- pip "
+            "install --editable . --no-dependencies"
+        )
     else:
         install_cmd = (
             "{edm} run -e {environment} -- pip install . --no-dependencies"
@@ -241,7 +247,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
 
     if source:
         # Remove EDM ETS packages and install them from source
-        cmd_fmt = "{edm} plumbing remove-package --environment {environment} --force "
+        cmd_fmt = (
+            "{edm} plumbing remove-package "
+            "--environment {environment} --force "
+        )
         commands = [cmd_fmt + source_pkg for source_pkg in source_dependencies]
         execute(commands, parameters)
         source_pkgs = [
@@ -271,7 +280,10 @@ def test(edm, runtime, toolkit, environment):
     environ = environment_vars.get(toolkit, {}).copy()
     environ["PYTHONUNBUFFERED"] = "1"
     commands = [
-        "{edm} run -e {environment} -- coverage run -p -m unittest discover -v envisage"
+        (
+            "{edm} run -e {environment} -- "
+            "coverage run -p -m unittest discover -v envisage"
+        ),
     ]
 
     # We run in a tempdir to avoid accidentally picking up wrong envisage
@@ -335,7 +347,10 @@ def update(edm, runtime, toolkit, environment, editable):
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
     if editable:
-        install_cmd = "{edm} run -e {environment} -- pip install --editable . --no-dependencies"
+        install_cmd = (
+            "{edm} run -e {environment} -- "
+            "pip install --editable . --no-dependencies"
+        )
     else:
         install_cmd = (
             "{edm} run -e {environment} -- pip install . --no-dependencies"
