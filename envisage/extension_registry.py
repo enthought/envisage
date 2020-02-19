@@ -11,6 +11,8 @@
 
 # Standard library imports.
 import logging
+import types
+import weakref
 
 # Enthought library imports.
 from traits.api import Dict, HasTraits, provides
@@ -18,12 +20,30 @@ from traits.api import Dict, HasTraits, provides
 # Local imports.
 from .extension_point_changed_event import ExtensionPointChangedEvent
 from .i_extension_registry import IExtensionRegistry
-from . import safeweakref
 from .unknown_extension_point import UnknownExtensionPoint
 
 
 # Logging.
 logger = logging.getLogger(__name__)
+
+
+def _saferef(listener):
+    """
+    Weak reference for a (possibly bound method) listener.
+
+    Returns a weakref.WeakMethod reference for bound methods,
+    and a regular weakref.ref otherwise.
+
+    This means that for example ``_saferef(myobj.mymethod)``
+    returns a reference whose lifetime is connected to the
+    lifetime of the object ``myobj``, rather than the lifetime
+    of the temporary method ``myobj.mymethod``.
+
+    """
+    if isinstance(listener, types.MethodType):
+        return weakref.WeakMethod(listener)
+    else:
+        return weakref.ref(listener)
 
 
 @provides(IExtensionRegistry)
@@ -61,9 +81,7 @@ class ExtensionRegistry(HasTraits):
         """ Add a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
-        listeners.append(safeweakref.ref(listener))
-
-        return
+        listeners.append(_saferef(listener))
 
     def add_extension_point(self, extension_point):
         """ Add an extension point. """
@@ -94,9 +112,7 @@ class ExtensionRegistry(HasTraits):
         """ Remove a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
-        listeners.remove(safeweakref.ref(listener))
-
-        return
+        listeners.remove(_saferef(listener))
 
     def remove_extension_point(self, extension_point_id):
         """ Remove an extension point. """
