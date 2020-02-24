@@ -107,6 +107,7 @@ dependencies = {
     "apptools",
     "coverage",
     "enthought_sphinx_theme",
+    "flake8",
     "ipykernel",
     "pyface",
     "sphinx",
@@ -256,6 +257,20 @@ def install(edm, runtime, toolkit, environment, editable, source):
         ]
         execute(commands, parameters)
     click.echo("Done install")
+
+
+@cli.command()
+@edm_option
+@runtime_option
+@toolkit_option
+@environment_option
+def flake8(edm, runtime, toolkit, environment):
+    """ Run a flake8 check in a given environment.
+
+    """
+    parameters = get_parameters(edm, runtime, toolkit, environment)
+    commands = ["{edm} run -e {environment} -- python -m flake8"]
+    execute(commands, parameters)
 
 
 @cli.command()
