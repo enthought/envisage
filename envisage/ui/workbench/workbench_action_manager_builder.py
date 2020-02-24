@@ -180,6 +180,3 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         """ Import a symbol. """
 
         return self.window.application.import_symbol(symbol_path)
-
-
-#### EOF ######################################################################

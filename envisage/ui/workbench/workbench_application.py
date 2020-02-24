@@ -194,6 +194,3 @@ class WorkbenchApplication(Application):
         self.gui.invoke_later(self.stop)
 
         return
-
-
-#### EOF ######################################################################

@@ -37,6 +37,3 @@ class AboutAction(Action):
         self.window.application.about()
 
         return
-
-
-#### EOF ######################################################################

@@ -760,6 +760,3 @@ def clean_filename(name, replace_empty=""):
     if safe_name == "":
         return replace_empty
     return safe_name
-
-
-#### EOF #####################################################################

@@ -814,6 +814,3 @@ class UiService(HasTraits):
             else:
                 self._start_timer(new)
         return
-
-
-#### EOF #####################################################################

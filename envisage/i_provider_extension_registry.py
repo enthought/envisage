@@ -32,6 +32,3 @@ class IProviderExtensionRegistry(IExtensionRegistry):
         Raise a 'ValueError' if the provider is not in the registry.
 
         """
-
-
-#### EOF ######################################################################

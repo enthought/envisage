@@ -46,6 +46,3 @@ class AcmePreferencesPage(PreferencesPage):
     #### Traits UI views ######################################################
 
     trait_view = View("width", "height", "ratio", "font", "bgcolor")
-
-
-#### EOF ######################################################################

@@ -50,6 +50,3 @@ class EditPreferencesAction(Action):
             self.window.application.preferences.save()
 
         return
-
-
-#### EOF ######################################################################

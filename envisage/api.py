@@ -41,6 +41,3 @@ from .service_offer import ServiceOffer
 from .service_registry import NoSuchServiceError, ServiceRegistry
 from .unknown_extension import UnknownExtension
 from .unknown_extension_point import UnknownExtensionPoint
-
-
-#### EOF ######################################################################

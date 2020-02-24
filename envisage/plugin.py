@@ -426,6 +426,3 @@ class Plugin(ExtensionProvider):
             return getattr(self, trait_name)
 
         return self.application.register_service(protocol, factory)
-
-
-#### EOF ######################################################################

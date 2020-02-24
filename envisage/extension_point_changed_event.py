@@ -26,6 +26,3 @@ class ExtensionPointChangedEvent(TraitListEvent):
         self.extension_point_id = extension_point_id
 
         return
-
-
-#### EOF ######################################################################

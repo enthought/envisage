@@ -36,6 +36,3 @@ class TextEditorHandler(Handler):
         info.object.save()
 
         return
-
-
-#### EOF ######################################################################

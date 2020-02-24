@@ -46,6 +46,3 @@ class BarPlugin(Plugin):
         self.stopped = True
 
         return
-
-
-#### EOF ######################################################################

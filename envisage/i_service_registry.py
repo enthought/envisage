@@ -122,6 +122,3 @@ class IServiceRegistry(Interface):
         If no such service exists a 'ValueError' exception is raised.
 
         """
-
-
-#### EOF ######################################################################

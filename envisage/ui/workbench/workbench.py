@@ -62,6 +62,3 @@ class Workbench(pyface.Workbench):
                 event.veto = True
 
         return
-
-
-#### EOF ######################################################################

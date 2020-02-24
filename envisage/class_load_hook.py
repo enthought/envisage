@@ -105,6 +105,3 @@ class ClassLoadHook(HasTraits):
             klass = None
 
         return klass
-
-
-#### EOF ######################################################################

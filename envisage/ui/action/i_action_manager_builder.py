@@ -32,6 +32,3 @@ class IActionManagerBuilder(Interface):
         """ Initialize an action manager from the builder's action sets.
 
         """
-
-
-#### EOF ######################################################################

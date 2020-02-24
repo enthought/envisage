@@ -35,6 +35,3 @@ class DataActionSet(ActionSet):
 
     # A mapping from human-readable root names to globally unique Ids.
     aliases = {"DataContextMenu": DATA_CONTEXT_MENU}
-
-
-#### EOF #####################################################################

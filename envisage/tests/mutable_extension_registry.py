@@ -64,6 +64,3 @@ class MutableExtensionRegistry(ExtensionRegistry):
         self._call_listeners(refs, extension_point_id, [], extensions, None)
 
         return
-
-
-#### EOF ######################################################################

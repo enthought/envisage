@@ -103,6 +103,3 @@ def get_requires(working_set, distribution):
             requires.append(working_set.find(requirement))
 
     return requires
-
-
-#### EOF ######################################################################

@@ -129,6 +129,3 @@ class UiService(ApplicationObject):
             logger.exception("Unable to display pop-up message")
 
         return
-
-
-#### EOF #####################################################################

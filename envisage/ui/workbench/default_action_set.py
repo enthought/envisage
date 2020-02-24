@@ -51,6 +51,3 @@ class DefaultActionSet(ActionSet):
             class_name=PKG + ".action.api:AboutAction",
         ),
     ]
-
-
-#### EOF ######################################################################

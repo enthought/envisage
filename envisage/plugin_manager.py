@@ -266,6 +266,3 @@ class PluginManager(HasTraits):
             plugin.application = self.application
 
         return
-
-
-#### EOF ######################################################################

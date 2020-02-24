@@ -39,6 +39,3 @@ class MOTD(HasTraits):
             message = self.DEFAULT_MESSAGE
 
         return message
-
-
-#### EOF ######################################################################

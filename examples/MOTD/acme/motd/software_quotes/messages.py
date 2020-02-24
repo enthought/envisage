@@ -56,5 +56,3 @@ messages = [
         " of information. There's no such thing as information overload.",
     ),
 ]
-
-#### EOF ######################################################################

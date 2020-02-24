@@ -41,6 +41,3 @@ class ExitAction(Action):
         self.window.application.exit()
 
         return
-
-
-#### EOF ######################################################################

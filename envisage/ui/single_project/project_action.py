@@ -243,6 +243,3 @@ class ProjectAction(Action):
         self.refresh()
 
         return
-
-
-#### EOF #####################################################################

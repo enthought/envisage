@@ -169,6 +169,3 @@ class DataPluginAction(ProjectAction):
             logger.error("Could not retrieve the name of the selected data")
 
         return None
-
-
-#### EOF #####################################################################

@@ -116,6 +116,3 @@ class ref(object):
             return self
         else:
             return weakref.ref(obj, callback)
-
-
-#### EOF ######################################################################

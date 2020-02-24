@@ -58,6 +58,3 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
             menu_manager.insert(-1, Group(id=group_definition.id))
 
         return menu_manager
-
-
-#### EOF ######################################################################

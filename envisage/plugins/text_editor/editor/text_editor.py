@@ -235,6 +235,3 @@ class TextEditor(TraitsUIEditor):
             id = prefix + str(next(_id_generator))
 
         return id
-
-
-#### EOF ######################################################################

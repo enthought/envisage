@@ -40,6 +40,3 @@ class EnvProjectActionSet(SingleProjectActionSet):
         "NoSelectionMenu": NO_SELECTION_MENU_ID,
         "ProjectMenu": PROJECT_MENU_ID,
     }
-
-
-#### EOF #####################################################################

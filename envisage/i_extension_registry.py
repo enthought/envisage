@@ -87,6 +87,3 @@ class IExtensionRegistry(Interface):
         """ Set the extensions contributed to an extension point.
 
         """
-
-
-#### EOF ######################################################################

@@ -67,6 +67,3 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
         self.remove_provider(event.plugin)
 
         return
-
-
-#### EOF ######################################################################

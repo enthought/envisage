@@ -39,6 +39,3 @@ class ConfigureAction(ProjectAction):
         )
 
         return
-
-
-#### EOF ######################################################################

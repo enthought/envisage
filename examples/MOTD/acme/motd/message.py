@@ -17,6 +17,3 @@ class Message(HasTraits):
 
     # The text of the message.
     text = Str
-
-
-#### EOF ######################################################################

@@ -61,6 +61,3 @@ class ModelService(ApplicationObject):
             logger.error("Invalid context or data not found in context")
 
         return
-
-
-#### EOF #####################################################################

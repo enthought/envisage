@@ -303,6 +303,3 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             index = index + offset
 
         return index
-
-
-#### EOF ######################################################################

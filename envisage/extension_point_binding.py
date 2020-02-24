@@ -200,6 +200,3 @@ def bind_extension_point(
         traits["extension_registry"] = extension_registry
 
     return ExtensionPointBinding(**traits)
-
-
-#### EOF ######################################################################

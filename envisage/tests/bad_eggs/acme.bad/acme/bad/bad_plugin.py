@@ -47,6 +47,3 @@ class BadPlugin(Plugin):
         self.stopped = True
 
         return
-
-
-#### EOF ######################################################################

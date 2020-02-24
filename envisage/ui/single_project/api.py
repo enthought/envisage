@@ -19,5 +19,3 @@ from .view.project_view import ProjectView
 
 # FIXME: Add back this import when it actually works :)
 # from .editor.project_editor import ProjectEditor
-
-#### EOF #####################################################################

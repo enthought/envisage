@@ -20,6 +20,3 @@ class FooPerspective(Perspective):
         PerspectiveItem(id="Red", position="with", relative_to="Blue"),
         PerspectiveItem(id="Green", position="top"),
     ]
-
-
-#### EOF ######################################################################

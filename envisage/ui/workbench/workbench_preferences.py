@@ -26,6 +26,3 @@ class WorkbenchPreferences(PreferencesHelper):
 
     # Should the user be prompted before exiting the workbench?
     prompt_on_exit = Bool(True)
-
-
-#### EOF ######################################################################

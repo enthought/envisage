@@ -78,6 +78,3 @@ class ColorView(View):
         widget.setAutoFillBackground(True)
 
         return widget
-
-
-#### EOF ######################################################################

@@ -51,6 +51,3 @@ class IImportManager(Interface):
         The first form is retained for backwards compatability.
 
         """
-
-
-#### EOF ######################################################################

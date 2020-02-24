@@ -273,6 +273,3 @@ class ServiceRegistry(HasTraits):
             self._services[service_id] = (name, obj, properties)
 
         return obj
-
-
-#### EOF ######################################################################

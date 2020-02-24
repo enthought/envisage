@@ -192,6 +192,3 @@ class WorkbenchActionSet(ActionSet):
                 setattr(tool_bar_manager, trait_name, value)
 
         return
-
-
-#### EOF ######################################################################

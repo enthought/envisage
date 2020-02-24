@@ -42,6 +42,3 @@ class WorkbenchPreferencesPage(PreferencesPage):
     #### Traits UI views ######################################################
 
     trait_view = View("prompt_on_exit")
-
-
-#### EOF ######################################################################

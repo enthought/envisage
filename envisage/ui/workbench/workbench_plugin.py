@@ -245,6 +245,3 @@ class WorkbenchPlugin(Plugin):
         # then we get the plugin for any egg-based application, even if it is
         # not a workbench application!).
         return getattr(self.application, "workbench", None)
-
-
-### EOF ######################################################################

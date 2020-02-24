@@ -33,6 +33,3 @@ class SoftwareQuotesPlugin(Plugin):
         from messages import messages
 
         return messages
-
-
-#### EOF ######################################################################

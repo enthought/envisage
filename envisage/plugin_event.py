@@ -18,6 +18,3 @@ class PluginEvent(Vetoable):
 
     # The plugin that the event is for.
     plugin = Instance("envisage.api.IPlugin")
-
-
-#### EOF ######################################################################

@@ -77,6 +77,3 @@ class ImportManager(HasTraits):
             module = getattr(module, component)
 
         return module
-
-
-#### EOF ######################################################################

@@ -94,6 +94,3 @@ class ToolBar(Location):
         """ Trait initializer. """
 
         return self.name
-
-
-#### EOF ######################################################################

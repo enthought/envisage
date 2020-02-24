@@ -128,6 +128,3 @@ class Plot2DView(HasTraits):
         id="lorenz.plot2d",
         resizable=True,
     )
-
-
-#### EOF ######################################################################

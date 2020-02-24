@@ -66,6 +66,3 @@ class PackageResourceProtocol(HasTraits):
             raise NoSuchResourceError(address)
 
         return f
-
-
-#### EOF ######################################################################

@@ -46,6 +46,3 @@ class FooPlugin(Plugin):
         self.stopped = True
 
         return
-
-
-#### EOF ######################################################################
