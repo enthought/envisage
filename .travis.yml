@@ -35,6 +35,7 @@ install:
         fi;
     done
 script:
+  - edm run -- python etstool.py flake8 --runtime=${RUNTIME} --toolkit=null
   - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py test --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
 
 after_success:
