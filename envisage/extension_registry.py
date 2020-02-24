@@ -186,6 +186,3 @@ class ExtensionRegistry(HasTraits):
         refs.extend(self._listeners.get(None, []))
 
         return refs
-
-
-#### EOF ######################################################################

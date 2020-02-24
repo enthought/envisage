@@ -37,6 +37,3 @@ class IExtensionProvider(Interface):
         does not contribute any extensions to the extension point.
 
         """
-
-
-#### EOF ######################################################################

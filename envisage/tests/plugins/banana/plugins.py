@@ -15,6 +15,3 @@ def get_plugins():
     from .banana_plugin import BananaPlugin
 
     return [BananaPlugin()]
-
-
-#### EOF ######################################################################

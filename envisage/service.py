@@ -90,6 +90,3 @@ class Service(TraitType):
             )
 
         return service_registry
-
-
-#### EOF ######################################################################

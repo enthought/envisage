@@ -102,6 +102,3 @@ class EventTracker(HasTraits):
             obj.on_trait_change(self._listener, remove=True)
 
         return
-
-
-#### EOF ######################################################################

@@ -45,6 +45,3 @@ class RenameDataAction(DataPluginAction):
         event.tree.edit_label(event.node)
 
         return
-
-
-#### EOF #####################################################################

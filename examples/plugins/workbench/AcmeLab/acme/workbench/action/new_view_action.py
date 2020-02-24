@@ -37,6 +37,3 @@ class NewViewAction(Action):
         self.window.add_view(view, position="top")
 
         return
-
-
-#### EOF ######################################################################

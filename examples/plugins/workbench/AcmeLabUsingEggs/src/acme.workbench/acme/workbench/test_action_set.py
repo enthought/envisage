@@ -70,6 +70,3 @@ class TestActionSet(WorkbenchActionSet):
 
     # The Ids of the views that the action set is visible for.
     # visible_for_views = ['Red']
-
-
-#### EOF ######################################################################

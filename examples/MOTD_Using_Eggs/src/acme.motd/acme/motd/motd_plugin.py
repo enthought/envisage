@@ -104,6 +104,3 @@ class MOTDPlugin(Plugin):
 
         # ... and print it.
         print('\n"%s"\n\n- %s' % (message.text, message.author))
-
-
-#### EOF ######################################################################

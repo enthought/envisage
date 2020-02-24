@@ -470,6 +470,3 @@ class ProjectPlugin(Plugin):
         model_service.on_trait_change(handler, "selection_items")
 
         return
-
-
-### EOF ######################################################################

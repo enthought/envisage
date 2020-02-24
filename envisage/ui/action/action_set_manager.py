@@ -122,6 +122,3 @@ class ActionSetManager(HasTraits):
             root = components[0]
 
         return root
-
-
-#### EOF ######################################################################

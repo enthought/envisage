@@ -435,6 +435,3 @@ class ProjectView(HasTraits):
         logger.debug("ProjectView [%s] closing!", self)
 
         return
-
-
-#### EOF #####################################################################

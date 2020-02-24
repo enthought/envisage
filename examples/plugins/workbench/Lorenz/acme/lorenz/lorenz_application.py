@@ -51,6 +51,3 @@ class LorenzApplication(WorkbenchApplication):
         )
 
         return splash_screen
-
-
-#### EOF ######################################################################

@@ -41,6 +41,3 @@ class BananaPlugin(Plugin):
 
     started = Bool(False)
     stopped = Bool(False)
-
-
-#### EOF ######################################################################

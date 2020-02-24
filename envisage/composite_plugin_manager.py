@@ -184,6 +184,3 @@ class CompositePluginManager(HasTraits):
             raise SystemError("no such plugin %s" % plugin_id)
 
         return
-
-
-#### EOF ######################################################################

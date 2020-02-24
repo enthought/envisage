@@ -110,6 +110,3 @@ class ActionSet(HasTraits):
         logger.warning("action set %s has no name - using <%s>" % (self, name))
 
         return name
-
-
-#### EOF ######################################################################

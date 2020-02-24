@@ -32,6 +32,3 @@ class IResourceManager(Interface):
           manager.file('pkgfile://acme.ui.workbench/preferences.ini')
 
         """
-
-
-#### EOF ######################################################################

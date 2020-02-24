@@ -41,6 +41,3 @@ class PearPlugin(Plugin):
 
     started = Bool(False)
     stopped = Bool(False)
-
-
-#### EOF ######################################################################

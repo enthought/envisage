@@ -91,6 +91,3 @@ class ProjectEditor(DecoratedEditor):
         super(ProjectEditor, self).destroy_control()
 
         return
-
-
-#### EOF ####################################################################

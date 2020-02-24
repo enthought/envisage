@@ -15,6 +15,3 @@ IDATA_MODEL = "data.plugin.IModelService"
 
 # The UI service identifier.
 IDATA_UI = "data.plugin.IUiService"
-
-
-#### EOF #####################################################################

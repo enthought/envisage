@@ -41,6 +41,3 @@ class CloseProjectAction(ProjectAction):
 
     # A short description of the action used for tooltip text etc.
     tooltip = "Close this project"
-
-
-#### EOF #####################################################################

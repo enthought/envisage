@@ -263,6 +263,3 @@ class ExtensionPoint(TraitType):
             )
 
         return extension_registry
-
-
-#### EOF ######################################################################

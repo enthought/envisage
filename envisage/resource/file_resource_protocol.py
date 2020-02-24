@@ -44,6 +44,3 @@ class FileResourceProtocol(HasTraits):
                 raise
 
         return f
-
-
-#### EOF ######################################################################

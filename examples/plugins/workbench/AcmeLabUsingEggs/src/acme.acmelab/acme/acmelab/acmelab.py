@@ -51,6 +51,3 @@ class Acmelab(WorkbenchApplication):
         )
 
         return splash_screen
-
-
-#### EOF ######################################################################

@@ -163,6 +163,3 @@ class DataPlugin(PluginDefinition):
         ui_service,
         data_action_set,
     ]
-
-
-#### EOF #####################################################################

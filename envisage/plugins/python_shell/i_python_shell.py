@@ -35,6 +35,3 @@ class IPythonShell(Interface):
         """ Returns the value bound to a name in the interpreter's namespace.
 
         """
-
-
-#### EOF ######################################################################

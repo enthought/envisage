@@ -19,6 +19,3 @@ from .i_foo import IFoo
 @provides(IFoo)
 class Foo(HasTraits):
     pass
-
-
-#### EOF ######################################################################

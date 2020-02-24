@@ -82,6 +82,3 @@ class EnvProjectFactory(ProjectFactory):
             project = None
 
         return project
-
-
-### EOF ########################################################################

@@ -252,6 +252,3 @@ class PythonShellView(View):
         self.shell.control.write(text)
 
         return
-
-
-#### EOF ######################################################################

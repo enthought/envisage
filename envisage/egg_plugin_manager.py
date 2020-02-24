@@ -142,6 +142,3 @@ class EggPluginManager(PluginManager):
                 return True
 
         return False
-
-
-#### EOF ######################################################################

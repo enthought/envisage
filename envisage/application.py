@@ -514,6 +514,3 @@ class Application(HasTraits):
             os.makedirs(ETSConfig.application_home)
 
         return
-
-
-#### EOF ######################################################################

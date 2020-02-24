@@ -84,6 +84,3 @@ class Menu(Location):
         """ Trait initializer. """
 
         return self.name.strip("&")
-
-
-#### EOF ######################################################################

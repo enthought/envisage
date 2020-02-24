@@ -87,6 +87,3 @@ class PythonShellPlugin(Plugin):
         from .view.namespace_view import NamespaceView
 
         return [PythonShellView, NamespaceView]
-
-
-#### EOF ######################################################################

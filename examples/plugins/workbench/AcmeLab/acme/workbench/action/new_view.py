@@ -33,6 +33,3 @@ class NewViewAction(Action):
         self.window.add_view(view)
 
         return
-
-
-#### EOF ######################################################################

@@ -87,6 +87,3 @@ class ProjectFactory(HasTraits):
             project = None
 
         return project
-
-
-#### EOF #####################################################################

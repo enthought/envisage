@@ -59,6 +59,3 @@ class IPlugin(Interface):
           application.stop_plugin(plugin)
 
         """
-
-
-#### EOF ######################################################################

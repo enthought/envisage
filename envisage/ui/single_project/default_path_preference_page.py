@@ -45,6 +45,3 @@ class DefaultPathPreferencePage(PreferencesPage):
             tooltip="Path that will be used for storing projects",
         )
     )
-
-
-### EOF ------------------------------------------------------------------------

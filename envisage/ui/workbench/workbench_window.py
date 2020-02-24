@@ -266,6 +266,3 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
             self.unregister_service(service_id)
 
         return
-
-
-#### EOF ######################################################################

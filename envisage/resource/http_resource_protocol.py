@@ -39,6 +39,3 @@ class HTTPResourceProtocol(HasTraits):
             raise NoSuchResourceError("http:://" + address)
 
         return f
-
-
-#### EOF ######################################################################

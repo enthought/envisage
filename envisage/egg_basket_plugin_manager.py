@@ -167,6 +167,3 @@ class EggBasketPluginManager(PluginManager):
         for dirname in added:
             if dirname not in sys.path:
                 sys.path.append(dirname)
-
-
-#### EOF ######################################################################

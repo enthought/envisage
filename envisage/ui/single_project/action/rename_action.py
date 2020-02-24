@@ -70,5 +70,3 @@ class RenameAction(ProjectAction):
 ##                 self.enabled = True
 
 ##         return
-
-#### EOF ######################################################################

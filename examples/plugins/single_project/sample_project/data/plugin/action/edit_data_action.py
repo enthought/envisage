@@ -51,6 +51,3 @@ class EditDataAction(DataPluginAction):
             self.data_ui_service.edit_data(window, data)
 
         return
-
-
-#### EOF #####################################################################

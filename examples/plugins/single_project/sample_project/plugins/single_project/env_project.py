@@ -294,6 +294,3 @@ class EnvProjectAdapter(ITreeNodeAdapter):
             closed.
         """
         return False
-
-
-### EOF ######################################################################

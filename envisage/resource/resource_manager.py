@@ -61,6 +61,3 @@ class ResourceManager(HasTraits):
             raise ValueError("unknown protocol in URL %s" % url)
 
         return protocol.file(address)
-
-
-#### EOF ######################################################################

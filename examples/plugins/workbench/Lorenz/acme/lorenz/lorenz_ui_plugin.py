@@ -88,6 +88,3 @@ class LorenzUIPlugin(Plugin):
         )
 
         return plot2d_view
-
-
-#### EOF ######################################################################

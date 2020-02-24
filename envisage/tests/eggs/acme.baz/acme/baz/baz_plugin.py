@@ -46,6 +46,3 @@ class BazPlugin(Plugin):
         self.stopped = True
 
         return
-
-
-#### EOF ######################################################################

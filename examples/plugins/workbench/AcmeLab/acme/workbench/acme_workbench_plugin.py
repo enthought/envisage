@@ -70,6 +70,3 @@ class AcmeWorkbenchPlugin(Plugin):
         from acme.workbench.view.api import RedView, YellowView
 
         return [BlackView, BlueView, GreenView, RedView, YellowView]
-
-
-#### EOF ######################################################################

@@ -39,6 +39,3 @@ class UIServiceFactory(HasTraits):
         """ Create the UI service. """
 
         return UiService(*args, **kw)
-
-
-#### EOF ######################################################################

@@ -78,6 +78,3 @@ class IActionSet(Interface):
     #     ``Location(path='MenuBar/ASubMenu/AGroup')``
     #
     aliases = Dict(Str, Str)
-
-
-#### EOF ######################################################################

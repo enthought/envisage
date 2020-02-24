@@ -432,6 +432,3 @@ class AbstractActionManagerBuilder(HasTraits):
             menu_manager = item
 
         return menu_manager
-
-
-#### EOF ######################################################################
