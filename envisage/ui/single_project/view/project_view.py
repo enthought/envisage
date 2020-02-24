@@ -355,9 +355,6 @@ class ProjectView(HasTraits):
             self,
         )
 
-        suffix = (new and self.title_suffix) or ""
-        # self.name_suffix = suffix
-
         return
 
     def _on_project_name_changed(self, obj, trait_name, old, new):

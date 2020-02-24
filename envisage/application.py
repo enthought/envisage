@@ -10,7 +10,8 @@
 
 
 # Standard library imports.
-import logging, os
+import logging
+import os
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
@@ -54,8 +55,8 @@ class Application(HasTraits):
     home = Str
 
     # The name of a directory (created for you upon access) to which the
-    # application can read and write user-accessible data, e.g. projects created
-    # by the user.
+    # application can read and write user-accessible data, e.g. projects
+    # created by the user.
     user_data = Str
 
     # The root preferences node.

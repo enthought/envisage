@@ -20,7 +20,7 @@ from traits.testing.unittest_tools import unittest
 class SimplePlugin(Plugin):
     """ A simple plugin. """
 
-    #### 'SimplePlugin' protocol ###############################################
+    #### 'SimplePlugin' protocol ##############################################
 
     started = Bool(False)
     stopped = Bool(False)

@@ -10,7 +10,11 @@
 
 
 # Standard library imports.
-import logging, pkg_resources, re
+import logging
+import re
+
+# 3rd party imports.
+import pkg_resources
 
 # Enthought library imports.
 from traits.api import Instance, List, Str

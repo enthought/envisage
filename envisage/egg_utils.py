@@ -9,7 +9,7 @@
 """ Utility functions for working with Python Eggs. """
 
 
-# Standard library imports.
+# 3rd party imports.
 import pkg_resources
 
 # Enthought library imports.

@@ -102,7 +102,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             ActionSet(
                 actions=[
                     Action(class_name="Exit", path="MenuBar/File"),
-                    Action(class_name="Broken", path="MenuBar/File/Exit",),
+                    Action(class_name="Broken", path="MenuBar/File/Exit"),
                 ]
             ),
         ]
@@ -117,7 +117,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
     def test_single_top_level_menu_with_no_group(self):
         """ single top level menu with no group """
 
-        action_sets = [ActionSet(menus=[Menu(name="&File", path="MenuBar"),])]
+        action_sets = [ActionSet(menus=[Menu(name="&File", path="MenuBar")])]
 
         # Create a builder containing the action set.
         builder = DummyActionManagerBuilder(action_sets=action_sets)
@@ -137,7 +137,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         """ single top level group """
 
         action_sets = [
-            ActionSet(groups=[Group(id="FileMenuGroup", path="MenuBar"),])
+            ActionSet(groups=[Group(id="FileMenuGroup", path="MenuBar")])
         ]
 
         # Create a builder containing the action set.
@@ -185,12 +185,12 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         action_sets = [
             ActionSet(
-                menus=[Menu(name="&Edit", path="MenuBar", after="File"),],
+                menus=[Menu(name="&Edit", path="MenuBar", after="File")],
             ),
-            ActionSet(menus=[Menu(name="&File", path="MenuBar"),],),
-            ActionSet(menus=[Menu(name="&Help", path="MenuBar")],),
+            ActionSet(menus=[Menu(name="&File", path="MenuBar")]),
+            ActionSet(menus=[Menu(name="&Help", path="MenuBar")]),
             ActionSet(
-                menus=[Menu(name="&Tools", path="MenuBar", before="Help"),],
+                menus=[Menu(name="&Tools", path="MenuBar", before="Help")],
             ),
         ]
 
@@ -269,7 +269,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(name="&Help", path="MenuBar"),
                 ],
             ),
-            ActionSet(menus=[Menu(name="&New", path="MenuBar/File"),],),
+            ActionSet(menus=[Menu(name="&New", path="MenuBar/File")]),
         ]
 
         # Create a builder containing the action set.
@@ -384,7 +384,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                         path="MenuBar/File/New",
                         before="Folder",
                     ),
-                    Action(class_name="Folder", path="MenuBar/File/New",),
+                    Action(class_name="Folder", path="MenuBar/File/New"),
                 ]
             )
         ]

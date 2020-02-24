@@ -57,7 +57,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # We explicitly limit the plugins to be just the 'acme' test plugins
         # because otherwise the egg plugin manager will pick up *every* plugin
         # in *every* egg on sys.path!
-        include = ["acme\.foo", "acme\.bar"]
+        include = [r"acme\.foo", r"acme\.bar"]
 
         # Make sure that the plugin manager only includes those plugins.
         plugin_manager = EggPluginManager(include=include)
@@ -106,7 +106,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         include = ["acme.*"]
 
         # Now exclude all but 'acme.bar'...
-        exclude = ["acme\.foo", "acme\.baz"]
+        exclude = [r"acme\.foo", r"acme\.baz"]
 
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)
@@ -132,7 +132,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         include = ["acme.*"]
 
         # Now exclude every plugin that starts with 'acme.b'.
-        exclude = ["acme\.b.*"]
+        exclude = [r"acme\.b.*"]
 
         # Make sure that the plugin manager excludes the specified plugins.
         plugin_manager = EggPluginManager(include=include, exclude=exclude)

@@ -16,7 +16,7 @@ from traits.api import Bool
 class PearPlugin(Plugin):
     """ The 'Pear' plugin """
 
-    #### 'IPlugin' protocol ####################################################
+    #### 'IPlugin' protocol ###################################################
 
     # The plugin's unique identifier.
     id = "pear"
@@ -37,7 +37,7 @@ class PearPlugin(Plugin):
 
         return
 
-    #### 'BananaPlugin' protocol ###############################################
+    #### 'BananaPlugin' protocol ##############################################
 
     started = Bool(False)
     stopped = Bool(False)

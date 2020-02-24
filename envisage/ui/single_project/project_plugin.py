@@ -30,9 +30,11 @@ PKG = ".".join(__name__.split(".")[:-1])
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
+
 ###############################################################################
 # `ProjectPerspective` class.
 ###############################################################################
+
 class ProjectPerspective(Perspective):
     """
     A default perspective for the single_project plugin.
@@ -159,18 +161,10 @@ class ProjectPlugin(Plugin):
         Our service contributions.
 
         """
-
-        model_service = ServiceOffer(
-            protocol=IPROJECT_MODEL, factory=self._create_model_service
-        )
-
-        ui_service = ServiceOffer(
-            protocol=IPROJECT_UI, factory=self._create_ui_service
-        )
-
         # FIXME: Eventually we will register the services here intead
         # of in the plugin's start() method.
         # return [model_service, ui_service]
+
         return []
 
     # Ui service factories.

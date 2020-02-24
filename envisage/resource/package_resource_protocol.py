@@ -10,7 +10,10 @@
 
 
 # Standard library imports.
-import errno, pkg_resources
+import errno
+
+# 3rd party imports.
+import pkg_resources
 
 # Enthought library imports.
 from traits.api import HasTraits, provides
@@ -47,7 +50,7 @@ class PackageResourceProtocol(HasTraits):
         first_forward_slash = address.index("/")
 
         package = address[:first_forward_slash]
-        resource_name = address[first_forward_slash + 1 :]
+        resource_name = address[first_forward_slash + 1:]
 
         try:
             f = pkg_resources.resource_stream(package, resource_name)

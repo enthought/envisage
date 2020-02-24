@@ -61,7 +61,7 @@ def type_to_str(obj):
     Make a string out `obj`'s type robustly.
     """
     typ = type(obj)
-    if typ.__name__ == "vtkobject" or typ is types.InstanceType:
+    if typ.__name__ == "vtkobject":
         typ = obj.__class__
     if type.__module__ == "__builtin__":
         # Make things like int and str easier to read.
@@ -137,8 +137,8 @@ class NamespaceView(View):
         self.ui = self.edit_traits(parent=parent, kind="subpanel")
 
         self.shell_view = self.window.application.get_service(IPythonShell)
-        # 'shell_view' is an instance of the class PythonShellView from the module
-        # envisage.plugins.python_shell.view.python_shell_view.
+        # 'shell_view' is an instance of the class PythonShellView from the
+        # module envisage.plugins.python_shell.view.python_shell_view.
 
         return self.ui.control
 

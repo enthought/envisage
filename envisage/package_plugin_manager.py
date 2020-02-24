@@ -9,7 +9,8 @@
 """ A plugin manager that finds plugins in packages on the 'plugin_path'. """
 
 
-import logging, sys
+import logging
+import sys
 
 from apptools.io import File
 from traits.api import Directory, List, on_trait_change
@@ -40,7 +41,7 @@ class PackagePluginManager(PluginManager):
     # Plugin manifest.
     PLUGIN_MANIFEST = "plugins.py"
 
-    #### 'PackagePluginManager' protocol #######################################
+    #### 'PackagePluginManager' protocol ######################################
 
     # A list of directories that will be searched to find plugins.
     plugin_path = List(Directory)
