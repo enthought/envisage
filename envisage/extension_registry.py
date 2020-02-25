@@ -39,6 +39,20 @@ def _saferef(listener):
     lifetime of the object ``myobj``, rather than the lifetime
     of the temporary method ``myobj.mymethod``.
 
+    Parameters
+    ----------
+    listener : callable
+        Listener to return a weak reference for. This can be
+        either a plain function, a bound method, or some other
+        form of callable.
+
+    Returns
+    -------
+    weakref.ref
+        A weak reference to the listener. This will be a ``weakref.WeakMethod``
+        object if the listener is an instance of ``types.MethodType``, and a
+        plain ``weakref.ref`` otherwise.
+
     """
     if isinstance(listener, types.MethodType):
         return weakref.WeakMethod(listener)
