@@ -141,6 +141,24 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         # Make sure we can get them.
         self.assertEqual([1, 2, 3], registry.get_extensions("my.ep"))
 
+    ###########################################################################
+    # Private interface.
+    ###########################################################################
+
+    def _create_extension_point(self, id, trait_type=List, desc=""):
+        """ Create an extension point. """
+
+        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
+
+
+class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
+    def setUp(self):
+        """ Prepares the test fixture before each test method is called. """
+
+        # We do all of the testing via the application to make sure it offers
+        # the same interface!
+        self.registry = Application(extension_registry=ExtensionRegistry())
+
     def test_nonmethod_listener_lifetime(self):
 
         self.events = []
