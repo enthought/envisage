@@ -33,19 +33,20 @@ class ref(object):
 
     For any other ``object``, a normal ``weakref.ref`` is returned.
 
+    .. deprecated:: 5.0.0
+
     """
     _cache = weakref.WeakKeyDictionary()
 
     def __new__(cls, obj, callback=None):
         warnings.warn(
-            message = (
+            message=(
                 "safeweakref.ref is deprecated, and will be removed in a "
                 "future version of Envisage"
             ),
             category=DeprecationWarning,
             stacklevel=2,
         )
-
 
         if getattr(obj, "__self__", None) is not None:  # Bound method
             # Caching
