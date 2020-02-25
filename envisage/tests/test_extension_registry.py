@@ -151,109 +151,98 @@ class ExtensionRegistryTestCase(unittest.TestCase):
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
 
 
+def make_function_listener(events):
+    """
+    Return a simple non-method extension point listener.
+
+    The listener appends events to the ``events`` list.
+    """
+    def listener(registry, event):
+        events.append(event)
+
+    return listener
+
+
+class ListensToExtensionPoint:
+    """
+    Class with a method that can be used as an extension point listener.
+    """
+    def __init__(self, events):
+        self.events = events
+
+    def listener(self, registry, event):
+        self.events.append(event)
+
+
 class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
         # We do all of the testing via the application to make sure it offers
         # the same interface!
-        self.registry = Application(extension_registry=ExtensionRegistry())
+        registry = Application(extension_registry=ExtensionRegistry())
+        extension_point = ExtensionPoint(id="my.ep", trait_type=List())
+        registry.add_extension_point(extension_point)
+        self.registry = registry
+
+        # A place to record events that listeners receive.
+        self.events = []
 
     def test_nonmethod_listener_lifetime(self):
-
-        self.events = []
-
-        def func_listener(registry, event):
-            self.events.append(event)
-
-        registry = self.registry
-        registry.add_extension_point(self._create_extension_point("my.ep"))
-
-        registry.add_extension_point_listener(func_listener, "my.ep")
+        listener = make_function_listener(self.events)
+        self.registry.add_extension_point_listener(listener, "my.ep")
 
         with self.assertAppendsTo(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
         # The listener should not kept alive by the registry.
-        del func_listener
+        del listener
 
         with self.assertDoesNotModify(self.events):
-            registry.set_extensions("my.ep", [4, 5, 6, 7])
+            self.registry.set_extensions("my.ep", [4, 5, 6, 7])
 
     def test_nonmethod_listener_removal(self):
-        self.events = []
+        listener = make_function_listener(self.events)
 
-        def func_listener(registry, event):
-            self.events.append(event)
-
-        registry = self.registry
-        registry.add_extension_point(self._create_extension_point("my.ep"))
-        registry.add_extension_point_listener(func_listener, "my.ep")
+        self.registry.add_extension_point_listener(listener, "my.ep")
 
         with self.assertAppendsTo(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
-        registry.remove_extension_point_listener(func_listener, "my.ep")
+        self.registry.remove_extension_point_listener(listener, "my.ep")
 
         with self.assertDoesNotModify(self.events):
-            registry.set_extensions("my.ep", [4, 5, 6, 7])
+            self.registry.set_extensions("my.ep", [4, 5, 6, 7])
 
     def test_method_listener_lifetime(self):
-        self.events = []
-
-        class ListensToExtensionPoint:
-            def __init__(self, events):
-                self.events = events
-
-            def method_listener(self, registry, event):
-                self.events.append(event)
-
-        registry = self.registry
-        registry.add_extension_point(self._create_extension_point("my.ep"))
-
         obj = ListensToExtensionPoint(self.events)
-        registry.add_extension_point_listener(obj.method_listener, "my.ep")
+        self.registry.add_extension_point_listener(obj.listener, "my.ep")
 
         # At this point, the bound method 'obj.method_listener' no longer
         # exists; it's already been garbage collected. Nevertheless, the
         # listener should still fire.
         with self.assertAppendsTo(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
         # Removing the last reference to the object should deactivate
         # the listener.
         del obj
 
         with self.assertDoesNotModify(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
     def test_method_listener_removal(self):
-        self.events = []
-
-        class ListensToExtensionPoint:
-            def __init__(self, events):
-                self.events = events
-
-            def method_listener(self, registry, event):
-                self.events.append(event)
-
-        registry = self.registry
-        registry.add_extension_point(self._create_extension_point("my.ep"))
-
         obj = ListensToExtensionPoint(self.events)
-        registry.add_extension_point_listener(obj.method_listener, "my.ep")
+        self.registry.add_extension_point_listener(obj.listener, "my.ep")
 
         with self.assertAppendsTo(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
-        # Note that 'obj.method_listener' here is a different object from the
-        # previous 'obj.method_listener'. But it compares equal to the
-        # original, and that should be enough for removing the listener to
-        # work.
-        registry.remove_extension_point_listener(obj.method_listener, "my.ep")
+        # 'obj.method_listener' here is a different object from the previous
+        # 'obj.method_listener'. But it compares equal to the original, and
+        # that should be enough for removing the listener to work.
+        self.registry.remove_extension_point_listener(obj.listener, "my.ep")
 
         with self.assertDoesNotModify(self.events):
-            registry.set_extensions("my.ep", [1, 2, 3])
+            self.registry.set_extensions("my.ep", [1, 2, 3])
 
     # Helper assertions #######################################################
 
@@ -290,12 +279,3 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
             diff, 0,
             msg="Expected no new elements; got {}".format(diff),
         )
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    def _create_extension_point(self, id, trait_type=List, desc=""):
-        """ Create an extension point. """
-
-        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
