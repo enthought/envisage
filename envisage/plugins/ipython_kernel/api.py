@@ -6,7 +6,7 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .ipython_kernel_plugin import (
+from .ipython_kernel_plugin import (  # noqa: F401
     IPythonKernelPlugin,
     IPYTHON_KERNEL_PROTOCOL,
 )  # noqa

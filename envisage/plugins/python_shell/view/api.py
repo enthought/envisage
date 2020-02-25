@@ -6,4 +6,4 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .python_shell_view import PythonShellView
+from .python_shell_view import PythonShellView  # noqa: F401
