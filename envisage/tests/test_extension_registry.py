@@ -8,6 +8,7 @@
 # Thanks for using Enthought open source!
 """ Tests for the base extension registry. """
 
+import contextlib
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -139,6 +140,138 @@ class ExtensionRegistryTestCase(unittest.TestCase):
 
         # Make sure we can get them.
         self.assertEqual([1, 2, 3], registry.get_extensions("my.ep"))
+
+    def test_nonmethod_listener_lifetime(self):
+
+        self.events = []
+
+        def func_listener(registry, event):
+            self.events.append(event)
+
+        registry = self.registry
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        registry.add_extension_point_listener(func_listener, "my.ep")
+
+        with self.assertAppendsTo(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+        # The listener should not kept alive by the registry.
+        del func_listener
+
+        with self.assertDoesNotModify(self.events):
+            registry.set_extensions("my.ep", [4, 5, 6, 7])
+
+    def test_nonmethod_listener_removal(self):
+        self.events = []
+
+        def func_listener(registry, event):
+            self.events.append(event)
+
+        registry = self.registry
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point_listener(func_listener, "my.ep")
+
+        with self.assertAppendsTo(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+        registry.remove_extension_point_listener(func_listener, "my.ep")
+
+        with self.assertDoesNotModify(self.events):
+            registry.set_extensions("my.ep", [4, 5, 6, 7])
+
+    def test_method_listener_lifetime(self):
+        self.events = []
+
+        class ListensToExtensionPoint:
+            def __init__(self, events):
+                self.events = events
+
+            def method_listener(self, registry, event):
+                self.events.append(event)
+
+        registry = self.registry
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        obj = ListensToExtensionPoint(self.events)
+        registry.add_extension_point_listener(obj.method_listener, "my.ep")
+
+        # At this point, the bound method 'obj.method_listener' no longer
+        # exists; it's already been garbage collected. Nevertheless, the
+        # listener should still fire.
+        with self.assertAppendsTo(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+        # Removing the last reference to the object should deactivate
+        # the listener.
+        del obj
+
+        with self.assertDoesNotModify(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+    def test_method_listener_removal(self):
+        self.events = []
+
+        class ListensToExtensionPoint:
+            def __init__(self, events):
+                self.events = events
+
+            def method_listener(self, registry, event):
+                self.events.append(event)
+
+        registry = self.registry
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        obj = ListensToExtensionPoint(self.events)
+        registry.add_extension_point_listener(obj.method_listener, "my.ep")
+
+        with self.assertAppendsTo(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+        # Note that 'obj.method_listener' here is a different object from the
+        # previous 'obj.method_listener'. But it compares equal to the
+        # original, and that should be enough for removing the listener to
+        # work.
+        registry.remove_extension_point_listener(obj.method_listener, "my.ep")
+
+        with self.assertDoesNotModify(self.events):
+            registry.set_extensions("my.ep", [1, 2, 3])
+
+    # Helper assertions #######################################################
+
+    @contextlib.contextmanager
+    def assertAppendsTo(self, some_list):
+        """
+        Assert that exactly one element is appended to a list.
+
+        Return a context manager that checks that the code in the corresponding
+        with block appends exactly one element to the given list.
+        """
+        old_length = len(some_list)
+        yield
+        new_length = len(some_list)
+        diff = new_length - old_length
+        self.assertEqual(
+            diff, 1,
+            msg="Expected exactly one new element; got {}".format(diff),
+        )
+
+    @contextlib.contextmanager
+    def assertDoesNotModify(self, some_list):
+        """
+        Assert that a list is unchanged.
+
+        Return a context manager that checks that the code in the corresponding
+        with block does not modify the length of the given list.
+        """
+        old_length = len(some_list)
+        yield
+        new_length = len(some_list)
+        diff = new_length - old_length
+        self.assertEqual(
+            diff, 0,
+            msg="Expected no new elements; got {}".format(diff),
+        )
 
     ###########################################################################
     # Private interface.
