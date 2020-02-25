@@ -13,15 +13,6 @@
 import logging
 
 # Enthought library imports.
-#
-# fixme: The ordering of these imports is critical. We don't use traits UI in
-# this module, but it must be imported *before* any 'HasTraits' class whose
-# instances might want to have 'edit_traits' called on them.
-#
-# fixme: Just importing the package is enought (see above).
-import traitsui
-
-# Enthought library imports.
 from envisage.api import Application
 from pyface.api import AboutDialog, Dialog, GUI, ImageResource
 from pyface.api import SplashScreen
