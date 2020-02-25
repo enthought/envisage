@@ -83,6 +83,8 @@ class ExtensionRegistry(HasTraits):
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.append(_saferef(listener))
 
+        return
+
     def add_extension_point(self, extension_point):
         """ Add an extension point. """
 
@@ -113,6 +115,8 @@ class ExtensionRegistry(HasTraits):
 
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.remove(_saferef(listener))
+
+        return
 
     def remove_extension_point(self, extension_point_id):
         """ Remove an extension point. """
