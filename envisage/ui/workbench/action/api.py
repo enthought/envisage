@@ -6,6 +6,6 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .about_action import AboutAction  # noqa: F401
-from .edit_preferences_action import EditPreferencesAction  # noqa: F401
-from .exit_action import ExitAction  # noqa: F401
+from .about_action import AboutAction
+from .edit_preferences_action import EditPreferencesAction
+from .exit_action import ExitAction

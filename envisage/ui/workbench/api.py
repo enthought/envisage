@@ -9,7 +9,7 @@
 """ Envisage package Copyright 2003, 2004, 2005 Enthought, Inc. """
 
 
-from .workbench import Workbench  # noqa: F401
-from .workbench_action_set import WorkbenchActionSet  # noqa: F401
-from .workbench_application import WorkbenchApplication  # noqa: F401
-from .workbench_window import WorkbenchWindow  # noqa: F401
+from .workbench import Workbench
+from .workbench_action_set import WorkbenchActionSet
+from .workbench_application import WorkbenchApplication
+from .workbench_window import WorkbenchWindow

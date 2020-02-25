@@ -6,12 +6,12 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .i_action_set import IActionSet  # noqa: F401
-from .i_action_manager_builder import IActionManagerBuilder  # noqa: F401
+from .i_action_set import IActionSet
+from .i_action_manager_builder import IActionManagerBuilder
 
-from .abstract_action_manager_builder import AbstractActionManagerBuilder  # noqa: F401,E501
-from .action import Action  # noqa: F401
-from .action_set import ActionSet  # noqa: F401
-from .group import Group  # noqa: F401
-from .menu import Menu  # noqa: F401
-from .tool_bar import ToolBar  # noqa: F401
+from .abstract_action_manager_builder import AbstractActionManagerBuilder
+from .action import Action
+from .action_set import ActionSet
+from .group import Group
+from .menu import Menu
+from .tool_bar import ToolBar

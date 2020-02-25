@@ -6,9 +6,9 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .preferences_category import PreferencesCategory  # noqa: F401
-from .preferences_pane import PreferencesPane  # noqa: F401
-from .task_extension import TaskExtension  # noqa: F401
-from .task_factory import TaskFactory  # noqa: F401
-from .task_window import TaskWindow  # noqa: F401
-from .tasks_application import TasksApplication  # noqa: F401
+from .preferences_category import PreferencesCategory
+from .preferences_pane import PreferencesPane
+from .task_extension import TaskExtension
+from .task_factory import TaskFactory
+from .task_window import TaskWindow
+from .tasks_application import TasksApplication

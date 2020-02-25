@@ -6,8 +6,8 @@
 # under the conditions described in the aforementioned license.  The license
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
-from .task_window_launch_group import (  # noqa: F401
+from .task_window_launch_group import (
     TaskWindowLaunchAction,
     TaskWindowLaunchGroup,
 )
-from .task_window_toggle_group import TaskWindowToggleGroup  # noqa: F401
+from .task_window_toggle_group import TaskWindowToggleGroup
