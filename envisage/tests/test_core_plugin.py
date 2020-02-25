@@ -8,7 +8,7 @@
 # Thanks for using Enthought open source!
 """ Tests for the core plugin. """
 
-# Standard library imports
+# Standard library imports.
 import unittest
 
 # Major package imports.

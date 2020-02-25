@@ -8,7 +8,7 @@
 # Thanks for using Enthought open source!
 """ Tests for the Egg plugin manager. """
 
-# Standard library imports
+# Standard library imports.
 import unittest
 
 # Enthought library imports.

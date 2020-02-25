@@ -8,7 +8,7 @@
 # Thanks for using Enthought open source!
 """ Tests for the base extension registry. """
 
-# Standard library imports
+# Standard library imports.
 import unittest
 
 # Enthought library imports.
