@@ -8,10 +8,10 @@
 # Thanks for using Enthought open source!
 """ Tests for class load hooks. """
 
+import unittest
 
 from envisage.api import ClassLoadHook
 from traits.api import HasTraits
-from traits.testing.unittest_tools import unittest
 
 
 # This module's package.

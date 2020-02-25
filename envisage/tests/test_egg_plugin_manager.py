@@ -8,13 +8,11 @@
 # Thanks for using Enthought open source!
 """ Tests for the Egg plugin manager. """
 
-
 # Enthought library imports.
 from envisage.api import EggPluginManager
 
 # Local imports.
 from .test_egg_based import EggBasedTestCase
-from traits.testing.unittest_tools import unittest
 
 
 class EggPluginManagerTestCase(EggBasedTestCase):
