@@ -24,7 +24,15 @@ import weakref
 
 class ref(object):
     """An implementation of weak references that works for bound methods and
-    caches them."""
+    caches them.
+
+    If ``object`` is a bound method, returns a ``weakref.WeakMethod`` for that
+    method. This ensures that the method is kept alive for the lifetime of the
+    object that it's bound to.
+
+    For any other ``object``, a normal ``weakref.ref`` is returned.
+
+    """
 
     _cache = weakref.WeakKeyDictionary()
 
