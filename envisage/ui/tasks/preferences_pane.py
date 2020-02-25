@@ -7,8 +7,8 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from apptools.preferences.api import IPreferences, PreferencesHelper
-from traits.api import Callable, Dict, HasTraits, Instance, Str
+from apptools.preferences.api import PreferencesHelper
+from traits.api import Callable, Instance, Str
 from traitsui.api import Controller
 
 
