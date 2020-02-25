@@ -186,12 +186,25 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         # A place to record events that listeners receive.
         self.events = []
 
-    def test_nonmethod_listener_lifetime(self):
+    def test_add_nonmethod_listener(self):
         listener = make_function_listener(self.events)
         self.registry.add_extension_point_listener(listener, "my.ep")
 
         with self.assertAppendsTo(self.events):
             self.registry.set_extensions("my.ep", [1, 2, 3])
+
+    def test_remove_nonmethod_listener(self):
+        listener = make_function_listener(self.events)
+
+        self.registry.add_extension_point_listener(listener, "my.ep")
+        self.registry.remove_extension_point_listener(listener, "my.ep")
+
+        with self.assertDoesNotModify(self.events):
+            self.registry.set_extensions("my.ep", [4, 5, 6, 7])
+
+    def test_nonmethod_listener_lifetime(self):
+        listener = make_function_listener(self.events)
+        self.registry.add_extension_point_listener(listener, "my.ep")
 
         # The listener should not kept alive by the registry.
         del listener
@@ -199,20 +212,7 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         with self.assertDoesNotModify(self.events):
             self.registry.set_extensions("my.ep", [4, 5, 6, 7])
 
-    def test_nonmethod_listener_removal(self):
-        listener = make_function_listener(self.events)
-
-        self.registry.add_extension_point_listener(listener, "my.ep")
-
-        with self.assertAppendsTo(self.events):
-            self.registry.set_extensions("my.ep", [1, 2, 3])
-
-        self.registry.remove_extension_point_listener(listener, "my.ep")
-
-        with self.assertDoesNotModify(self.events):
-            self.registry.set_extensions("my.ep", [4, 5, 6, 7])
-
-    def test_method_listener_lifetime(self):
+    def test_add_method_listener(self):
         obj = ListensToExtensionPoint(self.events)
         self.registry.add_extension_point_listener(obj.listener, "my.ep")
 
@@ -222,24 +222,24 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         with self.assertAppendsTo(self.events):
             self.registry.set_extensions("my.ep", [1, 2, 3])
 
-        # Removing the last reference to the object should deactivate
-        # the listener.
-        del obj
+    def test_remove_method_listener(self):
+        obj = ListensToExtensionPoint(self.events)
+        # The two occurences of `obj.listener` below refer to different
+        # objects. Nevertheless, they _compare_ equal, so the removal
+        # should still be effective.
+        self.registry.add_extension_point_listener(obj.listener, "my.ep")
+        self.registry.remove_extension_point_listener(obj.listener, "my.ep")
 
         with self.assertDoesNotModify(self.events):
             self.registry.set_extensions("my.ep", [1, 2, 3])
 
-    def test_method_listener_removal(self):
+    def test_method_listener_lifetime(self):
         obj = ListensToExtensionPoint(self.events)
         self.registry.add_extension_point_listener(obj.listener, "my.ep")
 
-        with self.assertAppendsTo(self.events):
-            self.registry.set_extensions("my.ep", [1, 2, 3])
-
-        # 'obj.listener' here is a different object from the previous
-        # 'obj.listener'. But it compares equal to the original, and that
-        # should be enough for removing the listener to work.
-        self.registry.remove_extension_point_listener(obj.listener, "my.ep")
+        # Removing the last reference to the object should deactivate
+        # the listener.
+        del obj
 
         with self.assertDoesNotModify(self.events):
             self.registry.set_extensions("my.ep", [1, 2, 3])
