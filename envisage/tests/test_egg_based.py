@@ -10,10 +10,9 @@
 
 
 from os.path import dirname, join
+import unittest
 
 import pkg_resources
-
-from traits.testing.unittest_tools import unittest
 
 
 class EggBasedTestCase(unittest.TestCase):

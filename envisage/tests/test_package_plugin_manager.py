@@ -10,9 +10,9 @@
 
 
 from os.path import dirname, join
+import unittest
 
 from envisage.package_plugin_manager import PackagePluginManager
-from traits.testing.unittest_tools import unittest
 
 
 class PackagePluginManagerTestCase(unittest.TestCase):
