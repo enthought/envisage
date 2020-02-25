@@ -12,7 +12,6 @@
 # Standard library imports.
 import os
 import shutil
-import tempfile
 import unittest
 
 # Enthought library imports.

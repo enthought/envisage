@@ -8,8 +8,6 @@
 # Thanks for using Enthought open source!
 """ A view containing the contents of a Python shell namespace. """
 
-import types
-
 # Enthought library imports.
 
 from envisage.plugins.python_shell.api import IPythonShell
