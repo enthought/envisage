@@ -8,11 +8,12 @@
 # Thanks for using Enthought open source!
 """ Tests for the 'Service' trait type. """
 
+# Standard library imports.
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, Plugin, Service
 from traits.api import HasTraits, Instance
-from traits.testing.unittest_tools import unittest
 
 
 class TestApplication(Application):

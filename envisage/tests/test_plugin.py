@@ -11,6 +11,7 @@
 
 # Standard library imports.
 from os.path import exists, join
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -18,7 +19,6 @@ from envisage.api import IPluginActivator, Plugin, contributes_to
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
 from traits.api import HasTraits, Instance, Int, Interface, List
 from traits.api import provides
-from traits.testing.unittest_tools import unittest
 
 
 def listener(obj, trait_name, old, new):

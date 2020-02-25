@@ -8,10 +8,11 @@
 # Thanks for using Enthought open source!
 """ Tests for the import manager. """
 
+# Standard library imports.
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ImportManager
-from traits.testing.unittest_tools import unittest
 
 
 class ImportManagerTestCase(unittest.TestCase):
