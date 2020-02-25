@@ -216,7 +216,7 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         obj = ListensToExtensionPoint(self.events)
         self.registry.add_extension_point_listener(obj.listener, "my.ep")
 
-        # At this point, the bound method 'obj.method_listener' no longer
+        # At this point, the bound method 'obj.listener' no longer
         # exists; it's already been garbage collected. Nevertheless, the
         # listener should still fire.
         with self.assertAppendsTo(self.events):
@@ -236,9 +236,9 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         with self.assertAppendsTo(self.events):
             self.registry.set_extensions("my.ep", [1, 2, 3])
 
-        # 'obj.method_listener' here is a different object from the previous
-        # 'obj.method_listener'. But it compares equal to the original, and
-        # that should be enough for removing the listener to work.
+        # 'obj.listener' here is a different object from the previous
+        # 'obj.listener'. But it compares equal to the original, and that
+        # should be enough for removing the listener to work.
         self.registry.remove_extension_point_listener(obj.listener, "my.ep")
 
         with self.assertDoesNotModify(self.events):
