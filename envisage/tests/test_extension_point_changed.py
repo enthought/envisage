@@ -8,9 +8,8 @@
 # Thanks for using Enthought open source!
 """ Tests for the events fired when extension points are changed. """
 
-
-# Enthought library imports.
-from traits.testing.unittest_tools import unittest
+# Standard library imports.
+import unittest
 
 # Local imports.
 from envisage.tests.test_application import (

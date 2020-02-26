@@ -9,10 +9,12 @@
 """ Tests for the plugin manager. """
 
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from envisage.api import Plugin, PluginManager
 from traits.api import Bool
-from traits.testing.unittest_tools import unittest
 
 
 class SimplePlugin(Plugin):

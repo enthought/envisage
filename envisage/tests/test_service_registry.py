@@ -11,11 +11,11 @@
 
 # Standard library imports.
 import sys
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ServiceRegistry, NoSuchServiceError
 from traits.api import HasTraits, Int, Interface, provides
-from traits.testing.unittest_tools import unittest
 
 
 # This module's package.

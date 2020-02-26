@@ -12,7 +12,9 @@
 # Enthought library imports.
 from envisage.api import Plugin
 from traits.api import Bool
-import busted_module
+
+# Deliberate bad import
+import busted_module  # noqa: F401
 
 
 class BadPlugin(Plugin):

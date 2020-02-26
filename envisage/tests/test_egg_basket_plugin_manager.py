@@ -13,11 +13,11 @@ from os.path import basename, dirname, join
 import shutil
 import tempfile
 import sys
+import unittest
 
 import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
-from traits.testing.unittest_tools import unittest
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):

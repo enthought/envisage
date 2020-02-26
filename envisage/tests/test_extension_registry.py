@@ -8,13 +8,14 @@
 # Thanks for using Enthought open source!
 """ Tests for the base extension registry. """
 
+# Standard library imports.
 import contextlib
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
 from envisage.api import ExtensionRegistry, UnknownExtensionPoint
 from traits.api import List
-from traits.testing.unittest_tools import unittest
 
 
 class ExtensionRegistryTestCase(unittest.TestCase):

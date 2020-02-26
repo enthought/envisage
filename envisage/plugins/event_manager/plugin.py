@@ -16,7 +16,7 @@ of the application to the created event manager.
 
 # Enthought library imports.
 from envisage.api import Plugin, ServiceOffer
-from traits.api import List, Any
+from traits.api import List
 
 
 class EventManagerPlugin(Plugin):
