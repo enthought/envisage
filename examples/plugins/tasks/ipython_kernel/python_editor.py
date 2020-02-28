@@ -142,8 +142,8 @@ class PythonEditor(Editor):
 
 
 class PythonEditorEventFilter(QtCore.QObject):
-    """ A thin wrapper around the advanced code widget to handle the key_pressed
-        Event.
+    """ A thin wrapper around the advanced code widget to handle the
+    key_pressed Event.
     """
 
     def __init__(self, editor, parent):

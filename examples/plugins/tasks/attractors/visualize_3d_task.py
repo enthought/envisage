@@ -26,7 +26,8 @@ class Visualize3dTask(Task):
 
     #### 'Visualize3dTask' interface ##########################################
 
-    # The attractor model that is currently active (visible in the center pane).
+    # The attractor model that is currently active (visible in the center
+    # pane).
     active_model = Any
 
     # The list of available attractor models.

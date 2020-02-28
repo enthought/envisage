@@ -430,10 +430,7 @@ def docs(edm, runtime, toolkit, environment):
     execute(commands, parameters)
 
 
-# ----------------------------------------------------------------------------
 # Utility routines
-# ----------------------------------------------------------------------------
-
 
 def get_parameters(edm, runtime, toolkit, environment):
     """ Set up parameters dictionary for format() substitution """
