@@ -27,7 +27,8 @@ SERVICE_OFFERS = "envisage.service_offers"
 IPYTHON_NAMESPACE = "ipython_plugin.namespace"
 
 # Protocol for the contributed service offer.
-IPYTHON_KERNEL_PROTOCOL = "envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel"  # noqa: E501
+IPYTHON_KERNEL_PROTOCOL = (
+    "envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel")
 
 logger = logging.getLogger(__name__)
 
