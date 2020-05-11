@@ -54,7 +54,7 @@ using::
 
     python etstool.py test_all
 
-Currently supported runtime values are ``3.5`` and ``3.6``, and
+The only currently supported runtime value is ``3.6``, and
 currently supported toolkits are ``pyside``, ``pyside2``, ``pyqt``, ``pyqt5``,
 ``wx`` and ``null``. Not all combinations of toolkits and runtimes will work,
 but the tasks will fail with a clear error if that is the case.
@@ -87,7 +87,7 @@ from contextlib import contextmanager
 import click
 
 # Python runtime versions supported by this tool.
-available_runtimes = ["3.5", "3.6"]
+available_runtimes = ["3.6"]
 
 # Python runtime used by default.
 default_runtime = "3.6"
@@ -99,7 +99,6 @@ available_toolkits = ["pyside", "pyside2", "pyqt", "pyqt5", "wx", "null"]
 default_toolkit = "null"
 
 supported_combinations = {
-    "3.5": {"pyside2", "pyqt", "pyqt5", "null"},
     "3.6": {"pyside2", "pyqt", "pyqt5", "null"},
 }
 
