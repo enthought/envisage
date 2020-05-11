@@ -42,3 +42,7 @@ after_success:
   - edm run -- coverage combine
   - edm run -- pip install codecov
   - edm run -- codecov
+
+notifications:
+  slack:
+    secure: XOXbiCa2wjxwYpRPPfib863y1jE2PiDBtsCZQUDPh3IrJhHAAGEPgcICbMYPkgKz3+6rqVvfwwj1Xictw4wI8dtvcqROz5iZek/14V3tDhPAp0iHBEvOibSFZP7VK6tZgVp7uTSc1p4bJd2GEX0yKMyaOdXCYQf42y6YYV97xNA=
