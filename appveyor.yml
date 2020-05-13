@@ -7,7 +7,7 @@ environment:
 
   matrix:
     - RUNTIME: '3.6'
-      TOOLKITS: "null pyqt"
+      TOOLKITS: "null pyqt5 pyside2"
 
 cache:
   - C:\Users\appveyor\.cache -> appveyor-clean-cache.txt

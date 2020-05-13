@@ -55,7 +55,7 @@ using::
     python etstool.py test_all
 
 The only currently supported runtime value is ``3.6``, and
-currently supported toolkits are ``pyside``, ``pyside2``, ``pyqt``, ``pyqt5``,
+currently supported toolkits are ``pyside2``, ``pyqt5``,
 ``wx`` and ``null``. Not all combinations of toolkits and runtimes will work,
 but the tasks will fail with a clear error if that is the case.
 
@@ -93,13 +93,13 @@ available_runtimes = ["3.6"]
 default_runtime = "3.6"
 
 # Toolkits supported by this tool.
-available_toolkits = ["pyside", "pyside2", "pyqt", "pyqt5", "wx", "null"]
+available_toolkits = ["pyside2", "pyqt5", "wx", "null"]
 
 # Toolkit used by default.
 default_toolkit = "null"
 
 supported_combinations = {
-    "3.6": {"pyside2", "pyqt", "pyqt5", "null"},
+    "3.6": {"pyside2", "pyqt5", "null"},
 }
 
 dependencies = {
@@ -122,12 +122,10 @@ source_dependencies = {
 }
 
 toolkit_dependencies = {
-    "pyside": {"pyside"},
-    # XXX once pyside2 is available in EDM, we will want it here
+    # XXX once pyside2 is available in EDM, we will want it here. For now
+    # we do a pip install.
     "pyside2": set(),
-    "pyqt": {"pyqt<4.12"},  # FIXME: build of 4.12-1 appears to be bad
-    # XXX once pyqt5 is available in EDM, we will want it here
-    "pyqt5": set(),
+    "pyqt5": {"pyqt5"},
     # FIXME: wxpython 3.0.2.0-6 is broken of OS-X
     "wx": {"wxpython<3.0.2.0-6"},
     "null": set(),
@@ -136,9 +134,7 @@ toolkit_dependencies = {
 runtime_dependencies = {}
 
 environment_vars = {
-    "pyside": {"ETS_TOOLKIT": "qt4", "QT_API": "pyside"},
     "pyside2": {"ETS_TOOLKIT": "qt4", "QT_API": "pyside2"},
-    "pyqt": {"ETS_TOOLKIT": "qt4", "QT_API": "pyqt"},
     "pyqt5": {"ETS_TOOLKIT": "qt4", "QT_API": "pyqt5"},
     "wx": {"ETS_TOOLKIT": "wx"},
     "null": {"ETS_TOOLKIT": "null"},
@@ -221,14 +217,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
             "pip install -r ci-src-requirements.txt --no-dependencies"
         ),
     ]
-    # pip install pyqt5 and pyside2, because we don't have them in EDM yet
-    if toolkit == "pyqt5":
+    # pip install pyside2, because we don't have it in EDM yet
+    if toolkit == "pyside2":
         commands.append(
-            "{edm} run -e {environment} -- pip install pyqt5==5.9.2"
-        )
-    elif toolkit == "pyside2":
-        commands.append(
-            "{edm} run -e {environment} -- pip install pyside2==5.11"
+            "{edm} run -e {environment} -- pip install pyside2"
         )
 
     if editable:
