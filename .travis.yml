@@ -12,6 +12,7 @@ addons:
     - libxcb-keysyms1
     - libxcb-randr0
     - libxcb-render-util0
+    - libxcb-xinerama0
 
 env:
   global:
