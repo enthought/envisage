@@ -8,7 +8,7 @@ addons:
     packages:
     - libxkbcommon-x11-0
     - libxcb-icccm4
-    - libxcb-image
+    - libxcb-image0
 
 env:
   global:
