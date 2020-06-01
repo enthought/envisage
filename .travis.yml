@@ -7,11 +7,18 @@ addons:
   apt:
     packages:
     - libxkbcommon-x11-0
+    - libxcb-icccm4
+    - libxcb-image0
+    - libxcb-keysyms1
+    - libxcb-randr0
+    - libxcb-render-util0
+    - libxcb-xinerama0
 
 env:
   global:
     - INSTALL_EDM_VERSION="2.0.0"
       PYTHONUNBUFFERED="1"
+      QT_DEBUG_PLUGINS="1"
 
 matrix:
   include:
