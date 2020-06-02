@@ -25,7 +25,3 @@ install:
 test_script:
   - appveyor-run.cmd flake8 %runtime% %toolkits%
   - appveyor-run.cmd test %runtime% %toolkits%
-on_success:
-  - edm run -- coverage combine
-  - edm run -- pip install codecov
-  - edm run -- codecov
