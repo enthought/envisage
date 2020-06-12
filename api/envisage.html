@@ -13,9 +13,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.9.1',
+        VERSION:     '4.9.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
     </script>
@@ -83,7 +85,7 @@
           <div class="span9">
             
         <div class="bodywrapper">
-          <div class="body" id="spc-section-body">
+          <div class="body" id="spc-section-body" role="main">
             
   <div class="section" id="envisage-package">
 <h1>envisage package<a class="headerlink" href="#envisage-package" title="Permalink to this headline">¶</a></h1>
@@ -728,7 +730,7 @@ import and instantiate them.</p>
 <dl class="class">
 <dt id="envisage.extension_point.ExtensionPoint">
 <em class="property">class </em><code class="sig-prename descclassname">envisage.extension_point.</code><code class="sig-name descname">ExtensionPoint</code><span class="sig-paren">(</span><em class="sig-param">trait_type=&lt;class 'traits.trait_types.List'&gt;</em>, <em class="sig-param">id=None</em>, <em class="sig-param">**metadata</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_handlers.TraitType</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_type.TraitType</span></code></p>
 <p>A trait type used to declare and access extension points.</p>
 <p>Note that this is a trait <em>type</em> and hence does <em>NOT</em> have traits itself
 (i.e. it does <em>not</em> inherit from ‘HasTraits’).</p>
@@ -835,7 +837,7 @@ react accordingly.</p>
 <dl class="class">
 <dt id="envisage.extension_point_changed_event.ExtensionPointChangedEvent">
 <em class="property">class </em><code class="sig-prename descclassname">envisage.extension_point_changed_event.</code><code class="sig-name descname">ExtensionPointChangedEvent</code><span class="sig-paren">(</span><em class="sig-param">extension_point_id=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point_changed_event.html#ExtensionPointChangedEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point_changed_event.ExtensionPointChangedEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_handlers.TraitListEvent</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_list_object.TraitListEvent</span></code></p>
 <p>An event fired when an extension point’s extensions have changed.</p>
 </dd></dl>
 
@@ -2013,7 +2015,7 @@ otherwise return None</p>
 <dl class="class">
 <dt id="envisage.service.Service">
 <em class="property">class </em><code class="sig-prename descclassname">envisage.service.</code><code class="sig-name descname">Service</code><span class="sig-paren">(</span><em class="sig-param">protocol=None</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em>, <em class="sig-param">**metadata</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service.Service" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_handlers.TraitType</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_type.TraitType</span></code></p>
 <p>A trait type used to access services.</p>
 <p>Note that this is a trait <em>type</em> and hence does <em>NOT</em> have traits itself
 (i.e. it does <em>not</em> inherit from ‘HasTraits’).</p>
@@ -2263,7 +2265,7 @@ module can safely live in the Envisage core without twisted being installed.</p>
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Feb 14, 2020.
+      Last updated on Jun 12, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.

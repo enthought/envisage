@@ -13,9 +13,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '4.9.1',
+        VERSION:     '4.9.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
     </script>
@@ -72,27 +74,18 @@
           <div class="span9">
             
         <div class="bodywrapper">
-          <div class="body" id="spc-section-body">
+          <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for traits.traits</h1><div class="highlight"><pre>
-<span></span><span class="c1"># ------------------------------------------------------------------------------</span>
+<span></span><span class="c1"># (C) Copyright 2005-2020 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
-<span class="c1">#  Copyright (c) 2005, Enthought, Inc.</span>
-<span class="c1">#  All rights reserved.</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
-<span class="c1">#  This software is provided without warranty under the terms of the BSD</span>
-<span class="c1">#  license included in enthought/LICENSE.txt and may be redistributed only</span>
-<span class="c1">#  under the conditions described in the aforementioned license.  The license</span>
-<span class="c1">#  is also available online at http://www.enthought.com/licenses/BSD.txt</span>
-<span class="c1">#</span>
-<span class="c1">#  Thanks for using Enthought open source!</span>
-<span class="c1">#</span>
-<span class="c1">#  Author:        David C. Morrill</span>
-<span class="c1">#  Original Date: 06/21/2002</span>
-<span class="c1">#</span>
-<span class="c1">#  Rewritten as a C-based type extension: 06/21/2004</span>
-<span class="c1">#</span>
-<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Defines the &#39;core&#39; traits for the Traits package. A trait is a type definition</span>
@@ -119,33 +112,33 @@
 <span class="sd">    feature.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Imports:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
-
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">FunctionType</span><span class="p">,</span> <span class="n">MethodType</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">six</span>
-
-<span class="n">NoneType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># Python 3&#39;s types does not include NoneType</span>
-
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">trait_handlers</span>
-<span class="kn">from</span> <span class="nn">.ctraits</span> <span class="k">import</span> <span class="n">cTrait</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">ComparisonMode</span><span class="p">,</span>
+    <span class="n">DefaultValue</span><span class="p">,</span>
+    <span class="n">TraitKind</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.ctrait</span> <span class="k">import</span> <span class="n">CTrait</span>
 <span class="kn">from</span> <span class="nn">.trait_errors</span> <span class="k">import</span> <span class="n">TraitError</span>
 <span class="kn">from</span> <span class="nn">.trait_base</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">SequenceTypes</span><span class="p">,</span>
-    <span class="n">Self</span><span class="p">,</span>
-    <span class="n">Undefined</span><span class="p">,</span>
-    <span class="n">Missing</span><span class="p">,</span>
     <span class="n">TypeTypes</span><span class="p">,</span>
     <span class="n">add_article</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.trait_converters</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">trait_cast</span><span class="p">,</span>
+    <span class="n">check_trait</span> <span class="k">as</span> <span class="n">try_trait_cast</span><span class="p">,</span>
+<span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">.trait_handler</span> <span class="k">import</span> <span class="n">TraitHandler</span>
+<span class="kn">from</span> <span class="nn">.trait_type</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">_infer_default_value_type</span><span class="p">,</span>
+    <span class="n">_read_only</span><span class="p">,</span>
+    <span class="n">_write_only</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.trait_handlers</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">TraitHandler</span><span class="p">,</span>
     <span class="n">TraitInstance</span><span class="p">,</span>
     <span class="n">TraitFunction</span><span class="p">,</span>
     <span class="n">TraitCoerceType</span><span class="p">,</span>
@@ -153,495 +146,23 @@
     <span class="n">TraitEnum</span><span class="p">,</span>
     <span class="n">TraitCompound</span><span class="p">,</span>
     <span class="n">TraitMap</span><span class="p">,</span>
-    <span class="n">TraitString</span><span class="p">,</span>
-    <span class="n">ThisClass</span><span class="p">,</span>
-    <span class="n">TraitType</span><span class="p">,</span>
-    <span class="n">_arg_count</span><span class="p">,</span>
-    <span class="n">_read_only</span><span class="p">,</span>
-    <span class="n">_write_only</span><span class="p">,</span>
     <span class="n">_undefined_get</span><span class="p">,</span>
     <span class="n">_undefined_set</span><span class="p">,</span>
-    <span class="n">UNSPECIFIED_DEFAULT_VALUE</span><span class="p">,</span>
-    <span class="n">CALLABLE_AND_ARGS_DEFAULT_VALUE</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.trait_factory</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">TraitFactory</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.util.deprecated</span> <span class="k">import</span> <span class="n">deprecated</span>
 
+<span class="c1"># Constants</span>
 
-<span class="kn">from</span> <span class="nn">._py2to3</span> <span class="k">import</span> <span class="n">LONG_TYPE</span>
+<span class="n">NoneType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># Python 3&#39;s types does not include NoneType</span>
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Constants:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="c1"># Mapping from &#39;ctrait&#39; default value types to a string representation:</span>
-<span class="n">KindMap</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;self&quot;</span><span class="p">,</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;dict&quot;</span><span class="p">,</span>
-    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;dict&quot;</span><span class="p">,</span>
-    <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;factory&quot;</span><span class="p">,</span>
-    <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Editor factory functions:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="n">PasswordEditor</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">MultilineTextEditors</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">BytesEditors</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">SourceCodeEditor</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">HTMLTextEditor</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">PythonShellEditor</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">DateEditor</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">TimeEditor</span> <span class="o">=</span> <span class="kc">None</span>
-
-
-<span class="k">def</span> <span class="nf">password_editor</span><span class="p">(</span><span class="n">auto_set</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">enter_set</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns an editor for passwords.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">PasswordEditor</span>
-
-    <span class="k">if</span> <span class="n">PasswordEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TextEditor</span>
-
-        <span class="n">PasswordEditor</span> <span class="o">=</span> <span class="n">TextEditor</span><span class="p">(</span>
-            <span class="n">password</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">auto_set</span><span class="o">=</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="o">=</span><span class="n">enter_set</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">PasswordEditor</span>
-
-
-<span class="k">def</span> <span class="nf">multi_line_text_editor</span><span class="p">(</span><span class="n">auto_set</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">enter_set</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns a text editor for multi-line strings.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MultilineTextEditors</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TextEditor</span>
-
-        <span class="n">MultilineTextEditors</span><span class="p">[</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">]</span> <span class="o">=</span> <span class="n">TextEditor</span><span class="p">(</span>
-            <span class="n">multi_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">auto_set</span><span class="o">=</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="o">=</span><span class="n">enter_set</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">MultilineTextEditors</span><span class="p">[</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">]</span>
-
-
-<span class="k">def</span> <span class="nf">bytes_editor</span><span class="p">(</span><span class="n">auto_set</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">enter_set</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns a text editor for bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">encoding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="kn">import</span> <span class="nn">codecs</span>
-
-            <span class="n">encoding</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BytesEditors</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TextEditor</span>
-
-        <span class="k">if</span> <span class="n">encoding</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># py3-compatible bytes &lt;-&gt; hex unicode string</span>
-            <span class="nb">format</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;hex&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
-            <span class="n">evaluate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;hex&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">format</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">decode</span>
-            <span class="n">evaluate</span> <span class="o">=</span> <span class="n">encoding</span><span class="o">.</span><span class="n">encode</span>
-
-        <span class="n">BytesEditors</span><span class="p">[(</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)]</span> <span class="o">=</span> <span class="n">TextEditor</span><span class="p">(</span>
-            <span class="n">multi_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">format_func</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
-            <span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">,</span>
-            <span class="n">auto_set</span><span class="o">=</span><span class="n">auto_set</span><span class="p">,</span>
-            <span class="n">enter_set</span><span class="o">=</span><span class="n">enter_set</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">BytesEditors</span><span class="p">[(</span><span class="n">auto_set</span><span class="p">,</span> <span class="n">enter_set</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)]</span>
-
-
-<span class="k">def</span> <span class="nf">code_editor</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns an editor that treats a multi-line string</span>
-<span class="sd">    as source code.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">SourceCodeEditor</span>
-
-    <span class="k">if</span> <span class="n">SourceCodeEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">CodeEditor</span>
-
-        <span class="n">SourceCodeEditor</span> <span class="o">=</span> <span class="n">CodeEditor</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">SourceCodeEditor</span>
-
-
-<span class="k">def</span> <span class="nf">html_editor</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Factory function for an &quot;editor&quot; that displays a multi-line string as</span>
-<span class="sd">    interpreted HTML.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">HTMLTextEditor</span>
-
-    <span class="k">if</span> <span class="n">HTMLTextEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">HTMLEditor</span>
-
-        <span class="n">HTMLTextEditor</span> <span class="o">=</span> <span class="n">HTMLEditor</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">HTMLTextEditor</span>
-
-
-<span class="k">def</span> <span class="nf">shell_editor</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns a Python shell for editing Python values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">PythonShellEditor</span>
-
-    <span class="k">if</span> <span class="n">PythonShellEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">ShellEditor</span>
-
-        <span class="n">PythonShellEditor</span> <span class="o">=</span> <span class="n">ShellEditor</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">PythonShellEditor</span>
-
-
-<span class="k">def</span> <span class="nf">time_editor</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns a Time editor for editing Time values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">TimeEditor</span>
-
-    <span class="k">if</span> <span class="n">TimeEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TimeEditor</span>
-
-        <span class="n">TimeEditor</span> <span class="o">=</span> <span class="n">TimeEditor</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">TimeEditor</span>
-
-
-<span class="k">def</span> <span class="nf">date_editor</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Factory function that returns a Date editor for editing Date values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">DateEditor</span>
-
-    <span class="k">if</span> <span class="n">DateEditor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">DateEditor</span>
-
-        <span class="n">DateEditor</span> <span class="o">=</span> <span class="n">DateEditor</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">DateEditor</span>
-
-
-<span class="k">def</span> <span class="nf">_expects_hastraits_instance</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Does a trait handler or type expect a HasTraits subclass instance?</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">BaseInstance</span><span class="p">,</span> <span class="n">TraitInstance</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">TraitInstance</span><span class="p">):</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">aClass</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">BaseInstance</span><span class="p">):</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">klass</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_instance_handler_factory</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Get the instance factory of an Instance or TraitInstance</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">BaseInstance</span><span class="p">,</span> <span class="n">TraitInstance</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">TraitInstance</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="n">aClass</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">BaseInstance</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="n">default_value</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;handler should be TraitInstance or BaseInstance, but got </span><span class="si">{}</span><span class="s2">&quot;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">handler</span><span class="p">)))</span>
-
-
-<span class="k">def</span> <span class="nf">list_editor</span><span class="p">(</span><span class="n">trait</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Factory that constructs an appropriate editor for a list.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">item_handler</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">item_trait</span><span class="o">.</span><span class="n">handler</span>
-    <span class="k">if</span> <span class="n">_expects_hastraits_instance</span><span class="p">(</span><span class="n">item_handler</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">traitsui.table_column</span> <span class="k">import</span> <span class="n">ObjectColumn</span>
-        <span class="kn">from</span> <span class="nn">traitsui.table_filter</span> <span class="k">import</span> <span class="p">(</span>
-            <span class="n">EvalFilterTemplate</span><span class="p">,</span>
-            <span class="n">RuleFilterTemplate</span><span class="p">,</span>
-            <span class="n">MenuFilterTemplate</span><span class="p">,</span>
-            <span class="n">EvalTableFilter</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TableEditor</span>
-
-        <span class="k">return</span> <span class="n">TableEditor</span><span class="p">(</span>
-            <span class="n">filters</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">RuleFilterTemplate</span><span class="p">,</span>
-                <span class="n">MenuFilterTemplate</span><span class="p">,</span>
-                <span class="n">EvalFilterTemplate</span><span class="p">,</span>
-            <span class="p">],</span>
-            <span class="n">edit_view</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
-            <span class="n">search</span><span class="o">=</span><span class="n">EvalTableFilter</span><span class="p">(),</span>
-            <span class="n">deletable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_toolbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">reorderable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">row_factory</span><span class="o">=</span><span class="n">_instance_handler_factory</span><span class="p">(</span><span class="n">item_handler</span><span class="p">),</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">ListEditor</span>
-
-        <span class="k">return</span> <span class="n">ListEditor</span><span class="p">(</span>
-            <span class="n">trait_handler</span><span class="o">=</span><span class="n">handler</span><span class="p">,</span>
-            <span class="n">rows</span><span class="o">=</span><span class="n">trait</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="n">trait</span><span class="o">.</span><span class="n">rows</span> <span class="k">else</span> <span class="mi">5</span><span class="p">,</span>
-            <span class="n">use_notebook</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">trait</span><span class="o">.</span><span class="n">use_notebook</span><span class="p">),</span>
-            <span class="n">page_name</span><span class="o">=</span><span class="n">trait</span><span class="o">.</span><span class="n">page_name</span> <span class="k">if</span> <span class="n">trait</span><span class="o">.</span><span class="n">page_name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  &#39;CTrait&#39; class (extends the underlying cTrait c-based type):</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">class</span> <span class="nc">CTrait</span><span class="p">(</span><span class="n">cTrait</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Extends the underlying C-based cTrait type.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Allows a derivative trait to be defined from this one:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">):</span>
-            <span class="nb">dict</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="nb">dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="n">handler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="nb">dict</span><span class="p">)</span>
-
-        <span class="n">metadata</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Trait</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="p">,)),</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  (Python) property definitions:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__get_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">kind</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Undefined</span>
-
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">value</span><span class="p">[:]</span>
-
-        <span class="k">return</span> <span class="n">value</span>
-
-    <span class="n">default</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_default</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__get_default_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">KindMap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
-
-    <span class="n">default_kind</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_default_kind</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__get_trait_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">handler</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">.trait_types</span> <span class="k">import</span> <span class="n">Any</span>
-
-            <span class="k">return</span> <span class="n">Any</span>
-
-    <span class="n">trait_type</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_trait_type</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__get_inner_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="n">inner_traits</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="p">()</span>
-
-    <span class="n">inner_traits</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_inner_traits</span><span class="p">)</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns whether or not this trait is of a specified trait type:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">is_trait_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_type</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns whether or not this trait is of a specified trait type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trait_type</span><span class="p">,</span> <span class="n">trait_type</span><span class="p">)</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns the user interface editor associated with the trait:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">get_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the user interface editor associated with the trait.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">EditorFactory</span>
-
-        <span class="c1"># See if we have an editor:</span>
-        <span class="n">editor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span>
-        <span class="k">if</span> <span class="n">editor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
-            <span class="c1"># Else see if the trait handler has an editor:</span>
-            <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-            <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">editor</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-            <span class="c1"># If not, give up and use a default text editor:</span>
-            <span class="k">if</span> <span class="n">editor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="k">import</span> <span class="n">TextEditor</span>
-
-                <span class="n">editor</span> <span class="o">=</span> <span class="n">TextEditor</span>
-
-        <span class="c1"># If the result is not an EditorFactory:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">editor</span><span class="p">,</span> <span class="n">EditorFactory</span><span class="p">):</span>
-            <span class="c1"># Then it should be a factory for creating them:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
-            <span class="n">traits</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">editor</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SequenceTypes</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">editor</span><span class="p">[:]:</span>
-                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SequenceTypes</span><span class="p">:</span>
-                        <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                        <span class="n">traits</span> <span class="o">=</span> <span class="n">item</span>
-                        <span class="k">if</span> <span class="n">traits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trait&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                            <span class="n">traits</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;trait&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">editor</span> <span class="o">=</span> <span class="n">item</span>
-            <span class="n">editor</span> <span class="o">=</span> <span class="n">editor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">)</span>
-
-        <span class="c1"># Cache the result:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">editor</span>
-
-        <span class="c1"># Return the resulting EditorFactory object:</span>
-        <span class="k">return</span> <span class="n">editor</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns the help text for a trait:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">get_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the help text for a trait.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        full : bool</span>
-<span class="sd">            Indicates whether to return the value of the *help* attribute of</span>
-<span class="sd">            the trait itself.</span>
-
-<span class="sd">        Description</span>
-<span class="sd">        -----------</span>
-<span class="sd">        If *full* is False or the trait does not have a **help** string,</span>
-<span class="sd">        the returned string is constructed from the **desc** attribute on the</span>
-<span class="sd">        trait and the **info** string on the trait&#39;s handler.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
-            <span class="n">help</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span>
-            <span class="k">if</span> <span class="n">help</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">help</span>
-
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;must be </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">handler</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;may be any value.&quot;</span>
-
-        <span class="n">desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">desc</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">desc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">info</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="s2">&quot;Specifies </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns a description of the trait:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">full_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a description of the trait.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="n">full_info</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="s2">&quot;any value&quot;</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns a description of the trait:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a description of the trait.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="s2">&quot;any value&quot;</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns the pickleable form of a CTrait object:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__reduce_ex__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">__newobj__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">())</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Registers listeners on an assigned &#39;TraitValue&#39; object&#39;s &#39;value&#39;</span>
-    <span class="c1">#  property:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">_register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Registers listeners on an assigned &#39;TraitValue&#39; object&#39;s &#39;value&#39;</span>
-<span class="sd">            property.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">def</span> <span class="nf">handler</span><span class="p">():</span>
-            <span class="nb">object</span><span class="o">.</span><span class="n">trait_property_changed</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-        <span class="n">tv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trait_value</span>
-        <span class="n">handlers</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="n">_handlers</span>
-        <span class="k">if</span> <span class="n">handlers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">tv</span><span class="o">.</span><span class="n">_handlers</span> <span class="o">=</span> <span class="n">handlers</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">handlers</span><span class="p">[(</span><span class="nb">id</span><span class="p">(</span><span class="nb">object</span><span class="p">),</span> <span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">handler</span>
-
-        <span class="n">tv</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Unregisters listeners on an assigned &#39;TraitValue&#39; object&#39;s &#39;value&#39;</span>
-    <span class="c1">#  property:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">_unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Unregisters listeners on an assigned &#39;TraitValue&#39; object&#39;s &#39;value&#39;</span>
-<span class="sd">            property.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trait_value</span>
-        <span class="n">handlers</span> <span class="o">=</span> <span class="n">tv</span><span class="o">.</span><span class="n">_handlers</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="nb">object</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
-        <span class="n">handler</span> <span class="o">=</span> <span class="n">handlers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">del</span> <span class="n">handlers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="n">tv</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-
-<span class="c1"># Make sure the Python-level version of the trait class is known to all</span>
-<span class="c1"># interested parties:</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ctraits</span>
-
-<span class="n">ctraits</span><span class="o">.</span><span class="n">_ctrait</span><span class="p">(</span><span class="n">CTrait</span><span class="p">)</span>
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Constants:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="n">ConstantTypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">LONG_TYPE</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">complex</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">)</span>
+<span class="n">ConstantTypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">complex</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
 <span class="n">PythonTypes</span> <span class="o">=</span> <span class="p">(</span>
     <span class="nb">str</span><span class="p">,</span>
-    <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">,</span>
     <span class="nb">int</span><span class="p">,</span>
-    <span class="n">LONG_TYPE</span><span class="p">,</span>
     <span class="nb">float</span><span class="p">,</span>
     <span class="nb">complex</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">,</span>
@@ -653,23 +174,13 @@
     <span class="n">NoneType</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">InstanceType</span><span class="p">,</span> <span class="n">ClassType</span>
-
-    <span class="n">PythonTypes</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">PythonTypes</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">InstanceType</span><span class="p">,</span> <span class="n">ClassType</span><span class="p">)</span> <span class="o">+</span> <span class="n">PythonTypes</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-    <span class="p">)</span>
-
-
 <span class="n">CallableTypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">FunctionType</span><span class="p">,</span> <span class="n">MethodType</span><span class="p">)</span>
 
 <span class="n">TraitTypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">TraitHandler</span><span class="p">,</span> <span class="n">CTrait</span><span class="p">)</span>
 
 <span class="n">DefaultValues</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nb">str</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="nb">int</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">LONG_TYPE</span><span class="p">:</span> <span class="n">LONG_TYPE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
     <span class="nb">float</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="nb">complex</span><span class="p">:</span> <span class="mi">0</span><span class="n">j</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">:</span> <span class="p">[],</span>
@@ -678,13 +189,11 @@
     <span class="nb">bool</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">DefaultValueSpecial</span> <span class="o">=</span> <span class="p">[</span><span class="n">Missing</span><span class="p">,</span> <span class="n">Self</span><span class="p">]</span>
-<span class="n">DefaultValueTypes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span>
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Function used to unpickle new-style objects:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
+<span class="c1"># This function is needed when unpickling historical pickles (pickles</span>
+<span class="c1"># created on versions of Traits prior to 6.0). It can be removed when</span>
+<span class="c1"># there&#39;s no longer any need to support pickles generated on older</span>
+<span class="c1"># versions of Traits.</span>
 
 <span class="k">def</span> <span class="nf">__newobj__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Unpickles new-style objects.</span>
@@ -692,152 +201,7 @@
     <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Returns the type of default value specified:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">def</span> <span class="nf">_default_value_type</span><span class="p">(</span><span class="n">default_value</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">DefaultValueSpecial</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">default_value</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">DefaultValueTypes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">default_value</span><span class="p">))</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  &#39;TraitFactory&#39; class:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">class</span> <span class="nc">TraitFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="c1">### Need a docstring here.</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Initializes the object:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maker_function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">maker_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maker_function</span> <span class="o">=</span> <span class="n">maker_function</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">maker_function</span><span class="o">.</span><span class="vm">__doc__</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Creates a CTrait instance:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maker_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">TraitImportError</span><span class="p">(</span><span class="n">TraitFactory</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Defines a factory class for deferring import problems until encountering</span>
-<span class="sd">        code that actually tries to use the unimportable trait.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Initializes the object:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Creates a CTrait instance:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">TraitError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Returns a trait created from a TraitFactory instance:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="n">_trait_factory_instances</span> <span class="o">=</span> <span class="p">{}</span>
-
-
-<span class="k">def</span> <span class="nf">trait_factory</span><span class="p">(</span><span class="n">trait</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">_trait_factory_instances</span>
-
-    <span class="n">tid</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">trait</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">tid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_trait_factory_instances</span><span class="p">:</span>
-        <span class="n">_trait_factory_instances</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">=</span> <span class="n">trait</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">_trait_factory_instances</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Casts a CTrait or TraitFactory to a CTrait but returns None if it is neither:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">def</span> <span class="nf">trait_cast</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Casts a CTrait, TraitFactory or TraitType to a CTrait but returns None</span>
-<span class="sd">        if it is none of those.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">CTrait</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitFactory</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">trait_factory</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span><span class="p">()</span><span class="o">.</span><span class="n">as_ctrait</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span><span class="o">.</span><span class="n">as_ctrait</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="kc">None</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Attempts to cast a value to a trait. Returns either a trait or the original</span>
-<span class="c1">#  value:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">def</span> <span class="nf">try_trait_cast</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Attempts to cast a value to a trait. Returns either a trait or the</span>
-<span class="sd">        original value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">trait_cast</span><span class="p">(</span><span class="n">something</span><span class="p">)</span> <span class="ow">or</span> <span class="n">something</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Returns a trait derived from its input:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
-<span class="k">def</span> <span class="nf">trait_from</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Returns a trait derived from its input.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.trait_types</span> <span class="k">import</span> <span class="n">Any</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">CTrait</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span>
-
-    <span class="k">if</span> <span class="n">something</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">something</span> <span class="o">=</span> <span class="n">Any</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitFactory</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">trait_factory</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span><span class="p">()</span><span class="o">.</span><span class="n">as_ctrait</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="n">TraitType</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">something</span><span class="o">.</span><span class="n">as_ctrait</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">Trait</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
-
-
-<span class="c1"># Patch the reference to &#39;trait_from&#39; in &#39;trait_handlers.py&#39;:</span>
-<span class="n">trait_handlers</span><span class="o">.</span><span class="n">trait_from</span> <span class="o">=</span> <span class="n">trait_from</span>
-
-<span class="c1"># --- &#39;instance&#39; traits ---------------------------------------------------------</span>
+<span class="c1"># --- &#39;instance&#39; traits -------------------------------------------------------</span>
 
 
 <span class="k">class</span> <span class="nc">_InstanceArgs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -846,7 +210,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kw</span> <span class="o">=</span> <span class="n">kw</span>
 
 
-<span class="c1"># --- &#39;creates a run-time default value&#39; ----------------------------------------</span>
+<span class="c1"># --- &#39;creates a run-time default value&#39; --------------------------------------</span>
 
 
 <span class="k">class</span> <span class="nc">Default</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -860,16 +224,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
 
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Factory function for creating C-based traits:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
 <span class="k">def</span> <span class="nf">Trait</span><span class="p">(</span><span class="o">*</span><span class="n">value_type</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Creates a trait definition.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
 <span class="sd">    This function accepts a variety of forms of parameter lists:</span>
 
 <span class="sd">    +-------------------+---------------+-------------------------------------+</span>
@@ -948,8 +305,6 @@
 
 <span class="sd">    The following predefined keywords are accepted:</span>
 
-<span class="sd">    Keywords</span>
-<span class="sd">    --------</span>
 <span class="sd">    desc : str</span>
 <span class="sd">        Describes the intended meaning of the trait. It is used in</span>
 <span class="sd">        exception messages and fly-over help in user interfaces.</span>
@@ -961,60 +316,34 @@
 <span class="sd">        interface editor for the trait. See the &quot;Traits UI User Guide&quot; for</span>
 <span class="sd">        more information on trait editors.</span>
 <span class="sd">    comparison_mode : int</span>
-<span class="sd">        Indicates when trait change notifications should be generated based upon</span>
-<span class="sd">        the result of comparing the old and new values of a trait assignment:</span>
+<span class="sd">        Indicates when trait change notifications should be generated based</span>
+<span class="sd">        upon the result of comparing the old and new values of a trait</span>
+<span class="sd">        assignment. Possible values come from the ``ComparisonMode`` enum:</span>
 
-<span class="sd">        * 0 (NO_COMPARE): The values are not compared and a trait change</span>
+<span class="sd">        * 0 (none): The values are not compared and a trait change</span>
 <span class="sd">          notification is generated on each assignment.</span>
-<span class="sd">        * 1 (OBJECT_IDENTITY_COMPARE): A trait change notification is</span>
+<span class="sd">        * 1 (identity): A trait change notification is</span>
 <span class="sd">          generated if the old and new values are not the same object.</span>
-<span class="sd">        * 2 (RICH_COMPARE): A trait change notification is generated if the</span>
-<span class="sd">          old and new values are not equal using Python&#39;s</span>
-<span class="sd">          &#39;rich comparison&#39; operator. This is the default.</span>
-
-<span class="sd">    rich_compare : bool</span>
-<span class="sd">        Indicates whether the basis for considering a trait attribute value to</span>
-<span class="sd">        have changed is a &quot;rich&quot; comparison (True, the default), or simple</span>
-<span class="sd">        object identity (False). This attribute can be useful in cases</span>
-<span class="sd">        where a detailed comparison of two objects is very expensive, or where</span>
-<span class="sd">        you do not care whether the details of an object change, as long as the</span>
-<span class="sd">        same object is used.</span>
-
-<span class="sd">            .. deprecated:: 3.0.3</span>
-<span class="sd">                Use ``comparison_mode`` instead</span>
-
+<span class="sd">        * 2 (equality): A trait change notification is generated if the</span>
+<span class="sd">          old and new values are not equal using Python&#39;s standard equality</span>
+<span class="sd">          testing. This is the default.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_TraitMaker</span><span class="p">(</span><span class="o">*</span><span class="n">value_type</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span><span class="o">.</span><span class="n">as_ctrait</span><span class="p">()</span>
 
 
-<span class="c1">#  Handle circular module dependencies:</span>
-<span class="n">trait_handlers</span><span class="o">.</span><span class="n">Trait</span> <span class="o">=</span> <span class="n">Trait</span>
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  &#39;_TraitMaker&#39; class:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-
 <span class="k">class</span> <span class="nc">_TraitMaker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="c1"># Ctrait type map for special trait types:</span>
-    <span class="n">type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Initialize the object:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
+    <span class="n">type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="n">TraitKind</span><span class="o">.</span><span class="n">event</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="n">TraitKind</span><span class="o">.</span><span class="n">constant</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value_type</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
         <span class="n">metadata</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;trait&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="o">*</span><span class="n">value_type</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
 
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Define the trait:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
     <span class="k">def</span> <span class="nf">define</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value_type</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
-        <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">UNSPECIFIED_DEFAULT_VALUE</span>
+        <span class="sd">&quot;&quot;&quot; Define the trait. &quot;&quot;&quot;</span>
+        <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">DefaultValue</span><span class="o">.</span><span class="n">unspecified</span>
         <span class="n">default_value</span> <span class="o">=</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">clone</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_type</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -1042,23 +371,9 @@
                     <span class="n">handler</span> <span class="o">=</span> <span class="n">default_value</span>
                     <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span>
 
-                <span class="k">elif</span> <span class="n">default_value</span> <span class="ow">is</span> <span class="n">ThisClass</span><span class="p">:</span>
-                    <span class="n">handler</span> <span class="o">=</span> <span class="n">ThisClass</span><span class="p">()</span>
-                    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span>
-
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">typeValue</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">default_value</span><span class="p">)</span>
-
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_value</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
-                        <span class="n">string_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span>
-                            <span class="n">metadata</span><span class="p">,</span> <span class="s2">&quot;min_len&quot;</span><span class="p">,</span> <span class="s2">&quot;max_len&quot;</span><span class="p">,</span> <span class="s2">&quot;regex&quot;</span>
-                        <span class="p">)</span>
-                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">string_options</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                            <span class="n">handler</span> <span class="o">=</span> <span class="n">TraitCastType</span><span class="p">(</span><span class="n">typeValue</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">handler</span> <span class="o">=</span> <span class="n">TraitString</span><span class="p">(</span><span class="o">**</span><span class="n">string_options</span><span class="p">)</span>
-
-                    <span class="k">elif</span> <span class="n">typeValue</span> <span class="ow">in</span> <span class="n">TypeTypes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">typeValue</span> <span class="ow">in</span> <span class="n">TypeTypes</span><span class="p">:</span>
                         <span class="n">handler</span> <span class="o">=</span> <span class="n">TraitCastType</span><span class="p">(</span><span class="n">typeValue</span><span class="p">)</span>
 
                     <span class="k">else</span><span class="p">:</span>
@@ -1112,7 +427,7 @@
 
                         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_value</span><span class="p">,</span> <span class="n">_InstanceArgs</span><span class="p">):</span>
                             <span class="n">default_value_type</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="n">CALLABLE_AND_ARGS_DEFAULT_VALUE</span>
+                                <span class="n">DefaultValue</span><span class="o">.</span><span class="n">callable_and_args</span>
                             <span class="p">)</span>
                             <span class="n">default_value</span> <span class="o">=</span> <span class="p">(</span>
                                 <span class="n">handler</span><span class="o">.</span><span class="n">create_default_value</span><span class="p">,</span>
@@ -1126,14 +441,14 @@
 
                             <span class="k">if</span> <span class="n">typeValue</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
                                 <span class="n">default_value_type</span> <span class="o">=</span> <span class="p">(</span>
-                                    <span class="n">CALLABLE_AND_ARGS_DEFAULT_VALUE</span>
+                                    <span class="n">DefaultValue</span><span class="o">.</span><span class="n">callable_and_args</span>
                                 <span class="p">)</span>
                                 <span class="n">default_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">aClass</span><span class="p">,</span> <span class="p">(),</span> <span class="n">default_value</span><span class="p">)</span>
                             <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_value</span><span class="p">,</span> <span class="n">aClass</span><span class="p">):</span>
                                 <span class="k">if</span> <span class="n">typeValue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span><span class="p">:</span>
                                     <span class="n">default_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">default_value</span><span class="p">,)</span>
                                 <span class="n">default_value_type</span> <span class="o">=</span> <span class="p">(</span>
-                                    <span class="n">CALLABLE_AND_ARGS_DEFAULT_VALUE</span>
+                                    <span class="n">DefaultValue</span><span class="o">.</span><span class="n">callable_and_args</span>
                                 <span class="p">)</span>
                                 <span class="n">default_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">aClass</span><span class="p">,</span> <span class="n">default_value</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1158,7 +473,7 @@
 
         <span class="k">if</span> <span class="n">default_value_type</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_value</span><span class="p">,</span> <span class="n">Default</span><span class="p">):</span>
-                <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">CALLABLE_AND_ARGS_DEFAULT_VALUE</span>
+                <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">DefaultValue</span><span class="o">.</span><span class="n">callable_and_args</span>
                 <span class="n">default_value</span> <span class="o">=</span> <span class="n">default_value</span><span class="o">.</span><span class="n">default_value</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">handler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">clone</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
@@ -1175,17 +490,16 @@
                             <span class="k">pass</span>
 
                 <span class="k">if</span> <span class="n">default_value_type</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">_default_value_type</span><span class="p">(</span><span class="n">default_value</span><span class="p">)</span>
+                    <span class="n">default_value_type</span> <span class="o">=</span> <span class="n">_infer_default_value_type</span><span class="p">(</span>
+                        <span class="n">default_value</span>
+                    <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">default_value_type</span> <span class="o">=</span> <span class="n">default_value_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">default_value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Determine the correct TraitHandler for each item in a list:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
     <span class="k">def</span> <span class="nf">do_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="nb">map</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Determine the correct TraitHandler for each item in a list. &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">PythonTypes</span><span class="p">:</span>
                 <span class="n">other</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TraitCoerceType</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
@@ -1205,29 +519,24 @@
                 <span class="k">elif</span> <span class="n">typeItem</span> <span class="ow">in</span> <span class="n">CallableTypes</span><span class="p">:</span>
                     <span class="n">other</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TraitFunction</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
 
-                <span class="k">elif</span> <span class="n">item</span> <span class="ow">is</span> <span class="n">ThisClass</span><span class="p">:</span>
-                    <span class="n">other</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ThisClass</span><span class="p">())</span>
-
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">TraitTypes</span><span class="p">):</span>
                     <span class="n">other</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">other</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TraitInstance</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
 
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Returns a properly initialized &#39;CTrait&#39; instance:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
     <span class="k">def</span> <span class="nf">as_ctrait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a properly initialized &#39;CTrait&#39; instance. &quot;&quot;&quot;</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
-        <span class="n">trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">),</span> <span class="n">TraitKind</span><span class="o">.</span><span class="n">trait</span><span class="p">))</span>
         <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span>
         <span class="k">if</span> <span class="n">clone</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trait</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">clone</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">clone</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">trait</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">clone</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="n">trait</span><span class="o">.</span><span class="n">default_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">)</span>
+        <span class="n">trait</span><span class="o">.</span><span class="n">set_default_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">)</span>
 
         <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
         <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1240,19 +549,26 @@
             <span class="n">post_setattr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;post_setattr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">post_setattr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">trait</span><span class="o">.</span><span class="n">post_setattr</span> <span class="o">=</span> <span class="n">post_setattr</span>
-                <span class="n">trait</span><span class="o">.</span><span class="n">is_mapped</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">is_mapped</span><span class="p">)</span>
+                <span class="n">trait</span><span class="o">.</span><span class="n">is_mapped</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">is_mapped</span>
 
-        <span class="c1"># Note: The use of &#39;rich_compare&#39; metadata is deprecated; use</span>
-        <span class="c1"># &#39;comparison_mode&#39; metadata instead:</span>
         <span class="n">rich_compare</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rich_compare&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rich_compare</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">trait</span><span class="o">.</span><span class="n">rich_comparison</span><span class="p">(</span><span class="n">rich_compare</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># Ref: enthought/traits#602</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The &#39;rich_compare&#39; metadata has been deprecated. Please &quot;</span>
+                <span class="s2">&quot;use the &#39;comparison_mode&#39; metadata instead. In a future &quot;</span>
+                <span class="s2">&quot;release, rich_compare will have no effect.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">rich_compare</span><span class="p">:</span>
+                <span class="n">trait</span><span class="o">.</span><span class="n">comparison_mode</span> <span class="o">=</span> <span class="n">ComparisonMode</span><span class="o">.</span><span class="n">equality</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trait</span><span class="o">.</span><span class="n">comparison_mode</span> <span class="o">=</span> <span class="n">ComparisonMode</span><span class="o">.</span><span class="n">identity</span>
 
-        <span class="n">comparison_mode</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;comparison_mode&quot;</span><span class="p">)</span>
+        <span class="n">comparison_mode</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;comparison_mode&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">comparison_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">trait</span><span class="o">.</span><span class="n">comparison_mode</span><span class="p">(</span><span class="n">comparison_mode</span><span class="p">)</span>
-
-        <span class="n">trait</span><span class="o">.</span><span class="n">value_allowed</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trait_value&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">trait</span><span class="o">.</span><span class="n">comparison_mode</span> <span class="o">=</span> <span class="n">comparison_mode</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">trait</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1261,23 +577,6 @@
                 <span class="n">trait</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">trait</span>
-
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-    <span class="c1">#  Extract a set of keywords from a dictionary:</span>
-    <span class="c1"># ---------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_dict</span><span class="p">,</span> <span class="o">*</span><span class="n">keys</span><span class="p">):</span>
-        <span class="n">to_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">from_dict</span><span class="p">:</span>
-                <span class="n">to_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                <span class="k">del</span> <span class="n">from_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">to_dict</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Factory function for creating C-based trait properties:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
 
 
 <span class="k">def</span> <span class="nf">Property</span><span class="p">(</span>
@@ -1291,26 +590,6 @@
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Returns a trait whose value is a Python property.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fget : function</span>
-<span class="sd">        The &quot;getter&quot; function for the property.</span>
-<span class="sd">    fset : function</span>
-<span class="sd">        The &quot;setter&quot; function for the property.</span>
-<span class="sd">    fvalidate : function</span>
-<span class="sd">        The validation function for the property. The method should return the</span>
-<span class="sd">        value to set or raise TraitError if the new value is not valid.</span>
-<span class="sd">    force : bool</span>
-<span class="sd">        Indicates whether to use only the function definitions specified by</span>
-<span class="sd">        **fget** and **fset**, and not look elsewhere on the class.</span>
-<span class="sd">    handler : function</span>
-<span class="sd">        A trait handler function for the trait.</span>
-<span class="sd">    trait : Trait or value</span>
-<span class="sd">        A trait definition or a value that can be converted to a trait that</span>
-<span class="sd">        constrains the values of the property trait.</span>
-
-<span class="sd">    Description</span>
-<span class="sd">    -----------</span>
 <span class="sd">    If no getter, setter or validate functions are specified (and **force** is</span>
 <span class="sd">    not True), it is assumed that they are defined elsewhere on the class whose</span>
 <span class="sd">    attribute this trait is assigned to. For example::</span>
@@ -1345,8 +624,26 @@
 <span class="sd">            axle     = Instanced( Axle )</span>
 <span class="sd">            position = Property( depends_on = &#39;axle.chassis.position&#39; )</span>
 
-<span class="sd">    For details of the extended trait name syntax, refer to the on_trait_change()</span>
-<span class="sd">    method of the HasTraits class.</span>
+<span class="sd">    For details of the extended trait name syntax, refer to the</span>
+<span class="sd">    on_trait_change() method of the HasTraits class.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fget : function</span>
+<span class="sd">        The &quot;getter&quot; function for the property.</span>
+<span class="sd">    fset : function</span>
+<span class="sd">        The &quot;setter&quot; function for the property.</span>
+<span class="sd">    fvalidate : function</span>
+<span class="sd">        The validation function for the property. The method should return the</span>
+<span class="sd">        value to set or raise TraitError if the new value is not valid.</span>
+<span class="sd">    force : bool</span>
+<span class="sd">        Indicates whether to use only the function definitions specified by</span>
+<span class="sd">        **fget** and **fset**, and not look elsewhere on the class.</span>
+<span class="sd">    handler : function</span>
+<span class="sd">        A trait handler function for the trait.</span>
+<span class="sd">    trait : Trait or value</span>
+<span class="sd">        A trait definition or a value that can be converted to a trait that</span>
+<span class="sd">        constrains the values of the property trait.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;property&quot;</span>
 
@@ -1404,15 +701,9 @@
     <span class="p">):</span>
         <span class="n">metadata</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cached&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span><span class="n">TraitKind</span><span class="o">.</span><span class="n">property</span><span class="p">)</span>
     <span class="n">trait</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">fvalidate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">_arg_count</span><span class="p">(</span><span class="n">fvalidate</span><span class="p">)</span>
-
-    <span class="n">trait</span><span class="o">.</span><span class="n">property</span><span class="p">(</span>
-        <span class="n">fget</span><span class="p">,</span> <span class="n">_arg_count</span><span class="p">(</span><span class="n">fget</span><span class="p">),</span> <span class="n">fset</span><span class="p">,</span> <span class="n">_arg_count</span><span class="p">(</span><span class="n">fset</span><span class="p">),</span> <span class="n">fvalidate</span><span class="p">,</span> <span class="n">n</span>
-    <span class="p">)</span>
+    <span class="n">trait</span><span class="o">.</span><span class="n">property_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">fget</span><span class="p">,</span> <span class="n">fset</span><span class="p">,</span> <span class="n">fvalidate</span><span class="p">)</span>
     <span class="n">trait</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span>
 
     <span class="k">return</span> <span class="n">trait</span>
@@ -1432,59 +723,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span>
 
 
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Dictionary used to handle return type mapping special cases:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
-
-<span class="n">SpecialNames</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1">###   &#39;int&#39;:     trait_factory( Int ),</span>
-    <span class="c1">###   &#39;long&#39;:    trait_factory( Long ),</span>
-    <span class="c1">###   &#39;float&#39;:   trait_factory( Float ),</span>
-    <span class="c1">###   &#39;complex&#39;: trait_factory( Complex ),</span>
-    <span class="c1">###   &#39;str&#39;:     trait_factory( Str ),</span>
-    <span class="c1">###   &#39;unicode&#39;: trait_factory( Unicode ),</span>
-    <span class="c1">###   &#39;bool&#39;:    trait_factory( Bool ),</span>
-    <span class="c1">###   &#39;list&#39;:    trait_factory( List ),</span>
-    <span class="c1">###   &#39;tuple&#39;:   trait_factory( Tuple ),</span>
-    <span class="c1">###   &#39;dict&#39;:    trait_factory( Dict )</span>
-<span class="p">}</span>
-
-
-<span class="c1"># -- Date Trait definition ----------------------------------------------------</span>
-<span class="c1"># Date = Instance(datetime.date, metadata = { &#39;editor&#39;: date_editor })</span>
-
-
-<span class="c1"># -- Time Trait definition ----------------------------------------------------</span>
-<span class="c1"># Time = Instance(datetime.time, metadata = { &#39;editor&#39;: time_editor })</span>
-
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  Create predefined, reusable trait instances:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
+<span class="c1"># Predefined, reusable trait instances</span>
 
 <span class="c1"># Generic trait with &#39;object&#39; behavior:</span>
-<span class="n">generic_trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-
-<span class="c1"># -------------------------------------------------------------------------------</span>
-<span class="c1">#  User interface related color and font traits:</span>
-<span class="c1"># -------------------------------------------------------------------------------</span>
+<span class="n">generic_trait</span> <span class="o">=</span> <span class="n">CTrait</span><span class="p">(</span><span class="n">TraitKind</span><span class="o">.</span><span class="n">generic</span><span class="p">)</span>
 
 
+<span class="c1"># User interface related color and font traits</span>
+
+<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;&#39;Color&#39; in &#39;traits&#39; package has been deprecated. &quot;</span>
+            <span class="s2">&quot;Use &#39;Color&#39; from &#39;traitsui&#39; package instead.&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">Color</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Returns a trait whose value must be a GUI toolkit-specific color.</span>
 
-<span class="sd">    Description</span>
-<span class="sd">    -----------</span>
-<span class="sd">    For wxPython, the returned trait accepts any of the following values:</span>
-
-<span class="sd">    * A wx.Colour instance</span>
-<span class="sd">    * A wx.ColourPtr instance</span>
-<span class="sd">    * an integer whose hexadecimal form is 0x*RRGGBB*, where *RR* is the red</span>
-<span class="sd">      value, *GG* is the green value, and *BB* is the blue value</span>
-
-<span class="sd">    Default Value</span>
-<span class="sd">    -------------</span>
-<span class="sd">    For wxPython, 0xffffff (that is, white)</span>
+<span class="sd">    .. deprecated:: 6.1.0</span>
+<span class="sd">        ``Color`` trait in this package will be removed in the future. It is</span>
+<span class="sd">        replaced by ``Color`` trait in TraitsUI package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">traitsui.toolkit_traits</span> <span class="k">import</span> <span class="n">ColorTrait</span>
 
@@ -1494,23 +748,15 @@
 <span class="n">Color</span> <span class="o">=</span> <span class="n">TraitFactory</span><span class="p">(</span><span class="n">Color</span><span class="p">)</span>
 
 
+<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;&#39;RGBColor&#39; in &#39;traits&#39; package has been deprecated. &quot;</span>
+            <span class="s2">&quot;Use &#39;RGBColor&#39; from &#39;traitsui&#39; package instead.&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">RGBColor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Returns a trait whose value must be a GUI toolkit-specific RGB-based</span>
-<span class="sd">        color.</span>
+<span class="sd">    color.</span>
 
-<span class="sd">    Description</span>
-<span class="sd">    -----------</span>
-<span class="sd">    For wxPython, the returned trait accepts any of the following values:</span>
-
-<span class="sd">    * A tuple of the form (*r*, *g*, *b*), in which *r*, *g*, and *b* represent</span>
-<span class="sd">      red, green, and blue values, respectively, and are floats in the range</span>
-<span class="sd">      from 0.0 to 1.0</span>
-<span class="sd">    * An integer whose hexadecimal form is 0x*RRGGBB*, where *RR* is the red</span>
-<span class="sd">      value, *GG* is the green value, and *BB* is the blue value</span>
-
-<span class="sd">    Default Value</span>
-<span class="sd">    -------------</span>
-<span class="sd">    For wxPython, (1.0, 1.0, 1.0) (that is, white)</span>
+<span class="sd">    .. deprecated:: 6.1.0</span>
+<span class="sd">        ``RGBColor`` trait in this package will be removed in the future. It is</span>
+<span class="sd">        replaced by ``RGBColor`` trait in TraitsUI package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">traitsui.toolkit_traits</span> <span class="k">import</span> <span class="n">RGBColorTrait</span>
 
@@ -1520,21 +766,14 @@
 <span class="n">RGBColor</span> <span class="o">=</span> <span class="n">TraitFactory</span><span class="p">(</span><span class="n">RGBColor</span><span class="p">)</span>
 
 
+<span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;&#39;Font&#39; in &#39;traits&#39; package has been deprecated. &quot;</span>
+            <span class="s2">&quot;Use &#39;Font&#39; from &#39;traitsui&#39; package instead.&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">Font</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Returns a trait whose value must be a GUI toolkit-specific font.</span>
 
-<span class="sd">    Description</span>
-<span class="sd">    -----------</span>
-<span class="sd">    For wxPython, the returned trait accepts any of the following:</span>
-
-<span class="sd">    * a wx.Font instance</span>
-<span class="sd">    * a wx.FontPtr instance</span>
-<span class="sd">    * a string describing the font, including one or more of the font family,</span>
-<span class="sd">      size, weight, style, and typeface name.</span>
-
-<span class="sd">    Default Value</span>
-<span class="sd">    -------------</span>
-<span class="sd">    For wxPython, &#39;Arial 10&#39;</span>
+<span class="sd">    .. deprecated:: 6.1.0</span>
+<span class="sd">        ``Font`` trait in this package will be removed in the future. It is</span>
+<span class="sd">        replaced by ``Font`` trait in TraitsUI package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">traitsui.toolkit_traits</span> <span class="k">import</span> <span class="n">FontTrait</span>
 
@@ -1581,7 +820,7 @@
         &copy; Copyright 2008-2019, Enthought
       </li>
       <li>
-      Last updated on Feb 14, 2020.
+      Last updated on Jun 12, 2020.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
