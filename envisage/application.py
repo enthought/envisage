@@ -360,6 +360,10 @@ class Application(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
+    registered = Event
+
+    unregistered = Event
+
     def get_required_service(
         self, protocol, query="", minimize="", maximize=""
     ):

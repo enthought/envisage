@@ -20,7 +20,7 @@ from envisage.api import IServiceRegistry
 from envisage.api import ExtensionPoint, ServiceRegistry
 from envisage.ui.action.api import ActionSet
 from pyface.action.api import StatusBarManager
-from traits.api import Delegate, Instance, List, Property, provides
+from traits.api import Delegate, Event, Instance, List, Property, provides
 
 # Local imports.
 from .workbench_action_manager_builder import WorkbenchActionManagerBuilder
@@ -174,6 +174,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
+    registered = Event
+
+    unregistered = Event
+
     def get_service(self, protocol, query="", minimize="", maximize=""):
         """ Return at most one service that matches the specified query. """
 
@@ -182,6 +186,9 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
         )
 
         return service
+
+    def get_service_from_id(self, service_id):
+        pass
 
     def get_service_properties(self, service_id):
         """ Return the dictionary of properties associated with a service. """
