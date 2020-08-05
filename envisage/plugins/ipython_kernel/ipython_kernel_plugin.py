@@ -21,7 +21,8 @@ from envisage.api import (
 )
 from traits.api import Bool, Instance, List
 
-
+# Constants kept around for backwards compatibility.
+# These will be removed in a future release.
 # Extension point IDs.
 SERVICE_OFFERS = "envisage.service_offers"
 IPYTHON_NAMESPACE = "ipython_plugin.namespace"
@@ -43,6 +44,8 @@ class IPythonKernelPlugin(Plugin):
     name = "IPython embedded kernel plugin"
 
     #: Extension point for objects contributed to the IPython kernel namespace.
+    IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
+
     kernel_namespace = ExtensionPoint(
         List,
         id=IPYTHON_NAMESPACE,
@@ -56,6 +59,9 @@ class IPythonKernelPlugin(Plugin):
 
     #: Service offers contributed by this plugin.
     service_offers = List(contributes_to=SERVICE_OFFERS)
+
+    # Protocol for the contributed service offer.
+    IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
 
     #: Whether to initialize the kernel when the service is created.
     #: The default is ``False```, for backwards compatibility. It will change
