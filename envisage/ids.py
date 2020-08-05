@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2019 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -7,41 +7,50 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 
-""" This module redefines the Extension Point IDs and Service IDs defined by
+""" This module redefines the Extension Point IDs and Service IDs defined on
 Plugins provided by Envisage. Note that this module does not contain IDs
-defined by all of the Plugins available in envisage.
+defined by all of the Plugins available in Envisage.
+
 The Plugins themselves remain the ground truth for the IDs. This module is
 simply a convenient location from which the user can import the IDs.
 """
 
 #### Extension Points #########################################################
 
-#: Extension Points defined by the CorePlugin.
+#: Ext. Pt. to contribute preference files, defined on the ``CorePlugin``.
 PREFERENCES = 'envisage.preferences'
-#: a
+
+#: Ext. Pt. to contribute ``ServiceOffer`` s, defined on the ``CorePlugin``.
 SERVICE_OFFERS = 'envisage.service_offers'
 
-# Extension Points defined by the PythonShellPlugin.
 # NOTE : The other PythonShellPlugin defines extension points with the same ID.
-#: b
+#: Ext. Pt. to contribute name/value pairs that will be bound to the
+#: ``PythonShell``, defined on the ``PythonShellPlugin``.
 BINDINGS = 'envisage.plugins.python_shell.bindings'
-#: c
+
+#: Ext. Pt. to contribute commands that will be executed in the
+#: ``PythonShell``, defined on the ``PythonShellPlugin``.
 COMMANDS = 'envisage.plugins.python_shell.commands'
 
-#: Extension Points defined by the IPythonKernelPlugin.
+#: Ext. Pt. to contribute name/value pairs that will be bound to the
+#: ``IPythonShell``, defined on the ``IPythonKernelPlugin``.
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
-# Extension Points defined by the TasksPlugin.
-#: f
+#: Ext. Pt. to contribute preferences categories, defined on the
+#: ``TasksPlugin``.
 PREFERENCES_CATEGORIES = 'envisage.ui.tasks.preferences_categories'
-#: g
+
+#: Ext. Pt. to contribute preference panes, defined on the ``TasksPlugin``.
 PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
-#: h
+
+#: Ext. Pt. to contribute task factories, defined on the ``TasksPlugin``.
 TASKS = 'envisage.ui.tasks.tasks'
-#: i
+
+#: Ext. Pt. to contribute task extensions, defined on the ``TasksPlugin``.
 TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
 #### Services ################################################################
 
-# Services offered by the IPythonKernelPlugin
+#: Service to access the active ``InternalIPKernel`` instance in the
+#: application, defined on the ``IPythonKernelPlugin``.
 IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
