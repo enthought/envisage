@@ -17,36 +17,41 @@ simply a convenient location from which the user can import the IDs.
 
 #### Extension Points #########################################################
 
-#: Ext. Pt. to contribute preference files, defined on the ``CorePlugin``.
+#: Extension Point to contribute preference files, defined on the
+#: ``CorePlugin``.
 PREFERENCES = 'envisage.preferences'
 
-#: Ext. Pt. to contribute ``ServiceOffer`` s, defined on the ``CorePlugin``.
+#: Extension Point to contribute ``ServiceOffer`` s, defined on the
+#: ``CorePlugin``.
 SERVICE_OFFERS = 'envisage.service_offers'
 
 # NOTE : The other PythonShellPlugin defines extension points with the same ID.
-#: Ext. Pt. to contribute name/value pairs that will be bound to the
+#: Extension Point to contribute name/value pairs that will be bound to the
 #: ``PythonShell``, defined on the ``PythonShellPlugin``.
 BINDINGS = 'envisage.plugins.python_shell.bindings'
 
-#: Ext. Pt. to contribute commands that will be executed in the
+#: Extension Point to contribute commands that will be executed in the
 #: ``PythonShell``, defined on the ``PythonShellPlugin``.
 COMMANDS = 'envisage.plugins.python_shell.commands'
 
-#: Ext. Pt. to contribute name/value pairs that will be bound to the
+#: Extension Point to contribute name/value pairs that will be bound to the
 #: ``IPythonShell``, defined on the ``IPythonKernelPlugin``.
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
-#: Ext. Pt. to contribute preferences categories, defined on the
+#: Extension Point to contribute preferences categories, defined on the
 #: ``TasksPlugin``.
 PREFERENCES_CATEGORIES = 'envisage.ui.tasks.preferences_categories'
 
-#: Ext. Pt. to contribute preference panes, defined on the ``TasksPlugin``.
+#: Extension Point to contribute preference panes, defined on the
+#: ``TasksPlugin``.
 PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
 
-#: Ext. Pt. to contribute task factories, defined on the ``TasksPlugin``.
+#: Extension Point to contribute task factories, defined on the
+#: ``TasksPlugin``.
 TASKS = 'envisage.ui.tasks.tasks'
 
-#: Ext. Pt. to contribute task extensions, defined on the ``TasksPlugin``.
+#: Extension Point to contribute task extensions, defined on the
+#: ``TasksPlugin``.
 TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
 #### Services ################################################################
