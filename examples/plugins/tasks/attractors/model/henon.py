@@ -2,8 +2,16 @@
 from scipy import array, zeros
 
 # Enthought library imports.
-from traits.api import Array, Float, HasTraits, Int, Property, Str, \
-     Unicode, cached_property, provides
+from traits.api import (
+    Array,
+    Float,
+    HasTraits,
+    Int,
+    Property,
+    Str,
+    cached_property,
+    provides,
+)
 from traitsui.api import Item, View
 
 # Local imports.
@@ -26,23 +34,25 @@ class Henon(HasTraits):
     steps = Int(10000)
 
     # Iteration results.
-    points = Property(Array, depends_on='a, b, initial_point, steps')
+    points = Property(Array, depends_on="a, b, initial_point, steps")
 
     # Configuration view.
-    view = View(Item('a'),
-                Item('b'),
-                Item('initial_point'),
-                Item('steps'),
-                resizable=True)
+    view = View(
+        Item("a"),
+        Item("b"),
+        Item("initial_point"),
+        Item("steps"),
+        resizable=True,
+    )
 
     #### 'IPlottable2D' interface #############################################
 
-    name = Unicode('Henon Map')
-    plot_type = Str('scatter')
-    x_data = Property(Array, depends_on='points')
-    y_data = Property(Array, depends_on='points')
-    x_label = Unicode('x')
-    y_label = Unicode('y')
+    name = Str("Henon Map")
+    plot_type = Str("scatter")
+    x_data = Property(Array, depends_on="points")
+    y_data = Property(Array, depends_on="points")
+    x_label = Str("x")
+    y_label = Str("y")
 
     ###########################################################################
     # Protected interface.
@@ -54,13 +64,13 @@ class Henon(HasTraits):
         points = zeros((self.steps, 2))
         for i in xrange(self.steps):
             x, y = points[i] = point
-            point = array([y + 1 - self.a * x**2, self.b * x])
+            point = array([y + 1 - self.a * x ** 2, self.b * x])
         return points
 
     @cached_property
     def _get_x_data(self):
-        return self.points[:,0]
+        return self.points[:, 0]
 
     @cached_property
     def _get_y_data(self):
-        return self.points[:,1]
+        return self.points[:, 1]

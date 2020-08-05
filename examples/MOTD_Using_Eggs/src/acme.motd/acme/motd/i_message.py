@@ -13,5 +13,3 @@ class IMessage(Interface):
 
     # The text of the message.
     text = Str
-
-#### EOF ######################################################################

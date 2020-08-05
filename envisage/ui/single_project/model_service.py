@@ -44,18 +44,18 @@ class ModelService(HasTraits):
     application = Instance(IApplication)
 
     # The factory to use for creating new projects
-    factory = Instance('envisage.ui.single_project.project_factory.'
-        'ProjectFactory')
+    factory = Instance(
+        "envisage.ui.single_project.project_factory." "ProjectFactory"
+    )
 
     # The preferences to be exposed through this service.
     preferences = Instance(IPreferences)
 
     # The currently open project
-    project = Instance('envisage.ui.single_project.project.Project')
+    project = Instance("envisage.ui.single_project.project.Project")
 
     # The current selection within the current project.
     selection = List(Any)
-
 
     ##########################################################################
     # 'object' interface.
@@ -72,11 +72,11 @@ class ModelService(HasTraits):
 
         """
 
-        super(ModelService, self).__init__(application = application,
-            factory = factory, **traits)
+        super(ModelService, self).__init__(
+            application=application, factory=factory, **traits
+        )
 
         return
-
 
     ##########################################################################
     # 'ModelService' interface.
@@ -93,7 +93,6 @@ class ModelService(HasTraits):
 
         return self.factory.PROJECT_CLASS.PROJECTS_ARE_FILES
 
-
     def clean_location(self, location):
         """
         Ensures that there are no existing files or directories at the
@@ -102,7 +101,7 @@ class ModelService(HasTraits):
 
         """
 
-        logger.debug('Trying to clean location [%s]', location)
+        logger.debug("Trying to clean location [%s]", location)
 
         if os.path.isfile(location):
             os.path.remove(location)
@@ -111,7 +110,6 @@ class ModelService(HasTraits):
 
         return
 
-
     def get_default_path(self):
         """
         Return the default location for projects.
@@ -119,7 +117,6 @@ class ModelService(HasTraits):
         """
 
         return self.factory.PROJECT_CLASS.get_default_path(self.application)
-
 
     ### trait handlers #######################################################
 
@@ -132,8 +129,13 @@ class ModelService(HasTraits):
 
         """
 
-        logger.debug('Detected project change from [%s] to [%s] in '
-            'ModelService [%s]', old, new, self)
+        logger.debug(
+            "Detected project change from [%s] to [%s] in "
+            "ModelService [%s]",
+            old,
+            new,
+            self,
+        )
 
         if old is not None:
             old.stop()
@@ -143,7 +145,6 @@ class ModelService(HasTraits):
 
         return
 
-
     def _selection_changed(self, old, new):
         """
         Called whenever the selection within the project is changed.
@@ -152,11 +153,11 @@ class ModelService(HasTraits):
 
         """
 
-        logger.debug('ModelService [%s] selection changed from [%s] to [%s] ',
-             self, old, new)
+        logger.debug(
+            "ModelService [%s] selection changed from [%s] to [%s] ",
+            self,
+            old,
+            new,
+        )
 
         return
-
-
-### EOF ######################################################################
-

@@ -14,17 +14,17 @@ class AcmePreferencesPage(PreferencesPage):
 
     # The page's category (e.g. 'General/Appearance'). The empty string means
     # that this is a top-level page.
-    category = 'General'
+    category = "General"
 
     # The page's help identifier (optional). If a help Id *is* provided then
     # there will be a 'Help' button shown on the preference page.
-    help_id = ''
+    help_id = ""
 
     # The page name (this is what is shown in the preferences dialog.
-    name = 'Acme'
+    name = "Acme"
 
     # The path to the preference node that contains the preferences.
-    preferences_path = 'acme.workbench'
+    preferences_path = "acme.workbench"
 
     #### Preferences ##########################################################
 
@@ -38,13 +38,11 @@ class AcmePreferencesPage(PreferencesPage):
     ratio = Float(0.1)
 
     # Background color.
-    bgcolor = Color('red')
+    bgcolor = Color("red")
 
     # Text font.
-    font = Font('helvetica')
+    font = Font("helvetica")
 
     #### Traits UI views ######################################################
 
-    trait_view = View('width', 'height', 'ratio', 'font', 'bgcolor')
-
-#### EOF ######################################################################
+    trait_view = View("width", "height", "ratio", "font", "bgcolor")

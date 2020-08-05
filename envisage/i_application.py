@@ -22,8 +22,8 @@ from .application_event import ApplicationEvent
 
 
 class IApplication(
-        IExtensionRegistry, IImportManager, IPluginManager, IServiceRegistry
-    ):
+    IExtensionRegistry, IImportManager, IPluginManager, IServiceRegistry
+):
     """ The application interface. """
 
     # The application's globally unique identifier.
@@ -35,8 +35,8 @@ class IApplication(
     home = Str
 
     # The name of a directory (created for you upon access) to which the
-    # application can read and write user-accessible data, e.g. projects created
-    # by the user.
+    # application can read and write user-accessible data, e.g. projects
+    # created by the user.
     user_data = Str
 
     # The root preferences node.
@@ -67,5 +67,3 @@ class IApplication(
               application.stop()
 
         """
-
-#### EOF ######################################################################

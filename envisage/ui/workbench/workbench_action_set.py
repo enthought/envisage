@@ -54,7 +54,7 @@ class WorkbenchActionSet(ActionSet):
     #
     # The framework sets this trait when the action set is first added to a
     # window.
-    window = Instance('envisage.ui.workbench.api.WorkbenchWindow')
+    window = Instance("envisage.ui.workbench.api.WorkbenchWindow")
 
     ###########################################################################
     # 'ActionSet' interface.
@@ -64,8 +64,8 @@ class WorkbenchActionSet(ActionSet):
         """ Static trait change handler. """
 
         if self.window is not None:
-            self._update_tool_bars(self.window, 'enabled', new)
-            self._update_actions(self.window, 'enabled', new)
+            self._update_tool_bars(self.window, "enabled", new)
+            self._update_actions(self.window, "enabled", new)
 
         return
 
@@ -73,8 +73,8 @@ class WorkbenchActionSet(ActionSet):
         """ Static trait change handler. """
 
         if self.window is not None:
-            self._update_tool_bars(self.window, 'visible', new)
-            self._update_actions(self.window, 'visible', new)
+            self._update_tool_bars(self.window, "visible", new)
+            self._update_actions(self.window, "visible", new)
 
         return
 
@@ -97,9 +97,9 @@ class WorkbenchActionSet(ActionSet):
         # @on_trait_change) because sub-classes might have a completely
         # different way to determine the anabled and/or visible state, hence
         # we might want to hook up completely different events.
-        self.window.on_trait_change(self._refresh, 'opened')
-        self.window.on_trait_change(self._refresh, 'active_part')
-        self.window.on_trait_change(self._refresh, 'active_perspective')
+        self.window.on_trait_change(self._refresh, "opened")
+        self.window.on_trait_change(self._refresh, "active_part")
+        self.window.on_trait_change(self._refresh, "active_perspective")
 
         return
 
@@ -127,28 +127,34 @@ class WorkbenchActionSet(ActionSet):
         window = self.window
 
         if len(self.enabled_for_perspectives) > 0:
-            self.enabled = window is not None \
-                           and window.active_perspective is not None \
-                           and window.active_perspective.id in \
-                           self.enabled_for_perspectives
+            self.enabled = (
+                window is not None
+                and window.active_perspective is not None
+                and window.active_perspective.id
+                in self.enabled_for_perspectives
+            )
 
         if len(self.visible_for_perspectives) > 0:
-            self.visible = window is not None \
-                           and window.active_perspective is not None \
-                           and window.active_perspective.id in \
-                           self.visible_for_perspectives
+            self.visible = (
+                window is not None
+                and window.active_perspective is not None
+                and window.active_perspective.id
+                in self.visible_for_perspectives
+            )
 
         if len(self.enabled_for_views) > 0:
-            self.enabled = window is not None \
-                           and window.active_part is not None \
-                           and window.active_part.id in \
-                           self.enabled_for_views
+            self.enabled = (
+                window is not None
+                and window.active_part is not None
+                and window.active_part.id in self.enabled_for_views
+            )
 
         if len(self.visible_for_views) > 0:
-            self.visible = window is not None \
-                           and window.active_part is not None \
-                           and window.active_part.id in \
-                           self.visible_for_views
+            self.visible = (
+                window is not None
+                and window.active_part is not None
+                and window.active_part.id in self.visible_for_views
+            )
 
         return
 
@@ -163,7 +169,7 @@ class WorkbenchActionSet(ActionSet):
             # that we 'tag' the '_action_set_' attribute onto all items to be
             # ble to find them later. This link should be maintained externally
             # (maybe in the action set itself?).
-            if hasattr(item, '_action_set_'):
+            if hasattr(item, "_action_set_"):
                 if item._action_set_ is self:
                     setattr(item, trait_name, value)
 
@@ -186,5 +192,3 @@ class WorkbenchActionSet(ActionSet):
                 setattr(tool_bar_manager, trait_name, value)
 
         return
-
-#### EOF ######################################################################

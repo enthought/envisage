@@ -25,14 +25,16 @@ from .services import IPROJECT_MODEL, IPROJECT_UI
 from .ui_service_factory import UIServiceFactory
 
 # This module's package.
-PKG = '.'.join(__name__.split('.')[:-1])
+PKG = ".".join(__name__.split(".")[:-1])
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
+
 ###############################################################################
 # `ProjectPerspective` class.
 ###############################################################################
+
 class ProjectPerspective(Perspective):
     """
     A default perspective for the single_project plugin.
@@ -40,7 +42,7 @@ class ProjectPerspective(Perspective):
     """
 
     # The perspective's name.
-    name = 'Project'
+    name = "Project"
 
     # Should this perspective be enabled or not?
     enabled = True
@@ -50,7 +52,8 @@ class ProjectPerspective(Perspective):
 
     # The contents of the perspective.
     # TODO: Setup the PerspectiveItems based on the areas in our perspective.
-    #contents = []
+    # contents = []
+
 
 ##############################################################################
 # 'ProjectPlugin' class.
@@ -62,30 +65,32 @@ class ProjectPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin offers.
-    ACTION_SETS       = 'envisage.ui.workbench.action_sets'
-    FACTORY_DEFINITIONS = 'envisage.ui.single_project.factory_definitions'
-    UI_SERVICE_FACTORY = 'envisage.ui.single_project.ui_service_factory'
+    ACTION_SETS = "envisage.ui.workbench.action_sets"
+    FACTORY_DEFINITIONS = "envisage.ui.single_project.factory_definitions"
+    UI_SERVICE_FACTORY = "envisage.ui.single_project.ui_service_factory"
 
     # The Ids of the extension points that this plugin contributes to.
-    PERSPECTIVES = 'envisage.ui.workbench.perspectives'
-    PREFERENCES = 'envisage.preferences'
-    PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
-    SERVICE_OFFERS = 'envisage.service_offers'
-    VIEWS = 'envisage.ui.workbench.views'
+    PERSPECTIVES = "envisage.ui.workbench.perspectives"
+    PREFERENCES = "envisage.preferences"
+    PREFERENCES_PAGES = "envisage.ui.workbench.preferences_pages"
+    SERVICE_OFFERS = "envisage.service_offers"
+    VIEWS = "envisage.ui.workbench.views"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'envisage.ui.single_project'
+    id = "envisage.ui.single_project"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Single Project'
+    name = "Single Project"
 
     #### Extension points offered by this plugin ##############################
 
     # Factory definitions.
     factory_definitions = ExtensionPoint(
-        List(Callable), id=FACTORY_DEFINITIONS, desc="""
+        List(Callable),
+        id=FACTORY_DEFINITIONS,
+        desc="""
 
         A project factory definition.
 
@@ -95,16 +100,18 @@ class ProjectPlugin(Plugin):
         The extension with the highest priority wins!  In the event of a tie,
         the first instance wins.
 
-        """
+        """,
     )
 
     # Ui service factories.
     ui_service_factory = ExtensionPoint(
-        List(Callable), id=UI_SERVICE_FACTORY, desc="""
+        List(Callable),
+        id=UI_SERVICE_FACTORY,
+        desc="""
 
         A ui service factory definition.
 
-        """
+        """,
     )
 
     #### Contributions to extension points made by this plugin ################
@@ -130,8 +137,7 @@ class ProjectPlugin(Plugin):
         """
 
         factory_definition = FactoryDefinition(
-            class_name = PKG + '.project_factory.ProjectFactory',
-            priority = 0,
+            class_name=PKG + ".project_factory.ProjectFactory", priority=0,
         )
 
         return [factory_definition]
@@ -155,20 +161,10 @@ class ProjectPlugin(Plugin):
         Our service contributions.
 
         """
-
-        model_service = ServiceOffer(
-            protocol = IPROJECT_MODEL,
-            factory  = self._create_model_service
-        )
-
-        ui_service = ServiceOffer(
-            protocol = IPROJECT_UI,
-            factory  = self._create_ui_service
-        )
-
         # FIXME: Eventually we will register the services here intead
         # of in the plugin's start() method.
-        #return [model_service, ui_service]
+        # return [model_service, ui_service]
+
         return []
 
     # Ui service factories.
@@ -181,8 +177,8 @@ class ProjectPlugin(Plugin):
         """
 
         ui_service_factory = UIServiceFactory(
-            class_name = PKG + '.ui_service_factory.UIServiceFactory',
-            priority = 0,
+            class_name=PKG + ".ui_service_factory.UIServiceFactory",
+            priority=0,
         )
 
         return [ui_service_factory]
@@ -195,7 +191,7 @@ class ProjectPlugin(Plugin):
         Default preferences.
 
         """
-        return ['pkgfile://%s/preferences.ini' % PKG]
+        return ["pkgfile://%s/preferences.ini" % PKG]
 
     # Preference pages.
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
@@ -249,7 +245,7 @@ class ProjectPlugin(Plugin):
 
         # Set up any listeners interested in the current project selection
         # FIXME: Register the selection listeners for the current project selection.
-        #self._register_selection_listeners(model_service)
+        # self._register_selection_listeners(model_service)
 
         return
 
@@ -260,19 +256,18 @@ class ProjectPlugin(Plugin):
         Factory method for project views.
 
         """
-        from pyface.workbench.traits_ui_view import \
-                TraitsUIView
-        from envisage.ui.single_project.api import \
-                            ProjectView
+        from pyface.workbench.traits_ui_view import TraitsUIView
+        from envisage.ui.single_project.api import ProjectView
 
         project_view = ProjectView(application=window.application)
-        tui_project_view = TraitsUIView(obj=project_view,
-                                       id='envisage.ui.single_project.view.project_view.ProjectView',
-                                       name='Project View',
-                                       window=window,
-                                       position='left',
-                                       **traits
-                                       )
+        tui_project_view = TraitsUIView(
+            obj=project_view,
+            id="envisage.ui.single_project.view.project_view.ProjectView",
+            name="Project View",
+            window=window,
+            position="left",
+            **traits,
+        )
         return tui_project_view
 
     def _create_model_service(self):
@@ -292,7 +287,6 @@ class ProjectPlugin(Plugin):
 
         return result
 
-
     def _create_ui_service(self, model_service):
         """
         Creates a UI service for this plugin.
@@ -307,11 +301,11 @@ class ProjectPlugin(Plugin):
         ui_service_factory = self._get_contributed_ui_service_factory()
 
         # Create the ui service instance
-        ui_service = ui_service_factory.create_ui_service(model_service,
-            menu_manager)
+        ui_service = ui_service_factory.create_ui_service(
+            model_service, menu_manager
+        )
 
         return ui_service
-
 
     def _get_contributed_project_factory(self):
         """
@@ -324,7 +318,9 @@ class ProjectPlugin(Plugin):
         """
 
         # Retrieve all the factory definition contributions
-        extensions = self.application.get_extensions('envisage.ui.single_project.factory_definitions')
+        extensions = self.application.get_extensions(
+            "envisage.ui.single_project.factory_definitions"
+        )
 
         # Find the winning contribution
         definition = None
@@ -339,7 +335,6 @@ class ProjectPlugin(Plugin):
 
         return factory
 
-
     def _get_contributed_ui_service_factory(self):
         """
         Retrieves the instance of the UiService factory to use with this
@@ -351,7 +346,9 @@ class ProjectPlugin(Plugin):
         """
 
         # Retrieve all the factory definition contributions
-        extensions = self.get_extensions('envisage.ui.single_project.ui_service_factory')
+        extensions = self.get_extensions(
+            "envisage.ui.single_project.ui_service_factory"
+        )
 
         # Find the winning contribution
         definition = None
@@ -366,7 +363,6 @@ class ProjectPlugin(Plugin):
         factory = klass()
 
         return factory
-
 
     def _get_no_selection_context_menu_manager(self):
         """
@@ -384,11 +380,11 @@ class ProjectPlugin(Plugin):
         if len(extensions) > 0:
             action_set_manager = ActionSetManager(action_sets=extensions)
             menu_builder = DefaultMenuBuilder(application=self.application)
-            menu_builder.initialize_menu_manager(menu_manager,
-                action_set_manager, NO_SELECTION_MENU_ID)
+            menu_builder.initialize_menu_manager(
+                menu_manager, action_set_manager, NO_SELECTION_MENU_ID
+            )
 
         return menu_manager
-
 
     def _register_selection_listeners(self, model_service):
         """
@@ -403,11 +399,13 @@ class ProjectPlugin(Plugin):
                 name = sps.name
                 self._register_selection_handler(object, name, model_service)
             else:
-                logger.error('Could not resolve the SyncProjectSelection ' + \
-                    'UOL: "%s"', sps.uol )
+                logger.error(
+                    "Could not resolve the SyncProjectSelection "
+                    + 'UOL: "%s"',
+                    sps.uol,
+                )
 
         return
-
 
     def _register_selection_handler(self, object, name, model_service):
         """
@@ -461,12 +459,14 @@ class ProjectPlugin(Plugin):
             try:
                 setattr(object, name, None)
             except:
-                logger.debug('Error informing object [%s] of project '
-                    'selection change via attribute [%s]', object, name)
+                logger.debug(
+                    "Error informing object [%s] of project "
+                    "selection change via attribute [%s]",
+                    object,
+                    name,
+                )
 
-        model_service.on_trait_change(handler, 'selection')
-        model_service.on_trait_change(handler, 'selection_items')
+        model_service.on_trait_change(handler, "selection")
+        model_service.on_trait_change(handler, "selection_items")
 
         return
-
-### EOF ######################################################################

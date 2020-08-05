@@ -8,12 +8,12 @@
 # Thanks for using Enthought open source!
 
 import os
+import pickle
 import shutil
 import tempfile
 import unittest
 
 import pkg_resources
-from six.moves import cPickle as pickle
 
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
@@ -26,7 +26,6 @@ requires_gui = unittest.skipIf(
 
 @requires_gui
 class TestTasksApplication(unittest.TestCase):
-
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
@@ -51,15 +50,15 @@ class TestTasksApplication(unittest.TestCase):
         self.assertEqual(protocol_bytes, b"\x80\x02")
 
     @unittest.skipUnless(
-        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3")
+        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
+    )
     def test_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
 
         # Create application, and set it up to exit as soon as it's launched.
         app = TasksApplication(
-            state_location=state_location,
-            layout_save_protocol=3,
+            state_location=state_location, layout_save_protocol=3,
         )
         app.on_trait_change(app.exit, "application_initialized")
 
@@ -78,7 +77,8 @@ class TestTasksApplication(unittest.TestCase):
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
         stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data")
+            "envisage.ui.tasks.tests", "data"
+        )
 
         state_location = self.tmpdir
         shutil.copyfile(
@@ -94,12 +94,14 @@ class TestTasksApplication(unittest.TestCase):
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
     @unittest.skipUnless(
-        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3")
+        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
+    )
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
         stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data")
+            "envisage.ui.tasks.tests", "data"
+        )
 
         state_location = self.tmpdir
         shutil.copyfile(
@@ -109,8 +111,7 @@ class TestTasksApplication(unittest.TestCase):
 
         # Use a non-standard filename, to exercise that machinery.
         app = TasksApplication(
-            state_location=state_location,
-            state_filename="fancy_state.pkl",
+            state_location=state_location, state_filename="fancy_state.pkl",
         )
         app.on_trait_change(app.exit, "application_initialized")
         app.run()

@@ -11,6 +11,7 @@
 
 # Standard library imports.
 from os.path import exists, join
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
@@ -18,7 +19,6 @@ from envisage.api import IPluginActivator, Plugin, contributes_to
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
 from traits.api import HasTraits, Instance, Int, Interface, List
 from traits.api import provides
-from traits.testing.unittest_tools import unittest
 
 
 def listener(obj, trait_name, old, new):
@@ -33,7 +33,7 @@ def listener(obj, trait_name, old, new):
 class TestApplication(Application):
     """ The type of application used in the tests. """
 
-    id = 'test'
+    id = "test"
 
 
 class PluginTestCase(unittest.TestCase):
@@ -49,34 +49,34 @@ class PluginTestCase(unittest.TestCase):
 
         # If no Id is specified then use 'module_name.class_name'.
         p = Plugin()
-        self.assertEqual('envisage.plugin.Plugin', p.id)
+        self.assertEqual("envisage.plugin.Plugin", p.id)
 
         # If an Id is specified make sure we use it!
-        p = Plugin(id='wilma')
-        self.assertEqual('wilma', p.id)
+        p = Plugin(id="wilma")
+        self.assertEqual("wilma", p.id)
 
         # Make sure setting the name doesn't interfere with the Id.
-        p = Plugin(name='fred', id='wilma')
-        self.assertEqual('wilma', p.id)
-        self.assertEqual('fred', p.name)
+        p = Plugin(name="fred", id="wilma")
+        self.assertEqual("wilma", p.id)
+        self.assertEqual("fred", p.name)
 
     def test_name_policy(self):
         """ name policy """
 
         # If name is specified then use the plugin's class name.
         p = Plugin()
-        self.assertEqual('Plugin', p.name)
+        self.assertEqual("Plugin", p.name)
 
         # If a name is specified make sure we use it!
-        p = Plugin(name='wilma')
-        self.assertEqual('wilma', p.name)
+        p = Plugin(name="wilma")
+        self.assertEqual("wilma", p.name)
 
         # Try a camel case plugin class.
         class ThisIsMyPlugin(Plugin):
             pass
 
         p = ThisIsMyPlugin()
-        self.assertEqual('This Is My Plugin', p.name)
+        self.assertEqual("This Is My Plugin", p.name)
 
     def test_plugin_activator(self):
         """ plugin activator. """
@@ -96,10 +96,10 @@ class PluginTestCase(unittest.TestCase):
                 self.stopped = plugin
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
 
         plugin_activator = NullPluginActivator()
 
@@ -131,7 +131,7 @@ class PluginTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
             foo = Instance(Foo, (), service=True)
             bar = Instance(Bar, (), service=True)
             baz = Instance(Baz, (), service=True)
@@ -172,7 +172,7 @@ class PluginTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
             foo = Instance(Foo, (), service=True, service_protocol=IBar)
 
         a = PluginA()
@@ -193,14 +193,14 @@ class PluginTestCase(unittest.TestCase):
         """ multiple trait contributions """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
+            id = "A"
+            x = ExtensionPoint(List, id="x")
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
 
-            x  = List([1, 2, 3], contributes_to='x')
-            y  = List([4, 5, 6], contributes_to='x')
+            x = List([1, 2, 3], contributes_to="x")
+            y = List([4, 5, 6], contributes_to="x")
 
         a = PluginA()
         b = PluginB()
@@ -216,18 +216,18 @@ class PluginTestCase(unittest.TestCase):
         """ exception in trait contribution """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
+            id = "A"
+            x = ExtensionPoint(List, id="x")
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
 
-            x  = List(contributes_to='x')
+            x = List(contributes_to="x")
 
             def _x_default(self):
                 """ Trait initializer. """
 
-                raise 1/0
+                raise 1 / 0
 
         a = PluginA()
         b = PluginB()
@@ -243,12 +243,12 @@ class PluginTestCase(unittest.TestCase):
         """ contributes to """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
+            id = "A"
+            x = ExtensionPoint(List, id="x")
 
         class PluginB(Plugin):
-            id = 'B'
-            x  = List([1, 2, 3], contributes_to='x')
+            id = "B"
+            x = List([1, 2, 3], contributes_to="x")
 
         a = PluginA()
         b = PluginB()
@@ -257,19 +257,19 @@ class PluginTestCase(unittest.TestCase):
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
-        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+        self.assertEqual([1, 2, 3], application.get_extensions("x"))
 
     def test_contributes_to_decorator(self):
         """ contributes to decorator """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
+            id = "A"
+            x = ExtensionPoint(List, id="x")
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
 
-            @contributes_to('x')
+            @contributes_to("x")
             def _x_contributions(self):
                 return [1, 2, 3]
 
@@ -277,20 +277,20 @@ class PluginTestCase(unittest.TestCase):
         b = PluginB()
 
         application = TestApplication(plugins=[a, b])
-        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+        self.assertEqual([1, 2, 3], application.get_extensions("x"))
 
     def test_contributes_to_decorator_ignored_if_trait_present(self):
         """ contributes to decorator ignored if trait present """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='x')
+            id = "A"
+            x = ExtensionPoint(List, id="x")
 
         class PluginB(Plugin):
-            id = 'B'
-            x  = List([1, 2, 3], contributes_to='x')
+            id = "B"
+            x = List([1, 2, 3], contributes_to="x")
 
-            @contributes_to('x')
+            @contributes_to("x")
             def _x_contributions(self):
                 return [4, 5, 6]
 
@@ -298,26 +298,26 @@ class PluginTestCase(unittest.TestCase):
         b = PluginB()
 
         application = TestApplication(plugins=[a, b])
-        self.assertEqual([1, 2, 3], application.get_extensions('x'))
+        self.assertEqual([1, 2, 3], application.get_extensions("x"))
 
     def test_add_plugins_to_empty_application(self):
         """ add plugins to empty application """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List(Int), id='x')
+            id = "A"
+            x = ExtensionPoint(List(Int), id="x")
 
             def _x_items_changed(self, event):
-                self.added   = event.added
+                self.added = event.added
                 self.removed = event.removed
 
         class PluginB(Plugin):
-            id = 'B'
-            x  = List(Int, [1, 2, 3], contributes_to='x')
+            id = "B"
+            x = List(Int, [1, 2, 3], contributes_to="x")
 
         class PluginC(Plugin):
-            id = 'C'
-            x  = List(Int, [4, 5, 6], contributes_to='x')
+            id = "C"
+            x = List(Int, [4, 5, 6], contributes_to="x")
 
         a = PluginA()
         b = PluginB()
@@ -380,10 +380,10 @@ class PluginTestCase(unittest.TestCase):
         """ home """
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
 
         a = PluginA()
         b = PluginB()
@@ -391,8 +391,8 @@ class PluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b])
 
         # Make sure that each plugin gets its own directory.
-        self.assertEqual(join(application.home, 'plugins', a.id), a.home)
-        self.assertEqual(join(application.home, 'plugins', b.id), b.home)
+        self.assertEqual(join(application.home, "plugins", a.id), a.home)
+        self.assertEqual(join(application.home, "plugins", b.id), b.home)
 
         # Make sure that the directories got created.
         self.assertTrue(exists(a.home))
@@ -406,8 +406,8 @@ class PluginTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b])
 
         # Make sure that each plugin gets its own directory.
-        self.assertEqual(join(application.home, 'plugins', a.id), a.home)
-        self.assertEqual(join(application.home, 'plugins', b.id), b.home)
+        self.assertEqual(join(application.home, "plugins", a.id), a.home)
+        self.assertEqual(join(application.home, "plugins", b.id), b.home)
 
         # Make sure the directories got created.
         self.assertTrue(exists(a.home))
@@ -417,8 +417,8 @@ class PluginTestCase(unittest.TestCase):
         """ Regression test for #119. """
 
         class PluginA(Plugin):
-            id = 'A'
-            x  = ExtensionPoint(List, id='bob')
+            id = "A"
+            x = ExtensionPoint(List, id="bob")
 
         application = Application(plugins=[PluginA()])
-        application.get_extensions('bob')
+        application.get_extensions("bob")

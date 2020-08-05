@@ -38,7 +38,7 @@ class IServiceRegistry(Interface):
     # An event that is fired when a service is unregistered.
     unregistered = Event
 
-    def get_service(self, protocol, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query="", minimize="", maximize=""):
         """ Return at most one service that matches the specified query.
 
         The protocol can be an actual class or interface, or the *name* of a
@@ -61,7 +61,7 @@ class IServiceRegistry(Interface):
 
         """
 
-    def get_services(self, protocol, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query="", minimize="", maximize=""):
         """ Return all services that match the specified query.
 
         The protocol can be an actual class or interface, or the *name* of a
@@ -122,5 +122,3 @@ class IServiceRegistry(Interface):
         If no such service exists a 'ValueError' exception is raised.
 
         """
-
-#### EOF ######################################################################

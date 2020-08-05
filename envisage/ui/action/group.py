@@ -37,8 +37,6 @@ class Group(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Group(%s)' % self.id
+        return "Group(%s)" % self.id
 
     __repr__ = __str__
-
-#### EOF ######################################################################

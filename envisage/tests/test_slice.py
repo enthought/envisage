@@ -13,10 +13,11 @@ we try to mimic trait list events when extensions are added or removed.
 
 """
 
+# Standard library imports.
+import unittest
 
 # Enthought library imports.
 from traits.api import HasTraits, List
-from traits.testing.unittest_tools import unittest
 
 
 # The starting list for all tests.
@@ -28,8 +29,16 @@ def listener(obj, trait_name, old, event):
 
     clone = TEST_LIST[:]
 
+    added = event.added
+    # Backwards compatibility for Traits < 6.0, where event.added may
+    # be a list containing a list containing the added elements. This
+    # block can be removed once compatibility with Traits < 6.0 is no
+    # longer needed. Ref: enthought/traits#300.
+    if len(added) == 1 and isinstance(added[0], list):
+        added = added[0]
+
     # If nothing was added then this is a 'del' or 'remove' operation.
-    if len(event.added) == 0:
+    if len(added) == 0:
         if isinstance(event.index, slice):
             del clone[event.index]
 
@@ -43,19 +52,19 @@ def listener(obj, trait_name, old, event):
     # operation.
     elif len(event.removed) == 0:
         if isinstance(event.index, slice):
-            clone[event.index] = event.added[0]
+            clone[event.index] = added
 
         else:
-            clone.insert(event.index, event.added[0])
+            clone[event.index:event.index] = added
 
     # Otherwise, it is an assigment ('sort' and 'reverse' fall into this
     # category).
     else:
         if isinstance(event.index, slice):
-            clone[event.index] = event.added[0]
+            clone[event.index] = added
 
         else:
-            clone[event.index : event.index + len(event.added)] = event.added
+            clone[event.index:event.index + len(added)] = added
 
     listener.clone = clone
 
@@ -67,105 +76,105 @@ class SliceTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         class Foo(HasTraits):
-            l = List
+            elts = List
 
-        self.f = Foo(l=TEST_LIST)
-        self.f.on_trait_change(listener, 'l_items')
+        self.f = Foo(elts=TEST_LIST)
+        self.f.on_trait_change(listener, "elts_items")
 
     def test_append(self):
         """ append """
 
-        self.f.l.append(99)
+        self.f.elts.append(99)
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_insert(self):
         """ insert """
 
-        self.f.l.insert(3, 99)
+        self.f.elts.insert(3, 99)
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_extend(self):
         """ extend """
 
-        self.f.l.append([99, 100])
+        self.f.elts.extend([99, 100])
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_remove(self):
         """ remove """
 
-        self.f.l.remove(5)
+        self.f.elts.remove(5)
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_reverse(self):
         """ reverse """
 
-        self.f.l.reverse()
+        self.f.elts.reverse()
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_sort(self):
         """ sort """
 
-        self.f.l.sort()
+        self.f.elts.sort()
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_pop(self):
         """ remove """
 
-        self.f.l.pop()
+        self.f.elts.pop()
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_del_all(self):
         """ del all """
 
-        del self.f.l[:]
+        del self.f.elts[:]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_assign_item(self):
         """ assign item """
 
-        self.f.l[3] = 99
+        self.f.elts[3] = 99
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_del_item(self):
         """ del item """
 
-        del self.f.l[3]
+        del self.f.elts[3]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_assign_slice(self):
         """ assign slice """
 
-        self.f.l[2:4] = [88, 99]
+        self.f.elts[2:4] = [88, 99]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_del_slice(self):
         """ del slice """
 
-        del self.f.l[2:5]
+        del self.f.elts[2:5]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_assign_extended_slice(self):
         """ assign extended slice """
 
-        self.f.l[2:6:2] = [88, 99]
+        self.f.elts[2:6:2] = [88, 99]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)
 
     def test_del_extended_slice(self):
         """ del extended slice """
 
-        del self.f.l[2:6:2]
+        del self.f.elts[2:6:2]
         # Make sure we successfully recreated the operation.
-        self.assertEqual(self.f.l, listener.clone)
+        self.assertEqual(self.f.elts, listener.clone)

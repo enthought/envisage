@@ -19,13 +19,13 @@ class AboutAction(Action):
     #### 'Action' interface ###################################################
 
     # A longer description of the action.
-    description = 'Display information about the application'
+    description = "Display information about the application"
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'About'
+    name = "About"
 
     # A short description of the action used for tooltip text etc.
-    tooltip = 'Display information about the application'
+    tooltip = "Display information about the application"
 
     ###########################################################################
     # 'Action' interface.
@@ -37,5 +37,3 @@ class AboutAction(Action):
         self.window.application.about()
 
         return
-
-#### EOF ######################################################################

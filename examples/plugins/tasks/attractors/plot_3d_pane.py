@@ -2,8 +2,15 @@
 from mayavi.tools.mlab_scene_model import MlabSceneModel
 from mayavi.core.ui.mayavi_scene import MayaviScene
 from pyface.tasks.api import TraitsTaskPane
-from traits.api import Dict, Enum, Instance, List, Property, \
-     Unicode, on_trait_change
+from traits.api import (
+    Dict,
+    Enum,
+    Instance,
+    List,
+    Property,
+    Str,
+    on_trait_change,
+)
 from traitsui.api import EnumEditor, HGroup, Item, Label, View
 from tvtk.pyface.scene_editor import SceneEditor
 
@@ -15,8 +22,8 @@ class Plot3dPane(TraitsTaskPane):
 
     #### 'ITaskPane' interface ################################################
 
-    id = 'example.attractors.plot_3d_pane'
-    name = 'Plot 3D Pane'
+    id = "example.attractors.plot_3d_pane"
+    name = "Plot 3D Pane"
 
     #### 'Plot3dPane' interface ###############################################
 
@@ -25,18 +32,23 @@ class Plot3dPane(TraitsTaskPane):
 
     scene = Instance(MlabSceneModel, ())
 
-    view = View(HGroup(Label('Model: '),
-                       Item('active_model',
-                            editor = EnumEditor(name='_enum_map')),
-                       show_labels=False),
-                Item('scene',
-                     editor = SceneEditor(scene_class=MayaviScene),
-                     show_label = False),
-                resizable = True)
+    view = View(
+        HGroup(
+            Label("Model: "),
+            Item("active_model", editor=EnumEditor(name="_enum_map")),
+            show_labels=False,
+        ),
+        Item(
+            "scene",
+            editor=SceneEditor(scene_class=MayaviScene),
+            show_label=False,
+        ),
+        resizable=True,
+    )
 
     #### Private traits #######################################################
 
-    _enum_map = Dict(IModel3d, Unicode)
+    _enum_map = Dict(IModel3d, Str)
 
     ###########################################################################
     # Protected interface.
@@ -44,14 +56,14 @@ class Plot3dPane(TraitsTaskPane):
 
     #### Trait change handlers ################################################
 
-    @on_trait_change('active_model.points')
+    @on_trait_change("active_model.points")
     def _update_scene(self):
         self.scene.mlab.clf()
         if self.active_model:
             x, y, z = self.active_model.points.swapaxes(0, 1)
             self.scene.mlab.plot3d(x, y, z, line_width=1.0, tube_radius=None)
 
-    @on_trait_change('models[]')
+    @on_trait_change("models[]")
     def _update_models(self):
         # Make sure that the active model is valid with the new model list.
         if self.active_model not in self.models:

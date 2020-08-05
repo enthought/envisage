@@ -8,12 +8,10 @@
 # Thanks for using Enthought open source!
 """ A menu builder that doesn't build real actions! """
 
-
 # Enthought library imports.
 from envisage.ui.action.api import AbstractActionManagerBuilder
 from pyface.action.api import Action, Group, MenuManager
 from pyface.action.api import MenuBarManager
-from traits.testing.unittest_tools import unittest
 
 
 class DummyActionManagerBuilder(AbstractActionManagerBuilder):
@@ -30,7 +28,7 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
     def create_menu_bar_manager(self, root):
         """ Create a menu bar manager from the builder's action sets. """
 
-        menu_bar_manager = MenuBarManager(id='MenuBar')
+        menu_bar_manager = MenuBarManager(id="MenuBar")
 
         self.initialize_action_manager(menu_bar_manager, root)
 
@@ -58,5 +56,3 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
             menu_manager.insert(-1, Group(id=group_definition.id))
 
         return menu_manager
-
-#### EOF ######################################################################

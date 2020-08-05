@@ -16,10 +16,10 @@ from traits.api import Bool
 class BananaPlugin(Plugin):
     """ The 'Banana' plugin """
 
-    #### 'IPlugin' protocol ####################################################
+    #### 'IPlugin' protocol ###################################################
 
     # The plugin's unique identifier.
-    id = 'banana'
+    id = "banana"
 
     def start(self):
         """ Start the plugin. """
@@ -37,9 +37,7 @@ class BananaPlugin(Plugin):
 
         return
 
-    #### 'BananaPlugin' protocol ###############################################
+    #### 'BananaPlugin' protocol ##############################################
 
     started = Bool(False)
     stopped = Bool(False)
-
-#### EOF ######################################################################

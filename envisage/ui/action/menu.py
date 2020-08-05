@@ -14,7 +14,6 @@ from traits.api import Instance, List, Str
 # Local imports.
 from .group import Group
 from .location import Location
-from ..._compat import STRING_BASE_CLASS
 
 
 class CGroup(Instance):
@@ -43,7 +42,7 @@ class CGroup(Instance):
     def validate(self, object, name, value):
         """ Validate a value. """
 
-        if isinstance(value, STRING_BASE_CLASS):
+        if isinstance(value, str):
             value = Group(id=value)
 
         return super(CGroup, self).validate(object, name, value)
@@ -73,7 +72,7 @@ class Menu(Location):
     def __str__(self):
         """ Return the 'informal' string representation of the object. """
 
-        return 'Menu(%s)' % self.name
+        return "Menu(%s)" % self.name
 
     __repr__ = __str__
 
@@ -84,6 +83,4 @@ class Menu(Location):
     def _id_default(self):
         """ Trait initializer. """
 
-        return self.name.strip('&')
-
-#### EOF ######################################################################
+        return self.name.strip("&")

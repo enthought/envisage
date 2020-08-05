@@ -32,7 +32,7 @@ class MutableExtensionRegistry(ExtensionRegistry):
 
         self._check_extension_point(extension_point_id)
 
-        old   = self._get_extensions(extension_point_id)
+        old = self._get_extensions(extension_point_id)
         index = len(old)
         old.extend(extensions)
 
@@ -64,5 +64,3 @@ class MutableExtensionRegistry(ExtensionRegistry):
         self._call_listeners(refs, extension_point_id, [], extensions, None)
 
         return
-
-#### EOF ######################################################################

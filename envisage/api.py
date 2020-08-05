@@ -24,7 +24,10 @@ from .class_load_hook import ClassLoadHook
 from .egg_plugin_manager import EggPluginManager
 from .extension_registry import ExtensionRegistry
 from .extension_point import ExtensionPoint, contributes_to
-from .extension_point_binding import ExtensionPointBinding, bind_extension_point
+from .extension_point_binding import (
+    ExtensionPointBinding,
+    bind_extension_point,
+)
 from .extension_provider import ExtensionProvider
 from .extension_point_changed_event import ExtensionPointChangedEvent
 from .import_manager import ImportManager
@@ -36,9 +39,5 @@ from .provider_extension_registry import ProviderExtensionRegistry
 from .service import Service
 from .service_offer import ServiceOffer
 from .service_registry import NoSuchServiceError, ServiceRegistry
-from .twisted_application import TwistedApplication
 from .unknown_extension import UnknownExtension
 from .unknown_extension_point import UnknownExtensionPoint
-
-
-#### EOF ######################################################################

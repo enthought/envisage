@@ -16,28 +16,29 @@ from pyface.api import ImageResource
 # class 'SaveAsProjectAction'
 ##############################################################################
 
+
 class SaveAsProjectAction(ProjectAction):
     """ An action that saves the current project to a
     different location.
     """
 
     # The universal object locator (UOL).
-    uol = 'envisage.ui.single_project.ui_service.UiService'
+    uol = "envisage.ui.single_project.ui_service.UiService"
 
     # The name of the method to invoke on the object.
-    method_name = 'save_as'
+    method_name = "save_as"
 
     # A longer description of the action.
-    description = 'Save the current project to a different location'
+    description = "Save the current project to a different location"
 
     # The action's image (displayed on tool bar tools etc).
-    image = ImageResource('save_as_project')
+    image = ImageResource("save_as_project")
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Save As...'
+    name = "Save As..."
 
     # A short description of the action used for tooltip text etc.
-    tooltip = 'Save this project to a different location'
+    tooltip = "Save this project to a different location"
 
     #### public interface ####################################################
 
@@ -50,11 +51,12 @@ class SaveAsProjectAction(ProjectAction):
 
         """
 
-        self.enabled = self._refresh_project_exists() and \
-            self._refresh_is_save_as_allowed()
+        self.enabled = (
+            self._refresh_project_exists()
+            and self._refresh_is_save_as_allowed()
+        )
 
         return
-
 
     #### trait handlers ######################################################
 
@@ -72,8 +74,9 @@ class SaveAsProjectAction(ProjectAction):
         if new is not None:
             self._update_project_listeners(new, remove=False)
 
-        super(SaveAsAction, self)._on_project_changed(obj, trait_name, old, new)
-
+        super(SaveAsAction, self)._on_project_changed(
+            obj, trait_name, old, new
+        )
 
     ##########################################################################
     # 'SaveAsAction' interface
@@ -92,21 +95,24 @@ class SaveAsProjectAction(ProjectAction):
 
         return self.model_service.project.is_save_as_allowed
 
-
     def _update_project_listeners(self, project, remove):
         """
         Update listeners on the specified project.
 
         """
 
-        logger.debug( (remove and 'Removing ' or 'Adding ') + \
-            'listeners on project [%s] for SaveAsAction [%s]', project, self)
+        logger.debug(
+            (remove and "Removing " or "Adding ")
+            + "listeners on project [%s] for SaveAsAction [%s]",
+            project,
+            self,
+        )
 
-        project.on_trait_change(self._on_is_save_as_allowed,
-            'is_save_as_allowed', remove=remove)
+        project.on_trait_change(
+            self._on_is_save_as_allowed, "is_save_as_allowed", remove=remove
+        )
 
         return
-
 
     #### trait handlers ######################################################
 

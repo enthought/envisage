@@ -10,12 +10,12 @@
 
 
 # Standard library imports.
+import unittest
 import weakref
 
 # Enthought library imports.
 from envisage.safeweakref import ref
 from traits.api import HasTraits
-from traits.testing.unittest_tools import unittest
 
 
 class SafeWeakrefTestCase(unittest.TestCase):
@@ -29,7 +29,8 @@ class SafeWeakrefTestCase(unittest.TestCase):
         f = Foo()
 
         # Get a weak reference to a bound method.
-        r = ref(f.method)
+        with self.assertWarns(DeprecationWarning):
+            r = ref(f.method)
         self.assertNotEqual(None, r())
 
         # Make sure we can call it.
@@ -49,7 +50,11 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         f = Foo()
 
-        self.assertIs(ref(f.method), ref(f.method))
+        with self.assertWarns(DeprecationWarning):
+            ref1 = ref(f.method)
+            ref2 = ref(f.method)
+
+        self.assertIs(ref1, ref2)
 
     def test_internal_cache_is_weak_too(self):
         # smell: Fragile test because we are reaching into the internals of the
@@ -72,7 +77,8 @@ class SafeWeakrefTestCase(unittest.TestCase):
 
         # Create a weak reference to the bound method and make sure that
         # exactly one item has been added to the cache.
-        r = ref(f.method)
+        with self.assertWarns(DeprecationWarning):
+            r = ref(f.method)
         self.assertEqual(len_cache + 1, len(cache))
 
         # Delete the instance!
@@ -92,8 +98,9 @@ class SafeWeakrefTestCase(unittest.TestCase):
         f = Foo()
 
         # Make sure that two references to the same method compare as equal.
-        r1 = ref(f.method)
-        r2 = ref(f.method)
+        with self.assertWarns(DeprecationWarning):
+            r1 = ref(f.method)
+            r2 = ref(f.method)
         self.assertEqual(r1, r2)
 
         # Make sure that a reference compares as unequal to non-references!
@@ -107,14 +114,16 @@ class SafeWeakrefTestCase(unittest.TestCase):
         f = Foo()
 
         # Make sure we can hash the references.
-        r1 = ref(f.method)
-        r2 = ref(f.method)
+        with self.assertWarns(DeprecationWarning):
+            r1 = ref(f.method)
+            r2 = ref(f.method)
 
         self.assertEqual(hash(r1), hash(r2))
 
         # Make sure we can hash non-bound methods.
-        r1 = ref(Foo)
-        r2 = ref(Foo)
+        with self.assertWarns(DeprecationWarning):
+            r1 = ref(Foo)
+            r2 = ref(Foo)
 
         self.assertEqual(hash(r1), hash(r2))
 
@@ -125,5 +134,19 @@ class SafeWeakrefTestCase(unittest.TestCase):
         f = Foo()
 
         # Get a weak reference to something that is not a bound method.
-        r = ref(f)
+        with self.assertWarns(DeprecationWarning):
+            r = ref(f)
         self.assertEqual(weakref.ref, type(r))
+
+    def test_deprecated(self):
+        class Foo(HasTraits):
+            def method(self):
+                pass
+
+        f = Foo()
+
+        with self.assertWarns(DeprecationWarning):
+            ref(f.method)
+
+        with self.assertWarns(DeprecationWarning):
+            ref(f)

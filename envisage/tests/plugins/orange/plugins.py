@@ -15,5 +15,3 @@ def get_plugins():
     from .orange_plugin import OrangePlugin
 
     return [OrangePlugin()]
-
-#### EOF #######################################################################

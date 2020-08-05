@@ -20,8 +20,6 @@ Modified from upstream to enable the heartbeat thread to be shut down cleanly.
 # Once we're using ipykernel 5.x, this module can be removed and we can
 # revert to using the upstream Heartbeat class.
 
-from __future__ import absolute_import, print_function, unicode_literals
-
 import ipykernel.heartbeat
 import zmq
 
@@ -32,6 +30,7 @@ class Heartbeat(ipykernel.heartbeat.Heartbeat):
 
     Modified from upstream to enable the thread to be shut down cleanly.
     """
+
     def run(self):
         try:
             super(Heartbeat, self).run()

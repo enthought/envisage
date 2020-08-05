@@ -26,5 +26,3 @@ class IResourceProtocol(Interface):
           protocol.file('acme.ui.workbench/preferences.ini')
 
         """
-
-#### EOF ######################################################################

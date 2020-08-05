@@ -23,7 +23,7 @@ from envisage.single_project.services import IPROJECT_MODEL
 
 
 # Setup a logger for this module.
-logger=logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class ProjectEditor(DecoratedEditor):
@@ -40,8 +40,7 @@ class ProjectEditor(DecoratedEditor):
     ### public 'ProjectEditor' interface ####################################
 
     # The project containing the resource we're editing
-    project = Instance('envisage.single_project.project.Project')
-
+    project = Instance("envisage.single_project.project.Project")
 
     #########################################################################
     # `object` interface
@@ -67,7 +66,6 @@ class ProjectEditor(DecoratedEditor):
 
         return
 
-
     #########################################################################
     # 'Editor' interface.
     #########################################################################
@@ -85,7 +83,7 @@ class ProjectEditor(DecoratedEditor):
 
         # Only do something if the editor is still open
         if self.control:
-            logger.debug('Destroying control in ProjectEditor [%s]', self)
+            logger.debug("Destroying control in ProjectEditor [%s]", self)
 
             # Unregister from the associated project immediately.
             self.project.register_editor(self.resource, self, remove=True)
@@ -93,6 +91,3 @@ class ProjectEditor(DecoratedEditor):
         super(ProjectEditor, self).destroy_control()
 
         return
-
-
-#### EOF ####################################################################

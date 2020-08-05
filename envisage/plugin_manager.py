@@ -20,7 +20,6 @@ from .i_plugin_manager import IPluginManager
 from .plugin_event import PluginEvent
 
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -43,7 +42,7 @@ class PluginManager(HasTraits):
 
     """
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     # Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
@@ -51,10 +50,11 @@ class PluginManager(HasTraits):
     # Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
-    #### 'PluginManager' protocol ##############################################
+    #### 'PluginManager' protocol #############################################
 
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
+
     def _application_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
@@ -75,7 +75,7 @@ class PluginManager(HasTraits):
     # Each item in the list is actually an 'fnmatch' expression.
     include = List(Str)
 
-    #### 'object' protocol #####################################################
+    #### 'object' protocol ####################################################
 
     def __init__(self, plugins=None, **traits):
         """ Constructor.
@@ -99,14 +99,14 @@ class PluginManager(HasTraits):
         """ Return an iterator over the manager's plugins. """
 
         plugins = [
-            plugin for plugin in self._plugins
-
+            plugin
+            for plugin in self._plugins
             if self._include_plugin(plugin.id)
         ]
 
         return iter(plugins)
 
-    #### 'IPluginManager' protocol #############################################
+    #### 'IPluginManager' protocol ############################################
 
     def add_plugin(self, plugin):
         """ Add a plugin to the manager. """
@@ -152,12 +152,12 @@ class PluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
-            logger.debug('plugin %s starting', plugin.id)
+            logger.debug("plugin %s starting", plugin.id)
             plugin.activator.start_plugin(plugin)
-            logger.debug('plugin %s started', plugin.id)
+            logger.debug("plugin %s started", plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % plugin_id)
+            raise SystemError("no such plugin %s" % plugin_id)
 
         return
 
@@ -178,19 +178,20 @@ class PluginManager(HasTraits):
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
-            logger.debug('plugin %s stopping', plugin.id)
+            logger.debug("plugin %s stopping", plugin.id)
             plugin.activator.stop_plugin(plugin)
-            logger.debug('plugin %s stopped', plugin.id)
+            logger.debug("plugin %s stopped", plugin.id)
 
         else:
-            raise SystemError('no such plugin %s' % plugin_id)
+            raise SystemError("no such plugin %s" % plugin_id)
 
         return
 
-    #### Protected 'PluginManager' #############################################
+    #### Protected 'PluginManager' ############################################
 
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
+
     def __plugins_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
@@ -215,9 +216,11 @@ class PluginManager(HasTraits):
 
         """
 
-        return self._is_included(plugin_id) and not self._is_excluded(plugin_id)
+        return self._is_included(plugin_id) and not self._is_excluded(
+            plugin_id
+        )
 
-    #### Private protocol ######################################################
+    #### Private protocol #####################################################
 
     def _is_excluded(self, plugin_id):
         """ Return True if the plugin Id is excluded.
@@ -263,5 +266,3 @@ class PluginManager(HasTraits):
             plugin.application = self.application
 
         return
-
-#### EOF ######################################################################

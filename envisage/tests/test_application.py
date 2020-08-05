@@ -12,7 +12,6 @@
 # Standard library imports.
 import os
 import shutil
-import tempfile
 import unittest
 
 # Enthought library imports.
@@ -44,7 +43,7 @@ def vetoer(event):
 class TestApplication(Application):
     """ The type of application used in the tests. """
 
-    id = 'test'
+    id = "test"
 
 
 class SimplePlugin(Plugin):
@@ -82,33 +81,33 @@ class BadPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        raise 1/0
+        raise 1 / 0
 
     def stop(self):
         """ Stop the plugin. """
 
-        raise 1/0
+        raise 1 / 0
 
 
 class PluginA(Plugin):
     """ A plugin that offers an extension point. """
 
-    id = 'A'
-    x  = ExtensionPoint(List, id='a.x')
+    id = "A"
+    x = ExtensionPoint(List, id="a.x")
 
 
 class PluginB(Plugin):
     """ A plugin that contributes to an extension point. """
 
-    id = 'B'
-    x  = List(Int, [1, 2, 3], contributes_to='a.x')
+    id = "B"
+    x = List(Int, [1, 2, 3], contributes_to="a.x")
 
 
 class PluginC(Plugin):
     """ Another plugin that contributes to an extension point! """
 
-    id = 'C'
-    x  = List(Int, [98, 99, 100], contributes_to='a.x')
+    id = "C"
+    x = List(Int, [98, 99, 100], contributes_to="a.x")
 
 
 class ApplicationTestCase(unittest.TestCase):
@@ -153,24 +152,24 @@ class ApplicationTestCase(unittest.TestCase):
         application = TestApplication()
 
         tracker = EventTracker(
-            subscriptions = [
-                (application, 'starting'),
-                (application, 'started'),
-                (application, 'stopping'),
-                (application, 'stopped')
+            subscriptions=[
+                (application, "starting"),
+                (application, "started"),
+                (application, "stopping"),
+                (application, "stopped"),
             ]
         )
 
         # Start the application.
         started = application.start()
         self.assertEqual(True, started)
-        self.assertEqual(['starting', 'started'], tracker.event_names)
+        self.assertEqual(["starting", "started"], tracker.event_names)
 
         # Stop the application.
         stopped = application.stop()
         self.assertEqual(True, stopped)
         self.assertEqual(
-            ['starting', 'started', 'stopping', 'stopped'], tracker.event_names
+            ["starting", "started", "stopping", "stopped"], tracker.event_names
         )
 
     def test_veto_starting(self):
@@ -179,21 +178,21 @@ class ApplicationTestCase(unittest.TestCase):
         application = TestApplication()
 
         # This listener will veto the 'starting' event.
-        application.on_trait_change(vetoer, 'starting')
+        application.on_trait_change(vetoer, "starting")
 
         tracker = EventTracker(
-            subscriptions = [
-                (application, 'starting'),
-                (application, 'started'),
-                (application, 'stopping'),
-                (application, 'stopped')
+            subscriptions=[
+                (application, "starting"),
+                (application, "started"),
+                (application, "stopping"),
+                (application, "stopped"),
             ]
         )
 
         # Start the application.
         started = application.start()
         self.assertEqual(False, started)
-        self.assertTrue('started' not in tracker.event_names)
+        self.assertTrue("started" not in tracker.event_names)
 
     def test_veto_stopping(self):
         """ veto stopping """
@@ -201,33 +200,33 @@ class ApplicationTestCase(unittest.TestCase):
         application = TestApplication()
 
         # This listener will veto the 'stopping' event.
-        application.on_trait_change(vetoer, 'stopping')
+        application.on_trait_change(vetoer, "stopping")
 
         tracker = EventTracker(
-            subscriptions = [
-                (application, 'starting'),
-                (application, 'started'),
-                (application, 'stopping'),
-                (application, 'stopped')
+            subscriptions=[
+                (application, "starting"),
+                (application, "started"),
+                (application, "stopping"),
+                (application, "stopped"),
             ]
         )
 
         # Start the application.
         started = application.start()
-        self.assertEqual(['starting', 'started'], tracker.event_names)
+        self.assertEqual(["starting", "started"], tracker.event_names)
         self.assertEqual(True, started)
 
         # Stop the application.
         stopped = application.stop()
         self.assertEqual(False, stopped)
-        self.assertTrue('stopped' not in tracker.event_names)
+        self.assertTrue("stopped" not in tracker.event_names)
 
     def test_start_and_stop_errors(self):
         """ start and stop errors """
 
         simple_plugin = SimplePlugin()
-        bad_plugin    = BadPlugin()
-        application   = TestApplication(plugins=[simple_plugin, bad_plugin])
+        bad_plugin = BadPlugin()
+        application = TestApplication(plugins=[simple_plugin, bad_plugin])
 
         # Try to start the application - the bad plugin should barf.
         with self.assertRaises(ZeroDivisionError):
@@ -256,7 +255,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
@@ -280,22 +279,22 @@ class ApplicationTestCase(unittest.TestCase):
             """ An extension point listener. """
 
             listener.extension_point_id = event.extension_point_id
-            listener.added              = event.added
-            listener.removed            = event.removed
+            listener.added = event.added
+            listener.removed = event.removed
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
 
         # Add the listener.
-        application.add_extension_point_listener(listener, 'a.x')
+        application.add_extension_point_listener(listener, "a.x")
 
         # Now add the other plugin.
         application.add_plugin(c)
 
         # Make sure the listener was called.
-        self.assertEqual('a.x', listener.extension_point_id)
+        self.assertEqual("a.x", listener.extension_point_id)
         self.assertEqual([], listener.removed)
         self.assertEqual([98, 99, 100], listener.added)
 
@@ -314,27 +313,27 @@ class ApplicationTestCase(unittest.TestCase):
             """ An extension point listener. """
 
             listener.extension_point_id = event.extension_point_id
-            listener.added   = event.added
+            listener.added = event.added
             listener.removed = event.removed
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(0, len(extensions))
 
         # Add the listener.
-        application.add_extension_point_listener(listener, 'a.x')
+        application.add_extension_point_listener(listener, "a.x")
 
         # Now add one of the other plugins.
         application.add_plugin(b)
 
         # Make sure the listener was called.
-        self.assertEqual('a.x', listener.extension_point_id)
+        self.assertEqual("a.x", listener.extension_point_id)
         self.assertEqual([], listener.removed)
         self.assertEqual([1, 2, 3], listener.added)
 
         # Now remove the listener.
         listener.extension_point_id = None
-        application.remove_extension_point_listener(listener, 'a.x')
+        application.remove_extension_point_listener(listener, "a.x")
 
         # Now add the final plugin.
         application.add_plugin(c)
@@ -354,7 +353,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(3, len(extensions))
         self.assertEqual([1, 2, 3], extensions)
 
@@ -367,7 +366,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.add_plugin(c)
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
@@ -388,12 +387,12 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         # Make sure we can get the plugins.
-        self.assertEqual(a, application.get_plugin('A'))
-        self.assertEqual(b, application.get_plugin('B'))
-        self.assertEqual(c, application.get_plugin('C'))
+        self.assertEqual(a, application.get_plugin("A"))
+        self.assertEqual(b, application.get_plugin("B"))
+        self.assertEqual(c, application.get_plugin("C"))
 
         # Make sure we can't get one that isn't there ;^)
-        self.assertEqual(None, application.get_plugin('BOGUS'))
+        self.assertEqual(None, application.get_plugin("BOGUS"))
 
     def test_remove_plugin(self):
         """ remove plugin """
@@ -406,7 +405,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
@@ -419,7 +418,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.remove_plugin(b)
 
         # Make sure we can get the contributions via the application.
-        extensions = application.get_extensions('a.x')
+        extensions = application.get_extensions("a.x")
         self.assertEqual(3, len(extensions))
         self.assertEqual([98, 99, 100], extensions)
 
@@ -442,9 +441,9 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         # Make sure we can get the plugins.
-        self.assertEqual(a, application.get_plugin('A'))
-        self.assertEqual(b, application.get_plugin('B'))
-        self.assertEqual(c, application.get_plugin('C'))
+        self.assertEqual(a, application.get_plugin("A"))
+        self.assertEqual(b, application.get_plugin("B"))
+        self.assertEqual(c, application.get_plugin("C"))
 
         # Make sure we can't get one that isn't there ;^)
-        self.assertEqual(None, application.get_plugin('BOGUS'))
+        self.assertEqual(None, application.get_plugin("BOGUS"))

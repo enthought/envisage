@@ -10,7 +10,8 @@
 
 
 # Standard library imports.
-import logging, sys
+import logging
+import sys
 
 # Enthought library imports.
 from envisage.api import IExtensionRegistry
@@ -18,13 +19,13 @@ from envisage.api import ExtensionPoint
 from envisage.plugins.python_shell.api import IPythonShell
 from pyface.api import PythonShell
 from pyface.workbench.api import View
-from traits.api import Any, Event, Instance, Property, DictStrAny, provides
+from traits.api import Any, Dict, Event, Instance, Property, provides, Str
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
 
-class PseudoFile ( object ):
+class PseudoFile(object):
     """ Simulates a normal File object.
     """
 
@@ -52,19 +53,19 @@ class PythonShellView(View):
     #### 'IView' interface ####################################################
 
     # The part's globally unique identifier.
-    id = 'envisage.plugins.python_shell_view'
+    id = "envisage.plugins.python_shell_view"
 
     # The part's name (displayed to the user).
-    name = 'Python'
+    name = "Python"
 
     # The default position of the view relative to the item specified in the
     # 'relative_to' trait.
-    position = 'bottom'
+    position = "bottom"
 
     #### 'PythonShellView' interface ##########################################
 
     # The interpreter's namespace.
-    namespace = Property(DictStrAny)
+    namespace = Property(Dict(Str, Any))
 
     # The names bound in the interpreter's namespace.
     names = Property
@@ -83,10 +84,10 @@ class PythonShellView(View):
     #### Private interface ####################################################
 
     # Bindings.
-    _bindings = ExtensionPoint(id='envisage.plugins.python_shell.bindings')
+    _bindings = ExtensionPoint(id="envisage.plugins.python_shell.bindings")
 
     # Commands.
-    _commands = ExtensionPoint(id='envisage.plugins.python_shell.commands')
+    _commands = ExtensionPoint(id="envisage.plugins.python_shell.commands")
 
     ###########################################################################
     # 'IExtensionPointUser' interface.
@@ -105,12 +106,12 @@ class PythonShellView(View):
         """ Creates the toolkit-specific control that represents the view. """
 
         self.shell = shell = PythonShell(parent)
-        shell.on_trait_change(self._on_key_pressed, 'key_pressed')
-        shell.on_trait_change(self._on_command_executed, 'command_executed')
+        shell.on_trait_change(self._on_key_pressed, "key_pressed")
+        shell.on_trait_change(self._on_command_executed, "command_executed")
 
         # Write application standard out to this shell instead of to DOS window
         self.on_trait_change(
-            self._on_write_stdout, 'stdout_text', dispatch='ui'
+            self._on_write_stdout, "stdout_text", dispatch="ui"
         )
         self.original_stdout = sys.stdout
         sys.stdout = PseudoFile(self._write_stdout)
@@ -126,8 +127,9 @@ class PythonShellView(View):
         # We take note of the starting set of names and types bound in the
         # interpreter's namespace so that we can show the user what they have
         # added or removed in the namespace view.
-        self._namespace_types = set((name, type(value)) for name, value in \
-                                        self.namespace.items())
+        self._namespace_types = set(
+            (name, type(value)) for name, value in self.namespace.items()
+        )
 
         # Register the view as a service.
         app = self.window.application
@@ -146,9 +148,7 @@ class PythonShellView(View):
         self.window.application.unregister_service(self._service_id)
 
         # Remove the sys.stdout handlers.
-        self.on_trait_change(
-            self._on_write_stdout, 'stdout_text', remove=True
-        )
+        self.on_trait_change(self._on_write_stdout, "stdout_text", remove=True)
 
         # Restore the original stdout.
         sys.stdout = self.original_stdout
@@ -214,9 +214,11 @@ class PythonShellView(View):
         """ Dynamic trait change handler. """
 
         if self.control is not None:
-            # Get the set of tuples of names and types in the current namespace.
-            namespace_types = set((name, type(value)) for name, value in \
-                                                        self.namespace.items())
+            # Get the set of tuples of names and types in the current
+            # namespace.
+            namespace_types = set(
+                (name, type(value)) for name, value in self.namespace.items()
+            )
             # Figure out the changes in the namespace, if any.
             added = namespace_types.difference(self._namespace_types)
             removed = self._namespace_types.difference(namespace_types)
@@ -224,8 +226,8 @@ class PythonShellView(View):
             self._namespace_types = namespace_types
             # Fire events if there are change.
             if len(added) > 0 or len(removed) > 0:
-                self.trait_property_changed('namespace', {}, self.namespace)
-                self.trait_property_changed('names', [], self.names)
+                self.trait_property_changed("namespace", {}, self.namespace)
+                self.trait_property_changed("names", [], self.names)
 
         return
 
@@ -235,12 +237,12 @@ class PythonShellView(View):
         if event.alt_down and event.key_code == 317:
             zoom = self.shell.control.GetZoom()
             if zoom != 20:
-                self.shell.control.SetZoom(zoom+1)
+                self.shell.control.SetZoom(zoom + 1)
 
         elif event.alt_down and event.key_code == 319:
             zoom = self.shell.control.GetZoom()
             if zoom != -10:
-                self.shell.control.SetZoom(zoom-1)
+                self.shell.control.SetZoom(zoom - 1)
 
         return
 
@@ -250,5 +252,3 @@ class PythonShellView(View):
         self.shell.control.write(text)
 
         return
-
-#### EOF ######################################################################

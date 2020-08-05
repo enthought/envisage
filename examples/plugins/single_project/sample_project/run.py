@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 The entry point for an Envisage application.
@@ -24,22 +24,24 @@ from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
 
 # Local imports.
 from plugins.single_project.plugin_definition import EnvProjectPlugin
+
 # FIXME: This is uncommented for now until we have the new TreeEditor
 # implementation in place that can understand domain-objects that have
 # been abstracted to an INode interface.
-#from data.plugin.plugin_definition import DataPlugin
+# from data.plugin.plugin_definition import DataPlugin
 
 # Configure a logger for this application
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
+
 def main():
     """ Runs the application. """
 
     # Create the application.
     application = WorkbenchApplication(
-        id = 'testProject_extended',
+        id="testProject_extended",
         plugins=[
             CorePlugin(),
             WorkbenchPlugin(),
@@ -49,8 +51,8 @@ def main():
             # FIXME: This is uncommented for now until we have the new TreeEditor
             # implementation in place that can understand domain-objects that have
             # been abstracted to an INode interface.
-            #DataPlugin(),
-        ]
+            # DataPlugin(),
+        ],
     )
 
     # Run the application.
@@ -60,5 +62,5 @@ def main():
 
 
 # Application entry point.
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

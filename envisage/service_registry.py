@@ -18,7 +18,6 @@ from traits.api import Dict, Event, HasTraits, Int, provides
 # Local imports.
 from .i_service_registry import IServiceRegistry
 from .import_manager import ImportManager
-from ._compat import STRING_BASE_CLASS
 
 
 # Logging.
@@ -66,7 +65,9 @@ class ServiceRegistry(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
-    def get_required_service(self, protocol, query='', minimize='',maximize=''):
+    def get_required_service(
+        self, protocol, query="", minimize="", maximize=""
+    ):
         """ Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.
@@ -79,7 +80,7 @@ class ServiceRegistry(HasTraits):
 
         return service
 
-    def get_service(self, protocol, query='', minimize='', maximize=''):
+    def get_service(self, protocol, query="", minimize="", maximize=""):
         """ Return at most one service that matches the specified query. """
 
         services = self.get_services(protocol, query, minimize, maximize)
@@ -98,18 +99,18 @@ class ServiceRegistry(HasTraits):
             protocol, obj, properties = self._services[service_id]
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return obj
 
-    def get_services(self, protocol, query='', minimize='', maximize=''):
+    def get_services(self, protocol, query="", minimize="", maximize=""):
         """ Return all services that match the specified query. """
 
         services = []
         for service_id, (name, obj, properties) in self._services.items():
             if self._get_protocol_name(protocol) == name:
                 # If the protocol is a string then we need to import it!
-                if isinstance(protocol, STRING_BASE_CLASS):
+                if isinstance(protocol, str):
                     actual_protocol = ImportManager().import_symbol(protocol)
 
                 # Otherwise, it is an actual protocol, so just use it!
@@ -129,10 +130,10 @@ class ServiceRegistry(HasTraits):
 
         # Are we minimizing or maximising anything? If so then sort the list
         # of services by the specified attribute/property.
-        if minimize != '':
+        if minimize != "":
             services.sort(key=lambda x: getattr(x, minimize))
 
-        elif maximize != '':
+        elif maximize != "":
             services.sort(key=lambda x: getattr(x, maximize), reverse=True)
 
         return services
@@ -145,7 +146,7 @@ class ServiceRegistry(HasTraits):
             properties = properties.copy()
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return properties
 
@@ -162,7 +163,7 @@ class ServiceRegistry(HasTraits):
         self._services[service_id] = (protocol_name, obj, properties)
         self.registered = service_id
 
-        logger.debug('service <%d> registered %s', service_id, protocol_name)
+        logger.debug("service <%d> registered %s", service_id, protocol_name)
 
         return service_id
 
@@ -174,7 +175,7 @@ class ServiceRegistry(HasTraits):
             self._services[service_id] = protocol, obj, properties.copy()
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return
 
@@ -185,10 +186,10 @@ class ServiceRegistry(HasTraits):
             protocol, obj, properties = self._services.pop(service_id)
             self.unregistered = service_id
 
-            logger.debug('service <%d> unregistered', service_id)
+            logger.debug("service <%d> unregistered", service_id)
 
         except KeyError:
-            raise ValueError('no service with id <%d>' % service_id)
+            raise ValueError("no service with id <%d>" % service_id)
 
         return
 
@@ -216,7 +217,7 @@ class ServiceRegistry(HasTraits):
         try:
             result = eval(query, namespace)
 
-        except:
+        except Exception:
             result = False
 
         return result
@@ -224,12 +225,13 @@ class ServiceRegistry(HasTraits):
     def _get_protocol_name(self, protocol_or_name):
         """ Returns the full class name for a protocol. """
 
-        if isinstance(protocol_or_name, STRING_BASE_CLASS):
+        if isinstance(protocol_or_name, str):
             name = protocol_or_name
 
         else:
-            name = '%s.%s' % (
-                protocol_or_name.__module__, protocol_or_name.__name__
+            name = "%s.%s" % (
+                protocol_or_name.__module__,
+                protocol_or_name.__name__,
             )
 
         return name
@@ -260,7 +262,7 @@ class ServiceRegistry(HasTraits):
             # dictionary of properties that were registered with the service.
             #
             # If the factory is specified as a symbol path then import it.
-            if isinstance(obj, STRING_BASE_CLASS):
+            if isinstance(obj, str):
                 obj = ImportManager().import_symbol(obj)
 
             obj = obj(**properties)
@@ -271,5 +273,3 @@ class ServiceRegistry(HasTraits):
             self._services[service_id] = (name, obj, properties)
 
         return obj
-
-#### EOF ######################################################################

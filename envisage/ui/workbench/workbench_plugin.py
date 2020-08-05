@@ -15,7 +15,7 @@ from traits.api import Callable, List
 
 
 # This module's package.
-PKG = '.'.join(__name__.split('.')[:-1])
+PKG = ".".join(__name__.split(".")[:-1])
 
 
 class WorkbenchPlugin(Plugin):
@@ -33,28 +33,30 @@ class WorkbenchPlugin(Plugin):
     """
 
     # The Ids of the extension points that this plugin offers.
-    ACTION_SETS              = PKG + '.action_sets'
-    PERSPECTIVES             = PKG + '.perspectives'
-    PREFERENCES_PAGES        = PKG + '.preferences_pages'
-    WORKBENCH_SERVICE_OFFERS = PKG + '.service_offers'
-    VIEWS                    = PKG + '.views'
+    ACTION_SETS = PKG + ".action_sets"
+    PERSPECTIVES = PKG + ".perspectives"
+    PREFERENCES_PAGES = PKG + ".preferences_pages"
+    WORKBENCH_SERVICE_OFFERS = PKG + ".service_offers"
+    VIEWS = PKG + ".views"
 
     # The Ids of the extension points that this plugin contributes to.
-    PREFERENCES    = 'envisage.preferences'
-    SERVICE_OFFERS = 'envisage.service_offers'
+    PREFERENCES = "envisage.preferences"
+    SERVICE_OFFERS = "envisage.service_offers"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'envisage.ui.workbench'
+    id = "envisage.ui.workbench"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Workbench'
+    name = "Workbench"
 
     #### Extension points offered by this plugin ##############################
 
     action_sets = ExtensionPoint(
-        List(Callable), id=ACTION_SETS, desc="""
+        List(Callable),
+        id=ACTION_SETS,
+        desc="""
 
         An action set contains the toobars, menus, groups and actions that you
         would like to add to top-level workbench windows (i.e. the main
@@ -70,11 +72,13 @@ class WorkbenchPlugin(Plugin):
         The easiest way to contribute such a factory is to create a class
         that derives from 'envisage.ui.action.api.ActionSet'.
 
-        """
+        """,
     )
 
     perspectives = ExtensionPoint(
-        List(Callable), id=PERSPECTIVES, desc="""
+        List(Callable),
+        id=PERSPECTIVES,
+        desc="""
 
         A perspective is simply an arrangment of views around the (optionally
         hidden) editor area.
@@ -88,11 +92,13 @@ class WorkbenchPlugin(Plugin):
         The easiest way to contribute such a factory is to create a class
         that derives from 'pyface.workbench.api.IPerspective'.
 
-        """
+        """,
     )
 
     preferences_pages = ExtensionPoint(
-        List(Callable), id=PREFERENCES_PAGES, desc="""
+        List(Callable),
+        id=PREFERENCES_PAGES,
+        desc="""
 
         A preferences page appears in the preferences dialog to allow the user
         to manipulate some preference values.
@@ -106,13 +112,13 @@ class WorkbenchPlugin(Plugin):
         The easiest way to contribute such a factory is to create a class
         that derives from 'apptools.preferences.ui.api.IPreferencesPage'.
 
-        """
+        """,
     )
 
     service_offers = ExtensionPoint(
         List(ServiceOffer),
-        id   = WORKBENCH_SERVICE_OFFERS,
-        desc = """
+        id=WORKBENCH_SERVICE_OFFERS,
+        desc="""
 
         Services are simply objects that a plugin wants to make available to
         other plugins. This extension point allows you to offer 'per
@@ -134,11 +140,13 @@ class WorkbenchPlugin(Plugin):
 
           callable(**properties)
 
-        """
+        """,
     )
 
     views = ExtensionPoint(
-        List(Callable), id=VIEWS, desc="""
+        List(Callable),
+        id=VIEWS,
+        desc="""
 
         A view provides information to the user to support their current
         task. Views can contain anything you like(!) and are arranged around
@@ -163,7 +171,7 @@ class WorkbenchPlugin(Plugin):
 
                 return FooView(foo=foo, **traits)
 
-        """
+        """,
     )
 
     #### Contributions to extension points made by this plugin ################
@@ -182,7 +190,7 @@ class WorkbenchPlugin(Plugin):
     def _my_preferences_default(self):
         """ Trait initializer. """
 
-        return ['pkgfile://envisage.ui.workbench/preferences.ini']
+        return ["pkgfile://envisage.ui.workbench/preferences.ini"]
 
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
@@ -199,14 +207,14 @@ class WorkbenchPlugin(Plugin):
         """ Trait initializer. """
 
         preferences_manager_service_offer = ServiceOffer(
-            protocol = 'apptools.preferences.ui.preferences_manager'
-                       '.PreferencesManager',
-            factory  = self._create_preferences_manager_service
+            protocol="apptools.preferences.ui.preferences_manager"
+            ".PreferencesManager",
+            factory=self._create_preferences_manager_service,
         )
 
         workbench_service_offer = ServiceOffer(
-            protocol = 'envisage.ui.workbench.workbench.Workbench',
-            factory  = self._create_workbench_service
+            protocol="envisage.ui.workbench.workbench.Workbench",
+            factory=self._create_workbench_service,
         )
 
         return [preferences_manager_service_offer, workbench_service_offer]
@@ -236,6 +244,4 @@ class WorkbenchPlugin(Plugin):
         # workbench plugin as a source egg (i.e. if the egg is on our path
         # then we get the plugin for any egg-based application, even if it is
         # not a workbench application!).
-        return getattr(self.application, 'workbench', None)
-
-### EOF ######################################################################
+        return getattr(self.application, "workbench", None)

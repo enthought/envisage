@@ -8,10 +8,11 @@
 # Thanks for using Enthought open source!
 """ Tests for the import manager. """
 
+# Standard library imports.
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ImportManager
-from traits.testing.unittest_tools import unittest
 
 
 class ImportManagerTestCase(unittest.TestCase):
@@ -29,7 +30,7 @@ class ImportManagerTestCase(unittest.TestCase):
 
         import tarfile
 
-        symbol = self.import_manager.import_symbol('tarfile.TarFile')
+        symbol = self.import_manager.import_symbol("tarfile.TarFile")
         self.assertEqual(symbol, tarfile.TarFile)
 
     def test_import_nested_symbol(self):
@@ -37,13 +38,13 @@ class ImportManagerTestCase(unittest.TestCase):
 
         import tarfile
 
-        symbol = self.import_manager.import_symbol('tarfile:TarFile.open')
+        symbol = self.import_manager.import_symbol("tarfile:TarFile.open")
         self.assertEqual(symbol, tarfile.TarFile.open)
 
     def test_import_dotted_module(self):
         """ import dotted module """
 
         symbol = self.import_manager.import_symbol(
-            'envisage.api:ImportManager'
+            "envisage.api:ImportManager"
         )
         self.assertEqual(symbol, ImportManager)

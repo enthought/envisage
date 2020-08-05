@@ -14,18 +14,18 @@ class AcmeWorkbenchPlugin(Plugin):
     """
 
     # Extension points Ids.
-    ACTION_SETS       = 'envisage.ui.workbench.action_sets'
-    PERSPECTIVES      = 'envisage.ui.workbench.perspectives'
-    PREFERENCES_PAGES = 'envisage.ui.workbench.preferences_pages'
-    VIEWS             = 'envisage.ui.workbench.views'
+    ACTION_SETS = "envisage.ui.workbench.action_sets"
+    PERSPECTIVES = "envisage.ui.workbench.perspectives"
+    PREFERENCES_PAGES = "envisage.ui.workbench.preferences_pages"
+    VIEWS = "envisage.ui.workbench.views"
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.workbench'
+    id = "acme.workbench"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Acme Workbench'
+    name = "Acme Workbench"
 
     #### Contributions to extension points made by this plugin ################
 
@@ -70,5 +70,3 @@ class AcmeWorkbenchPlugin(Plugin):
         from acme.workbench.view.api import RedView, YellowView
 
         return [BlackView, BlueView, GreenView, RedView, YellowView]
-
-#### EOF ######################################################################

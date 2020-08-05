@@ -9,10 +9,10 @@
 """ Base class for Egg-based test cases. """
 
 
-import pkg_resources
 from os.path import dirname, join
+import unittest
 
-from traits.testing.unittest_tools import unittest
+import pkg_resources
 
 
 class EggBasedTestCase(unittest.TestCase):
@@ -22,7 +22,7 @@ class EggBasedTestCase(unittest.TestCase):
         """ Prepares the test fixture before each test method is called. """
 
         # The location of the 'eggs' directory.
-        self.egg_dir = join(dirname(__file__), 'eggs')
+        self.egg_dir = join(dirname(__file__), "eggs")
 
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
@@ -31,7 +31,7 @@ class EggBasedTestCase(unittest.TestCase):
             working_set = pkg_resources.working_set
 
         # The eggs must be in our egg directory!
-        filename = join(dirname(__file__), 'eggs', filename)
+        filename = join(dirname(__file__), "eggs", filename)
 
         # Create a distribution for the egg.
         distributions = pkg_resources.find_distributions(filename)
@@ -55,7 +55,7 @@ class EggBasedTestCase(unittest.TestCase):
         # Py2 tests was checking that len(errors) > 0. This did not work on
         # Py3. Test changed to check the len(distributions)
         if len(distributions) == 0:
-            raise SystemError('Cannot find eggs %s' % errors)
+            raise SystemError("Cannot find eggs %s" % errors)
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).

@@ -19,13 +19,13 @@ class RenameAction(ProjectAction):
     #### 'Action' interface ###################################################
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Rename'
+    name = "Rename"
 
     ###########################################################################
     # 'Action' interface.
     ###########################################################################
 
-    def perform (self, event):
+    def perform(self, event):
         """ Performs the action. """
 
         event.widget.edit_label(event.node)
@@ -34,6 +34,8 @@ class RenameAction(ProjectAction):
 
     # fixme: This should be a selection listener action that probably is only
     # enabled if there is exactly ONE item in the selection and it is editable.
+
+
 ##     ###########################################################################
 ##     # 'Action' interface.
 ##     ###########################################################################
@@ -68,5 +70,3 @@ class RenameAction(ProjectAction):
 ##                 self.enabled = True
 
 ##         return
-
-#### EOF ######################################################################

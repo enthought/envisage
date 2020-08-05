@@ -1,9 +1,9 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 A customization of the single project factory to make EnvProjects.
@@ -63,7 +63,6 @@ class EnvProjectFactory(ProjectFactory):
 
         return self.PROJECT_CLASS(application=self.application)
 
-
     def open(self, location):
         """
         Open a project from the specified location.
@@ -77,10 +76,9 @@ class EnvProjectFactory(ProjectFactory):
         try:
             project = self.PROJECT_CLASS.load(location, self.application)
         except:
-            logger.exception('Unable to load Project from location %s',
-                location)
+            logger.exception(
+                "Unable to load Project from location %s", location
+            )
             project = None
 
         return project
-
-### EOF ########################################################################

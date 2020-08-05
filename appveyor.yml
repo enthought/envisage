@@ -1,4 +1,5 @@
 build: false
+image: Visual Studio 2019
 
 environment:
   global:
@@ -6,10 +7,8 @@ environment:
     INSTALL_EDM_VERSION: "2.0.0"
 
   matrix:
-    - RUNTIME: '3.5'
-      TOOLKITS: "null pyqt"
     - RUNTIME: '3.6'
-      TOOLKITS: "null pyqt"
+      TOOLKITS: "null pyqt5 pyside2"
 
 cache:
   - C:\Users\appveyor\.cache -> appveyor-clean-cache.txt
@@ -24,8 +23,5 @@ install:
   - edm install -y wheel click coverage
   - appveyor-run.cmd install %runtime% %toolkits%
 test_script:
+  - appveyor-run.cmd flake8 %runtime% %toolkits%
   - appveyor-run.cmd test %runtime% %toolkits%
-on_success:
-  - edm run -- coverage combine
-  - edm run -- pip install codecov
-  - edm run -- codecov

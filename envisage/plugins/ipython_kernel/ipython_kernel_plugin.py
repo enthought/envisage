@@ -14,14 +14,22 @@ import warnings
 
 # Enthought library imports.
 from envisage.api import (
-    bind_extension_point, ExtensionPoint, Plugin, ServiceOffer)
+    bind_extension_point,
+    ExtensionPoint,
+    Plugin,
+    ServiceOffer,
+)
 from traits.api import Bool, Instance, List
 
-SERVICE_OFFERS = 'envisage.service_offers'
 # Constants kept around for backwards compatibility.
 # These will be removed in a future release.
-IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
-IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
+# Extension point IDs.
+SERVICE_OFFERS = "envisage.service_offers"
+IPYTHON_NAMESPACE = "ipython_plugin.namespace"
+
+# Protocol for the contributed service offer.
+IPYTHON_KERNEL_PROTOCOL = (
+    "envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel")
 
 logger = logging.getLogger(__name__)
 
@@ -30,21 +38,23 @@ class IPythonKernelPlugin(Plugin):
     """ An IPython kernel plugin. """
 
     #: The plugin unique identifier.
-    id = 'envisage.plugins.ipython_kernel'
+    id = "envisage.plugins.ipython_kernel"
 
     #: The plugin name (suitable for displaying to the user).
-    name = 'IPython embedded kernel plugin'
+    name = "IPython embedded kernel plugin"
 
     #: Extension point for objects contributed to the IPython kernel namespace.
     IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
     kernel_namespace = ExtensionPoint(
-        List, id=IPYTHON_NAMESPACE, desc="""
+        List,
+        id=IPYTHON_NAMESPACE,
+        desc="""
 
         Variables to add to the IPython kernel namespace.
         This is a list of tuples (name, value).
 
-        """
+        """,
     )
 
     #: Service offers contributed by this plugin.
@@ -76,16 +86,16 @@ class IPythonKernelPlugin(Plugin):
         # just in case.
         if self._kernel is not None:
             warnings.warn(
-                "A kernel already exists. "
-                "No new kernel will be created.",
+                "A kernel already exists. " "No new kernel will be created.",
                 RuntimeWarning,
             )
             return
 
         logger.debug("Creating the embedded IPython kernel")
         kernel = self._kernel = InternalIPKernel()
-        bind_extension_point(kernel, 'initial_namespace',
-                             IPYTHON_NAMESPACE, self.application)
+        bind_extension_point(
+            kernel, "initial_namespace", IPYTHON_NAMESPACE, self.application
+        )
         if self.init_ipkernel:
             kernel.init_ipkernel()
         else:
@@ -114,7 +124,6 @@ class IPythonKernelPlugin(Plugin):
 
     def _service_offers_default(self):
         ipython_kernel_service_offer = ServiceOffer(
-            protocol=IPYTHON_KERNEL_PROTOCOL,
-            factory=self._create_kernel,
+            protocol=IPYTHON_KERNEL_PROTOCOL, factory=self._create_kernel,
         )
         return [ipython_kernel_service_offer]

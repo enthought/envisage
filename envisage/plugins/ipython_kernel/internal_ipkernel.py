@@ -12,31 +12,14 @@
 https://github.com/ipython/ipython/blob/2.x/examples/Embedding/internal_ipkernel.py
 
 """
-from __future__ import absolute_import, print_function, unicode_literals
 
 import atexit
 import warnings
 
 import ipykernel.connect
-import six
 
 from envisage.plugins.ipython_kernel.kernelapp import IPKernelApp
 from traits.api import Any, HasStrictTraits, Instance, List
-
-
-# Allow unregistration of atexit handlers registered by IPython machinery.
-
-if six.PY2:
-    def atexit_unregister(func):
-        # Replace the contents, not the list itself, in case anyone else
-        # is keeping references to it. Also use 'not thing == func' instead
-        # of 'thing != func' to match the semantics of the Python 3 code.
-        atexit._exithandlers[:] = list(
-            handler for handler in atexit._exithandlers
-            if not handler[0] == func
-        )
-else:
-    from atexit import unregister as atexit_unregister
 
 
 def _gui_kernel(gui_backend):
@@ -52,9 +35,9 @@ def _gui_kernel(gui_backend):
 
     kernel = IPKernelApp.instance()
 
-    argv = ['python']
+    argv = ["python"]
     if gui_backend is not None:
-        argv.append('--gui={}'.format(gui_backend))
+        argv.append("--gui={}".format(gui_backend))
     kernel.initialize(argv)
 
     return kernel
@@ -125,8 +108,7 @@ class InternalIPKernel(HasStrictTraits):
     def new_qt_console(self):
         """ Start a new qtconsole connected to our kernel. """
         console = ipykernel.connect.connect_qtconsole(
-            self.ipkernel.connection_file,
-            argv=['--no-confirm-exit'],
+            self.ipkernel.connection_file, argv=["--no-confirm-exit"],
         )
         self.consoles.append(console)
         return console
@@ -150,7 +132,7 @@ class InternalIPKernel(HasStrictTraits):
             self.ipkernel.close()
             # ipkernel.close is only registered for ipykernel 5.1.2 and later,
             # but unregistering something that wasn't registered is safe.
-            atexit_unregister(self.ipkernel.close)
+            atexit.unregister(self.ipkernel.close)
             self.ipkernel = None
 
             # Remove stored singleton to facilitate garbage collection.

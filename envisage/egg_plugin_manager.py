@@ -10,7 +10,11 @@
 
 
 # Standard library imports.
-import logging, pkg_resources, re
+import logging
+import re
+
+# 3rd party imports.
+import pkg_resources
 
 # Enthought library imports.
 from traits.api import Instance, List, Str
@@ -42,7 +46,7 @@ class EggPluginManager(PluginManager):
     """
 
     # Entry point Id.
-    PLUGINS = 'envisage.plugins'
+    PLUGINS = "envisage.plugins"
 
     #### 'EggPluginManager' interface #########################################
 
@@ -74,12 +78,14 @@ class EggPluginManager(PluginManager):
         """ Trait initializer. """
 
         plugins = []
-        for ep in get_entry_points_in_egg_order(self.working_set, self.PLUGINS):
+        for ep in get_entry_points_in_egg_order(
+            self.working_set, self.PLUGINS
+        ):
             if self._is_included(ep.name) and not self._is_excluded(ep.name):
                 plugin = self._create_plugin_from_ep(ep)
                 plugins.append(plugin)
 
-        logger.debug('egg plugin manager found plugins <%s>', plugins)
+        logger.debug("egg plugin manager found plugins <%s>", plugins)
 
         return plugins
 
@@ -90,15 +96,15 @@ class EggPluginManager(PluginManager):
     def _create_plugin_from_ep(self, ep):
         """ Create a plugin from an extension point. """
 
-        klass  = ep.load()
+        klass = ep.load()
         plugin = klass(application=self.application)
 
         # Warn if the entry point is an old-style one where the LHS didn't have
         # to be the same as the plugin Id.
         if ep.name != plugin.id:
             logger.warning(
-                'entry point name <%s> should be the same as the '
-                'plugin id <%s>' % (ep.name, plugin.id)
+                "entry point name <%s> should be the same as the "
+                "plugin id <%s>" % (ep.name, plugin.id)
             )
 
         return plugin
@@ -136,5 +142,3 @@ class EggPluginManager(PluginManager):
                 return True
 
         return False
-
-#### EOF ######################################################################

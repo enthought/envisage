@@ -15,17 +15,17 @@ class LorenzApplication(WorkbenchApplication):
     #### 'IApplication' interface #############################################
 
     # The application's globally unique Id.
-    id = 'acme.lorenz'
+    id = "acme.lorenz"
 
     #### 'WorkbenchApplication' interface #####################################
 
     # Branding information.
     #
     # The icon used on window title bars etc.
-    icon = ImageResource('lorenz.ico')
+    icon = ImageResource("lorenz.ico")
 
     # The name of the application (also used on window title bars etc).
-    name = 'Lorenz'
+    name = "Lorenz"
 
     ###########################################################################
     # 'WorkbenchApplication' interface.
@@ -35,8 +35,8 @@ class LorenzApplication(WorkbenchApplication):
         """ Trait initializer. """
 
         about_dialog = AboutDialog(
-            parent = self.workbench.active_window.control,
-            image  = ImageResource('about')
+            parent=self.workbench.active_window.control,
+            image=ImageResource("about"),
         )
 
         return about_dialog
@@ -45,13 +45,9 @@ class LorenzApplication(WorkbenchApplication):
         """ Trait initializer. """
 
         splash_screen = SplashScreen(
-            image             = ImageResource('splash'),
-            show_log_messages = True,
-            log_level         = DEBUG
+            image=ImageResource("splash"),
+            show_log_messages=True,
+            log_level=DEBUG,
         )
 
         return splash_screen
-
-#### EOF ######################################################################
-
-

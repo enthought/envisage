@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import Callable, HasTraits, Str, Unicode
+from traits.api import Callable, HasTraits, Str
 
 
 class TaskFactory(HasTraits):
@@ -19,7 +19,7 @@ class TaskFactory(HasTraits):
     id = Str
 
     # The task factory's user-visible name.
-    name = Unicode
+    name = Str
 
     # A callable with the following signature:
     #
@@ -41,5 +41,7 @@ class TaskFactory(HasTraits):
         task = self.create(**traits)
         for extension in extensions:
             task.extra_actions.extend(extension.actions)
-            task.extra_dock_pane_factories.extend(extension.dock_pane_factories)
+            task.extra_dock_pane_factories.extend(
+                extension.dock_pane_factories
+            )
         return task

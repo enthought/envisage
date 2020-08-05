@@ -17,7 +17,7 @@ from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin
 
 # Do whatever you want to do with log messages! Here we create a log file.
 logger = logging.getLogger()
-#logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
+# logger.addHandler(logging.StreamHandler(file('acmelab.log', 'w')))
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
@@ -27,11 +27,7 @@ def main():
 
     # Create an application with the specified plugins.
     acmelab = Acmelab(
-        plugins=[
-            CorePlugin(),
-            WorkbenchPlugin(),
-            AcmeWorkbenchPlugin(),
-        ]
+        plugins=[CorePlugin(), WorkbenchPlugin(), AcmeWorkbenchPlugin(),]
     )
 
     # Run it! This starts the application, starts the GUI event loop, and when
@@ -41,7 +37,5 @@ def main():
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-#### EOF ######################################################################

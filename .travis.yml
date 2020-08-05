@@ -3,19 +3,28 @@ dist: xenial
 services:
   - xvfb
 
+addons:
+  apt:
+    packages:
+    - libxkbcommon-x11-0
+    - libxcb-icccm4
+    - libxcb-image0
+    - libxcb-keysyms1
+    - libxcb-randr0
+    - libxcb-render-util0
+    - libxcb-xinerama0
+
 env:
   global:
     - INSTALL_EDM_VERSION="2.0.0"
       PYTHONUNBUFFERED="1"
+      QT_DEBUG_PLUGINS="1"
 
 matrix:
   include:
-    - env: RUNTIME=3.5 TOOLKITS="null pyqt"
-    - env: RUNTIME=3.6 TOOLKITS="null pyqt"
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
     - os: osx
-      env: RUNTIME=3.5 TOOLKITS="null pyqt"
-    - os: osx
-      env: RUNTIME=3.6 TOOLKITS="null pyqt"
+      env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
 
 cache:
   directories:
@@ -35,9 +44,11 @@ install:
         fi;
     done
 script:
+  - edm run -- python etstool.py flake8 --runtime=${RUNTIME} --toolkit=null
   - for toolkit in ${TOOLKITS}; do edm run -- python etstool.py test --runtime=${RUNTIME} --toolkit=${toolkit} || exit; done
 
-after_success:
-  - edm run -- coverage combine
-  - edm run -- pip install codecov
-  - edm run -- codecov
+notifications:
+  slack:
+    secure: XOXbiCa2wjxwYpRPPfib863y1jE2PiDBtsCZQUDPh3IrJhHAAGEPgcICbMYPkgKz3+6rqVvfwwj1Xictw4wI8dtvcqROz5iZek/14V3tDhPAp0iHBEvOibSFZP7VK6tZgVp7uTSc1p4bJd2GEX0yKMyaOdXCYQf42y6YYV97xNA=
+    on_success: change
+    on_failure: always

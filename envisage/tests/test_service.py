@@ -8,17 +8,18 @@
 # Thanks for using Enthought open source!
 """ Tests for the 'Service' trait type. """
 
+# Standard library imports.
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, Plugin, Service
 from traits.api import HasTraits, Instance
-from traits.testing.unittest_tools import unittest
 
 
 class TestApplication(Application):
     """ The type of application used in the tests. """
 
-    id = 'test'
+    id = "test"
 
 
 class ServiceTestCase(unittest.TestCase):
@@ -31,11 +32,11 @@ class ServiceTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
-            id = 'A'
+            id = "A"
             foo = Instance(Foo, (), service=True)
 
         class PluginB(Plugin):
-            id = 'B'
+            id = "B"
             foo = Service(Foo)
 
         a = PluginA()

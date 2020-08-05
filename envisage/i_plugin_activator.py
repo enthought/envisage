@@ -38,5 +38,3 @@ class IPluginActivator(Interface):
         """ Stop the specified plugin.
 
         """
-
-#### EOF ######################################################################

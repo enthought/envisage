@@ -9,10 +9,12 @@
 """ Tests for the plugin manager. """
 
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from envisage.api import Plugin, PluginManager
 from traits.api import Bool
-from traits.testing.unittest_tools import unittest
 
 
 class SimplePlugin(Plugin):
@@ -50,12 +52,12 @@ class BadPlugin(Plugin):
     def start(self):
         """ Start the plugin. """
 
-        raise 1/0
+        raise 1 / 0
 
     def stop(self):
         """ Stop the plugin. """
 
-        raise 1/0
+        raise 1 / 0
 
 
 class PluginManagerTestCase(unittest.TestCase):
@@ -64,7 +66,7 @@ class PluginManagerTestCase(unittest.TestCase):
     def test_get_plugin(self):
         """ get plugin """
 
-        simple_plugin  = SimplePlugin()
+        simple_plugin = SimplePlugin()
         plugin_manager = PluginManager(plugins=[simple_plugin])
 
         # Get the plugin.
@@ -72,13 +74,13 @@ class PluginManagerTestCase(unittest.TestCase):
         self.assertEqual(plugin, simple_plugin)
 
         # Try to get a non-existent plugin.
-        self.assertEqual(None, plugin_manager.get_plugin('bogus'))
+        self.assertEqual(None, plugin_manager.get_plugin("bogus"))
 
     def test_iteration_over_plugins(self):
         """ iteration over plugins """
 
         simple_plugin = SimplePlugin()
-        bad_plugin    = BadPlugin()
+        bad_plugin = BadPlugin()
 
         plugin_manager = PluginManager(plugins=[simple_plugin, bad_plugin])
 
@@ -92,7 +94,7 @@ class PluginManagerTestCase(unittest.TestCase):
     def test_start_and_stop(self):
         """ start and stop """
 
-        simple_plugin  = SimplePlugin()
+        simple_plugin = SimplePlugin()
         plugin_manager = PluginManager(plugins=[simple_plugin])
 
         # Start the plugin manager. This starts all of the plugin manager's
@@ -112,8 +114,8 @@ class PluginManagerTestCase(unittest.TestCase):
     def test_start_and_stop_errors(self):
         """ start and stop errors """
 
-        simple_plugin  = SimplePlugin()
-        bad_plugin     = BadPlugin()
+        simple_plugin = SimplePlugin()
+        bad_plugin = BadPlugin()
         plugin_manager = PluginManager(plugins=[simple_plugin, bad_plugin])
 
         # Start the plugin manager. This starts all of the plugin manager's
@@ -138,41 +140,43 @@ class PluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['foo', 'bar']
+        include = ["foo", "bar"]
 
         plugin_manager = PluginManager(
-            include = include,
-            plugins = [
-                SimplePlugin(id='foo'),
-                SimplePlugin(id='bar'),
-                SimplePlugin(id='baz')
-            ]
+            include=include,
+            plugins=[
+                SimplePlugin(id="foo"),
+                SimplePlugin(id="bar"),
+                SimplePlugin(id="baz"),
+            ],
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['foo', 'bar']
+        expected = ["foo", "bar"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
 
-    def test_only_include_plugins_matching_a_wildcard_in_the_include_list(self):
+    def test_only_include_plugins_matching_a_wildcard_in_the_include_list(
+        self,
+    ):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        include = ['b*']
+        include = ["b*"]
 
         plugin_manager = PluginManager(
-            include = include,
-            plugins = [
-                SimplePlugin(id='foo'),
-                SimplePlugin(id='bar'),
-                SimplePlugin(id='baz')
-            ]
+            include=include,
+            plugins=[
+                SimplePlugin(id="foo"),
+                SimplePlugin(id="bar"),
+                SimplePlugin(id="baz"),
+            ],
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['bar', 'baz']
+        expected = ["bar", "baz"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -182,19 +186,19 @@ class PluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['foo', 'baz']
+        exclude = ["foo", "baz"]
 
         plugin_manager = PluginManager(
-            exclude = exclude,
-            plugins = [
-                SimplePlugin(id='foo'),
-                SimplePlugin(id='bar'),
-                SimplePlugin(id='baz')
-            ]
+            exclude=exclude,
+            plugins=[
+                SimplePlugin(id="foo"),
+                SimplePlugin(id="bar"),
+                SimplePlugin(id="baz"),
+            ],
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['bar']
+        expected = ["bar"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -204,19 +208,19 @@ class PluginManagerTestCase(unittest.TestCase):
 
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
-        exclude = ['b*']
+        exclude = ["b*"]
 
         plugin_manager = PluginManager(
-            exclude = exclude,
-            plugins = [
-                SimplePlugin(id='foo'),
-                SimplePlugin(id='bar'),
-                SimplePlugin(id='baz')
-            ]
+            exclude=exclude,
+            plugins=[
+                SimplePlugin(id="foo"),
+                SimplePlugin(id="bar"),
+                SimplePlugin(id="baz"),
+            ],
         )
 
         # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ['foo']
+        expected = ["foo"]
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..

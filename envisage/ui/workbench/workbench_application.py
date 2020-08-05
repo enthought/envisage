@@ -13,15 +13,6 @@
 import logging
 
 # Enthought library imports.
-#
-# fixme: The ordering of these imports is critical. We don't use traits UI in
-# this module, but it must be imported *before* any 'HasTraits' class whose
-# instances might want to have 'edit_traits' called on them.
-#
-# fixme: Just importing the package is enought (see above).
-import traitsui
-
-# Enthought library imports.
 from envisage.api import Application
 from pyface.api import AboutDialog, Dialog, GUI, ImageResource
 from pyface.api import SplashScreen
@@ -69,10 +60,10 @@ class WorkbenchApplication(Application):
     about_dialog = Instance(Dialog)
 
     # The icon used on window title bars etc.
-    icon = Instance(ImageResource, ImageResource('application.ico'))
+    icon = Instance(ImageResource, ImageResource("application.ico"))
 
     # The name of the application (also used on window title bars etc).
-    name = Str('Workbench')
+    name = Str("Workbench")
 
     # The splash screen (None, the default, if no splash screen is required).
     splash_screen = Instance(SplashScreen)
@@ -99,7 +90,7 @@ class WorkbenchApplication(Application):
 
         """
 
-        logger.debug('---------- workbench application ----------')
+        logger.debug("---------- workbench application ----------")
 
         # Make sure the GUI has been created (so that, if required, the splash
         # screen is shown).
@@ -114,7 +105,7 @@ class WorkbenchApplication(Application):
             window.open()
 
             # We stop the application when the workbench has exited.
-            self.workbench.on_trait_change(self._on_workbench_exited, 'exited')
+            self.workbench.on_trait_change(self._on_workbench_exited, "exited")
 
             # Start the GUI event loop.
             #
@@ -132,7 +123,7 @@ class WorkbenchApplication(Application):
     def _about_dialog_default(self):
         """ Trait initializer. """
 
-        return AboutDialog(image=ImageResource('about'))
+        return AboutDialog(image=ImageResource("about"))
 
     def _gui_default(self):
         """ Trait initializer. """
@@ -160,7 +151,7 @@ class WorkbenchApplication(Application):
     def create_workbench(self):
         """ Create the workbench. """
 
-        logger.debug('workbench factory %s', self.workbench_factory)
+        logger.debug("workbench factory %s", self.workbench_factory)
 
         return self.workbench_factory(application=self)
 
@@ -194,5 +185,3 @@ class WorkbenchApplication(Application):
         self.gui.invoke_later(self.stop)
 
         return
-
-#### EOF ######################################################################

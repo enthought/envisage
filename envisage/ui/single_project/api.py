@@ -16,7 +16,6 @@ from .project import Project
 from .project_action import ProjectAction
 from .project_factory import ProjectFactory
 from .view.project_view import ProjectView
-# FIXME: Add back this import when it actually works :)
-#from .editor.project_editor import ProjectEditor
 
-#### EOF #####################################################################
+# FIXME: Add back this import when it actually works :)
+# from .editor.project_editor import ProjectEditor

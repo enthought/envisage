@@ -52,5 +52,3 @@ class PluginActivator(HasTraits):
         plugin.disconnect_extension_point_traits()
 
         return
-
-#### EOF ######################################################################

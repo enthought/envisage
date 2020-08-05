@@ -12,10 +12,10 @@ class SoftwareQuotesPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.motd.software_quotes'
+    id = "acme.motd.software_quotes"
 
     # The plugin's name (suitable for displaying to the user).
-    name = 'Software Quotes'
+    name = "Software Quotes"
 
     #### Extension points offered by this plugin ##############################
 
@@ -24,7 +24,7 @@ class SoftwareQuotesPlugin(Plugin):
     #### Contributions to extension points made by this plugin ################
 
     # Messages for the 'Message Of The Day'.
-    messages = List(contributes_to='acme.motd.messages')
+    messages = List(contributes_to="acme.motd.messages")
 
     def _messages_default(self):
         """ Trait initializer. """
@@ -33,5 +33,3 @@ class SoftwareQuotesPlugin(Plugin):
         from messages import messages
 
         return messages
-
-#### EOF ######################################################################

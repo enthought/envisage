@@ -128,12 +128,10 @@ class ExtensionPointBinding(HasTraits):
         """ Wire-up trait change handlers etc. """
 
         # Listen for the object's trait being changed.
-        self.obj.on_trait_change(
-            self._on_trait_changed, self.trait_name
-        )
+        self.obj.on_trait_change(self._on_trait_changed, self.trait_name)
 
         self.obj.on_trait_change(
-            self._on_trait_items_changed, self.trait_name + '_items'
+            self._on_trait_items_changed, self.trait_name + "_items"
         )
 
         # Listen for the extension point being changed.
@@ -147,7 +145,7 @@ class ExtensionPointBinding(HasTraits):
         """ Set the object's trait to the value of the extension point. """
 
         value = self.extension_registry.get_extensions(self.extension_point_id)
-        traits = {self.trait_name : value}
+        traits = {self.trait_name: value}
 
         self.obj.trait_set(trait_change_notify=notify, **traits)
 
@@ -159,7 +157,7 @@ class ExtensionPointBinding(HasTraits):
         self._set_trait(notify=False)
 
         self.obj.trait_property_changed(
-            self.trait_name + '_items', Undefined, event
+            self.trait_name + "_items", Undefined, event
         )
 
         return
@@ -193,14 +191,12 @@ def bind_extension_point(
     # done in the constructor (we could of course split that out, which may be
     # the 'right' way to do it ;^).
     traits = {
-        'obj'                : obj,
-        'trait_name'         : trait_name,
-        'extension_point_id' : extension_point_id
+        "obj": obj,
+        "trait_name": trait_name,
+        "extension_point_id": extension_point_id,
     }
 
     if extension_registry is not None:
-        traits['extension_registry'] = extension_registry
+        traits["extension_registry"] = extension_registry
 
     return ExtensionPointBinding(**traits)
-
-#### EOF ######################################################################

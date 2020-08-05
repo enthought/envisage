@@ -21,5 +21,3 @@ class IExtensionPointUser(Interface):
 
     # The extension registry that the object's extension points are stored in.
     extension_registry = Instance(IExtensionRegistry)
-
-#### EOF ######################################################################

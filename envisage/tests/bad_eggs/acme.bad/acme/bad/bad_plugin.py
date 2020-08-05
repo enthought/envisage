@@ -12,7 +12,10 @@
 # Enthought library imports.
 from envisage.api import Plugin
 from traits.api import Bool
-import busted_module
+
+# Deliberate bad import
+import busted_module  # noqa: F401
+
 
 class BadPlugin(Plugin):
     """ The 'Bad' plugin """
@@ -20,7 +23,7 @@ class BadPlugin(Plugin):
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = 'acme.bad'
+    id = "acme.bad"
 
     #### 'BadPlugin' interface ################################################
 
@@ -46,5 +49,3 @@ class BadPlugin(Plugin):
         self.stopped = True
 
         return
-
-#### EOF ######################################################################

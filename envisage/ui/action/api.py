@@ -15,4 +15,3 @@ from .action_set import ActionSet
 from .group import Group
 from .menu import Menu
 from .tool_bar import ToolBar
-

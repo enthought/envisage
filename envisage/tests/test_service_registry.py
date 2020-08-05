@@ -11,15 +11,15 @@
 
 # Standard library imports.
 import sys
+import unittest
 
 # Enthought library imports.
 from envisage.api import Application, ServiceRegistry, NoSuchServiceError
 from traits.api import HasTraits, Int, Interface, provides
-from traits.testing.unittest_tools import unittest
 
 
 # This module's package.
-PKG = 'envisage.tests'
+PKG = "envisage.tests"
 
 
 def service_factory(**properties):
@@ -44,15 +44,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # module 'foo' need to be cleared out when this test is run,
         # because other tests also import foo.
-        if PKG + '.foo' in sys.modules:
-            del sys.modules[PKG + '.foo']
+        if PKG + ".foo" in sys.modules:
+            del sys.modules[PKG + ".foo"]
 
     ###########################################################################
     # Tests.
     ###########################################################################
 
     def test_should_get_required_service(self):
-
         class Foo(HasTraits):
             price = Int
 
@@ -65,7 +64,6 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertIs(foo, service)
 
     def test_should_get_exception_if_required_service_is_missing(self):
-
         class IFoo(Interface):
             price = Int
 
@@ -81,12 +79,12 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # Register a service factory.
         self.service_registry.register_service(
             HasTraits,
-            PKG + '.test_service_registry.service_factory',
-            {'price' : 100}
+            PKG + ".test_service_registry.service_factory",
+            {"price": 100},
         )
 
         # Create a query that matches the registered object.
-        service = self.service_registry.get_service(HasTraits, 'price <= 100')
+        service = self.service_registry.get_service(HasTraits, "price <= 100")
         self.assertNotEqual(None, service)
         self.assertEqual(HasTraits, type(service))
 
@@ -95,7 +93,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Make sure that the object created by the factory is cached (i.e. we
         # get the same object back from now on!).
-        service2 = self.service_registry.get_service(HasTraits, 'price <= 100')
+        service2 = self.service_registry.get_service(HasTraits, "price <= 100")
         self.assertTrue(service is service2)
 
     def test_function_service_factory(self):
@@ -115,17 +113,17 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Register a service factory.
         self.service_registry.register_service(
-            IFoo, foo_factory, {'price' : 100}
+            IFoo, foo_factory, {"price": 100}
         )
 
         # Create a query that matches the registered object.
-        service = self.service_registry.get_service(IFoo, 'price <= 100')
+        service = self.service_registry.get_service(IFoo, "price <= 100")
         self.assertNotEqual(None, service)
         self.assertEqual(Foo, type(service))
 
         # Make sure that the object created by the factory is cached (i.e. we
         # get the same object back from now on!).
-        service2 = self.service_registry.get_service(IFoo, 'price <= 100')
+        service2 = self.service_registry.get_service(IFoo, "price <= 100")
         self.assertTrue(service is service2)
 
     def test_lazy_function_service_factory(self):
@@ -141,8 +139,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
             return foo_factory.foo
 
-        i_foo = PKG + '.i_foo.IFoo'
-        foo   = PKG + '.foo'
+        i_foo = PKG + ".i_foo.IFoo"
+        foo = PKG + ".foo"
 
         self.service_registry.register_service(i_foo, foo_factory)
 
@@ -154,7 +152,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertTrue(foo not in sys.modules)
 
         # Look up a non-existent service.
-        services = self.service_registry.get_services('bogus.IBogus')
+        services = self.service_registry.get_services("bogus.IBogus")
 
         # Make sure that we *still* haven't imported the 'foo' module.
         self.assertTrue(foo not in sys.modules)
@@ -170,8 +168,8 @@ class ServiceRegistryTestCase(unittest.TestCase):
     def test_lazy_bound_method_service_factory(self):
         """ lazy bound method service factory """
 
-        i_foo = PKG + '.i_foo.IFoo'
-        foo   = PKG + '.foo'
+        i_foo = PKG + ".i_foo.IFoo"
+        foo = PKG + ".foo"
 
         class ServiceProvider(HasTraits):
             """ A class that provides a service.
@@ -202,7 +200,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertTrue(foo not in sys.modules)
 
         # Look up a non-existent service.
-        services = self.service_registry.get_services('bogus.IBogus')
+        services = self.service_registry.get_services("bogus.IBogus")
 
         # Make sure that we *still* haven't imported the 'foo' module.
         self.assertTrue(foo not in sys.modules)
@@ -249,7 +247,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         from envisage.tests.foo import Foo
 
         # Register a couple of services using a string protocol name.
-        protocol_name = 'envisage.tests.foo.IFoo'
+        protocol_name = "envisage.tests.foo.IFoo"
 
         self.service_registry.register_service(protocol_name, Foo())
         self.service_registry.register_service(protocol_name, Foo())
@@ -278,18 +276,18 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # This one shows how properties can be specified that *take precedence*
         # over the object's attributes when evaluating a query.
         goo = Foo(price=10)
-        self.service_registry.register_service(IFoo, goo, {'price' : 200})
+        self.service_registry.register_service(IFoo, goo, {"price": 200})
 
         # Create a query that doesn't match any registered object.
         services = self.service_registry.get_services(IFoo, 'color == "red"')
         self.assertEqual([], services)
 
         # Create a query that matches one of the registered objects.
-        services = self.service_registry.get_services(IFoo, 'price <= 100')
+        services = self.service_registry.get_services(IFoo, "price <= 100")
         self.assertEqual([foo], services)
 
         # Create a query that matches both registered objects.
-        services = self.service_registry.get_services(IFoo, 'price >= 100')
+        services = self.service_registry.get_services(IFoo, "price >= 100")
         self.assertTrue(foo in services)
         self.assertTrue(goo in services)
         self.assertEqual(2, len(services))
@@ -298,7 +296,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             pass
 
         # Lookup a non-existent service.
-        services = self.service_registry.get_services(IBar, 'price <= 100')
+        services = self.service_registry.get_services(IBar, "price <= 100")
         self.assertEqual([], services)
 
     def test_get_service(self):
@@ -349,25 +347,25 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # This one shows how properties can be specified that *take precedence*
         # over the object's attributes when evaluating a query.
         goo = Foo(price=10)
-        self.service_registry.register_service(IFoo, goo, {'price' : 200})
+        self.service_registry.register_service(IFoo, goo, {"price": 200})
 
         # Create a query that doesn't match any registered object.
-        service = self.service_registry.get_service(IFoo, 'price < 100')
+        service = self.service_registry.get_service(IFoo, "price < 100")
         self.assertEqual(None, service)
 
         # Create a query that matches one of the registered objects.
-        service = self.service_registry.get_service(IFoo, 'price <= 100')
+        service = self.service_registry.get_service(IFoo, "price <= 100")
         self.assertEqual(foo, service)
 
         # Create a query that matches both registered objects.
-        service = self.service_registry.get_service(IFoo, 'price >= 100')
+        service = self.service_registry.get_service(IFoo, "price >= 100")
         self.assertTrue(foo is service or goo is service)
 
         class IBar(Interface):
             pass
 
         # Lookup a non-existent service.
-        service = self.service_registry.get_service(IBar, 'price <= 100')
+        service = self.service_registry.get_service(IBar, "price <= 100")
         self.assertEqual(None, service)
 
     def test_get_and_set_service_properties(self):
@@ -389,7 +387,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # This one has properties.
         goo = Foo(price=10)
         goo_id = self.service_registry.register_service(
-            IFoo, goo, {'price' : 200}
+            IFoo, goo, {"price": 200}
         )
 
         # Get the properties.
@@ -397,11 +395,11 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual({}, foo_properties)
 
         goo_properties = self.service_registry.get_service_properties(goo_id)
-        self.assertEqual(200, goo_properties['price'])
+        self.assertEqual(200, goo_properties["price"])
 
         # Update the properties.
-        foo_properties['price'] = 300
-        goo_properties['price'] = 500
+        foo_properties["price"] = 300
+        goo_properties["price"] = 500
 
         # Set the properties.
         self.service_registry.set_service_properties(foo_id, foo_properties)
@@ -409,10 +407,10 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # Get the properties again.
         foo_properties = self.service_registry.get_service_properties(foo_id)
-        self.assertEqual(300, foo_properties['price'])
+        self.assertEqual(300, foo_properties["price"])
 
         goo_properties = self.service_registry.get_service_properties(goo_id)
-        self.assertEqual(500, goo_properties['price'])
+        self.assertEqual(500, goo_properties["price"])
 
         # Try to get the properties of a non-existent service.
         with self.assertRaises(ValueError):
@@ -443,19 +441,19 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # over the object's attributes when evaluating a query.
         goo = Foo(price=10)
         goo_id = self.service_registry.register_service(
-            IFoo, goo, {'price' : 200}
+            IFoo, goo, {"price": 200}
         )
 
         # Create a query that doesn't match any registered object.
-        service = self.service_registry.get_service(IFoo, 'price < 100')
+        service = self.service_registry.get_service(IFoo, "price < 100")
         self.assertEqual(None, service)
 
         # Create a query that matches one of the registered objects.
-        service = self.service_registry.get_service(IFoo, 'price <= 100')
+        service = self.service_registry.get_service(IFoo, "price <= 100")
         self.assertEqual(foo, service)
 
         # Create a query that matches both registered objects.
-        service = self.service_registry.get_service(IFoo, 'price >= 100')
+        service = self.service_registry.get_service(IFoo, "price >= 100")
         self.assertTrue(foo is service or goo is service)
 
         #### Now do some unregistering! ####
@@ -464,14 +462,14 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.service_registry.unregister_service(foo_id)
 
         # This query should no longer match any of the registered objects.
-        service = self.service_registry.get_service(IFoo, 'price <= 100')
+        service = self.service_registry.get_service(IFoo, "price <= 100")
         self.assertEqual(None, service)
 
         # Unregister 'goo'.
         self.service_registry.unregister_service(goo_id)
 
         # This query should no longer match any of the registered objects.
-        service = self.service_registry.get_service(IFoo, 'price >= 100')
+        service = self.service_registry.get_service(IFoo, "price >= 100")
         self.assertEqual(None, service)
 
         # Try to unregister a non-existent service.
@@ -497,13 +495,13 @@ class ServiceRegistryTestCase(unittest.TestCase):
             self.service_registry.register_service(IFoo, foo)
 
         # Find the service with the lowest price.
-        service = self.service_registry.get_service(IFoo, minimize='price')
+        service = self.service_registry.get_service(IFoo, minimize="price")
         self.assertNotEqual(None, service)
         self.assertEqual(Foo, type(service))
         self.assertEqual(y, service)
 
         # Find the service with the highest price.
-        service = self.service_registry.get_service(IFoo, maximize='price')
+        service = self.service_registry.get_service(IFoo, maximize="price")
         self.assertNotEqual(None, service)
         self.assertEqual(Foo, type(service))
         self.assertEqual(z, service)

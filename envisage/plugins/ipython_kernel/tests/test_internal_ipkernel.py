@@ -7,22 +7,15 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 
-from __future__ import absolute_import, print_function, unicode_literals
-
 import atexit
 import gc
-try:
-    # Python 3: mock part of standard library.
-    from unittest import mock
-except ImportError:
-    # Python 2: use 3rd-party mock
-    import mock
 import os
 import shutil
 import sys
 import tempfile
 import threading
 import unittest
+from unittest import mock
 import warnings
 
 try:
@@ -42,11 +35,13 @@ if ipykernel_available:
     import zmq
 
     from envisage.plugins.ipython_kernel.internal_ipkernel import (
-        InternalIPKernel)
+        InternalIPKernel,
+    )
 
 
-@unittest.skipUnless(ipykernel_available,
-                     "skipping tests that require the ipykernel package")
+@unittest.skipUnless(
+    ipykernel_available, "skipping tests that require the ipykernel package"
+)
 class TestInternalIPKernel(unittest.TestCase):
     def setUp(self):
         # Make sure that IPython-related files are written to a temporary
@@ -82,10 +77,10 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertEqual(len(kernel.consoles), 0)
 
     def test_initial_namespace(self):
-        kernel = InternalIPKernel(initial_namespace=[('x', 42.1)])
+        kernel = InternalIPKernel(initial_namespace=[("x", 42.1)])
         kernel.init_ipkernel(gui_backend=None)
-        self.assertIn('x', kernel.namespace)
-        self.assertEqual(kernel.namespace['x'], 42.1)
+        self.assertIn("x", kernel.namespace)
+        self.assertEqual(kernel.namespace["x"], 42.1)
         kernel.shutdown()
 
     def test_shutdown_restores_output_streams(self):
@@ -262,7 +257,8 @@ class TestInternalIPKernel(unittest.TestCase):
 
         # Check that we got the expected warning message.
         matching_messages = [
-            msg for msg in warn_msgs
+            msg
+            for msg in warn_msgs
             if "gui_backend argument is deprecated" in str(msg.message)
         ]
         self.assertEqual(len(matching_messages), 1)
@@ -274,10 +270,7 @@ class TestInternalIPKernel(unittest.TestCase):
         Find and return a list of all currently tracked instances of the
         given type.
         """
-        return [
-            obj for obj in gc.get_objects()
-            if isinstance(obj, type)
-        ]
+        return [obj for obj in gc.get_objects() if isinstance(obj, type)]
 
     def create_and_destroy_kernel(self):
         """

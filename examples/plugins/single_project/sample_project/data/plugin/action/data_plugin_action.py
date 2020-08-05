@@ -1,9 +1,9 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 A base class for actions that use the data plugin's services.
@@ -47,7 +47,6 @@ class DataPluginAction(ProjectAction):
     # A reference to the data plugin's UI service.
     data_ui_service = UOL
 
-
     ##########################################################################
     # 'object' interface
     ##########################################################################
@@ -65,13 +64,12 @@ class DataPluginAction(ProjectAction):
         super(DataPluginAction, self).__init__(**kws)
 
         if self.data_model_service is None:
-            self.data_model_service = 'service://%s' % IDATA_MODEL
+            self.data_model_service = "service://%s" % IDATA_MODEL
 
         if self.data_ui_service is None:
-            self.data_ui_service = 'service://%s' % IDATA_UI
+            self.data_ui_service = "service://%s" % IDATA_UI
 
         return
-
 
     ##########################################################################
     # 'DataPluginAction' interface.
@@ -91,7 +89,7 @@ class DataPluginAction(ProjectAction):
         data = None
 
         # If the event has a node, then try to find the data from that node.
-        if hasattr(event, 'node'):
+        if hasattr(event, "node"):
             data = self._get_target_data_from_node(event.node)
 
         # If we don't have a data yet, then try and find it from the current
@@ -102,14 +100,15 @@ class DataPluginAction(ProjectAction):
         # If we have not identified a data, and we're supposed to show an error,
         # then do so now.
         if data is None and show_error:
-            self._display_error('Unable to identify a Data to perform this '
-                'action with.   Please select a target Data within the project '
-                'tree and try again.')
+            self._display_error(
+                "Unable to identify a Data to perform this "
+                "action with.   Please select a target Data within the project "
+                "tree and try again."
+            )
 
-        logger.debug('Target data: %s', data)
+        logger.debug("Target data: %s", data)
 
         return data
-
 
     def _get_target_data_from_node(self, node):
         """
@@ -127,18 +126,17 @@ class DataPluginAction(ProjectAction):
         data = None
         context = node.context
         while context is not None:
-            if hasattr(context, 'adaptee'):
+            if hasattr(context, "adaptee"):
                 obj = context.adaptee
                 if isinstance(obj, Data):
                     data = obj
                     break
-            if hasattr(context, 'context'):
+            if hasattr(context, "context"):
                 context = context.context
             else:
                 context = None
 
         return data
-
 
     def _get_target_data_from_project_selection(self):
         """
@@ -153,7 +151,7 @@ class DataPluginAction(ProjectAction):
             if isinstance(item, Data):
                 data = item
                 break
-            elif hasattr(item, 'obj') and isinstance(item.obj, Data):
+            elif hasattr(item, "obj") and isinstance(item.obj, Data):
                 data = item.obj
                 break
 
@@ -163,13 +161,11 @@ class DataPluginAction(ProjectAction):
         """ Return the name of the selection
         """
 
-        if hasattr(event, 'node'):
-            if hasattr(event.node, 'name'):
+        if hasattr(event, "node"):
+            if hasattr(event.node, "name"):
                 return event.node.name
 
         if show_error:
-            logger.error('Could not retrieve the name of the selected data')
+            logger.error("Could not retrieve the name of the selected data")
 
         return None
-#### EOF #####################################################################
-

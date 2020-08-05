@@ -11,10 +11,8 @@ class GreenView(ColorView):
     #### 'IView' interface ####################################################
 
     # The view's name.
-    name = 'Green'
+    name = "Green"
 
     # The default position of the view relative to the item specified in the
     # 'relative_to' trait.
-    position = 'bottom'
-
-#### EOF ######################################################################
+    position = "bottom"

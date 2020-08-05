@@ -19,7 +19,7 @@ class MOTD(HasTraits):
 
     # The default message is used when there are no other messages!
     DEFAULT_MESSAGE = Message(
-        author='Anon', text='Work hard and be good to your Mother'
+        author="Anon", text="Work hard and be good to your Mother"
     )
 
     # The list of possible messages.
@@ -39,5 +39,3 @@ class MOTD(HasTraits):
             message = self.DEFAULT_MESSAGE
 
         return message
-
-#### EOF ######################################################################

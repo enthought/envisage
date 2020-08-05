@@ -9,7 +9,7 @@
 """ Utility functions for working with Python Eggs. """
 
 
-# Standard library imports.
+# 3rd party imports.
 import pkg_resources
 
 # Enthought library imports.
@@ -28,7 +28,7 @@ def add_eggs_on_path(working_set, path, on_error=None):
         if on_error:
             on_error(errors)
         else:
-            raise SystemError('Cannot find eggs %s' % errors)
+            raise SystemError("Cannot find eggs %s" % errors)
 
     # Add the distributions to the working set (this makes any Python
     # modules in the eggs available for importing).
@@ -103,5 +103,3 @@ def get_requires(working_set, distribution):
             requires.append(working_set.find(requirement))
 
     return requires
-
-#### EOF ######################################################################

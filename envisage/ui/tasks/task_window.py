@@ -12,20 +12,17 @@ from pyface.image_resource import ImageResource
 from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
 from traits.api import Instance, Property
 
-# Local imports.
-from envisage._compat import unicode_str
-
 
 class TaskWindow(PyfaceTaskWindow):
     """ A TaskWindow for use with the Envisage Tasks plugin.
     """
 
     # The application that created and is managing this window.
-    application = Instance('envisage.ui.tasks.api.TasksApplication')
+    application = Instance("envisage.ui.tasks.api.TasksApplication")
 
     # The window's icon.  We override it so it can delegate to the application
     # icon if the window's icon is not set.
-    icon = Property(Instance(ImageResource), depends_on='_icon')
+    icon = Property(Instance(ImageResource), depends_on="_icon")
 
     #### Protected interface ##################################################
 
@@ -44,7 +41,7 @@ class TaskWindow(PyfaceTaskWindow):
 
         title = self.active_task.name
         if self.application.name:
-            form = unicode_str('%s - %s')
+            form = "%s - %s"
             title = form % (title, self.application.name)
         return title
 

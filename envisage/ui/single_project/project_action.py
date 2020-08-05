@@ -40,6 +40,7 @@ class ProjectAction(Action):
     the enabled state as a function of the current project.
 
     """
+
     #### 'ProjectAction' interface ####################################
 
     # The application that the action is part of. This is a convenience
@@ -177,7 +178,6 @@ class ProjectAction(Action):
 
         return
 
-
     #### protected interface #################################################
 
     def _refresh_project_exists(self):
@@ -190,12 +190,13 @@ class ProjectAction(Action):
         """
 
         enabled = False
-        if self.model_service is not None \
-            and self.model_service.project is not None:
+        if (
+            self.model_service is not None
+            and self.model_service.project is not None
+        ):
             enabled = True
 
         return enabled
-
 
     def _update_model_service_listeners(self, remove=False):
         """
@@ -206,16 +207,20 @@ class ProjectAction(Action):
 
         """
 
-        logger.debug( (remove and 'Removing ' or 'Adding ') + \
-            'listeners on project model service for ProjectAction [%s]', self)
+        logger.debug(
+            (remove and "Removing " or "Adding ")
+            + "listeners on project model service for ProjectAction [%s]",
+            self,
+        )
 
-        self.model_service.on_trait_change(self._on_project_changed,
-            'project', remove=remove)
-        self.model_service.on_trait_change(self._on_project_selection_changed,
-            'selection', remove=remove)
+        self.model_service.on_trait_change(
+            self._on_project_changed, "project", remove=remove
+        )
+        self.model_service.on_trait_change(
+            self._on_project_selection_changed, "selection", remove=remove
+        )
 
         return
-
 
     #### trait handlers ######################################################
 
@@ -229,7 +234,6 @@ class ProjectAction(Action):
 
         return
 
-
     def _on_project_selection_changed(self, obj, trait_name, old, new):
         """
         Handle changes to the selection value within the current project.
@@ -239,6 +243,3 @@ class ProjectAction(Action):
         self.refresh()
 
         return
-
-
-#### EOF #####################################################################

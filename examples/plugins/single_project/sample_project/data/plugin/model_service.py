@@ -1,9 +1,9 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 The model service for the Data plugin.
@@ -19,7 +19,7 @@ from envisage.api import ApplicationObject
 from apptools.naming.unique_name import make_unique_name
 from blockcanvas.numerical_modeling.numeric_context.api import NumericContext
 from blockcanvas.numerical_modeling.units.unit_array import UnitArray
-from scimath.units.api import convert,unit_manager
+from scimath.units.api import convert, unit_manager
 from scimath.units.mass import gram
 from scimath.units.volume import cc
 from scimath.units.length import meter
@@ -38,7 +38,6 @@ class ModelService(ApplicationObject):
     The model service for the Dataplugin.
 
     """
-
 
     ##########################################################################
     # 'ModelService' interface
@@ -59,7 +58,6 @@ class ModelService(ApplicationObject):
         if isinstance(context, NumericContext) and context.has_key(item_name):
             context.pop(item_name)
         else:
-            logger.error('Invalid context or data not found in context')
+            logger.error("Invalid context or data not found in context")
 
         return
-#### EOF #####################################################################

@@ -11,6 +11,8 @@
 
 # Standard library imports.
 import logging
+import types
+import weakref
 
 # Enthought library imports.
 from traits.api import Dict, HasTraits, provides
@@ -18,12 +20,44 @@ from traits.api import Dict, HasTraits, provides
 # Local imports.
 from .extension_point_changed_event import ExtensionPointChangedEvent
 from .i_extension_registry import IExtensionRegistry
-from . import safeweakref
 from .unknown_extension_point import UnknownExtensionPoint
 
 
 # Logging.
 logger = logging.getLogger(__name__)
+
+
+def _saferef(listener):
+    """
+    Weak reference for a (possibly bound method) listener.
+
+    Returns a weakref.WeakMethod reference for bound methods,
+    and a regular weakref.ref otherwise.
+
+    This means that for example ``_saferef(myobj.mymethod)``
+    returns a reference whose lifetime is connected to the
+    lifetime of the object ``myobj``, rather than the lifetime
+    of the temporary method ``myobj.mymethod``.
+
+    Parameters
+    ----------
+    listener : callable
+        Listener to return a weak reference for. This can be
+        either a plain function, a bound method, or some other
+        form of callable.
+
+    Returns
+    -------
+    weakref.ref
+        A weak reference to the listener. This will be a ``weakref.WeakMethod``
+        object if the listener is an instance of ``types.MethodType``, and a
+        plain ``weakref.ref`` otherwise.
+
+    """
+    if isinstance(listener, types.MethodType):
+        return weakref.WeakMethod(listener)
+    else:
+        return weakref.ref(listener)
 
 
 @provides(IExtensionRegistry)
@@ -61,7 +95,7 @@ class ExtensionRegistry(HasTraits):
         """ Add a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
-        listeners.append(safeweakref.ref(listener))
+        listeners.append(_saferef(listener))
 
         return
 
@@ -69,7 +103,7 @@ class ExtensionRegistry(HasTraits):
         """ Add an extension point. """
 
         self._extension_points[extension_point.id] = extension_point
-        logger.debug('extension point <%s> added', extension_point.id)
+        logger.debug("extension point <%s> added", extension_point.id)
 
         return
 
@@ -88,11 +122,13 @@ class ExtensionRegistry(HasTraits):
 
         return list(self._extension_points.values())
 
-    def remove_extension_point_listener(self,listener,extension_point_id=None):
+    def remove_extension_point_listener(
+        self, listener, extension_point_id=None
+    ):
         """ Remove a listener for extensions being added or removed. """
 
         listeners = self._listeners.setdefault(extension_point_id, [])
-        listeners.remove(safeweakref.ref(listener))
+        listeners.remove(_saferef(listener))
 
         return
 
@@ -115,7 +151,7 @@ class ExtensionRegistry(HasTraits):
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], old, 0)
 
-        logger.debug('extension point <%s> removed', extension_point_id)
+        logger.debug("extension point <%s> removed", extension_point_id)
 
         return
 
@@ -140,10 +176,10 @@ class ExtensionRegistry(HasTraits):
         """ Call listeners that are listening to an extension point. """
 
         event = ExtensionPointChangedEvent(
-            extension_point_id = extension_point_id,
-            added              = added,
-            removed            = removed,
-            index              = index
+            extension_point_id=extension_point_id,
+            added=added,
+            removed=removed,
+            index=index,
         )
 
         for ref in refs:
@@ -160,7 +196,7 @@ class ExtensionRegistry(HasTraits):
 
         """
 
-        if not extension_point_id in self._extension_points:
+        if extension_point_id not in self._extension_points:
             raise UnknownExtensionPoint(extension_point_id)
 
         return
@@ -184,5 +220,3 @@ class ExtensionRegistry(HasTraits):
         refs.extend(self._listeners.get(None, []))
 
         return refs
-
-#### EOF ######################################################################

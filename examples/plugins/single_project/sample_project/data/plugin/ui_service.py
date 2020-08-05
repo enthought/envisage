@@ -1,9 +1,9 @@
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
 #  Copyright (c) 2007 by Enthought, Inc.
 #  All rights reserved.
 #
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 """
 The UI service for the Data plugin.
@@ -42,7 +42,6 @@ class UiService(ApplicationObject):
     # A reference to the Data plugin's model service.
     model_service = UOL
 
-
     ##########################################################################
     # 'Object' interface
     ##########################################################################
@@ -61,10 +60,9 @@ class UiService(ApplicationObject):
 
         # Ensure we have a default model-service if one wasn't specified.
         if self.model_service is None:
-            self.model_service = 'service://%s' % IDATA_MODEL
+            self.model_service = "service://%s" % IDATA_MODEL
 
         return
-
 
     ##########################################################################
     # 'UIService' interface
@@ -72,21 +70,19 @@ class UiService(ApplicationObject):
 
     #### public methods ######################################################
 
-
-
-    #TODO cgalvan: to be implemented
-#    def delete_data(self, context, data_name, parent_window):
-#        """
-#        Delete a Data.
-#
-#        """
-#
-#        # Open confirmation-dialog to confirm deletion
-#        message = 'Are you sure you want to delete %s?' % data_name
-#        if confirm(parent_window, message) == YES:
-#            self.model_service.delete_context_item(context, data_name)
-#
-#        return
+    # TODO cgalvan: to be implemented
+    #    def delete_data(self, context, data_name, parent_window):
+    #        """
+    #        Delete a Data.
+    #
+    #        """
+    #
+    #        # Open confirmation-dialog to confirm deletion
+    #        message = 'Are you sure you want to delete %s?' % data_name
+    #        if confirm(parent_window, message) == YES:
+    #            self.model_service.delete_context_item(context, data_name)
+    #
+    #        return
 
     def edit_data(self, window, data):
         """
@@ -96,10 +92,12 @@ class UiService(ApplicationObject):
 
         data_parameters = data.data_parameters
 
-        edit_ui = data_parameters.edit_traits(view='data_view',
-                                              kind = 'livemodal',
-                                              # handler=handler,
-                                              parent=window)
+        edit_ui = data_parameters.edit_traits(
+            view="data_view",
+            kind="livemodal",
+            # handler=handler,
+            parent=window,
+        )
 
         return edit_ui.result
 
@@ -115,8 +113,9 @@ class UiService(ApplicationObject):
 
             # Attempt to identify the current application window.
             parent_window = None
-            workbench = self.application.get_service('envisage.'
-                'workbench.IWorkbench')
+            workbench = self.application.get_service(
+                "envisage." "workbench.IWorkbench"
+            )
             if workbench is not None:
                 parent_window = workbench.active_window.control
 
@@ -127,9 +126,6 @@ class UiService(ApplicationObject):
                 information(parent_window, msg, title=title)
 
         except:
-            logger.exception('Unable to display pop-up message')
+            logger.exception("Unable to display pop-up message")
 
         return
-
-#### EOF #####################################################################
-

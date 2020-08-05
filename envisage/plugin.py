@@ -9,7 +9,9 @@
 """ The default implementation of the 'IPlugin' interface. """
 
 # Standard library imports.
-import inspect, logging, os
+import inspect
+import logging
+import os
 from os.path import exists, join
 
 # Enthought library imports.
@@ -112,7 +114,6 @@ class Plugin(ExtensionProvider):
 
         extension_points = [
             trait.trait_type
-
             for trait in self.traits(__extension_point__=True).values()
         ]
 
@@ -132,10 +133,10 @@ class Plugin(ExtensionProvider):
         # FIXME: This is a temporary fix, which was necessary due to the
         #        namespace refactor, but should be removed at some point.
         if len(trait_names) == 0:
-            old_id = 'enthought.' + extension_point_id
+            old_id = "enthought." + extension_point_id
             trait_names = self.trait_names(contributes_to=old_id)
-#            if trait_names:
-#                print 'deprecated:', old_id
+        #            if trait_names:
+        #                print 'deprecated:', old_id
 
         if len(trait_names) == 0:
             # If there is no contributing trait then look for any decorated
@@ -145,10 +146,10 @@ class Plugin(ExtensionProvider):
             # FIXME: This is a temporary fix, which was necessary due to the
             #        namespace refactor, but should be removed at some point.
             if not extensions:
-                old_id = 'enthought.' + extension_point_id
+                old_id = "enthought." + extension_point_id
                 extensions = self._harvest_methods(old_id)
-#                if extensions:
-#                    print 'deprecated:', old_id
+        #                if extensions:
+        #                    print 'deprecated:', old_id
 
         elif len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
@@ -171,7 +172,7 @@ class Plugin(ExtensionProvider):
         # 'application.home'.
         #
         # i.e. .../my.application.id/plugins/
-        plugins_dir = join(self.application.home, 'plugins')
+        plugins_dir = join(self.application.home, "plugins")
         if not exists(plugins_dir):
             os.mkdir(plugins_dir)
 
@@ -185,8 +186,8 @@ class Plugin(ExtensionProvider):
     def _id_default(self):
         """ Trait initializer. """
 
-        id = '%s.%s' % (type(self).__module__, type(self).__name__)
-        logger.warning('plugin %s has no Id - using <%s>' % (self, id))
+        id = "%s.%s" % (type(self).__module__, type(self).__name__)
+        logger.warning("plugin %s has no Id - using <%s>" % (self, id))
 
         return id
 
@@ -194,7 +195,7 @@ class Plugin(ExtensionProvider):
         """ Trait initializer. """
 
         name = camel_case_to_words(type(self).__name__)
-        logger.warning('plugin %s has no name - using <%s>' % (self, name))
+        logger.warning("plugin %s has no name - using <%s>" % (self, name))
 
         return name
 
@@ -257,10 +258,10 @@ class Plugin(ExtensionProvider):
         for trait_name, trait in self.traits(service=True).items():
             logger.warning(
                 'DEPRECATED: Do not use the "service=True" metadata anymore. '
-                'Services should now be offered using the service '
-                'offer extension point (envisage.service_offers) '
-                'from the core plugin. '
-                'Plugin %s trait <%s>' % (self, trait_name)
+                "Services should now be offered using the service "
+                "offer extension point (envisage.service_offers) "
+                "from the core plugin. "
+                "Plugin %s trait <%s>" % (self, trait_name)
             )
 
             # Register a service factory for the trait.
@@ -299,21 +300,21 @@ class Plugin(ExtensionProvider):
 
         # Ignore the '_items' part of the trait name (if it is there!), and get
         # the actual trait.
-        base_trait_name = trait_name.split('_items')[0]
-        trait           = self.trait(base_trait_name)
+        base_trait_name = trait_name.split("_items")[0]
+        trait = self.trait(base_trait_name)
 
         # If the trait is one that contributes to an extension point then fire
         # an appropriate 'extension point changed' event.
         if trait.contributes_to is not None:
-            if trait_name.endswith('_items'):
-                added   = new.added
+            if trait_name.endswith("_items"):
+                added = new.added
                 removed = new.removed
-                index   = new.index
+                index = new.index
 
             else:
-                added   = new
+                added = new
                 removed = old
-                index   = slice(0, max(len(old), len(new)))
+                index = slice(0, max(len(old), len(new)))
 
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(
@@ -328,9 +329,8 @@ class Plugin(ExtensionProvider):
         """ Create the exception raised when multiple traits are found. """
 
         exception = ValueError(
-            'multiple traits for extension point <%s> in plugin <%s>' % (
-                extension_point_id, self.id
-            )
+            "multiple traits for extension point <%s> in plugin <%s>"
+            % (extension_point_id, self.id)
         )
 
         return exception
@@ -341,9 +341,9 @@ class Plugin(ExtensionProvider):
         try:
             extensions = getattr(self, trait_name)
 
-        except:
+        except Exception:
             logger.exception(
-                'getting extensions from %s, trait <%s>' % (self, trait_name)
+                "getting extensions from %s, trait <%s>" % (self, trait_name)
             )
             raise
 
@@ -360,7 +360,7 @@ class Plugin(ExtensionProvider):
         # trait.
         #
         # fixme: This works for 'Instance' traits, but what about 'AdaptsTo'
-        # and 'AdaptedTo' traits?
+        # and 'Supports' traits?
         else:
             # Note that in traits the protocol can be an actual class or
             # interfacem or the *name* of a class or interface. This allows
@@ -404,8 +404,9 @@ class Plugin(ExtensionProvider):
 
         """
 
-        is_extension_method = inspect.ismethod(value) \
-            and extension_point_id == getattr(value,'__extension_point__',None)
+        is_extension_method = inspect.ismethod(
+            value
+        ) and extension_point_id == getattr(value, "__extension_point__", None)
 
         return is_extension_method
 
@@ -425,5 +426,3 @@ class Plugin(ExtensionProvider):
             return getattr(self, trait_name)
 
         return self.application.register_service(protocol, factory)
-
-#### EOF ######################################################################

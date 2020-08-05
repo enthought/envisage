@@ -49,5 +49,3 @@ class Location(HasTraits):
     # - for groups, this is the ID of another group.
     # - for menus and actions, this is the ID of another menu or action.
     before = Str
-
-#### EOF ######################################################################

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import Bool, HasTraits, Instance, List, Unicode, \
-    on_trait_change
+from traits.api import Bool, HasTraits, Instance, List, Str, on_trait_change
 from traitsui.api import Item, Handler, ListEditor, View
 from pyface.tasks.topological_sort import before_after_sort
 
@@ -21,14 +20,18 @@ class PreferencesTab(HasTraits):
     """ An object used internally by PreferencesDialog.
     """
 
-    name = Unicode
+    name = Str
     panes = List(PreferencesPane)
 
-    view = View(Item('panes',
-                     editor = ListEditor(style = 'custom'),
-                     show_label = False,
-                     style = 'readonly'),
-                resizable = True)
+    view = View(
+        Item(
+            "panes",
+            editor=ListEditor(style="custom"),
+            show_label=False,
+            style="readonly",
+        ),
+        resizable=True,
+    )
 
 
 class PreferencesDialog(Handler):
@@ -38,7 +41,7 @@ class PreferencesDialog(Handler):
     #### 'PreferencesDialog' interface ########################################
 
     # The application that created and is managing this dialog.
-    application = Instance('envisage.ui.tasks.api.TasksApplication')
+    application = Instance("envisage.ui.tasks.api.TasksApplication")
 
     # The list of categories to use when building the dialog.
     categories = List(PreferencesCategory)
@@ -71,33 +74,39 @@ class PreferencesDialog(Handler):
     # 'HasTraits' interface.
     ###########################################################################
 
-    def trait_context ( self ):
+    def trait_context(self):
         """ Returns the default context to use for editing or configuring
             traits.
         """
-        return { 'object': self, 'handler': self }
+        return {"object": self, "handler": self}
 
     def traits_view(self):
         """ Build the dynamic dialog view.
         """
-        buttons = ['OK', 'Cancel']
+        buttons = ["OK", "Cancel"]
         if self.show_apply:
-            buttons = ['Apply'] + buttons
+            buttons = ["Apply"] + buttons
 
         # Only show the tab bar if there is more than one category.
-        tabs_style = 'custom' if len(self._tabs) > 1 else 'readonly'
+        tabs_style = "custom" if len(self._tabs) > 1 else "readonly"
 
-        return View(Item('_tabs',
-                         editor = ListEditor(page_name = '.name',
-                                             style ='custom',
-                                             use_notebook = True,
-                                             selected = '_selected'),
-                         show_label = False,
-                         style = tabs_style),
-                    buttons = buttons,
-                    kind = 'livemodal',
-                    resizable = True,
-                    title = 'Preferences')
+        return View(
+            Item(
+                "_tabs",
+                editor=ListEditor(
+                    page_name=".name",
+                    style="custom",
+                    use_notebook=True,
+                    selected="_selected",
+                ),
+                show_label=False,
+                style=tabs_style,
+            ),
+            buttons=buttons,
+            kind="livemodal",
+            resizable=True,
+            title="Preferences",
+        )
 
     ###########################################################################
     # 'Handler' interface.
@@ -121,7 +130,7 @@ class PreferencesDialog(Handler):
     # Protected interface.
     ###########################################################################
 
-    @on_trait_change('categories, panes')
+    @on_trait_change("categories, panes")
     def _update_tabs(self):
         # Build a { category id -> [ PreferencePane ] } map.
         categories = self.categories[:]
@@ -131,11 +140,11 @@ class PreferencesDialog(Handler):
                 category_map[pane.category].append(pane)
             else:
                 categories.append(PreferencesCategory(id=pane.category))
-                category_map[pane.category] = [ pane ]
+                category_map[pane.category] = [pane]
 
         # Construct the appropriately sorted list of preference tabs.
         tabs = []
         for category in before_after_sort(categories):
             panes = before_after_sort(category_map[category.id])
-            tabs.append(PreferencesTab(name = category.name, panes=panes))
+            tabs.append(PreferencesTab(name=category.name, panes=panes))
         self._tabs = tabs

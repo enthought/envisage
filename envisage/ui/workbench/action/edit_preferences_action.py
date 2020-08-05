@@ -20,16 +20,16 @@ class EditPreferencesAction(Action):
     #### 'Action' interface ###################################################
 
     # A longer description of the action.
-    description = 'Manage Preferences'
+    description = "Manage Preferences"
 
     # The action's image (displayed on tool bar tools etc).
-    image = ImageResource('preferences')
+    image = ImageResource("preferences")
 
     # The action's name (displayed on menus/tool bar tools etc).
-    name = 'Preferences'
+    name = "Preferences"
 
     # A short description of the action used for tooltip text etc.
-    tooltip = 'Manage Preferences'
+    tooltip = "Manage Preferences"
 
     ###########################################################################
     # 'Action' interface.
@@ -42,7 +42,7 @@ class EditPreferencesAction(Action):
 
         # Lookup the preferences manager service.
         manager = event.window.application.get_service(PreferencesManager)
-        ui = manager.edit_traits(parent=event.window.control, kind='modal')
+        ui = manager.edit_traits(parent=event.window.control, kind="modal")
 
         # If the user hit the "Ok" button, then save the preferences in case
         # application crashes before it exits!
@@ -50,5 +50,3 @@ class EditPreferencesAction(Action):
             self.window.application.preferences.save()
 
         return
-
-#### EOF ######################################################################
