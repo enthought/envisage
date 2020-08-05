@@ -16,22 +16,29 @@ simply a convenient location from which the user can import the IDs.
 
 #### Extension Points #########################################################
 
-# Extension Points defined by the CorePlugin.
+#: Extension Points defined by the CorePlugin.
 PREFERENCES = 'envisage.preferences'
+#: a
 SERVICE_OFFERS = 'envisage.service_offers'
 
 # Extension Points defined by the PythonShellPlugin.
 # NOTE : The other PythonShellPlugin defines extension points with the same ID.
+#: b
 BINDINGS = 'envisage.plugins.python_shell.bindings'
+#: c
 COMMANDS = 'envisage.plugins.python_shell.commands'
 
-# Extension Points defined by the IPythonKernelPlugin.
+#: Extension Points defined by the IPythonKernelPlugin.
 IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
 # Extension Points defined by the TasksPlugin.
+#: f
 PREFERENCES_CATEGORIES = 'envisage.ui.tasks.preferences_categories'
+#: g
 PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
+#: h
 TASKS = 'envisage.ui.tasks.tasks'
+#: i
 TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
 
 #### Services ################################################################
