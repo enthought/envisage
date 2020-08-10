@@ -4,7 +4,7 @@ image: Visual Studio 2019
 environment:
   global:
     PYTHONUNBUFFERED: "1"
-    INSTALL_EDM_VERSION: "2.0.0"
+    INSTALL_EDM_VERSION: "3.0.1"
 
   matrix:
     - RUNTIME: '3.6'
