@@ -24,8 +24,6 @@ import ipykernel.zmqshell
 import IPython.utils.io
 import zmq
 
-from envisage.plugins.ipython_kernel.heartbeat import Heartbeat
-
 # Sentinel object used to represent a missing attribute.
 _MISSING = object()
 
@@ -36,26 +34,6 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
     """
 
     # Methods overridden from the base class ##################################
-
-    def init_heartbeat(self):
-        """start the heart beating
-
-        Overridden from the base class in order to swap in our own
-        Heartbeat class in place of the official one. Our Heartbeat class
-        is modified to allow the heartbeat thread to be shut down cleanly.
-
-        This override can be removed once we're on ipkernel 5.x.
-        """
-        # heartbeat doesn't share context, because it mustn't be blocked
-        # by the GIL, which is accessed by libzmq when freeing zero-copy
-        # messages
-        hb_ctx = zmq.Context()
-        self.heartbeat = Heartbeat(
-            hb_ctx, (self.transport, self.ip, self.hb_port),
-        )
-        self.hb_port = self.heartbeat.port
-        self.log.debug("Heartbeat REP Channel on port: %i" % self.hb_port)
-        self.heartbeat.start()
 
     def patch_io(self):
         """Patch important libraries that can't handle sys.stdout forwarding.
