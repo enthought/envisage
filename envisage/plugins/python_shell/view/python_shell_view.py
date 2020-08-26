@@ -143,7 +143,7 @@ class PythonShellView(View):
 
         """
 
-        super(PythonShellView, self).destroy_control()
+        super().destroy_control()
 
         # Unregister the view as a service.
         self.window.application.unregister_service(self._service_id)

@@ -56,7 +56,7 @@ class ProjectEditor(DecoratedEditor):
 
         """
 
-        super(ProjectEditor, self).__init__(**traits)
+        super().__init__(**traits)
 
         # Make sure the current project knows this editor is associated with
         # it's resources
@@ -88,6 +88,6 @@ class ProjectEditor(DecoratedEditor):
             # Unregister from the associated project immediately.
             self.project.register_editor(self.resource, self, remove=True)
 
-        super(ProjectEditor, self).destroy_control()
+        super().destroy_control()
 
         return

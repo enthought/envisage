@@ -72,7 +72,7 @@ class ModelService(HasTraits):
 
         """
 
-        super(ModelService, self).__init__(
+        super().__init__(
             application=application, factory=factory, **traits
         )
 

@@ -145,7 +145,7 @@ class Project(HasTraits):
         """
 
         # Determine the starting point for our state.
-        state = super(Project, self).__getstate__().copy()
+        state = super().__getstate__().copy()
 
         # Remove any transient traits.
         for trait_name in self.trait_names(transient=True):
@@ -187,7 +187,7 @@ class Project(HasTraits):
                 state.pop(key, None)
 
         # Restore our state.
-        return super(Project, self).__setstate__(state)
+        return super().__setstate__(state)
 
     def __str__(self):
         """
@@ -195,7 +195,7 @@ class Project(HasTraits):
 
         """
 
-        result = "%s(name=%s)" % (super(Project, self).__str__(), self.name)
+        result = "%s(name=%s)" % (super().__str__(), self.name)
         return result
 
     ##########################################################################

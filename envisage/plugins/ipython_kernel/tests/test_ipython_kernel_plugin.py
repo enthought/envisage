@@ -115,7 +115,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
         class TrackingInternalIPKernel(internal_ipkernel.InternalIPKernel):
             def __init__(self, *args, **kwargs):
-                super(TrackingInternalIPKernel, self).__init__(*args, **kwargs)
+                super().__init__(*args, **kwargs)
                 kernel_instances.append(self)
 
         patcher = mock.patch.object(
@@ -142,7 +142,7 @@ class TestIPythonKernelPlugin(unittest.TestCase):
 
         class TrackingInternalIPKernel(internal_ipkernel.InternalIPKernel):
             def __init__(self, *args, **kwargs):
-                super(TrackingInternalIPKernel, self).__init__(*args, **kwargs)
+                super().__init__(*args, **kwargs)
                 kernel_instances.append(self)
 
         patcher = mock.patch.object(

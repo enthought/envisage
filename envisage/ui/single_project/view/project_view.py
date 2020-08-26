@@ -139,7 +139,7 @@ class ProjectView(HasTraits):
     # 'View' interface.
     ##########################################################################
     def __init__(self, **traits):
-        super(ProjectView, self).__init__(**traits)
+        super().__init__(**traits)
 
         # Make sure our view stays in sync with the current project
         model_service = self._get_model_service()

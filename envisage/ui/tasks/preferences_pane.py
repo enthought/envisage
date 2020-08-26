@@ -84,4 +84,4 @@ class PreferencesPane(Controller):
         """
         if is_ok:
             self.apply()
-        return super(PreferencesPane, self).close(info, is_ok)
+        return super().close(info, is_ok)

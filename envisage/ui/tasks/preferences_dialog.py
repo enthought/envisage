@@ -125,7 +125,7 @@ class PreferencesDialog(Handler):
         """
         if is_ok:
             self.apply()
-        return super(PreferencesDialog, self).close(info, is_ok)
+        return super().close(info, is_ok)
 
     ###########################################################################
     # Protected interface.

@@ -78,7 +78,7 @@ class TaskWindowToggleGroup(Group):
     def destroy(self):
         """ Called when the group is no longer required.
         """
-        super(TaskWindowToggleGroup, self).destroy()
+        super().destroy()
         if self.application:
             self.application.on_trait_change(
                 self._rebuild, "window_opened, window_closed", remove=True

@@ -89,7 +89,7 @@ class PluginManager(HasTraits):
 
         """
 
-        super(PluginManager, self).__init__(**traits)
+        super().__init__(**traits)
 
         if plugins is not None:
             self._plugins = plugins

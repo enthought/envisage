@@ -139,7 +139,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         can be restored later.
         """
         self._original_sys_excepthook = sys.excepthook
-        super(IPKernelApp, self).init_crash_handler()
+        super().init_crash_handler()
 
     def init_io(self):
         """
@@ -155,7 +155,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         if self.displayhook_class:
             self._original_sys_displayhook = sys.displayhook
 
-        super(IPKernelApp, self).init_io()
+        super().init_io()
 
     def init_kernel(self):
         """
@@ -170,7 +170,7 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         self._original_ipython_utils_io_stderr = getattr(
             IPython.utils.io, "stderr", _MISSING
         )
-        super(IPKernelApp, self).init_kernel()
+        super().init_kernel()
 
     # New methods, mostly to control shutdown #################################
 

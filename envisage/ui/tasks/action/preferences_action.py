@@ -55,4 +55,4 @@ class PreferencesGroup(Group):
     ###########################################################################
 
     def __init__(self, **traits):
-        super(PreferencesGroup, self).__init__(PreferencesAction(), **traits)
+        super().__init__(PreferencesAction(), **traits)

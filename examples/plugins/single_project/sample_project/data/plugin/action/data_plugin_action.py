@@ -61,7 +61,7 @@ class DataPluginAction(ProjectAction):
 
         """
 
-        super(DataPluginAction, self).__init__(**kws)
+        super().__init__(**kws)
 
         if self.data_model_service is None:
             self.data_model_service = "service://%s" % IDATA_MODEL

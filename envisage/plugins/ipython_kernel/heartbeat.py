@@ -42,7 +42,7 @@ class Heartbeat(ipykernel.heartbeat.Heartbeat):
 
     def run(self):
         try:
-            super(Heartbeat, self).run()
+            super().run()
         except zmq.ZMQError as e:
             # We expect to get here on normal context termination, but
             # not otherwise; re-raise if the error is not the expected one

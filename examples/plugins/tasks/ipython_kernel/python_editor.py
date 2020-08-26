@@ -147,7 +147,7 @@ class PythonEditorEventFilter(QtCore.QObject):
     """
 
     def __init__(self, editor, parent):
-        super(PythonEditorEventFilter, self).__init__(parent)
+        super().__init__(parent)
         self.__editor = editor
 
     def eventFilter(self, obj, event):
@@ -190,4 +190,4 @@ class PythonEditorEventFilter(QtCore.QObject):
                 event=event,
             )
 
-        return super(PythonEditorEventFilter, self).eventFilter(obj, event)
+        return super().eventFilter(obj, event)
