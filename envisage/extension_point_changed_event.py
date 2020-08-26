@@ -21,7 +21,7 @@ class ExtensionPointChangedEvent(TraitListEvent):
         """ Constructor. """
 
         # The base class has the 'index', 'removed' and 'added' attributes.
-        super(ExtensionPointChangedEvent, self).__init__(**kw)
+        super().__init__(**kw)
 
         # We add the extension point Id.
         self.extension_point_id = extension_point_id

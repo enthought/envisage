@@ -57,7 +57,7 @@ class ExtensionPointBinding(HasTraits):
     def __init__(self, **traits):
         """ Constructor. """
 
-        super(ExtensionPointBinding, self).__init__(**traits)
+        super().__init__(**traits)
 
         # Initialize the object's trait from the extension point.
         self._set_trait(notify=False)

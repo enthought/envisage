@@ -121,7 +121,7 @@ class ExtensionPoint(TraitType):
         # point traits easier to find with the 'traits' and 'trait_names'
         # methods on 'HasTraits'.
         metadata["__extension_point__"] = True
-        super(ExtensionPoint, self).__init__(**metadata)
+        super().__init__(**metadata)
 
         # The trait type that describes the extension point.
         #

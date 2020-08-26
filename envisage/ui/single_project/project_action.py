@@ -92,7 +92,7 @@ class ProjectAction(Action):
         self._update_model_service_listeners(remove=False)
         """
 
-        super(ProjectAction, self).__init__(*args, **kws)
+        super().__init__(*args, **kws)
 
         return
 

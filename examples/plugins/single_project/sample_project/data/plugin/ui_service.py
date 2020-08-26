@@ -56,7 +56,7 @@ class UiService(ApplicationObject):
 
         """
 
-        super(UiService, self).__init__(**kws)
+        super().__init__(**kws)
 
         # Ensure we have a default model-service if one wasn't specified.
         if self.model_service is None:

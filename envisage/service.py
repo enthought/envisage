@@ -38,7 +38,7 @@ class Service(TraitType):
     ):
         """ Constructor. """
 
-        super(Service, self).__init__(**metadata)
+        super().__init__(**metadata)
 
         # The protocol that the service must provide.
         self._protocol = protocol

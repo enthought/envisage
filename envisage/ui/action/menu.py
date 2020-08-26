@@ -32,7 +32,7 @@ class CGroup(Instance):
     def __init__(self, **kw):
         """ Constructor. """
 
-        super(CGroup, self).__init__(klass=Group, **kw)
+        super().__init__(klass=Group, **kw)
 
         return
 
@@ -46,7 +46,7 @@ class CGroup(Instance):
         if isinstance(value, str):
             value = Group(id=value)
 
-        return super(CGroup, self).validate(object, name, value)
+        return super().validate(object, name, value)
 
 
 class Menu(Location):

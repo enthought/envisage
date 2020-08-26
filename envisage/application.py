@@ -122,7 +122,7 @@ class Application(HasTraits):
 
         """
 
-        super(Application, self).__init__(**traits)
+        super().__init__(**traits)
 
         # fixme: We have to initialize the application home here (i.e. we can't
         # wait until the 'home' trait is accessed) because the scoped

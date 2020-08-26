@@ -228,7 +228,7 @@ class ProjectPlugin(Plugin):
 
         """
 
-        super(ProjectPlugin, self).start()
+        super().start()
 
         # FIXME: We eventually won't have to explicitly register the
         # services ourselves, since we contribute them as service offers

@@ -93,7 +93,7 @@ class Data(NumericContext):
     """ Contains all of the data for a data """
 
     def __init__(self, name="Unknown", **traits):
-        super(Data, self).__init__(**traits)
+        super().__init__(**traits)
         self.context_name = name
         self.data_parameters = DataView()
         # self.data_parameters = DataView()
@@ -109,7 +109,7 @@ class Data(NumericContext):
         """
 
         # Obtain state from base class(es)
-        state = super(Data, self).__getstate__()
+        state = super().__getstate__()
 
         # Add in our current version number.  Note use a different attribute
         # name from any base or derived class so that our numbers don't
@@ -145,7 +145,7 @@ class Data(NumericContext):
                 )
 
         # Restore the base class's state.
-        super(Data, self).__setstate__(state)
+        super().__setstate__(state)
 
         return
 

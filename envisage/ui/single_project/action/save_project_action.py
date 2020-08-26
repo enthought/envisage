@@ -71,7 +71,7 @@ class SaveProjectAction(ProjectAction):
         if new is not None:
             self._update_project_listeners(new, remove=False)
 
-        super(SaveAction, self)._on_project_changed(obj, trait_name, old, new)
+        super()._on_project_changed(obj, trait_name, old, new)
 
     ##########################################################################
     # 'SaveAction' interface

@@ -91,7 +91,7 @@ class UiService(HasTraits):
 
         """
 
-        super(UiService, self).__init__(
+        super().__init__(
             model_service=model_service,
             default_context_menu_manager=menu_manager,
             **traits,

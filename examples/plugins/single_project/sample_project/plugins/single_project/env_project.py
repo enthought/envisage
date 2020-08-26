@@ -91,7 +91,7 @@ class EnvProject(Project, NumericContext):
         """
 
         # Obtain state from base class(es)
-        state = super(EnvProject, self).__getstate__()
+        state = super().__getstate__()
 
         # Add in our current version number.  Note use a different attribute
         # name from any base or derived class so that our numbers don't
@@ -127,7 +127,7 @@ class EnvProject(Project, NumericContext):
                 )
 
         # Restore the base class's state.
-        super(EnvProject, self).__setstate__(state)
+        super().__setstate__(state)
 
         return
 

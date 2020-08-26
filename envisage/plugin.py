@@ -206,7 +206,7 @@ class Plugin(ExtensionProvider):
         """ Start the plugin.
 
         This method will *always* be empty so that you never have to call
-        'super(xxx, self).start()' if you provide an implementation in a
+        'super().start()' if you provide an implementation in a
         derived class.
 
         The framework does what it needs to do when it starts a plugin by means
@@ -220,7 +220,7 @@ class Plugin(ExtensionProvider):
         """ Stop the plugin.
 
         This method will *always* be empty so that you never have to call
-        'super(xxx, self).stop()' if you provide an implementation in a
+        'super().stop()' if you provide an implementation in a
         derived class.
 
         The framework does what it needs to do when it stops a plugin by means
