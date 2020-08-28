@@ -127,7 +127,7 @@ class TestTasksApplication(unittest.TestCase):
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
-    def test_gui_needs_GUI_instance(self):
+    def test_gui_trait_expects_IGUI_interface(self):
         # Trivial test where we simply set the trait
         # and the test passes because no errors are raised.
         app = TasksApplication()
