@@ -19,7 +19,7 @@ import pkg_resources
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 from pyface.i_gui import IGUI
-from traits.api import HasTraits, provides, TraitError
+from traits.api import HasTraits, provides
 
 requires_gui = unittest.skipIf(
     os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
@@ -32,7 +32,7 @@ class DummyGUI(HasTraits):
     pass
 
 
-
+@requires_gui
 class TestTasksApplication(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
