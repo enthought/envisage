@@ -24,7 +24,6 @@ from traits.api import (
     Int,
     List,
     Str,
-    Supports,
     Vetoable,
 )
 from traits.etsconfig.api import ETSConfig
@@ -61,7 +60,7 @@ class TasksApplication(Application):
     active_window = Instance("envisage.ui.tasks.task_window.TaskWindow")
 
     # The Pyface GUI for the application.
-    gui = Supports("pyface.i_gui.IGUI")
+    gui = Instance("pyface.i_gui.IGUI")
 
     # Icon for the whole application. Will be used to override all taskWindows
     # icons to have the same.
