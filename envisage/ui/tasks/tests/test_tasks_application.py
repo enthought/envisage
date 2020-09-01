@@ -18,11 +18,18 @@ import pkg_resources
 
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
+from pyface.i_gui import IGUI
+from traits.api import HasTraits, provides
 
 requires_gui = unittest.skipIf(
     os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
     "Test requires a non-null GUI backend",
 )
+
+
+@provides(IGUI)
+class DummyGUI(HasTraits):
+    pass
 
 
 @requires_gui
@@ -119,3 +126,9 @@ class TestTasksApplication(unittest.TestCase):
 
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
+
+    def test_gui_trait_expects_IGUI_interface(self):
+        # Trivial test where we simply set the trait
+        # and the test passes because no errors are raised.
+        app = TasksApplication()
+        app.gui = DummyGUI()
