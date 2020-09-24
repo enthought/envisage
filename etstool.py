@@ -264,6 +264,23 @@ def install(edm, runtime, toolkit, environment, editable, source):
 @runtime_option
 @toolkit_option
 @environment_option
+def shell(edm, runtime, toolkit, environment):
+    """ Create a shell into the EDM development environment
+    (aka 'activate' it).
+
+    """
+    parameters = get_parameters(edm, runtime, toolkit, environment)
+    commands = [
+        "{edm} shell -e {environment}",
+    ]
+    execute(commands, parameters)
+
+
+@cli.command()
+@edm_option
+@runtime_option
+@toolkit_option
+@environment_option
 def flake8(edm, runtime, toolkit, environment):
     """ Run a flake8 check in a given environment.
 
