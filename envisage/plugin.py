@@ -188,7 +188,9 @@ class Plugin(ExtensionProvider):
         """ Trait initializer. """
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
-        logger.warning("plugin %s has no Id - using <%s>" % (self, id))
+        logger.warning(
+            "plugin %s has no Id - using <%s>" % (object.__repr__(self), id)
+        )
 
         return id
 
@@ -196,7 +198,9 @@ class Plugin(ExtensionProvider):
         """ Trait initializer. """
 
         name = camel_case_to_words(type(self).__name__)
-        logger.warning("plugin %s has no name - using <%s>" % (self, name))
+        logger.warning(
+            "plugin %s has no name - using <%s>" % (object.__repr__(self), name)
+        )
 
         return name
 
@@ -427,3 +431,11 @@ class Plugin(ExtensionProvider):
             return getattr(self, trait_name)
 
         return self.application.register_service(protocol, factory)
+
+    ###########################################################################
+    # 'object' interface.
+    ###########################################################################
+
+    def __repr__(self):
+        """ String representation of a Plugin object """
+        return "Plugin(id={}, name={})".format(self.id, self.name)
