@@ -11,7 +11,7 @@ from traits.api import List, Str
 
 # Create a log file.
 logger = logging.getLogger()
-logger.addHandler(logging.StreamHandler(file("hello_world.log", "w")))
+logger.addHandler(logging.StreamHandler(open("hello_world.log", "w")))
 logger.setLevel(logging.DEBUG)
 
 
