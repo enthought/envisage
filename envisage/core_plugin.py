@@ -28,7 +28,6 @@ class CorePlugin(Plugin):
     """
 
     # Extension point Ids.
-    CLASS_LOAD_HOOKS = "envisage.class_load_hooks"
     PREFERENCES = "envisage.preferences"
     SERVICE_OFFERS = "envisage.service_offers"
 
@@ -41,32 +40,6 @@ class CorePlugin(Plugin):
     name = "Core"
 
     #### Extension points offered by this plugin ##############################
-
-    class_load_hooks = ExtensionPoint(
-        List(Instance("envisage.class_load_hook.ClassLoadHook")),
-        id=CLASS_LOAD_HOOKS,
-        desc="""
-
-        Class load hooks allow you to be notified when any 'HasTraits' class
-        is imported or created.
-
-        See the documentation for 'ClassLoadHook' for more details.
-
-        """,
-    )
-
-    @on_trait_change("class_load_hooks_items")
-    def _class_load_hooks_changed(self, event):
-        """ React to new class load hooks being *added*.
-
-        Note that we don't currently do anything if class load hooks are
-        *removed*.
-
-        """
-
-        self._connect_class_load_hooks(event.added)
-
-        return
 
     preferences = ExtensionPoint(
         List(Str),
@@ -164,9 +137,6 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences(self.preferences)
 
-        # Connect all class load hooks.
-        self._connect_class_load_hooks(self.class_load_hooks)
-
         # Register all service offers.
         #
         # These services are unregistered by the default plugin activation
@@ -179,14 +149,6 @@ class CorePlugin(Plugin):
     ###########################################################################
     # Private interface.
     ###########################################################################
-
-    def _connect_class_load_hooks(self, class_load_hooks):
-        """ Connect all class load hooks. """
-
-        for class_load_hook in class_load_hooks:
-            class_load_hook.connect()
-
-        return
 
     def _load_preferences(self, preferences):
         """ Load all contributed preferences into a preferences node. """
