@@ -12,7 +12,7 @@
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from traits.api import List, Instance, on_trait_change, Str
+from traits.api import List, on_trait_change, Str
 
 
 class CorePlugin(Plugin):
