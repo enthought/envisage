@@ -189,7 +189,8 @@ class Plugin(ExtensionProvider):
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
         logger.warning(
-            "plugin %s has no Id - using <%s>" % (object.__repr__(self), id)
+            "plugin {} has no Id - using <{}>".format(
+                object.__repr__(self), id)
         )
 
         return id
@@ -199,7 +200,8 @@ class Plugin(ExtensionProvider):
 
         name = camel_case_to_words(type(self).__name__)
         logger.warning(
-            "plugin %s has no name - using <%s>" % (object.__repr__(self), name)
+            "plugin {} has no name - using <{}>".format(
+                object.__repr__(self), name)
         )
 
         return name
