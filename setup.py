@@ -295,9 +295,9 @@ if __name__ == "__main__":
         },
         install_requires=["apptools", "setuptools", "traits"],
         extras_require={
-            "ipykernel" : ["ipykernel"],
-            "pyface" : ["pyface"],
-            "traitsui" : ["traitsui"]
+            "ipykernel": ["ipykernel"],
+            "pyface": ["pyface"],
+            "traitsui": ["traitsui"]
         },
         license="BSD",
         packages=find_packages(),
