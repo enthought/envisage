@@ -294,7 +294,7 @@ if __name__ == "__main__":
             ]
         },
         install_requires=["apptools", "setuptools", "traits"],
-        extras_require=["ipykernel", "pyface", "tornado", "traitsui"],
+        extras_require=["ipykernel", "pyface", "traitsui"],
         license="BSD",
         packages=find_packages(),
         package_data={
