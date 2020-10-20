@@ -30,6 +30,6 @@ class SoftwareQuotesPlugin(Plugin):
         """ Trait initializer. """
 
         # Only do imports when you need to!
-        from messages import messages
+        from acme.motd.software_quotes.messages import messages
 
         return messages

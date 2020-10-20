@@ -83,7 +83,7 @@ class MOTDPlugin(Plugin):
 
         # Only do imports when you need to! This makes sure that the import
         # only happens when somebody needs an 'IMOTD' service.
-        from motd import MOTD
+        from acme.motd.motd import MOTD
 
         return MOTD(messages=self.messages)
 
