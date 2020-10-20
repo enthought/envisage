@@ -35,9 +35,7 @@ if ipykernel_available:
     import tornado.ioloop
     import zmq
 
-    from envisage.plugins.ipython_kernel.internal_ipkernel import (
-        InternalIPKernel,
-    )
+    from envisage.plugins.ipython_kernel.api import InternalIPKernel
 
 
 @unittest.skipUnless(
