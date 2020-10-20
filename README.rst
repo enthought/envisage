@@ -37,7 +37,20 @@ framework. This project contains no plug-ins. You are free to use:
 Prerequisites
 -------------
 
-The supported versions of Python are Python >= 3.5.
+The supported versions of Python are Python >= 3.5.  Envisage requires:
 
 * `apptools <https://github.com/enthought/apptools>`_
 * `traits <https://github.com/enthought/traits>`_
+
+Envisage has the following optional dependencies:
+
+* `Ipykernel <https://github.com/ipython/ipykernel>`_
+* `Pyface <https://https://github.com/enthought/pyface>`_
+* `TraitsUI <https://https://github.com/enthought/traitsui>`_
+
+To build the full documentation one needs:
+
+* `Sphinx <https://pypi.org/project/Sphinx>`_ version 1.8 or later.
+* The `Enthought Sphinx Theme <https://pypi.org/project/enthought-sphinx-theme>`_.
+  (A version of the documentation can be built without this, but
+  some formatting may be incorrect.)
