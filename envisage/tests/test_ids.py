@@ -16,7 +16,7 @@ from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
     IPythonKernelPlugin,
 )
 from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
-from envisage.ui.tasks.tasks_plugin import TasksPlugin
+from envisage.ui.tasks.api import TasksPlugin
 
 
 class TestIds(unittest.TestCase):

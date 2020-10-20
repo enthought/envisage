@@ -11,8 +11,7 @@ from envisage.plugins.ipython_kernel.api import (
     IPythonKernelPlugin,
     IPYTHON_KERNEL_PROTOCOL,
 )
-from envisage.ui.tasks.api import TasksApplication, TaskFactory
-from envisage.ui.tasks.tasks_plugin import TasksPlugin
+from envisage.ui.tasks.api import TasksApplication, TaskFactory, TasksPlugin
 from pyface.qt import QtCore
 from pyface.tasks.api import TaskWindowLayout
 from pyface.util.guisupport import get_app_qt4

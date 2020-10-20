@@ -8,8 +8,11 @@
 #
 # Thanks for using Enthought open source!
 from .preferences_category import PreferencesCategory
+from .preferences_dialog import PreferencesDialog, PreferencesTab
 from .preferences_pane import PreferencesPane
 from .task_extension import TaskExtension
 from .task_factory import TaskFactory
 from .task_window import TaskWindow
+from .task_window_event import TaskWindowEvent, VetoableTaskWindowEvent
 from .tasks_application import TasksApplication
+from .tasks_plugin import TasksPlugin
