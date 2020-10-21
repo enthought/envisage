@@ -22,9 +22,9 @@ env:
 
 matrix:
   include:
-    - env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2 wx"
     - os: osx
-      env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
+      env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2 wx"
 
 cache:
   directories:
