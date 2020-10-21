@@ -221,8 +221,8 @@ class Project(HasTraits):
 
         """
 
-        # When unpickling, we don't have a reference to the current application, so we
-        # fallback on application_home.
+        # When unpickling, we don't have a reference to the current
+        # application, so we fallback on application_home.
         if application is None:
             return ETSConfig.application_home
 
@@ -401,7 +401,7 @@ class Project(HasTraits):
                 loc = location
 
         # Ensure all necessary directories exist.  If we're saving a file, then
-        # these are the path upto the file name.  If we're saving to a directory
+        # these are the path upto the file name. If we're saving to a directory
         # then the path is the complete location.
         if self.PROJECTS_ARE_FILES:
             path, filename = os.path.split(loc)

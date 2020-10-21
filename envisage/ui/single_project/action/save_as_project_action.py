@@ -118,7 +118,8 @@ class SaveAsProjectAction(ProjectAction):
 
     def _on_is_save_as_allowed(self, obj, trait_name, old, new):
         """
-        Handle changes to the value of the current project's is_save_as_allowed.
+        Handle changes to the value of the current project's
+        is_save_as_allowed.
 
         """
 

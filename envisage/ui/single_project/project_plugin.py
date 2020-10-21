@@ -244,8 +244,8 @@ class ProjectPlugin(Plugin):
         self.application.register_service(IPROJECT_UI, ui_service)
 
         # Set up any listeners interested in the current project selection
-        # FIXME: Register the selection listeners for the current project selection.
-        # self._register_selection_listeners(model_service)
+        # FIXME: Register the selection listeners for the current project
+        # selection. self._register_selection_listeners(model_service)
 
         return
 

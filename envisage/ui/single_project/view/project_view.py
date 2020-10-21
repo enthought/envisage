@@ -43,7 +43,7 @@ class EmptyProject(Project):
 class EmptyProjectAdapter(ITreeNodeAdapter):
     """ Adapter for our EmptyProject. """
 
-    # -- ITreeNodeAdapter Method Overrides --------------------------------------
+    # -- ITreeNodeAdapter Method Overrides ------------------------------------
 
     def get_label(self):
         """ Gets the label to display for a specified object.
@@ -57,7 +57,7 @@ register_factory(EmptyProjectAdapter, EmptyProject, ITreeNode)
 class ProjectAdapter(ITreeNodeAdapter):
     """ Base ProjectAdapter for the root of the tree. """
 
-    # -- ITreeNodeAdapter Method Overrides --------------------------------------
+    # -- ITreeNodeAdapter Method Overrides ------------------------------------
 
     def allows_children(self):
         """ Returns whether this object can have children.

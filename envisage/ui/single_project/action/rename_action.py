@@ -36,9 +36,9 @@ class RenameAction(ProjectAction):
     # enabled if there is exactly ONE item in the selection and it is editable.
 
 
-##     ###########################################################################
+##     ########################################################################
 ##     # 'Action' interface.
-##     ###########################################################################
+##     ########################################################################
 
 ##     def refresh(self):
 ##         """ Refresh the enabled/disabled state of the action etc.
