@@ -4,7 +4,7 @@ To run the application::
 
   python -m attractors.run
 
-from the ``tasks/`` directory.
+from this directory.
 
 Note that this example application depends on the following additional
 packages::
