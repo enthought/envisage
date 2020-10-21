@@ -98,8 +98,8 @@ class TasksApplication(Application):
 
     #### Application layout ###################################################
 
-    #: The default layout for the application. If not specified, a single window
-    #: will be created with the first available task factory.
+    #: The default layout for the application. If not specified, a single
+    #: window will be created with the first available task factory.
     default_layout = List(
         Instance("pyface.tasks.task_window_layout.TaskWindowLayout")
     )
