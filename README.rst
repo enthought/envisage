@@ -44,11 +44,12 @@ The supported versions of Python are Python >= 3.5.  Envisage requires:
 
 Envisage has the following optional dependencies:
 
-* `Ipykernel <https://github.com/ipython/ipykernel>`_
+* `Ipykernel <https://pypi.org/project/ipykernel/>`_
+* `Tornado <https://pypi.org/project/tornado>`_
 * `Pyface <https://github.com/enthought/pyface>`_
 * `TraitsUI <https://github.com/enthought/traitsui>`_
 
 To build the full documentation one needs:
 
-* `Sphinx <https://pypi.org/project/Sphinx>`_ version 1.8 or later.
+* `Sphinx <https://pypi.org/project/Sphinx>`_ version 2.1 or later.
 * The `Enthought Sphinx Theme <https://pypi.org/project/enthought-sphinx-theme>`_.

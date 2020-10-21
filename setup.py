@@ -295,7 +295,9 @@ if __name__ == "__main__":
         },
         install_requires=["apptools", "setuptools", "traits"],
         extras_require={
-            "ipython": ["ipykernel"],
+            "docs": ["enthought-sphinx-theme", "Sphinx>=2.1.0,!=3.2.0"],
+            "ipython": ["ipykernel", "tornado"],
+            "test": ["coverage", "flake8"],
             "ui": ["pyface", "traitsui"],
         },
         license="BSD",
