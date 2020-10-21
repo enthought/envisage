@@ -4,7 +4,7 @@ from pyface.tasks.api import TaskWindowLayout
 from traits.api import Bool, Instance, List, Property
 
 # Local imports.
-from attractors_preferences import (
+from attractors.attractors_preferences import (
     AttractorsPreferences,
     AttractorsPreferencesPane,
 )

@@ -15,7 +15,7 @@ from traitsui.api import EnumEditor, HGroup, Item, Label, View
 from tvtk.pyface.scene_editor import SceneEditor
 
 # Local imports.
-from model.i_model_3d import IModel3d
+from attractors.model.i_model_3d import IModel3d
 
 
 class Plot3dPane(TraitsTaskPane):

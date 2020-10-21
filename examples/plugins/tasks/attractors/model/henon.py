@@ -15,7 +15,7 @@ from traits.api import (
 from traitsui.api import Item, View
 
 # Local imports.
-from i_plottable_2d import IPlottable2d
+from attractors.model.i_plottable_2d import IPlottable2d
 
 
 @provides(IPlottable2d)
@@ -62,7 +62,7 @@ class Henon(HasTraits):
     def _get_points(self):
         point = self.initial_point
         points = zeros((self.steps, 2))
-        for i in xrange(self.steps):
+        for i in range(self.steps):
             x, y = points[i] = point
             point = array([y + 1 - self.a * x ** 2, self.b * x])
         return points

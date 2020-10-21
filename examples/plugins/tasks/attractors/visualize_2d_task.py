@@ -4,10 +4,10 @@ from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
 from traits.api import Any, Instance, List, adapt
 
 # Local imports.
-from model.i_plottable_2d import IPlottable2d
-from model_config_pane import ModelConfigPane
-from model_help_pane import ModelHelpPane
-from plot_2d_pane import Plot2dPane
+from attractors.model.i_plottable_2d import IPlottable2d
+from attractors.model_config_pane import ModelConfigPane
+from attractors.model_help_pane import ModelHelpPane
+from attractors.plot_2d_pane import Plot2dPane
 
 
 class Visualize2dTask(Task):
@@ -70,9 +70,9 @@ class Visualize2dTask(Task):
         )
 
     def _models_default(self):
-        from model.henon import Henon
-        from model.lorenz import Lorenz
-        from model.rossler import Rossler
+        from attractors.model.henon import Henon
+        from attractors.model.lorenz import Lorenz
+        from attractors.model.rossler import Rossler
 
         models = [Henon(), Lorenz(), Rossler()]
 
