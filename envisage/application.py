@@ -89,10 +89,10 @@ class Application(HasTraits):
 
     #### 'Application' interface ##############################################
 
-    #: These traits allow application developers to build completely different
-    #: styles of extensible application. It allows Envisage to be used as a
-    #: framework for frameworks ;^)
-    #:
+    # These traits allow application developers to build completely different
+    # styles of extensible application. It allows Envisage to be used as a
+    # framework for frameworks ;^)
+
     #: The extension registry.
     extension_registry = Instance(IExtensionRegistry)
 
