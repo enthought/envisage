@@ -231,8 +231,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
         else:
             # XXX this is mainly for TravisCI workers; need a generic solution
             commands.append(
-                "{edm} run -e {environment} -- pip install -f "
-                "https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04/ wxPython"
+                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04/ wxPython"  # noqa: E501
             )
 
     if editable:
