@@ -80,7 +80,7 @@ class ServiceTestCase(unittest.TestCase):
         class Foo(HasTraits):
             pass
 
-        service_repr = "Service(protocol={})"
+        service_repr = "Service(protocol={!r})"
         service = Service(Foo)
         self.assertEqual(service_repr.format(Foo), str(service))
         self.assertEqual(service_repr.format(Foo), repr(service))

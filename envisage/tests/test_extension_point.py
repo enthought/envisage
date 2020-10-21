@@ -230,7 +230,7 @@ class ExtensionPointTestCase(unittest.TestCase):
 
     def test_extension_point_str_representation(self):
         """ test the string representation of the extension point """
-        ep_repr = "ExtensionPoint(id={})"
+        ep_repr = "ExtensionPoint(id={!r})"
         ep = self._create_extension_point("my.ep")
         self.assertEqual(ep_repr.format("my.ep"), str(ep))
         self.assertEqual(ep_repr.format("my.ep"), repr(ep))
