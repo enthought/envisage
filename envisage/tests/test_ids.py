@@ -11,7 +11,7 @@
 import unittest
 
 import envisage.ids
-from envisage.core_plugin import CorePlugin
+from envisage.api import CorePlugin
 from envisage.plugins.ipython_kernel.api import IPythonKernelPlugin
 from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
 from envisage.ui.tasks.api import TasksPlugin

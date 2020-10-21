@@ -18,8 +18,7 @@ import warnings
 
 from traits.api import List
 
-from envisage.api import Application, Plugin
-from envisage.core_plugin import CorePlugin
+from envisage.api import Application, CorePlugin, Plugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
 # Skip these tests unless ipykernel is available.

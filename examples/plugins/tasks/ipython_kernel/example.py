@@ -2,8 +2,7 @@
 import logging
 
 # Enthought library imports.
-from envisage.api import Plugin
-from envisage.core_plugin import CorePlugin
+from envisage.api import CorePlugin, Plugin
 from envisage.plugins.ipython_kernel.api import (
     IPythonKernelPlugin,
     IPYTHON_KERNEL_PROTOCOL,
