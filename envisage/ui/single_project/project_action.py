@@ -84,14 +84,6 @@ class ProjectAction(Action):
         # correct because I can't see to get a reference to the current
         # application.  Because of this, I'm not able to setup the listeners
         # yet but this needs to be done eventually!
-        """
-        if 'model_service' in kws:
-            self.model_service = kws['model_service']
-            del kws['model_service']
-        else:
-            self.model_service = self.window.application.get_service(IPROJECT_MODEL)
-        self._update_model_service_listeners(remove=False)
-        """
 
         super().__init__(*args, **kws)
 
