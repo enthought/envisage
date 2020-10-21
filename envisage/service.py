@@ -56,7 +56,7 @@ class Service(TraitType):
 
     def __repr__(self):
         """ String representation of a Service object """
-        return "Service(protocol={})".format(self._protocol)
+        return "Service(protocol={!r})".format(self._protocol)
 
     ###########################################################################
     # 'TraitType' interface.
