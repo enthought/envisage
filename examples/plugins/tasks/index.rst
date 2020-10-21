@@ -2,7 +2,7 @@ Welcome to the attractors example.
 
 To run the application::
 
-  ``python -m attractors.run``
+  python -m attractors.run
 
 from the ``tasks/`` directory.
 
