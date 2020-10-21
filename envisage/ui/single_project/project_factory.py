@@ -81,7 +81,7 @@ class ProjectFactory(HasTraits):
 
         try:
             project = self.PROJECT_CLASS.load(location, self.application)
-        except:
+        except Exception:
             logger.exception(
                 "Unable to load Project from location %s", location
             )

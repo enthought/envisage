@@ -102,7 +102,7 @@ class UiService(HasTraits):
             # single project preferences
             p = self.model_service.preferences
             bind_preference(self, "autosave_interval", 5, p)
-        except:
+        except Exception:
             logger.exception(
                 "Failed to bind autosave_interval in [%s] to "
                 "preferences." % self
@@ -377,7 +377,7 @@ class UiService(HasTraits):
                     project.save(autosave_loc, overwrite=True, autosave=True)
                     msg = "[%s] auto-saved to [%s]" % (project, autosave_loc)
                     logger.debug(msg)
-                except:
+                except Exception:
                     logger.exception(
                         "Error auto-saving project [%s]" % project
                     )
@@ -560,7 +560,7 @@ class UiService(HasTraits):
                     logger.debug(
                         "No usable project found in [%s]." % autosave_loc
                     )
-            except:
+            except Exception:
                 logger.exception(
                     "Unable to restore project from [%s]" % autosave_loc
                 )

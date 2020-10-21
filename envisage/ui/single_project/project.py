@@ -587,7 +587,7 @@ class Project(HasTraits):
             if fh:
                 try:
                     fh.close()
-                except:
+                except Exception:
                     logger.exception(
                         "Unable to close project file [%s]", filename
                     )
@@ -673,7 +673,7 @@ class Project(HasTraits):
             try:
                 if fh is not None:
                     fh.close()
-            except:
+            except Exception:
                 logger.exception(
                     "Unable to close project pickle file [%s]", filename
                 )

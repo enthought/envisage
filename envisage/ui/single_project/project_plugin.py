@@ -432,7 +432,7 @@ class ProjectPlugin(Plugin):
             try:
                 setattr(object, name, model_service.selection)
                 return
-            except:
+            except Exception:
                 pass
 
             # If that didn't work, remove the binding wrappers and try
@@ -441,7 +441,7 @@ class ProjectPlugin(Plugin):
             try:
                 setattr(object, name, selection)
                 return
-            except:
+            except Exception:
                 pass
 
             # If that didn't work, and only a single item is selected,
@@ -450,7 +450,7 @@ class ProjectPlugin(Plugin):
                 try:
                     setattr(object, name, selection[0])
                     return
-                except:
+                except Exception:
                     pass
 
             # The recipient must not be accepting the type of the
@@ -459,7 +459,7 @@ class ProjectPlugin(Plugin):
             # with the declaration of the recipient.
             try:
                 setattr(object, name, None)
-            except:
+            except Exception:
                 logger.debug(
                     "Error informing object [%s] of project "
                     "selection change via attribute [%s]",
