@@ -40,7 +40,9 @@ class PreferencesPane(Controller):
     dialog = Instance("envisage.ui.tasks.preferences_dialog.PreferencesDialog")
 
     #: The factory to use for creating the preferences model object, of form:
-    #:     callable(**traits) -> PreferencesHelper
+    #:
+    #:     ``callable(**traits) -> PreferencesHelper``
+    #:
     #: If not specified, the preferences helper must be supplied manually.
     model_factory = Callable
 
