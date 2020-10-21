@@ -9,16 +9,22 @@
 # Thanks for using Enthought open source!
 """ Tests for the provider extension registry. """
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from envisage.api import ExtensionPoint, ExtensionProvider
 from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.
-from .test_extension_registry import ExtensionRegistryTestCase
+from envisage.tests.test_extension_registry_mixin import (
+    ExtensionRegistryTestMixin
+)
 
 
-class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
+class ProviderExtensionRegistryTestCase(
+        ExtensionRegistryTestMixin, unittest.TestCase):
     """ Tests for the provider extension registry. """
 
     def setUp(self):
