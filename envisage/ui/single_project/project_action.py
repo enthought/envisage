@@ -80,9 +80,10 @@ class ProjectAction(Action):
         # Retrieve the project model service and register ourself to listen
         # for project state changes.  This is done first to avoid errors
         # during any refresh calls triggered by further initialization.
-        # FIXME: I don't think my implementation of the ProjectAction class is correct
-        # because I can't see to get a reference to the current application.  Because of
-        # this, I'm not able to setup the listeners yet but this needs to be done eventually!
+        # FIXME: I don't think my implementation of the ProjectAction class is
+        # correct because I can't see to get a reference to the current
+        # application.  Because of this, I'm not able to setup the listeners
+        # yet but this needs to be done eventually!
         """
         if 'model_service' in kws:
             self.model_service = kws['model_service']
