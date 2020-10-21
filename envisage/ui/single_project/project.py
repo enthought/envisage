@@ -23,9 +23,7 @@ from traits.etsconfig.api import ETSConfig
 import apptools.sweet_pickle
 from apptools.io.api import File
 from traits.api import (
-    Any,
     Bool,
-    Dict,
     Directory,
     HasTraits,
     Instance,

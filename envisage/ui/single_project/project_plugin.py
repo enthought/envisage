@@ -12,7 +12,7 @@
 import logging
 
 # Enthought library imports.
-from envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.api import ExtensionPoint, Plugin
 from envisage.ui.single_project.api import FactoryDefinition
 from pyface.action.api import MenuManager
 from pyface.workbench.api import Perspective

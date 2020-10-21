@@ -18,7 +18,6 @@ import inspect
 
 # Enthought library imports
 from envisage.api import Application
-from envisage.ui.workbench.api import WorkbenchWindow
 from pyface.action.api import Action
 from traits.api import Instance, Str
 

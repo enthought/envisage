@@ -11,7 +11,7 @@
 
 # Enthought library imports
 from apptools.preferences.ui.api import PreferencesPage
-from traits.api import Directory, Str
+from traits.api import Directory
 from traitsui.api import View, Item
 
 # Global assignment of ID

@@ -15,11 +15,9 @@ The single project plugin's project view
 import logging
 
 # Enthought library imports
-from apptools.naming.api import Binding
-from traits.api import register_factory, Any, HasTraits, Instance, Str
+from traits.api import register_factory, HasTraits, Instance, Str
 from traitsui.api import (
     Item,
-    Group,
     TreeEditor,
     ITreeNode,
     ITreeNodeAdapter,
