@@ -20,7 +20,7 @@ from acme.motd.software_quotes.software_quotes_plugin import (
 
 # Do whatever you want to do with log messages! Here we create a log file.
 logger = logging.getLogger()
-logger.addHandler(logging.StreamHandler(open("acme_motd.log", "w")))
+logger.addHandler(logging.FileHandler("acme_motd.log", "w", encoding="utf8"))
 logger.setLevel(logging.DEBUG)
 
 
