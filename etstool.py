@@ -224,14 +224,18 @@ def install(edm, runtime, toolkit, environment, editable, source):
         )
     # install wxPython with pip, because we don't have it in EDM yet
     elif toolkit == "wx":
-        if sys.platform != 'linux':
+        if sys.platform == "darwin":
             commands.append(
-                "{edm} run -e {environment} -- pip install wxPython"
+                "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
             )
-        else:
+        elif sys.platform == "linux":
             # XXX this is mainly for TravisCI workers; need a generic solution
             commands.append(
-                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04/ wxPython"  # noqa: E501
+                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04/ wxPython<4.1"  # noqa: E501
+            )
+        else:
+            commands.append(
+                "{edm} run -e {environment} -- python -m pip install wxPython"
             )
 
     if editable:
