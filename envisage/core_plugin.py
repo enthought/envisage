@@ -29,20 +29,23 @@ class CorePlugin(Plugin):
 
     """
 
-    # Extension point Ids.
+    #: Extension point ID for preferences
     PREFERENCES = "envisage.preferences"
+
+    #: Extension point ID for service offers
     SERVICE_OFFERS = "envisage.service_offers"
 
     #### 'IPlugin' interface ##################################################
 
-    # The plugin's unique identifier.
+    #: The plugin's unique identifier.
     id = "envisage.core"
 
-    # The plugin's name (suitable for displaying to the user).
+    #: The plugin's name (suitable for displaying to the user).
     name = "Core"
 
     #### Extension points offered by this plugin ##############################
 
+    #: preferences ExtensionPoint
     preferences = ExtensionPoint(
         List(Str),
         id=PREFERENCES,
@@ -88,6 +91,7 @@ class CorePlugin(Plugin):
 
         return
 
+    #: service offers ExtensionPoint
     service_offers = ExtensionPoint(
         List(ServiceOffer),
         id=SERVICE_OFFERS,
