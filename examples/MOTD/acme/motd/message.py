@@ -5,7 +5,7 @@
 from traits.api import HasTraits, Str, provides
 
 # Local imports.
-from i_message import IMessage
+from acme.motd.i_message import IMessage
 
 
 @provides(IMessage)

@@ -31,13 +31,13 @@ else:
     ipykernel_available = True
 
 if ipykernel_available:
-    from envisage.plugins.ipython_kernel.internal_ipkernel import (
+    from envisage.plugins.ipython_kernel.api import (
         InternalIPKernel,
+        IPythonKernelPlugin,
+        IPYTHON_KERNEL_PROTOCOL,
     )
     from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
-        IPYTHON_KERNEL_PROTOCOL,
         IPYTHON_NAMESPACE,
-        IPythonKernelPlugin,
     )
 
 

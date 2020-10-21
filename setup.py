@@ -305,7 +305,6 @@ if __name__ == "__main__":
                 "plugins/banana/*.py",
                 "plugins/orange/*.py",
             ],
-            "envisage.ui.single_project": ["*.txt"],
             "envisage.ui.tasks.tests": ["data/*.pkl"],
         },
         python_requires=">=3.5",

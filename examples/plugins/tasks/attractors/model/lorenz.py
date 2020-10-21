@@ -18,8 +18,8 @@ from traits.api import (
 from traitsui.api import View, Item
 
 # Local imports
-from i_model_3d import IModel3d, IModel3dIPlottable2dMixin
-from i_plottable_2d import IPlottable2d
+from attractors.model.i_model_3d import IModel3d, IModel3dIPlottable2dMixin
+from attractors.model.i_plottable_2d import IPlottable2d
 
 
 @provides(IModel3d)

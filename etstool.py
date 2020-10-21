@@ -304,7 +304,7 @@ def test(edm, runtime, toolkit, environment):
     environ["PYTHONUNBUFFERED"] = "1"
     commands = [
         (
-            "{edm} run -e {environment} -- "
+            "{edm} run -e {environment} -- python -W default -m "
             "coverage run -p -m unittest discover -v envisage"
         ),
     ]

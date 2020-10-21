@@ -13,7 +13,7 @@ from traits.api import (
 from traitsui.api import EnumEditor, HGroup, Item, Label, View
 
 # Local imports.
-from model.i_plottable_2d import IPlottable2d
+from attractors.model.i_plottable_2d import IPlottable2d
 
 
 class Plot2dPane(TraitsTaskPane):

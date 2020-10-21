@@ -39,13 +39,13 @@ class AttractorsPlugin(Plugin):
         return ["file://" + filename]
 
     def _preferences_panes_default(self):
-        from attractors_preferences import AttractorsPreferencesPane
+        from attractors.attractors_preferences import AttractorsPreferencesPane
 
         return [AttractorsPreferencesPane]
 
     def _tasks_default(self):
-        from visualize_2d_task import Visualize2dTask
-        from visualize_3d_task import Visualize3dTask
+        from attractors.visualize_2d_task import Visualize2dTask
+        from attractors.visualize_3d_task import Visualize3dTask
 
         return [
             TaskFactory(
