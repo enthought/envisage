@@ -23,10 +23,8 @@ Netbeans frameworks for Java applications.
 Each plug-in is able to:
 
 - Advertise where and how it can be extended (its "extension points").
-- Contribute extensions to the extension points offered by other plug-ins or
-its own.
-- Create and share the objects that perform the real work of the application
-  ("services").
+- Contribute extensions to the extension points offered by other plug-ins or its own.
+- Create and share the objects that perform the real work of the application ("services").
 
 The Envisage project provides the basic machinery of the Envisage
 framework. You are free to use:
