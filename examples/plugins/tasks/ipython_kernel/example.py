@@ -4,12 +4,10 @@ import logging
 # Enthought library imports.
 from envisage.api import Plugin
 from envisage.core_plugin import CorePlugin
-from envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin import (
-    IPythonKernelUIPlugin,
-)
 from envisage.plugins.ipython_kernel.api import (
     IPythonKernelPlugin,
     IPYTHON_KERNEL_PROTOCOL,
+    IPythonKernelUIPlugin,
 )
 from envisage.ui.tasks.api import TasksApplication, TaskFactory
 from envisage.ui.tasks.tasks_plugin import TasksPlugin
