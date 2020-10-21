@@ -45,15 +45,15 @@ class PluginManager(HasTraits):
 
     #### 'IPluginManager' protocol ############################################
 
-    # Fired when a plugin has been added to the manager.
+    #: Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
 
-    # Fired when a plugin has been removed from the manager.
+    #: Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
     #### 'PluginManager' protocol #############################################
 
-    # The application that the plugin manager is part of.
+    #: The application that the plugin manager is part of.
     application = Instance(IApplication)
 
     def _application_changed(self, trait_name, old, new):
@@ -63,17 +63,17 @@ class PluginManager(HasTraits):
 
         return
 
-    # An optional list of the Ids of the plugins that are to be excluded by
-    # the manager.
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
+    #: An optional list of the Ids of the plugins that are to be excluded by
+    #: the manager.
+    #:
+    #: Each item in the list is actually an 'fnmatch' expression.
     exclude = List(Str)
 
-    # An optional list of the Ids of the plugins that are to be included by
-    # the manager (i.e. *only* plugins with Ids in this list will be added to
-    # the manager).
-    #
-    # Each item in the list is actually an 'fnmatch' expression.
+    #: An optional list of the Ids of the plugins that are to be included by
+    #: the manager (i.e. *only* plugins with Ids in this list will be added to
+    #: the manager).
+    #:
+    #: Each item in the list is actually an 'fnmatch' expression.
     include = List(Str)
 
     #### 'object' protocol ####################################################

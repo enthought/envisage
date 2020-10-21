@@ -15,18 +15,18 @@ class TaskFactory(HasTraits):
     """ A factory for creating a Task with some additional metadata.
     """
 
-    # The task factory's unique identifier. This ID is assigned to all tasks
-    # created by the factory.
+    #: The task factory's unique identifier. This ID is assigned to all tasks
+    #: created by the factory.
     id = Str
 
-    # The task factory's user-visible name.
+    #: The task factory's user-visible name.
     name = Str
 
-    # A callable with the following signature:
-    #
-    #     callable(**traits) -> Task
-    #
-    # Often this attribute will simply be a Task subclass.
+    #: A callable with the following signature:
+    #:
+    #:     ``callable(**traits) -> Task``
+    #:
+    #: Often this attribute will simply be a Task subclass.
     factory = Callable
 
     def create(self, **traits):

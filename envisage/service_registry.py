@@ -35,10 +35,10 @@ class ServiceRegistry(HasTraits):
 
     ####  IServiceRegistry interface ##########################################
 
-    # An event that is fired when a service is registered.
+    #: An event that is fired when a service is registered.
     registered = Event
 
-    # An event that is fired when a service is unregistered.
+    #: An event that is fired when a service is unregistered.
     unregistered = Event
 
     ####  Private interface ###################################################

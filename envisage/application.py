@@ -47,44 +47,44 @@ class Application(HasTraits):
 
     #### 'IApplication' interface #############################################
 
-    # The application's globally unique identifier.
+    #: The application's globally unique identifier.
     id = Str
 
-    # The name of a directory (created for you) to which the application can
-    # read and write non-user accessible data, i.e. configuration information,
-    # preferences, etc.
+    #: The name of a directory (created for you) to which the application can
+    #: read and write non-user accessible data, i.e. configuration information,
+    #: preferences, etc.
     home = Str
 
-    # The name of a directory (created for you upon access) to which the
-    # application can read and write user-accessible data, e.g. projects
-    # created by the user.
+    #: The name of a directory (created for you upon access) to which the
+    #: application can read and write user-accessible data, e.g. projects
+    #: created by the user.
     user_data = Str
 
-    # The root preferences node.
+    #: The root preferences node.
     preferences = Instance(IPreferences)
 
     #### Events ####
 
-    # Fired when the application is starting.
+    #: Fired when the application is starting.
     starting = VetoableEvent(ApplicationEvent)
 
-    # Fired when all plugins have been started.
+    #: Fired when all plugins have been started.
     started = Event(ApplicationEvent)
 
-    # Fired when the application is stopping.
+    #: Fired when the application is stopping.
     stopping = VetoableEvent(ApplicationEvent)
 
-    # Fired when all plugins have been stopped.
+    #: Fired when all plugins have been stopped.
     stopped = Event(ApplicationEvent)
 
     #### 'IPluginManager' interface ###########################################
 
     #### Events ####
 
-    # Fired when a plugin has been added.
+    #: Fired when a plugin has been added.
     plugin_added = Delegate("plugin_manager", modify=True)
 
-    # Fired when a plugin has been removed.
+    #: Fired when a plugin has been removed.
     plugin_removed = Delegate("plugin_manager", modify=True)
 
     #### 'Application' interface ##############################################
@@ -92,14 +92,14 @@ class Application(HasTraits):
     # These traits allow application developers to build completely different
     # styles of extensible application. It allows Envisage to be used as a
     # framework for frameworks ;^)
-    #
-    # The extension registry.
+
+    #: The extension registry.
     extension_registry = Instance(IExtensionRegistry)
 
-    # The plugin manager (starts and stops plugins etc).
+    #: The plugin manager (starts and stops plugins etc).
     plugin_manager = Instance(IPluginManager)
 
-    # The service registry.
+    #: The service registry.
     service_registry = Instance(IServiceRegistry)
 
     #### Private interface ####################################################

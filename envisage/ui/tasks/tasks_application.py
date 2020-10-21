@@ -44,100 +44,102 @@ class TasksApplication(Application):
 
     """
 
-    # Extension point IDs.
+    #: Extension point ID for task factories
     TASK_FACTORIES = "envisage.ui.tasks.tasks"
+
+    #: Extension point ID for task extensions
     TASK_EXTENSIONS = "envisage.ui.tasks.task_extensions"
 
-    # Pickle protocol to use for persisting layout information. Subclasses may
-    # want to increase this, depending on their compatibility needs. Protocol
-    # version 2 is safe for Python >= 2.3. Protocol version 4 is safe for
-    # Python >= 3.4.
+    #: Pickle protocol to use for persisting layout information. Subclasses may
+    #: want to increase this, depending on their compatibility needs. Protocol
+    #: version 2 is safe for Python >= 2.3. Protocol version 4 is safe for
+    #: Python >= 3.4.
     layout_save_protocol = Int(2)
 
     #### 'TasksApplication' interface #########################################
 
-    # The active task window (the last one to get focus).
+    #: The active task window (the last one to get focus).
     active_window = Instance("envisage.ui.tasks.task_window.TaskWindow")
 
-    # The Pyface GUI for the application.
+    #: The Pyface GUI for the application.
     gui = Instance("pyface.i_gui.IGUI")
 
-    # Icon for the whole application. Will be used to override all taskWindows
-    # icons to have the same.
+    #: Icon for the whole application. Will be used to override all taskWindows
+    #: icons to have the same.
     icon = Instance("pyface.image_resource.ImageResource", allow_none=True)
 
-    # The name of the application (also used on window title bars).
+    #: The name of the application (also used on window title bars).
     name = Str
 
-    # The splash screen for the application. By default, there is no splash
-    # screen.
+    #: The splash screen for the application. By default, there is no splash
+    #: screen.
     splash_screen = Instance("pyface.splash_screen.SplashScreen")
 
-    # The directory on the local file system used to persist window layout
-    # information.
+    #: The directory on the local file system used to persist window layout
+    #: information.
     state_location = Directory
 
-    # The filename that the application uses to persist window layout
-    # information.
+    #: The filename that the application uses to persist window layout
+    #: information.
     state_filename = Str(DEFAULT_STATE_FILENAME)
 
-    # Contributed task factories. This attribute is primarily for run-time
-    # inspection; to instantiate a task, use the 'create_task' method.
+    #: Contributed task factories. This attribute is primarily for run-time
+    #: inspection; to instantiate a task, use the 'create_task' method.
     task_factories = ExtensionPoint(id=TASK_FACTORIES)
 
-    # Contributed task extensions.
+    #: Contributed task extensions.
     task_extensions = ExtensionPoint(id=TASK_EXTENSIONS)
 
-    # The list of task windows created by the application.
+    #: The list of task windows created by the application.
     windows = List(Instance("envisage.ui.tasks.task_window.TaskWindow"))
 
-    # The factory for creating task windows.
+    #: The factory for creating task windows.
     window_factory = Callable
 
     #### Application layout ###################################################
 
-    # The default layout for the application. If not specified, a single window
-    # will be created with the first available task factory.
+    #: The default layout for the application. If not specified, a single
+    #: window will be created with the first available task factory.
     default_layout = List(
         Instance("pyface.tasks.task_window_layout.TaskWindowLayout")
     )
 
-    # Whether to always apply the default *application level* layout when the
-    # application is started. Even if this is True, the layout state of
-    # individual tasks will be restored.
+    #: Whether to always apply the default *application level* layout when the
+    #: application is started. Even if this is True, the layout state of
+    #: individual tasks will be restored.
     always_use_default_layout = Bool(False)
 
     #### Application lifecycle events #########################################
 
-    # Fired after the initial windows have been created and the GUI event loop
-    # has been started.
+    #: Fired after the initial windows have been created and the GUI event loop
+    #: has been started.
     application_initialized = Event
 
-    # Fired immediately before the extant windows are destroyed and the GUI
-    # event loop is terminated.
+    #: Fired immediately before the extant windows are destroyed and the GUI
+    #: event loop is terminated.
     application_exiting = Event
 
-    # Fired when a task window has been created.
+    #: Fired when a task window has been created.
     window_created = Event(
         Instance("envisage.ui.tasks.task_window_event.TaskWindowEvent")
     )
 
-    # Fired when a task window is opening.
+    #: Fired when a task window is opening.
     window_opening = Event(
         Instance("envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent")
     )
 
-    # Fired when a task window has been opened.
+    #: Fired when a task window has been opened.
     window_opened = Event(
         Instance("envisage.ui.tasks.task_window_event.TaskWindowEvent")
     )
 
-    # Fired when a task window is closing.
+    #: Fired when a task window is closing.
     window_closing = Event(
         Instance("envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent")
     )
 
-    # Fired when a task window has been closed.
+    #: Fired when a task window has been closed.
     window_closed = Event(
         Instance("envisage.ui.tasks.task_window_event.TaskWindowEvent")
     )

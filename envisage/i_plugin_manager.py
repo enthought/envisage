@@ -22,10 +22,10 @@ class IPluginManager(Interface):
 
     #### Events ####
 
-    # Fired when a plugin has been added to the manager.
+    #: Fired when a plugin has been added to the manager.
     plugin_added = Event(PluginEvent)
 
-    # Fired when a plugin has been removed from the manager.
+    #: Fired when a plugin has been removed from the manager.
     plugin_removed = Event(PluginEvent)
 
     def __iter__(self):

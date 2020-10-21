@@ -19,29 +19,31 @@ class PreferencesPane(Controller):
 
     #### 'Controller' interface ###############################################
 
-    # The preferences helper for which this pane is a view.
+    #: The preferences helper for which this pane is a view.
     model = Instance(PreferencesHelper)
 
     #### 'PreferencesPane' interface ##########################################
 
-    # An identifier for the pane (unique within a category).
+    #: An identifier for the pane (unique within a category).
     id = Str
 
-    # The ID of the category in which to place the pane.
+    #: The ID of the category in which to place the pane.
     category = Str("General")
 
-    # The pane appears after the pane with this ID.
+    #: The pane appears after the pane with this ID.
     before = Str
 
-    # The pane appears after the pane with this ID.
+    #: The pane appears after the pane with this ID.
     after = Str
 
-    # The preferences dialog to which the pane belongs. Set by the framework.
+    #: The preferences dialog to which the pane belongs. Set by the framework.
     dialog = Instance("envisage.ui.tasks.preferences_dialog.PreferencesDialog")
 
-    # # The factory to use for creating the preferences model object, of form:
-    #     callable(**traits) -> PreferencesHelper
-    # If not specified, the preferences helper must be supplied manually.
+    #: The factory to use for creating the preferences model object, of form:
+    #:
+    #:     ``callable(**traits) -> PreferencesHelper``
+    #:
+    #: If not specified, the preferences helper must be supplied manually.
     model_factory = Callable
 
     #### Private interface ####################################################

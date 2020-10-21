@@ -20,25 +20,25 @@ from .i_plugin_activator import IPluginActivator
 class IPlugin(Interface):
     """ The plugin interface. """
 
-    # The activator used to start and stop the plugin.
+    #: The activator used to start and stop the plugin.
     activator = Instance(IPluginActivator)
 
-    # The application that the plugin is part of.
+    #: The application that the plugin is part of.
     application = Instance("envisage.api.IApplication")
 
-    # The name of a directory (created for you) that the plugin can read and
-    # write to at will.
+    #: The name of a directory (created for you) that the plugin can read and
+    #: write to at will.
     home = Str
 
-    # The plugin's unique identifier.
-    #
-    # Where 'unique' technically means 'unique within the plugin manager', but
-    # since the chances are that you will want to include plugins from external
-    # sources, this really means 'globally unique'! Using the Python package
-    # path might be useful here. e.g. 'envisage'.
+    #: The plugin's unique identifier.
+    #:
+    #: Where 'unique' technically means 'unique within the plugin manager', but
+    #: since the chances are that you will want to include plugins from
+    #: external sources, this really means 'globally unique'! Using the Python
+    #: package path might be useful here. e.g. 'envisage'.
     id = Str
 
-    # The plugin's name (suitable for displaying to the user).
+    #: The plugin's name (suitable for displaying to the user).
     name = Str
 
     def start(self):

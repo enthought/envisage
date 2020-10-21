@@ -18,11 +18,11 @@ class TaskWindow(PyfaceTaskWindow):
     """ A TaskWindow for use with the Envisage Tasks plugin.
     """
 
-    # The application that created and is managing this window.
+    #: The application that created and is managing this window.
     application = Instance("envisage.ui.tasks.api.TasksApplication")
 
-    # The window's icon.  We override it so it can delegate to the application
-    # icon if the window's icon is not set.
+    #: The window's icon.  We override it so it can delegate to the application
+    #: icon if the window's icon is not set.
     icon = Property(Instance(ImageResource), depends_on="_icon")
 
     #### Protected interface ##################################################
