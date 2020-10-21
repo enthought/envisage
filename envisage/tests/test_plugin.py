@@ -423,3 +423,10 @@ class PluginTestCase(unittest.TestCase):
 
         application = Application(plugins=[PluginA()])
         application.get_extensions("bob")
+
+    def test_plugin_str_representation(self):
+        """ test the string representation of the plugin """
+        plugin_repr = "Plugin(id={!r}, name={!r})"
+        plugin = Plugin(id="Fred", name="Wilma")
+        self.assertEqual(plugin_repr.format("Fred", "Wilma"), str(plugin))
+        self.assertEqual(plugin_repr.format("Fred", "Wilma"), repr(plugin))

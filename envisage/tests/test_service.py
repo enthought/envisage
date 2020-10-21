@@ -73,3 +73,14 @@ class ServiceTestCase(unittest.TestCase):
         b = Bar()
         with self.assertRaises(ValueError):
             getattr(b, "foo")
+
+    def test_service_str_representation(self):
+        """ test the string representation of the service """
+
+        class Foo(HasTraits):
+            pass
+
+        service_repr = "Service(protocol={!r})"
+        service = Service(Foo)
+        self.assertEqual(service_repr.format(Foo), str(service))
+        self.assertEqual(service_repr.format(Foo), repr(service))
