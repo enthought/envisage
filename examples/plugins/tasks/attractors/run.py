@@ -3,7 +3,7 @@ import logging
 
 # Plugin imports.
 from envisage.core_plugin import CorePlugin
-from envisage.ui.tasks.tasks_plugin import TasksPlugin
+from envisage.ui.tasks.api import TasksPlugin
 from attractors.attractors_plugin import AttractorsPlugin
 
 # Local imports.
