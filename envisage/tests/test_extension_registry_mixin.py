@@ -7,7 +7,10 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the base extension registry. """
+"""
+Base set of tests for extension registry and its subclasses wrapped in a
+mixin class.
+"""
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint
@@ -19,7 +22,10 @@ class ExtensionRegistryTestMixin:
     """ Base set of tests for extension registry and its subclasses. """
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """ Prepares the test fixture before each test method is called. Test
+        cases inherriting from this mixin should override this method and
+        define self.registry.
+        """
         pass
 
     def test_empty_registry(self):
@@ -80,10 +86,6 @@ class ExtensionRegistryTestMixin:
         extension_points = registry.get_extension_points()
         self.assertEqual(0, len(extension_points))
 
-    def test_remove_non_empty_extension_point(self):
-        """ remove non-empty extension point """
-        pass
-
     def test_remove_non_existent_extension_point(self):
         """ remove non existent extension point """
 
@@ -104,10 +106,6 @@ class ExtensionRegistryTestMixin:
 
         with self.assertRaises(ValueError):
             registry.remove_extension_point_listener(listener)
-
-    def test_set_extensions(self):
-        """ set extensions """
-        pass
 
     ###########################################################################
     # Private interface.
