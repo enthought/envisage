@@ -104,7 +104,7 @@ class Application(HasTraits):
 
     #### Private interface ####################################################
 
-    #: The import manager.
+    # The import manager.
     _import_manager = Instance(IImportManager, factory=ImportManager)
 
     ###########################################################################

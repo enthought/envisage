@@ -190,7 +190,7 @@ class PluginManager(HasTraits):
 
     #### Protected 'PluginManager' ############################################
 
-    #: The plugins that the manager manages!
+    # The plugins that the manager manages!
     _plugins = List(IPlugin)
 
     def __plugins_changed(self, trait_name, old, new):

@@ -85,7 +85,7 @@ class Plugin(ExtensionProvider):
 
     #### Private interface ####################################################
 
-    #: The Ids of the services that were automatically registered.
+    # The Ids of the services that were automatically registered.
     _service_ids = List
 
     ###########################################################################

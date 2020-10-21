@@ -69,23 +69,23 @@ class ExtensionRegistry(HasTraits):
     # Protected 'ExtensionRegistry' interface.
     ###########################################################################
 
-    #: A dictionary of extensions, keyed by extension point.
+    # A dictionary of extensions, keyed by extension point.
     _extensions = Dict
 
-    #: The extension points that have been added *explicitly*.
+    # The extension points that have been added *explicitly*.
     _extension_points = Dict
 
-    #: Extension listeners.
-    #:
-    #: These are called when extensions are added to or removed from an
-    #: extension point.
-    #:
-    #: e.g. Dict(extension_point, [weakref.ref(callable)])
-    #:
-    #: A listener is any Python callable with the following signature:-
-    #:
-    #: def listener(extension_registry, extension_point_changed_event):
-    #:     ...
+    # Extension listeners.
+    #
+    # These are called when extensions are added to or removed from an
+    # extension point.
+    #
+    # e.g. Dict(extension_point, [weakref.ref(callable)])
+    #
+    # A listener is any Python callable with the following signature:-
+    #
+    # def listener(extension_registry, extension_point_changed_event):
+    #     ...
     _listeners = Dict
 
     ###########################################################################

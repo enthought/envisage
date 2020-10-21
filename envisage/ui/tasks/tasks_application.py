@@ -146,11 +146,11 @@ class TasksApplication(Application):
 
     #### Protected interface ##################################################
 
-    #: An 'explicit' exit is when the the 'exit' method is called.
-    #: An 'implicit' exit is when the user closes the last open window.
+    # An 'explicit' exit is when the the 'exit' method is called.
+    # An 'implicit' exit is when the user closes the last open window.
     _explicit_exit = Bool(False)
 
-    #: Application state.
+    # Application state.
     _state = Instance(
         "envisage.ui.tasks.tasks_application.TasksApplicationState"
     )
