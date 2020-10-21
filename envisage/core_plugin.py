@@ -11,7 +11,9 @@
 
 
 # Enthought library imports.
-from envisage.api import ExtensionPoint, Plugin, ServiceOffer
+from envisage.extension_point import ExtensionPoint
+from envisage.plugin import Plugin
+from envisage.service_offer import ServiceOffer
 from traits.api import List, on_trait_change, Str
 
 

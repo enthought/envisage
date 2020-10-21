@@ -37,7 +37,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_service_offers(self):
         """ service offers """
 
-        from envisage.core_plugin import CorePlugin
+        from envisage.api import CorePlugin
 
         class IMyService(Interface):
             pass
@@ -81,7 +81,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_dynamically_added_service_offer(self):
         """ dynamically added service offer """
 
-        from envisage.core_plugin import CorePlugin
+        from envisage.api import CorePlugin
 
         class IMyService(Interface):
             pass
@@ -139,7 +139,7 @@ class CorePluginTestCase(unittest.TestCase):
 
         # The core plugin is the plugin that offers the preferences extension
         # point.
-        from envisage.core_plugin import CorePlugin
+        from envisage.api import CorePlugin
 
         class PluginA(Plugin):
             id = "A"
@@ -164,7 +164,7 @@ class CorePluginTestCase(unittest.TestCase):
 
         # The core plugin is the plugin that offers the preferences extension
         # point.
-        from envisage.core_plugin import CorePlugin
+        from envisage.api import CorePlugin
 
         class PluginA(Plugin):
             id = "A"

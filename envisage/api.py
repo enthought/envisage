@@ -20,6 +20,7 @@ from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
 
 from .application import Application
+from .core_plugin import CorePlugin
 from .egg_plugin_manager import EggPluginManager
 from .extension_registry import ExtensionRegistry
 from .extension_point import ExtensionPoint, contributes_to

@@ -8,7 +8,7 @@ import logging
 from acme.acmelab.api import Acmelab
 
 # Enthought plugins.
-from envisage.core_plugin import CorePlugin
+from envisage.api import CorePlugin
 from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Example plugins.
