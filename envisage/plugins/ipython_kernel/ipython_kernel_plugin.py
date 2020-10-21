@@ -47,6 +47,7 @@ class IPythonKernelPlugin(Plugin):
     #: Extension point for objects contributed to the IPython kernel namespace.
     IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
 
+    #: Ipython kernel namespace ExtensionPoint
     kernel_namespace = ExtensionPoint(
         List,
         id=IPYTHON_NAMESPACE,

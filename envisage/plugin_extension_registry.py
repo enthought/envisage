@@ -28,7 +28,7 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
 
     #### 'PluginExtensionRegistry' interface ##################################
 
-    # The plugin manager that has the plugins we are after!
+    #: The plugin manager that has the plugins we are after!
     plugin_manager = Instance(IPluginManager)
 
     ###########################################################################

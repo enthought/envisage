@@ -27,10 +27,10 @@ class IPythonKernelUIPlugin(Plugin):
 
     #### 'IPlugin' interface ##################################################
 
-    # The plugin unique identifier.
+    #: The plugin unique identifier.
     id = "envisage.plugins.ipython_kernel_ui"
 
-    # The plugin name (suitable for displaying to the user).
+    #: The plugin name (suitable for displaying to the user).
     name = "IPython embedded kernel UI plugin"
 
     #### Contributions to extension points made by this plugin ################

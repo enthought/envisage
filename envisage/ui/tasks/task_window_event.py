@@ -18,7 +18,7 @@ class TaskWindowEvent(HasTraits):
     """ A task window lifecycle event.
     """
 
-    # The window that the event occurred on.
+    #: The window that the event occurred on.
     window = Instance(TaskWindow)
 
 

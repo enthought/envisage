@@ -35,31 +35,31 @@ class ServiceRegistry(HasTraits):
 
     ####  IServiceRegistry interface ##########################################
 
-    # An event that is fired when a service is registered.
+    #: An event that is fired when a service is registered.
     registered = Event
 
-    # An event that is fired when a service is unregistered.
+    #: An event that is fired when a service is unregistered.
     unregistered = Event
 
     ####  Private interface ###################################################
 
-    # The services in the registry.
-    #
-    # { service_id : (protocol_name, obj, properties) }
-    #
-    # where:
-    #
-    # 'protocol_name' is the (possible dotted) name of the interface, type or
-    # class that the object is registered against.
-    #
-    # 'obj' is the object that is registered (any old, Python object!).
-    #
-    # 'properties' is the arbitrary dictionary of properties that were
-    # registered with the object.
+    #: The services in the registry.
+    #:
+    #: { service_id : (protocol_name, obj, properties) }
+    #:
+    #: where:
+    #:
+    #: 'protocol_name' is the (possible dotted) name of the interface, type or
+    #: class that the object is registered against.
+    #:
+    #: 'obj' is the object that is registered (any old, Python object!).
+    #:
+    #: 'properties' is the arbitrary dictionary of properties that were
+    #: registered with the object.
     _services = Dict
 
-    # The next service Id (service Ids are never persisted between process
-    # invocations so this is simply an ever increasing integer!).
+    #: The next service Id (service Ids are never persisted between process
+    #: invocations so this is simply an ever increasing integer!).
     _service_id = Int
 
     ###########################################################################

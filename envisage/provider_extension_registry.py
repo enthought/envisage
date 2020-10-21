@@ -32,7 +32,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     #### Protected 'ProviderExtensionRegistry' interface ######################
 
-    # The extension providers that populate the registry.
+    #: The extension providers that populate the registry.
     _providers = List(IExtensionProvider)
 
     ###########################################################################
