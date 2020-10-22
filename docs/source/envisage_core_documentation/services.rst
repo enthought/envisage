@@ -265,7 +265,7 @@ To set the properties for a service that has already been registered, use::
 
     application.set_service_properties(wilma_id, {'price' : 150})
 
-Not however, that in practise, it is more common to use the actual attributes
+Note however, that in practise, it is more common to use the actual attributes
 of a service object for the purposes of querying, but this is useful if you
 want additional properties that aren't part of the object's type.
 
