@@ -23,14 +23,18 @@ Netbeans frameworks for Java applications.
 Each plug-in is able to:
 
 - Advertise where and how it can be extended (its "extension points").
-- Contribute extensions to the extension points offered by other plug-ins or its own.
-- Create and share the objects that perform the real work of the application ("services").
+- Contribute extensions to the extension points offered by other plug-ins or
+  its own.
+- Create and share the objects that perform the real work of the application
+  ("services").
 
 The Envisage project provides the basic machinery of the Envisage
 framework. You are free to use:
 
-- the envisage ``CorePlugin`` available through the `envisage.api <https://github.com/enthought/envisage/blob/master/envisage/api.py>`__ module
-- plug-ins from the envisage `plugins <https://github.com/enthought/envisage/tree/master/envisage/plugins>`__ module
+- the envisage ``CorePlugin`` available through the
+  `envisage.api <https://github.com/enthought/envisage/blob/master/envisage/api.py>`__ module
+- plug-ins from the envisage
+  `plugins <https://github.com/enthought/envisage/tree/master/envisage/plugins>`__ module
 - plug-ins from other ETS projects that expose their functionality as plug-ins
 - plug-ins that you create yourself
 
