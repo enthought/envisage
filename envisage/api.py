@@ -8,6 +8,51 @@
 #
 # Thanks for using Enthought open source!
 
+"""
+Primary API for envisage
+
+Interfaces
+----------
+
+- :class:`~.IApplication`
+- :class:`~.IExtensionPoint`
+- :class:`~.IExtensionPointUser`
+- :class:`~.IExtensionProvider`
+- :class:`~.IExtensionRegistry`
+- :class:`~.IImportManager`
+- :class:`~.IPlugin`
+- :class:`~.IPluginActivator`
+- :class:`~.IPluginManager`
+- :class:`~.IServiceRegistry`
+
+- :class:`~.Application`
+- :class:`~.CorePlugin`
+- :class:`~.EggPluginManager`
+- :class:`~.ExtensionPoint`
+- :func:`~.contributes_to`
+- :class:`~.ExtensionPointBinding`
+- :func:`~.bind_extension_point`
+- :class:`~.ExtensionProvider`
+- :class:`~.ExtensionPointChangedEvent`
+- :class:`~.ImportManager`
+- :class:`~.Plugin`
+- :class:`~.PluginActivator`
+- :class:`~.PluginExtensionRegistry`
+- :class:`~.PluginManager`
+- :class:`~.ProviderExtensionRegistry`
+- :class:`~.Service`
+- :class:`~.ServiceOffer`
+- :class:`~.ServiceRegistry`
+
+Exceptions
+----------
+
+- :class:`~.NoSuchServiceError`
+- :class:`~.UnknownExtension`
+- :class:`~.UnknownExtensionPoint`
+
+"""
+
 from .i_application import IApplication
 from .i_extension_point import IExtensionPoint
 from .i_extension_point_user import IExtensionPointUser
