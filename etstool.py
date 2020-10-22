@@ -98,7 +98,7 @@ available_toolkits = ["pyside2", "pyqt5", "wx", "null"]
 default_toolkit = "null"
 
 supported_combinations = {
-    "3.6": {"pyside2", "pyqt5", "null"},
+    "3.6": {"pyside2", "pyqt5", "wx", "null"},
 }
 
 dependencies = {
@@ -125,8 +125,8 @@ toolkit_dependencies = {
     # we do a pip install.
     "pyside2": set(),
     "pyqt5": {"pyqt5"},
-    # FIXME: wxpython 3.0.2.0-6 is broken of OS-X
-    "wx": {"wxpython<3.0.2.0-6"},
+    # XXX once wxPython 4 is available in EDM, we will want it here
+    "wx": set(),
     "null": set(),
 }
 
@@ -222,6 +222,21 @@ def install(edm, runtime, toolkit, environment, editable, source):
         commands.append(
             "{edm} run -e {environment} -- pip install pyside2"
         )
+    # install wxPython with pip, because we don't have it in EDM yet
+    elif toolkit == "wx":
+        if sys.platform == "darwin":
+            commands.append(
+                "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
+            )
+        elif sys.platform == "linux":
+            # XXX this is mainly for TravisCI workers; need a generic solution
+            commands.append(
+                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04/ wxPython<4.1"  # noqa: E501
+            )
+        else:
+            commands.append(
+                "{edm} run -e {environment} -- python -m pip install wxPython"
+            )
 
     if editable:
         install_cmd = (

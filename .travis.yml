@@ -13,6 +13,8 @@ addons:
     - libxcb-randr0
     - libxcb-render-util0
     - libxcb-xinerama0
+    # Wx dependencies
+    - libsdl2-2.0-0
 
 env:
   global:
@@ -22,9 +24,9 @@ env:
 
 matrix:
   include:
-    - env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
+    - env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2 wx"
     - os: osx
-      env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2"
+      env: RUNTIME=3.6 TOOLKITS="null pyqt5 pyside2 wx"
 
 cache:
   directories:
