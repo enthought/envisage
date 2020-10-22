@@ -31,7 +31,7 @@ its own.
 The Envisage project provides the basic machinery of the Envisage
 framework. You are free to use:
 
-- the envisage `CorePlugin` available through the
+- the envisage ``CorePlugin`` available through the
 `envisage.api <https://github.com/enthought/envisage/blob/master/envisage/api.py>`__ module
 - plug-ins from the envisage
 `plugins <https://github.com/enthought/envisage/tree/master/envisage/plugins>`__ module
