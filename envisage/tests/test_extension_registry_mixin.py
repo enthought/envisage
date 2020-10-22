@@ -44,7 +44,7 @@ class ExtensionRegistryTestMixin:
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Make sure there's NO extensions.
         extensions = registry.get_extensions("my.ep")
@@ -61,7 +61,7 @@ class ExtensionRegistryTestMixin:
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Make sure we can get it.
         extension_point = registry.get_extension_point("my.ep")
@@ -74,7 +74,7 @@ class ExtensionRegistryTestMixin:
         registry = self.registry
 
         # Add an extension point...
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # ...and remove it!
         registry.remove_extension_point("my.ep")
