@@ -41,7 +41,7 @@ build applications that are based on the concept of plugins. However, one of
 the main goals is to provide a simplified system so that applications and
 plugins can be written by scientists, engineers, and those people whose
 full-time job is *not* necessarily software development, hence a lot of work
-has gone into trying to satify the old adage of "make simple things simple, and
+has gone into trying to satisfy the old adage of "make simple things simple, and
 complex things possible". It will obviously be up to you to judge if we
 succeeded!
 
@@ -51,7 +51,7 @@ Getting Started
 The best way to get started is probably to take the time to read and digest the
 Core_ documentation and then work through the `Hello World`_ and
 `Message of the Day`_ examples. Despite being extremely simple, the examples
-introduces you to *all* of the fundamental concepts of Envisage, and the *real*
+introduce you to *all* of the fundamental concepts of Envisage, and the *real*
 applications that you build (which will hopefully be a lot more useful) will be
 built in exactly the same way.
 
