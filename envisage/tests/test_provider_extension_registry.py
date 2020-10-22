@@ -9,16 +9,22 @@
 # Thanks for using Enthought open source!
 """ Tests for the provider extension registry. """
 
+# Standard library imports.
+import unittest
+
 # Enthought library imports.
 from envisage.api import ExtensionPoint, ExtensionProvider
 from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
 
 # Local imports.
-from .test_extension_registry import ExtensionRegistryTestCase
+from envisage.tests.test_extension_registry_mixin import (
+    ExtensionRegistryTestMixin
+)
 
 
-class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
+class ProviderExtensionRegistryTestCase(
+        ExtensionRegistryTestMixin, unittest.TestCase):
     """ Tests for the provider extension registry. """
 
     def setUp(self):
@@ -508,15 +514,13 @@ class ProviderExtensionRegistryTestCase(ExtensionRegistryTestCase):
         with self.assertRaises(ValueError):
             registry.remove_provider(a)
 
-    # Overriden to test differing behavior between the provider registry and
-    # the base class.
     def test_set_extensions(self):
         """ set extensions """
 
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Set some extensions.
         with self.assertRaises(SystemError):
