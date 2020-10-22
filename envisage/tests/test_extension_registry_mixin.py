@@ -19,14 +19,11 @@ from traits.api import List
 
 
 class ExtensionRegistryTestMixin:
-    """ Base set of tests for extension registry and its subclasses. """
+    """ Base set of tests for extension registry and its subclasses.
 
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. Test
-        cases inherriting from this mixin should override this method and
-        define self.registry.
-        """
-        pass
+    Test cases inherriting from this mixin should define a setUp method that
+    defines self.registry as an instance of ExtensionPointRegistry.
+    """
 
     def test_empty_registry(self):
         """ empty registry """
@@ -107,11 +104,7 @@ class ExtensionRegistryTestMixin:
         with self.assertRaises(ValueError):
             registry.remove_extension_point_listener(listener)
 
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    def _create_extension_point(self, id, trait_type=List, desc=""):
+    def create_extension_point(self, id, trait_type=List, desc=""):
         """ Create an extension point. """
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

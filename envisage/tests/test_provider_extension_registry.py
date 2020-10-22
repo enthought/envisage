@@ -514,15 +514,13 @@ class ProviderExtensionRegistryTestCase(
         with self.assertRaises(ValueError):
             registry.remove_provider(a)
 
-    # Overriden to test differing behavior between the provider registry and
-    # the base class.
     def test_set_extensions(self):
         """ set extensions """
 
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Set some extensions.
         with self.assertRaises(SystemError):

@@ -39,7 +39,7 @@ class ExtensionRegistryTestCase(ExtensionRegistryTestMixin, unittest.TestCase):
         registry = self.registry
 
         # Add an extension point...
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # ... with some extensions...
         registry.set_extensions("my.ep", [42])
@@ -60,22 +60,13 @@ class ExtensionRegistryTestCase(ExtensionRegistryTestMixin, unittest.TestCase):
         registry = self.registry
 
         # Add an extension *point*.
-        registry.add_extension_point(self._create_extension_point("my.ep"))
+        registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Set some extensions.
         registry.set_extensions("my.ep", [1, 2, 3])
 
         # Make sure we can get them.
         self.assertEqual([1, 2, 3], registry.get_extensions("my.ep"))
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    def _create_extension_point(self, id, trait_type=List, desc=""):
-        """ Create an extension point. """
-
-        return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)
 
 
 def make_function_listener(events):
