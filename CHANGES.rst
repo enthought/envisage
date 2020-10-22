@@ -2,6 +2,16 @@
  Envisage CHANGELOG
 ====================
 
+Version 5.0.0
+=============
+
+Released: XXXX-XX-XX
+
+Changes
+-------
+
+- Drop support for Python 3 versions older than Python 3.6. (#341)
+
 Version 4.9.1
 =============
 
