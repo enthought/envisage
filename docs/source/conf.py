@@ -34,6 +34,7 @@ import enthought_sphinx_theme
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.githubpages",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "traits.util.trait_documenter",
@@ -183,3 +184,12 @@ latex_logo = "e-logo-rev.png"
 
 # If false, no module index is generated.
 # latex_use_modindex = True
+
+# -- Options for intersphinx extension ---------------------------------------
+
+intersphinx_mapping = {
+    "pyface": ("https://docs.enthought.com/pyface", None),
+    "python": ("https://docs.python.org/3", None),
+    "traits": ("https://docs.enthought.com/traits", None),
+    "traitsui": ("https://docs.enthought.com/traitsui", None),
+}
