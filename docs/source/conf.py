@@ -189,6 +189,7 @@ latex_logo = "e-logo-rev.png"
 
 intersphinx_mapping = {
     "pyface": ("https://docs.enthought.com/pyface", None),
+    "python": ("https://docs.python.org/3", None),
     "traits": ("https://docs.enthought.com/traits", None),
     "traitsui": ("https://docs.enthought.com/traitsui", None),
 }
