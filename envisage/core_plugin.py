@@ -199,4 +199,8 @@ class CorePlugin(Plugin):
     @observe("application:service_registry:unregistered")
     def unregistered_updated(self, event):
         """ React to services being unregistered. """
-        self._service_ids.remove(event.new)
+
+        # we only want to reaect to unregistered services that were originally
+        # registered using the CorePlugins service_offers extension point
+        if event.new in self._service_ids:
+            self._service_ids.remove(event.new)
