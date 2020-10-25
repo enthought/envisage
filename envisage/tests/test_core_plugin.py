@@ -192,7 +192,7 @@ class CorePluginTestCase(unittest.TestCase):
             service_offers = List(contributes_to=SERVICE_OFFERS)
 
             def _service_offers_default(self):
-            
+
                 a_service_offer = ServiceOffer(
                     protocol=IJunk,
                     factory=self._create_junk_service,
@@ -209,7 +209,7 @@ class CorePluginTestCase(unittest.TestCase):
             def _unregister_junk_service(self):
                 # only 1 service is registered so it has service_id of 1
                 self.application.unregister_service(1)
-        
+
         application = TestApplication(
             plugins=[CorePlugin(), PluginA()],
         )
@@ -224,13 +224,13 @@ class CorePluginTestCase(unittest.TestCase):
 
         class Junk(HasTraits):
             trash = Str("garbage")
-        
+
         some_junk = Junk()
 
         application = TestApplication(
             plugins=[CorePlugin()],
         )
-        
+
         application.start()
 
         some_junk_id = application.register_service(IJunk, some_junk)
