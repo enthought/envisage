@@ -198,4 +198,5 @@ class CorePlugin(Plugin):
 
     @observe("application:service_registry:unregistered")
     def unregistered_updated(self, event):
+        """ React to services being unregistered. """
         self._service_ids.remove(event.new)

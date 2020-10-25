@@ -216,3 +216,24 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Run it!
         return application.run()
+
+    def test_unregister_service(self):
+
+        class IJunk(Interface):
+            trash = Str()
+
+        class Junk(HasTraits):
+            trash = Str("garbage")
+        
+        some_junk = Junk()
+
+        application = TestApplication(
+            plugins=[CorePlugin()],
+        )
+        
+        application.start()
+
+        some_junk_id = application.register_service(IJunk, some_junk)
+        application.unregister_service(some_junk_id)
+
+        application.stop()
