@@ -14,7 +14,7 @@
 from envisage.extension_point import ExtensionPoint
 from envisage.plugin import Plugin
 from envisage.service_offer import ServiceOffer
-from traits.api import List, on_trait_change, Str
+from traits.api import List, observe, on_trait_change, Str
 
 
 class CorePlugin(Plugin):
@@ -138,7 +138,6 @@ class CorePlugin(Plugin):
 
     def start(self):
         """ Start the plugin. """
-
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences(self.preferences)
@@ -196,3 +195,7 @@ class CorePlugin(Plugin):
         )
 
         return service_id
+
+    @observe("application:service_registry:unregistered")
+    def unregistered_updated(self, event):
+        self._service_ids.remove(event.new)
