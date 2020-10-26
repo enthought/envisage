@@ -14,7 +14,7 @@
 from envisage.extension_point import ExtensionPoint
 from envisage.plugin import Plugin
 from envisage.service_offer import ServiceOffer
-from traits.api import List, observe, on_trait_change, Str
+from traits.api import List, on_trait_change, Str
 
 
 class CorePlugin(Plugin):
