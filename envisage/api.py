@@ -25,6 +25,8 @@ Interfaces
 - :class:`~.IPluginManager`
 - :class:`~.IServiceRegistry`
 
+Application, plugin and related classes
+------------------------------------------
 - :class:`~.Application`
 - :class:`~.CorePlugin`
 - :class:`~.EggPluginManager`
