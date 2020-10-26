@@ -18,20 +18,7 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from envisage.api import Application, CorePlugin, Plugin
 from envisage.api import ServiceOffer
-from traits.api import (
-    HasTraits,
-    Interface,
-    List,
-    on_trait_change,
-    pop_exception_handler as pop_on_trait_change_handler,
-    push_exception_handler as push_on_trait_change_handler,
-    Str,
-)
-from traits.observation.api import (
-    pop_exception_handler as pop_observe_handler,
-    push_exception_handler as push_observe_handler,
-)
-
+from traits.api import HasTraits, Interface, List, on_trait_change, Str
 
 # This module's package.
 PKG = "envisage.tests"
@@ -45,14 +32,6 @@ class TestApplication(Application):
 
 class CorePluginTestCase(unittest.TestCase):
     """ Tests for the core plugin. """
-
-    def setUp(self):
-        push_on_trait_change_handler(reraise_exceptions=True)
-        push_observe_handler(reraise_exceptions=True)
-
-    def tearDown(self):
-        pop_observe_handler()
-        pop_on_trait_change_handler()
 
     def test_service_offers(self):
         """ service offers """
@@ -198,6 +177,10 @@ class CorePluginTestCase(unittest.TestCase):
 
     # regression test for enthought/envisage#251
     def test_unregister_service_offer(self):
+        """ Unregister a service that is contributed to the
+        "envisage.service_offers" extension point while the application is
+        running.
+        """
 
         class IJunk(Interface):
             trash = Str()
@@ -235,9 +218,12 @@ class CorePluginTestCase(unittest.TestCase):
         )
 
         # Run it!
-        return application.run()
+        application.run()
 
     def test_unregister_service(self):
+        """ Unregister a service which was registered on the application
+        directly, not through the CorePlugin's extension point. CorePlugin
+        should not do anything to interfere. """
 
         class IJunk(Interface):
             trash = Str()
