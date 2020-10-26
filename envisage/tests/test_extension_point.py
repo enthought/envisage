@@ -111,6 +111,31 @@ class ExtensionPointTestCase(unittest.TestCase):
         # Make sure the trait change handler was *not* called.
         self.assertEqual(False, f.x_changed_called)
 
+    def test_mutate_extension_point_no_effect(self):
+        """ Extension point is recomputed so mutation has no effect. """
+
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # Set the extensions.
+        registry.set_extensions("my.ep", [1, 2, 3])
+
+        # Declare a class that consumes the extension.
+        class Foo(TestBase):
+            x = ExtensionPoint(List(Int), id="my.ep")
+
+        # when
+        f = Foo()
+        f.x.append(42)
+
+        # then
+        # The registry is not changed, and the extension point is still the
+        # same as before
+        self.assertEqual(registry.get_extensions("my.ep"), [1, 2, 3])
+        self.assertEqual(f.x, [1, 2, 3])
+
     def test_untyped_extension_point(self):
         """ untyped extension point """
 
