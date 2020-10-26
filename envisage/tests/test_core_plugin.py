@@ -18,7 +18,19 @@ from pkg_resources import resource_filename
 # Enthought library imports.
 from envisage.api import Application, CorePlugin, Plugin
 from envisage.api import ServiceOffer
-from traits.api import HasTraits, Interface, List, on_trait_change, Str
+from traits.api import (
+    HasTraits,
+    Interface,
+    List,
+    on_trait_change,
+    pop_exception_handler as pop_on_trait_change_handler,
+    push_exception_handler as push_on_trait_change_handler,
+    Str,
+)
+from traits.observation.api import (
+    pop_exception_handler as pop_observe_handler,
+    push_exception_handler as push_observe_handler,
+)
 
 
 # This module's package.
@@ -33,6 +45,14 @@ class TestApplication(Application):
 
 class CorePluginTestCase(unittest.TestCase):
     """ Tests for the core plugin. """
+
+    def setUp(self):
+        push_on_trait_change_handler(reraise_exceptions=True)
+        push_observe_handler(reraise_exceptions=True)
+
+    def tearDown(self):
+        pop_observe_handler()
+        pop_on_trait_change_handler()
 
     def test_service_offers(self):
         """ service offers """
