@@ -250,7 +250,10 @@ class ObservableExtensionRegistry(HasTraits):
     )
 
     # Mapping from extension point id to a callable to be used
-    # for dispatching events from observe.
+    # for dispatching events from observe. Since the callable does not
+    # hold a reference to the 'listener', it is okay for the dispatchers not
+    # to be removed from this mapping after use, and it is okay for a
+    # dispatcher to be reused many times for the same extension point id.
     _id_to_dispatcher = Dict()
 
     ###########################################################################
