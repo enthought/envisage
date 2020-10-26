@@ -289,6 +289,7 @@ class Plugin(ExtensionProvider):
         service_ids.reverse()
 
         for service_id in service_ids:
+            # note the service may have already been individually unregistered
             try:
                 self.application.service_registry.get_service_from_id(service_id)
             except ValueError:
