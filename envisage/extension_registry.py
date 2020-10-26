@@ -11,14 +11,19 @@
 
 
 # Standard library imports.
+import functools
 import logging
 import types
 import weakref
 
 # Enthought library imports.
-from traits.api import Dict, HasTraits, provides
+from traits.api import (
+    ComparisonMode, Dict, HasTraits, Instance, List, provides, Str, Tuple,
+)
+from traits.observation.api import trait, observe
 
 # Local imports.
+from .extension_point import ExtensionPoint
 from .extension_point_changed_event import ExtensionPointChangedEvent
 from .i_extension_registry import IExtensionRegistry
 from .unknown_extension_point import UnknownExtensionPoint
@@ -70,9 +75,14 @@ class ExtensionRegistry(HasTraits):
     ###########################################################################
 
     # A dictionary of extensions, keyed by extension point.
-    _extensions = Dict
+    # Mapping from extension point id (str) to a list of list of extensions
+    # contributed to it.
+    # Each item in the outer list is a list of extensions contributed by
+    # a given plugin.
+    _extensions = Dict()
 
     # The extension points that have been added *explicitly*.
+    # Mapping from ExtensionPoint id (str) to ExtensionPoint
     _extension_points = Dict
 
     # Extension listeners.
@@ -221,3 +231,164 @@ class ExtensionRegistry(HasTraits):
         refs.extend(self._listeners.get(None, []))
 
         return refs
+
+
+@provides(IExtensionRegistry)
+class ObservableExtensionRegistry(HasTraits):
+    """ A replacement for ExtensionRegistry to support Traits observe
+    framework. Since ExtensionRegistry is a base class, this will have
+    to be a base class too (?).
+
+    Requires Traits 6.1+
+    """
+
+    # Mapping from extension point id (str) to a tuple(ExtensionPoint, List)
+    _id_to_point_and_list = Dict(
+        Str(),
+        Tuple(),
+        comparison_mode=ComparisonMode.identity,
+    )
+
+    # Mapping from extension point id to a callable to be used
+    # for dispatching events from observe.
+    _id_to_dispatcher = Dict()
+
+    ###########################################################################
+    # 'IExtensionRegistry' interface.
+    ###########################################################################
+
+    def add_extension_point_listener(self, listener, extension_point_id=None):
+        """ Reimplemented IExtensionRegistry.add_extension_point_listener """
+
+        observe(
+            object=self,
+            expression=(
+                trait("_id_to_point_and_list", notify=False).dict_items()
+            ),
+            handler=listener,
+            dispatcher=self._get_dispatcher(extension_point_id)
+        )
+
+    def add_extension_point(self, extension_point):
+        """ Reimplemented IExtensionRegistry.add_extension_point """
+        self._id_to_point_and_list[extension_point.id] = (
+            extension_point, []
+        )
+
+    def get_extensions(self, extension_point_id):
+        """ Reimplemented IExtensionRegistry.get_extensions """
+        _, extensions = self._id_to_point_and_list.get(
+            extension_point_id, (None, [])
+        )
+        return extensions[:]
+
+    def get_extension_point(self, extension_point_id):
+        """ Reimplemented IExtensionRegistry.get_extension_point """
+        point, _ = self._id_to_point_and_list.get(
+            extension_point_id, (None, [])
+        )
+        return point
+
+    def get_extension_points(self):
+        """ Reimplemented IExtensionRegistry.get_extension_points """
+        return [point for point, _ in self._id_to_point_and_list.values()]
+
+    def remove_extension_point_listener(
+        self, listener, extension_point_id=None
+    ):
+        """ Reimplemented IExtensionRegistry.remove_extension_point_listener
+        """
+        expression = trait("_id_to_point_and_list", notify=False).dict_items()
+        dispatcher = self._get_dispatcher(extension_point_id)
+        try:
+            observe(
+                object=self,
+                expression=expression,
+                handler=listener,
+                dispatcher=dispatcher,
+                remove=True,
+            )
+        except Exception as exception:
+            # Reraise ValueError to comply with interface requirement.
+            raise ValueError(
+                f"Unable to remove listener ({listener!r}) for extension "
+                f"point id ({extension_point_id!r})"
+            ) from exception
+
+    def remove_extension_point(self, extension_point_id):
+        """ Reimplemented IExtensionRegistry.remove_extension_point """
+        try:
+            del self._id_to_point_and_list[extension_point_id]
+        except KeyError:
+            raise UnknownExtensionPoint(extension_point_id)
+
+    def set_extensions(self, extension_point_id, extensions):
+        """ Reimplemented IExtensionRegistry.set_extensions """
+        try:
+            extension_point, _ = self._id_to_point_and_list[extension_point_id]
+        except KeyError:
+            raise UnknownExtensionPoint(extension_point_id)
+
+        self._id_to_point_and_list[extension_point.id] = (
+            extension_point, extensions
+        )
+
+    ###########################################################################
+    # Private 'ObservableExtensionRegistry' interface.
+    ###########################################################################
+
+    def _get_dispatcher(self, extension_point_id):
+        """ Return the callable for invoking the listener for the given
+        extension point id, to be used as the 'dispatcher' argument in observe.
+
+        The dispatcher is cached so that we can use it for removing the
+        observer. It is not necessary to clear the cache and the cache can
+        be reused indefinitely many times.
+
+        Parameters
+        ----------
+        extension_point_id : str or None
+            Extension point ID.
+
+        Returns
+        -------
+        dispatcher : callable(listener, DictChangeEvent)
+            Callable for invoking the listener.
+        """
+        if extension_point_id not in self._id_to_dispatcher:
+            self._id_to_dispatcher[extension_point_id] = functools.partial(
+                self._dispatch_listener,
+                extension_point_id=extension_point_id,
+            )
+        return self._id_to_dispatcher[extension_point_id]
+
+    def _dispatch_listener(self, listener, event, extension_point_id):
+        """ Invoke the listener with the observed DictChangeEvent and
+        extension point ID.
+
+        Parameters
+        ----------
+        listener : callable(IExtensionRegistry, ExtensionPointChangedEvent)
+            Listener to invoke.
+        event : DictChangeEvent
+            Change event caused by mutation to the internal extension point
+            mapping.
+        extension_point_id : str or None
+            Specific extension point ID to observe.
+        """
+        if (extension_point_id is not None
+                and extension_point_id not in event.added
+                and extension_point_id not in event.removed):
+            return
+
+        _, added = event.added.get(extension_point_id, (None, []))
+        _, removed = event.removed.get(extension_point_id, (None, []))
+        listener(
+            self,
+            ExtensionPointChangedEvent(
+                extension_point_id=extension_point_id,
+                added=added,
+                removed=removed,
+                index=None,
+            )
+        )
