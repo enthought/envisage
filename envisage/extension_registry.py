@@ -18,12 +18,11 @@ import weakref
 
 # Enthought library imports.
 from traits.api import (
-    ComparisonMode, Dict, HasTraits, Instance, List, provides, Str, Tuple,
+    ComparisonMode, Dict, HasTraits, provides, Str, Tuple,
 )
 from traits.observation.api import trait, observe
 
 # Local imports.
-from .extension_point import ExtensionPoint
 from .extension_point_changed_event import ExtensionPointChangedEvent
 from .i_extension_registry import IExtensionRegistry
 from .unknown_extension_point import UnknownExtensionPoint
