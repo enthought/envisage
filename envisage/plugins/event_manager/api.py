@@ -7,4 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+"""
+- :class:`~.EventManagerPlugin`
+"""
 from envisage.plugins.event_manager.plugin import EventManagerPlugin

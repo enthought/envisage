@@ -7,6 +7,20 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+"""
+- :class:`~.PreferencesCategory`
+- :class:`~.PreferencesDialog`
+- :class:`~.PreferencesTab`
+- :class:`~.PreferencesPane`
+- :class:`~.TaskExtension`
+- :class:`~.TaskFactory`
+- :class:`~.TaskWindow`
+- :class:`~.TaskWindowEvent`
+- :class:`~.VetoableTaskWindowEvent`
+- :class:`~.TasksApplication`
+- :class:`~.TasksApplicationState`
+- :class:`~.TasksPlugin`
+"""
 from .preferences_category import PreferencesCategory
 from .preferences_dialog import PreferencesDialog, PreferencesTab
 from .preferences_pane import PreferencesPane

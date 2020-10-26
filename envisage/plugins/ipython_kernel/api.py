@@ -7,6 +7,13 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+"""
+- :class:`~.StartQtConsoleAction`
+- :class:`~.InternalIPKernel`
+- :class:`~.IPythonKernelPlugin`
+- :attr:`~.IPYTHON_KERNEL_PROTOCOL`
+- :class:`~.IPythonKernelUIPlugin`
+"""
 from envisage.plugins.ipython_kernel.actions import StartQtConsoleAction
 from envisage.plugins.ipython_kernel.internal_ipkernel import InternalIPKernel
 from envisage.plugins.ipython_kernel.ipython_kernel_plugin import (
