@@ -115,6 +115,7 @@ dependencies = {
 
 # Dependencies we install from source for cron tests
 source_dependencies = {
+    "apptools",
     "pyface",
     "traits",
     "traitsui",
