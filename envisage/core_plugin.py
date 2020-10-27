@@ -138,7 +138,6 @@ class CorePlugin(Plugin):
 
     def start(self):
         """ Start the plugin. """
-
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences(self.preferences)

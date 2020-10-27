@@ -16,10 +16,9 @@ import unittest
 from pkg_resources import resource_filename
 
 # Enthought library imports.
-from envisage.api import Application, Plugin
+from envisage.api import Application, CorePlugin, Plugin
 from envisage.api import ServiceOffer
-from traits.api import Interface, List
-
+from traits.api import HasTraits, Interface, List, on_trait_change, Str
 
 # This module's package.
 PKG = "envisage.tests"
@@ -36,8 +35,6 @@ class CorePluginTestCase(unittest.TestCase):
 
     def test_service_offers(self):
         """ service offers """
-
-        from envisage.api import CorePlugin
 
         class IMyService(Interface):
             pass
@@ -80,8 +77,6 @@ class CorePluginTestCase(unittest.TestCase):
 
     def test_dynamically_added_service_offer(self):
         """ dynamically added service offer """
-
-        from envisage.api import CorePlugin
 
         class IMyService(Interface):
             pass
@@ -137,10 +132,6 @@ class CorePluginTestCase(unittest.TestCase):
     def test_preferences(self):
         """ preferences """
 
-        # The core plugin is the plugin that offers the preferences extension
-        # point.
-        from envisage.api import CorePlugin
-
         class PluginA(Plugin):
             id = "A"
             preferences = List(contributes_to="envisage.preferences")
@@ -161,10 +152,6 @@ class CorePluginTestCase(unittest.TestCase):
 
     def test_dynamically_added_preferences(self):
         """ dynamically added preferences """
-
-        # The core plugin is the plugin that offers the preferences extension
-        # point.
-        from envisage.api import CorePlugin
 
         class PluginA(Plugin):
             id = "A"
@@ -187,3 +174,72 @@ class CorePluginTestCase(unittest.TestCase):
 
         # Make sure we can get one of the preferences.
         self.assertEqual("42", application.preferences.get("enthought.test.x"))
+
+    # regression test for enthought/envisage#251
+    def test_unregister_service_offer(self):
+        """ Unregister a service that is contributed to the
+        "envisage.service_offers" extension point while the application is
+        running.
+        """
+
+        class IJunk(Interface):
+            trash = Str()
+
+        class Junk(HasTraits):
+            trash = Str("garbage")
+
+        class PluginA(Plugin):
+            # The Ids of the extension points that this plugin contributes to.
+            SERVICE_OFFERS = "envisage.service_offers"
+
+            service_offers = List(contributes_to=SERVICE_OFFERS)
+
+            def _service_offers_default(self):
+
+                a_service_offer = ServiceOffer(
+                    protocol=IJunk,
+                    factory=self._create_junk_service,
+                )
+
+                return [a_service_offer]
+
+            def _create_junk_service(self):
+                """ Factory method for the 'Junk' service. """
+
+                return Junk()
+
+            @on_trait_change("application:started")
+            def _unregister_junk_service(self):
+                # only 1 service is registered so it has service_id of 1
+                self.application.unregister_service(1)
+
+        application = TestApplication(
+            plugins=[CorePlugin(), PluginA()],
+        )
+
+        # Run it!
+        application.run()
+
+    def test_unregister_service(self):
+        """ Unregister a service which was registered on the application
+        directly, not through the CorePlugin's extension point. CorePlugin
+        should not do anything to interfere. """
+
+        class IJunk(Interface):
+            trash = Str()
+
+        class Junk(HasTraits):
+            trash = Str("garbage")
+
+        some_junk = Junk()
+
+        application = TestApplication(
+            plugins=[CorePlugin()],
+        )
+
+        application.start()
+
+        some_junk_id = application.register_service(IJunk, some_junk)
+        application.unregister_service(some_junk_id)
+
+        application.stop()
