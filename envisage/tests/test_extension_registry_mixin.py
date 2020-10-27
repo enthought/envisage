@@ -68,6 +68,10 @@ class ExtensionRegistryTestMixin:
         self.assertNotEqual(None, extension_point)
         self.assertEqual("my.ep", extension_point.id)
 
+    def test_get_extension_point_return_none_if_not_found(self):
+        """ get extension point return None if id is not found. """
+        self.assertIsNone(self.registry.get_extension_point("i.do.not.exist"))
+
     def test_remove_empty_extension_point(self):
         """ remove empty_extension point """
 
