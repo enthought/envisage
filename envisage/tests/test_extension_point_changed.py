@@ -46,6 +46,23 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         with self.assertRaises(SystemError):
             setattr(a, "x", [1, 2, 3])
 
+    def test_mutate_extension_point_no_events(self):
+        """ Mutation will not emit change event for name_items """
+
+        a = PluginA()
+        a.on_trait_change(listener, "x_items")
+        b = PluginB()
+        c = PluginC()
+
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+
+        # when
+        a.x.append(42)
+
+        # then
+        self.assertIsNone(listener.obj)
+
     def test_append(self):
         """ append """
 
