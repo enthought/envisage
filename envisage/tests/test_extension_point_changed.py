@@ -13,6 +13,7 @@
 import unittest
 
 # Local imports.
+from envisage.api import ExtensionPointChangedEvent
 from envisage.tests.test_application import (
     PluginA,
     PluginB,
@@ -361,3 +362,12 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.added)
         self.assertEqual([1, 2, 3], listener.new.removed)
         self.assertEqual(0, listener.new.index)
+
+    def test_extension_point_change_event_str_representation(self):
+        """ test string representation of the ExtensionPointChangedEvent class
+        """
+        desired_repr = ("ExtensionPointChangedEvent(extension_point_id={}, "
+                        "index=0, removed=[], added=[])")
+        ext_pt_changed_evt = ExtensionPointChangedEvent(extension_point_id=1)
+        self.assertEqual(desired_repr.format(1), str(ext_pt_changed_evt))
+        self.assertEqual(desired_repr.format(1), repr(ext_pt_changed_evt))
