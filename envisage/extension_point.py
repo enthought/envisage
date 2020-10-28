@@ -12,10 +12,12 @@
 
 # Standard library imports.
 import inspect
+import warnings
 import weakref
 
 # Enthought library imports.
 from traits.api import List, TraitType, Undefined, provides
+from traits.trait_list_object import TraitList
 
 # Local imports.
 from .i_extension_point import IExtensionPoint
@@ -162,14 +164,14 @@ class ExtensionPoint(TraitType):
 
     def get(self, obj, trait_name):
         """ Trait type getter. """
+        cache_name = self._get_cache_name(trait_name)
+        if cache_name not in obj.__dict__:
+            self._update_cache(obj, trait_name)
 
-        extension_registry = self._get_extension_registry(obj)
-
-        # Get the extensions to this extension point.
-        extensions = extension_registry.get_extensions(self.id)
-
-        # Make sure the contributions are of the appropriate type.
-        return self.trait_type.validate(obj, trait_name, extensions)
+        value = obj.__dict__[cache_name]
+        # validate again
+        self.trait_type.validate(obj, trait_name, value[:])
+        return value
 
     def set(self, obj, name, value):
         """ Trait type setter. """
@@ -180,8 +182,6 @@ class ExtensionPoint(TraitType):
         # setting of extension points (the default, plugin extension registry
         # for exxample ;^).
         extension_registry.set_extensions(self.id, value)
-
-        return
 
     ###########################################################################
     # 'ExtensionPoint' interface.
@@ -200,23 +200,41 @@ class ExtensionPoint(TraitType):
         """
 
         def listener(extension_registry, event):
-            """ Listener called when an extension point is changed. """
+            """ Listener called when an extension point is changed.
 
-            # If an index was specified then we fire an '_items' changed event.
+            Parameters
+            ----------
+            extension_registry : IExtensionRegistry
+                Registry that maintains the extensions.
+            event : ExtensionPointChangedEvent
+                Event for created for the change.
+                If the event.index is None, this means the entire extensions
+                is set to a new value. If the event.index is not None, some
+                portion of the list has been modified.
+            """
             if event.index is not None:
-                name = trait_name + "_items"
-                old = Undefined
-                new = event
+                # We know where in the list is changed.
 
-            # Otherwise, we fire a normal trait changed event.
+                # Mutate the _ExtensionPointValue to fire ListChangeEvent
+                # expected from observing item change.
+                getattr(obj, trait_name)._sync_values(event)
+
+                # For on_trait_change('name_items')
+                obj.trait_property_changed(
+                    trait_name + "_items", Undefined, event
+                )
+
             else:
-                name = trait_name
-                old = event.removed
-                new = event.added
+                # The entire list has changed. We reset the cache and fire a
+                # normal trait changed event.
+                self._update_cache(obj, trait_name)
 
-            obj.trait_property_changed(name, old, new)
-
-            return
+        # In case the cache was created first and the registry is then mutated
+        # before this ``connect``` is called, the internal cache would be in
+        # an inconsistent state. This also has the side-effect of firing
+        # another change event, hence allowing future changes to be observed
+        # without having to access the trait first.
+        self._update_cache(obj, trait_name)
 
         extension_registry = self._get_extension_registry(obj)
 
@@ -264,3 +282,278 @@ class ExtensionPoint(TraitType):
             )
 
         return extension_registry
+
+    def _get_cache_name(self, trait_name):
+        """ Return the cache name for the extension point value associated
+        with a given trait.
+        """
+        return "__envisage_{}".format(trait_name)
+
+    def _update_cache(self, obj, trait_name):
+        """ Update the internal cached value for the extension point and
+        fire change event.
+
+        Parameters
+        ----------
+        obj : HasTraits
+            The object on which an ExtensionPoint is defined.
+        trait_name : str
+            The name of the trait for which ExtensionPoint is defined.
+        """
+        cache_name = self._get_cache_name(trait_name)
+        old = obj.__dict__.get(cache_name, Undefined)
+        new = (
+            _ExtensionPointValue(
+                _get_extensions(obj, trait_name),
+                object=obj,
+                name=trait_name,
+            )
+        )
+        obj.__dict__[cache_name] = new
+        obj.trait_property_changed(trait_name, old, new)
+
+
+class _ExtensionPointValue(TraitList):
+    """ _ExtensionPointValue is the list being returned while retrieving the
+    attribute value for an ExtensionPoint trait.
+
+    This list returned for an ExtensionPoint acts as a proxy to query
+    extensions in an ExtensionRegistry for a given extension point id. Users of
+    ExtensionPoint expect to handle a list-like object, and expect to be able
+    to listen to "mutation" on the list. The ExtensionRegistry remains to be
+    the source of truth as to what extensions are available for a given
+    extension point ID.
+
+    Users are not expected to mutate the list directly. All mutations to
+    extensions are expected to go through the extension registry to maintain
+    consistency. With that, all methods for mutating the list are nullified,
+    unless it is used internally.
+
+    The requirement to support ``observe("name:items")`` means this list,
+    associated with `name`, cannot be a property that gets recomputed on every
+    access (enthought/traits/#624), it needs to be cached. As with any
+    cached quantity, it needs to be synchronized with the ExtensionRegistry.
+
+    The assumption on the internal values being synchronized with the registry
+    breaks down if the extension registry is mutated before listeners
+    are hooked up between the extension point and the registry. This sequence
+    of events is difficult to enforce. Therefore we always resort to the
+    extension registry for querying values.
+
+    Parameters
+    ----------
+    iterable : iterable
+        Iterable providing the items for the list
+    obj : HasTraits
+        The object on which an ExtensionPoint is defined.
+    trait_name : str
+        The name of the trait for which ExtensionPoint is defined.
+    """
+
+    def __init__(self, iterable=(), *, object, name):
+        """ Reimplemented TraitList.__init__
+
+        Parameters
+        ----------
+        object : HasTraits
+            The object on which an ExtensionPoint is defined.
+        trait_name : str
+            The name of the trait for which ExtensionPoint is defined.
+        """
+        super().__init__(iterable)
+
+        # Flag to control access for mutating the list. Only internal
+        # code can mutate the list. See _sync_values
+        self._internal_use = False
+
+        self._object = object
+        self._name = name
+
+    def __eq__(self, other):
+        if self._internal_use:
+            return super().__eq__(other)
+        return _get_extensions(self._object, self._name) == other
+
+    def __getitem__(self, key):
+        if self._internal_use:
+            return super().__getitem__(key)
+        return _get_extensions(self._object, self._name)[key]
+
+    def __len__(self):
+        if self._internal_use:
+            return super().__len__()
+        return len(_get_extensions(self._object, self._name))
+
+    def _sync_values(self, event):
+        """ Given an ExtensionPointChangedEvent, modify the values in this list
+        to match. This is an internal method only used by Envisage code.
+
+        Parameters
+        ----------
+        event : ExtenstionPointChangedEvent
+            Event being fired for extension point values changed (typically
+            via the extension registry)
+        """
+        self._internal_use = True
+        try:
+            if isinstance(event.index, slice):
+                if event.added:
+                    self[event.index] = event.added
+                else:
+                    del self[event.index]
+            else:
+                slice_ = slice(
+                    event.index, event.index + len(event.removed)
+                )
+                self[slice_] = event.added
+        finally:
+            self._internal_use = False
+
+    # Reimplement TraitList interface to avoid any mutation.
+    # The original implementation of __setitem__ and __delitem__ can be used
+    # by internal code.
+
+    def __delitem__(self, key):
+        """ Reimplemented TraitList.__delitem__ """
+
+        # This is used by internal code
+
+        if not self._internal_use:
+            warnings.warn(
+                "Extension point cannot be mutated directly.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+            return
+
+        super().__delitem__(key)
+
+    def __iadd__(self, value):
+        """ Reimplemented TraitList.__iadd__ """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+        return self[:]
+
+    def __imul__(self, value):
+        """ Reimplemented TraitList.__imul__ """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+        return self[:]
+
+    def __setitem__(self, key, value):
+        """ Reimplemented TraitList.__setitem__ """
+
+        # This is used by internal code
+
+        if not self._internal_use:
+            warnings.warn(
+                "Extension point cannot be mutated directly.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+            return
+
+        super().__setitem__(key, value)
+
+    def append(self, object):
+        """ Reimplemented TraitList.append """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def clear(self):
+        """ Reimplemented TraitList.clear """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def extend(self, iterable):
+        """ Reimplemented TraitList.extend """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def insert(self, index, object):
+        """ Reimplemented TraitList.insert """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def pop(self, index=-1):
+        """ Reimplemented TraitList.pop """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def remove(self, value):
+        """ Reimplemented TraitList.remove """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def reverse(self):
+        """ Reimplemented TraitList.reverse """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def sort(self, *, key=None, reverse=False):
+        """ Reimplemented TraitList.sort """
+        # We should not need it for internal use either.
+        warnings.warn(
+            "Extension point cannot be mutated directly.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+
+def _get_extensions(object, name):
+    """ Return the extensions reported by the extension registry for the
+    given object and the name of a trait whose type is an ExtensionPoint.
+
+    Parameters
+    ----------
+    object : HasTraits
+        Object on which an ExtensionPoint is defined
+    name : str
+        Name of the trait whose trait type is an ExtensionPoint.
+
+    Returns
+    -------
+    extensions : list
+        All the extensions for the extension point.
+    """
+    extension_point = object.trait(name).trait_type
+    extension_registry = extension_point._get_extension_registry(object)
+
+    # Get the extensions to this extension point.
+    return extension_registry.get_extensions(extension_point.id)
