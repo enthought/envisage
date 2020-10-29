@@ -13,6 +13,7 @@
 import unittest
 
 # Local imports.
+from envisage.api import ExtensionPointChangedEvent
 from envisage.tests.test_application import (
     PluginA,
     PluginB,
@@ -45,6 +46,23 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         # Try to set the extension point.
         with self.assertRaises(SystemError):
             setattr(a, "x", [1, 2, 3])
+
+    def test_mutate_extension_point_no_events(self):
+        """ Mutation will not emit change event for name_items """
+
+        a = PluginA()
+        a.on_trait_change(listener, "x_items")
+        b = PluginB()
+        c = PluginC()
+
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+
+        # when
+        a.x.append(42)
+
+        # then
+        self.assertIsNone(listener.obj)
 
     def test_append(self):
         """ append """
@@ -344,3 +362,12 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([], listener.new.added)
         self.assertEqual([1, 2, 3], listener.new.removed)
         self.assertEqual(0, listener.new.index)
+
+    def test_extension_point_change_event_str_representation(self):
+        """ test string representation of the ExtensionPointChangedEvent class
+        """
+        desired_repr = ("ExtensionPointChangedEvent(extension_point_id={}, "
+                        "index=0, removed=[], added=[])")
+        ext_pt_changed_evt = ExtensionPointChangedEvent(extension_point_id=1)
+        self.assertEqual(desired_repr.format(1), str(ext_pt_changed_evt))
+        self.assertEqual(desired_repr.format(1), repr(ext_pt_changed_evt))

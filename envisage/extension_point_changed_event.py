@@ -27,3 +27,11 @@ class ExtensionPointChangedEvent(TraitListEvent):
         self.extension_point_id = extension_point_id
 
         return
+
+    def __repr__(self):
+        return ("ExtensionPointChangedEvent(extension_point_id={!r}, "
+                "index={!r}, removed={!r}, added={!r})").format(
+                    self.extension_point_id,
+                    self.index,
+                    self.removed,
+                    self.added)
