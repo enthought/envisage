@@ -164,9 +164,9 @@ class ExtensionPoint(TraitType):
 
     def get(self, obj, trait_name):
         """ Trait type getter. """
-        cache_name = self._get_cache_name(trait_name)
+        cache_name = _get_cache_name(trait_name)
         if cache_name not in obj.__dict__:
-            self._update_cache(obj, trait_name)
+            _update_cache(obj, trait_name)
 
         value = obj.__dict__[cache_name]
         # validate again
@@ -227,14 +227,14 @@ class ExtensionPoint(TraitType):
             else:
                 # The entire list has changed. We reset the cache and fire a
                 # normal trait changed event.
-                self._update_cache(obj, trait_name)
+                _update_cache(obj, trait_name)
 
         # In case the cache was created first and the registry is then mutated
         # before this ``connect``` is called, the internal cache would be in
         # an inconsistent state. This also has the side-effect of firing
         # another change event, hence allowing future changes to be observed
         # without having to access the trait first.
-        self._update_cache(obj, trait_name)
+        _update_cache(obj, trait_name)
 
         extension_registry = self._get_extension_registry(obj)
 
@@ -282,33 +282,6 @@ class ExtensionPoint(TraitType):
             )
 
         return extension_registry
-
-    def _get_cache_name(self, trait_name):
-        """ Return the cache name for the extension point value associated
-        with a given trait.
-        """
-        return "__envisage_{}".format(trait_name)
-
-    def _update_cache(self, obj, trait_name):
-        """ Update the internal cached value for the extension point and
-        fire change event.
-
-        Parameters
-        ----------
-        obj : HasTraits
-            The object on which an ExtensionPoint is defined.
-        trait_name : str
-            The name of the trait for which ExtensionPoint is defined.
-        """
-        cache_name = self._get_cache_name(trait_name)
-        old = obj.__dict__.get(cache_name, Undefined)
-        new = (
-            _ExtensionPointValue(
-                _get_extensions(obj, trait_name)
-            )
-        )
-        obj.__dict__[cache_name] = new
-        obj.trait_property_changed(trait_name, old, new)
 
 
 class _ExtensionPointValue(TraitList):
@@ -521,3 +494,37 @@ def _get_extensions(object, name):
 
     # Get the extensions to this extension point.
     return extension_registry.get_extensions(extension_point.id)
+
+
+def _get_cache_name(trait_name):
+    """ Return the attribute name on the object for storing the cached
+    extension point value associated with a given trait.
+
+    Parameters
+    ----------
+    trait_name : str
+        The name of the trait for which ExtensionPoint is defined.
+    """
+    return "__envisage_{}".format(trait_name)
+
+
+def _update_cache(obj, trait_name):
+    """ Update the internal cached value for the extension point and
+    fire change event.
+
+    Parameters
+    ----------
+    obj : HasTraits
+        The object on which an ExtensionPoint is defined.
+    trait_name : str
+        The name of the trait for which ExtensionPoint is defined.
+    """
+    cache_name = _get_cache_name(trait_name)
+    old = obj.__dict__.get(cache_name, Undefined)
+    new = (
+        _ExtensionPointValue(
+            _get_extensions(obj, trait_name)
+        )
+    )
+    obj.__dict__[cache_name] = new
+    obj.trait_property_changed(trait_name, old, new)
