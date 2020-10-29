@@ -350,6 +350,29 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(event.old, Undefined)
         self.assertEqual(event.new, [])
 
+    def test_object_garbage_collectable(self):
+        import weakref
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # Declare a class that consumes the extension.
+        class Foo(TestBase):
+            x = ExtensionPoint(List(Int), id="my.ep")
+
+        f = Foo()
+        object_ref = weakref.ref(f)
+
+        # when
+        ExtensionPoint.connect_extension_point_traits(f)
+        f.x = [1]
+        ExtensionPoint.disconnect_extension_point_traits(f)
+        del f
+
+        # then
+        self.assertIsNone(object_ref())
+
     def test_extension_point_str_representation(self):
         """ test the string representation of the extension point """
         ep_repr = "ExtensionPoint(id={!r})"

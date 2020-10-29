@@ -366,23 +366,23 @@ class _ExtensionPointValue(TraitList):
         # code can mutate the list. See _sync_values
         self._internal_use = False
 
-        self._object = object
+        self._object_ref = weakref.ref(object)
         self._name = name
 
     def __eq__(self, other):
         if self._internal_use:
             return super().__eq__(other)
-        return _get_extensions(self._object, self._name) == other
+        return _get_extensions(self._object_ref(), self._name) == other
 
     def __getitem__(self, key):
         if self._internal_use:
             return super().__getitem__(key)
-        return _get_extensions(self._object, self._name)[key]
+        return _get_extensions(self._object_ref(), self._name)[key]
 
     def __len__(self):
         if self._internal_use:
             return super().__len__()
-        return len(_get_extensions(self._object, self._name))
+        return len(_get_extensions(self._object_ref(), self._name))
 
     def _sync_values(self, event):
         """ Given an ExtensionPointChangedEvent, modify the values in this list
