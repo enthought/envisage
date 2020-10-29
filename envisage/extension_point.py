@@ -329,14 +329,11 @@ class _ExtensionPointValue(TraitList):
 
     The requirement to support ``observe("name:items")`` means this list,
     associated with `name`, cannot be a property that gets recomputed on every
-    access (enthought/traits/#624), it needs to be cached. As with any
+    access (enthought/traits#624), it needs to be cached. As with any
     cached quantity, it needs to be synchronized with the ExtensionRegistry.
 
-    The assumption on the internal values being synchronized with the registry
-    breaks down if the extension registry is mutated before listeners
-    are hooked up between the extension point and the registry. This sequence
-    of events is difficult to enforce. Therefore we always resort to the
-    extension registry for querying values.
+    Note that the list can only be synchronized with the extension registry
+    when the listeners are connected (see ``ExtensionPoint.connect``).
 
     Parameters
     ----------
