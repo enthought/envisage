@@ -517,12 +517,17 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b.x = [4, 5, 6]
 
         # then
-        self.assertEqual(a.x, [4, 5, 6, 98, 99, 100])
+        # The values are not synchronized.
+        self.assertEqual(a.x, [1, 2, 3, 98, 99, 100])
+
         # application has not started, no events.
         self.assertEqual(len(events), 0)
 
         # Now we start the application, which connects the listener.
         application.start()
+
+        # then
+        self.assertEqual(a.x, [4, 5, 6, 98, 99, 100])
 
         # Change the value again.
         b.x = [1, 2]

@@ -304,9 +304,7 @@ class ExtensionPoint(TraitType):
         old = obj.__dict__.get(cache_name, Undefined)
         new = (
             _ExtensionPointValue(
-                _get_extensions(obj, trait_name),
-                object=obj,
-                name=trait_name,
+                _get_extensions(obj, trait_name)
             )
         )
         obj.__dict__[cache_name] = new
@@ -344,45 +342,14 @@ class _ExtensionPointValue(TraitList):
     ----------
     iterable : iterable
         Iterable providing the items for the list
-    obj : HasTraits
-        The object on which an ExtensionPoint is defined.
-    trait_name : str
-        The name of the trait for which ExtensionPoint is defined.
     """
 
-    def __init__(self, iterable=(), *, object, name):
-        """ Reimplemented TraitList.__init__
-
-        Parameters
-        ----------
-        object : HasTraits
-            The object on which an ExtensionPoint is defined.
-        trait_name : str
-            The name of the trait for which ExtensionPoint is defined.
-        """
-        super().__init__(iterable)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         # Flag to control access for mutating the list. Only internal
         # code can mutate the list. See _sync_values
         self._internal_use = False
-
-        self._object_ref = weakref.ref(object)
-        self._name = name
-
-    def __eq__(self, other):
-        if self._internal_use:
-            return super().__eq__(other)
-        return _get_extensions(self._object_ref(), self._name) == other
-
-    def __getitem__(self, key):
-        if self._internal_use:
-            return super().__getitem__(key)
-        return _get_extensions(self._object_ref(), self._name)[key]
-
-    def __len__(self):
-        if self._internal_use:
-            return super().__len__()
-        return len(_get_extensions(self._object_ref(), self._name))
 
     def _sync_values(self, event):
         """ Given an ExtensionPointChangedEvent, modify the values in this list

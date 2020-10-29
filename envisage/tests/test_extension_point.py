@@ -10,6 +10,7 @@
 """ Tests for extension points. """
 
 # Standard library imports.
+import pickle
 import unittest
 import weakref
 
@@ -17,14 +18,24 @@ from traits.api import Undefined
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
-from envisage.api import ExtensionRegistry
-from traits.api import HasTraits, Int, List, TraitError
+from envisage.api import ExtensionRegistry, IExtensionRegistry
+from traits.api import HasTraits, Instance, Int, List, TraitError
 
 
 class TestBase(HasTraits):
     """ Base class for all test classes that use the 'ExtensionPoint' type. """
 
     extension_registry = None
+
+
+class ClassWithExtensionPoint(HasTraits):
+    """ Class with an ExtensionPoint for testing purposes.
+    Defined at the module level for pickability.
+    """
+
+    extension_registry = Instance(IExtensionRegistry)
+
+    x = ExtensionPoint(List(Int), id="my.ep")
 
 
 class ExtensionPointTestCase(unittest.TestCase):
@@ -258,6 +269,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         # Make sure we get a trait error because the type of the extension
         # doesn't match that of the extension point.
         f = Foo()
+        ExtensionPoint.connect_extension_point_traits(f)
 
         # This is okay, the list is empty.
         f.x
@@ -372,6 +384,23 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # then
         self.assertIsNone(object_ref())
+
+    def test_object_pickability(self):
+        # Add an extension point.
+        self.registry.add_extension_point(ExtensionPoint(id="my.ep"))
+
+        # An object is created, connected to the registry and have the
+        # extension point created.
+        f = ClassWithExtensionPoint(extension_registry=self.registry)
+        ExtensionPoint.connect_extension_point_traits(f)
+        self.registry.set_extensions("my.ep", [1, 2, 3])
+        self.assertEqual(f.x, [1, 2, 3])
+
+        # then
+        for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+            serialized = pickle.dumps(f.x, protocol=protocol)
+            deserialized = pickle.loads(serialized)
+            self.assertEqual(deserialized, [1, 2, 3])
 
     def test_extension_point_str_representation(self):
         """ test the string representation of the extension point """
