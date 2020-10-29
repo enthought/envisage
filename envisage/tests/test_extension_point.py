@@ -11,6 +11,7 @@
 
 # Standard library imports.
 import unittest
+import weakref
 
 from traits.api import Undefined
 
@@ -351,7 +352,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(event.new, [])
 
     def test_object_garbage_collectable(self):
-        import weakref
+        """ object can be garbage collected after disconnecting listeners."""
         registry = self.registry
 
         # Add an extension point.
@@ -366,7 +367,6 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # when
         ExtensionPoint.connect_extension_point_traits(f)
-        f.x = [1]
         ExtensionPoint.disconnect_extension_point_traits(f)
         del f
 
