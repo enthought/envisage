@@ -68,6 +68,22 @@ class ExtensionRegistryTestMixin:
         self.assertNotEqual(None, extension_point)
         self.assertEqual("my.ep", extension_point.id)
 
+    def test_get_extension_point_return_none_if_not_found(self):
+        """ get extension point return None if id is not found. """
+        self.assertIsNone(self.registry.get_extension_point("i.do.not.exist"))
+
+    def test_get_extensions_mutation_no_effect_if_undefined(self):
+        """ test one cannot mutate the registry by mutating the list. """
+        # The extension point with id "my.ep" has not been defined
+        extensions = self.registry.get_extensions("my.ep")
+
+        # when
+        extensions.append([[1, 2]])
+
+        # then
+        # the registry is not affected.
+        self.assertEqual(self.registry.get_extensions("my.ep"), [])
+
     def test_remove_empty_extension_point(self):
         """ remove empty_extension point """
 
