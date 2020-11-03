@@ -274,7 +274,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(source_values, application.get_extensions("a.x"))
 
         self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(4, listener.new.index.stop)
+        self.assertEqual(3, listener.new.index.stop)
 
     def test_add_plugin(self):
         """ add plugin """
