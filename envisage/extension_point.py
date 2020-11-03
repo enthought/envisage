@@ -207,10 +207,10 @@ class ExtensionPoint(TraitType):
             extension_registry : IExtensionRegistry
                 Registry that maintains the extensions.
             event : ExtensionPointChangedEvent
-                Event for created for the change.
+                Event created for the change.
                 If the event.index is None, this means the entire extensions
-                is set to a new value. If the event.index is not None, some
-                portion of the list has been modified.
+                list is set to a new value. If the event.index is not None,
+                some portion of the list has been modified.
             """
             if event.index is not None:
                 # We know where in the list is changed.
