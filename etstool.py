@@ -216,7 +216,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
             "{edm} run -e {environment} -- "
             "pip install -r ci-src-requirements.txt --no-dependencies"
         ),
-        "{edm} run -e {environment} -- pip install copyright_header/",
+        "{edm} run -e {environment} -- pip install flake8-ets",
     ]
     # pip install pyside2, because we don't have it in EDM yet
     if toolkit == "pyside2":
