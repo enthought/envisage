@@ -11,6 +11,53 @@ Changes
 -------
 
 - Drop support for Python 3 versions older than Python 3.6. (#341)
+- Re-export CorePlugin in envisage.api (#332)
+- reate and fill plugin subpackage api modules (#323)
+- Add relevant classes to envisage.ui.tasks.api (#322)
+- Deprecate safeweakref and replace its uses (#275)
+
+Fixes
+-----
+
+- Fix unregister_service ValueError bug (#345)
+
+Features
+--------
+
+- 
+
+Documentation
+-------------
+
+- Setup intersphinx in docs (#343)
+- Add documentation for envisage APIs (#340)
+- Use jinja templates for API documentation (#339)
+- Improve API docs : document traits (#334)
+
+Removals
+--------
+
+- Remove single_project (#331)
+
+Tests
+-----
+
+- Add tests for ExtensionRegistry getters (#349)
+- Add tests to demonstrate behaviour when mutating extension point directly
+  (#346)
+- Use mixin instead of having ProviderExtensionRegistryTestCase inherit from
+  ExtensionRegistryTestCase (#335)
+- TST: Switch on default warning flag for CI test command (#326)
+
+Build
+-----
+
+- Add apptools to source_dependencies in etstool.py (#348)
+- Update setup.py to allow prerelease version (#344)
+- Add wx as being supported in etstool, add it back to CI, and test against
+  wxPython v4.x (#336)
+- Add Slack notification for Travis CI runs (#283)
+- Add flake8 check to etstool and CI (#268)
 
 
 Version 4.9.2
