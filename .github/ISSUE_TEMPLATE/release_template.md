@@ -53,15 +53,14 @@ Release
 -------
 - [ ] Create branch release/<release version number> from maint/<release version number> branch.
         - Set release to <release version number>, and set IS_RELEASED is true; commit
+        - Install from source distribution and run tests again
         - Open a PR against maint/<release version number> with this being the last commit so that CI is built on the release commit
         - Bump the micro version number i.e. <release version number + 0.0.1> and set IS_RELEASED to false; commit, don't push yet.
         - Once CI is done building the last commit, push the commit
         - Merge but do not squash so that the release commit is on the branch (Kit: Again, not a big deal even if it was squashed.)
-- [ ] Restore the release/<release version number> branch (Kit: not sure why we are keeping them, but we are it seems)
 - [ ] From the commit at which IS_RELEASED is true and version is <release version number>, tag (annotated!) `git tag -a -m "Release <release version number>" <release version number>`
 - [ ] Push the tag `git push origin <release version number>`
 - [ ] Make PR targeting `gh-pages` branch: Generate documentation and copy the content to the branch. Verify that the resulting index.html looks good.
-- [ ] Install from source distribution and run tests again (Kit: perhaps this should be moved up to go before merging the release PR?)
 - [ ] Upload to PyPI
 - [ ] Test the PyPI package
 
