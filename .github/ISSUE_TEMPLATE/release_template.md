@@ -30,7 +30,7 @@ branches:
        - Flip IS_RELEASED back to false, commit.
        - Open a PR against maint/<release version number>
        - Merge but DO NOT SQUASH
-No squashing so that the tagged commit in the next step will be on the branch (Kit: It is not a big deal even if it was squashed. But some prefer having the commit on the branch.) Alternatively, flip the IS_RELEASED flag in a separate PR.
+No squashing so that the tagged commit in the next step will be on the branch. Alternatively, flip the IS_RELEASED flag in a separate PR.
 - [ ] Tag (annotated!) the release candidate on the commit where IS_RELEASED is set to true, e.g. git tag -a -m "Release candidate <release version number>rc1" <release version number>rc1 <commit-hash>
 - [ ] Push the tag to GitHub
 - [ ] Upload to PyPI
@@ -45,7 +45,7 @@ Pre-release
 ---
 - [ ] Backport PRs that have been merged to master to the maintenance branch. Use the "need backport ..." tag if there is one (but don't rely 100% on it)
 - [ ] Verify that no other open issue needs to be addressed before the release.
-- [ ] Test against other ETS packages and other traitsui-using projects
+- [ ] Test against other ETS packages and other ETS-using projects
 - [ ] Check MANIFEST, requirements, changelog are still up to date.
 - [ ] Test building the documentation
 
@@ -69,5 +69,5 @@ Post-release
 -------------
 - [ ] Package update for `enthought/free` repository (for EDM)
 - [ ] Backport release note and change log to master, and possibly `maint/<release version number>` branch.
-- [ ] Update GitHub Release pages https://github.com/enthought/traitsui/releases
+- [ ] Update GitHub Release pages https://github.com/enthought/envisage/releases
 - [ ] Announcement (e.g. Google Group)
