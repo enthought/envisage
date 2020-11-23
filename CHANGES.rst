@@ -7,16 +7,6 @@ Version 5.0.0
 
 Released: XXXX-XX-XX
 
-Changes
--------
-
-- Drop support for Python 3 versions older than Python 3.6. (#341)
-- Re-export CorePlugin in envisage.api (#332)
-- Create and fill plugin subpackage api modules (#323)
-- Add relevant classes to envisage.ui.tasks.api (#322)
-- Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
-- Deprecate safeweakref and replace its uses (#275)
-
 Fixes
 -----
 
@@ -24,11 +14,14 @@ Fixes
 - Fix the MOTD example (#319)
 - Fix the Hello_World example (#318)
 - Fix the attractors tasks application example (#317)
+- Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
 
 Features
 --------
 
-- Add a new shell click command (#305)
+- Re-export CorePlugin in envisage.api (#332)
+- Create and fill plugin subpackage api modules (#323)
+- Add relevant classes to envisage.ui.tasks.api (#322)
 
 Documentation
 -------------
@@ -39,9 +32,15 @@ Documentation
 - Improve API docs : document traits (#334)
 - Rebuild documentation, mostly to fix search functionality (#290)
 
+Deprecations
+------------
+
+- Deprecate safeweakref and replace its uses (#275)
+
 Removals
 --------
 
+- Drop support for Python 3 versions older than Python 3.6. (#341)
 - Remove single_project (#331)
 - Remove class_load_hooks and ClassLoadHook (#321)
 
@@ -67,7 +66,6 @@ Build
 - Stop reporting code coverage in CI (#288)
 - Fix CI setup on Linux, Windows (#287)
 - Remove support for PySide and PyQt4 from CI (#285)
-- Don't build CI on Python 3.5 (#284)
 - Add Slack notification for Travis CI runs (#283)
 - Add flake8 check to etstool and CI (#268)
 
