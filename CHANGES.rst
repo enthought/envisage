@@ -14,17 +14,21 @@ Changes
 - Re-export CorePlugin in envisage.api (#332)
 - reate and fill plugin subpackage api modules (#323)
 - Add relevant classes to envisage.ui.tasks.api (#322)
+- Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
 - Deprecate safeweakref and replace its uses (#275)
 
 Fixes
 -----
 
 - Fix unregister_service ValueError bug (#345)
+- Fix the MOTD example (#319)
+- Fix the Hello_World example (#318)
+- Fix the attractors tasks application example (#317)
 
 Features
 --------
 
-- 
+- Add a new shell click command (#305)
 
 Documentation
 -------------
@@ -33,11 +37,13 @@ Documentation
 - Add documentation for envisage APIs (#340)
 - Use jinja templates for API documentation (#339)
 - Improve API docs : document traits (#334)
+- Rebuild documentation, mostly to fix search functionality (#290)
 
 Removals
 --------
 
 - Remove single_project (#331)
+- Remove class_load_hooks and ClassLoadHook (#321)
 
 Tests
 -----
@@ -48,6 +54,7 @@ Tests
 - Use mixin instead of having ProviderExtensionRegistryTestCase inherit from
   ExtensionRegistryTestCase (#335)
 - TST: Switch on default warning flag for CI test command (#326)
+- Add test eggs for Python 3.9; remove eggs for Python 2.7 (#289)
 
 Build
 -----
@@ -56,6 +63,11 @@ Build
 - Update setup.py to allow prerelease version (#344)
 - Add wx as being supported in etstool, add it back to CI, and test against
   wxPython v4.x (#336)
+- Use edm 3.0.1 instead of 2.0.0 (#297)
+- Don't report code coverage (#288)
+- Fix CI failures on Linux, Windows (#287)
+- Remove support for PySide and PyQt4 from CI (#285)
+- Don't build CI on Python 3.5 (#284)
 - Add Slack notification for Travis CI runs (#283)
 - Add flake8 check to etstool and CI (#268)
 
