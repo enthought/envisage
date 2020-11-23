@@ -71,22 +71,6 @@ Build
 - Add Slack notification for Travis CI runs (#283)
 - Add flake8 check to etstool and CI (#268)
 
-
-Version 4.9.2
-=============
-
-Released: 2020-02-17
-
-This is a bugfix release that fixes tests that assumed the existence
-of categories machinery (which is removed in Traits 6.0.0).
-
-Fixes
------
-
-- Conditionally skip tests that fail against Traits 6.0.0 due to the removal
-  of Categories. (#263)
-
-
 Version 4.9.1
 =============
 
