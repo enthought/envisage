@@ -12,7 +12,7 @@ Changes
 
 - Drop support for Python 3 versions older than Python 3.6. (#341)
 - Re-export CorePlugin in envisage.api (#332)
-- reate and fill plugin subpackage api modules (#323)
+- Create and fill plugin subpackage api modules (#323)
 - Add relevant classes to envisage.ui.tasks.api (#322)
 - Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
 - Deprecate safeweakref and replace its uses (#275)
@@ -20,7 +20,7 @@ Changes
 Fixes
 -----
 
-- Fix unregister_service ValueError bug (#345)
+- Fix ValueError from unregistering services when application stops (#345)
 - Fix the MOTD example (#319)
 - Fix the Hello_World example (#318)
 - Fix the attractors tasks application example (#317)
@@ -53,19 +53,19 @@ Tests
   (#346)
 - Use mixin instead of having ProviderExtensionRegistryTestCase inherit from
   ExtensionRegistryTestCase (#335)
-- TST: Switch on default warning flag for CI test command (#326)
-- Add test eggs for Python 3.9; remove eggs for Python 2.7 (#289)
+- Switch on default warning flag for CI test command (#326)
+- Add test eggs for Python 3.9 and remove eggs for Python 2.7 (#289)
 
 Build
 -----
 
-- Add apptools to source_dependencies in etstool.py (#348)
+- Fix CI cron job setup to install apptools (#348)
 - Update setup.py to allow prerelease version (#344)
 - Add wx as being supported in etstool, add it back to CI, and test against
   wxPython v4.x (#336)
-- Use edm 3.0.1 instead of 2.0.0 (#297)
-- Don't report code coverage (#288)
-- Fix CI failures on Linux, Windows (#287)
+- Update EDM version to 3.0.1 in Travis CI and Appveyor. (#297)
+- Stop reporting code coverage in CI (#288)
+- Fix CI setup on Linux, Windows (#287)
 - Remove support for PySide and PyQt4 from CI (#285)
 - Don't build CI on Python 3.5 (#284)
 - Add Slack notification for Travis CI runs (#283)
