@@ -7,6 +7,18 @@ Version 5.0.0
 
 Released: XXXX-XX-XX
 
+This is a major release mainly relating to code modernization.  In this
+release, support for python versions <3.6 have been dropped.  The
+class_load_hooks and single_project modules have been removed. Additionally,
+there were various fixes to bugs, examples, tests, and documentation.
+
+Features
+--------
+
+- Re-export CorePlugin in envisage.api (#332)
+- Create and fill plugin subpackage api modules (#323)
+- Add relevant classes to envisage.ui.tasks.api (#322)
+
 Fixes
 -----
 
@@ -15,13 +27,6 @@ Fixes
 - Fix the Hello_World example (#318)
 - Fix the attractors tasks application example (#317)
 - Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
-
-Features
---------
-
-- Re-export CorePlugin in envisage.api (#332)
-- Create and fill plugin subpackage api modules (#323)
-- Add relevant classes to envisage.ui.tasks.api (#322)
 
 Documentation
 -------------
