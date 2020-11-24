@@ -51,7 +51,7 @@ Release
         - Open a PR against maint/<release version number> with this being the last commit so that CI is built on the release commit
         - Bump the micro version number i.e. <release version number + 0.0.1> and set IS_RELEASED to false; commit, don't push yet.
         - Once CI is done building the last commit, push the commit
-        - Merge but do not squash so that the release commit is on the branch (Kit: Again, not a big deal even if it was squashed.)
+        - Merge but do not squash so that the release commit is on the branch (Alternatively, flip the IS_RELEASED to false in a separate PR)
 - [ ] From the commit at which IS_RELEASED is true and version is <release version number>, tag (annotated!) `git tag -a -m "Release <release version number>" <release version number>`
 - [ ] Push the tag `git push origin <release version number>`
 - [ ] Make PR targeting `gh-pages` branch: Generate documentation and copy the content to the branch. Verify that the resulting index.html looks good.
