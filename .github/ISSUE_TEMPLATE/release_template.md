@@ -1,5 +1,5 @@
 ---
-name: Tracking issue
+name: Release Checklist
 about: Use this template for upcoming releases.
 title: "[Release Number] Release Checklist"
 ---
