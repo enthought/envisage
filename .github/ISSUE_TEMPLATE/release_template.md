@@ -6,9 +6,9 @@ title: "[Release Number] Release Checklist"
 
 Target date:
 
-Release Candidate by DD/MM/YYYY
+Release Candidate by YYYY-MM-DD
 
-Release by DD/MM/YYYY
+Release by YYYY-MM-DD
 
 Release candidate
 -------------------
