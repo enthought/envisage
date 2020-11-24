@@ -236,6 +236,9 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         # won't fire a changed event.
         self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
+        # Keep the old values for later slicing check
+        source_values = list(a.x)
+
         # Assign a non-empty list to one of the plugin's contributions.
         b.x = [2, 4, 6, 8]
 
@@ -259,8 +262,19 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual("x_items", listener.trait_name)
         self.assertEqual([2, 4, 6, 8], listener.new.added)
         self.assertEqual([1, 2, 3], listener.new.removed)
+
+        # The removed entry should match what the old values say
+        self.assertEqual(
+            listener.new.removed, source_values[listener.new.index]
+        )
+
+        # If we use the index and apply the changes to the old list, we should
+        # recover the new list
+        source_values[listener.new.index] = listener.new.added
+        self.assertEqual(source_values, application.get_extensions("a.x"))
+
         self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(4, listener.new.index.stop)
+        self.assertEqual(3, listener.new.index.stop)
 
     def test_add_plugin(self):
         """ add plugin """
