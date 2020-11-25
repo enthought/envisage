@@ -20,7 +20,7 @@ Release candidate
 - [ ] Check MANIFEST and requirements are still up to date.
 - [ ] Update version in setup.py for the prerelease, open 2 PRs against `maint/<release version number>`
   - [ ] Create a new branch from `maint/<release version number>`: `git checkout maint/<release version number>`; `git pull`; `git checkout -b call-it-anything-you-like`
-  - [ ] Set `PRERELEASE` to "rc1" and `IS_RELEASED` to true, commit, e.g. git commit -m "Set IS_RELEASED to true for prerelease <release version number>rc1"
+  - [ ] Set `PRERELEASE` to "rc1" and `IS_RELEASED` to true, commit, e.g. `git commit -m "Set IS_RELEASED to true for prerelease <release version number>rc1"`
   - [ ] Open and merge a PR against `maint/<release version number>`
   - [ ] Create a new branch from `maint/<release version number>`, Flip `IS_RELEASED` back to false, commit.
   - [ ] Open and merge another PR against `maint/<release version number>`
