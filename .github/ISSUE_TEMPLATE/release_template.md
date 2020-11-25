@@ -32,7 +32,7 @@ Release candidate
 
 Release blockers
 ----------------
-- [ ]
+- [ ] (add blocking issues/PRs here)
 
 Pre-release
 ---
