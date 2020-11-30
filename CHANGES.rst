@@ -22,6 +22,7 @@ Features
 Fixes
 -----
 
+- Fix index slice in ExtensionPointChangedEvent when plugin changes (#357)
 - Fix ValueError from unregistering services when application stops (#345)
 - Fix the MOTD example (#319)
 - Fix the Hello_World example (#318)
@@ -63,6 +64,7 @@ Tests
 Build
 -----
 
+- Turn off macOS builds on Travis CI (#375)
 - Fix CI cron job setup to install apptools (#348)
 - Update setup.py to allow prerelease version (#344)
 - Add wx as being supported in etstool, add it back to CI, and test against
