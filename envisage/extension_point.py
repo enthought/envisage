@@ -356,11 +356,7 @@ class _ExtensionPointValue(TraitList):
         # This is used by internal code
 
         if not self._internal_use:
-            warnings.warn(
-                "Extension point cannot be mutated directly.",
-                RuntimeWarning,
-                stacklevel=2,
-            )
+            self._warn_mutation()
             return
 
         super().__delitem__(key)
@@ -368,21 +364,13 @@ class _ExtensionPointValue(TraitList):
     def __iadd__(self, value):
         """ Reimplemented TraitList.__iadd__ """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
         return self[:]
 
     def __imul__(self, value):
         """ Reimplemented TraitList.__imul__ """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
         return self[:]
 
     def __setitem__(self, key, value):
@@ -391,11 +379,7 @@ class _ExtensionPointValue(TraitList):
         # This is used by internal code
 
         if not self._internal_use:
-            warnings.warn(
-                "Extension point cannot be mutated directly.",
-                RuntimeWarning,
-                stacklevel=2,
-            )
+            self._warn_mutation()
             return
 
         super().__setitem__(key, value)
@@ -403,73 +387,51 @@ class _ExtensionPointValue(TraitList):
     def append(self, object):
         """ Reimplemented TraitList.append """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def clear(self):
         """ Reimplemented TraitList.clear """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def extend(self, iterable):
         """ Reimplemented TraitList.extend """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def insert(self, index, object):
         """ Reimplemented TraitList.insert """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def pop(self, index=-1):
         """ Reimplemented TraitList.pop """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def remove(self, value):
         """ Reimplemented TraitList.remove """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def reverse(self):
         """ Reimplemented TraitList.reverse """
         # We should not need it for internal use either.
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=2,
-        )
+        self._warn_mutation()
 
     def sort(self, *, key=None, reverse=False):
         """ Reimplemented TraitList.sort """
         # We should not need it for internal use either.
+        self._warn_mutation()
+
+    def _warn_mutation(self):
+        """ Emit a warning when attempts to mutating this list is made
+        externally.
+        """
         warnings.warn(
             "Extension point cannot be mutated directly.",
             RuntimeWarning,
-            stacklevel=2,
+            stacklevel=3,
         )
 
 
