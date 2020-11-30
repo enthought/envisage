@@ -106,6 +106,7 @@ dependencies = {
     "coverage",
     "enthought_sphinx_theme",
     "flake8",
+    "flake8_ets",
     "ipykernel",
     "pyface",
     "sphinx",
@@ -216,7 +217,6 @@ def install(edm, runtime, toolkit, environment, editable, source):
             "{edm} run -e {environment} -- "
             "pip install -r ci-src-requirements.txt --no-dependencies"
         ),
-        "{edm} run -e {environment} -- pip install copyright_header/",
     ]
     # pip install pyside2, because we don't have it in EDM yet
     if toolkit == "pyside2":
