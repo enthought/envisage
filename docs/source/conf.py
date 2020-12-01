@@ -90,19 +90,26 @@ today_fmt = "%B %d, %Y"
 # Substitutions reusable for all files.
 
 rst_epilog = """
-.. |acme.motd| replace:: :github-demo:`acme.motd <MOTD/acme/motd/motd_plugin.py>`
-.. |acme.motd.software_quotes| replace:: :github-demo:`acme.motd.software_quotes <MOTD/acme/motd/software_quotes/software_quotes_plugin.py>`
+..
+   # substitutions for API objects
+
 .. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
 .. |Application| replace:: :class:`~envisage.application.Application`
 .. |IApplication| replace:: :class:`~envisage.i_application.IApplication`
-.. |IMessage| replace:: :github-demo:`IMessage <MOTD/acme/motd/i_message.py>`
-.. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
-.. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
-.. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
+
+..
+   # substitutions for MOTD examples
+
+.. |acme.motd| replace:: :github-demo:`acme.motd <MOTD/acme/motd/motd_plugin.py>`
+.. |acme.motd.software_quotes| replace:: :github-demo:`acme.motd.software_quotes <MOTD/acme/motd/software_quotes/software_quotes_plugin.py>`
 .. |MOTD| replace:: :github-demo:`MOTD <MOTD/acme/motd/motd.py>`
 .. |IMOTD| replace:: :github-demo:`IMOTD <MOTD/acme/motd/i_motd.py>`
 .. |MOTDPlugin| replace:: :github-demo:`MOTDPlugin <MOTD/acme/motd/motd_plugin.py>`
 .. |MOTD run| replace:: :github-demo:`run.py <MOTD/run.py>`
+.. |IMessage| replace:: :github-demo:`IMessage <MOTD/acme/motd/i_message.py>`
+.. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
+.. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
+.. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
 """
 
 # Options for HTML output
