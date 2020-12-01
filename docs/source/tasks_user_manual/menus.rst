@@ -24,7 +24,7 @@ Defining a Menu Bar
 
 Resuming our example of the script editing task from the previous section, we
 shall define some menu items for opening and saving files. As in Traits UI and
-Pyface, individual menu items are instances of the ``Action`` class [1]_. We
+Pyface, individual menu items are instances of the ``Action`` class. We
 might define the 'Open' action as follows::
 
     from pyface.action.api import Action
@@ -128,8 +128,3 @@ files to our script editing task::
                                TaskAction(method='save',
                                           tooltip='Save the current file',
                                           image=ImageResource('document_save'))) ]
-
-.. rubric:: Footnotes
-
-.. [1] The most convenient reference in this case is the `source code
-       <https://github.com/enthought/traitsgui/blob/master/enthought/pyface/action/action.py>`_ itself.

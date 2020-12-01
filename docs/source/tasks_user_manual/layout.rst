@@ -43,7 +43,7 @@ Defining a Task
 ---------------
 
 Minimally, a task is defined by subclassing ``Task`` and providing a central
-pane. For example, we define a task for editing Python scripts [3]_::
+pane. For example, we define a task for editing Python scripts::
 
     from pyface.tasks.api import Task
 
@@ -234,9 +234,3 @@ appears multiple times in a layout.
 .. [2] Throughout this document, "``Task``" will refer to the class of that name
        in the Tasks API, while "task" will be reserved for the general UI
        concept, and similarly for other terms.
-
-.. [3] In this and the subsequent section, we will be referencing (often in
-       abbreviated form) the Tasks example code in the TraitsGUI package,
-       available `online
-       <https://github.com/enthought/traitsgui/tree/master/examples/tasks>`_ and
-       in the ETS distribution.

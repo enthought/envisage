@@ -9,12 +9,12 @@ the rare applications that is so simple that why would you bother), but it does
 serve to illustrate all of the fundamental aspects of building an Envisage
 application.
 
-All of the code for this example can be found in the `examples/MOTD`_ directory
-of the Envisage distribution, and to run it simply type::
+All of the code for this example can be found in the |Message of the Day|
+directory of the Envisage distribution, and to run it simply type::
 
    cd .../examples/MOTD
    python run.py
-  
+
 (or equivalent, depending on your operating system and shell)
 
 Before we dive right in to building our extensible application, let's take a
@@ -29,38 +29,38 @@ Plain Ol' MOTD
 --------------
 
 So lets take a look at our non-Envisage aware MOTD application, the code for
-which is in the acme.motd_ package. A good place to start as a developer
+which is in the |acme.motd| package. A good place to start as a developer
 *using* any package in Envisage (and, for that matter, the entire Enthought
 tool-suite) is to look at any interfaces and classes exposed via its 'api.py'
 module.
 
 In this case, there are 2 interfaces
 
-1) IMOTD_
+1) |IMOTD|
 
-  The interface for simple "Message of the Day" functionality.
+   The interface for simple "Message of the Day" functionality.
 
-2) IMessage_
+2) |IMessage|
 
-  The interface supported by each message returned by the motd() method on
-  the IMOTD_ interface.
+   The interface supported by each message returned by the motd() method on
+   the |IMOTD| interface.
 
 We also (*not* coincidentally!) have 2 corresponding implementation classes:
 
-1) MOTD_
-2) Message_
+1) |MOTD|
+2) |Message|
 
-As you can see, the MOTD_ class simply contains a list of messages and
+As you can see, the |MOTD| class simply contains a list of messages and
 when its motd() method is called, it returns a random choice from that list.
 
-An example of using our MOTD_ class at the Python prompt might be::
+An example of using our |MOTD| class at the Python prompt might be::
 
     >>> from acme.motd.api import Message, MOTD
     >>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
     >>> message = motd.motd()
     >>> print '"%s" - %s' % (message.text, message.author)
     "Hello World!" - Anon
-    >>> 
+    >>>
 
 Well, we had to get "Hello World" in there somewhere!
 
@@ -78,18 +78,18 @@ Create the main Application class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we need to create an object that represents the application
-itself. In Envisage, this can be any object that implements the IApplication_
-interface, but is usually either an instance of the default Application_ class,
+itself. In Envisage, this can be any object that implements the |IApplication|
+interface, but is usually either an instance of the default |Application| class,
 or one derived from it.
 
-In the MOTD_ example, we create the class in the run.py_ module as follows::
+In the |MOTD| example, we create the class in the |MOTD run| module as follows::
 
     application = Application(
         id      = 'acme.motd',
         plugins = [CorePlugin(), MOTDPlugin(), SoftwareQuotesPlugin()]
     )
 
-    application.run()    
+    application.run()
 
 In this case, we use the simplest way to tell Envisage which plugins make up
 the application by passing them in explicitly. Envisage applications allow you
@@ -102,13 +102,13 @@ The 'acme.motd' plugin
 ~~~~~~~~~~~~~~~~~~~~~~
 
 As shown above, the corresponding plugin implementation is in the
-MOTDPlugin_ class::
+|MOTDPlugin| class::
 
   class MOTDPlugin(Plugin):
       """ The 'Message of the Day' plugin.
 
       This plugin simply prints the 'Message of the Day' to stdout.
-    
+
       """
 
       # The IDs of the extension points that this plugin offers.
@@ -182,7 +182,7 @@ MOTDPlugin_ class::
           # Note that we always offer the service via its name, but look it up
           # via the actual protocol.
           from acme.motd.api import IMOTD
-        
+
           # Lookup the MOTD service.
           motd = self.application.get_service(IMOTD)
 
@@ -195,7 +195,7 @@ MOTDPlugin_ class::
           return
 
 Although it is obviously a bit of overkill, the example shows how we would
-take a MOTD_ object and register it a service for other parts of the
+take a |MOTD| object and register it a service for other parts of the
 application to use. Sadly, in this example, there are no other parts of the
 application, so we just lookup and use the service ourselves!
 
@@ -203,14 +203,14 @@ The 'acme.motd.software_quotes' plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we have to create the messages that we want to add. Remember that
-when the acme.motd_ plugin advertised the extension point, it told us that
-every contribution had to implement the IMessage_ interface. Happily, there is
-a class that does just that already defined for us (Message_) and so we create
-a simple module ('messages.py'_) and add our Message_ instances to it::
+when the |acme.motd| plugin advertised the extension point, it told us that
+every contribution had to implement the |IMessage| interface. Happily, there is
+a class that does just that already defined for us (|Message|) and so we create
+a simple module ('messages.py'_) and add our |Message| instances to it::
 
     messages = [
         ...
-    
+
         Message(
             author = "Martin Fowler",
             text   = "Any fool can write code that a computer can understand. Good"
@@ -226,7 +226,7 @@ a simple module ('messages.py'_) and add our Message_ instances to it::
         ...
     ]
 
-Now we create a plugin for the acme.motd.software_quotes_ package and tell
+Now we create a plugin for the |acme.motd.software_quotes| package and tell
 Envisage about the messages that we have just created::
 
   class SoftwareQuotesPlugin(Plugin):
@@ -244,7 +244,7 @@ Envisage about the messages that we have just created::
 
       # Messages for the 'Message Of The Day'.
       messages = List(contributes_to='acme.motd.messages')
-    
+
       ###########################################################################
       # 'SoftwareQuotesPlugin' interface.
       ###########################################################################
@@ -256,28 +256,3 @@ Envisage about the messages that we have just created::
           from messages import messages
 
           return messages
-
-.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
-
-.. _acme.motd: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/api.py
-
-.. _acme.motd.software_quotes: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/setup.py
-
-.. _Application: https://github.com/enthought/envisage/tree/master/envisage/application.py
-
-.. _`examples/MOTD`: https://github.com/enthought/envisage/tree/master/examples/MOTD
-
-.. _IApplication: https://github.com/enthought/envisage/tree/master/envisage/i_application.py
-
-.. _IMessage: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py
-
-.. _Message: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py
-
-.. _MOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py
-
-.. _IMOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_motd.py
-
-.. _MOTDPlugin: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py
-
-.. _run.py: https://github.com/enthought/envisage/tree/master/examples/MOTD/run.py
-
