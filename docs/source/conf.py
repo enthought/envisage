@@ -86,7 +86,6 @@ today_fmt = "%B %d, %Y"
 # output. They are ignored by default.
 # show_authors = False
 
-
 # Substitutions reusable for all files.
 
 rst_epilog = """
