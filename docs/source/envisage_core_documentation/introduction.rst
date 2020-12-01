@@ -67,6 +67,3 @@ documentation and examples first).
 .. _NetBeans: http://www.netbeans.org
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
-
-..
-   # substitutions
