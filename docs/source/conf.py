@@ -33,6 +33,7 @@ import enthought_sphinx_theme
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.extlinks",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
@@ -85,6 +86,39 @@ today_fmt = "%B %d, %Y"
 # output. They are ignored by default.
 # show_authors = False
 
+# Substitutions reusable for all files.
+
+rst_epilog = """
+..
+   # substitutions for API objects
+
+.. |Application| replace:: :class:`~envisage.application.Application`
+.. |IApplication| replace:: :class:`~envisage.i_application.IApplication`
+.. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
+.. |Plugin| replace:: :class:`~envisage.plugin.Plugin`
+.. |IPlugin| replace:: :class:`~envisage.i_plugin.IPlugin`
+.. |envisage.api| replace:: :mod:`envisage.api`
+.. |envisage.ui.workbench| replace:: :mod:`envisage.ui.workbench.api`
+
+..
+   # substitutions for the Hello World example
+
+.. |Hello World| replace:: :github-demo:`Hello World <Hello_World/hello_world.py>`
+
+..
+   # substitutions for MOTD examples
+
+.. |acme.motd| replace:: :github-demo:`acme.motd <MOTD/acme/motd/motd_plugin.py>`
+.. |acme.motd.software_quotes| replace:: :github-demo:`acme.motd.software_quotes <MOTD/acme/motd/software_quotes/software_quotes_plugin.py>`
+.. |MOTD| replace:: :github-demo:`MOTD <MOTD/acme/motd/motd.py>`
+.. |IMOTD| replace:: :github-demo:`IMOTD <MOTD/acme/motd/i_motd.py>`
+.. |MOTDPlugin| replace:: :github-demo:`MOTDPlugin <MOTD/acme/motd/motd_plugin.py>`
+.. |MOTD run| replace:: :github-demo:`run.py <MOTD/run.py>`
+.. |IMessage| replace:: :github-demo:`IMessage <MOTD/acme/motd/i_message.py>`
+.. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
+.. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
+.. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
+"""   # noqa: E501
 
 # Options for HTML output
 # -----------------------
@@ -192,4 +226,13 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "traits": ("https://docs.enthought.com/traits", None),
     "traitsui": ("https://docs.enthought.com/traitsui", None),
+}
+
+
+# -- Options for extlinks extension -------------------------------------------
+
+extlinks = {
+    'github-demo': (
+        'https://github.com/enthought/envisage/tree/master/examples/%s',   # noqa: E501
+        '')
 }

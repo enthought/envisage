@@ -9,8 +9,9 @@ the rare applications that is so simple that why would you bother), but it does
 serve to illustrate all of the fundamental aspects of building an Envisage
 application.
 
-All of the code for this example can be found in the `examples/MOTD`_ directory
-of the Envisage distribution. This directory contains two subdirectories:
+All of the code for this example can be found in the |Message of the Day|
+directory of the Envisage distribution. This directory contains two
+subdirectories:
 
 dist
   This directory contains the actual runnable application as it *might*
@@ -21,9 +22,9 @@ dist
 
     cd dist
     python run.py
-  
+
   (or equivalent, depending on your operating system and shell)
-  
+
 src
   This directory contains the source code for the eggs that make up the
   application. This is there to allow easy access to the example code, but
@@ -41,38 +42,38 @@ Plain Ol' MOTD
 --------------
 
 So lets take a look at our non-Envisage aware MOTD application, the code for
-which is in the acme.motd_ package. A good place to start as a developer
+which is in the |acme.motd| package. A good place to start as a developer
 *using* any package in Envisage (and, for that matter, the entire Enthought
 tool-suite) is to look at any interfaces and classes exposed via its 'api.py'
 module.
 
 In this case, there are 2 interfaces
 
-1) IMOTD_
+1) |IMOTD|
 
   The interface for simple "Message of the Day" functionality.
 
-2) IMessage_
+2) |IMessage|
 
   The interface supported by each message returned by the motd() method on
-  the IMOTD_ interface.
+  the |IMOTD| interface.
 
 We also (*not* coincidentally!) have 2 corresponding implementation classes:
 
-1) MOTD_
-2) Message_
+1) |MOTD|
+2) |Message|
 
-As you can see, the MOTD_ class simply contains a list of messages and
+As you can see, the |MOTD| class simply contains a list of messages and
 when its motd() method is called, it returns a random choice from that list.
 
-An example of using our MOTD_ class at the Python prompt might be::
+An example of using our |MOTD| class at the Python prompt might be::
 
     >>> from acme.motd.api import Message, MOTD
     >>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
     >>> message = motd.motd()
     >>> print '"%s" - %s' % (message.text, message.author)
     "Hello World!" - Anon
-    >>> 
+    >>>
 
 Well, we had to get "Hello World" in there somewhere!
 
@@ -90,11 +91,11 @@ Create the main Application class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we need to create an object that represents the application
-itself. In Envisage, this can be any object that implements the IApplication_
-interface, but is usually either an instance of the default Application_ class,
+itself. In Envisage, this can be any object that implements the |IApplication|
+interface, but is usually either an instance of the default |Application| class,
 or one derived from it.
 
-In the MOTD_ example, we create the class in the run.py_ module as follows::
+In the |MOTD| example, we create the class in the |MOTD run| module as follows::
 
     def run():
         """ The function that starts your application. """
@@ -104,7 +105,7 @@ In the MOTD_ example, we create the class in the run.py_ module as follows::
 
         return Application(id='acme.motd').run()
 
-Note that the run.py_ file also contains some boilerplate code to add the
+Note that the |MOTD run| file also contains some boilerplate code to add the
 application's `Python Eggs`_ to the ``sys.path``, but this is not specific
 to Envisage - that code would be required for any egg-based application.
 
@@ -114,7 +115,7 @@ Create the 'acme.motd' plugin
 This is the plugin that will deliver the "Message of the Day" functionality
 into the application. It will do this by declaring an extension point to
 allow other plugins to contribute messages, and by using contributions to
-create an instance of the MOTD_ class and to publish it as a service.
+create an instance of the |MOTD| class and to publish it as a service.
 
 By default, Envisage finds plugins via Python eggs, so all we have to do is
 to declare the existence of our plugin using the "envisage.plugins"
@@ -131,7 +132,7 @@ entry point in our 'setup.py' module::
 	acme.motd = acme.motd.motd_plugin:MOTDPlugin
 
         ...
-    
+
         """
     )
 
@@ -145,13 +146,13 @@ Notice that we don't import the plugin from an 'api.py' module. This is to
 delay importing implementation code until it is actually needed.
 
 As showm above, the corresponding plugin implementation is in the
-MOTDPlugin_ class::
+|MOTDPlugin| class::
 
   class MOTDPlugin(Plugin):
       """ The 'Message of the Day' plugin.
 
       This plugin simply prints the 'Message of the Day' to stdout.
-    
+
       """
 
       # The IDs of the extension points that this plugin offers.
@@ -225,7 +226,7 @@ MOTDPlugin_ class::
           # Note that we always offer the service via its name, but look it up
           # via the actual protocol.
           from acme.motd.api import IMOTD
-        
+
           # Lookup the MOTD service.
           motd = self.application.get_service(IMOTD)
 
@@ -238,7 +239,7 @@ MOTDPlugin_ class::
           return
 
 Although it is obviously a bit of overkill, the example shows how we would
-take a MOTD_ object and register it a service for other parts of the
+take a |MOTD| object and register it a service for other parts of the
 application to use. Sadly, in this example, there are no other parts of the
 application, so we just lookup and use the service ourselves!
 
@@ -260,14 +261,14 @@ Create the 'acme.motd.software_quotes' plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 First of all, we have to create the messages that we want to add. Remember that
-when the acme.motd_ plugin advertised the extension point, it told us that
-every contribution had to implement the IMessage_ interface. Happily, there is
-a class that does just that already defined for us (Message_) and so we create
-a simple module ('messages.py'_) and add our Message_ instances to it::
+when the |acme.motd| plugin advertised the extension point, it told us that
+every contribution had to implement the |IMessage| interface. Happily, there is
+a class that does just that already defined for us (|Message|) and so we create
+a simple module ('messages.py'_) and add our |Message| instances to it::
 
     messages = [
         ...
-    
+
         Message(
             author = "Martin Fowler",
             text   = "Any fool can write code that a computer can understand. Good"
@@ -283,7 +284,7 @@ a simple module ('messages.py'_) and add our Message_ instances to it::
         ...
     ]
 
-Now we create a plugin for the acme.motd.software_quotes_ package and tell
+Now we create a plugin for the |acme.motd.software_quotes| package and tell
 Envisage about the messages that we have just created::
 
   class SoftwareQuotesPlugin(Plugin):
@@ -301,7 +302,7 @@ Envisage about the messages that we have just created::
 
       # Messages for the 'Message Of The Day'.
       messages = List(contributes_to='acme.motd.messages')
-    
+
       ###########################################################################
       # 'SoftwareQuotesPlugin' interface.
       ###########################################################################
@@ -314,7 +315,7 @@ Envisage about the messages that we have just created::
 
           return messages
 
-And finally we go to the 'setup.py' file for the acme.motd.software_quotes_ egg
+And finally we go to the 'setup.py' file for the |acme.motd.software_quotes| egg
 and tell Envisage about the plugin::
 
     setup(
@@ -340,32 +341,9 @@ If we run the application now , we will (if all is well!) get a random, pithy
 quote about software development!
 
 To add more messages to the application in future, all we have to do is to
-create other plugins similar to the 'acme.motd.software_quotes' egg and drop 
+create other plugins similar to the 'acme.motd.software_quotes' egg and drop
 them into the '.../examples/MOTD/dist/eggs' directory.
 
 We have successfully built our first extensible, pluggable application!
 
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
-
-.. _acme.motd: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/api.py
-
-.. _acme.motd.software_quotes: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/setup.py
-
-.. _Application: https://github.com/enthought/envisage/tree/master/envisage/application.py
-
-.. _`examples/MOTD`: https://github.com/enthought/envisage/tree/master/examples/MOTD
-
-.. _IApplication: https://github.com/enthought/envisage/tree/master/envisage/i_application.py
-
-.. _IMessage: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py
-
-.. _Message: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py
-
-.. _MOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py
-
-.. _IMOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_motd.py
-
-.. _MOTDPlugin: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py
-
-.. _run.py: https://github.com/enthought/envisage/tree/master/examples/MOTD/run.py
-
