@@ -10,7 +10,7 @@ The project is really divided into 3 sub-projects:-
 
 1) Core_
 
-   The Envisage Core, found in the top-level envisage_ package,
+   The Envisage Core, found in the top-level |envisage.api| package,
    defines the basic application architecture including the plugin and
    extension mechanisms. All of the other sub-projects are simply collections
    of plugins that are built on top of the core.
@@ -23,7 +23,7 @@ The project is really divided into 3 sub-projects:-
    functionality commonly required in this type of application including
    actions, menubars, toolbars, user preferences, wizards etc. One of the most
    useful plugins in this project is the Workbench_ plugin (found in the
-   envisage.ui.workbench_ package) that helps you build a style of
+   |envisage.ui.workbench| package) that helps you build a style of
    user interface that is often (but not exclusively) found in integrated
    development environments (IDEs).
 
@@ -49,7 +49,7 @@ Getting Started
 ---------------
 
 The best way to get started is probably to take the time to read and digest the
-Core_ documentation and then work through the `Hello World`_ and
+Core_ documentation and then work through the |Hello World| and
 `Message of the Day`_ examples. Despite being extremely simple, the examples
 introduce you to *all* of the fundamental concepts of Envisage, and the *real*
 applications that you build (which will hopefully be a lot more useful) will be
@@ -68,8 +68,11 @@ documentation and examples first).
 .. _OSGi: http://www.osgi.org
 .. _Workbench: Workbench.html
 
-.. _`Hello World`: https://github.com/enthought/envisage/tree/master/examples/Hello_World/hello_world.py
+..
+   # substitutions
 
-.. _envisage: https://github.com/enthought/envisage/tree/master/envisage/api.py
+.. |Hello World| replace:: :github-demo:`Hello World <Hello_World/hello_world.py>`
 
-.. _envisage.ui.workbench: https://github.com/enthought/envisage/tree/master/envisage/ui/workbench/api.py
+.. |envisage.api| replace:: :mod:`envisage.api`
+
+.. |envisage.ui.workbench| replace:: :mod:`envisage.ui.workbench.api`
