@@ -253,24 +253,3 @@ events if extensions are added/removed to/from the extension point at runtime.
 
 
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
-
-..
-   # substitutions
-
-.. |acme.motd| replace:: :github-demo:`acme.motd <MOTD/acme/motd/motd_plugin.py>`
-
-.. |acme.motd.software_quotes| replace:: :github-demo:`acme.motd.software_quotes <MOTD/acme/motd/software_quotes/software_quotes_plugin.py>`
-
-.. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
-
-.. |IApplication| replace:: :class:`~envisage.i_application.IApplication`
-
-.. |IMessage| replace:: :github-demo:`IMessage <MOTD/acme/motd/i_message.py>`
-
-.. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
-
-.. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
-
-.. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
-
-.. |MOTD| replace:: :github-demo:`MOTD <MOTD/acme/motd/motd.py>`
