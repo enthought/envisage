@@ -92,9 +92,3 @@ method of each plugin in the reverse order that they were started in.
 .. _`Extension Points`: extension_points.html
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _Services: services.html
-
-..
-   # substitutions
-
-.. |Plugin| replace:: :class:`~envisage.plugin.Plugin`
-.. |IPlugin| replace:: :class:`~envisage.i_plugin.IPlugin`

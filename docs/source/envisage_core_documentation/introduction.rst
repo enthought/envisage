@@ -70,9 +70,3 @@ documentation and examples first).
 
 ..
    # substitutions
-
-.. |Hello World| replace:: :github-demo:`Hello World <Hello_World/hello_world.py>`
-
-.. |envisage.api| replace:: :mod:`envisage.api`
-
-.. |envisage.ui.workbench| replace:: :mod:`envisage.ui.workbench.api`

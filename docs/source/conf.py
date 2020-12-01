@@ -92,9 +92,18 @@ rst_epilog = """
 ..
    # substitutions for API objects
 
-.. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
 .. |Application| replace:: :class:`~envisage.application.Application`
 .. |IApplication| replace:: :class:`~envisage.i_application.IApplication`
+.. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
+.. |Plugin| replace:: :class:`~envisage.plugin.Plugin`
+.. |IPlugin| replace:: :class:`~envisage.i_plugin.IPlugin`
+.. |envisage.api| replace:: :mod:`envisage.api`
+.. |envisage.ui.workbench| replace:: :mod:`envisage.ui.workbench.api`
+
+..
+   # substitutions for the Hello World example
+
+.. |Hello World| replace:: :github-demo:`Hello World <Hello_World/hello_world.py>`
 
 ..
    # substitutions for MOTD examples
