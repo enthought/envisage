@@ -320,7 +320,14 @@ if __name__ == "__main__":
         packages=find_packages(),
         package_data={
             "": ["images/*", "*.ini"],
-            "envisage": ["examples/*"],
+            "envisage.examples": [
+                "demo/*",
+                "demo/*/*",
+                "demo/*/*/*",
+                "demo/*/*/*/*",
+                "demo/*/*/*/*/*",
+                "demo/*/*/*/*/*/*",
+            ],
             "envisage.tests": [
                 "bad_eggs/*.egg",
                 "eggs/*.egg",

@@ -31,6 +31,6 @@ def info(request):
         version=1,
         name="Envisage Examples",
         root=(
-            pkg_resources.resource_filename("envisage", "examples")
+            pkg_resources.resource_filename("envisage", "examples/demo")
         ),
     )
