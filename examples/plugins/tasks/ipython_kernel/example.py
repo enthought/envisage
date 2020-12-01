@@ -1,6 +1,3 @@
-# Standard library imports.
-import logging
-
 # Enthought library imports.
 from envisage.api import CorePlugin, Plugin
 from envisage.plugins.ipython_kernel.api import (
@@ -16,9 +13,6 @@ from traits.api import List
 
 # Local imports
 from example_task import ExampleTask
-
-
-logger = logging.getLogger(__name__)
 
 
 class ExamplePlugin(Plugin):
@@ -103,14 +97,8 @@ class ExampleApplication(TasksApplication):
 
         return started
 
-    def _application_initialized_fired(self):
-        logger.info("APPLICATION INITIALIZED")
-
 
 if __name__ == "__main__":
-    import logging
-
-    logging.basicConfig(level=logging.DEBUG)
 
     app = ExampleApplication(
         plugins=[
