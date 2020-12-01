@@ -17,8 +17,8 @@ uses an implementation based on `Python Eggs`_.
 Creating a Plugin
 -----------------
 
-All plugins must implement the IPlugin_ interface (an easy way to achieve this
-is to subclass the base Plugin_ class), and should provide the following
+All plugins must implement the |IPlugin| interface (an easy way to achieve this
+is to subclass the base |Plugin| class), and should provide the following
 "housekeeping" information:
 
 - a globally unique identifier (e.g., "acme.motd")
@@ -37,8 +37,8 @@ is to subclass the base Plugin_ class), and should provide the following
 
   A nice description of the intent and features of your plugin.
 
-Here is a snippet from the `acme.motd`_ plugin that is part of the `Message of
-the Day`_ example::
+Here is a snippet from the |acme.motd| plugin that is part of the |Message of
+the Day| example::
 
     class MOTDPlugin(Plugin):
         """ The 'Message of the Day' plugin.
@@ -59,7 +59,7 @@ Plugin Lifecycle
 ----------------
 
 Plugins have a lifecycle in the context of an application. There are currently
-two key lifecycle methods on the IPlugin_ interface::
+two key lifecycle methods on the |IPlugin| interface::
 
     def start(self):
         """ Start the plugin.
@@ -93,12 +93,8 @@ method of each plugin in the reverse order that they were started in.
 .. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _Services: services.html
 
-.. _acme.motd: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/setup.py
+..
+   # substitutions
 
-.. _IPlugin: https://github.com/enthought/envisage/tree/master/envisage/i_plugin.py
-
-.. _`Message of the Day`: https://github.com/enthought/envisage/tree/master/examples/MOTD
-
-.. _MOTD: https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py
-
-.. _Plugin: https://github.com/enthought/envisage/tree/master/envisage/plugin.py
+.. |Plugin| replace:: :class:`~envisage.plugin.Plugin`
+.. |IPlugin| replace:: :class:`~envisage.i_plugin.IPlugin`

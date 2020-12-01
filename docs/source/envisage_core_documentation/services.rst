@@ -28,7 +28,7 @@ and it even allows you to publish your own entries for free (unlike the "real"
 one)!
 
 In an Envisage application, the service registry is accessed through the
-following methods on the IApplication_ interface::
+following methods on the |IApplication| interface::
 
     def get_service(self, protocol, query='', minimimize='', maximize=''):
         """ Return at most one service that matches the specified query.
@@ -39,7 +39,7 @@ following methods on the IApplication_ interface::
         """ Return the dictionary of properties associated with a service.
 
         """
-        
+
     def get_services(self, protocol, query='', minimimize='', maximize=''):
         """ Return all services that match the specified query.
 
@@ -199,7 +199,7 @@ in which case only one of the services that matches the query is returned::
 
     plumber = application.get_service(IPlumber, "price < 200")
 
-This query would return *either* *fred* or *wilma*.	
+This query would return *either* *fred* or *wilma*.
 
 Using *minimize* and *maximize*
 -------------------------------
@@ -247,7 +247,7 @@ get_service_properties() method with the appropriate service identifier::
 
     wilma = Plumber(name='wilma', location='BH6')
     wilma_id = application.register_service(IPlumber, wilma, {'price':125})
-	
+
     ...
 
     properties = application.get_service_properties(wilma_id)
@@ -260,7 +260,7 @@ To set the properties for a service that has already been registered, use::
 
     wilma = Plumber(name='wilma', location='BH6')
     wilma_id = application.register_service(IPlumber, wilma, {'price':125})
-	
+
     ...
 
     application.set_service_properties(wilma_id, {'price' : 150})
@@ -298,5 +298,3 @@ To register the factory, we just use 'application.register_service' as usual::
 
 Now, the first time somebody tries to get any 'IPlumber' service, the factory
 is called and the returned plumber object replaces the factory in the registry.
-
-.. _IApplication: https://github.com/enthought/envisage/tree/master/envisage/i_application.py
