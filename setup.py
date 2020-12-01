@@ -304,7 +304,10 @@ if __name__ == "__main__":
         entry_points={
             "envisage.plugins": [
                 "envisage.core = envisage.core_plugin:CorePlugin"
-            ]
+            ],
+            "etsdemo_data": [
+                "demo_examples = envisage._entry_point:info",
+            ],
         },
         install_requires=["apptools", "setuptools", "traits"],
         extras_require={
