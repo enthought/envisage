@@ -306,7 +306,7 @@ if __name__ == "__main__":
                 "envisage.core = envisage.core_plugin:CorePlugin"
             ],
             "etsdemo_data": [
-                "demo_examples = envisage._entry_point:info",
+                "demo_examples = envisage.examples._etsdemo_info:info",
             ],
         },
         install_requires=["apptools", "setuptools", "traits"],
