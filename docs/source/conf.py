@@ -110,7 +110,7 @@ rst_epilog = """
 .. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
 .. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
 .. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
-"""
+"""   # noqa: E501
 
 # Options for HTML output
 # -----------------------
