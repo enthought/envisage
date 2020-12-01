@@ -327,7 +327,7 @@ class Plugin(ExtensionProvider):
             else:
                 added = new
                 removed = old
-                index = slice(0, max(len(old), len(new)))
+                index = slice(0, len(old))
 
             # Let the extension registry know about the change.
             self._fire_extension_point_changed(

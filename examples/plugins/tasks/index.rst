@@ -2,9 +2,7 @@ Welcome to the attractors example.
 
 To run the application::
 
-  python -m attractors.run
-
-from this directory.
+  python run_attractor.py
 
 Note that this example application depends on the following additional
 packages::

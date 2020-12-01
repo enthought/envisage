@@ -19,7 +19,7 @@ from setuptools import setup, find_packages
 # together with information from the version control system, and then injected
 # into the package source.
 MAJOR = 5
-MINOR = 0
+MINOR = 1
 MICRO = 0
 PRERELEASE = ""
 IS_RELEASED = False
