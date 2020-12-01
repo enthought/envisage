@@ -33,6 +33,7 @@ import enthought_sphinx_theme
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.extlinks",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
@@ -192,4 +193,13 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "traits": ("https://docs.enthought.com/traits", None),
     "traitsui": ("https://docs.enthought.com/traitsui", None),
+}
+
+
+# -- Options for extlinks extension -------------------------------------------
+
+extlinks = {
+    'github-demo': (
+        'https://github.com/enthought/envisage/tree/master/examples/%s',   # noqa: E501
+        '')
 }
