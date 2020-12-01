@@ -11,8 +11,8 @@
 """
 
 import contextlib
-import sys
 import os
+import sys
 
 
 @contextlib.contextmanager
