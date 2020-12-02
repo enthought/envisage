@@ -304,7 +304,10 @@ if __name__ == "__main__":
         entry_points={
             "envisage.plugins": [
                 "envisage.core = envisage.core_plugin:CorePlugin"
-            ]
+            ],
+            "etsdemo_data": [
+                "demo_examples = envisage.examples._etsdemo_info:info",
+            ],
         },
         install_requires=["apptools", "setuptools", "traits"],
         extras_require={
@@ -317,6 +320,14 @@ if __name__ == "__main__":
         packages=find_packages(),
         package_data={
             "": ["images/*", "*.ini"],
+            "envisage.examples": [
+                "demo/*",
+                "demo/*/*",
+                "demo/*/*/*",
+                "demo/*/*/*/*",
+                "demo/*/*/*/*/*",
+                "demo/*/*/*/*/*/*",
+            ],
             "envisage.tests": [
                 "bad_eggs/*.egg",
                 "eggs/*.egg",
