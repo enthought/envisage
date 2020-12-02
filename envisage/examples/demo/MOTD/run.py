@@ -1,17 +1,7 @@
 """ Run the MOTD example application. """
 
-
-# Standard library imports.
-import logging
-
 # Enthought library imports.
 from envisage.api import Application, CorePlugin
-
-
-# Do whatever you want to do with log messages! Here we create a log file.
-logger = logging.getLogger()
-logger.addHandler(logging.FileHandler("acme_motd.log", "w", encoding="utf-8"))
-logger.setLevel(logging.DEBUG)
 
 
 def main():

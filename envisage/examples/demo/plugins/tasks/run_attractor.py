@@ -1,6 +1,3 @@
-# Standard library imports.
-import logging
-
 # Plugin imports.
 from envisage.api import CorePlugin
 from envisage.ui.tasks.api import TasksPlugin
@@ -13,13 +10,10 @@ def main(argv):
     # having to install the packages.
     from attractors.attractors_plugin import AttractorsPlugin
     from attractors.attractors_application import AttractorsApplication
-    logging.basicConfig(level=logging.WARNING)
 
     plugins = [CorePlugin(), TasksPlugin(), AttractorsPlugin()]
     app = AttractorsApplication(plugins=plugins)
     app.run()
-
-    logging.shutdown()
 
 
 if __name__ == "__main__":
