@@ -7,10 +7,12 @@ Version 5.0.0
 
 Released: XXXX-XX-XX
 
-This is a major release mainly relating to code modernization.  In this
-release, support for Python versions <3.6 have been dropped.  The
+This is a major release mainly relating to code modernization. In this
+release, support for Python versions <3.6 have been dropped. The
 class_load_hooks and single_project modules have been removed. Additionally,
-there were various fixes to bugs, examples, tests, and documentation.
+there were various fixes to bugs, examples, tests, and documentation. Demo
+examples are also distributed as package data such that they are visible via
+the "etsdemo" GUI application (to be installed separately).
 
 Features
 --------
@@ -22,7 +24,6 @@ Features
 Fixes
 -----
 
-- Make example run from any directory (#377)
 - Fix index slice in ExtensionPointChangedEvent when plugin changes (#357)
 - Fix ValueError from unregistering services when application stops (#345)
 - Fix the MOTD example (#319)
@@ -35,6 +36,7 @@ Documentation
 
 - Contribute examples to etsdemo (#380)
 - Refactor documentation links to source on GitHub (#379)
+- Make example run from any directory (#377)
 - Setup intersphinx in docs (#343)
 - Add documentation for envisage APIs (#340)
 - Use jinja templates for API documentation (#339)
