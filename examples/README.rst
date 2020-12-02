@@ -1,0 +1,1 @@
+Examples have been moved to sit in envisage/examples.
