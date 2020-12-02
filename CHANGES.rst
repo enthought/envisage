@@ -22,6 +22,7 @@ Features
 Fixes
 -----
 
+- Make example run from any directory (#377)
 - Fix index slice in ExtensionPointChangedEvent when plugin changes (#357)
 - Fix ValueError from unregistering services when application stops (#345)
 - Fix the MOTD example (#319)
@@ -32,6 +33,8 @@ Fixes
 Documentation
 -------------
 
+- Contribute examples to etsdemo (#380)
+- Refactor documentation links to source on GitHub (#379)
 - Setup intersphinx in docs (#343)
 - Add documentation for envisage APIs (#340)
 - Use jinja templates for API documentation (#339)
