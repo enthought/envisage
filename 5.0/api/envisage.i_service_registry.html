@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.i_service_registry module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage package" href="envisage.html" >
+    <link rel="next" title="envisage.i_service_user module" href="envisage.i_service_user.html" >
+    <link rel="prev" title="envisage.i_provider_extension_registry module" href="envisage.i_provider_extension_registry.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" accesskey="U">envisage package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_service_user.html" title="envisage.i_service_user module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_provider_extension_registry.html" title="envisage.i_provider_extension_registry module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="module-envisage.i_service_registry">
+<span id="envisage-i-service-registry-module"></span><h1>envisage.i_service_registry module<a class="headerlink" href="#module-envisage.i_service_registry" title="Permalink to this headline">¶</a></h1>
+<p>The service registry interface.</p>
+<dl class="class">
+<dt id="envisage.i_service_registry.IServiceRegistry">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.i_service_registry.</code><code class="sig-name descname">IServiceRegistry</code><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
+<p>The service registry interface.</p>
+<p>The service registry provides a ‘Yellow Pages’ style mechanism, in that
+services are published and looked up by protocol (meaning, <em>interface</em>,
+<em>type</em>, or <em>class</em> (for old-style classes!). It is called a ‘Yellow Pages’
+mechanism because it is just like looking up a telephone number in the
+‘Yellow Pages’ phone book. You use the ‘Yellow Pages’ instead of the
+‘White Pages’ when you don’t know the <em>name</em> of the person you want to
+call but you do know what <em>kind</em> of service you require. For example, if
+you have a leaking pipe, you know you need a plumber, so you pick up your
+‘Yellow Pages’, go to the ‘Plumbers’ section and choose one that seems to
+fit the bill based on price, location, certification, etc. The service
+registry does exactly the same thing as the ‘Yellow Pages’, only with
+objects, and it even allows you to publish your own entries for free
+(unlike the <em>real</em> one)!</p>
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.get_service">
+<code class="sig-name descname">get_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.get_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.get_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return at most one service that matches the specified query.</p>
+<p>The protocol can be an actual class or interface, or the <em>name</em> of a
+class or interface in the form ‘&lt;module_name&gt;.&lt;class_name&gt;’.</p>
+<p>Return None if no such service is found.</p>
+<p>If no query is specified then a service that provides the specified
+protocol is returned (if one exists).</p>
+<p>NOTE: If more than one service exists that match the criteria then
+Don’t try to guess <em>which</em> one it will return - it is random!</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.get_service_from_id">
+<code class="sig-name descname">get_service_from_id</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.get_service_from_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.get_service_from_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the service with the specified id.</p>
+<p>If no such service exists a ‘ValueError’ exception is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.get_service_properties">
+<code class="sig-name descname">get_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.get_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.get_service_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dictionary of properties associated with a service.</p>
+<p>If no such service exists a ‘ValueError’ exception is raised.</p>
+<p>The properties returned are ‘live’ i.e. changing them immediately
+changes the service registration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.get_services">
+<code class="sig-name descname">get_services</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.get_services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.get_services" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all services that match the specified query.</p>
+<p>The protocol can be an actual class or interface, or the <em>name</em> of a
+class or interface in the form ‘&lt;module_name&gt;.&lt;class_name&gt;’.</p>
+<p>If no services match the query, then an empty list is returned.</p>
+<p>If no query is specified then all services that provide the specified
+protocol are returned (if any exist).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.register_service">
+<code class="sig-name descname">register_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">obj</em>, <em class="sig-param">properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.register_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.register_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a service.</p>
+<p>The protocol can be an actual class or interface, or the <em>name</em> of a
+class or interface in the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;foo.bar.baz&#39;</span>
+</pre></div>
+</div>
+<p>Which is turned into the equivalent of an import statement that
+looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">foo.bar</span> <span class="k">import</span> <span class="n">baz</span>
+</pre></div>
+</div>
+<p>Return a service Id that can be used to unregister the service and to
+get/set any service properties.</p>
+<p>If ‘obj’ does not implement the specified protocol then it is treated
+as a ‘service factory’ that will be called the first time a service of
+the appropriate type is requested. A ‘service factory’ is simply a
+callable that takes the properties specified here as keyword arguments
+and returns an object. For <em>really</em> lazy loading, the factory can also
+be specified as a string which is used to import the callable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.set_service_properties">
+<code class="sig-name descname">set_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em>, <em class="sig-param">properties</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.set_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.set_service_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the dictionary of properties associated with a service.</p>
+<p>If no such service exists a ‘ValueError’ exception is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_service_registry.IServiceRegistry.unregister_service">
+<code class="sig-name descname">unregister_service</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry.unregister_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry.unregister_service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unregister a service.</p>
+<p>If no such service exists a ‘ValueError’ exception is raised.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.i_provider_extension_registry.html"
+                        title="previous chapter">envisage.i_provider_extension_registry module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.i_service_user.html"
+                        title="next chapter">envisage.i_service_user module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.i_service_registry.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

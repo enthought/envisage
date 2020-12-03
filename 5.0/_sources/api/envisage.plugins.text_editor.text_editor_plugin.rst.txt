@@ -1,0 +1,7 @@
+envisage.plugins.text\_editor.text\_editor\_plugin module
+=========================================================
+
+.. automodule:: envisage.plugins.text_editor.text_editor_plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:

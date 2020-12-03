@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.i_plugin module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage package" href="envisage.html" >
+    <link rel="next" title="envisage.i_plugin_activator module" href="envisage.i_plugin_activator.html" >
+    <link rel="prev" title="envisage.i_import_manager module" href="envisage.i_import_manager.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" accesskey="U">envisage package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_plugin_activator.html" title="envisage.i_plugin_activator module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_import_manager.html" title="envisage.i_import_manager module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="module-envisage.i_plugin">
+<span id="envisage-i-plugin-module"></span><h1>envisage.i_plugin module<a class="headerlink" href="#module-envisage.i_plugin" title="Permalink to this headline">¶</a></h1>
+<p>The plugin interface.</p>
+<dl class="class">
+<dt id="envisage.i_plugin.IPlugin">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.i_plugin.</code><code class="sig-name descname">IPlugin</code><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
+<p>The plugin interface.</p>
+<dl class="attribute">
+<dt id="envisage.i_plugin.IPlugin.activator">
+<code class="sig-name descname">activator</code><em class="property"> = Instance(IPluginActivator)</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.activator" title="Permalink to this definition">¶</a></dt>
+<dd><p>The activator used to start and stop the plugin.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.i_plugin.IPlugin.application">
+<code class="sig-name descname">application</code><em class="property"> = Instance(&quot;envisage.api.IApplication&quot;)</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.application" title="Permalink to this definition">¶</a></dt>
+<dd><p>The application that the plugin is part of.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.i_plugin.IPlugin.home">
+<code class="sig-name descname">home</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of a directory (created for you) that the plugin can read and
+write to at will.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.i_plugin.IPlugin.id">
+<code class="sig-name descname">id</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin’s unique identifier.</p>
+<p>Where ‘unique’ technically means ‘unique within the plugin manager’, but
+since the chances are that you will want to include plugins from
+external sources, this really means ‘globally unique’! Using the Python
+package path might be useful here. e.g. ‘envisage’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="envisage.i_plugin.IPlugin.name">
+<code class="sig-name descname">name</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin’s name (suitable for displaying to the user).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_plugin.IPlugin.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the plugin.</p>
+<p>This method is called by the framework when the application is starting
+up. If you want to start a plugin manually use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_plugin.IPlugin.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the plugin.</p>
+<p>This method is called by the framework when the application is
+stopping. If you want to stop a plugin manually use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span><span class="o">.</span><span class="n">stop_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.i_import_manager.html"
+                        title="previous chapter">envisage.i_import_manager module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.i_plugin_activator.html"
+                        title="next chapter">envisage.i_plugin_activator module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.i_plugin.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+envisage.ui package
+===================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   envisage.ui.action
+   envisage.ui.single_project
+   envisage.ui.tasks
+   envisage.ui.workbench
+
+Submodules
+----------
+
+envisage.ui.gui\_application module
+-----------------------------------
+
+.. automodule:: envisage.ui.gui_application
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.ui
+   :members:
+   :undoc-members:
+   :show-inheritance:

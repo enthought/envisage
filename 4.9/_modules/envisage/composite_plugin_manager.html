@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.composite_plugin_manager &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '4.9.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../index.html" >
+    <link rel="up" title="Module code" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.composite_plugin_manager</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2019 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only</span>
+<span class="c1"># under the conditions described in the aforementioned license.  The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot; A plugin manager composed of other plugin managers! &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">on_trait_change</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.i_application</span> <span class="k">import</span> <span class="n">IApplication</span>
+<span class="kn">from</span> <span class="nn">.i_plugin</span> <span class="k">import</span> <span class="n">IPlugin</span>
+<span class="kn">from</span> <span class="nn">.i_plugin_manager</span> <span class="k">import</span> <span class="n">IPluginManager</span>
+<span class="kn">from</span> <span class="nn">.plugin_event</span> <span class="k">import</span> <span class="n">PluginEvent</span>
+<span class="kn">from</span> <span class="nn">.plugin_manager</span> <span class="k">import</span> <span class="n">PluginManager</span>
+
+
+<span class="c1"># Logging.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CompositePluginManager"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IPluginManager</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CompositePluginManager</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A plugin manager composed of other plugin managers!</span>
+
+<span class="sd">    e.g::</span>
+
+<span class="sd">        plugin_manager = CompositePluginManager(</span>
+<span class="sd">             plugin_mangers = [</span>
+<span class="sd">                 EggBasketPluginManager(...),</span>
+<span class="sd">                 PackagePluginManager(...),</span>
+<span class="sd">             ]</span>
+<span class="sd">        )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;IPluginManager&#39; protocol #############################################</span>
+
+    <span class="c1">#### Events ####</span>
+
+    <span class="c1"># Fired when a plugin has been added to the manager.</span>
+    <span class="n">plugin_added</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
+
+    <span class="c1"># Fired when a plugin has been removed from the manager.</span>
+    <span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
+
+    <span class="c1">#### &#39;CompositePluginManager&#39; protocol #####################################</span>
+
+    <span class="c1"># The application that the plugin manager is part of.</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IApplication</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_application_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">plugin_manager</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_managers</span><span class="p">:</span>
+            <span class="n">plugin_manager</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="n">new</span>
+
+        <span class="k">return</span>
+
+    <span class="c1"># The plugin managers that make up this plugin manager!</span>
+    <span class="c1">#</span>
+    <span class="c1"># This is currently a list of &#39;PluginManager&#39;s as opposed to, the more</span>
+    <span class="c1"># preferable &#39;IPluginManager&#39; because the interface doesn&#39;t currently</span>
+    <span class="c1"># have an &#39;application&#39; trait. Should we move &#39;application&#39; up to</span>
+    <span class="c1"># &#39;IPluginManager&#39;?</span>
+    <span class="n">plugin_managers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;plugin_managers[]&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_update_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_named</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">plugin_manager</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
+            <span class="n">plugin_manager</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
+
+        <span class="k">for</span> <span class="n">plugin_manager</span> <span class="ow">in</span> <span class="n">added</span><span class="p">:</span>
+            <span class="n">plugin_manager</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;plugin_managers:plugin_added&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_plugin_added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_added</span> <span class="o">=</span> <span class="n">new</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;plugin_managers:plugin_removed&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_plugin_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">new</span>
+
+    <span class="c1">#### Private protocol ######################################################</span>
+
+    <span class="c1"># The plugins that the manager manages!</span>
+    <span class="n">_plugins</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">plugin_manager</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_managers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugin_manager</span><span class="p">:</span>
+                <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">plugins</span>
+
+    <span class="c1">#### &#39;object&#39; protocol ####################################################</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return an iterator over the manager&#39;s plugins. &quot;&quot;&quot;</span>
+
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">plugin_manager</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_managers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugin_manager</span><span class="p">:</span>
+                <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span>
+
+    <span class="c1">#### &#39;IPluginManager&#39; protocol #############################################</span>
+
+<div class="viewcode-block" id="CompositePluginManager.add_plugin"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.add_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add a plugin to the manager. &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.get_plugin"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the plugin with the specified Id. &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plugin_id</span> <span class="o">==</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">plugin</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.remove_plugin"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.remove_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove a plugin from the manager. &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.start"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the plugin manager. &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.start_plugin"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.start_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the specified plugin. &quot;&quot;&quot;</span>
+
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;plugin </span><span class="si">%s</span><span class="s1"> starting&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">activator</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;plugin </span><span class="si">%s</span><span class="s1"> started&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s1">&#39;no such plugin </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.stop"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the plugin manager. &quot;&quot;&quot;</span>
+
+        <span class="c1"># We stop the plugins in the reverse order that they were started.</span>
+        <span class="n">stop_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">stop_order</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">stop_order</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="CompositePluginManager.stop_plugin"><a class="viewcode-back" href="../../api/envisage.html#envisage.composite_plugin_manager.CompositePluginManager.stop_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the specified plugin. &quot;&quot;&quot;</span>
+
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;plugin </span><span class="si">%s</span><span class="s1"> stopping&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">activator</span><span class="o">.</span><span class="n">stop_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;plugin </span><span class="si">%s</span><span class="s1"> stopped&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s1">&#39;no such plugin </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+
+<span class="c1">#### EOF ######################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jun 12, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

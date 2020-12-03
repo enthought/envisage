@@ -1,0 +1,7 @@
+envisage.plugins.ipython\_kernel.heartbeat module
+=================================================
+
+.. automodule:: envisage.plugins.ipython_kernel.heartbeat
+   :members:
+   :undoc-members:
+   :show-inheritance:

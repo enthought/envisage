@@ -1,0 +1,53 @@
+envisage.plugins.text\_editor package
+=====================================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   envisage.plugins.text_editor.editor
+
+Submodules
+----------
+
+envisage.plugins.text\_editor.actions module
+--------------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.actions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.plugins.text\_editor.api module
+----------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.plugins.text\_editor.text\_editor\_action\_set module
+--------------------------------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.text_editor_action_set
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.plugins.text\_editor.text\_editor\_plugin module
+---------------------------------------------------------
+
+.. automodule:: envisage.plugins.text_editor.text_editor_plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.plugins.text_editor
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.action package &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.9.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage.ui package" href="envisage.ui.html" >
+    <link rel="next" title="envisage.ui.single_project package" href="envisage.ui.single_project.html" >
+    <link rel="prev" title="envisage.ui package" href="envisage.ui.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="modules.html" >envisage</a></li>
+          <li class="active"><a href="envisage.html" >envisage package</a></li>
+          <li class="active"><a href="envisage.ui.html" accesskey="U">envisage.ui package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.single_project.html" title="envisage.ui.single_project package"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.html" title="envisage.ui package"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="envisage-ui-action-package">
+<h1>envisage.ui.action package<a class="headerlink" href="#envisage-ui-action-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-envisage.ui.action.abstract_action_manager_builder">
+<span id="envisage-ui-action-abstract-action-manager-builder-module"></span><h2>envisage.ui.action.abstract_action_manager_builder module<a class="headerlink" href="#module-envisage.ui.action.abstract_action_manager_builder" title="Permalink to this headline">¶</a></h2>
+<p>Builds menus, menu bars and tool bars from action sets.</p>
+<dl class="class">
+<dt id="envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.abstract_action_manager_builder.</code><code class="sig-name descname">AbstractActionManagerBuilder</code><a class="reference internal" href="../_modules/envisage/ui/action/abstract_action_manager_builder.html#AbstractActionManagerBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
+<p>Builds menus, menu bars and tool bars from action sets.</p>
+<p>This class <em>must</em> be subclassed, and the following methods implemented:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_create_action</span>
+<span class="n">_create_group</span>
+<span class="n">_create_menu_manager</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_menu_bar_manager">
+<code class="sig-name descname">create_menu_bar_manager</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/abstract_action_manager_builder.html#AbstractActionManagerBuilder.create_menu_bar_manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_menu_bar_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a menu bar manager from the builder’s action sets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_tool_bar_managers">
+<code class="sig-name descname">create_tool_bar_managers</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/abstract_action_manager_builder.html#AbstractActionManagerBuilder.create_tool_bar_managers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_tool_bar_managers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all tool bar managers from the builder’s action sets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.initialize_action_manager">
+<code class="sig-name descname">initialize_action_manager</code><span class="sig-paren">(</span><em class="sig-param">action_manager</em>, <em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/abstract_action_manager_builder.html#AbstractActionManagerBuilder.initialize_action_manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.initialize_action_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize an action manager from the builder’s action sets.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.action">
+<span id="envisage-ui-action-action-module"></span><h2>envisage.ui.action.action module<a class="headerlink" href="#module-envisage.ui.action.action" title="Permalink to this headline">¶</a></h2>
+<p>The <em>definition</em> of an action in a tool bar or menu.</p>
+<dl class="class">
+<dt id="envisage.ui.action.action.Action">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.action.</code><code class="sig-name descname">Action</code><a class="reference internal" href="../_modules/envisage/ui/action/action.html#Action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action.Action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#envisage.ui.action.location.Location" title="envisage.ui.action.location.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.action.location.Location</span></code></a></p>
+<p>The <em>definition</em> of an action in a tool bar or menu.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.action_set">
+<span id="envisage-ui-action-action-set-module"></span><h2>envisage.ui.action.action_set module<a class="headerlink" href="#module-envisage.ui.action.action_set" title="Permalink to this headline">¶</a></h2>
+<p>An action set is a collection of menus, groups, and actions.</p>
+<dl class="class">
+<dt id="envisage.ui.action.action_set.ActionSet">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.action_set.</code><code class="sig-name descname">ActionSet</code><a class="reference internal" href="../_modules/envisage/ui/action/action_set.html#ActionSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set.ActionSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
+<p>An action set is a collection of menus, groups, and actions.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.action_set_manager">
+<span id="envisage-ui-action-action-set-manager-module"></span><h2>envisage.ui.action.action_set_manager module<a class="headerlink" href="#module-envisage.ui.action.action_set_manager" title="Permalink to this headline">¶</a></h2>
+<p>Manages a collection of action sets.</p>
+<dl class="class">
+<dt id="envisage.ui.action.action_set_manager.ActionSetManager">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.action_set_manager.</code><code class="sig-name descname">ActionSetManager</code><a class="reference internal" href="../_modules/envisage/ui/action/action_set_manager.html#ActionSetManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set_manager.ActionSetManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
+<p>Manages a collection of action sets.</p>
+<dl class="method">
+<dt id="envisage.ui.action.action_set_manager.ActionSetManager.get_actions">
+<code class="sig-name descname">get_actions</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/action_set_manager.html#ActionSetManager.get_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set_manager.ActionSetManager.get_actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all action definitions for a root.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.action.action_set_manager.ActionSetManager.get_groups">
+<code class="sig-name descname">get_groups</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/action_set_manager.html#ActionSetManager.get_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set_manager.ActionSetManager.get_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all group definitions for a root.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.action.action_set_manager.ActionSetManager.get_menus">
+<code class="sig-name descname">get_menus</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/action_set_manager.html#ActionSetManager.get_menus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set_manager.ActionSetManager.get_menus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all menu definitions for a root.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.ui.action.action_set_manager.ActionSetManager.get_tool_bars">
+<code class="sig-name descname">get_tool_bars</code><span class="sig-paren">(</span><em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/action_set_manager.html#ActionSetManager.get_tool_bars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.action_set_manager.ActionSetManager.get_tool_bars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all tool bar definitions for a root.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.api">
+<span id="envisage-ui-action-api-module"></span><h2>envisage.ui.action.api module<a class="headerlink" href="#module-envisage.ui.action.api" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-envisage.ui.action.group">
+<span id="envisage-ui-action-group-module"></span><h2>envisage.ui.action.group module<a class="headerlink" href="#module-envisage.ui.action.group" title="Permalink to this headline">¶</a></h2>
+<p>The <em>definition</em> of a group in a tool bar or menu.</p>
+<dl class="class">
+<dt id="envisage.ui.action.group.Group">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.group.</code><code class="sig-name descname">Group</code><a class="reference internal" href="../_modules/envisage/ui/action/group.html#Group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.group.Group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#envisage.ui.action.location.Location" title="envisage.ui.action.location.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.action.location.Location</span></code></a></p>
+<p>The <em>definition</em> of a group in a tool bar or menu.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.i_action_manager_builder">
+<span id="envisage-ui-action-i-action-manager-builder-module"></span><h2>envisage.ui.action.i_action_manager_builder module<a class="headerlink" href="#module-envisage.ui.action.i_action_manager_builder" title="Permalink to this headline">¶</a></h2>
+<p>The interface for action manager builders.</p>
+<dl class="class">
+<dt id="envisage.ui.action.i_action_manager_builder.IActionManagerBuilder">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.i_action_manager_builder.</code><code class="sig-name descname">IActionManagerBuilder</code><a class="reference internal" href="../_modules/envisage/ui/action/i_action_manager_builder.html#IActionManagerBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.i_action_manager_builder.IActionManagerBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></p>
+<p>The interface for action manager builders.</p>
+<p>An action manager builder populates action managers (i.e. menus, menu bars
+and tool bars) from the menus, groups and actions defined in its action
+sets.</p>
+<dl class="method">
+<dt id="envisage.ui.action.i_action_manager_builder.IActionManagerBuilder.initialize_action_manager">
+<code class="sig-name descname">initialize_action_manager</code><span class="sig-paren">(</span><em class="sig-param">action_manager</em>, <em class="sig-param">root</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/i_action_manager_builder.html#IActionManagerBuilder.initialize_action_manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.i_action_manager_builder.IActionManagerBuilder.initialize_action_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize an action manager from the builder’s action sets.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.i_action_set">
+<span id="envisage-ui-action-i-action-set-module"></span><h2>envisage.ui.action.i_action_set module<a class="headerlink" href="#module-envisage.ui.action.i_action_set" title="Permalink to this headline">¶</a></h2>
+<p>The action set interface.</p>
+<dl class="class">
+<dt id="envisage.ui.action.i_action_set.IActionSet">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.i_action_set.</code><code class="sig-name descname">IActionSet</code><a class="reference internal" href="../_modules/envisage/ui/action/i_action_set.html#IActionSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.i_action_set.IActionSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></p>
+<p>The action set interface.</p>
+<p>An action set is a collection of menus, groups, and actions.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.location">
+<span id="envisage-ui-action-location-module"></span><h2>envisage.ui.action.location module<a class="headerlink" href="#module-envisage.ui.action.location" title="Permalink to this headline">¶</a></h2>
+<p>The location of a group, menu, or action, within an action hierarchy.</p>
+<dl class="class">
+<dt id="envisage.ui.action.location.Location">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.location.</code><code class="sig-name descname">Location</code><a class="reference internal" href="../_modules/envisage/ui/action/location.html#Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.location.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></p>
+<p>The location of a group, menu, or action, within an action hierarchy.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.menu">
+<span id="envisage-ui-action-menu-module"></span><h2>envisage.ui.action.menu module<a class="headerlink" href="#module-envisage.ui.action.menu" title="Permalink to this headline">¶</a></h2>
+<p>The <em>definition</em> of a menu in a menu bar or menu.</p>
+<dl class="class">
+<dt id="envisage.ui.action.menu.CGroup">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.menu.</code><code class="sig-name descname">CGroup</code><span class="sig-paren">(</span><em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/menu.html#CGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.menu.CGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Instance</span></code></p>
+<p>A trait type for a ‘Group’ or anything that can be cast to a ‘Group’.</p>
+<p>Currently, the only cast allowed is from string -&gt; Group using the
+string as the group’s ID.</p>
+<dl class="method">
+<dt id="envisage.ui.action.menu.CGroup.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">object</em>, <em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/menu.html#CGroup.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.menu.CGroup.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.action.menu.Menu">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.menu.</code><code class="sig-name descname">Menu</code><a class="reference internal" href="../_modules/envisage/ui/action/menu.html#Menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.menu.Menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#envisage.ui.action.location.Location" title="envisage.ui.action.location.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.action.location.Location</span></code></a></p>
+<p>The <em>definition</em> of a menu in a menu bar or menu.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action.tool_bar">
+<span id="envisage-ui-action-tool-bar-module"></span><h2>envisage.ui.action.tool_bar module<a class="headerlink" href="#module-envisage.ui.action.tool_bar" title="Permalink to this headline">¶</a></h2>
+<p>The <em>definition</em> of a tool bar.</p>
+<dl class="class">
+<dt id="envisage.ui.action.tool_bar.CGroup">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.tool_bar.</code><code class="sig-name descname">CGroup</code><span class="sig-paren">(</span><em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/tool_bar.html#CGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.tool_bar.CGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Instance</span></code></p>
+<p>A trait type for a ‘Group’ or anything that can be cast to a ‘Group’.</p>
+<p>Currently, the only cast allowed is from string -&gt; Group using the
+string as the group’s ID.</p>
+<dl class="method">
+<dt id="envisage.ui.action.tool_bar.CGroup.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">object</em>, <em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/action/tool_bar.html#CGroup.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.tool_bar.CGroup.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="envisage.ui.action.tool_bar.ToolBar">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.action.tool_bar.</code><code class="sig-name descname">ToolBar</code><a class="reference internal" href="../_modules/envisage/ui/action/tool_bar.html#ToolBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.action.tool_bar.ToolBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#envisage.ui.action.location.Location" title="envisage.ui.action.location.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.ui.action.location.Location</span></code></a></p>
+<p>The <em>definition</em> of a menu in a menu bar or menu.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-envisage.ui.action">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-envisage.ui.action" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">envisage.ui.action package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.abstract_action_manager_builder">envisage.ui.action.abstract_action_manager_builder module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.action">envisage.ui.action.action module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.action_set">envisage.ui.action.action_set module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.action_set_manager">envisage.ui.action.action_set_manager module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.api">envisage.ui.action.api module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.group">envisage.ui.action.group module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.i_action_manager_builder">envisage.ui.action.i_action_manager_builder module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.i_action_set">envisage.ui.action.i_action_set module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.location">envisage.ui.action.location module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.menu">envisage.ui.action.menu module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action.tool_bar">envisage.ui.action.tool_bar module</a></li>
+<li><a class="reference internal" href="#module-envisage.ui.action">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.ui.html"
+                        title="previous chapter">envisage.ui package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.ui.single_project.html"
+                        title="next chapter">envisage.ui.single_project package</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.ui.action.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jun 12, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

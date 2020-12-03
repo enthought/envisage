@@ -1,0 +1,7 @@
+envisage.ui.tasks.api module
+============================
+
+.. automodule:: envisage.ui.tasks.api
+   :members:
+   :undoc-members:
+   :show-inheritance:

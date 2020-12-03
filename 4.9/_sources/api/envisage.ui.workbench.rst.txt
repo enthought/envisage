@@ -1,0 +1,109 @@
+envisage.ui.workbench package
+=============================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   envisage.ui.workbench.action
+
+Submodules
+----------
+
+envisage.ui.workbench.api module
+--------------------------------
+
+.. automodule:: envisage.ui.workbench.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.default\_action\_set module
+-------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.default_action_set
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench module
+--------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_action\_manager\_builder module
+----------------------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_action_manager_builder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_action\_set module
+---------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_action_set
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_application module
+---------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_application
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_editor\_manager module
+-------------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_editor_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_plugin module
+----------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_preferences module
+---------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_preferences
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_preferences\_page module
+---------------------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_preferences_page
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.workbench.workbench\_window module
+----------------------------------------------
+
+.. automodule:: envisage.ui.workbench.workbench_window
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.ui.workbench
+   :members:
+   :undoc-members:
+   :show-inheritance:

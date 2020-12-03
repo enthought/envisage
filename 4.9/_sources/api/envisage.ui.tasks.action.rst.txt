@@ -1,0 +1,54 @@
+envisage.ui.tasks.action package
+================================
+
+Submodules
+----------
+
+envisage.ui.tasks.action.api module
+-----------------------------------
+
+.. automodule:: envisage.ui.tasks.action.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.tasks.action.exit\_action module
+--------------------------------------------
+
+.. automodule:: envisage.ui.tasks.action.exit_action
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.tasks.action.preferences\_action module
+---------------------------------------------------
+
+.. automodule:: envisage.ui.tasks.action.preferences_action
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.tasks.action.task\_window\_launch\_group module
+-----------------------------------------------------------
+
+.. automodule:: envisage.ui.tasks.action.task_window_launch_group
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+envisage.ui.tasks.action.task\_window\_toggle\_group module
+-----------------------------------------------------------
+
+.. automodule:: envisage.ui.tasks.action.task_window_toggle_group
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: envisage.ui.tasks.action
+   :members:
+   :undoc-members:
+   :show-inheritance:

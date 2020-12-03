@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>The “Message of the Day” (MOTD) Example &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '4.9.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="Workbench" href="workbench.html" >
+    <link rel="prev" title="How To Create a Plugin for an Envisage Application" href="howto_create_a_plugin.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="workbench.html" title="Workbench"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="howto_create_a_plugin.html" title="How To Create a Plugin for an Envisage Application"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="the-message-of-the-day-motd-example">
+<h1>The “Message of the Day” (MOTD) Example<a class="headerlink" href="#the-message-of-the-day-motd-example" title="Permalink to this headline">¶</a></h1>
+<p>Only marginally more complicated than the traditional “Hello World” example,
+this is a simple application that prints a witty, educational, or
+inspiring “Message of the Day”. Obviously, if we actually had to write this
+application, we might not choose to use a framework like Envisage (it is one of
+the rare applications that is so simple that why would you bother), but it does
+serve to illustrate all of the fundamental aspects of building an Envisage
+application.</p>
+<p>All of the code for this example can be found in the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD">examples/MOTD</a> directory
+of the Envisage distribution, and to run it simply type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">.../</span><span class="n">examples</span><span class="o">/</span><span class="n">MOTD</span>
+<span class="n">python</span> <span class="n">run</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>(or equivalent, depending on your operating system and shell)</p>
+<p>Before we dive right in to building our extensible application, let’s take a
+small, but important, step back. Envisage is designed to be an integration
+platform – a place where you can bring existing code and with a (hopefully)
+minimal amount of effort, make it work with the rest of the application.
+Because of this, we will start the MOTD example by designing the application
+without any knowledge of Envisage whatsoever. This is obviously a good idea in
+general, as it allows our code to be reused outside of Envisage applications.</p>
+<div class="section" id="plain-ol-motd">
+<h2>Plain Ol’ MOTD<a class="headerlink" href="#plain-ol-motd" title="Permalink to this headline">¶</a></h2>
+<p>So lets take a look at our non-Envisage aware MOTD application, the code for
+which is in the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/api.py">acme.motd</a> package. A good place to start as a developer
+<em>using</em> any package in Envisage (and, for that matter, the entire Enthought
+tool-suite) is to look at any interfaces and classes exposed via its ‘api.py’
+module.</p>
+<p>In this case, there are 2 interfaces</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_motd.py">IMOTD</a></p></li>
+</ol>
+<blockquote>
+<div><p>The interface for simple “Message of the Day” functionality.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a></p></li>
+</ol>
+<blockquote>
+<div><p>The interface supported by each message returned by the motd() method on
+the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_motd.py">IMOTD</a> interface.</p>
+</div></blockquote>
+<p>We also (<em>not</em> coincidentally!) have 2 corresponding implementation classes:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a></p></li>
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py">Message</a></p></li>
+</ol>
+<p>As you can see, the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a> class simply contains a list of messages and
+when its motd() method is called, it returns a random choice from that list.</p>
+<p>An example of using our <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a> class at the Python prompt might be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">acme.motd.api</span> <span class="k">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MOTD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motd</span> <span class="o">=</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39;Anon&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="p">)</span>
+<span class="go">&quot;Hello World!&quot; - Anon</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Well, we had to get “Hello World” in there somewhere!</p>
+<p>The important point here is that this code is written without any knowledge of
+Envisage or extensibility whatsoever. It is just a small, reusable piece of
+code (albeit a very simple one).</p>
+</div>
+<div class="section" id="not-so-plain-ol-motd">
+<h2>Not So Plain Ol’ MOTD<a class="headerlink" href="#not-so-plain-ol-motd" title="Permalink to this headline">¶</a></h2>
+<p>Now lets look at the steps that we have to go through to use this code and
+turn it into an extensible, pluggable Envisage application.</p>
+<div class="section" id="create-the-main-application-class">
+<h3>Create the main Application class<a class="headerlink" href="#create-the-main-application-class" title="Permalink to this headline">¶</a></h3>
+<p>First of all, we need to create an object that represents the application
+itself. In Envisage, this can be any object that implements the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/i_application.py">IApplication</a>
+interface, but is usually either an instance of the default <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/application.py">Application</a> class,
+or one derived from it.</p>
+<p>In the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a> example, we create the class in the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/run.py">run.py</a> module as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span> <span class="o">=</span> <span class="n">Application</span><span class="p">(</span>
+    <span class="nb">id</span>      <span class="o">=</span> <span class="s1">&#39;acme.motd&#39;</span><span class="p">,</span>
+    <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="n">CorePlugin</span><span class="p">(),</span> <span class="n">MOTDPlugin</span><span class="p">(),</span> <span class="n">SoftwareQuotesPlugin</span><span class="p">()]</span>
+<span class="p">)</span>
+
+<span class="n">application</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this case, we use the simplest way to tell Envisage which plugins make up
+the application by passing them in explicitly. Envisage applications allow you
+to completely configure how plugins are located by setting the plugin manager.
+Envisage ships with two plugin managers by default, one that simply takes a
+list of plugins as in the above example, and one that finds all plugins
+offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
+</div>
+<div class="section" id="the-acme-motd-plugin">
+<h3>The ‘acme.motd’ plugin<a class="headerlink" href="#the-acme-motd-plugin" title="Permalink to this headline">¶</a></h3>
+<p>As shown above, the corresponding plugin implementation is in the
+<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd_plugin.py">MOTDPlugin</a> class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
+
+<span class="sd">    This plugin simply prints the &#39;Message of the Day&#39; to stdout.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The IDs of the extension points that this plugin offers.</span>
+    <span class="n">MESSAGES</span> <span class="o">=</span> <span class="s1">&#39;acme.motd.messages&#39;</span>
+
+    <span class="c1"># The IDs of the extension points that this plugin contributes to.</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s1">&#39;envisage.service_offers&#39;</span>
+
+    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+
+    <span class="c1"># The plugin&#39;s unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd&#39;</span>
+
+    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MOTD&#39;</span>
+
+    <span class="c1">#### Extension points offered by this plugin ##############################</span>
+
+    <span class="c1"># The messages extension point.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Notice that we use the string name of the &#39;IMessage&#39; interface rather</span>
+    <span class="c1"># than actually importing it. This makes sure that the import only happens</span>
+    <span class="c1"># when somebody actually gets the contributions to the extension point.</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;acme.motd.api.IMessage&#39;</span><span class="p">)),</span> <span class="nb">id</span><span class="o">=</span><span class="n">MESSAGES</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">        This extension point allows you to contribute messages to the &#39;Message</span>
+<span class="s2">        Of The Day&#39;.</span>
+
+<span class="s2">        &quot;&quot;&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1">#### Contributions to extension points made by this plugin ################</span>
+
+    <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Register the protocol as a string containing the actual module path</span>
+        <span class="c1"># (do not use a module path that goes via an &#39;api.py&#39; file as this does</span>
+        <span class="c1"># not match what Python thinks the module is!). This allows the service</span>
+        <span class="c1"># to be looked up by passing either the exact same string, or the</span>
+        <span class="c1"># actual protocol object itself.</span>
+        <span class="n">motd_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
+            <span class="n">protocol</span> <span class="o">=</span> <span class="s1">&#39;acme.motd.i_motd.IMOTD&#39;</span><span class="p">,</span>
+            <span class="n">factory</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_motd_service</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">motd_service_offer</span><span class="p">]</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_create_motd_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Factory method for the &#39;MOTD&#39; service. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Only do imports when you need to! This makes sure that the import</span>
+        <span class="c1"># only happens when somebody needs an &#39;IMOTD&#39; service.</span>
+        <span class="kn">from</span> <span class="nn">motd</span> <span class="k">import</span> <span class="n">MOTD</span>
+
+        <span class="k">return</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
+
+    <span class="c1"># This plugin does all of its work in this method which gets called when</span>
+    <span class="c1"># the application has started all of its plugins.</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:started&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_print_motd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Print the &#39;Message of the Day&#39; to stdout! &quot;&quot;&quot;</span>
+
+        <span class="c1"># Note that we always offer the service via its name, but look it up</span>
+        <span class="c1"># via the actual protocol.</span>
+        <span class="kn">from</span> <span class="nn">acme.motd.api</span> <span class="k">import</span> <span class="n">IMOTD</span>
+
+        <span class="c1"># Lookup the MOTD service.</span>
+        <span class="n">motd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IMOTD</span><span class="p">)</span>
+
+        <span class="c1"># Get the message of the day...</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
+
+        <span class="c1"># ... and print it.</span>
+        <span class="nb">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&quot;</span><span class="si">%s</span><span class="s1">&quot;</span><span class="se">\n\n</span><span class="s1">- </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="p">)</span>
+
+        <span class="k">return</span>
+</pre></div>
+</div>
+<p>Although it is obviously a bit of overkill, the example shows how we would
+take a <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/motd.py">MOTD</a> object and register it a service for other parts of the
+application to use. Sadly, in this example, there are no other parts of the
+application, so we just lookup and use the service ourselves!</p>
+</div>
+<div class="section" id="the-acme-motd-software-quotes-plugin">
+<h3>The ‘acme.motd.software_quotes’ plugin<a class="headerlink" href="#the-acme-motd-software-quotes-plugin" title="Permalink to this headline">¶</a></h3>
+<p>First of all, we have to create the messages that we want to add. Remember that
+when the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/api.py">acme.motd</a> plugin advertised the extension point, it told us that
+every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
+a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py">Message</a>) and so we create
+a simple module (‘messages.py’_) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="o">...</span>
+
+    <span class="n">Message</span><span class="p">(</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="s2">&quot;Martin Fowler&quot;</span><span class="p">,</span>
+        <span class="n">text</span>   <span class="o">=</span> <span class="s2">&quot;Any fool can write code that a computer can understand. Good&quot;</span>
+        <span class="s2">&quot; programmers write code that humans can understand.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">Message</span><span class="p">(</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="s2">&quot;Chet Hendrickson&quot;</span><span class="p">,</span>
+        <span class="n">text</span>   <span class="o">=</span> <span class="s2">&quot;The rule is, &#39;Do the simplest thing that could possibly&quot;</span>
+        <span class="s2">&quot; work&#39;, not the most stupid.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/examples/MOTD/acme/motd/software_quotes/setup.py">acme.motd.software_quotes</a> package and tell
+Envisage about the messages that we have just created:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The &#39;Software Quotes&#39; plugin. &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+
+    <span class="c1"># The plugin&#39;s unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd.software_quotes&#39;</span>
+
+    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Software Quotes&#39;</span>
+
+    <span class="c1">#### Contributions to extension points made by this plugin ################</span>
+
+    <span class="c1"># Messages for the &#39;Message Of The Day&#39;.</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;SoftwareQuotesPlugin&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Only do imports when you need to!</span>
+        <span class="kn">from</span> <span class="nn">messages</span> <span class="k">import</span> <span class="n">messages</span>
+
+        <span class="k">return</span> <span class="n">messages</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The “Message of the Day” (MOTD) Example</a><ul>
+<li><a class="reference internal" href="#plain-ol-motd">Plain Ol’ MOTD</a></li>
+<li><a class="reference internal" href="#not-so-plain-ol-motd">Not So Plain Ol’ MOTD</a><ul>
+<li><a class="reference internal" href="#create-the-main-application-class">Create the main Application class</a></li>
+<li><a class="reference internal" href="#the-acme-motd-plugin">The ‘acme.motd’ plugin</a></li>
+<li><a class="reference internal" href="#the-acme-motd-software-quotes-plugin">The ‘acme.motd.software_quotes’ plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="howto_create_a_plugin.html"
+                        title="previous chapter">How To Create a Plugin for an Envisage Application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workbench.html"
+                        title="next chapter">Workbench</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/message_of_the_day.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2019, Enthought
+      </li>
+      <li>
+      Last updated on Jun 12, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

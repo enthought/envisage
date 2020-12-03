@@ -1,0 +1,7 @@
+envisage.plugins.ipython\_kernel.api module
+===========================================
+
+.. automodule:: envisage.plugins.ipython_kernel.api
+   :members:
+   :undoc-members:
+   :show-inheritance:

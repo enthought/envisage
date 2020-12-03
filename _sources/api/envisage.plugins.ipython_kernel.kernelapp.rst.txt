@@ -1,0 +1,7 @@
+envisage.plugins.ipython\_kernel.kernelapp module
+=================================================
+
+.. automodule:: envisage.plugins.ipython_kernel.kernelapp
+   :members:
+   :undoc-members:
+   :show-inheritance:
