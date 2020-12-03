@@ -1,0 +1,28 @@
+..
+   (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+   All rights reserved.
+
+   This software is provided without warranty under the terms of the BSD
+   license included in LICENSE.txt and may be redistributed only under
+   the conditions described in the aforementioned license. The license
+   is also available online at http://www.enthought.com/licenses/BSD.txt
+
+   Thanks for using Enthought open source!
+
+envisage.plugins.ipython\_kernel package
+========================================
+
+.. automodule:: envisage.plugins.ipython_kernel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+
+   envisage.plugins.ipython_kernel.actions
+   envisage.plugins.ipython_kernel.api
+   envisage.plugins.ipython_kernel.heartbeat
+   envisage.plugins.ipython_kernel.internal_ipkernel
+   envisage.plugins.ipython_kernel.ipython_kernel_plugin
+   envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin
+   envisage.plugins.ipython_kernel.kernelapp

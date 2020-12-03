@@ -1,0 +1,7 @@
+envisage.ui.workbench.workbench\_preferences module
+===================================================
+
+.. automodule:: envisage.ui.workbench.workbench_preferences
+   :members:
+   :undoc-members:
+   :show-inheritance:

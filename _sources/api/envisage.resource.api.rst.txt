@@ -1,0 +1,7 @@
+envisage.resource.api module
+============================
+
+.. automodule:: envisage.resource.api
+   :members:
+   :undoc-members:
+   :show-inheritance:

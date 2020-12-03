@@ -1,0 +1,7 @@
+envisage.plugins.python\_shell.view.namespace\_view module
+==========================================================
+
+.. automodule:: envisage.plugins.python_shell.view.namespace_view
+   :members:
+   :undoc-members:
+   :show-inheritance:

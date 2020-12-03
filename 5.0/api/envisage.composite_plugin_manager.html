@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.composite_plugin_manager module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage package" href="envisage.html" >
+    <link rel="next" title="envisage.core_plugin module" href="envisage.core_plugin.html" >
+    <link rel="prev" title="envisage.application_event module" href="envisage.application_event.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" accesskey="U">envisage package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.core_plugin.html" title="envisage.core_plugin module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.application_event.html" title="envisage.application_event module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="module-envisage.composite_plugin_manager">
+<span id="envisage-composite-plugin-manager-module"></span><h1>envisage.composite_plugin_manager module<a class="headerlink" href="#module-envisage.composite_plugin_manager" title="Permalink to this headline">¶</a></h1>
+<p>A plugin manager composed of other plugin managers!</p>
+<dl class="class">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.composite_plugin_manager.</code><code class="sig-name descname">CompositePluginManager</code><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
+<p>A plugin manager composed of other plugin managers!</p>
+<p>e.g:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugin_manager</span> <span class="o">=</span> <span class="n">CompositePluginManager</span><span class="p">(</span>
+     <span class="n">plugin_mangers</span> <span class="o">=</span> <span class="p">[</span>
+         <span class="n">EggBasketPluginManager</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+         <span class="n">PackagePluginManager</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+     <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.add_plugin">
+<code class="sig-name descname">add_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.add_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.add_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a plugin to the manager.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.get_plugin">
+<code class="sig-name descname">get_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.get_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.get_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the plugin with the specified Id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.remove_plugin">
+<code class="sig-name descname">remove_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.remove_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.remove_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a plugin from the manager.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the plugin manager.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.start_plugin">
+<code class="sig-name descname">start_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin=None</em>, <em class="sig-param">plugin_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.start_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.start_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the specified plugin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the plugin manager.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.composite_plugin_manager.CompositePluginManager.stop_plugin">
+<code class="sig-name descname">stop_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin=None</em>, <em class="sig-param">plugin_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/composite_plugin_manager.html#CompositePluginManager.stop_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.composite_plugin_manager.CompositePluginManager.stop_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the specified plugin.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.application_event.html"
+                        title="previous chapter">envisage.application_event module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.core_plugin.html"
+                        title="next chapter">envisage.core_plugin module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.composite_plugin_manager.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

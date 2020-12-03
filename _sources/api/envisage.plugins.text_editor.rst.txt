@@ -1,0 +1,30 @@
+..
+   (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+   All rights reserved.
+
+   This software is provided without warranty under the terms of the BSD
+   license included in LICENSE.txt and may be redistributed only under
+   the conditions described in the aforementioned license. The license
+   is also available online at http://www.enthought.com/licenses/BSD.txt
+
+   Thanks for using Enthought open source!
+
+envisage.plugins.text\_editor package
+=====================================
+
+.. automodule:: envisage.plugins.text_editor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+
+   envisage.plugins.text_editor.actions
+   envisage.plugins.text_editor.api
+   envisage.plugins.text_editor.text_editor_action_set
+   envisage.plugins.text_editor.text_editor_plugin
+
+
+.. toctree::
+
+   envisage.plugins.text_editor.editor

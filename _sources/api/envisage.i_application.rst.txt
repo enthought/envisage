@@ -1,0 +1,7 @@
+envisage.i\_application module
+==============================
+
+.. automodule:: envisage.i_application
+   :members:
+   :undoc-members:
+   :show-inheritance:

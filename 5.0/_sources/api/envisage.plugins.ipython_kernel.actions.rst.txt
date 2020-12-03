@@ -1,0 +1,7 @@
+envisage.plugins.ipython\_kernel.actions module
+===============================================
+
+.. automodule:: envisage.plugins.ipython_kernel.actions
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Introduction &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="Core" href="core.html" >
+    <link rel="prev" title="Front Matter" href="front.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="core.html" title="Core"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="front.html" title="Front Matter"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the Envisage Project! The goal of the project is to provide a
+framework for building extensible, pluggable applications, and in particular
+(but not limited to!), extensible, pluggable applications for scientists and
+engineers.</p>
+<p>The project is really divided into 3 sub-projects:-</p>
+<ol class="arabic">
+<li><p><a class="reference external" href="core.html">Core</a></p>
+<p>The Envisage Core, found in the top-level <a class="reference internal" href="../api/envisage.api.html#module-envisage.api" title="envisage.api"><code class="xref py py-mod docutils literal notranslate"><span class="pre">envisage.api</span></code></a> package,
+defines the basic application architecture including the plugin and
+extension mechanisms. All of the other sub-projects are simply collections
+of plugins that are built on top of the core.</p>
+</li>
+<li><p>User Interface (UI)</p>
+<p>This is small (but hopefully expanding) set of plugins useful for building
+applications with (graphical) User Interfaces. It is found in the
+<em>envisage.ui</em> package (and its subpackages), and aims to provide
+functionality commonly required in this type of application including
+actions, menubars, toolbars, user preferences, wizards etc. One of the most
+useful plugins in this project is the <a class="reference external" href="Workbench.html">Workbench</a> plugin (found in the
+<a class="reference internal" href="../api/envisage.ui.workbench.api.html#module-envisage.ui.workbench.api" title="envisage.ui.workbench.api"><code class="xref py py-mod docutils literal notranslate"><span class="pre">envisage.ui.workbench.api</span></code></a> package) that helps you build a style of
+user interface that is often (but not exclusively) found in integrated
+development environments (IDEs).</p>
+</li>
+<li><p>Science/Enginneering</p>
+<p>This is the holy grail, and in truth, we haven’t got much here yet, but the
+goal is to build up a set of plugins targeted towards scientific and
+engineering applications (data import/export, 2D/3D visualization etc).</p>
+</li>
+</ol>
+<p>Before you read any further, we should point out that Envisage is based
+<em>heavily</em> on the excellent work that has been done in the Java community on
+frameworks such as <a class="reference external" href="http://www.osgi.org">OSGi</a>, <a class="reference external" href="http://www.eclipse.org">Eclipse</a> (which is built on top of its own <a class="reference external" href="http://www.osgi.org">OSGi</a>
+implementation) and <a class="reference external" href="http://www.netbeans.org">NetBeans</a>. Like these other frameworks, Envisage helps you
+build applications that are based on the concept of plugins. However, one of
+the main goals is to provide a simplified system so that applications and
+plugins can be written by scientists, engineers, and those people whose
+full-time job is <em>not</em> necessarily software development, hence a lot of work
+has gone into trying to satisfy the old adage of “make simple things simple, and
+complex things possible”. It will obviously be up to you to judge if we
+succeeded!</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The best way to get started is probably to take the time to read and digest the
+<a class="reference external" href="core.html">Core</a> documentation and then work through the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/examples/demo/Hello_World/hello_world.py">Hello World</a> and
+<a class="reference external" href="message_of_the_day.html">Message of the Day</a> examples. Despite being extremely simple, the examples
+introduce you to <em>all</em> of the fundamental concepts of Envisage, and the <em>real</em>
+applications that you build (which will hopefully be a lot more useful) will be
+built in exactly the same way.</p>
+<p>For definitions of the terminology used in Envisage, see the <a class="reference external" href="Glossary.html">Glossary</a>
+(although it will probably make more sense after going through the other
+documentation and examples first).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="front.html"
+                        title="previous chapter">Front Matter</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="core.html"
+                        title="next chapter">Core</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/introduction.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

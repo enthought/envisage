@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.application &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../index.html" >
+    <link rel="up" title="Module code" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.application</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2020 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot; An extensible, pluggable, application. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.etsconfig.api</span> <span class="k">import</span> <span class="n">ETSConfig</span>
+<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="k">import</span> <span class="n">IPreferences</span><span class="p">,</span> <span class="n">ScopedPreferences</span>
+<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="k">import</span> <span class="n">set_default_preferences</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Delegate</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">VetoableEvent</span><span class="p">,</span> <span class="n">provides</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.i_application</span> <span class="k">import</span> <span class="n">IApplication</span>
+<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="k">import</span> <span class="n">IExtensionRegistry</span>
+<span class="kn">from</span> <span class="nn">.i_import_manager</span> <span class="k">import</span> <span class="n">IImportManager</span>
+<span class="kn">from</span> <span class="nn">.i_plugin_manager</span> <span class="k">import</span> <span class="n">IPluginManager</span>
+<span class="kn">from</span> <span class="nn">.i_service_registry</span> <span class="k">import</span> <span class="n">IServiceRegistry</span>
+
+<span class="kn">from</span> <span class="nn">.application_event</span> <span class="k">import</span> <span class="n">ApplicationEvent</span>
+<span class="kn">from</span> <span class="nn">.import_manager</span> <span class="k">import</span> <span class="n">ImportManager</span>
+
+
+<span class="c1"># Logging.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Application"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IApplication</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; An extensible, pluggable, application.</span>
+
+<span class="sd">    This class handles the common case for non-GUI applications, and it is</span>
+<span class="sd">    intended to be subclassed to change start/stop behaviour etc.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;IApplication&#39; interface #############################################</span>
+
+    <span class="c1">#: The application&#39;s globally unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1">#: The name of a directory (created for you) to which the application can</span>
+    <span class="c1">#: read and write non-user accessible data, i.e. configuration information,</span>
+    <span class="c1">#: preferences, etc.</span>
+    <span class="n">home</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1">#: The name of a directory (created for you upon access) to which the</span>
+    <span class="c1">#: application can read and write user-accessible data, e.g. projects</span>
+    <span class="c1">#: created by the user.</span>
+    <span class="n">user_data</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1">#: The root preferences node.</span>
+    <span class="n">preferences</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IPreferences</span><span class="p">)</span>
+
+    <span class="c1">#### Events ####</span>
+
+    <span class="c1">#: Fired when the application is starting.</span>
+    <span class="n">starting</span> <span class="o">=</span> <span class="n">VetoableEvent</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
+
+    <span class="c1">#: Fired when all plugins have been started.</span>
+    <span class="n">started</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
+
+    <span class="c1">#: Fired when the application is stopping.</span>
+    <span class="n">stopping</span> <span class="o">=</span> <span class="n">VetoableEvent</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
+
+    <span class="c1">#: Fired when all plugins have been stopped.</span>
+    <span class="n">stopped</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
+
+    <span class="c1">#### &#39;IPluginManager&#39; interface ###########################################</span>
+
+    <span class="c1">#### Events ####</span>
+
+    <span class="c1">#: Fired when a plugin has been added.</span>
+    <span class="n">plugin_added</span> <span class="o">=</span> <span class="n">Delegate</span><span class="p">(</span><span class="s2">&quot;plugin_manager&quot;</span><span class="p">,</span> <span class="n">modify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#: Fired when a plugin has been removed.</span>
+    <span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">Delegate</span><span class="p">(</span><span class="s2">&quot;plugin_manager&quot;</span><span class="p">,</span> <span class="n">modify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#### &#39;Application&#39; interface ##############################################</span>
+
+    <span class="c1"># These traits allow application developers to build completely different</span>
+    <span class="c1"># styles of extensible application. It allows Envisage to be used as a</span>
+    <span class="c1"># framework for frameworks ;^)</span>
+
+    <span class="c1">#: The extension registry.</span>
+    <span class="n">extension_registry</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IExtensionRegistry</span><span class="p">)</span>
+
+    <span class="c1">#: The plugin manager (starts and stops plugins etc).</span>
+    <span class="n">plugin_manager</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IPluginManager</span><span class="p">)</span>
+
+    <span class="c1">#: The service registry.</span>
+    <span class="n">service_registry</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IServiceRegistry</span><span class="p">)</span>
+
+    <span class="c1">#### Private interface ####################################################</span>
+
+    <span class="c1"># The import manager.</span>
+    <span class="n">_import_manager</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IImportManager</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">ImportManager</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+
+<span class="sd">        We allow the caller to specify an initial list of plugins, but the list</span>
+<span class="sd">        itself is not part of the public API. To add and remove plugins after</span>
+<span class="sd">        after construction, use the &#39;add_plugin&#39; and &#39;remove_plugin&#39; methods</span>
+<span class="sd">        respectively. The application is also iterable, so to iterate over the</span>
+<span class="sd">        plugins use &#39;for plugin in application: ...&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># fixme: We have to initialize the application home here (i.e. we can&#39;t</span>
+        <span class="c1"># wait until the &#39;home&#39; trait is accessed) because the scoped</span>
+        <span class="c1"># preferences uses &#39;ETSConfig.application&#39; home as the name of the</span>
+        <span class="c1"># default preferences file.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_application_home</span><span class="p">()</span>
+
+        <span class="c1"># Set the default preferences node used by the preferences package.</span>
+        <span class="c1"># This allows &#39;PreferencesHelper&#39; and &#39;PreferenceBinding&#39; instances to</span>
+        <span class="c1"># be used as more convenient ways to access preferences.</span>
+        <span class="c1">#</span>
+        <span class="c1"># fixme: This is another sneaky global!</span>
+        <span class="n">set_default_preferences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
+
+        <span class="c1"># We allow the caller to specify an initial list of plugins, but the</span>
+        <span class="c1"># list itself is not part of the public API. To add and remove plugins</span>
+        <span class="c1"># after construction, use the &#39;add_plugin&#39; and &#39;remove_plugin&#39; methods</span>
+        <span class="c1"># respectively. The application is also iterable, so to iterate over</span>
+        <span class="c1"># the plugins use &#39;for plugin in application: ...&#39;.</span>
+        <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IApplication&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="c1">#### Trait initializers ###################################################</span>
+
+    <span class="k">def</span> <span class="nf">_home_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span>
+
+    <span class="k">def</span> <span class="nf">_user_data_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="n">user_data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ETSConfig</span><span class="o">.</span><span class="n">user_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="c1"># Make sure it exists!</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">user_data</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">user_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">user_data</span>
+
+    <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">ScopedPreferences</span><span class="p">()</span>
+
+    <span class="c1">#### Methods ##############################################################</span>
+
+<div class="viewcode-block" id="Application.run"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Run the application. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IExtensionRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="Application.add_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.add_extension_point_listener">[docs]</a>    <span class="k">def</span> <span class="nf">add_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add a listener for extensions being added/removed. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">add_extension_point_listener</span><span class="p">(</span>
+            <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.add_extension_point"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.add_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">add_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an extension point. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">add_extension_point</span><span class="p">(</span><span class="n">extension_point</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.get_extensions"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a list containing all contributions to an extension point.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.get_extension_point"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">get_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the extension point with the specified Id. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">get_extension_point</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.get_extension_points"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_extension_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return all extension points that have been added to the registry.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">get_extension_points</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Application.remove_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.remove_extension_point_listener">[docs]</a>    <span class="k">def</span> <span class="nf">remove_extension_point_listener</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove a listener for extensions being added/removed. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span>
+            <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.remove_extension_point"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.remove_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">remove_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove an extension point. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.set_extensions"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.set_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the extensions contributed to an extension point. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">set_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IImportManager&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="Application.import_symbol"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.import_symbol">[docs]</a>    <span class="k">def</span> <span class="nf">import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Import the symbol defined by the specified symbol path. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_manager</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">symbol_path</span><span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IPluginManager&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return an iterator over the manager&#39;s plugins. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Application.add_plugin"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.add_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add a plugin to the manager. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">add_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.get_plugin"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the plugin with the specified Id. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.remove_plugin"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.remove_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove a plugin from the manager. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">remove_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.start"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the plugin manager.</span>
+
+<span class="sd">        Returns True unless the start was vetoed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># fixme: This method is notionally on the &#39;IPluginManager&#39; interface</span>
+        <span class="c1"># but that interface knows nothing about the vetoable events etc and</span>
+        <span class="c1"># hence doesn&#39;t have a return value.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application starting ----------&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Lifecycle event.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting</span> <span class="o">=</span> <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_application_event</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">veto</span><span class="p">:</span>
+            <span class="c1"># Start the plugin manager (this starts all of the manager&#39;s</span>
+            <span class="c1"># plugins).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+            <span class="c1"># Lifecycle event.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_application_event</span><span class="p">()</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application started ----------&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application start vetoed ----------&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">veto</span></div>
+
+<div class="viewcode-block" id="Application.start_plugin"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.start_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the specified plugin. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.stop"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the plugin manager.</span>
+
+<span class="sd">        Returns True unless the stop was vetoed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># fixme: This method is notionally on the &#39;IPluginManager&#39; interface</span>
+        <span class="c1"># but that interface knows nothing about the vetoable events etc and</span>
+        <span class="c1"># hence doesn&#39;t have a return value.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application stopping ----------&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Lifecycle event.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopping</span> <span class="o">=</span> <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_application_event</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">veto</span><span class="p">:</span>
+            <span class="c1"># Stop the plugin manager (this stops all of the manager&#39;s</span>
+            <span class="c1"># plugins).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+            <span class="c1"># Save all preferences.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="c1"># Lifecycle event.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_application_event</span><span class="p">()</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application stopped ----------&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;---------- application stop vetoed ----------&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">veto</span></div>
+
+<div class="viewcode-block" id="Application.stop_plugin"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.stop_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the specified plugin. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_manager</span><span class="o">.</span><span class="n">stop_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IServiceRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="Application.get_required_service"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_required_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_required_service</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the service that matches the specified query.</span>
+
+<span class="sd">        Raise a &#39;NoSuchServiceError&#39; exception if no such service exists.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_required_service</span><span class="p">(</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">service</span></div>
+
+<div class="viewcode-block" id="Application.get_service"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return at most one service that matches the specified query. &quot;&quot;&quot;</span>
+
+        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">service</span></div>
+
+<div class="viewcode-block" id="Application.get_service_from_id"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_service_from_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the service with the specified id. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service_from_id</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.get_service_properties"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the dictionary of properties associated with a service. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service_properties</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Application.get_services"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_services">[docs]</a>    <span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return all services that match the specified query. &quot;&quot;&quot;</span>
+
+        <span class="n">services</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">services</span></div>
+
+<div class="viewcode-block" id="Application.register_service"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.register_service">[docs]</a>    <span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Register a service. &quot;&quot;&quot;</span>
+
+        <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span>
+            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">service_id</span></div>
+
+<div class="viewcode-block" id="Application.set_service_properties"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.set_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">set_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the dictionary of properties associated with a service. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">set_service_properties</span><span class="p">(</span><span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Application.unregister_service"><a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.unregister_service">[docs]</a>    <span class="k">def</span> <span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Unregister a service. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;Application&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="c1">#### Trait initializers ###################################################</span>
+
+    <span class="k">def</span> <span class="nf">_extension_registry_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Do the import here to emphasize the fact that this is just the</span>
+        <span class="c1"># default implementation and that the application developer is free</span>
+        <span class="c1"># to override it!</span>
+        <span class="kn">from</span> <span class="nn">.plugin_extension_registry</span> <span class="k">import</span> <span class="n">PluginExtensionRegistry</span>
+
+        <span class="k">return</span> <span class="n">PluginExtensionRegistry</span><span class="p">(</span><span class="n">plugin_manager</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_plugin_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Do the import here to emphasize the fact that this is just the</span>
+        <span class="c1"># default implementation and that the application developer is free</span>
+        <span class="c1"># to override it!</span>
+        <span class="kn">from</span> <span class="nn">.plugin_manager</span> <span class="k">import</span> <span class="n">PluginManager</span>
+
+        <span class="k">return</span> <span class="n">PluginManager</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_service_registry_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+
+        <span class="c1"># Do the import here to emphasize the fact that this is just the</span>
+        <span class="c1"># default implementation and that the application developer is free</span>
+        <span class="c1"># to override it!</span>
+        <span class="kn">from</span> <span class="nn">.service_registry</span> <span class="k">import</span> <span class="n">ServiceRegistry</span>
+
+        <span class="k">return</span> <span class="n">ServiceRegistry</span><span class="p">()</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="c1">#### Trait change handlers ################################################</span>
+
+    <span class="c1"># fixme: We have this to make it easier to assign a new plugin manager</span>
+    <span class="c1"># at construction time due to the fact that the plugin manager needs a</span>
+    <span class="c1"># reference to the application and vice-versa, e.g. we can do</span>
+    <span class="c1">#</span>
+    <span class="c1">#    application = Application(plugin_manager=EggPluginManager())</span>
+    <span class="c1">#</span>
+    <span class="c1"># If we didn&#39;t have this then we would have to do this:-</span>
+    <span class="c1">#</span>
+    <span class="c1">#    application = Application()</span>
+    <span class="c1">#    application.plugin_manager = EggPluginManager(application=application)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Of course, it would be better if the plugin manager didn&#39;t require a</span>
+    <span class="c1"># reference to the application at all (it currently uses it to set the</span>
+    <span class="c1"># &#39;application&#39; trait of plugin instances - but that is only done for the</span>
+    <span class="c1"># same reason as this (i.e. it is nice to be able to pass plugins into the</span>
+    <span class="c1"># application constructor).</span>
+    <span class="k">def</span> <span class="nf">_plugin_manager_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Static trait change handler. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">old</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="k">return</span>
+
+    <span class="c1">#### Methods ##############################################################</span>
+
+    <span class="k">def</span> <span class="nf">_create_application_event</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create an application event. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">ApplicationEvent</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_application_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the application home directory. &quot;&quot;&quot;</span>
+
+        <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Make sure it exists!</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
