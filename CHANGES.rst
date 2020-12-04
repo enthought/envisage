@@ -5,7 +5,7 @@
 Version 5.0.0
 =============
 
-Released: XXXX-XX-XX
+Released: 2020-12-03
 
 This is a major release mainly relating to code modernization. In this
 release, support for Python versions <3.6 have been dropped. The
