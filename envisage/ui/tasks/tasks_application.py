@@ -50,11 +50,8 @@ class TasksApplication(Application):
     #: Extension point ID for task extensions
     TASK_EXTENSIONS = "envisage.ui.tasks.task_extensions"
 
-    #: Pickle protocol to use for persisting layout information. Subclasses may
-    #: want to increase this, depending on their compatibility needs. Protocol
-    #: version 2 is safe for Python >= 2.3. Protocol version 4 is safe for
-    #: Python >= 3.4.
-    layout_save_protocol = Int(2)
+    #: Pickle protocol to use for persisting layout information.
+    layout_save_protocol = Int(4)
 
     #### 'TasksApplication' interface #########################################
 
