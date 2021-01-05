@@ -55,8 +55,6 @@ class EventTracker(HasTraits):
         for subscription in new:
             self._add_subscription(subscription)
 
-        return
-
     def _subscriptions_items_changed(self, event):
         """ Static trait change handler. """
 
@@ -66,15 +64,11 @@ class EventTracker(HasTraits):
         for subscription in event.added:
             self._add_subscription(subscription)
 
-        return
-
     def _listener(self, obj, trait_name, old, new):
         """ Dynamic trait change listener. """
 
         self.events.append((obj, trait_name, old, new))
         self.event_names.append(trait_name)
-
-        return
 
     #### Methods ##############################################################
 
@@ -89,8 +83,6 @@ class EventTracker(HasTraits):
         else:
             obj.on_trait_change(self._listener)
 
-        return
-
     def _remove_subscription(self, subscription):
         """ Remove a subscription. """
 
@@ -101,5 +93,3 @@ class EventTracker(HasTraits):
 
         else:
             obj.on_trait_change(self._listener, remove=True)
-
-        return

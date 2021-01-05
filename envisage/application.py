@@ -146,8 +146,6 @@ class Application(HasTraits):
             for plugin in plugins:
                 self.add_plugin(plugin)
 
-        return
-
     ###########################################################################
     # 'IApplication' interface.
     ###########################################################################
@@ -183,8 +181,6 @@ class Application(HasTraits):
         if self.start():
             self.stop()
 
-        return
-
     ###########################################################################
     # 'IExtensionRegistry' interface.
     ###########################################################################
@@ -196,14 +192,10 @@ class Application(HasTraits):
             listener, extension_point_id
         )
 
-        return
-
     def add_extension_point(self, extension_point):
         """ Add an extension point. """
 
         self.extension_registry.add_extension_point(extension_point)
-
-        return
 
     def get_extensions(self, extension_point_id):
         """ Return a list containing all contributions to an extension point.
@@ -233,21 +225,15 @@ class Application(HasTraits):
             listener, extension_point_id
         )
 
-        return
-
     def remove_extension_point(self, extension_point_id):
         """ Remove an extension point. """
 
         self.extension_registry.remove_extension_point(extension_point_id)
 
-        return
-
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions contributed to an extension point. """
 
         self.extension_registry.set_extensions(extension_point_id, extensions)
-
-        return
 
     ###########################################################################
     # 'IImportManager' interface.
@@ -272,8 +258,6 @@ class Application(HasTraits):
 
         self.plugin_manager.add_plugin(plugin)
 
-        return
-
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id. """
 
@@ -283,8 +267,6 @@ class Application(HasTraits):
         """ Remove a plugin from the manager. """
 
         self.plugin_manager.remove_plugin(plugin)
-
-        return
 
     def start(self):
         """ Start the plugin manager.
@@ -418,14 +400,10 @@ class Application(HasTraits):
 
         self.service_registry.set_service_properties(service_id, properties)
 
-        return
-
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
         self.service_registry.unregister_service(service_id)
-
-        return
 
     ###########################################################################
     # 'Application' interface.
@@ -494,8 +472,6 @@ class Application(HasTraits):
         if new is not None:
             new.application = self
 
-        return
-
     #### Methods ##############################################################
 
     def _create_application_event(self):
@@ -513,5 +489,3 @@ class Application(HasTraits):
         # Make sure it exists!
         if not os.path.exists(ETSConfig.application_home):
             os.makedirs(ETSConfig.application_home)
-
-        return

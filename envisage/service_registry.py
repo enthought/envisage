@@ -178,8 +178,6 @@ class ServiceRegistry(HasTraits):
         except KeyError:
             raise ValueError("no service with id <%d>" % service_id)
 
-        return
-
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
@@ -191,8 +189,6 @@ class ServiceRegistry(HasTraits):
 
         except KeyError:
             raise ValueError("no service with id <%d>" % service_id)
-
-        return
 
     ###########################################################################
     # Private interface.

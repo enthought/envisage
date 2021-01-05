@@ -52,8 +52,6 @@ class Service(TraitType):
         # The optional name of the trait/property to maximize.
         self._maximize = maximize
 
-        return
-
     def __repr__(self):
         """ String representation of a Service object """
         return "Service(protocol={!r})".format(self._protocol)

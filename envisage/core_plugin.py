@@ -89,8 +89,6 @@ class CorePlugin(Plugin):
 
         self._load_preferences(event.added)
 
-        return
-
     #: service offers ExtensionPoint
     service_offers = ExtensionPoint(
         List(ServiceOffer),
@@ -126,8 +124,6 @@ class CorePlugin(Plugin):
         for service in event.added:
             self._register_service_offer(service)
 
-        return
-
     #### Contributions to extension points made by this plugin ################
 
     # None.
@@ -148,8 +144,6 @@ class CorePlugin(Plugin):
         # strategy (due to the fact that we store the service ids in this
         # specific trait!).
         self._service_ids = self._register_service_offers(self.service_offers)
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -177,8 +171,6 @@ class CorePlugin(Plugin):
 
             finally:
                 f.close()
-
-        return
 
     def _register_service_offers(self, service_offers):
         """ Register a list of service offers. """

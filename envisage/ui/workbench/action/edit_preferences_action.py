@@ -49,5 +49,3 @@ class EditPreferencesAction(Action):
         # application crashes before it exits!
         if ui.result:
             self.window.application.preferences.save()
-
-        return

@@ -98,15 +98,11 @@ class ExtensionRegistry(HasTraits):
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.append(_saferef(listener))
 
-        return
-
     def add_extension_point(self, extension_point):
         """ Add an extension point. """
 
         self._extension_points[extension_point.id] = extension_point
         logger.debug("extension point <%s> added", extension_point.id)
-
-        return
 
     def get_extensions(self, extension_point_id):
         """ Return the extensions contributed to an extension point. """
@@ -131,8 +127,6 @@ class ExtensionRegistry(HasTraits):
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.remove(_saferef(listener))
 
-        return
-
     def remove_extension_point(self, extension_point_id):
         """ Remove an extension point. """
 
@@ -154,8 +148,6 @@ class ExtensionRegistry(HasTraits):
 
         logger.debug("extension point <%s> removed", extension_point_id)
 
-        return
-
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions contributed to an extension point. """
 
@@ -166,8 +158,6 @@ class ExtensionRegistry(HasTraits):
 
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, extensions, old, None)
-
-        return
 
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.
@@ -188,8 +178,6 @@ class ExtensionRegistry(HasTraits):
             if listener is not None:
                 listener(self, event)
 
-        return
-
     def _check_extension_point(self, extension_point_id):
         """ Check to see if the extension point exists.
 
@@ -199,8 +187,6 @@ class ExtensionRegistry(HasTraits):
 
         if extension_point_id not in self._extension_points:
             raise UnknownExtensionPoint(extension_point_id)
-
-        return
 
     def _get_extensions(self, extension_point_id):
         """ Return the extensions for the given extension point. """

@@ -63,8 +63,6 @@ class CompositePluginManager(HasTraits):
         for plugin_manager in self.plugin_managers:
             plugin_manager.application = new
 
-        return
-
     # The plugin managers that make up this plugin manager!
     #
     # This is currently a list of 'PluginManager's as opposed to, the more
@@ -144,8 +142,6 @@ class CompositePluginManager(HasTraits):
         for plugin in self:
             self.start_plugin(plugin)
 
-        return
-
     def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin. """
 
@@ -158,8 +154,6 @@ class CompositePluginManager(HasTraits):
         else:
             raise SystemError("no such plugin %s" % plugin_id)
 
-        return
-
     def stop(self):
         """ Stop the plugin manager. """
 
@@ -169,8 +163,6 @@ class CompositePluginManager(HasTraits):
 
         for plugin in stop_order:
             self.stop_plugin(plugin)
-
-        return
 
     def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin. """
@@ -183,5 +175,3 @@ class CompositePluginManager(HasTraits):
 
         else:
             raise SystemError("no such plugin %s" % plugin_id)
-
-        return

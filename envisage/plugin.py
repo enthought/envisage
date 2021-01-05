@@ -250,14 +250,10 @@ class Plugin(ExtensionProvider):
 
         ExtensionPoint.connect_extension_point_traits(self)
 
-        return
-
     def disconnect_extension_point_traits(self):
         """ Disconnect all of the plugin's extension points."""
 
         ExtensionPoint.disconnect_extension_point_traits(self)
-
-        return
 
     def register_services(self):
         """ Register the services offered by the plugin. """
@@ -278,8 +274,6 @@ class Plugin(ExtensionProvider):
             # service when the plugin is stopped.
             self._service_ids.append(service_id)
 
-        return
-
     def unregister_services(self):
         """ Unregister any service offered by the plugin. """
 
@@ -299,8 +293,6 @@ class Plugin(ExtensionProvider):
 
         # Just in case the plugin is started again!
         self._service_ids = []
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -333,8 +325,6 @@ class Plugin(ExtensionProvider):
             self._fire_extension_point_changed(
                 trait.contributes_to, added, removed, index
             )
-
-        return
 
     #### Methods ##############################################################
 

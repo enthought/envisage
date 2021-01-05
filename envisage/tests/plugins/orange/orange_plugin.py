@@ -28,15 +28,11 @@ class OrangePlugin(Plugin):
         self.started = True
         self.stopped = False
 
-        return
-
     def stop(self):
         """ Stop the plugin. """
 
         self.started = False
         self.stopped = True
-
-        return
 
     #### 'BananaPlugin' protocol ##############################################
 

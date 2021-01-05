@@ -33,8 +33,6 @@ def _id_generator():
         yield (i)
         i += 1
 
-    return
-
 
 _id_generator = _id_generator()
 
@@ -68,8 +66,6 @@ class TextEditor(TraitsUIEditor):
             # We have just saved the file so we ain't dirty no more!
             self.dirty = False
 
-        return
-
     def save_as(self):
         """ Saves the text to disk after prompting for the file name. """
 
@@ -89,8 +85,6 @@ class TextEditor(TraitsUIEditor):
 
             # Save it!
             self.save()
-
-        return
 
     ###########################################################################
     # 'TraitsUIEditor' interface.
@@ -126,14 +120,10 @@ class TextEditor(TraitsUIEditor):
                     'exec(open(r"%s").read())' % self.obj.path, hidden=False
                 )
 
-        return
-
     def select_line(self, lineno):
         """ Selects the specified line. """
 
         self.ui.info.text.selected_line = lineno
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -177,15 +167,11 @@ class TextEditor(TraitsUIEditor):
             with open(new.path, "r", encoding="utf-8") as f:
                 self.text = f.read()
 
-        return
-
     def _text_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         if self.traits_inited():
             self.dirty = True
-
-        return
 
     def _dirty_changed(self, dirty):
         """ Static trait change handler. """
@@ -196,8 +182,6 @@ class TextEditor(TraitsUIEditor):
 
             else:
                 self.name = basename(self.obj.path)
-
-        return
 
     #### Methods ##############################################################
 

@@ -154,8 +154,6 @@ class PythonShellView(View):
         # Restore the original stdout.
         sys.stdout = self.original_stdout
 
-        return
-
     ###########################################################################
     # 'PythonShellView' interface.
     ###########################################################################
@@ -178,8 +176,6 @@ class PythonShellView(View):
         """ Binds a name to a value in the interpreter's namespace. """
 
         self.shell.bind(name, value)
-
-        return
 
     def execute_command(self, command, hidden=True):
         """ Execute a command in the interpreter. """
@@ -207,8 +203,6 @@ class PythonShellView(View):
 
         self.stdout_text = text
 
-        return
-
     #### Trait change handlers ################################################
 
     def _on_command_executed(self, shell):
@@ -230,8 +224,6 @@ class PythonShellView(View):
                 self.trait_property_changed("namespace", {}, self.namespace)
                 self.trait_property_changed("names", [], self.names)
 
-        return
-
     def _on_key_pressed(self, event):
         """ Dynamic trait change handler. """
 
@@ -245,11 +237,7 @@ class PythonShellView(View):
             if zoom != -10:
                 self.shell.control.SetZoom(zoom - 1)
 
-        return
-
     def _on_write_stdout(self, text):
         """ Dynamic trait change handler. """
 
         self.shell.control.write(text)
-
-        return
