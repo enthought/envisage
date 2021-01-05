@@ -52,7 +52,7 @@ master_doc = "index"
 
 # General substitutions.
 project = "envisage"
-copyright = "2008-2020, Enthought"
+copyright = "2008-2021, Enthought"
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
