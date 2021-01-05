@@ -36,5 +36,3 @@ class AboutAction(Action):
         """ Perform the action. """
 
         self.window.application.about()
-
-        return

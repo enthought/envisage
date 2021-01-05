@@ -17,5 +17,3 @@ class NoSuchResourceError(Exception):
         """ Constructor. """
 
         Exception.__init__(self, message)
-
-        return

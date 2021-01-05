@@ -61,5 +61,3 @@ class Workbench(pyface.Workbench):
             )
             if answer != YES:
                 event.veto = True
-
-        return

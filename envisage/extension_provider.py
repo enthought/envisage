@@ -52,5 +52,3 @@ class ExtensionProvider(HasTraits):
             removed=removed,
             index=index,
         )
-
-        return

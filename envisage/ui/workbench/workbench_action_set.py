@@ -68,16 +68,12 @@ class WorkbenchActionSet(ActionSet):
             self._update_tool_bars(self.window, "enabled", new)
             self._update_actions(self.window, "enabled", new)
 
-        return
-
     def _visible_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         if self.window is not None:
             self._update_tool_bars(self.window, "visible", new)
             self._update_actions(self.window, "visible", new)
-
-        return
 
     ###########################################################################
     # 'WorkbenchActionSet' interface.
@@ -102,8 +98,6 @@ class WorkbenchActionSet(ActionSet):
         self.window.on_trait_change(self._refresh, "active_part")
         self.window.on_trait_change(self._refresh, "active_perspective")
 
-        return
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -117,8 +111,6 @@ class WorkbenchActionSet(ActionSet):
         # easier to explain that we expect it to be overridden. It seems a bit
         # smelly to say that a trait change handfler needs to be overridden.
         self.initialize()
-
-        return
 
     #### Methods ##############################################################
 
@@ -157,8 +149,6 @@ class WorkbenchActionSet(ActionSet):
                 and window.active_part.id in self.visible_for_views
             )
 
-        return
-
     def _update_actions(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
 
@@ -174,8 +164,6 @@ class WorkbenchActionSet(ActionSet):
                 if item._action_set_ is self:
                     setattr(item, trait_name, value)
 
-            return
-
         # Update actions on the menu bar.
         window.menu_bar_manager.walk(visitor)
 
@@ -183,13 +171,9 @@ class WorkbenchActionSet(ActionSet):
         for tool_bar_manager in window.tool_bar_managers:
             tool_bar_manager.walk(visitor)
 
-        return
-
     def _update_tool_bars(self, window, trait_name, value):
         """ Update the state of the tool bars in the action set. """
 
         for tool_bar_manager in window.tool_bar_managers:
             if tool_bar_manager._action_set_ is self:
                 setattr(tool_bar_manager, trait_name, value)
-
-        return

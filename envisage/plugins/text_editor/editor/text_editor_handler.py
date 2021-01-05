@@ -29,11 +29,7 @@ class TextEditorHandler(Handler):
 
         info.object.run()
 
-        return
-
     def save(self, info):
         """ Save the text to disk. """
 
         info.object.save()
-
-        return

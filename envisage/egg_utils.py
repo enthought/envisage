@@ -36,8 +36,6 @@ def add_eggs_on_path(working_set, path, on_error=None):
     for distribution in distributions:
         working_set.add(distribution)
 
-    return
-
 
 def get_entry_points_in_egg_order(working_set, entry_point_name):
     """ Return entry points in Egg dependency order. """

@@ -99,16 +99,12 @@ class ExtensionPoint(TraitType):
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.connect(obj, trait_name)
 
-        return
-
     @staticmethod
     def disconnect_extension_point_traits(obj):
         """ Disconnect all of the 'ExtensionPoint' traits on an object. """
 
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.disconnect(obj, trait_name)
-
-        return
 
     ###########################################################################
     # 'object' interface.
@@ -150,8 +146,6 @@ class ExtensionPoint(TraitType):
         # Dict(weakref.ref(Any), Dict(Str, Callable))
         self._obj_to_listeners_map = weakref.WeakKeyDictionary()
 
-        return
-
     def __repr__(self):
         """ String representation of an ExtensionPoint object """
         return "ExtensionPoint(id={!r})".format(self.id)
@@ -180,8 +174,6 @@ class ExtensionPoint(TraitType):
         # setting of extension points (the default, plugin extension registry
         # for exxample ;^).
         extension_registry.set_extensions(self.id, value)
-
-        return
 
     ###########################################################################
     # 'ExtensionPoint' interface.
@@ -216,8 +208,6 @@ class ExtensionPoint(TraitType):
 
             obj.trait_property_changed(name, old, new)
 
-            return
-
         extension_registry = self._get_extension_registry(obj)
 
         # Add the listener to the extension registry.
@@ -227,8 +217,6 @@ class ExtensionPoint(TraitType):
         # collected until its associated object does.
         listeners = self._obj_to_listeners_map.setdefault(obj, {})
         listeners[trait_name] = listener
-
-        return
 
     def disconnect(self, obj, trait_name):
         """ Disconnect the extension point from a trait on an object. """
@@ -244,8 +232,6 @@ class ExtensionPoint(TraitType):
 
             # Clean up.
             del self._obj_to_listeners_map[obj][trait_name]
-
-        return
 
     ###########################################################################
     # Private interface.

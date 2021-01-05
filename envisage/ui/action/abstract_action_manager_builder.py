@@ -144,8 +144,6 @@ class AbstractActionManagerBuilder(HasTraits):
         # Add all of the actions ot the menu manager.
         self._add_actions(action_manager, actions)
 
-        return
-
     ###########################################################################
     # Protected 'AbstractActionManagerBuilder' interface.
     ###########################################################################
@@ -186,8 +184,6 @@ class AbstractActionManagerBuilder(HasTraits):
 
         self._action_set_manager.action_sets = new
 
-        return
-
     #### Methods ##############################################################
 
     def _add_actions(self, action_manager, actions):
@@ -218,8 +214,6 @@ class AbstractActionManagerBuilder(HasTraits):
             # problem!
             if start == end:
                 raise ValueError("Could not place %s" % actions)
-
-        return
 
     def _add_action(self, action_manager, action):
         """ Add an action to an action manager.
@@ -288,8 +282,6 @@ class AbstractActionManagerBuilder(HasTraits):
             # must have a problem!
             if start == end:
                 raise ValueError("Could not place %s" % groups_and_menus)
-
-        return
 
     def _add_group(self, action_manager, group):
         """ Add a group to an action manager.

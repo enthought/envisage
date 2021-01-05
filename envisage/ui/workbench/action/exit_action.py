@@ -40,5 +40,3 @@ class ExitAction(Action):
         """ Perform the action. """
 
         self.window.application.exit()
-
-        return
