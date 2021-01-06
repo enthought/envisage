@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -113,8 +113,6 @@ class WorkbenchApplication(Application):
             # THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.
             gui.start_event_loop()
 
-        return
-
     ###########################################################################
     # 'WorkbenchApplication' interface.
     ###########################################################################
@@ -145,8 +143,6 @@ class WorkbenchApplication(Application):
         # that it can have the active window as its parent.
         self.about_dialog.open()
 
-        return
-
     # fixme: Is this needed on the public API? Why can't we just do this in
     # the default initializer (_workbench_default)?
     def create_workbench(self):
@@ -165,8 +161,6 @@ class WorkbenchApplication(Application):
 
         self.workbench.exit()
 
-        return
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -184,5 +178,3 @@ class WorkbenchApplication(Application):
         # might mean that somebody listening for the window being closed would
         # get the event *after* the application had already stopped!
         self.gui.invoke_later(self.stop)
-
-        return

@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -38,8 +38,6 @@ class PluginActivator(HasTraits):
         # Plugin specific start.
         plugin.start()
 
-        return
-
     def stop_plugin(self, plugin):
         """ Stop the specified plugin. """
 
@@ -51,5 +49,3 @@ class PluginActivator(HasTraits):
 
         # Disconnect all of the plugin's extension point traits.
         plugin.disconnect_extension_point_traits()
-
-        return

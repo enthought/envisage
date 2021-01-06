@@ -5,12 +5,81 @@
 Version 5.0.0
 =============
 
-Released: XXXX-XX-XX
+Released: 2020-12-03
 
-Changes
--------
+This is a major release mainly relating to code modernization. In this
+release, support for Python versions <3.6 have been dropped. The
+class_load_hooks and single_project modules have been removed. Additionally,
+there were various fixes to bugs, examples, tests, and documentation. Demo
+examples are also distributed as package data such that they are visible via
+the "etsdemo" GUI application (to be installed separately).
+
+Features
+--------
+
+- Re-export CorePlugin in envisage.api (#332)
+- Create and fill plugin subpackage api modules (#323)
+- Add relevant classes to envisage.ui.tasks.api (#322)
+
+Fixes
+-----
+
+- Fix index slice in ExtensionPointChangedEvent when plugin changes (#357)
+- Fix ValueError from unregistering services when application stops (#345)
+- Fix the MOTD example (#319)
+- Fix the Hello_World example (#318)
+- Fix the attractors tasks application example (#317)
+- Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)
+
+Documentation
+-------------
+
+- Contribute examples to etsdemo (#380)
+- Refactor documentation links to source on GitHub (#379)
+- Make example run from any directory (#377)
+- Setup intersphinx in docs (#343)
+- Add documentation for envisage APIs (#340)
+- Use jinja templates for API documentation (#339)
+- Improve API docs : document traits (#334)
+- Rebuild documentation, mostly to fix search functionality (#290)
+
+Deprecations
+------------
+
+- Deprecate safeweakref and replace its uses (#275)
+
+Removals
+--------
 
 - Drop support for Python 3 versions older than Python 3.6. (#341)
+- Remove single_project (#331)
+- Remove class_load_hooks and ClassLoadHook (#321)
+
+Tests
+-----
+
+- Add tests for ExtensionRegistry getters (#349)
+- Add tests to demonstrate behaviour when mutating extension point directly
+  (#346)
+- Use mixin instead of having ProviderExtensionRegistryTestCase inherit from
+  ExtensionRegistryTestCase (#335)
+- Switch on default warning flag for CI test command (#326)
+- Add test eggs for Python 3.9 and remove eggs for Python 2.7 (#289)
+
+Build
+-----
+
+- Turn off macOS builds on Travis CI (#375)
+- Fix CI cron job setup to install apptools (#348)
+- Update setup.py to allow prerelease version (#344)
+- Add wx as being supported in etstool, add it back to CI, and test against
+  wxPython v4.x (#336)
+- Update EDM version to 3.0.1 in Travis CI and Appveyor. (#297)
+- Stop reporting code coverage in CI (#288)
+- Fix CI setup on Linux, Windows (#287)
+- Remove support for PySide and PyQt4 from CI (#285)
+- Add Slack notification for Travis CI runs (#283)
+- Add flake8 check to etstool and CI (#268)
 
 
 Version 4.9.2

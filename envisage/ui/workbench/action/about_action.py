@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -36,5 +36,3 @@ class AboutAction(Action):
         """ Perform the action. """
 
         self.window.application.about()
-
-        return

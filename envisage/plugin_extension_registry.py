@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -51,20 +51,14 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
             for plugin in new:
                 self.add_provider(plugin)
 
-        return
-
     @on_trait_change("plugin_manager:plugin_added")
     def _on_plugin_added(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
         self.add_provider(event.plugin)
 
-        return
-
     @on_trait_change("plugin_manager:plugin_removed")
     def _on_plugin_removed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
         self.remove_provider(event.plugin)
-
-        return

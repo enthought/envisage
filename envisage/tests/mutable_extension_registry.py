@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -26,8 +26,6 @@ class MutableExtensionRegistry(ExtensionRegistry):
 
         self.add_extensions(extension_point_id, [extension])
 
-        return
-
     def add_extensions(self, extension_point_id, extensions):
         """ Contribute a list of extensions to an extension point. """
 
@@ -41,14 +39,10 @@ class MutableExtensionRegistry(ExtensionRegistry):
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, extensions, [], index)
 
-        return
-
     def remove_extension(self, extension_point_id, extension):
         """ Remove a contribution from an extension point. """
 
         self.remove_extensions(extension_point_id, [extension])
-
-        return
 
     def remove_extensions(self, extension_point_id, extensions):
         """ Remove a list of contributions from an extension point. """
@@ -63,5 +57,3 @@ class MutableExtensionRegistry(ExtensionRegistry):
         # Let any listeners know that the extensions have been removed.
         refs = self._get_listener_refs(extension_point_id)
         self._call_listeners(refs, extension_point_id, [], extensions, None)
-
-        return

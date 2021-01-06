@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -70,8 +70,6 @@ class ExtensionPointBinding(HasTraits):
         bindings = ExtensionPointBinding._bindings.setdefault(self.obj, [])
         bindings.append(self)
 
-        return
-
     ###########################################################################
     # 'ExtensionPointBinding' interface.
     ###########################################################################
@@ -98,15 +96,11 @@ class ExtensionPointBinding(HasTraits):
         if not self._event_handled:
             self._set_extensions(new)
 
-        return
-
     def _on_trait_items_changed(self, obj, trait_name, old, event):
         """ Dynamic trait change handler. """
 
         if not self._event_handled:
             self._set_extensions(getattr(obj, self.trait_name))
-
-        return
 
     #### Other observer pattern listeners #####################################
 
@@ -120,8 +114,6 @@ class ExtensionPointBinding(HasTraits):
         else:
             self._set_trait(notify=True)
         self._event_handled = False
-
-        return
 
     #### Methods ##############################################################
 
@@ -140,8 +132,6 @@ class ExtensionPointBinding(HasTraits):
             self._extension_point_listener, self.extension_point_id
         )
 
-        return
-
     def _set_trait(self, notify):
         """ Set the object's trait to the value of the extension point. """
 
@@ -149,8 +139,6 @@ class ExtensionPointBinding(HasTraits):
         traits = {self.trait_name: value}
 
         self.obj.trait_set(trait_change_notify=notify, **traits)
-
-        return
 
     def _update_trait(self, event):
         """ Update the object's trait to the value of the extension point. """
@@ -161,16 +149,12 @@ class ExtensionPointBinding(HasTraits):
             self.trait_name + "_items", Undefined, event
         )
 
-        return
-
     def _set_extensions(self, extensions):
         """ Set the extensions to an extension point. """
 
         self.extension_registry.set_extensions(
             self.extension_point_id, extensions
         )
-
-        return
 
 
 # Factory function for creating bindings.

@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -178,8 +178,6 @@ class ServiceRegistry(HasTraits):
         except KeyError:
             raise ValueError("no service with id <%d>" % service_id)
 
-        return
-
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
@@ -191,8 +189,6 @@ class ServiceRegistry(HasTraits):
 
         except KeyError:
             raise ValueError("no service with id <%d>" % service_id)
-
-        return
 
     ###########################################################################
     # Private interface.

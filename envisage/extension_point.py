@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -101,16 +101,12 @@ class ExtensionPoint(TraitType):
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.connect(obj, trait_name)
 
-        return
-
     @staticmethod
     def disconnect_extension_point_traits(obj):
         """ Disconnect all of the 'ExtensionPoint' traits on an object. """
 
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.disconnect(obj, trait_name)
-
-        return
 
     ###########################################################################
     # 'object' interface.
@@ -151,8 +147,6 @@ class ExtensionPoint(TraitType):
         #
         # Dict(weakref.ref(Any), Dict(Str, Callable))
         self._obj_to_listeners_map = weakref.WeakKeyDictionary()
-
-        return
 
     def __repr__(self):
         """ String representation of an ExtensionPoint object """
@@ -246,8 +240,6 @@ class ExtensionPoint(TraitType):
         listeners = self._obj_to_listeners_map.setdefault(obj, {})
         listeners[trait_name] = listener
 
-        return
-
     def disconnect(self, obj, trait_name):
         """ Disconnect the extension point from a trait on an object. """
 
@@ -262,8 +254,6 @@ class ExtensionPoint(TraitType):
 
             # Clean up.
             del self._obj_to_listeners_map[obj][trait_name]
-
-        return
 
     ###########################################################################
     # Private interface.

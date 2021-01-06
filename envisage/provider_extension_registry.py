@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -56,8 +56,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         for extension_point_id, (refs, added, index) in events.items():
             self._call_listeners(refs, extension_point_id, added, [], index)
 
-        return
-
     def get_providers(self):
         """ Return all of the providers in the registry. """
 
@@ -74,8 +72,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
         for extension_point_id, (refs, removed, index) in events.items():
             self._call_listeners(refs, extension_point_id, [], removed, index)
-
-        return
 
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.
@@ -167,8 +163,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         for extension_point in provider.get_extension_points():
             self._extension_points[extension_point.id] = extension_point
 
-        return
-
     def _remove_provider(self, provider):
         """ Remove a provider. """
 
@@ -217,8 +211,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         for extension_point in provider.get_extension_points():
             # Remove the extension point.
             del self._extension_points[extension_point.id]
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -274,8 +266,6 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         self._call_listeners(
             refs, extension_point_id, event.added, event.removed, index
         )
-
-        return
 
     #### Methods ##############################################################
 

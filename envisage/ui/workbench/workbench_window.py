@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -122,14 +122,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         self._service_ids = self._register_service_offers(self._service_offers)
 
-        return
-
     def _closed_changed(self):
         """ Static trait change handler. """
 
         self._unregister_service_offers(self._service_ids)
-
-        return
 
     ###########################################################################
     # 'pyface.WorkbenchWindow' interface.
@@ -212,14 +208,10 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         self.service_registry.set_service_properties(service_id, properties)
 
-        return
-
     def unregister_service(self, service_id):
         """ Unregister a service. """
 
         self.service_registry.unregister_service(service_id)
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -265,5 +257,3 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
 
         for service_id in service_ids_copy:
             self.unregister_service(service_id)
-
-        return

@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -61,8 +61,6 @@ class PluginManager(HasTraits):
 
         self._update_plugin_application([], self._plugins)
 
-        return
-
     #: An optional list of the Ids of the plugins that are to be excluded by
     #: the manager.
     #:
@@ -94,8 +92,6 @@ class PluginManager(HasTraits):
         if plugins is not None:
             self._plugins = plugins
 
-        return
-
     def __iter__(self):
         """ Return an iterator over the manager's plugins. """
 
@@ -114,8 +110,6 @@ class PluginManager(HasTraits):
 
         self._plugins.append(plugin)
         self.plugin_added = PluginEvent(plugin=plugin)
-
-        return
 
     def get_plugin(self, plugin_id):
         """ Return the plugin with the specified Id. """
@@ -138,15 +132,11 @@ class PluginManager(HasTraits):
         self._plugins.remove(plugin)
         self.plugin_removed = PluginEvent(plugin=plugin)
 
-        return
-
     def start(self):
         """ Start the plugin manager. """
 
         for plugin in self._plugins:
             self.start_plugin(plugin)
-
-        return
 
     def start_plugin(self, plugin=None, plugin_id=None):
         """ Start the specified plugin. """
@@ -160,8 +150,6 @@ class PluginManager(HasTraits):
         else:
             raise SystemError("no such plugin %s" % plugin_id)
 
-        return
-
     def stop(self):
         """ Stop the plugin manager. """
 
@@ -171,8 +159,6 @@ class PluginManager(HasTraits):
 
         for plugin in stop_order:
             self.stop_plugin(plugin)
-
-        return
 
     def stop_plugin(self, plugin=None, plugin_id=None):
         """ Stop the specified plugin. """
@@ -186,8 +172,6 @@ class PluginManager(HasTraits):
         else:
             raise SystemError("no such plugin %s" % plugin_id)
 
-        return
-
     #### Protected 'PluginManager' ############################################
 
     # The plugins that the manager manages!
@@ -198,14 +182,10 @@ class PluginManager(HasTraits):
 
         self._update_plugin_application(old, new)
 
-        return
-
     def __plugins_items_changed(self, trait_name, old, new):
         """ Static trait change handler. """
 
         self._update_plugin_application(new.removed, new.added)
-
-        return
 
     def _include_plugin(self, plugin_id):
         """ Return True if the plugin should be included.
@@ -265,5 +245,3 @@ class PluginManager(HasTraits):
 
         for plugin in added:
             plugin.application = self.application
-
-        return

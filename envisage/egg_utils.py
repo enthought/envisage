@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -35,8 +35,6 @@ def add_eggs_on_path(working_set, path, on_error=None):
     # modules in the eggs available for importing).
     for distribution in distributions:
         working_set.add(distribution)
-
-    return
 
 
 def get_entry_points_in_egg_order(working_set, entry_point_name):

@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -43,8 +43,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self.assertTrue("acme.bar" in ids)
         self.assertTrue("acme.baz" in ids)
 
-        return
-
     def test_include_specific(self):
         """ include specific """
         # Add all of the eggs in the egg basket.
@@ -64,8 +62,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
-
-        return
 
     def test_include_multiple(self):
         """ include multiple """
@@ -87,8 +83,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
-
-        return
 
     def test_exclude_specific(self):
         """ exclude specific """
@@ -114,8 +108,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
 
-        return
-
     def test_exclude_multiple(self):
         """ exclude multiple """
 
@@ -139,8 +131,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
-
-        return
 
     ###########################################################################
     # Private interface.
@@ -173,5 +163,3 @@ class EggPluginManagerTestCase(EggBasedTestCase):
             plugin = plugin_manager.get_plugin(id)
             self.assertNotEqual(None, plugin)
             self.assertEqual(True, plugin.stopped)
-
-        return

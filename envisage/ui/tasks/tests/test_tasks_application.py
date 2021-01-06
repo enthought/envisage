@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -37,25 +37,6 @@ class TestTasksApplication(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
-
-    def test_layout_save_uses_protocol_2(self):
-        # We use pickle protocol 2 by default, to allow compatibility
-        # across Python versions.
-        state_location = self.tmpdir
-
-        # Create application, and set it up to exit as soon as it's launched.
-        app = TasksApplication(state_location=state_location)
-        app.on_trait_change(app.exit, "application_initialized")
-
-        memento_file = os.path.join(state_location, app.state_filename)
-        self.assertFalse(os.path.exists(memento_file))
-        app.run()
-        self.assertTrue(os.path.exists(memento_file))
-
-        # Check that the generated file has protocol 2.
-        with open(memento_file, "rb") as f:
-            protocol_bytes = f.read(2)
-        self.assertEqual(protocol_bytes, b"\x80\x02")
 
     @unittest.skipUnless(
         3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"

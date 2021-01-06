@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -51,8 +51,6 @@ class Service(TraitType):
 
         # The optional name of the trait/property to maximize.
         self._maximize = maximize
-
-        return
 
     def __repr__(self):
         """ String representation of a Service object """

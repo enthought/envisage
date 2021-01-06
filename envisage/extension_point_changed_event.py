@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2020 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -25,8 +25,6 @@ class ExtensionPointChangedEvent(TraitListEvent):
 
         # We add the extension point Id.
         self.extension_point_id = extension_point_id
-
-        return
 
     def __repr__(self):
         return ("ExtensionPointChangedEvent(extension_point_id={!r}, "
