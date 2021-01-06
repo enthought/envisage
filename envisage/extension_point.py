@@ -289,6 +289,8 @@ def _warn_if_not_internal(func):
                 RuntimeWarning,
                 stacklevel=3,
             )
+            # This restores the existing behavior where the operation
+            # is acted on a list object that is not persisted.
             return func(TraitList(iter(object)), *args, **kwargs)
         return func(object, *args, **kwargs)
 
