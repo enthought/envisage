@@ -336,9 +336,10 @@ class _ExtensionPointValue(TraitList):
         return self
 
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
         # Flag to control access for mutating the list. Only internal
         # code can mutate the list. See _sync_values
-        super().__init__(*args, **kwargs)
         self._internal_use = False
 
     def _sync_values(self, event):
