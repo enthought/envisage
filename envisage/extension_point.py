@@ -287,7 +287,7 @@ def _warn_if_not_internal(func):
             warnings.warn(
                 "Extension point cannot be mutated directly.",
                 RuntimeWarning,
-                stacklevel=3,
+                stacklevel=2,
             )
             # This restores the existing behavior where the operation
             # is acted on a list object that is not persisted.
