@@ -165,12 +165,6 @@ class ExtensionPointTestCase(unittest.TestCase):
             f.x[0] = 99
 
         with self.assertWarns(RuntimeWarning):
-            f.x *= 99
-
-        with self.assertWarns(RuntimeWarning):
-            f.x += [9]
-
-        with self.assertWarns(RuntimeWarning):
             del f.x[0:2]
 
         with self.assertWarns(RuntimeWarning):

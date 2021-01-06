@@ -11,6 +11,7 @@
 
 
 # Standard library imports.
+from functools import wraps
 import inspect
 import warnings
 import weakref
@@ -274,6 +275,26 @@ class ExtensionPoint(TraitType):
         return extension_registry
 
 
+def _warn_if_not_internal(func):
+    """ Decorator for instance methods of _ExtensionPointValue such that its
+    effect is nullified if the function is not called with the _internal_use
+    flag set to true.
+    """
+
+    @wraps(func)
+    def decorated(object, *args, **kwargs):
+        if not object._internal_use:
+            warnings.warn(
+                "Extension point cannot be mutated directly.",
+                RuntimeWarning,
+                stacklevel=3,
+            )
+            return func(TraitList(iter(object)), *args, **kwargs)
+        return func(object, *args, **kwargs)
+
+    return decorated
+
+
 class _ExtensionPointValue(TraitList):
     """ _ExtensionPointValue is the list being returned while retrieving the
     attribute value for an ExtensionPoint trait.
@@ -304,11 +325,18 @@ class _ExtensionPointValue(TraitList):
         Iterable providing the items for the list
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __new__(cls, *args, **kwargs):
+        # Methods such as 'append' or 'extend' may be called during unpickling.
+        # Initialize internal flag to true which gets changed back to false
+        # in __init__.
+        self = super().__new__(cls)
+        self._internal_use = True
+        return self
 
+    def __init__(self, *args, **kwargs):
         # Flag to control access for mutating the list. Only internal
         # code can mutate the list. See _sync_values
+        super().__init__(*args, **kwargs)
         self._internal_use = False
 
     def _sync_values(self, event):
@@ -336,93 +364,18 @@ class _ExtensionPointValue(TraitList):
         finally:
             self._internal_use = False
 
-    # Reimplement TraitList interface to avoid any mutation.
-    # The original implementation of __setitem__ and __delitem__ can be used
-    # by internal code.
-
-    def __delitem__(self, key):
-        """ Reimplemented TraitList.__delitem__ """
-
-        # This is used by internal code
-
-        if not self._internal_use:
-            self._warn_mutation()
-            return
-
-        super().__delitem__(key)
-
-    def __iadd__(self, value):
-        """ Reimplemented TraitList.__iadd__ """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-        return self[:]
-
-    def __imul__(self, value):
-        """ Reimplemented TraitList.__imul__ """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-        return self[:]
-
-    def __setitem__(self, key, value):
-        """ Reimplemented TraitList.__setitem__ """
-
-        # This is used by internal code
-
-        if not self._internal_use:
-            self._warn_mutation()
-            return
-
-        super().__setitem__(key, value)
-
-    def append(self, object):
-        """ Reimplemented TraitList.append """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def clear(self):
-        """ Reimplemented TraitList.clear """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def extend(self, iterable):
-        """ Reimplemented TraitList.extend """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def insert(self, index, object):
-        """ Reimplemented TraitList.insert """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def pop(self, index=-1):
-        """ Reimplemented TraitList.pop """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def remove(self, value):
-        """ Reimplemented TraitList.remove """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def reverse(self):
-        """ Reimplemented TraitList.reverse """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def sort(self, *, key=None, reverse=False):
-        """ Reimplemented TraitList.sort """
-        # We should not need it for internal use either.
-        self._warn_mutation()
-
-    def _warn_mutation(self):
-        """ Emit a warning when attempts to mutating this list is made
-        externally.
-        """
-        warnings.warn(
-            "Extension point cannot be mutated directly.",
-            RuntimeWarning,
-            stacklevel=3,
-        )
+    __delitem__ = _warn_if_not_internal(TraitList.__delitem__)
+    __iadd__ = _warn_if_not_internal(TraitList.__iadd__)
+    __imul__ = _warn_if_not_internal(TraitList.__imul__)
+    __setitem__ = _warn_if_not_internal(TraitList.__setitem__)
+    append = _warn_if_not_internal(TraitList.append)
+    clear = _warn_if_not_internal(TraitList.clear)
+    extend = _warn_if_not_internal(TraitList.extend)
+    insert = _warn_if_not_internal(TraitList.insert)
+    pop = _warn_if_not_internal(TraitList.pop)
+    remove = _warn_if_not_internal(TraitList.remove)
+    reverse = _warn_if_not_internal(TraitList.reverse)
+    sort = _warn_if_not_internal(TraitList.sort)
 
 
 def _get_extensions(object, name):
