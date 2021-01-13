@@ -225,7 +225,7 @@ class ExtensionPoint(TraitType):
                 _update_cache(obj, trait_name)
 
         # In case the cache was created first and the registry is then mutated
-        # before this ``connect``` is called, the internal cache would be in
+        # before this ``connect`` is called, the internal cache would be in
         # an inconsistent state. This also has the side-effect of firing
         # another change event, hence allowing future changes to be observed
         # without having to access the trait first.
