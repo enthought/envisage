@@ -10,18 +10,32 @@
 """ Tests for extension points. """
 
 # Standard library imports.
+import pickle
 import unittest
+import weakref
+
+from traits.api import Undefined
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
-from envisage.api import ExtensionRegistry
-from traits.api import HasTraits, Int, List, TraitError
+from envisage.api import ExtensionRegistry, IExtensionRegistry
+from traits.api import HasTraits, Instance, Int, List, TraitError
 
 
 class TestBase(HasTraits):
     """ Base class for all test classes that use the 'ExtensionPoint' type. """
 
     extension_registry = None
+
+
+class ClassWithExtensionPoint(HasTraits):
+    """ Class with an ExtensionPoint for testing purposes.
+    Defined at the module level for pickability.
+    """
+
+    extension_registry = Instance(IExtensionRegistry)
+
+    x = ExtensionPoint(List(Int), id="my.ep")
 
 
 class ExtensionPointTestCase(unittest.TestCase):
@@ -120,7 +134,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         registry.add_extension_point(self._create_extension_point("my.ep"))
 
         # Set the extensions.
-        registry.set_extensions("my.ep", [1, 2, 3])
+        registry.set_extensions("my.ep", [1, 2, 3, 0, 5])
 
         # Declare a class that consumes the extension.
         class Foo(TestBase):
@@ -128,13 +142,42 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         # when
         f = Foo()
-        f.x.append(42)
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.append(42)
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.clear()
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.extend((100, 101))
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.insert(0, 1)
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.pop()
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.remove(1)
+
+        with self.assertWarns(RuntimeWarning):
+            f.x[0] = 99
+
+        with self.assertWarns(RuntimeWarning):
+            del f.x[0:2]
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.reverse()
+
+        with self.assertWarns(RuntimeWarning):
+            f.x.sort()
 
         # then
         # The registry is not changed, and the extension point is still the
         # same as before
-        self.assertEqual(registry.get_extensions("my.ep"), [1, 2, 3])
-        self.assertEqual(f.x, [1, 2, 3])
+        self.assertEqual(registry.get_extensions("my.ep"), [1, 2, 3, 0, 5])
+        self.assertEqual(f.x.copy(), [1, 2, 3, 0, 5])
 
     def test_untyped_extension_point(self):
         """ untyped extension point """
@@ -205,6 +248,32 @@ class ExtensionPointTestCase(unittest.TestCase):
         with self.assertRaises(TraitError):
             getattr(f, "x")
 
+    def test_invalid_extension_point_after_mutation(self):
+        """ Test extension point becomes invalid later. """
+
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # Declare a class that consumes the extension.
+        class Foo(TestBase):
+            x = ExtensionPoint(List(Int), id="my.ep")
+
+        # Make sure we get a trait error because the type of the extension
+        # doesn't match that of the extension point.
+        f = Foo()
+        ExtensionPoint.connect_extension_point_traits(f)
+
+        # This is okay, the list is empty.
+        f.x
+
+        registry.set_extensions("my.ep", "xxx")
+
+        # Now this should fail.
+        with self.assertRaises(TraitError):
+            getattr(f, "x")
+
     def test_extension_point_with_no_id(self):
         """ extension point with no Id """
 
@@ -252,6 +321,80 @@ class ExtensionPointTestCase(unittest.TestCase):
         f.x = [42]
 
         self.assertEqual([42], registry.get_extensions("my.ep"))
+
+    def test_set_typed_extension_point_emit_change(self):
+        """ Test change event is emitted for setting the extension point """
+
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # Declare a class that consumes the extension.
+        class Foo(TestBase):
+            x = ExtensionPoint(List(Int), id="my.ep")
+
+        on_trait_change_events = []
+
+        def on_trait_change_handler(*args):
+            on_trait_change_events.append(args)
+
+        observed_events = []
+
+        f = Foo()
+        f.on_trait_change(on_trait_change_handler, "x")
+        f.observe(observed_events.append, "x")
+
+        # when
+        ExtensionPoint.connect_extension_point_traits(f)
+
+        # then
+        self.assertEqual(len(on_trait_change_events), 1)
+        self.assertEqual(len(observed_events), 1)
+        event, = observed_events
+        self.assertEqual(event.object, f)
+        self.assertEqual(event.name, "x")
+        self.assertEqual(event.old, Undefined)
+        self.assertEqual(event.new, [])
+
+    def test_object_garbage_collectable(self):
+        """ object can be garbage collected after disconnecting listeners."""
+        registry = self.registry
+
+        # Add an extension point.
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # Declare a class that consumes the extension.
+        class Foo(TestBase):
+            x = ExtensionPoint(List(Int), id="my.ep")
+
+        f = Foo()
+        object_ref = weakref.ref(f)
+
+        # when
+        ExtensionPoint.connect_extension_point_traits(f)
+        ExtensionPoint.disconnect_extension_point_traits(f)
+        del f
+
+        # then
+        self.assertIsNone(object_ref())
+
+    def test_object_pickability(self):
+        # Add an extension point.
+        self.registry.add_extension_point(ExtensionPoint(id="my.ep"))
+
+        # An object is created, connected to the registry and have the
+        # extension point created.
+        f = ClassWithExtensionPoint(extension_registry=self.registry)
+        ExtensionPoint.connect_extension_point_traits(f)
+        self.registry.set_extensions("my.ep", [1, 2, 3])
+        self.assertEqual(f.x, [1, 2, 3])
+
+        # then
+        for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+            serialized = pickle.dumps(f.x, protocol=protocol)
+            deserialized = pickle.loads(serialized)
+            self.assertEqual(deserialized, [1, 2, 3])
 
     def test_extension_point_str_representation(self):
         """ test the string representation of the extension point """
