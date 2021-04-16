@@ -75,7 +75,7 @@ class CompositePluginManager(HasTraits):
     plugin_managers = List(PluginManager)
 
     @on_trait_change("plugin_managers[]")
-    def _update_application(self, obj, trait_named, removed, added):
+    def _update_application_on_plugins(self, obj, trait_named, removed, added):
         for plugin_manager in removed:
             plugin_manager.application = self.application
 
