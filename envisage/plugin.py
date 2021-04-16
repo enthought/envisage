@@ -10,7 +10,6 @@
 """ The default implementation of the 'IPlugin' interface. """
 
 # Standard library imports.
-import inspect
 import logging
 import os
 from os.path import exists, join
