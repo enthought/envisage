@@ -28,12 +28,12 @@ class Plot2dPane(TraitsTaskPane):
     active_model = Instance(IPlottable2d)
     models = List(IPlottable2d)
 
-    plot_type = Property(Str, depends_on="active_model.plot_type")
-    title = Property(Str, depends_on="active_model.name")
-    x_data = Property(depends_on="active_model.x_data")
-    y_data = Property(depends_on="active_model.y_data")
-    x_label = Property(Str, depends_on="active_model.x_label")
-    y_label = Property(Str, depends_on="active_model.y_label")
+    plot_type = Property(Str, observe="active_model.plot_type")
+    title = Property(Str, observe="active_model.name")
+    x_data = Property(observe="active_model.x_data")
+    y_data = Property(observe="active_model.y_data")
+    x_label = Property(Str, observe="active_model.x_label")
+    y_label = Property(Str, observe="active_model.y_label")
 
     view = View(
         HGroup(

@@ -34,7 +34,7 @@ class Henon(HasTraits):
     steps = Int(10000)
 
     # Iteration results.
-    points = Property(Array, depends_on="a, b, initial_point, steps")
+    points = Property(Array, observe="a, b, initial_point, steps")
 
     # Configuration view.
     view = View(
@@ -49,8 +49,8 @@ class Henon(HasTraits):
 
     name = Str("Henon Map")
     plot_type = Str("scatter")
-    x_data = Property(Array, depends_on="points")
-    y_data = Property(Array, depends_on="points")
+    x_data = Property(Array, observe="points")
+    y_data = Property(Array, observe="points")
     x_label = Str("x")
     y_label = Str("y")
 

@@ -24,7 +24,7 @@ class ModelHelpPane(TraitsDockPane):
 
     model = Instance(HasTraits)
 
-    html = Property(Str, depends_on="model")
+    html = Property(Str, observe="model")
 
     view = View(
         Item(

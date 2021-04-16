@@ -23,7 +23,7 @@ class TaskWindow(PyfaceTaskWindow):
 
     #: The window's icon.  We override it so it can delegate to the application
     #: icon if the window's icon is not set.
-    icon = Property(Instance(ImageResource), depends_on="_icon")
+    icon = Property(Instance(ImageResource), observe="_icon")
 
     #### Protected interface ##################################################
 

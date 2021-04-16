@@ -100,7 +100,7 @@ class NamespaceView(View):
 
     # The bindings in the namespace.  This is a list of HasTraits objects with
     # 'name', 'type' and 'module' string attributes.
-    bindings = Property(List, depends_on=["namespace"])
+    bindings = Property(List, observe="namespace")
 
     shell_view = Instance(PythonShellView)
 

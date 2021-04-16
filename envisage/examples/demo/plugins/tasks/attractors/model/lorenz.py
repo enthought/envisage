@@ -31,8 +31,7 @@ class Lorenz(HasTraits):
 
     name = Str("Lorenz Attractor")
     points = Property(
-        Array,
-        depends_on=["prandtl", "rayleigh", "beta", "initial_point", "times"],
+        Array, observe="prandtl, rayleigh, beta, initial_point, times"
     )
 
     #### 'Lorenz' interface ###################################################
@@ -47,7 +46,7 @@ class Lorenz(HasTraits):
     time_start = Float(0.0)
     time_stop = Float(100.0)
     time_step = Float(0.01)
-    times = Property(Array, depends_on="time_start, time_stop, time_step")
+    times = Property(Array, observe="time_start, time_stop, time_step")
 
     # Configuration view.
     view = View(

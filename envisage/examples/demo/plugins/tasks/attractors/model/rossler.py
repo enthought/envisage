@@ -30,7 +30,7 @@ class Rossler(HasTraits):
     #### 'IModel3d' interface #################################################
 
     name = Str("Rossler Attractor")
-    points = Property(Array, depends_on=["a, b, c, initial_point, times"])
+    points = Property(Array, observe="a, b, c, initial_point, times")
 
     #### 'Rossler' interface ##################################################
 
@@ -44,7 +44,7 @@ class Rossler(HasTraits):
     time_start = Float(0.0)
     time_stop = Float(100.0)
     time_step = Float(0.01)
-    times = Property(Array, depends_on="time_start, time_stop, time_step")
+    times = Property(Array, observe="time_start, time_stop, time_step")
 
     # Configuration view.
     view = View(

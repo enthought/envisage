@@ -18,7 +18,7 @@ class TaskWindowToggleAction(Action):
 
     #### 'Action' interface ###################################################
 
-    name = Property(Str, depends_on="window.active_task.name")
+    name = Property(Str, observe="window.active_task.name")
     style = "toggle"
 
     #### 'TaskWindowToggleAction' interface ###################################
