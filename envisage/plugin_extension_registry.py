@@ -11,7 +11,7 @@
 
 
 # Enthought library imports.
-from traits.api import Instance, on_trait_change
+from traits.api import Instance, observe, on_trait_change
 
 # Local imports.
 from .i_plugin_manager import IPluginManager
@@ -37,8 +37,10 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
 
     #### Trait change handlers ################################################
 
-    def _plugin_manager_changed(self, trait_name, old, new):
+    @observe("plugin_manager")
+    def _update_providers(self, event):
         """ Static trait change handler. """
+        old, new = event.old, event.new
 
         # In practise I can't see why you would ever want (or need) to change
         # the registry's plugin manager on the fly, but hey... Hence, 'old'

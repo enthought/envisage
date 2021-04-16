@@ -15,11 +15,12 @@ import logging
 import os
 
 # Enthought library imports.
-from traits.etsconfig.api import ETSConfig
 from apptools.preferences.api import IPreferences, ScopedPreferences
 from apptools.preferences.api import set_default_preferences
-from traits.api import Delegate, Event, HasTraits, Instance, Str
-from traits.api import VetoableEvent, provides
+from traits.api import (
+    Delegate, Event, HasTraits, Instance, observe, provides, Str, VetoableEvent
+)
+from traits.etsconfig.api import ETSConfig
 
 # Local imports.
 from .i_application import IApplication
@@ -463,8 +464,11 @@ class Application(HasTraits):
     # 'application' trait of plugin instances - but that is only done for the
     # same reason as this (i.e. it is nice to be able to pass plugins into the
     # application constructor).
-    def _plugin_manager_changed(self, trait_name, old, new):
+
+    @observe("plugin_manager")
+    def _update_application(self, event):
         """ Static trait change handler. """
+        old, new = event.old, event.new
 
         if old is not None:
             old.application = None

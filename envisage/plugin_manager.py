@@ -13,7 +13,7 @@
 from fnmatch import fnmatch
 import logging
 
-from traits.api import Event, HasTraits, Instance, List, Str, provides
+from traits.api import Event, HasTraits, Instance, List, observe, provides, Str
 
 from .i_application import IApplication
 from .i_plugin import IPlugin
@@ -56,7 +56,8 @@ class PluginManager(HasTraits):
     #: The application that the plugin manager is part of.
     application = Instance(IApplication)
 
-    def _application_changed(self, trait_name, old, new):
+    @observe("application")
+    def _update_application_on_all_plugins(self, event):
         """ Static trait change handler. """
 
         self._update_plugin_application([], self._plugins)
@@ -177,15 +178,17 @@ class PluginManager(HasTraits):
     # The plugins that the manager manages!
     _plugins = List(IPlugin)
 
-    def __plugins_changed(self, trait_name, old, new):
+    @observe("_plugins")
+    def _update_application_on_plugins(self, event):
         """ Static trait change handler. """
-
+        old, new = event.old, event.new
         self._update_plugin_application(old, new)
 
-    def __plugins_items_changed(self, trait_name, old, new):
+    @observe("_plugins:items")
+    def _update_application_on_changed_plugins(self, event):
         """ Static trait change handler. """
 
-        self._update_plugin_application(new.removed, new.added)
+        self._update_plugin_application(event.removed, event.added)
 
     def _include_plugin(self, plugin_id):
         """ Return True if the plugin should be included.

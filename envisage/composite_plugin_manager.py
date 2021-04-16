@@ -14,8 +14,9 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Event, HasTraits, Instance, List, provides
-from traits.api import on_trait_change
+from traits.api import (
+    Event, HasTraits, Instance, List, observe, on_trait_change, provides,
+)
 
 # Local imports.
 from .i_application import IApplication
@@ -59,7 +60,9 @@ class CompositePluginManager(HasTraits):
     # The application that the plugin manager is part of.
     application = Instance(IApplication)
 
-    def _application_changed(self, trait_name, old, new):
+    @observe("application")
+    def _update_application(self, event):
+        new = event.new
         for plugin_manager in self.plugin_managers:
             plugin_manager.application = new
 

@@ -5,7 +5,9 @@ from os.path import basename
 from pyface.qt import QtCore, QtGui
 
 # Enthought library imports.
-from traits.api import Bool, Event, Instance, File, Property, provides, Str
+from traits.api import (
+    Bool, Event, Instance, File, observe, Property, provides, Str,
+)
 from pyface.tasks.api import Editor
 
 # Local imports.
@@ -92,11 +94,13 @@ class PythonEditor(Editor):
     # Trait handlers.
     ###########################################################################
 
-    def _path_changed(self):
+    @observe("path")
+    def _reload_data(self, event):
         if self.control is not None:
             self.load()
 
-    def _show_line_numbers_changed(self):
+    @observe("show_line_numbers")
+    def _update_visible_lines(self, event):
         if self.control is not None:
             self.control.code.line_number_widget.setVisible(
                 self.show_line_numbers
@@ -113,7 +117,7 @@ class PythonEditor(Editor):
         from pyface.ui.qt4.code_editor.code_widget import AdvancedCodeWidget
 
         self.control = control = AdvancedCodeWidget(parent)
-        self._show_line_numbers_changed()
+        self._update_visible_lines()
 
         # Install event filter to trap key presses.
         event_filter = PythonEditorEventFilter(self, self.control)
@@ -121,21 +125,21 @@ class PythonEditor(Editor):
         self.control.code.installEventFilter(event_filter)
 
         # Connect signals for text changes.
-        control.code.modificationChanged.connect(self._on_dirty_changed)
-        control.code.textChanged.connect(self._on_text_changed)
+        control.code.modificationChanged.connect(self._toggle_dirty)
+        control.code.textChanged.connect(self._toggle_changed_trait)
 
         # Load the editor's contents.
         self.load()
 
         return control
 
-    def _on_dirty_changed(self, dirty):
+    def _toggle_dirty(self, dirty):
         """ Called whenever a change is made to the dirty state of the
             document.
         """
         self.dirty = dirty
 
-    def _on_text_changed(self):
+    def _toggle_changed_trait(self):
         """ Called whenever a change is made to the text of the document.
         """
         self.changed = True

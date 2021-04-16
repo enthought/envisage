@@ -16,7 +16,7 @@ from os.path import basename
 # Enthought library imports.
 from pyface.workbench.api import TraitsUIEditor
 from pyface.api import FileDialog, CANCEL
-from traits.api import Code, Instance
+from traits.api import Code, Instance, observe
 from traitsui.api import CodeEditor, Group, Item, View
 from traitsui.key_bindings import KeyBinding, KeyBindings
 from traitsui.menu import NoButtons
@@ -151,9 +151,10 @@ class TextEditor(TraitsUIEditor):
 
     #### Trait change handlers ################################################
 
-    def _obj_changed(self, new):
+    @observe("obj")
+    def _handle_update_to_object(self, event):
         """ Static trait change handler. """
-
+        new = event.new
         # The path will be the empty string if we are editing a file that has
         # not yet been saved.
         if len(new.path) == 0:
@@ -167,15 +168,17 @@ class TextEditor(TraitsUIEditor):
             with open(new.path, "r", encoding="utf-8") as f:
                 self.text = f.read()
 
-    def _text_changed(self, trait_name, old, new):
+    @observe("text")
+    def _set_dirty(self, event):
         """ Static trait change handler. """
 
         if self.traits_inited():
             self.dirty = True
 
-    def _dirty_changed(self, dirty):
+    @observe("dirty")
+    def _update_name(self, event):
         """ Static trait change handler. """
-
+        dirty = event.new
         if len(self.obj.path) > 0:
             if dirty:
                 self.name = basename(self.obj.path) + "*"

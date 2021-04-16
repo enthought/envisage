@@ -7,7 +7,7 @@ from scipy.integrate import odeint
 
 # Enthought library imports.
 from chaco.chaco_plot_editor import ChacoPlotItem
-from traits.api import Array, DelegatesTo, Float, HasTraits
+from traits.api import Array, DelegatesTo, Float, HasTraits, observe
 from traits.api import Instance, List, Trait
 from traitsui.api import Item, HGroup, VGroup, View
 
@@ -36,22 +36,8 @@ class Lorenz(HasTraits):
     def __init__(self):
         self.refresh()
 
-    def _output_changed(self):
-        self.refresh()
-
-    def _prandtl_changed(self):
-        self.refresh()
-
-    def _rayleigh_changed(self):
-        self.refresh()
-
-    def _beta_changed(self):
-        self.refresh()
-
-    def _init_changed(self):
-        self.refresh()
-
-    def _time_changed(self):
+    @observe("output,prandtl,rayleigh,beta,init,time")
+    def _refresh_model_data(self, event):
         self.refresh()
 
     def lorenz(self, w, t, prandtl, rayleigh, beta):
