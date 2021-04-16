@@ -31,7 +31,6 @@ Application, plugin and related classes
 - :class:`~.CorePlugin`
 - :class:`~.EggPluginManager`
 - :class:`~.ExtensionPoint`
-- :func:`~.contributes_to`
 - :class:`~.ExtensionPointBinding`
 - :func:`~.bind_extension_point`
 - :class:`~.ExtensionProvider`
@@ -70,7 +69,7 @@ from .application import Application
 from .core_plugin import CorePlugin
 from .egg_plugin_manager import EggPluginManager
 from .extension_registry import ExtensionRegistry
-from .extension_point import ExtensionPoint, contributes_to
+from .extension_point import ExtensionPoint
 from .extension_point_binding import (
     ExtensionPointBinding,
     bind_extension_point,

@@ -123,6 +123,8 @@ class Plugin(ExtensionProvider):
     def get_extensions(self, extension_point_id):
         """ Return the provider's extensions to an extension point. """
 
+        extensions = []
+
         # Each class can have at most *one* trait that contributes to a
         # particular extension point.
         #
@@ -131,28 +133,7 @@ class Plugin(ExtensionProvider):
         # fine to allow mutiple traits!
         trait_names = self.trait_names(contributes_to=extension_point_id)
 
-        # FIXME: This is a temporary fix, which was necessary due to the
-        #        namespace refactor, but should be removed at some point.
-        if len(trait_names) == 0:
-            old_id = "enthought." + extension_point_id
-            trait_names = self.trait_names(contributes_to=old_id)
-        #            if trait_names:
-        #                print 'deprecated:', old_id
-
-        if len(trait_names) == 0:
-            # If there is no contributing trait then look for any decorated
-            # methods.
-            extensions = self._harvest_methods(extension_point_id)
-
-            # FIXME: This is a temporary fix, which was necessary due to the
-            #        namespace refactor, but should be removed at some point.
-            if not extensions:
-                old_id = "enthought." + extension_point_id
-                extensions = self._harvest_methods(old_id)
-        #                if extensions:
-        #                    print 'deprecated:', old_id
-
-        elif len(trait_names) == 1:
+        if len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
 
         else:
@@ -371,47 +352,6 @@ class Plugin(ExtensionProvider):
             protocol = trait.trait_type.klass
 
         return protocol
-
-    def _harvest_methods(self, extension_point_id):
-        """ Harvest all method-based contributions. """
-
-        extensions = []
-        # Using inspect.getmembers(self) here will cause an infinite recursion,
-        # so use an internal HasTraits method for inspecting the MRO of the
-        # instance's type to find all methods instead.
-        for name in self._each_trait_method(self):
-            value = getattr(self, name)
-            if self._is_extension_method(value, extension_point_id):
-                result = value()
-                if not isinstance(result, list):
-                    result = [result]
-
-                extensions.extend(result)
-
-        return extensions
-
-    def _is_extension_method(self, value, extension_point_id):
-        """ Return True if the value is an extension method.
-
-        i.e. If the method is one that makes a contribution to the extension
-        point. Currently there is exactly one way to make a method make a
-        contribution, and that is to mark it using the 'contributes_to'
-        decorator, e.g::
-
-          @contributes_to('acme.motd.messages')
-          def get_messages(self):
-              ...
-              messages = [...]
-              ...
-              return messages
-
-        """
-
-        is_extension_method = inspect.ismethod(
-            value
-        ) and extension_point_id == getattr(value, "__extension_point__", None)
-
-        return is_extension_method
 
     def _register_service_factory(self, trait_name, trait):
         """ Register a service factory for the specified trait. """
