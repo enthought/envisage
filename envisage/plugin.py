@@ -122,8 +122,6 @@ class Plugin(ExtensionProvider):
     def get_extensions(self, extension_point_id):
         """ Return the provider's extensions to an extension point. """
 
-        extensions = []
-
         # Each class can have at most *one* trait that contributes to a
         # particular extension point.
         #
@@ -132,7 +130,10 @@ class Plugin(ExtensionProvider):
         # fine to allow mutiple traits!
         trait_names = self.trait_names(contributes_to=extension_point_id)
 
-        if len(trait_names) == 1:
+        if len(trait_names) == 0:
+            extensions = []
+
+        elif len(trait_names) == 1:
             extensions = self._get_extensions_from_trait(trait_names[0])
 
         else:
