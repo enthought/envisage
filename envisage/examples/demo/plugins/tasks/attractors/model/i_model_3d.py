@@ -36,8 +36,8 @@ class IModel3dIPlottable2dMixin(HasTraits):
 
     name = DelegatesTo("adaptee")
 
-    x_data = Property(Array, depends_on="adaptee.points, x_label")
-    y_data = Property(Array, depends_on="adaptee.points, y_label")
+    x_data = Property(Array, observe="adaptee.points, x_label")
+    y_data = Property(Array, observe="adaptee.points, y_label")
 
     x_label = Trait("x", {"x": 0, "y": 1, "z": 2})
     y_label = Trait("y", {"x": 0, "y": 1, "z": 2})
