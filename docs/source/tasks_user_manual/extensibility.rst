@@ -97,12 +97,18 @@ With this in mind, we can define a ``Plugin`` for our application::
         tasks = List(contributes_to='envisage.ui.tasks.tasks')
 
         def _tasks_default(self):
-            return [ TaskFactory(id = 'example.attractors.task_2d',
-                                 name = '2D Visualization',
-                                 factory = Visualize2dTask),
-                     TaskFactory(id = 'example.attractors.task_3d',
-                                 name = '3D Visualization',
-                                 factory = Visualize3dTask) ]
+            return [
+                TaskFactory(
+                    id='example.attractors.task_2d',
+                    name='2D Visualization',
+                    factory=Visualize2dTask,
+                ),
+                TaskFactory(
+                    id='example.attractors.task_3d',
+                    name='3D Visualization',
+                    factory=Visualize3dTask,
+                ),
+            ]
 
 .. index:: application; layout, TaskWindowLayout
 
@@ -130,9 +136,13 @@ which must inherit ``TasksApplication``::
         #### 'TasksApplication' interface #####################################
 
         # The default application-level layout for the application.
-        default_layout = [ TaskWindowLayout('example.attractors.task_2d',
-                                            'example.attractors.task_3d',
-                                            size=(800, 600)) ]
+        default_layout = [
+            TaskWindowLayout(
+                'example.attractors.task_2d',
+                'example.attractors.task_3d',
+                size=(800, 600),
+            ),
+        ]
 
 Observe that each of the IDs specified in the layout must correspond to the ID
 of a ``TaskFactory`` that has been contributed to the Tasks plugin. Also note
@@ -222,7 +232,7 @@ and contributing it to the Envisage core plugin::
         preferences = List(contributes_to='envisage.preferences')
 
         def _preferences_default(self):
-            return [ 'pkgfile://example.attractors/preferences.ini' ]
+            return ['pkgfile://example.attractors/preferences.ini']
 
 This construction assumes that the attractors example is in Python's path (in
 the ``example.attractors`` package). Alternatively, we could have used the
@@ -248,6 +258,7 @@ above, exposes a Traits UI view for this helper object::
         #### Preferences ######################################################
 
         default_task = Str
+
         always_use_default_layout = Bool
 
     class AttractorsPreferencesPane(PreferencesPane):
@@ -263,16 +274,24 @@ above, exposes a Traits UI view for this helper object::
 
         # Notice that the default context for trait names is that of the model
         # object, and that we must prefix names for this object with 'handler.'.
-        view = View(Group(Item('always_use_default_layout'),
-                          Item('default_task',
-                               editor = EnumEditor(name='handler.task_map'),
-                               enabled_when = 'always_use_default_layout'),
-                          label='Application startup'),
-                    resizable=True)
+        view = View(
+            Group(
+                Item('always_use_default_layout'),
+                Item(
+                    'default_task',
+                    editor=EnumEditor(name='handler.task_map'),
+                    enabled_when='always_use_default_layout',
+                ),
+                label='Application startup',
+            ),
+            resizable=True,
+        )
 
         def _task_map_default(self):
-            return dict((factory.id, factory.name)
-                        for factory in self.dialog.application.task_factories)
+            return dict(
+                (factory.id, factory.name)
+                for factory in self.dialog.application.task_factories
+            )
 
 Finally, we modify our application to make use of this new functionality::
 
@@ -283,6 +302,7 @@ Finally, we modify our application to make use of this new functionality::
         #### 'TasksApplication' interface #####################################
 
         default_layout = List(TaskWindowLayout)
+
         always_use_default_layout = Property(Bool)
 
         #### 'AttractorsApplication' interface ################################
@@ -291,16 +311,20 @@ Finally, we modify our application to make use of this new functionality::
 
         def _default_layout_default(self):
             active_task = self.preferences_helper.default_task
-            tasks = [ factory.id for factory in self.task_factories ]
-            return [ TaskWindowLayout(*tasks,
-                                      active_task = active_task,
-                                      size = (800, 600)) ]
+            tasks = [factory.id for factory in self.task_factories]
+            return [
+                TaskWindowLayout(
+                    *tasks,
+                    active_task=active_task,
+                    size=(800, 600),
+                ),
+            ]
 
         def _get_always_use_default_layout(self):
             return self.preferences_helper.always_use_default_layout
 
         def _preferences_helper_default(self):
-            return AttractorsPreferences(preferences = self.preferences)
+            return AttractorsPreferences(preferences=self.preferences)
 
 and contribute the preferences pane to the Tasks plugin::
 
@@ -309,10 +333,11 @@ and contribute the preferences pane to the Tasks plugin::
         [ ... ]
 
         preferences_panes = List(
-            contributes_to='envisage.ui.tasks.preferences_panes')
+            contributes_to='envisage.ui.tasks.preferences_panes'
+        )
 
         def _preferences_panes_default(self):
-           return [ AttractorsPreferencesPane ]
+           return [AttractorsPreferencesPane]
 
 .. _extending-a-task:
 
@@ -339,19 +364,31 @@ schemas.
 A schema implicitly defines a *path* for each of its elements. For example, in
 the schema::
 
-    SMenuBar(SMenu(SGroup([ ... ],
-                          id = 'SaveGroup'),
-                   [ ... ],
-                   id = 'File', name = '&File),
-             SMenu([ ... ],
-                   id = 'Edit', name = '&Edit'))
+    SMenuBar(
+        SMenu(
+            SGroup(
+                [ ... ],
+                id='SaveGroup',
+            ),
+            [ ... ],
+            id='File',
+            name='&File,
+        ),
+        SMenu(
+            [ ... ],
+            id='Edit',
+            name='&Edit',
+        ),
+    )
 
 the edit menu has the path "MenuBar/Edit". Likewise, the save group in the file
 menu has the path "MenuBar/File/SaveGroup". We might define an addition for this
 menu as follows::
 
-    SchemaAddition(factory = MyContributedGroup,
-                   path = 'MenuBar/File')
+    SchemaAddition(
+        factory=MyContributedGroup,
+        path='MenuBar/File',
+    )
 
 where ``factory`` is a callable that produces either a schema or an object from
 the Pyface action API [2]_. A schema addition that produces a schema can in turn
@@ -368,9 +405,11 @@ and ``after``. Setting one of these attributes to the ID of a schema with the
 same path ensures that the insertion will be made before or after, respectively,
 that schema. For example, in the expanded addition::
 
-     SchemaAddition(factory = MyContributedGroup,
-                    before = 'SaveGroup',
-                    path = 'MenuBar/File')
+     SchemaAddition(
+        factory=MyContributedGroup,
+        before='SaveGroup',
+        path='MenuBar/File',
+    )
 
 the created group would be inserted before the save group. If both ``before``
 and ``after`` are set, Tasks will attempt to honor both of them [3]_. In the

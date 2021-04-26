@@ -44,7 +44,7 @@ point that allows other plugins to contribute new messages. Using the
 
 	...
 
-	# The messages extension point.
+	#: The messages extension point.
 	messages = ExtensionPoint(
             List(IMessage), id='acme.motd.messages', desc = """
 
@@ -56,31 +56,7 @@ point that allows other plugins to contribute new messages. Using the
 
 	...
 
-Overriding the 'get_extension_points' method might look somthing like::
-
-    class MOTDPlugin(Plugin):
-        """ The MOTD Plugin. """"
-
-	...
-
-	def get_extension_points(self):
-            """ Return the plugin's extension points. """
-
-     	    messages = ExtensionPoint(
-                List(IMessage), id='acme.motd.messages', desc = """
-
-                This extension point allows you to contribute messages to the 'Message
-                Of The Day'.
-
-                """
-            )
-
-            return [messages]
-
-	...
-
-
-Either way, this tells us three things about the extension point:
+This tells us three things about the extension point:
 
 1) That the extension point is called "acme.motd.messages"
 2) That every item in a list of contributions to the extension point must
@@ -102,19 +78,20 @@ a simple module (|messages.py|) and add our |Message| instances to it::
 
     messages = [
         ...
-
         Message(
-            author = "Martin Fowler",
-            text   = "Any fool can write code that a computer can understand. Good"
-            " programmers write code that humans can understand."
-        )
-
+            author="Martin Fowler",
+            text=(
+                "Any fool can write code that a computer can understand. Good"
+                " programmers write code that humans can understand."
+            ),
+        ),
         Message(
-            author = "Chet Hendrickson",
-            text   = "The rule is, 'Do the simplest thing that could possibly"
-            " work', not the most stupid."
-        )
-
+            author="Chet Hendrickson",
+            text=(
+                "The rule is, 'Do the simplest thing that could possibly"
+                " work', not the most stupid."
+            ),
+        ),
         ...
     ]
 
@@ -134,18 +111,18 @@ The declarative version looks like this::
 
         # The 'contributes_to' trait metadata tells Envisage the ID of the
         # extension point that this trait contributes to.
-	messages = List(contributes_to='acme.motd.messages')
+        messages = List(contributes_to='acme.motd.messages')
 
         def _messages_default(self):
-            """ Trait initializer. """
+            """ Returns the default value for the ``messeges`` trait. """
 
-	    # It is good practise to only import your extensions when they
-	    # are actually required.
-	    from messages import messages
+            # It is good practise to only import your extensions when they
+            # are actually required.
+            from .messages import messages
 
-	    return messages
+            return messages
 
-	...
+        ...
 
 The messages are contributed simply by creating a list trait and setting its
 "contributes_to" metadata to the ID of the extension point that we want to
@@ -162,21 +139,18 @@ The programmatic version looks like this::
         """ The software quotes plugin. """
 
         ...
-
-	def get_extensions(self, extension_point_id):
+        def get_extensions(self, extension_point_id):
             """ Get the plugin's contributions to an extension point. """
 
-	    if extension_point_id == 'acme.motd.messages':
-	        from messages import messages
+            if extension_point_id == 'acme.motd.messages':
+                from .messages import messages
 
                 extensions = messages
-
-	    else:
+            else:
                 extensions = []
 
             return extensions
-
-	...
+        ...
 
 The difference between this and the declarative version is that the application
 is not automatically notified if the plugin wants to change its contributions
@@ -198,10 +172,10 @@ In the MOTD example, the messages are retrieved by the |acme.motd| plugin::
     class MOTDPlugin(Plugin):
         """ The MOTD Plugin. """"
 
-	...
+        ...
 
-	# The messages extension point.
-	messages = ExtensionPoint(
+        # The messages extension point.
+        messages = ExtensionPoint(
             List(IMessage), id='acme.motd.messages', desc = """
 
             This extension point allows you to contribute messages to the 'Message
@@ -210,17 +184,16 @@ In the MOTD example, the messages are retrieved by the |acme.motd| plugin::
             """
         )
 
-	...
+        ...
 
         def _motd_default(self):
-            """ Trait initializer. """
+            """ Returns the default value for the motd trait. """
 
             # Only do imports when you need to!
-            from motd import MOTD
+            from .motd import MOTD
 
             return MOTD(messages=self.messages)
-
-            ...
+        ...
 
 As you can see, all we have to do is to access the **messages** extension point
 trait when we create our instance of the |MOTD| class.

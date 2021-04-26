@@ -40,20 +40,20 @@ is to subclass the base |Plugin| class), and should provide the following
 Here is a snippet from the |acme.motd| plugin that is part of the |Message of
 the Day| example::
 
-    class MOTDPlugin(Plugin):
-        """ The 'Message of the Day' plugin.
+  class MOTDPlugin(Plugin):
+    """ The 'Message of the Day' plugin.
 
-	When this plugin is started it prints the 'Message of the Day' to stdout.
+    When this plugin is started it prints the 'Message of the Day' to stdout.
 
-        """
+    """
 
-        #### 'IPlugin' interface ##############################################
+    #### 'IPlugin' interface ##############################################
 
-        # The plugin's unique identifier.
-        id = 'acme.motd'
+    # The plugin's unique identifier.
+    id = 'acme.motd'
 
-        # The plugin's name (suitable for displaying to the user).
-        name = 'MOTD'
+    # The plugin's name (suitable for displaying to the user).
+    name = 'MOTD'
 
 Plugin Lifecycle
 ----------------
