@@ -12,7 +12,7 @@
 
 # Enthought library imports.
 from pyface.action.api import ActionManager, MenuManager
-from traits.api import HasTraits, Instance, List, provides
+from traits.api import HasTraits, Instance, List, observe, provides
 
 # Local imports.
 from .action_set import ActionSet
@@ -179,9 +179,10 @@ class AbstractActionManagerBuilder(HasTraits):
 
     #### Trait change handler #################################################
 
-    def _action_sets_changed(self, old, new):
+    @observe("action_sets")
+    def _update_action_sets_on_manager(self, event):
         """ Static trait change handler. """
-
+        new = event.new
         self._action_set_manager.action_sets = new
 
     #### Methods ##############################################################

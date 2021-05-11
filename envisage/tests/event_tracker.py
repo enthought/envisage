@@ -12,6 +12,7 @@
 
 # Enthought library imports.
 from traits.api import HasTraits, List, Str, Tuple
+from traits.has_traits import observe
 
 
 class EventTracker(HasTraits):
@@ -46,16 +47,18 @@ class EventTracker(HasTraits):
 
     #### Trait change handlers ################################################
 
-    def _subscriptions_changed(self, old, new):
+    @observe("subscriptions")
+    def _update_listeners_on_all_subscriptions(self, event):
         """ Static trait change handler. """
-
+        old, new = event.old, event.new
         for subscription in old:
             self._remove_subscription(subscription)
 
         for subscription in new:
             self._add_subscription(subscription)
 
-    def _subscriptions_items_changed(self, event):
+    @observe("subscriptions:items")
+    def _update_listeners_on_changed_subscriptions(self, event):
         """ Static trait change handler. """
 
         for subscription in event.removed:

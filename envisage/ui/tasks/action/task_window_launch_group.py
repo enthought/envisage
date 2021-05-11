@@ -12,7 +12,7 @@
 from pyface.action.api import ActionItem, Group
 from pyface.tasks.api import TaskWindowLayout
 from pyface.tasks.action.api import TaskAction
-from traits.api import List, Str
+from traits.api import List, observe, Str
 
 
 class TaskWindowLaunchAction(TaskAction):
@@ -38,9 +38,11 @@ class TaskWindowLaunchAction(TaskAction):
 
     #### Trait change handlers ################################################
 
-    def _task_changed(self, task):
+    @observe("task")
+    def _update_name(self, event):
         """ Name the action (unless a name has already been assigned).
         """
+        task = event.new
         if task and not self.name:
             name = ""
             for factory in task.window.application.task_factories:

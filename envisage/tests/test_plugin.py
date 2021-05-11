@@ -18,8 +18,9 @@ import unittest
 from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
-from traits.api import HasTraits, Instance, Int, Interface, List
-from traits.api import provides
+from traits.api import (
+    HasTraits, Instance, Int, Interface, List, observe, provides,
+)
 
 
 def listener(obj, trait_name, old, new):
@@ -267,7 +268,8 @@ class PluginTestCase(unittest.TestCase):
             id = "A"
             x = ExtensionPoint(List(Int), id="x")
 
-            def _x_items_changed(self, event):
+            @observe("x:items")
+            def _notify_listeners(self, event):
                 self.added = event.added
                 self.removed = event.removed
 
