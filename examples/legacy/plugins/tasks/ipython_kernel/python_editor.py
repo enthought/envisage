@@ -100,7 +100,7 @@ class PythonEditor(Editor):
             self.load()
 
     @observe("show_line_numbers")
-    def _update_visible_lines(self, event):
+    def _update_visible_lines(self, event=None):
         if self.control is not None:
             self.control.code.line_number_widget.setVisible(
                 self.show_line_numbers
