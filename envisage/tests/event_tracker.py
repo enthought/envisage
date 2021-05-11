@@ -48,7 +48,7 @@ class EventTracker(HasTraits):
     #### Trait change handlers ################################################
 
     @observe("subscriptions")
-    def _handle_changes_to_subscriptions(self, event):
+    def _update_listeners_on_all_subscriptions(self, event):
         """ Static trait change handler. """
         old, new = event.old, event.new
         for subscription in old:
@@ -58,7 +58,7 @@ class EventTracker(HasTraits):
             self._add_subscription(subscription)
 
     @observe("subscriptions:items")
-    def _handle_changes_to_subscriptions_items(self, event):
+    def _update_listeners_on_changed_subscriptions(self, event):
         """ Static trait change handler. """
 
         for subscription in event.removed:

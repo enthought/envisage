@@ -31,12 +31,7 @@ class PluginManager(HasTraits):
     This implementation manages an explicit collection of plugin instances,
     e.g::
 
-        plugin_manager = PluginManager(
-             plugins = [
-                 MyPlugin(),
-                 YourPlugin()
-             ]
-        )
+        plugin_manager = PluginManager(plugins=[MyPlugin(), YourPlugin()])
 
     Plugins can be added and removed after construction time via the methods
     'add_plugin' and 'remove_plugin'.
@@ -57,10 +52,10 @@ class PluginManager(HasTraits):
     application = Instance(IApplication)
 
     @observe("application")
-    def _update_application_on_all_plugins(self, event):
+    def _set_new_application_on_all_plugins(self, event):
         """ Static trait change handler. """
 
-        self._update_plugin_application([], self._plugins)
+        self._update_application_on_plugins([], self._plugins)
 
     #: An optional list of the Ids of the plugins that are to be excluded by
     #: the manager.
@@ -179,16 +174,16 @@ class PluginManager(HasTraits):
     _plugins = List(IPlugin)
 
     @observe("_plugins")
-    def _update_application_on_plugins(self, event):
+    def _update_application_on_all_plugins(self, event):
         """ Static trait change handler. """
         old, new = event.old, event.new
-        self._update_plugin_application(old, new)
+        self._update_application_on_plugins(old, new)
 
     @observe("_plugins:items")
     def _update_application_on_changed_plugins(self, event):
         """ Static trait change handler. """
 
-        self._update_plugin_application(event.removed, event.added)
+        self._update_application_on_plugins(event.removed, event.added)
 
     def _include_plugin(self, plugin_id):
         """ Return True if the plugin should be included.
@@ -240,7 +235,7 @@ class PluginManager(HasTraits):
 
         return False
 
-    def _update_plugin_application(self, removed, added):
+    def _update_application_on_plugins(self, removed, added):
         """ Update the 'application' trait of plugins added/removed. """
 
         for plugin in removed:

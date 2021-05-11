@@ -169,7 +169,7 @@ class TextEditor(TraitsUIEditor):
                 self.text = f.read()
 
     @observe("text")
-    def _set_dirty(self, event):
+    def _update_dirty(self, event):
         """ Static trait change handler. """
 
         if self.traits_inited():
