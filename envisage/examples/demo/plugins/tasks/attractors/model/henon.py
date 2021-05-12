@@ -1,4 +1,5 @@
 # System library imports.
+import numpy as np
 from scipy import array, zeros
 
 # Enthought library imports.
@@ -30,7 +31,7 @@ class Henon(HasTraits):
     b = Float(0.3, auto_set=False, enter_set=True)
 
     # Iteration parameters.
-    initial_point = Array(value=[0.1, 0.1])
+    initial_point = Array(dtype=np.float64, value=[0.1, 0.1])
     steps = Int(10000)
 
     # Iteration results.
