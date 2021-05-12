@@ -1,4 +1,6 @@
 # Enthought library imports.
+from enable.api import ComponentEditor
+from chaco.api import ArrayPlotData, Plot
 from chaco.chaco_plot_editor import ChacoPlotItem
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
@@ -8,9 +10,10 @@ from traits.api import (
     List,
     Property,
     Str,
+    observe,
     on_trait_change,
 )
-from traitsui.api import EnumEditor, HGroup, Item, Label, View
+from traitsui.api import EnumEditor, HGroup, Item, Label, UItem, View
 
 # Local imports.
 from attractors.model.i_plottable_2d import IPlottable2d
@@ -35,28 +38,53 @@ class Plot2dPane(TraitsTaskPane):
     x_label = Property(Str, observe="active_model.x_label")
     y_label = Property(Str, observe="active_model.y_label")
 
+    plot = Instance(Plot)
+
+    def _plot_default(self):
+        plot = Plot(ArrayPlotData(x=self.x_data, y=self.y_data))
+        plot.x_axis.title = self.x_label
+        plot.y_axis.title = self.y_label
+
+        plot.plot(
+            ("x", "y"), type=self.plot_type, name=self.title, marker='pixel', color="blue"
+        )
+
+        return plot
+
+    @observe("x_data,y_data")
+    def _update_plot_data(self, event):
+        if event.name == "x_data":
+            self.plot.data.set_data("x", self.x_data)
+        else:
+            self.plot.data.set_data("y", self.y_data)
+
+    @observe("x_label,y_label")
+    def _update_plot_data(self, event):
+        if event.name == "x_label":
+            self.plot.x_axis.title = event.new
+        else:
+            self.plot.y_axis.title = event.new
+
+    @observe("active_model")
+    def _update_plot_new_model(self, event):
+        if event.old:
+            self.plot.delplot(event.old.name)
+        print(event.new.plot_type)
+        self.plot.plot(
+            ("x", "y"), type=event.new.plot_type, name=event.new.name, marker='pixel', color="blue"
+        )
+        print('heyyyy')
+        self.plot.invalidate_and_redraw()
+        print('yoooo')
+
     view = View(
         HGroup(
             Label("Model: "),
             Item("active_model", editor=EnumEditor(name="_enum_map")),
             show_labels=False,
         ),
-        ChacoPlotItem(
-            "x_data",
-            "y_data",
-            show_label=False,
-            resizable=True,
-            orientation="h",
-            marker="pixel",
-            marker_size=1,
-            type_trait="plot_type",
-            title="",
-            x_label_trait="x_label",
-            y_label_trait="y_label",
-            color="blue",
-            bgcolor="white",
-            border_visible=False,
-            border_width=1,
+        UItem(
+            "plot", editor=ComponentEditor()
         ),
         resizable=True,
     )
