@@ -13,7 +13,8 @@ we removed the ``@contributes_to`` decorator and the code needed to handle
 methods decorated with the above decorator.
 
 Additionally, with this release, parts of envisage start using the new traits
-observation framework instead of the old traits ``on_trait_change``.
+observation framework instead of the old traits ``on_trait_change``. So,
+Envisage now depends on Traits version >= 6.2.
 
 Features
 --------
