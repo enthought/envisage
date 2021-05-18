@@ -12,7 +12,6 @@ from traits.api import (
     Str,
     cached_property,
     provides,
-    observe
 )
 from traitsui.api import Item, View
 
@@ -51,8 +50,8 @@ class Henon(HasTraits):
 
     name = Str("Henon Map")
     plot_type = Str("scatter")
-    x_data = Array()
-    y_data = Array()
+    x_data = Property(Array, observe="points")
+    y_data = Property(Array, observe="points")
     x_label = Str("x")
     y_label = Str("y")
 
@@ -69,7 +68,10 @@ class Henon(HasTraits):
             point = array([y + 1 - self.a * x ** 2, self.b * x])
         return points
 
-    @observe('points')
-    def _update_data(self, event):
-        self.x_data = self.points[:, 0]
-        self.y_data = self.points[:, 1]
+    @cached_property
+    def _get_x_data(self):
+        return self.points[:, 0]
+
+    @cached_property
+    def _get_y_data(self):
+        return self.points[:, 1]
