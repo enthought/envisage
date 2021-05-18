@@ -1,7 +1,6 @@
 # Enthought library imports.
-from enable.api import ComponentEditor
 from chaco.api import ArrayPlotData, Plot
-from chaco.chaco_plot_editor import ChacoPlotItem
+from enable.api import ComponentEditor
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
     Dict,
@@ -47,7 +46,7 @@ class Plot2dPane(TraitsTaskPane):
         plot.plot(
             ("x", "y"),
             type=self.plot_type,
-            name=self.name,
+            name=self.title,
             marker='pixel',
             color="blue"
         )
@@ -78,7 +77,11 @@ class Plot2dPane(TraitsTaskPane):
         self.plot.data.set_data("x", event.new.x_data)
         self.plot.data.set_data("y", event.new.y_data)
         self.plot.plot(
-            ("x", "y"), type=event.new.plot_type, name=event.new.name, marker='pixel', color="blue"
+            ("x", "y"),
+            type=self.plot_type,
+            name=self.title,
+            marker='pixel',
+            color="blue"
         )
         self.plot.invalidate_and_redraw()
 
