@@ -31,28 +31,30 @@ class Plot2dPane(TraitsTaskPane):
     active_model = Instance(IPlottable2d)
     models = List(IPlottable2d)
 
+    plot_type = Property(Str, observe="active_model.plot_type")
+    title = Property(Str, observe="active_model.name")
+    x_data = Property(observe="active_model.x_data")
+    y_data = Property(observe="active_model.y_data")
+    x_label = Property(Str, observe="active_model.x_label")
+    y_label = Property(Str, observe="active_model.y_label")
     plot = Instance(Plot)
 
     def _plot_default(self):
-        plot = Plot(
-            ArrayPlotData(
-                x=self.active_model.x_data, y=self.active_model.y_data
-            )
-        )
-        plot.x_axis.title = self.active_model.x_label
-        plot.y_axis.title = self.active_model.y_label
+        plot = Plot(ArrayPlotData(x=self.x_data, y=self.y_data))
+        plot.x_axis.title = self.x_label
+        plot.y_axis.title = self.y_label
 
         plot.plot(
             ("x", "y"),
-            type=self.active_model.plot_type,
-            name=self.active_model.name,
+            type=self.plot_type,
+            name=self.name,
             marker='pixel',
             color="blue"
         )
 
         return plot
 
-    @observe("active_model:x_data,active_model:y_data")
+    @observe("x_data,y_data")
     def _update_plot_data(self, event):
         if event.name == "x_data":
             self.plot.data.set_data("x", event.new)
@@ -60,7 +62,7 @@ class Plot2dPane(TraitsTaskPane):
             self.plot.data.set_data("y", event.new)
         self.plot.invalidate_and_redraw()
 
-    @observe("active_model:[x_label,y_label]")
+    @observe("x_label,y_label")
     def _update_axis_label(self, event):
         if event.name == "x_label":
             self.plot.x_axis.title = event.new
@@ -95,6 +97,30 @@ class Plot2dPane(TraitsTaskPane):
     #### Private traits #######################################################
 
     _enum_map = Dict(IPlottable2d, Str)
+
+    ###########################################################################
+    # Protected interface.
+    ###########################################################################
+
+    #### Trait property getters/setters #######################################
+
+    def _get_plot_type(self):
+        return self.active_model.plot_type if self.active_model else "line"
+
+    def _get_title(self):
+        return self.active_model.name if self.active_model else ""
+
+    def _get_x_data(self):
+        return self.active_model.x_data if self.active_model else []
+
+    def _get_y_data(self):
+        return self.active_model.y_data if self.active_model else []
+
+    def _get_x_label(self):
+        return self.active_model.x_label if self.active_model else ""
+
+    def _get_y_label(self):
+        return self.active_model.y_label if self.active_model else ""
 
     #### Trait change handlers ################################################
 
