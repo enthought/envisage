@@ -1,5 +1,6 @@
 # Enthought library imports.
-from chaco.chaco_plot_editor import ChacoPlotItem
+from chaco.api import ArrayPlotData, Plot
+from enable.api import ComponentEditor
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
     Dict,
@@ -8,9 +9,10 @@ from traits.api import (
     List,
     Property,
     Str,
+    observe,
     on_trait_change,
 )
-from traitsui.api import EnumEditor, HGroup, Item, Label, View
+from traitsui.api import EnumEditor, HGroup, Item, Label, UItem, View
 
 # Local imports.
 from attractors.model.i_plottable_2d import IPlottable2d
@@ -34,6 +36,54 @@ class Plot2dPane(TraitsTaskPane):
     y_data = Property(observe="active_model.y_data")
     x_label = Property(Str, observe="active_model.x_label")
     y_label = Property(Str, observe="active_model.y_label")
+    plot = Instance(Plot)
+
+    def _plot_default(self):
+        plot = Plot(ArrayPlotData(x=self.x_data, y=self.y_data))
+        plot.x_axis.title = self.x_label
+        plot.y_axis.title = self.y_label
+
+        plot.plot(
+            ("x", "y"),
+            type=self.plot_type,
+            name=self.title,
+            marker='pixel',
+            color="blue"
+        )
+
+        return plot
+
+    @observe("x_data,y_data")
+    def _update_plot_data(self, event):
+        if event.name == "x_data":
+            self.plot.data.set_data("x", event.new)
+        else:
+            self.plot.data.set_data("y", event.new)
+        self.plot.invalidate_and_redraw()
+
+    @observe("x_label,y_label")
+    def _update_axis_label(self, event):
+        if event.name == "x_label":
+            self.plot.x_axis.title = event.new
+        else:
+            self.plot.y_axis.title = event.new
+        self.plot.invalidate_and_redraw()
+
+    @observe("active_model")
+    def _update_plot_new_model(self, event):
+        if event.old:
+            self.plot.delplot(event.old.name)
+
+        self.plot.data.set_data("x", event.new.x_data)
+        self.plot.data.set_data("y", event.new.y_data)
+        self.plot.plot(
+            ("x", "y"),
+            type=self.plot_type,
+            name=self.title,
+            marker='pixel',
+            color="blue"
+        )
+        self.plot.invalidate_and_redraw()
 
     view = View(
         HGroup(
@@ -41,22 +91,8 @@ class Plot2dPane(TraitsTaskPane):
             Item("active_model", editor=EnumEditor(name="_enum_map")),
             show_labels=False,
         ),
-        ChacoPlotItem(
-            "x_data",
-            "y_data",
-            show_label=False,
-            resizable=True,
-            orientation="h",
-            marker="pixel",
-            marker_size=1,
-            type_trait="plot_type",
-            title="",
-            x_label_trait="x_label",
-            y_label_trait="y_label",
-            color="blue",
-            bgcolor="white",
-            border_visible=False,
-            border_width=1,
+        UItem(
+            "plot", editor=ComponentEditor()
         ),
         resizable=True,
     )
