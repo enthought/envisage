@@ -116,6 +116,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
+
         # Append a contribution.
         b.x.append(4)
 
@@ -154,6 +159,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
+
         # Append a contribution.
         b.x.append(4)
 
@@ -175,6 +185,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[a, b, c])
         application.start()
+
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Remove a contribution.
         b.x.remove(3)
@@ -214,6 +229,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
+
         # Remove a contribution.
         b.x.remove(3)
 
@@ -235,6 +255,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[a, b, c])
         application.start()
+
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Assign an empty list to one of the plugin's contributions.
         b.x = []
@@ -275,6 +300,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
+
         # Assign an empty list to one of the plugin's contributions.
         b.x = []
 
@@ -286,6 +316,38 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(event.removed, [1, 2, 3])
         self.assertEqual(event.index, 0)
 
+    def test_assign_empty_list_no_event(self):
+        """ assign empty list no event """
+
+        a = PluginA()
+        a.on_trait_change(listener, "x_items")
+        b = PluginB()
+        c = PluginC()
+
+        application = TestApplication(plugins=[a, b, c])
+        application.start()
+
+        # Assign an empty list to one of the plugin's contributions.
+        b.x = []
+
+        # Make sure we pick up the correct contribution via the application.
+        extensions = application.get_extensions("a.x")
+        extensions.sort()
+
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([98, 99, 100], extensions)
+
+        # Make sure we pick up the correct contribution via the plugin.
+        extensions = a.x[:]
+        extensions.sort()
+
+        self.assertEqual(3, len(extensions))
+        self.assertEqual([98, 99, 100], extensions)
+
+        # We shouldn't get a trait event here because we haven't accessed the
+        # extension point yet!
+        self.assertEqual(None, listener.obj)
+
     def test_assign_non_empty_list(self):
         """ assign non-empty list """
 
@@ -296,6 +358,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[a, b, c])
         application.start()
+
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Keep the old values for later slicing check
         source_values = list(a.x)
@@ -349,6 +416,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         application = TestApplication(plugins=[a, b, c])
         application.start()
+
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Assign a non-empty list to one of the plugin's contributions.
         b.x = [2, 4, 6, 8]
@@ -426,6 +498,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3], a.x)
+
         # Now add the other plugin.
         application.add_plugin(c)
 
@@ -501,6 +578,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application = TestApplication(plugins=[a, b, c])
         application.start()
 
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
+
         # Now remove one plugin.
         application.remove_plugin(b)
 
@@ -540,8 +622,10 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         # Now we start the application, which connects the listener.
         application.start()
 
-        # then
-        self.assertEqual(a.x, [4, 5, 6, 98, 99, 100])
+        # fixme: If the extension point has not been accessed then the
+        # provider extension registry can't work out what has changed, so it
+        # won't fire a changed event.
+        self.assertEqual([1, 2, 3, 98, 99, 100], a.x)
 
         # Change the value again.
         b.x = [1, 2]
@@ -555,7 +639,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(event.object, a.x)
         self.assertEqual(event.index, 0)
         self.assertEqual(event.added, [1, 2])
-        self.assertEqual(event.removed, [4, 5, 6])
+        self.assertEqual(event.removed, [1, 2, 3])
 
 
 class TestExtensionPointChangedEvent(unittest.TestCase):

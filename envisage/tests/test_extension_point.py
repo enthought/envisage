@@ -14,8 +14,6 @@ import pickle
 import unittest
 import weakref
 
-from traits.api import Undefined
-
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint
 from envisage.api import ExtensionRegistry, IExtensionRegistry
@@ -322,8 +320,8 @@ class ExtensionPointTestCase(unittest.TestCase):
 
         self.assertEqual([42], registry.get_extensions("my.ep"))
 
-    def test_set_typed_extension_point_emit_change(self):
-        """ Test change event is emitted for setting the extension point """
+    def test_set_typed_extension_point_no_change_event(self):
+        """ Test change event is NOT emitted by connecting the extension."""
 
         registry = self.registry
 
@@ -349,13 +347,8 @@ class ExtensionPointTestCase(unittest.TestCase):
         ExtensionPoint.connect_extension_point_traits(f)
 
         # then
-        self.assertEqual(len(on_trait_change_events), 1)
-        self.assertEqual(len(observed_events), 1)
-        event, = observed_events
-        self.assertEqual(event.object, f)
-        self.assertEqual(event.name, "x")
-        self.assertEqual(event.old, Undefined)
-        self.assertEqual(event.new, [])
+        self.assertEqual(len(on_trait_change_events), 0)
+        self.assertEqual(len(observed_events), 0)
 
     def test_object_garbage_collectable(self):
         """ object can be garbage collected after disconnecting listeners."""
