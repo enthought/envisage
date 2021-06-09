@@ -104,7 +104,6 @@ class PluginB(Plugin):
     x = List(Int, [1, 2, 3], contributes_to="a.x")
 
 
-
 class PluginC(Plugin):
     """ Another plugin that contributes to an extension point! """
 
@@ -112,10 +111,10 @@ class PluginC(Plugin):
     x = List(Int, [98, 99, 100], contributes_to="a.x")
 
 
-
 # PluginD and PluginE each contribute to the other's extension points, but both
 # expect to be started before contributions are made.
 # xref: enthought/envisage#417
+
 
 class PluginD(Plugin):
     """ Plugin that expects to be started before contributing to
@@ -136,6 +135,7 @@ class PluginD(Plugin):
             return [4, 5, 6]
         else:
             return []
+
 
 class PluginE(Plugin):
     """ Another plugin that expects to be started before contributing to
