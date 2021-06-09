@@ -104,11 +104,58 @@ class PluginB(Plugin):
     x = List(Int, [1, 2, 3], contributes_to="a.x")
 
 
+
 class PluginC(Plugin):
     """ Another plugin that contributes to an extension point! """
 
     id = "C"
     x = List(Int, [98, 99, 100], contributes_to="a.x")
+
+
+
+# PluginD and PluginE each contribute to the other's extension points, but both
+# expect to be started before contributions are made.
+# xref: enthought/envisage#417
+
+class PluginD(Plugin):
+    """ Plugin that expects to be started before contributing to
+    extension points. """
+
+    id = "D"
+    x = ExtensionPoint(List, id="d.x")
+
+    y = List(Int, contributes_to="e.x")
+
+    started = Bool(False)
+
+    def start(self):
+        self.started = True
+
+    def _y_default(self):
+        if self.started:
+            return [4, 5, 6]
+        else:
+            return []
+
+class PluginE(Plugin):
+    """ Another plugin that expects to be started before contributing to
+    extension points. """
+
+    id = "E"
+    x = ExtensionPoint(List, id="e.x")
+
+    y = List(Int, contributes_to="d.x")
+
+    started = Bool(False)
+
+    def start(self):
+        self.started = True
+
+    def _y_default(self):
+        if self.started:
+            return [1, 2, 3]
+        else:
+            return []
 
 
 class ApplicationTestCase(unittest.TestCase):
@@ -264,6 +311,27 @@ class ApplicationTestCase(unittest.TestCase):
         extensions = a.x
         self.assertEqual(6, len(extensions))
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
+
+    def test_extension_point_resolution_occurs_after_plugin_start(self):
+        # Regression test for enthought/envisage#417
+
+        # Given
+        d = PluginD()
+        e = PluginE()
+        application = TestApplication(plugins=[d, e])
+
+        # When
+        application.start()
+
+        # Then
+        self.assertEqual(
+            application.get_extensions("d.x"),
+            [1, 2, 3],
+        )
+        self.assertEqual(
+            application.get_extensions("e.x"),
+            [4, 5, 6],
+        )
 
     def test_add_extension_point_listener(self):
         """ add extension point listener """
