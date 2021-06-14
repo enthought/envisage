@@ -68,7 +68,7 @@ class TestIds(unittest.TestCase):
 
     def check_id_against_plugin(self, id_string, plugin_klass):
         """
-        Check that the value of an id string matches that a class variable.
+        Check that the value of an id string matches that of a class variable.
 
         Parameters
         ----------
