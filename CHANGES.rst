@@ -2,6 +2,28 @@
  Envisage CHANGELOG
 ====================
 
+Version 6.0.1
+=============
+
+Released: 2021-06-18
+
+This bugfix release fixes the issue where Extension Point resolution was
+happening too eagerly, which caused issues during application startup time in
+certain cases. We recommend all users of Envisage to upgrade to this bugfix
+version.
+
+Fixes
+-----
+
+- Revert PR #354, which caused the issue #417. (#422)
+
+Tests
+-----
+
+- Ensure that the testsuite passes with minimal dependencies. (#423)
+- Add a regression test for issue #417. (#421)
+
+
 Version 6.0.0
 =============
 
