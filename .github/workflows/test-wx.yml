@@ -1,7 +1,6 @@
 name: Run the test suite on wxPython
 
 on:
-  pull_request:
   schedule:
     - cron:  '0 0 * * 5'
 
