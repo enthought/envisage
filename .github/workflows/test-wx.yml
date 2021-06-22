@@ -1,4 +1,4 @@
-name: Test with EDM using ETS packages from source
+name: Run the test suite on wxPython
 
 on:
   pull_request:
@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-18.04]
         toolkit: ['wx']
+        python-version: [3.8]
     runs-on: ${{ matrix.os }}
     env:
       # Set root directory, mainly for Windows, so that the EDM Python
