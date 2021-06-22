@@ -232,7 +232,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
                 "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
             )
         elif sys.platform == "linux":
-            # XXX this is mainly for TravisCI workers; need a generic solution
+            # XXX this is mainly for CI workers; need a generic solution
             commands.append(
                 "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/ wxPython<4.1"  # noqa: E501
             )
