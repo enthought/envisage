@@ -316,7 +316,7 @@ def flake8(edm, runtime, toolkit, environment):
         "setup.py",
     ]
     commands = [
-        "{edm}} run -e {environment} -- python -m flake8 " + " ".join(targets)
+        "{edm} run -e {environment} -- python -m flake8 " + " ".join(targets)
     ]
     execute(commands, parameters)
 
