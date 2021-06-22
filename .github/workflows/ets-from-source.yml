@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        toolkit: ['null', 'wx', 'pyqt5', 'pyside2']
+        toolkit: ['null', 'pyqt5', 'pyside2']
     runs-on: ${{ matrix.os }}
     env:
       # Set root directory, mainly for Windows, so that the EDM Python
@@ -38,13 +38,7 @@ jobs:
           sudo apt-get install pulseaudio
           sudo apt-get install libpulse-mainloop-glib0
         shell: bash
-        if: startsWith(matrix.os, 'ubuntu') && matrix.toolkit != 'wx'
-      - name: Install Wx dependencies for Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install libsdl2-2.0-0
-        shell: bash
-        if: startsWith(matrix.os, 'ubuntu') && matrix.toolkit == 'wx'
+        if: startsWith(matrix.os, 'ubuntu')
       - name: Cache EDM packages
         uses: actions/cache@v2
         with:
