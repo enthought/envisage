@@ -56,7 +56,7 @@ jobs:
         run: edm run -- python etstool.py install --toolkit=${{ matrix.toolkit }}
       - name: Flake8
         run: edm run -- python etstool.py flake8
-        if: matrix.toolkit == 'null'
+        if: runner.os == 'Linux' && matrix.toolkit == 'null'
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
