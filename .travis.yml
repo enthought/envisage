@@ -14,6 +14,7 @@ addons:
     - libxcb-render-util0
     - libxcb-xinerama0
     # Wx dependencies
+    - libsdl-image1.2
     - libsdl2-2.0-0
 
 env:
