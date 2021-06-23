@@ -40,7 +40,7 @@ jobs:
         with:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
-      - name: Setup EDM
+      - name: Set up EDM
         uses: enthought/setup-edm-action@v1
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}

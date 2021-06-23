@@ -1,7 +1,10 @@
 name: Run the test suite on wxPython
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
   schedule:
+    # Every Friday at 00:00 UTC
     - cron:  '0 0 * * 5'
 
 env:
@@ -29,7 +32,7 @@ jobs:
         with:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
-      - name: Setup EDM
+      - name: Set up EDM
         uses: enthought/setup-edm-action@v1
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
