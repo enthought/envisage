@@ -309,15 +309,7 @@ def flake8(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    targets = [
-        "envisage",
-        "docs",
-        "etstool.py",
-        "setup.py",
-    ]
-    commands = [
-        "{edm} run -e {environment} -- python -m flake8 " + " ".join(targets)
-    ]
+    commands = ["{edm} run -e {environment} -- python -m flake8 "]
     execute(commands, parameters)
 
 
