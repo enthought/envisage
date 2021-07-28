@@ -196,6 +196,11 @@ class ServiceRegistry(HasTraits):
 
     def _create_namespace(self, service, properties):
         """ Create a namespace in which to evaluate a query. """
+        # Force access of lazy defaults so that they are added to
+        # service.__dict__
+        # fix for enthought/envisage#140
+        for trait in service.editable_traits():
+            getattr(service, trait)
 
         namespace = {}
         namespace.update(service.__dict__)
