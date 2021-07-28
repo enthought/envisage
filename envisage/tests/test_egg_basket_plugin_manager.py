@@ -29,18 +29,19 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
+        # Some tests cause sys.path to be modified. Capture the original
+        # contents so that we can restore sys.path later.
+        self._original_sys_path_contents = sys.path[:]
+
         # The location of the 'eggs' test data directory.
         self.eggs_dir = join(dirname(__file__), "eggs")
         self.bad_eggs_dir = join(dirname(__file__), "bad_eggs")
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-        # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
-        sys_path = []
-        for path in sys.path:
-            if self.bad_eggs_dir not in path:
-                sys_path.append(path)
-        sys.path = sys_path
+
+        # Undo any sys.path modifications
+        sys.path[:] = self._original_sys_path_contents
 
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
         # global working set.
