@@ -369,6 +369,27 @@ class ServiceRegistryTestCase(unittest.TestCase):
         service = self.service_registry.get_service(IBar, "price <= 100")
         self.assertEqual(None, service)
 
+    # rergression test for enthought/envisage#140
+    def test_get_service_with_query_lazy_defaults(self):
+        """ get service with query based on attributes of service that have
+        lazy defaults. """
+
+        class IFoo(Interface):
+            price = Int(20)
+
+        @provides(IFoo)
+        class Foo(HasTraits):
+            price = Int
+
+        # Register service which hasa a lazy default for an attribute used
+        # in a query
+        foo = Foo()
+        self.service_registry.register_service(IFoo, foo)
+
+        # Create a query that matches that object.
+        service = self.service_registry.get_service(IFoo, "price < 30")
+        self.assertEqual(foo, service)
+
     def test_get_and_set_service_properties(self):
         """ get and set service properties """
 
