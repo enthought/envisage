@@ -188,6 +188,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             iter(plugin_manager)
 
     def test_ignore_broken_distributions_loads_good_distributions(self):
+        # Make sure that the acme.foo distribution is already in the
+        # working set, with version 0.1a1.
+        pkg_resources.working_set.add_entry(join(self.eggs_dir, "acme.foo"))
+
         data = {"count": 0}
 
         def on_broken_distribution(dist, exc):
