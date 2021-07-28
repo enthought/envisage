@@ -175,9 +175,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertTrue(isinstance(exc, ImportError))
 
     def test_ignore_broken_distributions_raises_exceptions_by_default(self):
-        # Make sure that the acme.foo distribution is already in the
-        # working set, with version 0.1a1.
-        pkg_resources.working_set.add_entry(join(self.eggs_dir, "acme.foo"))
+        # Make sure that the distributions from eggs are already in the working
+        # set. This includes acme.foo, with version 0.1a1.
+        for dist in pkg_resources.find_distributions(self.eggs_dir):
+            pkg_resources.working_set.add(dist)
 
         plugin_manager = EggBasketPluginManager(
             plugin_path=[
@@ -189,9 +190,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             iter(plugin_manager)
 
     def test_ignore_broken_distributions_loads_good_distributions(self):
-        # Make sure that the acme.foo distribution is already in the
-        # working set, with version 0.1a1.
-        pkg_resources.working_set.add_entry(join(self.eggs_dir, "acme.foo"))
+        # Make sure that the distributions from eggs are already in the working
+        # set. This includes acme.foo, with version 0.1a1.
+        for dist in pkg_resources.find_distributions(self.eggs_dir):
+            pkg_resources.working_set.add(dist)
 
         data = {"count": 0}
 
