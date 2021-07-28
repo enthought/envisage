@@ -9,6 +9,9 @@
 # Thanks for using Enthought open source!
 """ Tests for the Egg plugin manager. """
 
+# 3rd party imports.
+import pkg_resources
+
 # Enthought library imports.
 from envisage.api import EggPluginManager
 
@@ -131,6 +134,16 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
         self._test_start_and_stop(plugin_manager, expected)
+
+    def test_uses_global_working_set_by_default(self):
+        old_working_set = pkg_resources.working_set
+
+        # Create fresh working set for this test, to make sure that the plugin
+        # manager picks up the *current* value of pkg_resources.working_set.
+        pkg_resources.working_set = pkg_resources.WorkingSet()
+
+        plugin_manager = EggPluginManager()
+        self.assertEqual(plugin_manager.working_set, pkg_resources.working_set)
 
     ###########################################################################
     # Private interface.
