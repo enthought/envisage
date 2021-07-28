@@ -375,11 +375,11 @@ class ServiceRegistryTestCase(unittest.TestCase):
         lazy defaults. """
 
         class IFoo(Interface):
-            price = Int(20)
+            price = Int()
 
         @provides(IFoo)
         class Foo(HasTraits):
-            price = Int
+            price = Int(20)
 
         # Register service which hasa a lazy default for an attribute used
         # in a query
