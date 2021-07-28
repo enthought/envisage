@@ -369,7 +369,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         service = self.service_registry.get_service(IBar, "price <= 100")
         self.assertEqual(None, service)
 
-    # rergression test for enthought/envisage#140
+    # regression test for enthought/envisage#140
     def test_get_service_with_query_lazy_defaults(self):
         """ get service with query based on attributes of service that have
         lazy defaults. """
