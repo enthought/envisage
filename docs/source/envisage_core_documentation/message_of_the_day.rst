@@ -58,7 +58,7 @@ An example of using our |MOTD| class at the Python prompt might be::
     >>> from acme.motd.api import Message, MOTD
     >>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
     >>> message = motd.motd()
-    >>> print('"%s" - %s' % (message.text, message.author))
+    >>> print(f'"{message.text}" - {message.author}')
     "Hello World!" - Anon
 
 Well, we had to get "Hello World" in there somewhere!
@@ -196,7 +196,7 @@ As shown above, the corresponding plugin implementation is in the
           message = motd.motd()
 
           # ... and print it.
-          print('\n"%s"\n\n- %s' % (message.text, message.author))
+          print(f'\n"{message.text}"\n\n- {message.author}')
 
           return
 

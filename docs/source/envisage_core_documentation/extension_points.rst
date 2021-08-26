@@ -30,10 +30,9 @@ chosen at random from a list of contributed messages.
 Declaring an Extension Point
 ----------------------------
 
-Plugins declare their extension points in one of two ways:
-
-1) Declaratively - using the |ExtensionPoint| trait type
-2) Programmatically - by overriding the 'get_extension_points' method.
+Plugins declare the extension points declaratively - using the |ExtensionPoint|
+trait type. Note that extension points can also be defined programmatically -
+by overriding the 'get_extension_points' method.
 
 In the MOTD example, the |acme.motd| plugin needs to advertise an extension
 point that allows other plugins to contribute new messages. Using the
@@ -96,11 +95,11 @@ a simple module (|messages.py|) and add our |Message| instances to it::
     ]
 
 Now we create a plugin for the |acme.motd.software_quotes| package and tell
-Envisage about the messages that we have just created. Again there are are
-two ways that a plugin can do this:
-
-1) Declaratively - using the 'contributes_to' trait metadata
-2) Programmatically - by overriding the 'get_extensions' method.
+Envisage about the messages that we have just created. This can be done
+declaratively - using the 'contributes_to' trait metadata. Note that this can
+also be achieved programmatically - by overriding the 'get_extensions' method,
+similar to how we could define extension points programmatically by overriding
+the 'get_extension_points' method.
 
 The declarative version looks like this::
 
@@ -114,7 +113,7 @@ The declarative version looks like this::
         messages = List(contributes_to='acme.motd.messages')
 
         def _messages_default(self):
-            """ Returns the default value for the ``messeges`` trait. """
+            """ Returns the default value for the ``messages`` trait. """
 
             # It is good practise to only import your extensions when they
             # are actually required.
@@ -133,29 +132,10 @@ Note that if a plugin changes a list of contributions then the extension
 registry will be updated automatically, and anybody that is consuming the
 extensions will be notified accordingly.
 
-The programmatic version looks like this::
-
-    class SoftwareQuotesPlugin(Plugin):
-        """ The software quotes plugin. """
-
-        ...
-        def get_extensions(self, extension_point_id):
-            """ Get the plugin's contributions to an extension point. """
-
-            if extension_point_id == 'acme.motd.messages':
-                from .messages import messages
-
-                extensions = messages
-            else:
-                extensions = []
-
-            return extensions
-        ...
-
-The difference between this and the declarative version is that the application
-is not automatically notified if the plugin wants to change its contributions
-to an extension point. To do this manually fire an 'extension_point_changed'
-event.
+The difference between the programmatic and the declarative version is that the
+application is not automatically notified if the plugin wants to change its
+contributions to an extension point. To do this manually fire an
+'extension_point_changed' event.
 
 Retrieving the contributions to an Extension Point
 --------------------------------------------------

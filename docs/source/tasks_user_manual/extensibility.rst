@@ -405,7 +405,7 @@ and ``after``. Setting one of these attributes to the ID of a schema with the
 same path ensures that the insertion will be made before or after, respectively,
 that schema. For example, in the expanded addition::
 
-     SchemaAddition(
+    SchemaAddition(
         factory=MyContributedGroup,
         before='SaveGroup',
         path='MenuBar/File',
