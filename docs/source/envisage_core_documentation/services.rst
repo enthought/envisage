@@ -60,40 +60,44 @@ following methods on the |IApplication| interface::
 
 The easiest way to explain the workings of these methods is to take a look at
 some examples, and so to continue our plumber theme, let's assume we have the
-following interface and implementation::
+following interface and implementation
+
+::
 
     class IPlumber(Interface):
         """ What plumbers do! """
 
-	# The plumber's name.
-	name = Str
+        #: The plumber's name.
+        name = Str
 
-	# The plumber's location.
-	location = Str
+        #: The plumber's location.
+        location = Str
 
-	# The price per hour (in say, Estonian Krooni ;^)
-	price = Int
+        #: The price per hour (in say, Estonian Krooni ;^)
+        price = Int
 
-	def fix_leaking_pipe(self, pipe):
-	    """ Fix a leaking pipe! """
+        def fix_leaking_pipe(self, pipe):
+            """ Fix a leaking pipe! """
+
 
     @provides(IPlumber)
     class Plumber(HasTraits):
         """ An actual plumber implementation! """
 
-	# The plumber's name.
-	name = Str
+        #: The plumber's name.
+        name = Str
 
-	# The plumber's location.
-	location = Str
+        #: The plumber's location.
+        location = Str
 
-	# The price per hour (in say, Estonian Krooni ;^)
-	price = Int
+        #: The price per hour (in say, Estonian Krooni ;^)
+        price = Int
 
-	def fix_leaking_pipe(self, pipe):
-	    """ Fix a leaking pipe! """
+        def fix_leaking_pipe(self, pipe):
+            """ Fix a leaking pipe! """
 
-	    ... code that actually fixes it! ...
+            # code that actually fixes it!
+
 
 Registering a service
 ---------------------
@@ -127,7 +131,11 @@ actual type or class. Say, for example, that the *IPlumber* interface can be
 imported via 'from acme.plumber.api import IPlumber', then the registration
 can be written as::
 
-    wilma_id = application.register_service('acme.plumber.api.IPlumber', wilma, {'price' : 125})
+    wilma_id = application.register_service(
+        'acme.plumber.api.IPlumber',
+        wilma,
+        {'price' : 125}
+    )
 
 This comes in handy when using service factories (see later) to make sure that
 implementation classes are imported only when necessary.
@@ -219,7 +227,11 @@ Or, if you believe that you get what you pay for, the most expensive::
 The *minimize* and *maximize* arguments can also be used in conjunction with a
 query. For example to find the cheapest plumber in my area::
 
-    cheap_and_local = application.get_service(IPlumber, "location='BH6'", minimize='price')
+    cheap_and_local = application.get_service(
+        IPlumber,
+        location='BH6',
+        minimize='price',
+    )
 
 This query would definitely give the job to *wilma*!
 
@@ -246,7 +258,11 @@ you register it, you can retrieve those properties by calling the
 get_service_properties() method with the appropriate service identifier::
 
     wilma = Plumber(name='wilma', location='BH6')
-    wilma_id = application.register_service(IPlumber, wilma, {'price':125})
+    wilma_id = application.register_service(
+        IPlumber,
+        wilma,
+        {'price':125},
+    )
 
     ...
 
@@ -259,7 +275,11 @@ This call would return a dictionary containing the following::
 To set the properties for a service that has already been registered, use::
 
     wilma = Plumber(name='wilma', location='BH6')
-    wilma_id = application.register_service(IPlumber, wilma, {'price':125})
+    wilma_id = application.register_service(
+        IPlumber,
+        wilma,
+        {'price':125},
+    )
 
     ...
 
@@ -294,7 +314,11 @@ registered along with the factory, e.g.::
 
 To register the factory, we just use 'application.register_service' as usual::
 
-    wilma_id = application.register_service(IPlumber, wilma_factory, {'price':125})
+    wilma_id = application.register_service(
+        IPlumber,
+        wilma_factory,
+        {'price':125},
+    )
 
 Now, the first time somebody tries to get any 'IPlumber' service, the factory
 is called and the returned plumber object replaces the factory in the registry.
