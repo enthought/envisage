@@ -12,9 +12,14 @@ import unittest
 
 import envisage.ids
 from envisage.api import CorePlugin
-from envisage.plugins.ipython_kernel.api import IPythonKernelPlugin
 from envisage.plugins.python_shell.python_shell_plugin import PythonShellPlugin
 from envisage.ui.tasks.api import TasksPlugin
+
+# Skip tests involving the IPython kernel unless ipykernel is available.
+try:
+    from envisage.plugins.ipython_kernel.api import IPythonKernelPlugin
+except ImportError:
+    IPythonKernelPlugin = None
 
 
 class TestIds(unittest.TestCase):
@@ -39,22 +44,40 @@ class TestIds(unittest.TestCase):
             self.assertIsInstance(id_value, str)
 
     def test_id_strings_against_plugin_constants(self):
-        def check_id_against_plugin(id_string, plugin_klass):
-            self.assertEqual(
-                getattr(envisage.ids, id_string),
-                getattr(plugin_klass, id_string)
-            )
-
         # Check extension point IDs against ground truth on plugins
-        check_id_against_plugin("PREFERENCES", CorePlugin)
-        check_id_against_plugin("SERVICE_OFFERS", CorePlugin)
-        check_id_against_plugin("BINDINGS", PythonShellPlugin)
-        check_id_against_plugin("COMMANDS", PythonShellPlugin)
-        check_id_against_plugin("IPYTHON_NAMESPACE", IPythonKernelPlugin)
-        check_id_against_plugin("PREFERENCES_CATEGORIES", TasksPlugin)
-        check_id_against_plugin("PREFERENCES_PANES", TasksPlugin)
-        check_id_against_plugin("TASKS", TasksPlugin)
-        check_id_against_plugin("TASK_EXTENSIONS", TasksPlugin)
+        self.check_id_against_plugin("PREFERENCES", CorePlugin)
+        self.check_id_against_plugin("SERVICE_OFFERS", CorePlugin)
+        self.check_id_against_plugin("BINDINGS", PythonShellPlugin)
+        self.check_id_against_plugin("COMMANDS", PythonShellPlugin)
+        self.check_id_against_plugin("PREFERENCES_CATEGORIES", TasksPlugin)
+        self.check_id_against_plugin("PREFERENCES_PANES", TasksPlugin)
+        self.check_id_against_plugin("TASKS", TasksPlugin)
+        self.check_id_against_plugin("TASK_EXTENSIONS", TasksPlugin)
+
+    @unittest.skipIf(
+        IPythonKernelPlugin is None,
+        "skipping tests that require IPython packages",
+    )
+    def test_id_strings_against_plugin_constants_ipykernel(self):
+        # Check extension point IDs against ground truth on plugins
+        self.check_id_against_plugin("IPYTHON_NAMESPACE", IPythonKernelPlugin)
 
         # Check service IDs against ground truth on plugins
-        check_id_against_plugin("IPYTHON_KERNEL_PROTOCOL", IPythonKernelPlugin)
+        self.check_id_against_plugin(
+            "IPYTHON_KERNEL_PROTOCOL", IPythonKernelPlugin)
+
+    def check_id_against_plugin(self, id_string, plugin_klass):
+        """
+        Check that the value of an id string matches that of a class variable.
+
+        Parameters
+        ----------
+        id_string : str
+            Identifier for the id.
+        plugin_klass : type
+            The Plugin subclass to check.
+        """
+        self.assertEqual(
+            getattr(envisage.ids, id_string),
+            getattr(plugin_klass, id_string)
+        )

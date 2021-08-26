@@ -54,7 +54,7 @@ class EggPluginManager(PluginManager):
     # The working set that contains the eggs that contain the plugins that
     # live in the house that Jack built ;^) By default we use the global
     # working set.
-    working_set = Instance(pkg_resources.WorkingSet, pkg_resources.working_set)
+    working_set = Instance(pkg_resources.WorkingSet)
 
     # An optional list of the Ids of the plugins that are to be excluded by
     # the manager.
@@ -89,6 +89,11 @@ class EggPluginManager(PluginManager):
         logger.debug("egg plugin manager found plugins <%s>", plugins)
 
         return plugins
+
+    def _working_set_default(self):
+        """ Trait initializer. """
+
+        return pkg_resources.working_set
 
     ###########################################################################
     # Private interface.

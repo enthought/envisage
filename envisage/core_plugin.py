@@ -80,7 +80,7 @@ class CorePlugin(Plugin):
     )
 
     @on_trait_change("preferences_items")
-    def _preferences_changed(self, event):
+    def _update_preferences(self, event):
         """ React to new preferencess being *added*.
 
         Note that we don't currently do anything if preferences are *removed*.
@@ -113,7 +113,7 @@ class CorePlugin(Plugin):
     )
 
     @on_trait_change("service_offers_items")
-    def _service_offers_changed(self, event):
+    def _register_new_services(self, event):
         """ React to new service offers being *added*.
 
         Note that we don't currently do anything if services are *removed* as

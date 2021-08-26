@@ -1,4 +1,5 @@
 # System library imports.
+import numpy as np
 from scipy import arange, array
 from scipy.integrate import odeint
 
@@ -42,7 +43,7 @@ class Lorenz(HasTraits):
     beta = Float(8.0 / 3.0, auto_set=False, enter_set=True)
 
     # Integration parameters.
-    initial_point = Array(value=[0.0, 1.0, 0.0])
+    initial_point = Array(dtype=np.float64, value=[0.0, 1.0, 0.0])
     time_start = Float(0.0)
     time_stop = Float(100.0)
     time_step = Float(0.01)

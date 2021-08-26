@@ -48,7 +48,7 @@ class PackagePluginManager(PluginManager):
     plugin_path = List(Directory)
 
     @on_trait_change("plugin_path[]")
-    def _plugin_path_changed(self, obj, trait_name, removed, added):
+    def _update_path_and_reset_plugins(self, obj, trait_name, removed, added):
         self._update_sys_dot_path(removed, added)
         self.reset_traits(["_plugins"])
 

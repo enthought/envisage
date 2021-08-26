@@ -9,5 +9,5 @@ class IPlottable2d(IModel2d):
 
     plot_type = Enum("line", "scatter")
 
-    x_label = Str
-    y_label = Str
+    x_label = Str()
+    y_label = Str()

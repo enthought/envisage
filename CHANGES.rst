@@ -2,6 +2,41 @@
  Envisage CHANGELOG
 ====================
 
+Version 6.0.0
+=============
+
+Released: 2021-05-14
+
+This major release focuses on speeding up Envisage applications. We achieved
+this speedup by removing unused functionality in the package. Specifically,
+we removed the ``@contributes_to`` decorator and the code needed to handle
+methods decorated with the above decorator.
+
+Additionally, with this release, parts of envisage start using the new traits
+observation framework instead of the old traits ``on_trait_change``. So,
+Envisage now depends on Traits version >= 6.2.
+
+Features
+--------
+- Support ``observe(name:items)`` for Extension Points. (#354)
+
+Changes
+-------
+- Replace ``Either`` trait type with ``Union``. (#405)
+- Rewrite ``*_changed`` static trait handlers to use ``observe``. (#401)
+- Replace ``depends_on`` in ``Property`` traits with ``observe``. (#400)
+- Change default pickle protocol to be compatible with Python >= 3.4. (#390)
+
+Removals
+--------
+- Remove ``contributes_to`` decorator and supporting code. (#402)
+- Remove unnecessary return statements throughout the codebase. (#393)
+
+Build
+-----
+- Ensure that the cron job installs all necessary dependencies. (#383)
+
+
 Version 5.0.0
 =============
 

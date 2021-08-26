@@ -1,0 +1,74 @@
+name: Run the test suite on wxPython
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    # Every Friday at 00:00 UTC
+    - cron:  '0 0 * * 5'
+
+env:
+  INSTALL_EDM_VERSION: 3.2.3
+
+jobs:
+
+  # Test against EDM packages
+  test-with-edm:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        toolkit: ['wx']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Wx dependencies for Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsdl-image1.2
+          sudo apt-get install libsdl2-2.0-0
+        shell: bash
+      - name: Cache EDM packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache
+          key: ${{ runner.os }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
+      - name: Set up EDM
+        uses: enthought/setup-edm-action@v1
+        with:
+          edm-version: ${{ env.INSTALL_EDM_VERSION }}
+      - name: Install click to the default EDM environment
+        run: edm install -y wheel click coverage
+      - name: Install test environment
+        run: edm run -- python etstool.py install --toolkit=${{ matrix.toolkit }}
+      - name: Run tests
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: edm run -- python etstool.py test --toolkit=${{ matrix.toolkit }}
+
+  notify-on-failure:
+    needs: test-with-edm
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack channel on failure
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: ${{ secrets.ETS_BOTS_SLACK_CHANNEL_ID }}
+          status: FAILED
+          color: danger
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_ACTION_SECRET }}
+
+  notify-on-success:
+    needs: test-with-edm
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack channel on success
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: ${{ secrets.ETS_BOTS_SLACK_CHANNEL_ID }}
+          status: SUCCESS
+          color: good
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_ACTION_SECRET }}

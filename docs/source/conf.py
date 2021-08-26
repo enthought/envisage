@@ -233,6 +233,6 @@ intersphinx_mapping = {
 
 extlinks = {
     'github-demo': (
-        'https://github.com/enthought/envisage/tree/master/envisage/examples/demo/%s',   # noqa: E501
+        f'https://github.com/enthought/envisage/tree/{version}/envisage/examples/demo/%s',   # noqa: E501
         '')
 }

@@ -30,7 +30,7 @@ one)!
 In an Envisage application, the service registry is accessed through the
 following methods on the |IApplication| interface::
 
-    def get_service(self, protocol, query='', minimimize='', maximize=''):
+    def get_service(self, protocol, query='', minimize='', maximize=''):
         """ Return at most one service that matches the specified query.
 
         """
@@ -40,7 +40,7 @@ following methods on the |IApplication| interface::
 
         """
 
-    def get_services(self, protocol, query='', minimimize='', maximize=''):
+    def get_services(self, protocol, query='', minimize='', maximize=''):
         """ Return all services that match the specified query.
 
         """
