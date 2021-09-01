@@ -42,4 +42,5 @@ jobs:
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: python -m unittest discover -v
+          working-directory: ${{ runner.temp }}
+          run: python -m unittest discover -v envisage
