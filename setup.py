@@ -313,7 +313,7 @@ if __name__ == "__main__":
         install_requires=["apptools", "setuptools", "traits>=6.2"],
         extras_require={
             "docs": ["enthought-sphinx-theme", "Sphinx>=2.1.0,!=3.2.0"],
-            "ipython": ["ipykernel<6", "tornado"],
+            "ipython": ["ipykernel<6", "ipython_genutils"],
             "test": ["coverage", "flake8"],
             "ui": ["pyface", "traitsui"],
         },
