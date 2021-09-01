@@ -1,0 +1,41 @@
+name: Test main branch against PyPI packages
+
+on: pull_request
+
+jobs:
+
+  # Test against PyPI packages
+  test-with-pypi:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.8, 3.9]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Install Qt dependencies for Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install qt5-default
+          sudo apt-get install libxkbcommon-x11-0
+          sudo apt-get install libxcb-icccm4
+          sudo apt-get install libxcb-image0
+          sudo apt-get install libxcb-keysyms1
+          sudo apt-get install libxcb-randr0
+          sudo apt-get install libxcb-render-util0
+          sudo apt-get install libxcb-xinerama0
+        if: runner.os == 'Linux'
+      - name: Check out the target commit
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install package and dependencies
+        run: |
+            pip install .[ipython]
+      - name: Run tests
+        run: |
+            python -m unittest discover -v .
