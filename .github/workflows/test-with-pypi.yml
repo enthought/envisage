@@ -1,4 +1,4 @@
-name: Test main branch against PyPI packages
+name: Test with PyPI
 
 on: pull_request
 
