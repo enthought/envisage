@@ -4,7 +4,7 @@ on: pull_request
 
 env:
   PYTHONUNBUFFERED: 1
-  ETS_TOOLKIT: "qt"
+  ETS_TOOLKIT: "qt4"
 
 jobs:
 
