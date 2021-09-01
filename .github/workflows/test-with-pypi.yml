@@ -2,6 +2,10 @@ name: Test main branch against PyPI packages
 
 on: pull_request
 
+env:
+  PYTHONUNBUFFERED: 1
+  ETS_TOOLKIT: "qt"
+
 jobs:
 
   # Test against PyPI packages
@@ -43,4 +47,4 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           working-directory: ${{ runner.temp }}
-          run: python -m unittest discover -v envisage
+          run: python -X faulthandler -m unittest discover -v envisage
