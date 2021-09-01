@@ -33,9 +33,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Update necessary Python packages
+        run: |
+            pip install --upgrade pip setuptools wheel
       - name: Install package and dependencies
         run: |
             pip install .[ipython]
       - name: Run tests
-        run: |
-            python -m unittest discover -v .
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: python -m unittest discover -v
