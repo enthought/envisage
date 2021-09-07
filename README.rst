@@ -2,14 +2,6 @@
 envisage: extensible application framework
 ==========================================
 
-.. image:: https://travis-ci.org/enthought/envisage.svg?branch=master
-    :alt: Build Status
-    :target: https://travis-ci.org/enthought/envisage
-
-.. image:: https://codecov.io/github/enthought/envisage/coverage.svg?branch=master
-    :alt: Code Coverage
-    :target: https://codecov.io/github/enthought/envisage?branch=master
-
 Documentation: https://docs.enthought.com/envisage
 
 Envisage is a Python-based framework for building extensible applications,
@@ -32,9 +24,9 @@ The Envisage project provides the basic machinery of the Envisage
 framework. You are free to use:
 
 - the envisage ``CorePlugin`` available through the
-  `envisage.api <https://github.com/enthought/envisage/blob/master/envisage/api.py>`__ module
+  `envisage.api <https://github.com/enthought/envisage/blob/main/envisage/api.py>`__ module
 - plug-ins from the envisage
-  `plugins <https://github.com/enthought/envisage/tree/master/envisage/plugins>`__ module
+  `plugins <https://github.com/enthought/envisage/tree/main/envisage/plugins>`__ module
 - plug-ins from other ETS projects that expose their functionality as plug-ins
 - plug-ins that you create yourself
 

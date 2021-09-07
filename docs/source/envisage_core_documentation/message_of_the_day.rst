@@ -58,9 +58,8 @@ An example of using our |MOTD| class at the Python prompt might be::
     >>> from acme.motd.api import Message, MOTD
     >>> motd = MOTD(messages=[Message(author='Anon', text='Hello World!')])
     >>> message = motd.motd()
-    >>> print '"%s" - %s' % (message.text, message.author)
+    >>> print(f'"{message.text}" - {message.author}')
     "Hello World!" - Anon
-    >>>
 
 Well, we had to get "Hello World" in there somewhere!
 
@@ -85,8 +84,12 @@ or one derived from it.
 In the |MOTD| example, we create the class in the |MOTD run| module as follows::
 
     application = Application(
-        id      = 'acme.motd',
-        plugins = [CorePlugin(), MOTDPlugin(), SoftwareQuotesPlugin()]
+        id='acme.motd',
+        plugins=[
+            CorePlugin(),
+            MOTDPlugin(),
+            SoftwareQuotesPlugin(),
+        ],
     )
 
     application.run()
@@ -132,6 +135,7 @@ As shown above, the corresponding plugin implementation is in the
       # Notice that we use the string name of the 'IMessage' interface rather
       # than actually importing it. This makes sure that the import only happens
       # when somebody actually gets the contributions to the extension point.
+
       messages = ExtensionPoint(
           List(Instance('acme.motd.api.IMessage')), id=MESSAGES, desc="""
 
@@ -153,9 +157,10 @@ As shown above, the corresponding plugin implementation is in the
           # not match what Python thinks the module is!). This allows the service
           # to be looked up by passing either the exact same string, or the
           # actual protocol object itself.
+
           motd_service_offer = ServiceOffer(
-              protocol = 'acme.motd.i_motd.IMOTD',
-              factory  = self._create_motd_service
+              protocol='acme.motd.i_motd.IMOTD',
+              factory=self._create_motd_service,
           )
 
           return [motd_service_offer]
@@ -169,7 +174,8 @@ As shown above, the corresponding plugin implementation is in the
 
           # Only do imports when you need to! This makes sure that the import
           # only happens when somebody needs an 'IMOTD' service.
-          from motd import MOTD
+
+          from .motd import MOTD
 
           return MOTD(messages=self.messages)
 
@@ -190,7 +196,7 @@ As shown above, the corresponding plugin implementation is in the
           message = motd.motd()
 
           # ... and print it.
-          print '\n"%s"\n\n- %s' % (message.text, message.author)
+          print(f'\n"{message.text}"\n\n- {message.author}')
 
           return
 
@@ -212,17 +218,19 @@ a simple module ('messages.py'_) and add our |Message| instances to it::
         ...
 
         Message(
-            author = "Martin Fowler",
-            text   = "Any fool can write code that a computer can understand. Good"
-            " programmers write code that humans can understand."
-        )
-
+            author="Martin Fowler",
+            text=(
+                "Any fool can write code that a computer can understand. Good"
+                " programmers write code that humans can understand."
+            ),
+        ),
         Message(
-            author = "Chet Hendrickson",
-            text   = "The rule is, 'Do the simplest thing that could possibly"
-            " work', not the most stupid."
-        )
-
+            author="Chet Hendrickson",
+            text=(
+                "The rule is, 'Do the simplest thing that could possibly"
+                " work', not the most stupid."
+            ),
+        ),
         ...
     ]
 
@@ -253,6 +261,6 @@ Envisage about the messages that we have just created::
           """ Trait initializer. """
 
           # Only do imports when you need to!
-          from messages import messages
+          from .messages import messages
 
           return messages

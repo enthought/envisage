@@ -88,7 +88,6 @@ define an extension point for shapes. We'll leave aside the question of how
 users actually define their shapes. The point is that the catalog of shapes is
 extensible. (You would probably also contribute some basic shapes from your 
 plugin, so that users don't *need* to contribute any.)
-  
 
 What Does Your Plugin Add to Other Plugins?
 -------------------------------------------
@@ -162,74 +161,89 @@ Complete Example
 ----------------
 
 The complete plugin for the Tetris game might look like this::
-    
+
     class TetrisPlugin(Plugin):
         """ Plugin to make the Tetris library available in Envisage.
         """
-        
-        ##### IPlugin Interface ################################################
-        
+
         ### Extension points offered by the plugin
-        
-        # Shapes to be used in the game
+
+        #: Shapes to be used in the game
         shape = ExtensionPoint(List(IShape), id='acme.tetris.shapes')
-        
+
         ### Contributions to extension points
-        
+
         my_shapes = List(contributes_to='acme.tetris.shapes')
+
         def _my_shapes_default(self):
             """ Trait initializer for 'my_shapes' contribution to this plugin's
                 own 'shapes' extension point.
             """
-            return [ Shape1(), Shape2(), Shape3() ]
+            return [Shape1(), Shape2(), Shape3()]
 
         games = List(contributes_to='acme.game_player.game_infos')
+
         def _games_default(self):
             """ Trait initializer for 'games' contribution to the application
                 plugin's 'games' extension point.
             """
-            return [ GameInfo(name='Tetris', icon='tetris.png',
-                              description='Classic shape-fitting puzzle game',
-                              entry_point=self._start_game) ]
-        
+            return [
+                GameInfo(
+                    name='Tetris',
+                    icon='tetris.png',
+                    description='Classic shape-fitting puzzle game',
+                    entry_point=self._start_game,
+                ),
+            ]
+
         preferences = List(contributes_to='envisage.preferences')
+
         def _preferences_default(self):
             """ Trait initializer for 'preferences' contribution. """
             return ['pkgfile://acme.tetris.plugin/preferences.ini']
-            
-        preferences_pages = List(contributes_to=
-            'envisage.ui.workbench.preferences_pages')
+
+        preferences_pages = List(
+            contributes_to='envisage.ui.workbench.preferences_pages'
+        )
+
         def _preferences_pages_default(self):
             """ Trait initializer for 'preferences_pages' contribution. """
-            from acme.tetris.plugin.preferences_pages import \
-                TetrisPreferencesPages
-            return [ TetrisPreferencesPages ]
-            
+            from acme.tetris.plugin.preferences_pages import (
+                TetrisPreferencesPages,
+            )
+            return [TetrisPreferencesPages]
+
         services_offers = List(contributes_to='envisages.service_offers')
+
         def _service_offers_default(self):
             """ Trait initializer for 'service_offers' contribution. """
-            return [ ServiceOffer(protocol=IGame, 
-                                  factory=self._create_tetris_service,
-                                  properties={'name':'tetris'}) ]
-                                  
+            return [
+                ServiceOffer(
+                    protocol=IGame,
+                    factory=self._create_tetris_service,
+                    properties={'name':'tetris'},
+                ),
+            ]
+
         #### Private interface #################################################
-        
+
         def _create_tetris_service(self, **properties):
             """ Factory method for the Tetris service. """
             tetris = Tetris() # This creates the non-Envisage library object.
-            
+
             # Hook up the extension point contributions to the library object trait.
             bind_extension_point(tetris, 'shapes', 'acme.tetris.shapes')
-            
+
             # Hook up the preferences to the library object traits.
-            bind_preference(tetris, 'background_color', 
-                            'acme.tetris.background_color')
-            bind_preference(tetris, 'foreground_color',
-                            'acme.tetris.foreground_color')
+            bind_preference(
+                tetris, 'background_color', 'acme.tetris.background_color'
+            )
+            bind_preference(
+                tetris, 'foreground_color', 'acme.tetris.foreground_color'
+            )
             return tetris
-            
+
         def _start_game(self):
             """ Starts a Tetris game. """
             game = self.application.get_service(IGame, "name == 'tetris'")
             game.start()
-            
