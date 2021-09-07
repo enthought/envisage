@@ -1,0 +1,51 @@
+name: Test with PyPI
+
+on: pull_request
+
+env:
+  PYTHONUNBUFFERED: 1
+  ETS_TOOLKIT: "qt"
+
+jobs:
+
+  # Test against PyPI packages
+  test-with-pypi:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.6, 3.8, 3.9]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Install Qt dependencies for Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install qt5-default
+          sudo apt-get install libxkbcommon-x11-0
+          sudo apt-get install libxcb-icccm4
+          sudo apt-get install libxcb-image0
+          sudo apt-get install libxcb-keysyms1
+          sudo apt-get install libxcb-randr0
+          sudo apt-get install libxcb-render-util0
+          sudo apt-get install libxcb-xinerama0
+        if: runner.os == 'Linux'
+      - name: Check out the target commit
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Update necessary Python packages
+        run: |
+            pip install --upgrade pip setuptools wheel
+      - name: Install package and dependencies
+        run: |
+            pip install pyside2
+            pip install .[ipython]
+      - name: Run tests
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          working-directory: ${{ runner.temp }}
+          run: python -X faulthandler -m unittest discover -v envisage
