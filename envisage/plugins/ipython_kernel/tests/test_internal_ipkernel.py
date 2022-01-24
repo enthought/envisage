@@ -19,6 +19,8 @@ import unittest
 from unittest import mock
 import warnings
 
+# Skip these tests unless ipykernel < 6 is available. Envisage is not
+# currently compatible with ipykernel >= 6. See enthought/envisage#448.
 try:
     import ipykernel  # noqa: F401
 except ImportError:
