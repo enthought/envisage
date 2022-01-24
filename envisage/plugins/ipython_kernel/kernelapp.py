@@ -18,6 +18,10 @@ import logging
 import os
 import sys
 
+import ipykernel
+if not ipykernel.version_info < (6,):
+    raise ImportError("IPKernelApp is only available for ipykernel < 6")
+
 import ipykernel.ipkernel
 import ipykernel.kernelapp
 import ipykernel.zmqshell
