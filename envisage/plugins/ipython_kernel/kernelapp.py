@@ -18,8 +18,12 @@ import logging
 import os
 import sys
 
-import ipykernel
-import IPython
+import ipykernel.ipkernel
+import ipykernel.kernelapp
+import ipykernel.zmqshell
+import IPython.utils.io
+import zmq
+
 
 # Envisage is not currently compatible with ipykernel >= 6 or IPython >= 8. See
 # enthought/envisage#448.
@@ -36,12 +40,6 @@ if not ipykernel_available:
         f"ipykernel {ipykernel.__version__}. See "
         "https://github.com/enthought/envisage/issues/448 for more details."
     )
-
-import ipykernel.ipkernel
-import ipykernel.kernelapp
-import ipykernel.zmqshell
-import IPython.utils.io
-import zmq
 
 from envisage.plugins.ipython_kernel.heartbeat import Heartbeat
 
