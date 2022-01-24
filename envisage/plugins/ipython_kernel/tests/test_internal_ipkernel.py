@@ -19,14 +19,18 @@ import unittest
 from unittest import mock
 import warnings
 
-# Skip these tests unless ipykernel < 6 is available. Envisage is not
-# currently compatible with ipykernel >= 6. See enthought/envisage#448.
+# Envisage is not currently compatible with ipykernel >= 6 or IPython >= 8. See
+# enthought/envisage#448.
 try:
-    import ipykernel  # noqa: F401
+    import ipykernel
+    import IPython
 except ImportError:
     ipykernel_available = False
 else:
-    ipykernel_available = ipykernel.version_info < (6,)
+    ipykernel_available = (
+        ipykernel.version_info < (6,)
+        and IPython.version_info < (8,)
+    )
 
 if ipykernel_available:
     import ipykernel.iostream

@@ -19,8 +19,23 @@ import os
 import sys
 
 import ipykernel
-if not ipykernel.version_info < (6,):
-    raise ImportError("IPKernelApp is only available for ipykernel < 6")
+import IPython
+
+# Envisage is not currently compatible with ipykernel >= 6 or IPython >= 8. See
+# enthought/envisage#448.
+ipykernel_available = (
+    ipykernel.version_info < (6,)
+    and IPython.version_info < (8,)
+)
+
+if not ipykernel_available:
+    raise ImportError(
+        "The IPython-related Envisage components are currently compatible "
+        "with ipykernel<6 and IPython<8. The versions installed in the "
+        f"current environment are IPython {IPython.__version__} and "
+        f"ipykernel {ipykernel.__version__}. See "
+        "https://github.com/enthought/envisage/issues/448 for more details."
+    )
 
 import ipykernel.ipkernel
 import ipykernel.kernelapp
