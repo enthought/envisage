@@ -21,13 +21,18 @@ from traits.api import List
 from envisage.api import Application, CorePlugin, Plugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
-# Skip these tests unless ipykernel is available.
+# Envisage is not currently compatible with ipykernel >= 6 or IPython >= 8. See
+# enthought/envisage#448.
 try:
-    import ipykernel  # noqa: F401
+    import ipykernel
+    import IPython
 except ImportError:
     ipykernel_available = False
 else:
-    ipykernel_available = True
+    ipykernel_available = (
+        ipykernel.version_info < (6,)
+        and IPython.version_info < (8,)
+    )
 
 if ipykernel_available:
     from envisage.plugins.ipython_kernel.api import (
