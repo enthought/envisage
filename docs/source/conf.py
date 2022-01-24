@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -52,7 +52,7 @@ master_doc = "index"
 
 # General substitutions.
 project = "envisage"
-copyright = "2008-2021, Enthought"
+copyright = "2007-2022, Enthought"
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
