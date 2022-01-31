@@ -12,13 +12,15 @@
 import glob
 from os.path import basename, dirname, join
 import shutil
-import tempfile
+import subprocess
 import sys
+import tempfile
 import unittest
 
 import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
+from envisage.tests.test_egg_based import build_egg
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
@@ -26,26 +28,46 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     #### 'unittest.TestCase' protocol #########################################
 
+    @classmethod
+    def setUpClass(cls):
+        """
+        Create eggs for testing purposes.
+        """
+        cls.eggs_dir = tempfile.mkdtemp()
+        cls.bad_eggs_dir = tempfile.mkdtemp()
+
+        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+            build_egg(
+                egg_dir=join(dirname(__file__), "eggs", egg_name),
+                dist_dir=cls.eggs_dir,
+            )
+
+        for egg_name in ["acme.bad"]:
+            build_egg(
+                egg_dir=join(dirname(__file__), "bad_eggs", egg_name),
+                dist_dir=cls.bad_eggs_dir,
+            )
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Delete created eggs.
+        """
+        shutil.rmtree(cls.bad_eggs_dir)
+        shutil.rmtree(cls.eggs_dir)
+
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
-
-        # Some tests cause sys.path to be modified. Capture the original
-        # contents so that we can restore sys.path later.
-        self._original_sys_path_contents = sys.path[:]
-
-        # The location of the 'eggs' test data directory.
-        self.eggs_dir = join(dirname(__file__), "eggs")
-        self.bad_eggs_dir = join(dirname(__file__), "bad_eggs")
+        self._old_sys_path = sys.path[:]
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
-
-        # Undo any sys.path modifications
-        sys.path[:] = self._original_sys_path_contents
-
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
         # global working set.
         pkg_resources.working_set = pkg_resources.WorkingSet()
+
+        # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
+        sys.path[:] = self._old_sys_path
 
     #### Tests ################################################################
 

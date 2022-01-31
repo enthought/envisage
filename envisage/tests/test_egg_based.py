@@ -11,19 +11,74 @@
 
 
 from os.path import dirname, join
+import shutil
+import subprocess
+import sys
+import tempfile
 import unittest
 
 import pkg_resources
 
 
+def build_egg(egg_dir, dist_dir):
+    """Helper function to build an egg.
+
+    Parameters
+    ----------
+    egg_dir : str
+        Directory containing the Python package to be built. Should
+        contain a "setup.py" file that can be used with
+        "python setup.py bdist_egg" to build the package.
+    dist_dir : str
+        Directory to place the built egg in. The directory should
+        already exist.
+    """
+    subprocess.run(
+        [
+            "python",
+            "setup.py",
+            "bdist_egg",
+            "--dist-dir",
+            dist_dir,
+        ],
+        cwd=egg_dir,
+        check=True,
+        capture_output=True,
+    )
+
+
 class EggBasedTestCase(unittest.TestCase):
     """ Base class for Egg-based test cases. """
 
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+    @classmethod
+    def setUpClass(cls):
+        """
+        Create eggs for testing purposes.
+        """
+        cls.egg_dir = tempfile.mkdtemp()
+        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+            build_egg(
+                egg_dir=join(dirname(__file__), "eggs", egg_name),
+                dist_dir=cls.egg_dir,
+            )
 
-        # The location of the 'eggs' directory.
-        self.egg_dir = join(dirname(__file__), "eggs")
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Delete created eggs.
+        """
+        shutil.rmtree(cls.egg_dir)
+
+    def setUp(self):
+        """Prepares the test fixture before each test method is called."""
+        self._old_sys_path = sys.path[:]
+
+    def tearDown(self):
+        """Called immediately after each test method has been called."""
+        sys.path[:] = self._old_sys_path
+
+        pkg_resources.working_set = pkg_resources.WorkingSet()
+
 
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
@@ -32,7 +87,7 @@ class EggBasedTestCase(unittest.TestCase):
             working_set = pkg_resources.working_set
 
         # The eggs must be in our egg directory!
-        filename = join(dirname(__file__), "eggs", filename)
+        filename = join(self.egg_dir, filename)
 
         # Create a distribution for the egg.
         distributions = pkg_resources.find_distributions(filename)
