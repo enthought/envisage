@@ -43,7 +43,8 @@ def build_egg(egg_dir, dist_dir):
         ],
         cwd=egg_dir,
         check=True,
-        capture_output=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
 
 
