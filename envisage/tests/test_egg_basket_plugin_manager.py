@@ -57,7 +57,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
-        self._old_sys_path = sys.path[:]
+        self._original_sys_path_contents = sys.path[:]
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
@@ -66,7 +66,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         pkg_resources.working_set = pkg_resources.WorkingSet()
 
         # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
-        sys.path[:] = self._old_sys_path
+        sys.path[:] = self._original_sys_path_contents
 
     #### Tests ################################################################
 

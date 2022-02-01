@@ -71,12 +71,12 @@ class EggBasedTestCase(unittest.TestCase):
         shutil.rmtree(cls.egg_dir)
 
     def setUp(self):
-        """Prepares the test fixture before each test method is called."""
-        self._old_sys_path = sys.path[:]
+        """ Prepares the test fixture before each test method is called. """
+        self._original_sys_path_contents = sys.path[:]
 
     def tearDown(self):
-        """Called immediately after each test method has been called."""
-        sys.path[:] = self._old_sys_path
+        """ Called immediately after each test method has been called. """
+        sys.path[:] = self._original_sys_path_contents
 
         pkg_resources.working_set = pkg_resources.WorkingSet()
 
