@@ -343,7 +343,7 @@ if __name__ == "__main__":
                 "eggs/acme.baz/acme/baz/*.py",
                 "eggs/acme.foo/setup.py",
                 "eggs/acme.foo/acme/*.py",
-                "eggs/acme.foo/acme/baz/*.py",
+                "eggs/acme.foo/acme/foo/*.py",
                 "plugins/pear/*.py",
                 "plugins/banana/*.py",
                 "plugins/orange/*.py",
