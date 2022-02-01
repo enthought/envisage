@@ -80,7 +80,6 @@ class EggBasedTestCase(unittest.TestCase):
 
         pkg_resources.working_set = pkg_resources.WorkingSet()
 
-
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
 

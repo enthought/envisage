@@ -12,7 +12,6 @@
 import glob
 from os.path import basename, dirname, join
 import shutil
-import subprocess
 import sys
 import tempfile
 import unittest
