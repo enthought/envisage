@@ -68,12 +68,13 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+
+        # Undo any sys.path modifications
+        sys.path[:] = self._original_sys_path_contents
+
         # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
         # global working set.
         pkg_resources.working_set = pkg_resources.WorkingSet()
-
-        # Undo any side-effects: egg_basket_plugin_manager modifies sys.path.
-        sys.path[:] = self._original_sys_path_contents
 
     #### Tests ################################################################
 

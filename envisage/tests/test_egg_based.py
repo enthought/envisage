@@ -74,10 +74,15 @@ class EggBasedTestCase(unittest.TestCase):
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
+
+        # Some tests cause sys.path to be modified. Capture the original
+        # contents so that we can restore sys.path later.
         self._original_sys_path_contents = sys.path[:]
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """
+
+        # Undo any sys.path modifications
         sys.path[:] = self._original_sys_path_contents
 
         pkg_resources.working_set = pkg_resources.WorkingSet()
