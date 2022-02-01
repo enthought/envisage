@@ -10,7 +10,7 @@
 """ Base class for Egg-based test cases. """
 
 
-from os.path import dirname, join
+from os.path import join
 import shutil
 import subprocess
 import sys
@@ -57,9 +57,11 @@ class EggBasedTestCase(unittest.TestCase):
         Create eggs for testing purposes.
         """
         cls.egg_dir = tempfile.mkdtemp()
+        eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "eggs")
         for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
             build_egg(
-                egg_dir=join(dirname(__file__), "eggs", egg_name),
+                egg_dir=join(eggs_root_dir, egg_name),
                 dist_dir=cls.egg_dir,
             )
 

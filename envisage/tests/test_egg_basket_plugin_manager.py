@@ -10,7 +10,7 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
 import glob
-from os.path import basename, dirname, join
+from os.path import basename, join
 import shutil
 import sys
 import tempfile
@@ -35,15 +35,19 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         cls.eggs_dir = tempfile.mkdtemp()
         cls.bad_eggs_dir = tempfile.mkdtemp()
 
+        eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "eggs")
         for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
             build_egg(
-                egg_dir=join(dirname(__file__), "eggs", egg_name),
+                egg_dir=join(eggs_root_dir, egg_name),
                 dist_dir=cls.eggs_dir,
             )
 
+        bad_eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "bad_eggs")
         for egg_name in ["acme.bad"]:
             build_egg(
-                egg_dir=join(dirname(__file__), "bad_eggs", egg_name),
+                egg_dir=join(bad_eggs_root_dir, egg_name),
                 dist_dir=cls.bad_eggs_dir,
             )
 
