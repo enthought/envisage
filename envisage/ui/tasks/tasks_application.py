@@ -381,8 +381,6 @@ class TasksApplication(Application):
                 restored_state = TasksApplicationState(
                     previous_window_layouts=[TaskWindowLayout(size=(492, 743))]
                 )
-                with open(filename, "rb") as f:
-                    restored_state = pickle.load(f)
             except Exception:
                 # If anything goes wrong, log the error and continue.
                 logger.exception("Error while restoring application state")
