@@ -8,27 +8,13 @@
 #
 # Thanks for using Enthought open source!
 
-import os
 import unittest
 
 import pkg_resources
 
 from envisage.ui.tasks.api import TasksApplication
-from pyface.i_gui import IGUI
-from traits.api import HasTraits, provides
-
-requires_gui = unittest.skipIf(
-    os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
-    "Test requires a non-null GUI backend",
-)
 
 
-@provides(IGUI)
-class DummyGUI(HasTraits):
-    pass
-
-
-@requires_gui
 class TestTasksApplication(unittest.TestCase):
     def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
