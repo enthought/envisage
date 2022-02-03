@@ -61,7 +61,7 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
-    def XXXtest_layout_load(self):
+    def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
@@ -71,7 +71,7 @@ class TestTasksApplication(unittest.TestCase):
 
         state_location = self.tmpdir
         shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v2.pkl"),
+            os.path.join(stored_state_location, "application_memento_v3.pkl"),
             os.path.join(state_location, DEFAULT_STATE_FILENAME),
         )
 
