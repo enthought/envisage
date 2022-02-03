@@ -50,4 +50,4 @@ jobs:
         with:
           working-directory: ${{ runner.temp }}
           run: |
-              python -X faulthandler -m unittest discover -v envisage
+              python -m unittest -v envisage.ui.tasks.tests.test_tasks_application
