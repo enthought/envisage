@@ -49,4 +49,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           working-directory: ${{ runner.temp }}
-          run: python -X faulthandler -m unittest discover -v envisage
+          run: |
+              echo "Starting run"
+              python -X faulthandler -m unittest discover -v envisage
+              echo "Completing run"
