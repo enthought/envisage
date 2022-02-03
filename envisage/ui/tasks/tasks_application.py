@@ -371,16 +371,16 @@ class TasksApplication(Application):
     def _load_state(self):
         """ Loads saved application state, if possible.
         """
-        from pyface.tasks.task_window_layout import TaskWindowLayout
-
-        state = TasksApplicationState(
-            previous_window_layouts=[TaskWindowLayout(size=(492, 743))]
-        )
+        state = TasksApplicationState()
         filename = os.path.join(self.state_location, self.state_filename)
-        if False and os.path.exists(filename):
+        if os.path.exists(filename):
             # Attempt to unpickle the saved application state.
             logger.debug("Loading application state from %s", filename)
             try:
+                from pyface.tasks.task_window_layout import TaskWindowLayout
+                restored_state = TasksApplicationState(
+                    previous_window_layouts=[TaskWindowLayout(size=(492, 743))]
+                )
                 with open(filename, "rb") as f:
                     restored_state = pickle.load(f)
             except Exception:
