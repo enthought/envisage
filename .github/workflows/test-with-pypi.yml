@@ -15,6 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: [3.6, 3.8, 3.9]
+        qt: [pyside2, pyside6]
 
     runs-on: ${{ matrix.os }}
 
@@ -42,7 +43,7 @@ jobs:
             pip install --upgrade pip setuptools wheel
       - name: Install package and dependencies
         run: |
-            pip install pyside2
+            pip install ${{ matrix.qt }}
             pip install .[ipython]
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
