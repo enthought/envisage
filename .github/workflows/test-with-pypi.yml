@@ -44,12 +44,10 @@ jobs:
       - name: Install package and dependencies
         run: |
             pip install ${{ matrix.qt }}
-            pip install .[ipython]
+            pip install .
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
           working-directory: ${{ runner.temp }}
           run: |
-              echo "Starting run"
               python -X faulthandler -m unittest discover -v envisage
-              echo "Completing run"
