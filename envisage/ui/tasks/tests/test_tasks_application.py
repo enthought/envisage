@@ -41,7 +41,7 @@ class TestTasksApplication(unittest.TestCase):
     @unittest.skipUnless(
         3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
     )
-    def test_layout_save_with_protocol_3(self):
+    def XXXtest_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
 
@@ -61,7 +61,7 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
-    def XXXtest_layout_load(self):
+    def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
@@ -85,7 +85,7 @@ class TestTasksApplication(unittest.TestCase):
     @unittest.skipUnless(
         3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
     )
-    def XXXtest_layout_load_pickle_protocol_3(self):
+    def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
         stored_state_location = pkg_resources.resource_filename(
@@ -108,7 +108,7 @@ class TestTasksApplication(unittest.TestCase):
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
-    def test_gui_trait_expects_IGUI_interface(self):
+    def XXXtest_gui_trait_expects_IGUI_interface(self):
         # Trivial test where we simply set the trait
         # and the test passes because no errors are raised.
         app = TasksApplication()
