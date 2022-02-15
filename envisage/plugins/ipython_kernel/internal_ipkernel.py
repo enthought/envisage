@@ -128,9 +128,13 @@ class InternalIPKernel(HasStrictTraits):
 
         Existing IPython consoles are killed first.
         """
+        import sys
         if self.ipkernel is not None:
+            print("Cleanup consoles", file=sys.__stdout__)
             self.cleanup_consoles()
+            print("ipkernel close", self.ipkernel, file=sys.__stdout__)
             self.ipkernel.close()
+            print("unregister", file=sys.__stdout__)
             # ipkernel.close is only registered for ipykernel 5.1.2 and later,
             # but unregistering something that wasn't registered is safe.
             atexit.unregister(self.ipkernel.close)

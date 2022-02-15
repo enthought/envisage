@@ -159,7 +159,9 @@ class TestInternalIPKernel(unittest.TestCase):
         stdout_state = attr_state(utils_io, "stdout")
         stderr_state = attr_state(utils_io, "stderr")
 
+        print("Creating and destroying kernel")
         self.create_and_destroy_kernel()
+        print("Kernel created and destroyer")
 
         self.assertEqual(attr_state(utils_io, "stdin"), stdin_state)
         self.assertEqual(attr_state(utils_io, "stdout"), stdout_state)
@@ -315,5 +317,8 @@ class TestInternalIPKernel(unittest.TestCase):
         kernel = InternalIPKernel()
         kernel.init_ipkernel(gui_backend=None)
         kernel.new_qt_console()
+        print("New console", file=sys.__stdout__)
         kernel.new_qt_console()
+        print("Doing shutdown", file=sys.__stdout__)
         kernel.shutdown()
+        print("Done shutdown", file=sys.__stdout__)
