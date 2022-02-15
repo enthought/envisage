@@ -27,10 +27,7 @@ try:
 except ImportError:
     ipykernel_available = False
 else:
-    ipykernel_available = (
-        ipykernel.version_info < (6,)
-        and IPython.version_info < (8,)
-    )
+    ipykernel_available = True
 
 if ipykernel_available:
     import ipykernel.iostream
@@ -43,6 +40,31 @@ if ipykernel_available:
 
     from envisage.plugins.ipython_kernel.api import InternalIPKernel
 
+
+def attr_state(object, attr_name):
+    """
+    Return the state of an attribute on an object.
+
+    Parameters
+    ----------
+    object : object
+    attr_name : str
+
+    Returns
+    -------
+    exists : bool
+        True if the attribute exists, else False
+    value : object
+        Value of the attribute if it exists, else None
+    """
+    try:
+        value = getattr(object, attr_name)
+    except AttributeError:
+        value = None
+        exists = False
+    else:
+        exists = True
+    return exists, value
 
 @unittest.skipUnless(
     ipykernel_available, "skipping tests that require the ipykernel package"
@@ -131,15 +153,17 @@ class TestInternalIPKernel(unittest.TestCase):
         self.assertTrue(console.stderr.closed)
 
     def test_ipython_util_io_globals_restored(self):
-        original_io_stdin = IPython.utils.io.stdin
-        original_io_stdout = IPython.utils.io.stdout
-        original_io_stderr = IPython.utils.io.stderr
+
+        utils_io = IPython.utils.io
+        stdin_state = attr_state(utils_io, "stdin")
+        stdout_state = attr_state(utils_io, "stdout")
+        stderr_state = attr_state(utils_io, "stderr")
 
         self.create_and_destroy_kernel()
 
-        self.assertIs(IPython.utils.io.stdin, original_io_stdin)
-        self.assertIs(IPython.utils.io.stdout, original_io_stdout)
-        self.assertIs(IPython.utils.io.stderr, original_io_stderr)
+        self.assertEqual(attr_state(utils_io, "stdin"), stdin_state)
+        self.assertEqual(attr_state(utils_io, "stdout"), stdout_state)
+        self.assertEqual(attr_state(utils_io, "stderr"), stderr_state)
 
     def test_ipython_util_io_globals_restored_if_they_dont_exist(self):
         # Regression test for enthought/envisage#218
@@ -152,10 +176,16 @@ class TestInternalIPKernel(unittest.TestCase):
         del IPython.utils.io.stderr
 
         try:
+            utils_io = IPython.utils.io
+            stdin_state = attr_state(utils_io, "stdin")
+            stdout_state = attr_state(utils_io, "stdout")
+            stderr_state = attr_state(utils_io, "stderr")
+
             self.create_and_destroy_kernel()
-            self.assertFalse(hasattr(IPython.utils.io, "stdin"))
-            self.assertFalse(hasattr(IPython.utils.io, "stdout"))
-            self.assertFalse(hasattr(IPython.utils.io, "stderr"))
+
+            self.assertEqual(attr_state(utils_io, "stdin"), stdin_state)
+            self.assertEqual(attr_state(utils_io, "stdout"), stdout_state)
+            self.assertEqual(attr_state(utils_io, "stderr"), stderr_state)
         finally:
             IPython.utils.io.stdin = original_io_stdin
             IPython.utils.io.stdout = original_io_stdout
