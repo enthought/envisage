@@ -293,14 +293,18 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             del self._original_sys_displayhook
 
         if self.outstream_class:
-            sys.stderr.close()
+            # We'd like to simply call sys.stderr.close() here, but
+            # that method is broken for some versions of ipykernel.
+            # So we imitate the effects of the close method instead.
+            # xref: https://github.com/ipython/ipykernel/issues/867
+            # xref: https://github.com/ipython/ipykernel/issues/868
+            sys.stderr.pub_thread = None
             sys.stderr = self._original_sys_stderr
             del self._original_sys_stderr
 
-            sys.stdout.close()
+            sys.stdout.pub_thread = None
             sys.stdout = self._original_sys_stdout
             del self._original_sys_stdout
-
 
     def close_iopub(self):
         """
