@@ -197,13 +197,9 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # v5.1.2, along with an atexit handler for that method. See
         # https://github.com/ipython/ipykernel/pull/412. For ipykernel versions
         # of 5.1.2 or later, this method overrides the base class version.
-        print("Close shell", file=sys.__stdout__)
         self.close_shell()
-        print("Close kernel", file=sys.__stdout__)
         self.close_kernel()
-        print("Close io", file=sys.__stdout__)
         self.close_io()
-        print("Halfway", file=sys.__stdout__)
         self.close_heartbeat()
         self.close_sockets()
 
@@ -297,18 +293,13 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             del self._original_sys_displayhook
 
         if self.outstream_class:
-            print("sys.stderr: ", sys.stderr, file=sys.__stdout__)
-            print("closing stderr", file=sys.__stdout__)
             sys.stderr.close()
             sys.stderr = self._original_sys_stderr
             del self._original_sys_stderr
 
-            print("closing stdout", file=sys.__stdout__)
             sys.stdout.close()
             sys.stdout = self._original_sys_stdout
             del self._original_sys_stdout
-
-            print("leaving", file=sys.__stdout__)
 
 
     def close_iopub(self):
