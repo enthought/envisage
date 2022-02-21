@@ -27,7 +27,10 @@ try:
 except ImportError:
     ipykernel_available = False
 else:
-    ipykernel_available = True
+    ipykernel_available = (
+        ipykernel.version_info < (6,)
+        and IPython.version_info < (8,)
+    )
 
 if ipykernel_available:
     import ipykernel.iostream

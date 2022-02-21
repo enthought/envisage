@@ -25,10 +25,14 @@ from envisage.tests.ets_config_patcher import ETSConfigPatcher
 # enthought/envisage#448.
 try:
     import ipykernel
+    import IPython
 except ImportError:
     ipykernel_available = False
 else:
-    ipykernel_available = True
+    ipykernel_available = (
+        ipykernel.version_info < (6,)
+        and IPython.version_info < (8,)
+    )
 
 if ipykernel_available:
     from envisage.plugins.ipython_kernel.api import (
