@@ -66,6 +66,7 @@ def attr_state(object, attr_name):
         exists = True
     return exists, value
 
+
 @unittest.skipUnless(
     ipykernel_available, "skipping tests that require the ipykernel package"
 )
