@@ -58,6 +58,7 @@ class PackageResourceProtocol(HasTraits):
             TypeError,  # TypeError is raised if package is a module
             FileNotFoundError,
             IsADirectoryError,
+            PermissionError,
         ):
             raise NoSuchResourceError(address)
 
