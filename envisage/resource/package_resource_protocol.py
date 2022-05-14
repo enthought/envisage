@@ -12,9 +12,10 @@
 
 # Standard library imports.
 import errno
-
-# 3rd party imports.
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 # Enthought library imports.
 from traits.api import HasTraits, provides
@@ -28,7 +29,7 @@ from .no_such_resource_error import NoSuchResourceError
 class PackageResourceProtocol(HasTraits):
     """ A resource protocol for package resources.
 
-    This protocol uses 'pkg_resources' to find and access resources.
+    This protocol uses 'importlib.resources' to find and access resources.
 
     An address for this protocol is a string in the form::
 
@@ -37,8 +38,6 @@ class PackageResourceProtocol(HasTraits):
     e.g::
 
         'acme.ui.workbench/preferences.ini'
-
-
     """
 
     ###########################################################################
@@ -54,7 +53,7 @@ class PackageResourceProtocol(HasTraits):
         resource_name = address[first_forward_slash + 1:]
 
         try:
-            f = pkg_resources.resource_stream(package, resource_name)
+            f = (files(package) / resource_name).open('rb')
 
         except IOError as e:
             if e.errno == errno.ENOENT:
