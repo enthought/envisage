@@ -55,9 +55,11 @@ class PackageResourceProtocol(HasTraits):
         try:
             f = files(package).joinpath(*resource_path).open('rb')
         except (
-            ModuleNotFoundError, TypeError, FileNotFoundError, IsADirectoryError,
+            ModuleNotFoundError,
+            TypeError,  # TypeError is raised if package is a module
+            FileNotFoundError,
+            IsADirectoryError,
         ):
-            # TypeError is raised if package is a module
             raise NoSuchResourceError(address)
 
         return f
