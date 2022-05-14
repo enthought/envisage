@@ -11,7 +11,6 @@
 
 
 # Standard library imports.
-import errno
 try:
     from importlib.resources import files
 except ImportError:
