@@ -47,22 +47,15 @@ class PackageResourceProtocol(HasTraits):
     def file(self, address):
         """ Return a readable file-like object for the specified address. """
 
-        first_forward_slash = address.index("/")
+        package, *resource_path = address.split("/")
 
-        package = address[:first_forward_slash]
-        resource_name = address[first_forward_slash + 1:]
+        if not package or not resource_path:
+            raise NoSuchResourceError(address)
 
         try:
-            f = (files(package) / resource_name).open('rb')
-
-        except IOError as e:
-            if e.errno == errno.ENOENT:
-                raise NoSuchResourceError(address)
-
-            else:
-                raise
-
-        except ImportError:
+            f = files(package).joinpath(*resource_path).open('rb')
+        except (ModuleNotFoundError, TypeError, FileNotFoundError, IsADirectoryError):
+            # TypeError is raised if package is a module
             raise NoSuchResourceError(address)
 
         return f
