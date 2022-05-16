@@ -461,11 +461,8 @@ class TasksApplication(Application):
         return GUI(splash_screen=self.splash_screen)
 
     def _state_location_default(self):
-        state_location = os.path.join(
-            ETSConfig.application_home, "tasks", ETSConfig.toolkit
-        )
-        if not os.path.exists(state_location):
-            os.makedirs(state_location)
+        state_location = os.path.join(self.home, "tasks", ETSConfig.toolkit)
+        os.makedirs(state_location, mode=0o700, exist_ok=True)
 
         logger.debug("Tasks state location is %s", state_location)
 

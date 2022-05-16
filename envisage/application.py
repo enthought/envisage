@@ -155,30 +155,23 @@ class Application(HasTraits):
 
     def _home_default(self):
         """ Trait initializer. """
-
         return ETSConfig.application_home
 
     def _user_data_default(self):
         """ Trait initializer. """
-
-        user_data = os.path.join(ETSConfig.user_data, self.id)
-
-        # Make sure it exists!
-        if not os.path.exists(user_data):
-            os.makedirs(user_data)
-
-        return user_data
+        return ETSConfig.user_data
 
     def _preferences_default(self):
         """ Trait initializer. """
-
-        return ScopedPreferences()
+        return ScopedPreferences(
+            application_preferences_filename=os.path.join(
+                self.home, 'preferences.ini')
+        )
 
     #### Methods ##############################################################
 
     def run(self):
         """ Run the application. """
-
         if self.start():
             self.stop()
 
@@ -484,12 +477,6 @@ class Application(HasTraits):
         return ApplicationEvent(application=self)
 
     def _initialize_application_home(self):
-        """ Initialize the application home directory. """
-
-        ETSConfig.application_home = os.path.join(
-            ETSConfig.application_data, self.id
-        )
-
-        # Make sure it exists!
-        if not os.path.exists(ETSConfig.application_home):
-            os.makedirs(ETSConfig.application_home)
+        """ Initialize the application directories. """
+        os.makedirs(self.home, mode=0o700, exist_ok=True)
+        os.makedirs(self.user_data, exist_ok=True)
