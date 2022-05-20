@@ -506,7 +506,14 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(
+                                id="NewGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
                     ),
                     Menu(name="&Edit", path="MenuBar"),
                     Menu(name="&Tools", path="MenuBar"),
@@ -574,13 +581,30 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(
+                                id="NewGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
                     ),
                 ],
             ),
             ActionSet(
                 menus=[
-                    Menu(name="&File", path="MenuBar", groups=["ExtraGroup"]),
+                    Menu(
+                        name="&File",
+                        path="MenuBar",
+                        groups=[
+                            Group(
+                                id="ExtraGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                        ],
+                    ),
                 ],
             ),
         ]
@@ -619,13 +643,31 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(
+                                id="NewGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
+
                     ),
                 ],
             ),
             ActionSet(
                 menus=[
-                    Menu(name="&File", path="MenuBar", groups=["NewGroup"]),
+                    Menu(
+                        name="&File",
+                        path="MenuBar",
+                        groups=[
+                            Group(
+                                id="NewGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                        ],
+                    ),
                 ],
             ),
         ]
