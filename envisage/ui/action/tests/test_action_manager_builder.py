@@ -636,11 +636,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                         name="&File",
                         path="MenuBar",
                         groups=[
-                            Group(
-                                id="NewGroup",
-                                path="MenuBar/File",
-                                before="ExitGroup",
-                            ),
+                            Group(id="NewGroup", path="MenuBar/File"),
                             Group(id="ExitGroup", path="MenuBar/File"),
                         ],
 
@@ -653,11 +649,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                         name="&File",
                         path="MenuBar",
                         groups=[
-                            Group(
-                                id="NewGroup",
-                                path="MenuBar/File",
-                                before="ExitGroup",
-                            ),
+                            Group(id="NewGroup", path="MenuBar/File"),
                         ],
                     ),
                 ],
