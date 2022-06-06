@@ -11,10 +11,10 @@
 
 
 # Standard library imports.
-import errno
-
-# 3rd party imports.
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 # Enthought library imports.
 from traits.api import HasTraits, provides
@@ -28,7 +28,7 @@ from .no_such_resource_error import NoSuchResourceError
 class PackageResourceProtocol(HasTraits):
     """ A resource protocol for package resources.
 
-    This protocol uses 'pkg_resources' to find and access resources.
+    This protocol uses 'importlib.resources' to find and access resources.
 
     An address for this protocol is a string in the form::
 
@@ -37,8 +37,6 @@ class PackageResourceProtocol(HasTraits):
     e.g::
 
         'acme.ui.workbench/preferences.ini'
-
-
     """
 
     ###########################################################################
@@ -48,22 +46,20 @@ class PackageResourceProtocol(HasTraits):
     def file(self, address):
         """ Return a readable file-like object for the specified address. """
 
-        first_forward_slash = address.index("/")
+        package, *resource_path = address.split("/")
 
-        package = address[:first_forward_slash]
-        resource_name = address[first_forward_slash + 1:]
+        if not package or not resource_path:
+            raise NoSuchResourceError(address)
 
         try:
-            f = pkg_resources.resource_stream(package, resource_name)
-
-        except IOError as e:
-            if e.errno == errno.ENOENT:
-                raise NoSuchResourceError(address)
-
-            else:
-                raise
-
-        except ImportError:
+            f = files(package).joinpath(*resource_path).open('rb')
+        except (
+            ModuleNotFoundError,
+            TypeError,  # TypeError is raised if package is a module
+            FileNotFoundError,
+            IsADirectoryError,
+            PermissionError,
+        ):
             raise NoSuchResourceError(address)
 
         return f

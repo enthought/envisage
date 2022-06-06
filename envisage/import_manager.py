@@ -9,6 +9,7 @@
 # Thanks for using Enthought open source!
 """ The default import manager implementation. """
 
+import importlib
 
 # Enthought library imports.
 from traits.api import HasTraits, provides
@@ -37,7 +38,7 @@ class ImportManager(HasTraits):
         if ":" in symbol_path:
             module_name, symbol_name = symbol_path.split(":")
 
-            module = self._import_module(module_name)
+            module = importlib.import_module(module_name)
             symbol = eval(symbol_name, module.__dict__)
 
         else:
@@ -56,25 +57,3 @@ class ImportManager(HasTraits):
         self.symbol_imported = symbol
 
         return symbol
-
-    ###########################################################################
-    # Private interface.
-    ###########################################################################
-
-    def _import_module(self, module_name):
-        """ Import the module with the specified (and possibly dotted) name.
-
-        Returns the imported module.
-
-        This method is copied from the documentation of the '__import__'
-        function in the Python Library Reference Manual.
-
-        """
-
-        module = __import__(module_name)
-
-        components = module_name.split(".")
-        for component in components[1:]:
-            module = getattr(module, component)
-
-        return module
