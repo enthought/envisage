@@ -40,14 +40,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Update necessary Python packages
         run: |
-            pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools wheel
       - name: Install package and dependencies
         run: |
-            pip install ${{ matrix.qt }}
-            pip install .
+          python -m pip install .[${{ matrix.qt }}]
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
           working-directory: ${{ runner.temp }}
           run: |
-              python -m unittest -v envisage.ui.tasks.tests.test_tasks_application
+            python -m unittest -v envisage.ui.tasks.tests.test_tasks_application

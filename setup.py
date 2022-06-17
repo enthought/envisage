@@ -321,6 +321,17 @@ if __name__ == "__main__":
             "ipython": ["ipython<8", "ipykernel<6", "traitlets<5.1"],
             "test": ["coverage", "flake8"],
             "ui": ["pyface", "traitsui"],
+            "pyside2": ["pyside2"],
+            "pyside6": [
+                # Avoid https://bugreports.qt.io/browse/PYSIDE-1797, which
+                # causes some versions of PySide6 to be unimportable on Python
+                # 3.6 and 3.7.
+                (
+                    "pyside6!=6.2.2,!=6.2.2.1,!=6.2.3,!=6.2.4,!=6.3.0; "
+                    + "python_version<'3.8'"
+                ),
+                "pyside6; python_version>='3.8'",
+            ],
         },
         license="BSD",
         packages=find_packages(),
