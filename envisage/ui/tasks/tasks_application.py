@@ -377,10 +377,8 @@ class TasksApplication(Application):
             # Attempt to unpickle the saved application state.
             logger.debug("Loading application state from %s", filename)
             try:
-                from pyface.tasks.task_window_layout import TaskWindowLayout
-                restored_state = TasksApplicationState(
-                    previous_window_layouts=[TaskWindowLayout(size=(492, 743))]
-                )
+                with open(filename, "rb") as f:
+                    restored_state = pickle.load(f)
             except Exception:
                 # If anything goes wrong, log the error and continue.
                 logger.exception("Error while restoring application state")

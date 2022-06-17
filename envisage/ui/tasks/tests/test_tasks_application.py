@@ -71,7 +71,7 @@ class TestTasksApplication(unittest.TestCase):
 
         state_location = self.tmpdir
         shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v3.pkl"),
+            os.path.join(stored_state_location, "application_memento_v2.pkl"),
             os.path.join(state_location, DEFAULT_STATE_FILENAME),
         )
 
