@@ -10,20 +10,82 @@
 """ Base class for Egg-based test cases. """
 
 
-from os.path import dirname, join
+from os.path import join
+import shutil
+import subprocess
+import sys
+import tempfile
 import unittest
 
 import pkg_resources
 
 
+def build_egg(egg_dir, dist_dir):
+    """Helper function to build an egg.
+
+    Parameters
+    ----------
+    egg_dir : str
+        Directory containing the Python package to be built. Should
+        contain a "setup.py" file that can be used with
+        "python setup.py bdist_egg" to build the package.
+    dist_dir : str
+        Directory to place the built egg in. The directory should
+        already exist.
+    """
+    subprocess.run(
+        [
+            "python",
+            "setup.py",
+            "bdist_egg",
+            "--dist-dir",
+            dist_dir,
+        ],
+        cwd=egg_dir,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
 class EggBasedTestCase(unittest.TestCase):
     """ Base class for Egg-based test cases. """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Create eggs for testing purposes.
+        """
+        cls.egg_dir = tempfile.mkdtemp()
+        eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "eggs")
+        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+            build_egg(
+                egg_dir=join(eggs_root_dir, egg_name),
+                dist_dir=cls.egg_dir,
+            )
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Delete created eggs.
+        """
+        shutil.rmtree(cls.egg_dir)
 
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        # The location of the 'eggs' directory.
-        self.egg_dir = join(dirname(__file__), "eggs")
+        # Some tests cause sys.path to be modified. Capture the original
+        # contents so that we can restore sys.path later.
+        self._original_sys_path_contents = sys.path[:]
+
+    def tearDown(self):
+        """ Called immediately after each test method has been called. """
+
+        # Undo any sys.path modifications
+        sys.path[:] = self._original_sys_path_contents
+
+        pkg_resources.working_set = pkg_resources.WorkingSet()
 
     def _add_egg(self, filename, working_set=None):
         """ Create and add a distribution from the specified '.egg'. """
@@ -32,7 +94,7 @@ class EggBasedTestCase(unittest.TestCase):
             working_set = pkg_resources.working_set
 
         # The eggs must be in our egg directory!
-        filename = join(dirname(__file__), "eggs", filename)
+        filename = join(self.egg_dir, filename)
 
         # Create a distribution for the egg.
         distributions = pkg_resources.find_distributions(filename)
