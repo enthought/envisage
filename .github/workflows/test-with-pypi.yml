@@ -31,6 +31,8 @@ jobs:
           sudo apt-get install libxcb-randr0
           sudo apt-get install libxcb-render-util0
           sudo apt-get install libxcb-xinerama0
+          # Needed to work around https://bugreports.qt.io/browse/PYSIDE-1547
+          sudo apt-get install libopengl0
         if: runner.os == 'Linux'
       - name: Check out the target commit
         uses: actions/checkout@v2
