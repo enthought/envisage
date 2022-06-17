@@ -310,7 +310,12 @@ if __name__ == "__main__":
                 "demo_examples = envisage.examples._etsdemo_info:info",
             ],
         },
-        install_requires=["apptools", "setuptools", "traits>=6.2"],
+        install_requires=[
+            "apptools",
+            "setuptools",
+            "traits>=6.2",
+            'importlib-resources>=1.1.0; python_version<"3.9"',
+        ],
         extras_require={
             "docs": ["enthought-sphinx-theme", "Sphinx>=2.1.0,!=3.2.0"],
             "ipython": ["ipython<8", "ipykernel<6", "traitlets<5.1"],
