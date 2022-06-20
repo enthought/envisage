@@ -43,6 +43,7 @@ Starting event loop
 Exiting
 _prepare_exit
 _on_window_closed
+Calling stop
 Successfully exited
 Event loop finished
 Finished running appliction
@@ -54,5 +55,6 @@ Starting event loop
 Exiting
 _prepare_exit
 _on_window_closed
+Calling stop
 Successfully exited
 <hang>
