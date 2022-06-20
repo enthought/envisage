@@ -1,0 +1,58 @@
+Notes from debugging the Envisage segfault on PySide6
+
+xref: https://github.com/enthought/envisage/pull/475
+xref: https://github.com/enthought/envisage/pull/460
+
+Now appears to be a hang rather than a segfault.
+
+Trying to reproduce locally
+
+- Update VirtualBox (Version 6.1.34 r150636)
+- Host: macOS 12.4 (21F79)
+
+Downloading the Ubuntu release
+- ubuntu-20.04.4-desktop-amd64.iso
+
+Installing in VirtualBox ...; rebooting and installing
+updates. Then:
+
+- Install git, python3.8-venv via "sudo apt install ..."
+- Clone envisage; check out the debugging branch
+- Create a venv, enter it
+- python -m pip install --upgrade pip setuptools wheel
+- python -m pip install -e .[pyside6]
+  (installs PySide6 6.2.4)
+- export ETS_TOOLKIT=qt
+
+Good news: can reproduce the hang locally!
+
+Can also reproduce on macOS!
+
+---------------------------------
+
+% python3.8 -m venv --clear ~/.venvs/envisage-pyside6 && source ~/.venvs/envisage-pyside6/bin/activate
+% python -m pip install --upgrade pip setuptools wheel
+% python -m pip install ".[pyside6]"
+% python -m envisage.hanger
+
+
+Current output under PySide 2 (Python 3.8):
+
+Running application
+Starting event loop
+Exiting
+_prepare_exit
+_on_window_closed
+Successfully exited
+Event loop finished
+Finished running appliction
+
+Current output under PySide 6 (Python 3.8):
+
+Running application
+Starting event loop
+Exiting
+_prepare_exit
+_on_window_closed
+Successfully exited
+<hang>
