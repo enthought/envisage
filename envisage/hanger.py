@@ -1,5 +1,5 @@
-from pyface.api import Window
 from pyface.qt import QtGui
+from pyface.ui.qt4.window import Window
 from traits.api import HasTraits, Instance
 
 
@@ -8,9 +8,9 @@ class Application(HasTraits):
     window = Instance(Window)
 
     def run(self):
+        app = QtGui.QApplication()
         self.window = Window()
         self.window.open()
-        app = QtGui.QApplication.instance()
         app.exec_()
 
     def exit(self):
