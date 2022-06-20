@@ -1,15 +1,13 @@
+from pyface.api import ApplicationWindow
 from pyface.gui import GUI
-from pyface.tasks.api import TaskWindow as PyfaceTaskWindow
-from traits.api import Event, Instance
-
-from envisage.api import Application
+from traits.api import Event, HasTraits, Instance
 
 
-class TasksApplication(Application):
+class Application(HasTraits):
 
     gui = Instance(GUI, ())
 
-    window = Instance(PyfaceTaskWindow)
+    window = Instance(ApplicationWindow)
 
     application_initialized = Event
 
@@ -17,9 +15,7 @@ class TasksApplication(Application):
         """Run the application."""
         gui = self.gui
 
-        self.start()
-
-        self.window = PyfaceTaskWindow()
+        self.window = ApplicationWindow()
         self.window.open()
 
         gui.set_trait_later(self, "application_initialized", self)
@@ -35,14 +31,12 @@ class TasksApplication(Application):
         self.window.destroy()
         self.window.closed = True
 
-        self.stop()
-
         print("Successfully exited")
         return True
 
 
 def main():
-    app = TasksApplication()
+    app = Application()
     app.on_trait_change(lambda: app.exit(), "application_initialized")
     print("Running application")
     app.run()
