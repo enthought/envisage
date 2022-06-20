@@ -58,3 +58,23 @@ _on_window_closed
 Calling stop
 Successfully exited
 <hang>
+
+At commit 78e6929edca78b69b3b6298748606b9685892244:
+
+(envisage-pyside2) mdickinson@mirzakhani envisage % python -m coverage run -m envisage.hanger && python -m coverage html
+Running application
+Starting event loop
+Exiting
+Calling stop
+Successfully exited
+Event loop finished
+Finished running application
+Wrote HTML report to htmlcov/index.html
+
+(envisage-pyside6) mdickinson@mirzakhani envisage % python -m coverage run -m envisage.hanger && python -m coverage html
+Running application
+Starting event loop
+Exiting
+Calling stop
+Successfully exited
+<hang>
