@@ -1,36 +1,23 @@
 import weakref
 
 from pyface.qt import QtCore, QtGui
-from pyface.qt.QtCore import Qt
 from pyface.ui.qt4.gui import GUI
-from traits.api import Any, Bool, HasTraits, Instance, Interface, Str
+from traits.api import Any, Bool, HasStrictTraits, Instance
 
 
-class MWidget(HasTraits):
-    """The mixin class that contains common code for toolkit specific
-    implementations of the IWidget interface.
-    """
+class Window(HasStrictTraits):
 
-    def create(self):
-        """Creates the toolkit specific control.
+    #: The toolkit specific control that represents the widget.
+    control = Any()
 
-        The default implementation simply calls _create()
-        """
-        self._create()
+    #: The control's optional parent control.
+    parent = Any()
 
-    def destroy(self):
-        """Call clean-up code and destroy toolkit objects.
+    #: Whether or not the control is enabled
+    enabled = Bool(True)
 
-        Subclasses should override to perform any additional clean-up, ensuring
-        that they call super() after that clean-up.
-        """
-        if self.control is not None:
-            self._remove_event_listeners()
-            self.control = None
-
-    # ------------------------------------------------------------------------
-    # Protected 'IWidget' interface.
-    # ------------------------------------------------------------------------
+    #: The event filter for the widget.
+    _event_filter = Instance(QtCore.QObject)
 
     def _create(self):
         """Creates the toolkit specific control.
@@ -39,85 +26,9 @@ class MWidget(HasTraits):
         :py:attr:``control`` trait.
         """
         self.control = self._create_control(self.parent)
-        self._initialize_control()
         self._add_event_listeners()
 
-    def _create_control(self, parent):
-        """Create toolkit specific control that represents the widget.
-
-        Parameters
-        ----------
-        parent : toolkit control
-            The toolkit control to be used as the parent for the widget's
-            control.
-
-        Returns
-        -------
-        control : toolkit control
-            A control for the widget.
-        """
-        raise NotImplementedError()
-
-    def _initialize_control(self):
-        """Perform any post-creation initialization for the control."""
-        pass
-
     def _add_event_listeners(self):
-        """Set up toolkit-specific bindings for events"""
-        pass
-
-    def _remove_event_listeners(self):
-        """Remove toolkit-specific bindings for events"""
-        pass
-
-
-class Widget(MWidget, HasTraits):
-    """The toolkit specific implementation of a Widget.  See the IWidget
-    interface for the API documentation.
-    """
-
-    #: The toolkit specific control that represents the widget.
-    control = Any()
-
-    #: The control's optional parent control.
-    parent = Any()
-
-    #: Whether or not the control is visible
-    visible = Bool(True)
-
-    #: Whether or not the control is enabled
-    enabled = Bool(True)
-
-    #: A tooltip for the widget.
-    tooltip = Str()
-
-    #: The event filter for the widget.
-    _event_filter = Instance(QtCore.QObject)
-
-    # ------------------------------------------------------------------------
-    # 'IWidget' interface.
-    # ------------------------------------------------------------------------
-
-    def show(self, visible):
-        """Show or hide the widget.
-
-        Parameter
-        ---------
-        visible : bool
-            Visible should be ``True`` if the widget should be shown.
-        """
-        self.visible = visible
-        if self.control is not None:
-            self.control.setVisible(visible)
-
-    def destroy(self):
-        if self.control is not None:
-            self.control.hide()
-            self.control.deleteLater()
-            super().destroy()
-
-    def _add_event_listeners(self):
-        super()._add_event_listeners()
         self.control.installEventFilter(self._event_filter)
 
     def _remove_event_listeners(self):
@@ -125,59 +36,29 @@ class Widget(MWidget, HasTraits):
             if self.control is not None:
                 self.control.removeEventFilter(self._event_filter)
             self._event_filter = None
-        super()._remove_event_listeners()
-
-    # ------------------------------------------------------------------------
-    # Private interface
-    # ------------------------------------------------------------------------
-
-    def _get_control_tooltip(self):
-        """Toolkit specific method to get the control's tooltip."""
-        return self.control.toolTip()
-
-    def _set_control_tooltip(self, tooltip):
-        """Toolkit specific method to set the control's tooltip."""
-        self.control.setToolTip(tooltip)
-
-    # Trait change handlers --------------------------------------------------
-
-    def _visible_changed(self, new):
-        if self.control is not None:
-            self.show(new)
-
-
-class Window(Widget):
-    """The toolkit specific implementation of a Window.  See the IWindow
-    interface for the API documentation.
-    """
 
     def open(self):
-        # Create the control, if necessary.
-        if self.control is None:
-            self._create()
-
-        self.show(True)
-        self.opened = self
+        self._create()
 
     def close(self):
         self.destroy()
-
-    # Private interface ------------------------------------------------------
 
     def _create_control(self, parent):
         """Create a default QMainWindow."""
         control = QtGui.QMainWindow(parent)
 
         control.setEnabled(self.enabled)
-        control.setVisible(self.visible)
+        control.setVisible(True)
 
         return control
 
     def destroy(self):
-        if self.control is not None:
-            control = self.control
-            super().destroy()
-            control.close()
+        control = self.control
+        self.control.hide()
+        self.control.deleteLater()
+        self._remove_event_listeners()
+        self.control = None
+        control.close()
 
     def __event_filter_default(self):
         return WindowEventFilter(self)
@@ -211,7 +92,7 @@ class WindowEventFilter(QtCore.QObject):
         return False
 
 
-class Application(HasTraits):
+class Application(HasStrictTraits):
 
     window = Instance(Window)
 
