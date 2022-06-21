@@ -2,66 +2,6 @@ import weakref
 
 from pyface.qt import QtCore, QtGui
 from pyface.ui.qt4.gui import GUI
-from traits.api import Any, Bool, HasStrictTraits, Instance
-
-
-class Window(HasStrictTraits):
-
-    #: The toolkit specific control that represents the widget.
-    control = Any()
-
-    #: The control's optional parent control.
-    parent = Any()
-
-    #: Whether or not the control is enabled
-    enabled = Bool(True)
-
-    #: The event filter for the widget.
-    _event_filter = Instance(QtCore.QObject)
-
-    def _create(self):
-        """Creates the toolkit specific control.
-
-        This method should create the control and assign it to the
-        :py:attr:``control`` trait.
-        """
-        self.control = self._create_control(self.parent)
-        self._add_event_listeners()
-
-    def _add_event_listeners(self):
-        self.control.installEventFilter(self._event_filter)
-
-    def _remove_event_listeners(self):
-        if self._event_filter is not None:
-            if self.control is not None:
-                self.control.removeEventFilter(self._event_filter)
-            self._event_filter = None
-
-    def open(self):
-        self._create()
-
-    def close(self):
-        self.destroy()
-
-    def _create_control(self, parent):
-        """Create a default QMainWindow."""
-        control = QtGui.QMainWindow(parent)
-
-        control.setEnabled(self.enabled)
-        control.setVisible(True)
-
-        return control
-
-    def destroy(self):
-        control = self.control
-        self.control.hide()
-        self.control.deleteLater()
-        self._remove_event_listeners()
-        self.control = None
-        control.close()
-
-    def __event_filter_default(self):
-        return WindowEventFilter(self)
 
 
 class WindowEventFilter(QtCore.QObject):
@@ -84,7 +24,7 @@ class WindowEventFilter(QtCore.QObject):
             # Do not destroy the window during its event handler.
             GUI.invoke_later(window.close)
 
-            if window.control is not None:
+            if window._control is not None:
                 e.ignore()
 
             return True
@@ -92,9 +32,39 @@ class WindowEventFilter(QtCore.QObject):
         return False
 
 
-class Application(HasStrictTraits):
+class Window:
+    def __init__(self):
+        self._control = None
+        self._event_filter = None
 
-    window = Instance(Window)
+    def _add_event_listeners(self):
+        event_filter = WindowEventFilter(self)
+        self._event_filter = event_filter
+        self._control.installEventFilter(event_filter)
+
+    def _remove_event_listeners(self):
+        self._control.removeEventFilter(self._event_filter)
+        self._event_filter = None
+
+    def open(self):
+        control = QtGui.QMainWindow()
+        control.setEnabled(True)
+        control.setVisible(True)
+        self._control = control
+        self._add_event_listeners()
+
+    def close(self):
+        control = self._control
+        control.hide()
+        control.deleteLater()
+        self._remove_event_listeners()
+        self._control = None
+        control.close()
+
+
+class Application:
+    def __init__(self):
+        self.window = None
 
     def run(self):
         app = QtGui.QApplication()
