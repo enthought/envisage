@@ -46,7 +46,6 @@ jobs:
           sudo apt-get install pulseaudio
           sudo apt-get install libpulse-mainloop-glib0
           sudo apt-get install libopengl0
-        shell: bash
         if: runner.os == 'Linux'
       - name: Cache EDM packages
         uses: actions/cache@v2
