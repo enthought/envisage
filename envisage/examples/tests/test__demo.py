@@ -18,9 +18,6 @@ class TestDemoUtilities(unittest.TestCase):
     """ Test utility functions in the _demo module."""
 
     def test_sys_path_inserted(self):
-
-        from pyface.ui.qt4.init import toolkit_object
-
         path = os.path.join("dirname", "file.py")
         with demo_path(path):
             self.assertIn("dirname", sys.path)
