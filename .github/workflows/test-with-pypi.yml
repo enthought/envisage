@@ -45,9 +45,6 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
       - name: Install package and dependencies
         run: |
-          # Use the Pyface main branch to work around enthought/pyface#1135
-          # This workaround can be removed once Pyface >7.4.1 is available.
-          python -m pip install git+https://github.com/enthought/pyface.git
           python -m pip install .[${{ matrix.qt }}]
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
