@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install package and dependencies
-        run: python -m pip install .[${{ matrix.toolkit }}, ipython]
+        run: python -m pip install .[${{ matrix.toolkit }},ipython]
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
