@@ -37,7 +37,7 @@ jobs:
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Install click to the default EDM environment
-        run: edm install -y click coverage
+        run: edm install -y click
       - name: Install test environment
         run: edm run -- python etstool.py install --toolkit=${{ matrix.toolkit }}
       - name: Run tests
