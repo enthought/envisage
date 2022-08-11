@@ -319,7 +319,7 @@ if __name__ == "__main__":
         extras_require={
             "docs": [
                 "enthought-sphinx-theme",
-                "Sphinx>=2.1.0,!=3.2.0",
+                "Sphinx>=2.1.0",
                 "sphinx-copybutton",
             ],
             "ipython": ["ipython<8", "ipykernel<6", "traitlets<5.1"],
