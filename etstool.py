@@ -86,19 +86,20 @@ from contextlib import contextmanager
 import click
 
 # Python runtime versions supported by this tool.
-available_runtimes = ["3.6"]
+available_runtimes = ["3.6", "3.8"]
 
 # Python runtime used by default.
-default_runtime = "3.6"
+default_runtime = "3.8"
 
 # Toolkits supported by this tool.
-available_toolkits = ["pyside2", "pyqt5", "wx", "null"]
+available_toolkits = ["pyside2", "pyside6", "pyqt5", "wx", "null"]
 
 # Toolkit used by default.
 default_toolkit = "null"
 
 supported_combinations = {
     "3.6": {"pyside2", "pyqt5", "wx", "null"},
+    "3.8": {"pyside6", "pyqt5", "wx", "null"},
 }
 
 dependencies = {
@@ -124,20 +125,19 @@ source_dependencies = [
     "traits",
 ]
 
+# Toolkit dependencies installed from EDM.
 toolkit_dependencies = {
-    # XXX once pyside2 is available in EDM, we will want it here. For now
-    # we do a pip install.
-    "pyside2": set(),
+    "pyside2": {"pyside2"},
+    "pyside6": {"pyside6"},
     "pyqt5": {"pyqt5"},
-    # XXX once wxPython 4 is available in EDM, we will want it here
-    "wx": set(),
-    "null": set(),
+    # wxPython is not available in EDM; we'll need to pip install it
 }
 
 runtime_dependencies = {}
 
 environment_vars = {
     "pyside2": {"ETS_TOOLKIT": "qt4", "QT_API": "pyside2"},
+    "pyside6": {"ETS_TOOLKIT": "qt4", "QT_API": "pyside6"},
     "pyqt5": {"ETS_TOOLKIT": "qt4", "QT_API": "pyqt5"},
     "wx": {"ETS_TOOLKIT": "wx"},
     "null": {"ETS_TOOLKIT": "null"},
@@ -488,10 +488,10 @@ def get_parameters(edm, runtime, toolkit, environment):
 
     if toolkit not in supported_combinations[runtime]:
         msg = (
-            "Python {runtime} and toolkit {toolkit} not supported by "
+            "Runtime {runtime} and toolkit {toolkit} not supported by "
             + "test environments"
         )
-        raise RuntimeError(msg.format(**parameters))
+        raise click.ClickException(msg.format(**parameters))
     return parameters
 
 
