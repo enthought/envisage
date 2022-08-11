@@ -244,13 +244,12 @@ def install(edm, runtime, toolkit, environment, editable, source):
                 "{edm} run -e {environment} -- python -m pip install wxPython"
             )
 
-    if pypi_dependencies:
-        commands.extend(
-            [
-                "{edm} run -e {environment} -- pip install " + dep
-                for dep in pypi_dependencies
-            ]
-        )
+    commands.extend(
+        [
+            "{edm} run -e {environment} -- pip install " + dep
+            for dep in pypi_dependencies
+        ]
+    )
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
