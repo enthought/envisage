@@ -37,9 +37,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Update necessary Python packages
+      - name: Ensure pip is up to date
         run: |
-            pip install --upgrade pip setuptools wheel
+            pip install --upgrade pip
       - name: Install package and dependencies
         run: |
             pip install pyside2
