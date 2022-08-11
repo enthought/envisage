@@ -218,14 +218,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
 
     # install wxPython with pip, because we don't have it in EDM
     if toolkit == "wx":
-        if sys.platform == "darwin":
+        if sys.platform == "linux":
+            # XXX This assumes Ubuntu 20.04, and targets CI.
             commands.append(
-                "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
-            )
-        elif sys.platform == "linux":
-            # XXX this is mainly for CI workers; need a generic solution
-            commands.append(
-                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/ wxPython<4.1"  # noqa: E501
+                "{edm} run -e {environment} -- python -m pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/ wxPython"  # noqa: E501
             )
         else:
             commands.append(
@@ -266,7 +262,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- pip install . --no-dependencies"
+            "{edm} run -e {environment} -- python -m pip install . --no-dependencies"
         )
     execute([install_cmd], parameters)
 
@@ -386,11 +382,11 @@ def update(edm, runtime, toolkit, environment, editable):
     if editable:
         install_cmd = (
             "{edm} run -e {environment} -- "
-            "pip install --editable . --no-dependencies"
+            "python -m pip install --editable . --no-dependencies"
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- pip install . --no-dependencies"
+            "{edm} run -e {environment} -- python -m pip install . --no-dependencies"
         )
     commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
