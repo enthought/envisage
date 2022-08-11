@@ -440,6 +440,16 @@ class TasksApplication(Application):
         else:
             logger.debug("Application state successfully saved")
 
+    def _initialize_application_home(self):
+        """ Initialize the application directories.
+        """
+        # Extend the base class method to ensure the state directory exists.
+        super()._initialize_application_home(self)
+
+        state_location = os.path.join(self.home, "tasks", ETSConfig.toolkit)
+        logger.debug(f"Creating folder for tasks state: {state_location}")
+        os.makedirs(state_location, mode=0o700, exist_ok=True)
+
     #### Trait initializers ###################################################
 
     def _window_factory_default(self):
@@ -462,8 +472,6 @@ class TasksApplication(Application):
 
     def _state_location_default(self):
         state_location = os.path.join(self.home, "tasks", ETSConfig.toolkit)
-        os.makedirs(state_location, mode=0o700, exist_ok=True)
-
         logger.debug("Tasks state location is %s", state_location)
 
         return state_location
