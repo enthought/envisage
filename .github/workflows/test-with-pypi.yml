@@ -32,7 +32,7 @@ jobs:
           sudo apt-get install libxcb-xinerama0
         if: runner.os == 'Linux'
       - name: Check out the target commit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
