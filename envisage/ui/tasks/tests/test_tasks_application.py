@@ -33,7 +33,7 @@ class DummyGUI(HasTraits):
 
 
 @unittest.skipIf(
-    sys.platform == "linux" and sys.version_info >= (3, 8)
+    sys.platform == "linux" and sys.version_info >= (3, 8),
     "xref: enthought/envisage#476",
 )
 @requires_gui
