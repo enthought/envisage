@@ -24,6 +24,8 @@ jobs:
             toolkit: 'pyside6'
           - runtime: '3.8'
             toolkit: 'pyside2'
+          - runtime: '3.8'
+            toolkit: 'pyqt5'
 
     runs-on: ${{ matrix.os }}
     steps:

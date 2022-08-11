@@ -99,7 +99,7 @@ default_toolkit = "null"
 
 supported_combinations = {
     "3.6": {"pyside2", "pyqt5", "wx", "null"},
-    "3.8": {"pyside6", "pyqt5", "wx", "null"},
+    "3.8": {"pyside6", "wx", "null"},
 }
 
 dependencies = {
