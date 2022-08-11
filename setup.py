@@ -317,7 +317,11 @@ if __name__ == "__main__":
             'importlib-resources>=1.1.0; python_version<"3.9"',
         ],
         extras_require={
-            "docs": ["enthought-sphinx-theme", "Sphinx>=2.1.0,!=3.2.0"],
+            "docs": [
+                "enthought-sphinx-theme",
+                "Sphinx>=2.1.0",
+                "sphinx-copybutton",
+            ],
             "ipython": ["ipython<8", "ipykernel<6", "traitlets<5.1"],
             "test": ["coverage", "flake8"],
             "ui": ["pyface", "traitsui"],

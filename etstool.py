@@ -114,6 +114,9 @@ dependencies = {
     "traitsui",
 }
 
+# Dependencies we install from PyPI
+pypi_dependencies = {"sphinx-copybutton"}
+
 # Dependencies we install from source for cron tests
 # Order from packages with the most dependencies to one with the least
 # dependencies. Packages are forced re-installed in this order.
@@ -240,6 +243,13 @@ def install(edm, runtime, toolkit, environment, editable, source):
             commands.append(
                 "{edm} run -e {environment} -- python -m pip install wxPython"
             )
+
+    commands.extend(
+        [
+            "{edm} run -e {environment} -- pip install " + dep
+            for dep in pypi_dependencies
+        ]
+    )
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
