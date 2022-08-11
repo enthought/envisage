@@ -257,12 +257,13 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # against a distributed release.
     if editable:
         install_cmd = (
-            "{edm} run -e {environment} -- pip "
-            "install --editable . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install --editable . --no-dependencies"
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- python -m pip install . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install . --no-dependencies"
         )
     execute([install_cmd], parameters)
 
@@ -386,7 +387,8 @@ def update(edm, runtime, toolkit, environment, editable):
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- python -m pip install . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install . --no-dependencies"
         )
     commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
