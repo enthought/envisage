@@ -444,7 +444,7 @@ class TasksApplication(Application):
         """ Initialize the application directories.
         """
         # Extend the base class method to ensure the state directory exists.
-        super()._initialize_application_home(self)
+        super()._initialize_application_home()
 
         state_location = os.path.join(self.home, "tasks", ETSConfig.toolkit)
         logger.debug(f"Creating folder for tasks state: {state_location}")
