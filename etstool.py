@@ -65,9 +65,7 @@ Changing This File
 ------------------
 
 To change the packages installed during a test run, change the dependencies
-variable below.  To install a package from github, or one which is not yet
-available via EDM, add it to the `ci-src-requirements.txt` file (these will be
-installed by `pip`).
+variable below.
 
 Other changes to commands should be a straightforward change to the listed
 commands for each task. See the EDM documentation for more information about
@@ -214,14 +212,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # edm commands to setup the development environment
     commands = [
         "{edm} environments create {environment} --force --version={runtime}",
-        (
-            "{edm} install -y -e {environment} "
-            "--add-repository enthought/lgpl " + packages
-        ),
-        (
-            "{edm} run -e {environment} -- "
-            "pip install -r ci-src-requirements.txt --no-dependencies"
-        ),
+        "{edm} --config edm.yaml install -y -e {environment} " + packages,
     ]
     # pip install pyside2, because we don't have it in EDM yet
     if toolkit == "pyside2":
