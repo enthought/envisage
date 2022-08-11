@@ -216,7 +216,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
         "{edm} environments create {environment} --force --version={runtime}",
         (
             "{edm} install -y -e {environment} "
-            "--add-repository enthought/lgpl " + packages,
+            "--add-repository enthought/lgpl " + packages
         ),
         (
             "{edm} run -e {environment} -- "
