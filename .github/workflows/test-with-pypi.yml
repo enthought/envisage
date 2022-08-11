@@ -18,9 +18,9 @@ jobs:
         exclude:
           - python-version: '3.6'
             toolkit: 'pyside6'
-          - runtime: '3.8'
+          - python-version: '3.8'
             toolkit: 'pyside2'
-          - runtime: '3.10'
+          - python-version: '3.10'
             toolkit: 'pyside2'
 
     runs-on: ${{ matrix.os }}
