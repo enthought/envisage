@@ -53,10 +53,10 @@ using::
 
     python etstool.py test_all
 
-The only currently supported runtime value is ``3.6``, and
-currently supported toolkits are ``pyside2``, ``pyqt5``,
-``wx`` and ``null``. Not all combinations of toolkits and runtimes will work,
-but the tasks will fail with a clear error if that is the case.
+For currently-supported runtime values, see the 'available_runtimes' value. For
+toolkits, see 'available_toolkits'. Not all combinations of toolkits and
+runtimes will work; the 'supported_combinations' variable describes which
+combinations are supported.
 
 Tests can still be run via the usual means in other environments if that suits
 a developer's purpose.
@@ -77,9 +77,10 @@ import glob
 import os
 import subprocess
 import sys
-from shutil import rmtree, copy as copyfile, which
-from tempfile import mkdtemp
 from contextlib import contextmanager
+from shutil import copy as copyfile
+from shutil import rmtree, which
+from tempfile import mkdtemp
 
 import click
 
@@ -214,13 +215,9 @@ def install(edm, runtime, toolkit, environment, editable, source):
         "{edm} environments create {environment} --force --version={runtime}",
         "{edm} --config edm.yaml install -y -e {environment} " + packages,
     ]
-    # pip install pyside2, because we don't have it in EDM yet
-    if toolkit == "pyside2":
-        commands.append(
-            "{edm} run -e {environment} -- pip install pyside2"
-        )
-    # install wxPython with pip, because we don't have it in EDM yet
-    elif toolkit == "wx":
+
+    # install wxPython with pip, because we don't have it in EDM
+    if toolkit == "wx":
         if sys.platform == "darwin":
             commands.append(
                 "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
