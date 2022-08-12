@@ -53,10 +53,10 @@ using::
 
     python etstool.py test_all
 
-The only currently supported runtime value is ``3.6``, and
-currently supported toolkits are ``pyside2``, ``pyqt5``,
-``wx`` and ``null``. Not all combinations of toolkits and runtimes will work,
-but the tasks will fail with a clear error if that is the case.
+For currently-supported runtime values, see the 'available_runtimes' value. For
+toolkits, see 'available_toolkits'. Not all combinations of toolkits and
+runtimes will work; the 'supported_combinations' variable describes which
+combinations are supported.
 
 Tests can still be run via the usual means in other environments if that suits
 a developer's purpose.
@@ -65,9 +65,7 @@ Changing This File
 ------------------
 
 To change the packages installed during a test run, change the dependencies
-variable below.  To install a package from github, or one which is not yet
-available via EDM, add it to the `ci-src-requirements.txt` file (these will be
-installed by `pip`).
+variable below.
 
 Other changes to commands should be a straightforward change to the listed
 commands for each task. See the EDM documentation for more information about
@@ -79,26 +77,28 @@ import glob
 import os
 import subprocess
 import sys
-from shutil import rmtree, copy as copyfile, which
-from tempfile import mkdtemp
 from contextlib import contextmanager
+from shutil import copy as copyfile
+from shutil import rmtree, which
+from tempfile import mkdtemp
 
 import click
 
 # Python runtime versions supported by this tool.
-available_runtimes = ["3.6"]
+available_runtimes = ["3.6", "3.8"]
 
 # Python runtime used by default.
-default_runtime = "3.6"
+default_runtime = "3.8"
 
 # Toolkits supported by this tool.
-available_toolkits = ["pyside2", "pyqt5", "wx", "null"]
+available_toolkits = ["pyside2", "pyside6", "pyqt5", "wx", "null"]
 
 # Toolkit used by default.
 default_toolkit = "null"
 
 supported_combinations = {
     "3.6": {"pyside2", "pyqt5", "wx", "null"},
+    "3.8": {"pyside6", "wx", "null"},
 }
 
 dependencies = {
@@ -127,21 +127,20 @@ source_dependencies = [
     "traits",
 ]
 
+# Toolkit dependencies installed from EDM.
 toolkit_dependencies = {
-    # XXX once pyside2 is available in EDM, we will want it here. For now
-    # we do a pip install.
-    "pyside2": set(),
+    "pyside2": {"pyside2"},
+    "pyside6": {"pyside6"},
     "pyqt5": {"pyqt5"},
-    # XXX once wxPython 4 is available in EDM, we will want it here
-    "wx": set(),
-    "null": set(),
+    # wxPython is not available in EDM; we'll need to pip install it
 }
 
 runtime_dependencies = {}
 
 environment_vars = {
-    "pyside2": {"ETS_TOOLKIT": "qt4", "QT_API": "pyside2"},
-    "pyqt5": {"ETS_TOOLKIT": "qt4", "QT_API": "pyqt5"},
+    "pyside2": {"ETS_TOOLKIT": "qt", "QT_API": "pyside2"},
+    "pyside6": {"ETS_TOOLKIT": "qt", "QT_API": "pyside6"},
+    "pyqt5": {"ETS_TOOLKIT": "qt", "QT_API": "pyqt5"},
     "wx": {"ETS_TOOLKIT": "wx"},
     "null": {"ETS_TOOLKIT": "null"},
 }
@@ -217,27 +216,15 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # edm commands to setup the development environment
     commands = [
         "{edm} environments create {environment} --force --version={runtime}",
-        "{edm} install -y -e {environment} " + packages,
-        (
-            "{edm} run -e {environment} -- "
-            "pip install -r ci-src-requirements.txt --no-dependencies"
-        ),
+        "{edm} --config edm.yaml install -y -e {environment} " + packages,
     ]
-    # pip install pyside2, because we don't have it in EDM yet
-    if toolkit == "pyside2":
-        commands.append(
-            "{edm} run -e {environment} -- pip install pyside2"
-        )
-    # install wxPython with pip, because we don't have it in EDM yet
-    elif toolkit == "wx":
-        if sys.platform == "darwin":
+
+    # install wxPython with pip, because we don't have it in EDM
+    if toolkit == "wx":
+        if sys.platform == "linux":
+            # XXX This assumes Ubuntu 20.04, and targets CI.
             commands.append(
-                "{edm} run -e {environment} -- python -m pip install wxPython<4.1"  # noqa: E501
-            )
-        elif sys.platform == "linux":
-            # XXX this is mainly for CI workers; need a generic solution
-            commands.append(
-                "{edm} run -e {environment} -- pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/ wxPython<4.1"  # noqa: E501
+                "{edm} run -e {environment} -- python -m pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/ wxPython"  # noqa: E501
             )
         else:
             commands.append(
@@ -280,12 +267,13 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # against a distributed release.
     if editable:
         install_cmd = (
-            "{edm} run -e {environment} -- pip "
-            "install --editable . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install --editable . --no-dependencies"
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- pip install . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install . --no-dependencies"
         )
     execute([install_cmd], parameters)
 
@@ -405,11 +393,12 @@ def update(edm, runtime, toolkit, environment, editable):
     if editable:
         install_cmd = (
             "{edm} run -e {environment} -- "
-            "pip install --editable . --no-dependencies"
+            "python -m pip install --editable . --no-dependencies"
         )
     else:
         install_cmd = (
-            "{edm} run -e {environment} -- pip install . --no-dependencies"
+            "{edm} run -e {environment} -- "
+            "python -m pip install . --no-dependencies"
         )
     commands = [install_cmd]
     click.echo("Re-installing in  '{environment}'".format(**parameters))
@@ -498,10 +487,10 @@ def get_parameters(edm, runtime, toolkit, environment):
 
     if toolkit not in supported_combinations[runtime]:
         msg = (
-            "Python {runtime} and toolkit {toolkit} not supported by "
+            "Runtime {runtime} and toolkit {toolkit} not supported by "
             + "test environments"
         )
-        raise RuntimeError(msg.format(**parameters))
+        raise click.ClickException(msg.format(**parameters))
     return parameters
 
 

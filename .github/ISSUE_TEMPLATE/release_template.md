@@ -16,7 +16,6 @@ Release candidate
 - [ ] Create a PR against ``main`` to bump version number, merge that PR
 - [ ] From the commit just before bumping the version, create a new branch `maint/<release version number>`
 - [ ] Update changelog and open PR targeting a new `maint/<release version number>` branch
-- [ ] Update `ci-src-requirements.txt` if needed
 - [ ] Check MANIFEST and requirements are still up to date.
 - [ ] Update version in setup.py for the prerelease, open 2 PRs against `maint/<release version number>`
   - [ ] Create a new branch from `maint/<release version number>`: `git checkout maint/<release version number>`; `git pull`; `git checkout -b call-it-anything-you-like`
