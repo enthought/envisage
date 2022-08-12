@@ -9,6 +9,7 @@
 # Thanks for using Enthought open source!
 """ The Envisage core plugin. """
 
+from contextlib import closing
 
 # Enthought library imports.
 from envisage.extension_point import ExtensionPoint
@@ -165,12 +166,8 @@ class CorePlugin(Plugin):
         # The resource manager is used to find the preferences files.
         resource_manager = ResourceManager()
         for resource_name in preferences:
-            f = resource_manager.file(resource_name)
-            try:
+            with closing(resource_manager.file(resource_name)) as f:
                 default.load(f)
-
-            finally:
-                f.close()
 
     def _register_service_offers(self, service_offers):
         """ Register a list of service offers. """
