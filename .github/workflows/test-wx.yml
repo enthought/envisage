@@ -8,7 +8,7 @@ on:
     - cron:  '0 0 * * 5'
 
 env:
-  INSTALL_EDM_VERSION: 3.2.3
+  INSTALL_EDM_VERSION: 3.3.1
 
 jobs:
 
@@ -16,34 +16,43 @@ jobs:
   test-with-edm:
     strategy:
       matrix:
-        os: [ubuntu-18.04]
+        os: ['ubuntu-20.04']
+        runtime: ['3.8']
         toolkit: ['wx']
+
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Clone the Envisage source
+        uses: actions/checkout@v3
       - name: Install Wx dependencies for Linux
         run: |
           sudo apt-get update
           sudo apt-get install libsdl-image1.2
           sudo apt-get install libsdl2-2.0-0
-        shell: bash
+        if: runner.os == 'Linux'
       - name: Cache EDM packages
         uses: actions/cache@v2
         with:
           path: ~/.cache
-          key: ${{ runner.os }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
+          key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
       - name: Set up EDM
         uses: enthought/setup-edm-action@v1
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
-      - name: Install click to the default EDM environment
-        run: edm install -y wheel click coverage
+      - name: Set up bootstrap Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: '.github/workflows/bootstrap-requirements.txt'
+      - name: Install click to the bootstrap environment
+        run: python -m pip install -r .github/workflows/bootstrap-requirements.txt
       - name: Install test environment
-        run: edm run -- python etstool.py install --toolkit=${{ matrix.toolkit }}
+        run: python etstool.py install --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
       - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: edm run -- python etstool.py test --toolkit=${{ matrix.toolkit }}
+          run: python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
 
   notify-on-failure:
     needs: test-with-edm

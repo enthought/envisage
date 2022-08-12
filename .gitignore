@@ -1,14 +1,10 @@
 # file types to ignore
 *.pyc
-*.pyd
-*.so
-*~
-.DS_Store
 
 # ignore the build directories
 *.egg-info/
 build/
-dist/
+/dist/
 /docs/build/
 /docs/source/api/*.rst
 !/docs/source/api/envisage.api.rst
