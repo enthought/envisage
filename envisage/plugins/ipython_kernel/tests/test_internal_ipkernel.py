@@ -251,6 +251,10 @@ class TestInternalIPKernel(unittest.TestCase):
         sockets = self.objects_of_type(zmq.Socket)
         self.assertTrue(all(socket.closed for socket in sockets))
 
+    @unittest.skipIf(
+        sys.platform == "win32" and sys.version_info[:2] == (3, 8),
+        "xref: enthought/envisage#463"
+    )
     def test_ipykernel_live_objects(self):
         # Check that all IPython-related objects have been cleaned up
         # as expected.
