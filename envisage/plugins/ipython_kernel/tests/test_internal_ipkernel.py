@@ -44,6 +44,24 @@ if ipykernel_available:
     from envisage.plugins.ipython_kernel.api import InternalIPKernel
 
 
+# In rare cases, isinstance(obj, type) can raise. An example occurs in Python
+# 3.6 when obj has type `functools._lru_list_elem` and type is zmq.Socket. This
+# particular example is fixed in Python >= 3.7
+#
+# It may be possible to replace uses of safe_isinstance with plain old
+# isinstance once Python 3.6 support is no longer needed.
+# xref: enthought/envisage#469
+
+def safe_isinstance(obj, type):
+    """
+    Same as isinstance(obj, type), but suppresses AttributeError.
+    """
+    try:
+        return isinstance(obj, type)
+    except AttributeError:
+        return False
+
+
 @unittest.skipUnless(
     ipykernel_available, "skipping tests that require the ipykernel package"
 )
@@ -199,6 +217,10 @@ class TestInternalIPKernel(unittest.TestCase):
         sockets = self.objects_of_type(zmq.Socket)
         self.assertTrue(all(socket.closed for socket in sockets))
 
+    @unittest.skipIf(
+        sys.platform == "win32" and sys.version_info[:2] == (3, 8),
+        "xref: enthought/envisage#463"
+    )
     def test_ipykernel_live_objects(self):
         # Check that all IPython-related objects have been cleaned up
         # as expected.
@@ -275,7 +297,7 @@ class TestInternalIPKernel(unittest.TestCase):
         Find and return a list of all currently tracked instances of the
         given type.
         """
-        return [obj for obj in gc.get_objects() if isinstance(obj, type)]
+        return [obj for obj in gc.get_objects() if safe_isinstance(obj, type)]
 
     def create_and_destroy_kernel(self):
         """
