@@ -1,7 +1,0 @@
-envisage.ui.tasks.tasks\_application module
-===========================================
-
-.. automodule:: envisage.ui.tasks.tasks_application
-   :members:
-   :undoc-members:
-   :show-inheritance:

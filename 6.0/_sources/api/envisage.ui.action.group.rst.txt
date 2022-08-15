@@ -1,7 +1,0 @@
-envisage.ui.action.group module
-===============================
-
-.. automodule:: envisage.ui.action.group
-   :members:
-   :undoc-members:
-   :show-inheritance:

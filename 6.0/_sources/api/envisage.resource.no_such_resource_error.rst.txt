@@ -1,7 +1,0 @@
-envisage.resource.no\_such\_resource\_error module
-==================================================
-
-.. automodule:: envisage.resource.no_such_resource_error
-   :members:
-   :undoc-members:
-   :show-inheritance:

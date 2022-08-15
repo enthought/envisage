@@ -1,7 +1,0 @@
-envisage.egg\_basket\_plugin\_manager module
-============================================
-
-.. automodule:: envisage.egg_basket_plugin_manager
-   :members:
-   :undoc-members:
-   :show-inheritance:

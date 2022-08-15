@@ -1,7 +1,0 @@
-envisage.ui.workbench.action.exit\_action module
-================================================
-
-.. automodule:: envisage.ui.workbench.action.exit_action
-   :members:
-   :undoc-members:
-   :show-inheritance:

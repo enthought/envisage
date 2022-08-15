@@ -1,7 +1,0 @@
-envisage.i\_service\_user module
-================================
-
-.. automodule:: envisage.i_service_user
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,7 +1,0 @@
-envisage.plugin\_event module
-=============================
-
-.. automodule:: envisage.plugin_event
-   :members:
-   :undoc-members:
-   :show-inheritance:

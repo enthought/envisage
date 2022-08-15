@@ -1,7 +1,0 @@
-envisage.i\_plugin\_activator module
-====================================
-
-.. automodule:: envisage.i_plugin_activator
-   :members:
-   :undoc-members:
-   :show-inheritance:

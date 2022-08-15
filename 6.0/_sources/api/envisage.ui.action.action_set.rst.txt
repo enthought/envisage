@@ -1,7 +1,0 @@
-envisage.ui.action.action\_set module
-=====================================
-
-.. automodule:: envisage.ui.action.action_set
-   :members:
-   :undoc-members:
-   :show-inheritance:

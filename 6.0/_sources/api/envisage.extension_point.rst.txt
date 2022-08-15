@@ -1,7 +1,0 @@
-envisage.extension\_point module
-================================
-
-.. automodule:: envisage.extension_point
-   :members:
-   :undoc-members:
-   :show-inheritance:

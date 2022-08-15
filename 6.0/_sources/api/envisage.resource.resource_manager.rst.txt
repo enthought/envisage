@@ -1,7 +1,0 @@
-envisage.resource.resource\_manager module
-==========================================
-
-.. automodule:: envisage.resource.resource_manager
-   :members:
-   :undoc-members:
-   :show-inheritance:

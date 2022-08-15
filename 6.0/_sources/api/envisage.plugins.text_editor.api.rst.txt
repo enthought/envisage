@@ -1,7 +1,0 @@
-envisage.plugins.text\_editor.api module
-========================================
-
-.. automodule:: envisage.plugins.text_editor.api
-   :members:
-   :undoc-members:
-   :show-inheritance:

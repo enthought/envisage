@@ -1,7 +1,0 @@
-envisage.i\_extension\_point\_user module
-=========================================
-
-.. automodule:: envisage.i_extension_point_user
-   :members:
-   :undoc-members:
-   :show-inheritance:

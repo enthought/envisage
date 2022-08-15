@@ -1,7 +1,0 @@
-envisage.ui.tasks.task\_window module
-=====================================
-
-.. automodule:: envisage.ui.tasks.task_window
-   :members:
-   :undoc-members:
-   :show-inheritance:

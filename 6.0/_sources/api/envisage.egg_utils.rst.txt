@@ -1,7 +1,0 @@
-envisage.egg\_utils module
-==========================
-
-.. automodule:: envisage.egg_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:

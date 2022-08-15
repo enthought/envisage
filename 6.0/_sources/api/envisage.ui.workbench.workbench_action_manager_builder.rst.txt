@@ -1,7 +1,0 @@
-envisage.ui.workbench.workbench\_action\_manager\_builder module
-================================================================
-
-.. automodule:: envisage.ui.workbench.workbench_action_manager_builder
-   :members:
-   :undoc-members:
-   :show-inheritance:

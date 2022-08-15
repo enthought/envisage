@@ -1,7 +1,0 @@
-envisage.ui.tasks.preferences\_dialog module
-============================================
-
-.. automodule:: envisage.ui.tasks.preferences_dialog
-   :members:
-   :undoc-members:
-   :show-inheritance:

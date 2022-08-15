@@ -1,7 +1,0 @@
-envisage.ui.workbench.workbench\_window module
-==============================================
-
-.. automodule:: envisage.ui.workbench.workbench_window
-   :members:
-   :undoc-members:
-   :show-inheritance:

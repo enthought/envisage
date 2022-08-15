@@ -1,7 +1,0 @@
-envisage.ui.tasks.action.task\_window\_launch\_group module
-===========================================================
-
-.. automodule:: envisage.ui.tasks.action.task_window_launch_group
-   :members:
-   :undoc-members:
-   :show-inheritance:

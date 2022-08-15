@@ -1,7 +1,0 @@
-envisage.ui.tasks.preferences\_pane module
-==========================================
-
-.. automodule:: envisage.ui.tasks.preferences_pane
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,7 +1,0 @@
-envisage.ui.action.location module
-==================================
-
-.. automodule:: envisage.ui.action.location
-   :members:
-   :undoc-members:
-   :show-inheritance:

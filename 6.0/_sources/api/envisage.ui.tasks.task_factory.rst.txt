@@ -1,7 +1,0 @@
-envisage.ui.tasks.task\_factory module
-======================================
-
-.. automodule:: envisage.ui.tasks.task_factory
-   :members:
-   :undoc-members:
-   :show-inheritance:

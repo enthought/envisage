@@ -1,7 +1,0 @@
-envisage.safeweakref module
-===========================
-
-.. automodule:: envisage.safeweakref
-   :members:
-   :undoc-members:
-   :show-inheritance:

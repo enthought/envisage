@@ -1,7 +1,0 @@
-envisage.i\_plugin\_manager module
-==================================
-
-.. automodule:: envisage.i_plugin_manager
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,7 +1,0 @@
-envisage.i\_extension\_provider module
-======================================
-
-.. automodule:: envisage.i_extension_provider
-   :members:
-   :undoc-members:
-   :show-inheritance:
