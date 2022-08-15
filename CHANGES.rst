@@ -83,7 +83,7 @@ Build and CI
 * Cron job failures are now reported to the main Slack channel, not
   to the bots channel. (#473)
 * Add GitHub Actions workflow to test PyPI install. (#450)
-* DEV : Default branch has been renamed from master to main. (#446)
+* The default branch has been renamed from master to main. (#446)
 * Update classifiers for Python 3.10. (#437)
 * Port CI from Appveyor to GitHub Actions. (#432, #426)
 * Simplify flake8 command in ``etstool.py``. (#431)
