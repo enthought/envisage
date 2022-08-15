@@ -41,7 +41,7 @@ Changes
 
 Fixes
 -----
-* Fix EggPluginManager to use current pkg_resources.working_set (#444)
+* Fix EggPluginManager to use current pkg_resources.working_set. (#444)
 
 Refactoring and maintenance
 ---------------------------
