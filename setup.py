@@ -20,7 +20,7 @@ from setuptools import setup, find_packages
 # into the package source.
 MAJOR = 6
 MINOR = 1
-MICRO = 0
+MICRO = 1
 PRERELEASE = ""
 IS_RELEASED = False
 
