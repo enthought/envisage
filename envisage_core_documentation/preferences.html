@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Preferences with Envisage &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,32 +90,31 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="preferences-with-envisage">
+  <section id="preferences-with-envisage">
 <h1>Preferences with Envisage<a class="headerlink" href="#preferences-with-envisage" title="Permalink to this headline">¶</a></h1>
 <p>Envisage presents preferences with two different extension points:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>PREFERENCES       = ‘envisage.preferences’</p></li>
-<li><p>PREFERENCES_PAGES = ‘envisage.ui.workbench.preferences_pages’</p></li>
-</ul>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s1">&#39;envisage.preferences&#39;</span>
+<span class="n">PREFERENCES_PAGES</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.workbench.preferences_pages&#39;</span>
+</pre></div>
+</div>
 <p>The first one is only model-related and is for programmatic access to
 preferences, whereas the second one is for displaying UIs to the user in
 the workbench plugin.</p>
-<div class="section" id="preferences">
+<section id="preferences">
 <h2>Preferences<a class="headerlink" href="#preferences" title="Permalink to this headline">¶</a></h2>
 <p>The contribution point is simply a list of URLs to the preference file, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
-      <span class="p">[</span><span class="s1">&#39;pkgfile://acme.acmelab/preferences.ini&#39;</span><span class="p">],</span>
-      <span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
+    <span class="p">[</span><span class="s1">&#39;pkgfile://acme.acmelab/preferences.ini&#39;</span><span class="p">],</span>
+    <span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>where acme.acmelab is the python-module-like path to the package in which
 the default preferences.ini is stored.</p>
 <p>A plugin usually needs only one preferences file, regardless of how many
 preference pages or settings it has.</p>
-</div>
-<div class="section" id="preferences-pages">
+</section>
+<section id="preferences-pages">
 <h2>Preferences pages<a class="headerlink" href="#preferences-pages" title="Permalink to this headline">¶</a></h2>
 <p>The preference pages are a Traits UI view to wrap the preferences and
 allow the user to modify them. A preference page is defined as in the
@@ -121,16 +123,16 @@ contributed to the workbench, as in:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">acme.preference_pages</span> \
-                        <span class="kn">import</span> <span class="nn">ACMEPreferencePages</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">ACMEPreferencePages</span><span class="p">,</span> <span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">acme.preference_pages</span> <span class="kn">import</span> <span class="n">ACMEPreferencePages</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">ACMEPreferencePages</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>A plugin needs to contribute a preferences pages class for each category
 of preferences it contributes.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -170,7 +172,7 @@ of preferences it contributes.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -187,13 +189,13 @@ of preferences it contributes.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugins.python_shell.view.python_shell_view module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -90,122 +93,122 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugins.python_shell.view.python_shell_view">
+  <section id="module-envisage.plugins.python_shell.view.python_shell_view">
 <span id="envisage-plugins-python-shell-view-python-shell-view-module"></span><h1>envisage.plugins.python_shell.view.python_shell_view module<a class="headerlink" href="#module-envisage.plugins.python_shell.view.python_shell_view" title="Permalink to this headline">¶</a></h1>
 <p>A view containing an interactive Python shell.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PseudoFile">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.python_shell.view.python_shell_view.</code><code class="sig-name descname">PseudoFile</code><span class="sig-paren">(</span><em class="sig-param">write</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugins.python_shell.view.python_shell_view.</span></code><code class="sig-name descname"><span class="pre">PseudoFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Simulates a normal File object.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush">
-<code class="sig-name descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">flush</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.flush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty">
-<code class="sig-name descname">isatty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.isatty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">isatty</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.isatty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline">
-<code class="sig-name descname">readline</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.readline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readline</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.readline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines">
-<code class="sig-name descname">writelines</code><span class="sig-paren">(</span><em class="sig-param">lines</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.writelines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">writelines</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PseudoFile.writelines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.python_shell.view.python_shell_view.</code><code class="sig-name descname">PythonShellView</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.base_toolkit.Unimplemented</span></code></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugins.python_shell.view.python_shell_view.</span></code><code class="sig-name descname"><span class="pre">PythonShellView</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.base_toolkit.Toolkit.__call__.&lt;locals&gt;.Unimplemented</span></code></p>
 <p>A view containing an interactive Python shell.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind">
-<code class="sig-name descname">bind</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">bind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.bind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Binds a name to a value in the interpreter’s namespace.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control">
-<code class="sig-name descname">create_control</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.create_control"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">create_control</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.create_control"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates the toolkit-specific control that represents the view.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control">
-<code class="sig-name descname">destroy_control</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.destroy_control"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">destroy_control</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.destroy_control"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Destroys the toolkit-specific control that represents the view.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command">
-<code class="sig-name descname">execute_command</code><span class="sig-paren">(</span><em class="sig-param">command</em>, <em class="sig-param">hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.execute_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">execute_command</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.execute_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a command in the interpreter.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file">
-<code class="sig-name descname">execute_file</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">hidden=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.execute_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">execute_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.execute_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a command in the interpreter.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.extension_registry">
-<code class="sig-name descname">extension_registry</code><em class="property"> = &lt;traits.traits.ForwardProperty object&gt;</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.extension_registry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">extension_registry</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.traits.ForwardProperty</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.extension_registry" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.id">
-<code class="sig-name descname">id</code><em class="property"> = 'envisage.plugins.python_shell_view'</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">id</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.plugins.python_shell_view'</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup">
-<code class="sig-name descname">lookup</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">lookup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/python_shell_view.html#PythonShellView.lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the value bound to a name in the interpreter’s namespace.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.name">
-<code class="sig-name descname">name</code><em class="property"> = 'Python'</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Python'</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.names">
-<code class="sig-name descname">names</code><em class="property"> = &lt;traits.trait_factory.TraitFactory object&gt;</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.names" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">names</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.trait_factory.TraitFactory</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.namespace">
-<code class="sig-name descname">namespace</code><em class="property"> = &lt;traits.traits.ForwardProperty object&gt;</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.namespace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">namespace</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.traits.ForwardProperty</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.namespace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.original_stdout">
-<code class="sig-name descname">original_stdout</code><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.original_stdout" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Any" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Any</span></code></a></p>
+<code class="sig-name descname"><span class="pre">original_stdout</span></code><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.original_stdout" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Any" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Any</span></code></a></p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.position">
-<code class="sig-name descname">position</code><em class="property"> = 'bottom'</em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">position</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'bottom'</span></em><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.position" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.python_shell.view.python_shell_view.PythonShellView.stdout_text">
-<code class="sig-name descname">stdout_text</code><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.stdout_text" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Event" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Event</span></code></a></p>
+<code class="sig-name descname"><span class="pre">stdout_text</span></code><a class="headerlink" href="#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.stdout_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Event" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Event</span></code></a></p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -236,7 +239,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -253,13 +256,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

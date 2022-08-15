@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.api module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,10 +90,10 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.api">
+  <section id="module-envisage.api">
 <span id="envisage-api-module"></span><h1>envisage.api module<a class="headerlink" href="#module-envisage.api" title="Permalink to this headline">¶</a></h1>
 <p>Primary API for envisage</p>
-<div class="section" id="interfaces">
+<section id="interfaces">
 <h2>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a></p></li>
@@ -104,15 +107,14 @@
 <li><p><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager" title="envisage.i_plugin_manager.IPluginManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPluginManager</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry" title="envisage.i_service_registry.IServiceRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IServiceRegistry</span></code></a></p></li>
 </ul>
-</div>
-<div class="section" id="application-plugin-and-related-classes">
+</section>
+<section id="application-plugin-and-related-classes">
 <h2>Application, plugin and related classes<a class="headerlink" href="#application-plugin-and-related-classes" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="envisage.application.html#envisage.application.Application" title="envisage.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin" title="envisage.core_plugin.CorePlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CorePlugin</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.egg_plugin_manager.html#envisage.egg_plugin_manager.EggPluginManager" title="envisage.egg_plugin_manager.EggPluginManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">EggPluginManager</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a></p></li>
-<li><p><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.contributes_to" title="envisage.extension_point.contributes_to"><code class="xref py py-func docutils literal notranslate"><span class="pre">contributes_to()</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.extension_point_binding.html#envisage.extension_point_binding.ExtensionPointBinding" title="envisage.extension_point_binding.ExtensionPointBinding"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPointBinding</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.extension_point_binding.html#envisage.extension_point_binding.bind_extension_point" title="envisage.extension_point_binding.bind_extension_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">bind_extension_point()</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.extension_provider.html#envisage.extension_provider.ExtensionProvider" title="envisage.extension_provider.ExtensionProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionProvider</span></code></a></p></li>
@@ -127,16 +129,16 @@
 <li><p><a class="reference internal" href="envisage.service_offer.html#envisage.service_offer.ServiceOffer" title="envisage.service_offer.ServiceOffer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServiceOffer</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry" title="envisage.service_registry.ServiceRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServiceRegistry</span></code></a></p></li>
 </ul>
-</div>
-<div class="section" id="exceptions">
+</section>
+<section id="exceptions">
 <h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.NoSuchServiceError" title="envisage.service_registry.NoSuchServiceError"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoSuchServiceError</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.unknown_extension.html#envisage.unknown_extension.UnknownExtension" title="envisage.unknown_extension.UnknownExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnknownExtension</span></code></a></p></li>
 <li><p><a class="reference internal" href="envisage.unknown_extension_point.html#envisage.unknown_extension_point.UnknownExtensionPoint" title="envisage.unknown_extension_point.UnknownExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnknownExtensionPoint</span></code></a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -177,7 +179,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -194,13 +196,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

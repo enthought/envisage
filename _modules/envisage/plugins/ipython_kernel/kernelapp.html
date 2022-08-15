@@ -10,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +25,11 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
     <link rel="index" title="Index" href="../../../../genindex.html" >
     <link rel="search" title="Search" href="../../../../search.html" >
     <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
@@ -77,7 +79,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.ipython_kernel.kernelapp</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2019-2020 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -103,7 +105,24 @@
 <span class="kn">import</span> <span class="nn">IPython.utils.io</span>
 <span class="kn">import</span> <span class="nn">zmq</span>
 
-<span class="kn">from</span> <span class="nn">envisage.plugins.ipython_kernel.heartbeat</span> <span class="k">import</span> <span class="n">Heartbeat</span>
+<span class="kn">from</span> <span class="nn">envisage.plugins.ipython_kernel.heartbeat</span> <span class="kn">import</span> <span class="n">Heartbeat</span>
+
+
+<span class="c1"># Envisage is not currently compatible with ipykernel &gt;= 6 or IPython &gt;= 8. See</span>
+<span class="c1"># enthought/envisage#448.</span>
+<span class="n">ipykernel_available</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ipykernel</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">6</span><span class="p">,)</span>
+    <span class="ow">and</span> <span class="n">IPython</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">8</span><span class="p">,)</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">ipykernel_available</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">&quot;The IPython-related Envisage components are currently compatible &quot;</span>
+        <span class="s2">&quot;with ipykernel&lt;6 and IPython&lt;8. The versions installed in the &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;current environment are IPython </span><span class="si">{</span><span class="n">IPython</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> and &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;ipykernel </span><span class="si">{</span><span class="n">ipykernel</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">. See &quot;</span>
+        <span class="s2">&quot;https://github.com/enthought/envisage/issues/448 for more details.&quot;</span>
+    <span class="p">)</span>
 
 <span class="c1"># Sentinel object used to represent a missing attribute.</span>
 <span class="n">_MISSING</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
@@ -447,7 +466,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -464,13 +483,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

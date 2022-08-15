@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.ui.tasks.preferences_dialog module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -89,54 +92,54 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.ui.tasks.preferences_dialog">
+  <section id="module-envisage.ui.tasks.preferences_dialog">
 <span id="envisage-ui-tasks-preferences-dialog-module"></span><h1>envisage.ui.tasks.preferences_dialog module<a class="headerlink" href="#module-envisage.ui.tasks.preferences_dialog" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.tasks.preferences_dialog.</code><code class="sig-name descname">PreferencesDialog</code><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traitsui/api/traitsui.handler.html#traitsui.handler.Handler" title="(in traitsui v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traitsui.handler.Handler</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.preferences_dialog.</span></code><code class="sig-name descname"><span class="pre">PreferencesDialog</span></code><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traitsui/api/traitsui.handler.html#traitsui.handler.Handler" title="(in traitsui v7.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traitsui.handler.Handler</span></code></a></p>
 <p>A dialog for editing preferences.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply">
-<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">info=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">apply</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles the Apply button being clicked.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog.close">
-<code class="sig-name descname">close</code><span class="sig-paren">(</span><em class="sig-param">info</em>, <em class="sig-param">is_ok</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.close" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">close</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ok</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles the user attempting to close a dialog-based user interface.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane">
-<code class="sig-name descname">select_pane</code><span class="sig-paren">(</span><em class="sig-param">pane_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.select_pane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">select_pane</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pane_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.select_pane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find and activate the notebook tab that contains the given pane id.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context">
-<code class="sig-name descname">trait_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.trait_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">trait_context</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.trait_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the default context to use for editing or configuring
 traits.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view">
-<code class="sig-name descname">traits_view</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.traits_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">traits_view</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesDialog.traits_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the dynamic dialog view.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.tasks.preferences_dialog.PreferencesTab">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.tasks.preferences_dialog.</code><code class="sig-name descname">PreferencesTab</code><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesTab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesTab" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.preferences_dialog.</span></code><code class="sig-name descname"><span class="pre">PreferencesTab</span></code><a class="reference internal" href="../_modules/envisage/ui/tasks/preferences_dialog.html#PreferencesTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.preferences_dialog.PreferencesTab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
 <p>An object used internally by PreferencesDialog.</p>
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -167,7 +170,7 @@ traits.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -184,13 +187,13 @@ traits.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

@@ -1,0 +1,7 @@
+envisage.version module
+=======================
+
+.. automodule:: envisage.version
+   :members:
+   :undoc-members:
+   :show-inheritance:

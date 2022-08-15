@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.ui.tasks.action.task_window_launch_group module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -90,16 +93,16 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.ui.tasks.action.task_window_launch_group">
+  <section id="module-envisage.ui.tasks.action.task_window_launch_group">
 <span id="envisage-ui-tasks-action-task-window-launch-group-module"></span><h1>envisage.ui.tasks.action.task_window_launch_group module<a class="headerlink" href="#module-envisage.ui.tasks.action.task_window_launch_group" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.tasks.action.task_window_launch_group.</code><code class="sig-name descname">TaskWindowLaunchAction</code><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.tasks.action.task_action.html#pyface.tasks.action.task_action.TaskAction" title="(in pyface v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.tasks.action.task_action.TaskAction</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.action.task_window_launch_group.</span></code><code class="sig-name descname"><span class="pre">TaskWindowLaunchAction</span></code><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.tasks.action.task_action.html#pyface.tasks.action.task_action.TaskAction" title="(in pyface v7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.tasks.action.task_action.TaskAction</span></code></a></p>
 <p>An Action that creates a task window with a single task.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction.perform">
-<code class="sig-name descname">perform</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchAction.perform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction.perform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchAction.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction.perform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the appropriate function.</p>
 <p>This looks for a method to call based on the extended method name
 stored in the <code class="xref py py-attr docutils literal notranslate"><span class="pre">method</span></code> trait.  If the method is empty, then
@@ -108,14 +111,14 @@ this follows the usual Action method resolution.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.tasks.action.task_window_launch_group.</code><code class="sig-name descname">TaskWindowLaunchGroup</code><span class="sig-paren">(</span><em class="sig-param">*items</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.action.group.html#pyface.action.group.Group" title="(in pyface v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.action.group.Group</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.action.task_window_launch_group.</span></code><code class="sig-name descname"><span class="pre">TaskWindowLaunchGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/action/task_window_launch_group.html#TaskWindowLaunchGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.action.group.html#pyface.action.group.Group" title="(in pyface v7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.action.group.Group</span></code></a></p>
 <p>A Group for creating task windows with a single task.</p>
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -146,7 +149,7 @@ this follows the usual Action method resolution.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -163,13 +166,13 @@ this follows the usual Action method resolution.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugins.event_manager.plugin module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -89,26 +92,26 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugins.event_manager.plugin">
+  <section id="module-envisage.plugins.event_manager.plugin">
 <span id="envisage-plugins-event-manager-plugin-module"></span><h1>envisage.plugins.event_manager.plugin module<a class="headerlink" href="#module-envisage.plugins.event_manager.plugin" title="Permalink to this headline">¶</a></h1>
 <p>This module provides a plugin which adds an EventManager to application.</p>
 <p>If the application does not already have an evt_mgr attribute which is an
 instance of EventManager, the plugin creates a new EventManager instance,
 creates a service to offer the event manager and sets the evt_mgr instance
 of the application to the created event manager.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugins.event_manager.plugin.EventManagerPlugin">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.event_manager.plugin.</code><code class="sig-name descname">EventManagerPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/event_manager/plugin.html#EventManagerPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.event_manager.plugin.EventManagerPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugins.event_manager.plugin.</span></code><code class="sig-name descname"><span class="pre">EventManagerPlugin</span></code><a class="reference internal" href="../_modules/envisage/plugins/event_manager/plugin.html#EventManagerPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.event_manager.plugin.EventManagerPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>Plugin to add event manager to the application.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.event_manager.plugin.EventManagerPlugin.SERVICE_OFFERS">
-<code class="sig-name descname">SERVICE_OFFERS</code><em class="property"> = 'envisage.service_offers'</em><a class="headerlink" href="#envisage.plugins.event_manager.plugin.EventManagerPlugin.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SERVICE_OFFERS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.service_offers'</span></em><a class="headerlink" href="#envisage.plugins.event_manager.plugin.EventManagerPlugin.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -139,7 +142,7 @@ of the application to the created event manager.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -156,13 +159,13 @@ of the application to the created event manager.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

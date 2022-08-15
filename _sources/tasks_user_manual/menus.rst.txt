@@ -31,6 +31,7 @@ might define the 'Open' action as follows::
 
     class OpenAction(Action):
         name = 'Open'
+
         accelerator = 'Ctrl+O'
 
         def perform(self, event):
@@ -47,7 +48,10 @@ Of course, we must also implement the ``open()`` method on our task::
         def open(self):
             """ Shows a dialog to open a file.
             """
-            dialog = FileDialog(parent=self.window.control, wildcard='*.py')
+            dialog = FileDialog(
+                parent=self.window.control,
+                wildcard='*.py',
+            )
             if dialog.open() == OK:
                 # Recall that 'open_file' was defined in the previous section.
                 self.open_file(dialog.path)
@@ -74,8 +78,14 @@ task using these abbreviations::
 
         [ ... ]
 
-        menu_bar = SMenuBar(SMenu(OpenAction(), SaveAction(),
-                                  id='File', name='&File'))
+        menu_bar = SMenuBar(
+            SMenu(
+                OpenAction(),
+                SaveAction(),
+                id='File',
+                name='&File',
+            ),
+        )
 
 .. index:: TaskAction
 
@@ -90,11 +100,22 @@ define separately the ``OpenAction`` and ``SaveAction`` classes::
 
         [ ... ]
 
-        menu_bar = SMenuBar(SMenu(TaskAction(name='Open...', method='open',
-                                             accelerator='Ctrl+O'),
-                                  TaskAction(name='Save', method='save',
-                                             accelerator='Ctrl+S'),
-                                  id='File', name='&File'))
+        menu_bar = SMenuBar(
+            SMenu(
+                TaskAction(
+                    name='Open...',
+                    method='open',
+                    accelerator='Ctrl+O',
+                ),
+                TaskAction(
+                    name='Save',
+                    method='save',
+                    accelerator='Ctrl+S',
+                ),
+                id='File',
+                name='&File',
+            ),
+        )
 
 .. index:: tool bar
 
@@ -122,9 +143,17 @@ files to our script editing task::
 
         [ ... ]
 
-        tool_bars = [ SToolBar(TaskAction(method='open',
-                                          tooltip='Open a file',
-                                          image=ImageResource('document_open')),
-                               TaskAction(method='save',
-                                          tooltip='Save the current file',
-                                          image=ImageResource('document_save'))) ]
+        tool_bars = [
+            SToolBar(
+                TaskAction(
+                    method='open',
+                    tooltip='Open a file',
+                    image=ImageResource('document_open'),
+                ),
+                TaskAction(
+                    method='save',
+                    tooltip='Save the current file',
+                    image=ImageResource('document_save'),
+                ),
+            ),
+        ]

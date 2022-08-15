@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugin_activator module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,29 +90,29 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugin_activator">
+  <section id="module-envisage.plugin_activator">
 <span id="envisage-plugin-activator-module"></span><h1>envisage.plugin_activator module<a class="headerlink" href="#module-envisage.plugin_activator" title="Permalink to this headline">¶</a></h1>
 <p>The default plugin activator.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugin_activator.PluginActivator">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugin_activator.</code><code class="sig-name descname">PluginActivator</code><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugin_activator.</span></code><code class="sig-name descname"><span class="pre">PluginActivator</span></code><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
 <p>The default plugin activator.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_activator.PluginActivator.start_plugin">
-<code class="sig-name descname">start_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator.start_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator.start_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">start_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator.start_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the specified plugin.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_activator.PluginActivator.stop_plugin">
-<code class="sig-name descname">stop_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator.stop_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator.stop_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">stop_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_activator.html#PluginActivator.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_activator.PluginActivator.stop_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the specified plugin.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -140,7 +143,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -157,13 +160,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

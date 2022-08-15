@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.i_plugin module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,36 +90,36 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.i_plugin">
+  <section id="module-envisage.i_plugin">
 <span id="envisage-i-plugin-module"></span><h1>envisage.i_plugin module<a class="headerlink" href="#module-envisage.i_plugin" title="Permalink to this headline">¶</a></h1>
 <p>The plugin interface.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.i_plugin.IPlugin">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.i_plugin.</code><code class="sig-name descname">IPlugin</code><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.i_plugin.</span></code><code class="sig-name descname"><span class="pre">IPlugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">adaptee</span></em>, <em class="sig-param"><span class="pre">default=&lt;class</span> <span class="pre">'traits.adaptation.adaptation_error.AdaptationError'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
 <p>The plugin interface.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.i_plugin.IPlugin.activator">
-<code class="sig-name descname">activator</code><em class="property"> = Instance(IPluginActivator)</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.activator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">activator</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(IPluginActivator)</span></em><a class="headerlink" href="#envisage.i_plugin.IPlugin.activator" title="Permalink to this definition">¶</a></dt>
 <dd><p>The activator used to start and stop the plugin.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.i_plugin.IPlugin.application">
-<code class="sig-name descname">application</code><em class="property"> = Instance(&quot;envisage.api.IApplication&quot;)</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.application" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">application</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(&quot;envisage.api.IApplication&quot;)</span></em><a class="headerlink" href="#envisage.i_plugin.IPlugin.application" title="Permalink to this definition">¶</a></dt>
 <dd><p>The application that the plugin is part of.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.i_plugin.IPlugin.home">
-<code class="sig-name descname">home</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.home" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">home</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.i_plugin.IPlugin.home" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of a directory (created for you) that the plugin can read and
 write to at will.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.i_plugin.IPlugin.id">
-<code class="sig-name descname">id</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">id</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.i_plugin.IPlugin.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>The plugin’s unique identifier.</p>
 <p>Where ‘unique’ technically means ‘unique within the plugin manager’, but
 since the chances are that you will want to include plugins from
@@ -124,15 +127,15 @@ external sources, this really means ‘globally unique’! Using the Python
 package path might be useful here. e.g. ‘envisage’.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.i_plugin.IPlugin.name">
-<code class="sig-name descname">name</code><em class="property"> = Str</em><a class="headerlink" href="#envisage.i_plugin.IPlugin.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.i_plugin.IPlugin.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The plugin’s name (suitable for displaying to the user).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.i_plugin.IPlugin.start">
-<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the plugin.</p>
 <p>This method is called by the framework when the application is starting
 up. If you want to start a plugin manually use:</p>
@@ -141,9 +144,9 @@ up. If you want to start a plugin manually use:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.i_plugin.IPlugin.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin.html#IPlugin.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin.IPlugin.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the plugin.</p>
 <p>This method is called by the framework when the application is
 stopping. If you want to stop a plugin manually use:</p>
@@ -154,7 +157,7 @@ stopping. If you want to stop a plugin manually use:</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -185,7 +188,7 @@ stopping. If you want to stop a plugin manually use:</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -202,13 +205,13 @@ stopping. If you want to stop a plugin manually use:</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

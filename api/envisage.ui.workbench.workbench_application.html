@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.ui.workbench.workbench_application module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -89,12 +92,12 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.ui.workbench.workbench_application">
+  <section id="module-envisage.ui.workbench.workbench_application">
 <span id="envisage-ui-workbench-workbench-application-module"></span><h1>envisage.ui.workbench.workbench_application module<a class="headerlink" href="#module-envisage.ui.workbench.workbench_application" title="Permalink to this headline">¶</a></h1>
 <p>The entry point for an Envisage Workbench application.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.workbench.workbench_application.WorkbenchApplication">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.workbench.workbench_application.</code><code class="sig-name descname">WorkbenchApplication</code><span class="sig-paren">(</span><em class="sig-param">plugins=None</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.workbench.workbench_application.</span></code><code class="sig-name descname"><span class="pre">WorkbenchApplication</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.application.html#envisage.application.Application" title="envisage.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.application.Application</span></code></a></p>
 <p>The entry point for an Envisage Workbench application.</p>
 <p>i.e. a GUI application whose user interface is provided by the workbench
@@ -103,28 +106,28 @@ plugin.</p>
 intended to be subclassed to change start/stop behaviour etc. In fact, I
 generally create a subclass for every Workbench application I write since
 it is a good place to put branding information etc.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_application.WorkbenchApplication.about">
-<code class="sig-name descname">about</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.about"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.about" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">about</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.about"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.about" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the about dialog.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench">
-<code class="sig-name descname">create_workbench</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.create_workbench"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">create_workbench</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.create_workbench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the workbench.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_application.WorkbenchApplication.exit">
-<code class="sig-name descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.exit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">exit</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exit the application.</p>
 <p>This closes all open windows and hence exits the GUI event loop.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_application.WorkbenchApplication.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_application.html#WorkbenchApplication.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_application.WorkbenchApplication.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the application.</p>
 <p>This does the following (so you don’t have to ;^):-</p>
 <ol class="arabic simple">
@@ -137,7 +140,7 @@ it is a good place to put branding information etc.</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -168,7 +171,7 @@ it is a good place to put branding information etc.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -185,13 +188,13 @@ it is a good place to put branding information etc.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

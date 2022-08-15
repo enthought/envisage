@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugins.ipython_kernel.ipython_kernel_plugin module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -89,34 +92,34 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">
+  <section id="module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">
 <span id="envisage-plugins-ipython-kernel-ipython-kernel-plugin-module"></span><h1>envisage.plugins.ipython_kernel.ipython_kernel_plugin module<a class="headerlink" href="#module-envisage.plugins.ipython_kernel.ipython_kernel_plugin" title="Permalink to this headline">¶</a></h1>
 <p>An IPython kernel plugin.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.ipython_kernel.ipython_kernel_plugin.</code><code class="sig-name descname">IPythonKernelPlugin</code><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/ipython_kernel_plugin.html#IPythonKernelPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugins.ipython_kernel.ipython_kernel_plugin.</span></code><code class="sig-name descname"><span class="pre">IPythonKernelPlugin</span></code><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/ipython_kernel_plugin.html#IPythonKernelPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin.Plugin</span></code></a></p>
 <p>An IPython kernel plugin.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_KERNEL_PROTOCOL">
-<code class="sig-name descname">IPYTHON_KERNEL_PROTOCOL</code><em class="property"> = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_KERNEL_PROTOCOL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">IPYTHON_KERNEL_PROTOCOL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_KERNEL_PROTOCOL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_NAMESPACE">
-<code class="sig-name descname">IPYTHON_NAMESPACE</code><em class="property"> = 'ipython_plugin.namespace'</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_NAMESPACE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">IPYTHON_NAMESPACE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'ipython_plugin.namespace'</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.IPYTHON_NAMESPACE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension point for objects contributed to the IPython kernel namespace.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.id">
-<code class="sig-name descname">id</code><em class="property"> = &quot;envisage.plugins.ipython_kernel&quot;</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">id</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&quot;envisage.plugins.ipython_kernel&quot;</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>The plugin unique identifier.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.init_ipkernel">
-<code class="sig-name descname">init_ipkernel</code><em class="property"> = Bool(False)</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.init_ipkernel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">init_ipkernel</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Bool(False)</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.init_ipkernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether to initialize the kernel when the service is created.
 The default is <code class="docutils literal notranslate"><span class="pre">False`</span></code>, for backwards compatibility. It will change
 to <code class="docutils literal notranslate"><span class="pre">True</span></code> in a future version of Envisage. External users wanting
@@ -124,33 +127,33 @@ to use the future behaviour now should pass <code class="docutils literal notran
 when creating the plugin.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.kernel_namespace">
-<code class="sig-name descname">kernel_namespace</code><em class="property"> = ExtensionPoint( …</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.kernel_namespace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">kernel_namespace</span></code><em class="property"> <span class="pre">=</span> <span class="pre">ExtensionPoint(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.kernel_namespace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ipython kernel namespace ExtensionPoint</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.name">
-<code class="sig-name descname">name</code><em class="property"> = &quot;IPython embedded kernel plugin&quot;</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&quot;IPython</span> <span class="pre">embedded</span> <span class="pre">kernel</span> <span class="pre">plugin&quot;</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The plugin name (suitable for displaying to the user).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.service_offers">
-<code class="sig-name descname">service_offers</code><em class="property"> = List(contributes_to=SERVICE_OFFERS)</em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.service_offers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">service_offers</span></code><em class="property"> <span class="pre">=</span> <span class="pre">List(contributes_to=SERVICE_OFFERS)</span></em><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.service_offers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Service offers contributed by this plugin.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/ipython_kernel_plugin.html#IPythonKernelPlugin.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/ipython_kernel/ipython_kernel_plugin.html#IPythonKernelPlugin.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.ipython_kernel.ipython_kernel_plugin.IPythonKernelPlugin.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the plugin.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -181,7 +184,7 @@ when creating the plugin.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -198,13 +201,13 @@ when creating the plugin.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>
