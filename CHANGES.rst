@@ -2,6 +2,115 @@
  Envisage CHANGELOG
 ====================
 
+Version 6.1.0
+=============
+
+Released: 2022-08-15
+
+This is a minor feature release whose main focus is on compatibility with
+Python 3.8 and PySide 6. It includes a collection of other cleanups and minor
+fixes.
+
+In this release, there are some changes in the way that the Envisage
+``Application`` interacts with ``ETSConfig``. You should double check that
+the locations of user data, preferences and application home directories are
+the ones that you expect after upgrading.
+
+Please note that the IPython-related portions of Envisage are currently not
+compatible with the latest versions of ipykernel and IPython available from
+PyPI. This has been made explicit in this release in the form of version
+restrictions on those packages in the ``envisage[ipython]`` install target.
+
+Thanks to:
+
+* Aaron Ayres
+* Mark Dickinson
+* Sai Rahul Poruri
+* Corran Webster
+
+Changes
+-------
+* The ``Application.user_data`` directory no longer includes the id
+  of the application, but instead matches the ``ETSConfig.user_data``. (#467)
+* The Envisage ``Application`` will no longer try to change the
+  ``ETSConfig.application_home`` attribute. (#467)
+* The ``PackageResourceProtocol`` now uses ``importlib.resources`` instead
+  of ``pkg_resources``. (#466)
+* The IPython-related features of Envisage require ipykernel version < 6 and
+  IPython version < 8. (#449)
+
+Fixes
+-----
+* Fix EggPluginManager to use current pkg_resources.working_set (#444)
+
+Refactoring and maintenance
+---------------------------
+* Simplify ImportManager by using importlib. (#465)
+* Update end year in copyright headers. (#458)
+
+Tests
+-----
+* The tests no longer rely on pre-built eggs for test packages. (#459, #436)
+* Skip tests for recent ipykernel, and add check for IPython version. (#457)
+* Work around a Python 3.6 issue with ``isinstance`` and lru caches in tests.
+  (#470)
+* Fix an ``EggBasketPluginManager`` test that only passed due to test
+  interactions. (#443)
+* Some pickles used in testing have been regenerated in order to work
+  correctly with more recent versions of Traits. (#472)
+* Fix poorly specified action and menu groups in tests. (#468)
+* Fix test hangs with PySide2 / macOS 11. (#454)
+* Skip an ipykernel-using test if ipykernel is not available in the test
+  environment. (#423)
+
+Examples
+--------
+* Fixes for the Attractors example. (#408, #416)
+
+Documentation
+--------------
+* Code samples in the documentation now have a "copy" button. (#474)
+* Stylistic changes and updates to documentation. (#406)
+* Fix documentation links to examples on main branch. (#447)
+* Add a Read the Docs config file. (#434)
+* Miscellaneous minor fixes. (#435)
+
+Build and CI
+------------
+* Update build machinery to support Python 3.8 and PySide 6. (#477)
+* Add workflow to automatically upload releases to PyPI. (#478)
+* Set up Slack notification for cron jobs. (#433)
+* Cron job failures are now reported to the main Slack channel, not
+  to the bots channel. (#473)
+* Add GitHub Actions workflow to test PyPI install. (#450)
+* DEV : Default branch has been renamed from master to main. (#446)
+* Update classifiers for Python 3.10. (#437)
+* Port CI from Appveyor to GitHub Actions. (#432, #426)
+* Simplify flake8 command in ``etstool.py``. (#431)
+* Traits version 6.2 or later is now required. (#410)
+
+
+Version 6.0.1
+=============
+
+Released: 2021-06-18
+
+This bugfix release fixes the issue where Extension Point resolution was
+happening too eagerly, which caused issues during application startup time in
+certain cases. We recommend all users of Envisage to upgrade to this bugfix
+version.
+
+Fixes
+-----
+
+- Revert PR #354, which caused the issue #417. (#422)
+
+Tests
+-----
+
+- Ensure that the testsuite passes with minimal dependencies. (#423)
+- Add a regression test for issue #417. (#421)
+
 Version 6.0.0
 =============
 
