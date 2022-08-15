@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugins.text_editor.editor.text_editor module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -90,58 +93,58 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugins.text_editor.editor.text_editor">
+  <section id="module-envisage.plugins.text_editor.editor.text_editor">
 <span id="envisage-plugins-text-editor-editor-text-editor-module"></span><h1>envisage.plugins.text_editor.editor.text_editor module<a class="headerlink" href="#module-envisage.plugins.text_editor.editor.text_editor" title="Permalink to this headline">¶</a></h1>
 <p>A text editor.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugins.text_editor.editor.text_editor.</code><code class="sig-name descname">TextEditor</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.workbench.traits_ui_editor.html#pyface.workbench.traits_ui_editor.TraitsUIEditor" title="(in pyface v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.traits_ui_editor.TraitsUIEditor</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugins.text_editor.editor.text_editor.</span></code><code class="sig-name descname"><span class="pre">TextEditor</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.workbench.traits_ui_editor.html#pyface.workbench.traits_ui_editor.TraitsUIEditor" title="(in pyface v7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.traits_ui_editor.TraitsUIEditor</span></code></a></p>
 <p>A text editor.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui">
-<code class="sig-name descname">create_ui</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.create_ui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">create_ui</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.create_ui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates the traits UI that represents the editor.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.key_bindings">
-<code class="sig-name descname">key_bindings</code><em class="property"> = &lt;traits.trait_types.Instance object&gt;</em><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.key_bindings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">key_bindings</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.trait_types.Instance</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.key_bindings" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the file as Python.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.save" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the text to disk.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as">
-<code class="sig-name descname">save_as</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.save_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">save_as</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.save_as"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the text to disk after prompting for the file name.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line">
-<code class="sig-name descname">select_line</code><span class="sig-paren">(</span><em class="sig-param">lineno</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.select_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">select_line</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineno</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/text_editor/editor/text_editor.html#TextEditor.select_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Selects the specified line.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugins.text_editor.editor.text_editor.TextEditor.text">
-<code class="sig-name descname">text</code><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.text" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Code" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Code</span></code></a></p>
+<code class="sig-name descname"><span class="pre">text</span></code><a class="headerlink" href="#envisage.plugins.text_editor.editor.text_editor.TextEditor.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_types.html#traits.trait_types.Code" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_types.Code</span></code></a></p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -172,7 +175,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -189,13 +192,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.extension_point module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,25 +90,25 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.extension_point">
+  <section id="module-envisage.extension_point">
 <span id="envisage-extension-point-module"></span><h1>envisage.extension_point module<a class="headerlink" href="#module-envisage.extension_point" title="Permalink to this headline">¶</a></h1>
 <p>A trait type used to declare and access extension points.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.extension_point.ExtensionPoint">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.extension_point.</code><code class="sig-name descname">ExtensionPoint</code><span class="sig-paren">(</span><em class="sig-param">trait_type=&lt;class 'traits.trait_types.List'&gt;</em>, <em class="sig-param">id=None</em>, <em class="sig-param">**metadata</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_type.html#traits.trait_type.TraitType" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_type.TraitType</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.extension_point.</span></code><code class="sig-name descname"><span class="pre">ExtensionPoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trait_type=&lt;class</span> <span class="pre">'traits.trait_types.List'&gt;</span></em>, <em class="sig-param"><span class="pre">id=None</span></em>, <em class="sig-param"><span class="pre">**metadata</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_type.html#traits.trait_type.TraitType" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_type.TraitType</span></code></a></p>
 <p>A trait type used to declare and access extension points.</p>
 <p>Note that this is a trait <em>type</em> and hence does <em>NOT</em> have traits itself
 (i.e. it does <em>not</em> inherit from ‘HasTraits’).</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.bind">
-<em class="property">static </em><code class="sig-name descname">bind</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">trait_name</em>, <em class="sig-param">extension_point_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.bind" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">bind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.bind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.bind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a binding to an extension point.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.connect">
-<code class="sig-name descname">connect</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">trait_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.connect" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">connect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect the extension point to a trait on an object.</p>
 <p>This allows the object to react when contributions are added or
 removed from the extension point.</p>
@@ -114,69 +117,39 @@ but we would need a slight tweak to traits to allow the trait type to
 be notified when a new instance that uses the trait type is created.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.connect_extension_point_traits">
-<em class="property">static </em><code class="sig-name descname">connect_extension_point_traits</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.connect_extension_point_traits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.connect_extension_point_traits" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">connect_extension_point_traits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.connect_extension_point_traits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.connect_extension_point_traits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect all of the ‘ExtensionPoint’ traits on an object.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.disconnect">
-<code class="sig-name descname">disconnect</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">trait_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.disconnect" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">disconnect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.disconnect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disconnect the extension point from a trait on an object.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits">
-<em class="property">static </em><code class="sig-name descname">disconnect_extension_point_traits</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.disconnect_extension_point_traits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">disconnect_extension_point_traits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.disconnect_extension_point_traits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disconnect all of the ‘ExtensionPoint’ traits on an object.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.get">
-<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">trait_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.get" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trait type getter.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.extension_point.ExtensionPoint.set">
-<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.set" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#ExtensionPoint.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.extension_point.ExtensionPoint.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trait type setter.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="envisage.extension_point.contributes_to">
-<code class="sig-prename descclassname">envisage.extension_point.</code><code class="sig-name descname">contributes_to</code><span class="sig-paren">(</span><em class="sig-param">id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/extension_point.html#contributes_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.extension_point.contributes_to" title="Permalink to this definition">¶</a></dt>
-<dd><p>A factory for extension point decorators!</p>
-<p>As an alternative to making contributions via traits, you can use this
-decorator to mark any method on a ‘Plugin’ as contributing to an extension
-point (note this is <em>only</em> used on ‘Plugin’ instances!).</p>
-<p>e.g. Using a trait you might have something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.messages&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;Hola&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>whereas, using the decorator, it would be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="nd">@contributes_to</span><span class="p">(</span><span class="s1">&#39;acme.messages&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_get_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;Hola&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>There is not much in it really, but the decorator version looks a little
-less like ‘magic’ since it doesn’t require the developer to know about
-Traits default initializers. However, if you know that you will want to
-dynamically change your contributions then use the trait version  because
-all you have to do is change the value of the trait and the framework will
-react accordingly.</p>
-</dd></dl>
-
-</div>
+</section>
 
 
           </div>
@@ -207,7 +180,7 @@ react accordingly.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -224,13 +197,13 @@ react accordingly.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

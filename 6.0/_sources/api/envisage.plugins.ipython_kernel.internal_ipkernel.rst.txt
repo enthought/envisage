@@ -1,0 +1,7 @@
+envisage.plugins.ipython\_kernel.internal\_ipkernel module
+==========================================================
+
+.. automodule:: envisage.plugins.ipython_kernel.internal_ipkernel
+   :members:
+   :undoc-members:
+   :show-inheritance:

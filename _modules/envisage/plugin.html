@@ -10,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +25,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../../_static/img/favicon.png">
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="Envisage Documentation" href="../../index.html" >
@@ -77,7 +79,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2020 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -89,26 +91,25 @@
 <span class="sd">&quot;&quot;&quot; The default implementation of the &#39;IPlugin&#39; interface. &quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">exists</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span><span class="p">,</span> <span class="n">join</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">provides</span>
-<span class="kn">from</span> <span class="nn">traits.util.camel_case</span> <span class="k">import</span> <span class="n">camel_case_to_words</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span> <span class="nn">traits.util.camel_case</span> <span class="kn">import</span> <span class="n">camel_case_to_words</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.extension_point</span> <span class="k">import</span> <span class="n">ExtensionPoint</span>
-<span class="kn">from</span> <span class="nn">.extension_provider</span> <span class="k">import</span> <span class="n">ExtensionProvider</span>
-<span class="kn">from</span> <span class="nn">.i_application</span> <span class="k">import</span> <span class="n">IApplication</span>
-<span class="kn">from</span> <span class="nn">.i_extension_point_user</span> <span class="k">import</span> <span class="n">IExtensionPointUser</span>
-<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="k">import</span> <span class="n">IExtensionRegistry</span>
-<span class="kn">from</span> <span class="nn">.i_plugin</span> <span class="k">import</span> <span class="n">IPlugin</span>
-<span class="kn">from</span> <span class="nn">.i_plugin_activator</span> <span class="k">import</span> <span class="n">IPluginActivator</span>
-<span class="kn">from</span> <span class="nn">.i_service_registry</span> <span class="k">import</span> <span class="n">IServiceRegistry</span>
-<span class="kn">from</span> <span class="nn">.i_service_user</span> <span class="k">import</span> <span class="n">IServiceUser</span>
-<span class="kn">from</span> <span class="nn">.plugin_activator</span> <span class="k">import</span> <span class="n">PluginActivator</span>
+<span class="kn">from</span> <span class="nn">.extension_point</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span>
+<span class="kn">from</span> <span class="nn">.extension_provider</span> <span class="kn">import</span> <span class="n">ExtensionProvider</span>
+<span class="kn">from</span> <span class="nn">.i_application</span> <span class="kn">import</span> <span class="n">IApplication</span>
+<span class="kn">from</span> <span class="nn">.i_extension_point_user</span> <span class="kn">import</span> <span class="n">IExtensionPointUser</span>
+<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="kn">import</span> <span class="n">IExtensionRegistry</span>
+<span class="kn">from</span> <span class="nn">.i_plugin</span> <span class="kn">import</span> <span class="n">IPlugin</span>
+<span class="kn">from</span> <span class="nn">.i_plugin_activator</span> <span class="kn">import</span> <span class="n">IPluginActivator</span>
+<span class="kn">from</span> <span class="nn">.i_service_registry</span> <span class="kn">import</span> <span class="n">IServiceRegistry</span>
+<span class="kn">from</span> <span class="nn">.i_service_user</span> <span class="kn">import</span> <span class="n">IServiceUser</span>
+<span class="kn">from</span> <span class="nn">.plugin_activator</span> <span class="kn">import</span> <span class="n">PluginActivator</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -210,26 +211,8 @@
         <span class="c1"># fine to allow mutiple traits!</span>
         <span class="n">trait_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_names</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">extension_point_id</span><span class="p">)</span>
 
-        <span class="c1"># FIXME: This is a temporary fix, which was necessary due to the</span>
-        <span class="c1">#        namespace refactor, but should be removed at some point.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trait_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">old_id</span> <span class="o">=</span> <span class="s2">&quot;enthought.&quot;</span> <span class="o">+</span> <span class="n">extension_point_id</span>
-            <span class="n">trait_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_names</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">old_id</span><span class="p">)</span>
-        <span class="c1">#            if trait_names:</span>
-        <span class="c1">#                print &#39;deprecated:&#39;, old_id</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trait_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># If there is no contributing trait then look for any decorated</span>
-            <span class="c1"># methods.</span>
-            <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_harvest_methods</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
-
-            <span class="c1"># FIXME: This is a temporary fix, which was necessary due to the</span>
-            <span class="c1">#        namespace refactor, but should be removed at some point.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">extensions</span><span class="p">:</span>
-                <span class="n">old_id</span> <span class="o">=</span> <span class="s2">&quot;enthought.&quot;</span> <span class="o">+</span> <span class="n">extension_point_id</span>
-                <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_harvest_methods</span><span class="p">(</span><span class="n">old_id</span><span class="p">)</span>
-        <span class="c1">#                if extensions:</span>
-        <span class="c1">#                    print &#39;deprecated:&#39;, old_id</span>
+            <span class="n">extensions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">trait_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extensions_from_trait</span><span class="p">(</span><span class="n">trait_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -327,16 +310,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">connect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-        <span class="k">return</span></div>
+        <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">connect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Plugin.disconnect_extension_point_traits"><a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.disconnect_extension_point_traits">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Disconnect all of the plugin&#39;s extension points.&quot;&quot;&quot;</span>
 
-        <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-        <span class="k">return</span></div>
+        <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Plugin.register_services"><a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.register_services">[docs]</a>    <span class="k">def</span> <span class="nf">register_services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Register the services offered by the plugin. &quot;&quot;&quot;</span>
@@ -355,9 +334,7 @@
 
             <span class="c1"># We save the service Id so that so that we can unregister the</span>
             <span class="c1"># service when the plugin is stopped.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
-
-        <span class="k">return</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Plugin.unregister_services"><a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.unregister_services">[docs]</a>    <span class="k">def</span> <span class="nf">unregister_services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Unregister any service offered by the plugin. &quot;&quot;&quot;</span>
@@ -377,9 +354,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
 
         <span class="c1"># Just in case the plugin is started again!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">return</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="p">[]</span></div>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
@@ -412,8 +387,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_fire_extension_point_changed</span><span class="p">(</span>
                 <span class="n">trait</span><span class="o">.</span><span class="n">contributes_to</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span>
             <span class="p">)</span>
-
-        <span class="k">return</span>
 
     <span class="c1">#### Methods ##############################################################</span>
 
@@ -461,47 +434,6 @@
 
         <span class="k">return</span> <span class="n">protocol</span>
 
-    <span class="k">def</span> <span class="nf">_harvest_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Harvest all method-based contributions. &quot;&quot;&quot;</span>
-
-        <span class="n">extensions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Using inspect.getmembers(self) here will cause an infinite recursion,</span>
-        <span class="c1"># so use an internal HasTraits method for inspecting the MRO of the</span>
-        <span class="c1"># instance&#39;s type to find all methods instead.</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_each_trait_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_extension_method</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">value</span><span class="p">()</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">]</span>
-
-                <span class="n">extensions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">extensions</span>
-
-    <span class="k">def</span> <span class="nf">_is_extension_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return True if the value is an extension method.</span>
-
-<span class="sd">        i.e. If the method is one that makes a contribution to the extension</span>
-<span class="sd">        point. Currently there is exactly one way to make a method make a</span>
-<span class="sd">        contribution, and that is to mark it using the &#39;contributes_to&#39;</span>
-<span class="sd">        decorator, e.g::</span>
-
-<span class="sd">          @contributes_to(&#39;acme.motd.messages&#39;)</span>
-<span class="sd">          def get_messages(self):</span>
-<span class="sd">              ...</span>
-<span class="sd">              messages = [...]</span>
-<span class="sd">              ...</span>
-<span class="sd">              return messages</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">is_extension_method</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span>
-            <span class="n">value</span>
-        <span class="p">)</span> <span class="ow">and</span> <span class="n">extension_point_id</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;__extension_point__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">is_extension_method</span>
-
     <span class="k">def</span> <span class="nf">_register_service_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Register a service factory for the specified trait. &quot;&quot;&quot;</span>
 
@@ -523,7 +455,7 @@
     <span class="c1"># &#39;object&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; String representation of a Plugin object &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;Plugin(id=</span><span class="si">{!r}</span><span class="s2">, name=</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 </pre></div>
@@ -545,7 +477,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -562,13 +494,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

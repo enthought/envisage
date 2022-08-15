@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.ui.workbench.workbench_window module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -89,93 +92,93 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.ui.workbench.workbench_window">
+  <section id="module-envisage.ui.workbench.workbench_window">
 <span id="envisage-ui-workbench-workbench-window-module"></span><h1>envisage.ui.workbench.workbench_window module<a class="headerlink" href="#module-envisage.ui.workbench.workbench_window" title="Permalink to this headline">¶</a></h1>
 <p>An extensible workbench window.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.ui.workbench.workbench_window.</code><code class="sig-name descname">WorkbenchWindow</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.workbench.workbench_window.html#pyface.workbench.workbench_window.WorkbenchWindow" title="(in pyface v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.workbench_window.WorkbenchWindow</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.workbench.workbench_window.</span></code><code class="sig-name descname"><span class="pre">WorkbenchWindow</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.workbench.workbench_window.html#pyface.workbench.workbench_window.WorkbenchWindow" title="(in pyface v7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyface.workbench.workbench_window.WorkbenchWindow</span></code></a></p>
 <p>An extensible workbench window.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.ACTION_SETS">
-<code class="sig-name descname">ACTION_SETS</code><em class="property"> = 'envisage.ui.workbench.action_sets'</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.ACTION_SETS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ACTION_SETS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.workbench.action_sets'</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.ACTION_SETS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.PERSPECTIVES">
-<code class="sig-name descname">PERSPECTIVES</code><em class="property"> = 'envisage.ui.workbench.perspectives'</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.PERSPECTIVES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PERSPECTIVES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.workbench.perspectives'</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.PERSPECTIVES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.SERVICE_OFFERS">
-<code class="sig-name descname">SERVICE_OFFERS</code><em class="property"> = 'envisage.ui.workbench.service_offers'</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SERVICE_OFFERS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.workbench.service_offers'</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.VIEWS">
-<code class="sig-name descname">VIEWS</code><em class="property"> = 'envisage.ui.workbench.views'</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.VIEWS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">VIEWS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.workbench.views'</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.VIEWS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.action_sets">
-<code class="sig-name descname">action_sets</code><em class="property"> = &lt;traits.trait_types.List object&gt;</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.action_sets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">action_sets</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.trait_types.List</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.action_sets" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.application">
-<code class="sig-name descname">application</code><em class="property"> = &lt;traits.trait_types.Delegate object&gt;</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.application" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">application</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.trait_types.Delegate</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.application" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.extension_registry">
-<code class="sig-name descname">extension_registry</code><em class="property"> = &lt;traits.traits.ForwardProperty object&gt;</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.extension_registry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">extension_registry</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.traits.ForwardProperty</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.extension_registry" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service">
-<code class="sig-name descname">get_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return at most one service that matches the specified query.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties">
-<code class="sig-name descname">get_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_service_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the dictionary of properties associated with a service.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services">
-<code class="sig-name descname">get_services</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_services</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.get_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all services that match the specified query.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service">
-<code class="sig-name descname">register_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">obj</em>, <em class="sig-param">properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.register_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">register_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.register_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a service.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.service_registry">
-<code class="sig-name descname">service_registry</code><em class="property"> = &lt;traits.trait_types.Instance object&gt;</em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.service_registry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">service_registry</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;traits.trait_types.Instance</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.service_registry" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties">
-<code class="sig-name descname">set_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em>, <em class="sig-param">properties</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.set_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_service_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.set_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the dictionary of properties associated with a service.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service">
-<code class="sig-name descname">unregister_service</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.unregister_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">unregister_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/workbench/workbench_window.html#WorkbenchWindow.unregister_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unregister a service.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -206,7 +209,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -223,13 +226,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

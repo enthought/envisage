@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html>
@@ -11,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
     <link rel="stylesheet" href="_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -25,10 +25,11 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <script type="text/javascript" src="_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="_static/img/favicon.ico">
+    <link rel="shortcut icon" href="_static/img/favicon.png">
     <link rel="index" title="Index" href="#" >
     <link rel="search" title="Search" href="search.html" >
     <link rel="top" title="Envisage Documentation" href="index.html" > 
@@ -333,8 +334,6 @@
       </ul></li>
       <li><a href="api/envisage.plugins.ipython_kernel.internal_ipkernel.html#envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel.consoles">consoles (envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel attribute)</a>
 </li>
-      <li><a href="api/envisage.extension_point.html#envisage.extension_point.contributes_to">contributes_to() (in module envisage.extension_point)</a>
-</li>
       <li><a href="api/envisage.core_plugin.html#envisage.core_plugin.CorePlugin">CorePlugin (class in envisage.core_plugin)</a>
 </li>
       <li><a href="api/envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create">create() (envisage.ui.tasks.task_factory.TaskFactory method)</a>
@@ -411,266 +410,918 @@
 </li>
       <li><a href="tasks_user_manual/extensibility.html#index-0">Envisage</a>
 </li>
-      <li><a href="api/envisage.html#module-envisage">envisage (module)</a>
-</li>
-      <li><a href="api/envisage.api.html#module-envisage.api">envisage.api (module)</a>
-</li>
-      <li><a href="api/envisage.application.html#module-envisage.application">envisage.application (module)</a>
-</li>
-      <li><a href="api/envisage.application_event.html#module-envisage.application_event">envisage.application_event (module)</a>
-</li>
-      <li><a href="api/envisage.composite_plugin_manager.html#module-envisage.composite_plugin_manager">envisage.composite_plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.core_plugin.html#module-envisage.core_plugin">envisage.core_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.egg_basket_plugin_manager.html#module-envisage.egg_basket_plugin_manager">envisage.egg_basket_plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.egg_plugin_manager.html#module-envisage.egg_plugin_manager">envisage.egg_plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.egg_utils.html#module-envisage.egg_utils">envisage.egg_utils (module)</a>
-</li>
-      <li><a href="api/envisage.examples.html#module-envisage.examples">envisage.examples (module)</a>
-</li>
-      <li><a href="api/envisage.extension_point.html#module-envisage.extension_point">envisage.extension_point (module)</a>
-</li>
-      <li><a href="api/envisage.extension_point_binding.html#module-envisage.extension_point_binding">envisage.extension_point_binding (module)</a>
-</li>
-      <li><a href="api/envisage.extension_point_changed_event.html#module-envisage.extension_point_changed_event">envisage.extension_point_changed_event (module)</a>
-</li>
-      <li><a href="api/envisage.extension_provider.html#module-envisage.extension_provider">envisage.extension_provider (module)</a>
-</li>
-      <li><a href="api/envisage.extension_registry.html#module-envisage.extension_registry">envisage.extension_registry (module)</a>
-</li>
-      <li><a href="api/envisage.i_application.html#module-envisage.i_application">envisage.i_application (module)</a>
-</li>
-      <li><a href="api/envisage.i_extension_point.html#module-envisage.i_extension_point">envisage.i_extension_point (module)</a>
-</li>
-      <li><a href="api/envisage.i_extension_point_user.html#module-envisage.i_extension_point_user">envisage.i_extension_point_user (module)</a>
-</li>
-      <li><a href="api/envisage.i_extension_provider.html#module-envisage.i_extension_provider">envisage.i_extension_provider (module)</a>
-</li>
-      <li><a href="api/envisage.i_extension_registry.html#module-envisage.i_extension_registry">envisage.i_extension_registry (module)</a>
-</li>
-      <li><a href="api/envisage.i_import_manager.html#module-envisage.i_import_manager">envisage.i_import_manager (module)</a>
-</li>
-      <li><a href="api/envisage.i_plugin.html#module-envisage.i_plugin">envisage.i_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.i_plugin_activator.html#module-envisage.i_plugin_activator">envisage.i_plugin_activator (module)</a>
-</li>
-      <li><a href="api/envisage.i_plugin_manager.html#module-envisage.i_plugin_manager">envisage.i_plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.i_provider_extension_registry.html#module-envisage.i_provider_extension_registry">envisage.i_provider_extension_registry (module)</a>
-</li>
-      <li><a href="api/envisage.i_service_registry.html#module-envisage.i_service_registry">envisage.i_service_registry (module)</a>
-</li>
-      <li><a href="api/envisage.i_service_user.html#module-envisage.i_service_user">envisage.i_service_user (module)</a>
-</li>
-      <li><a href="api/envisage.ids.html#module-envisage.ids">envisage.ids (module)</a>
-</li>
-      <li><a href="api/envisage.import_manager.html#module-envisage.import_manager">envisage.import_manager (module)</a>
-</li>
-      <li><a href="api/envisage.package_plugin_manager.html#module-envisage.package_plugin_manager">envisage.package_plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.plugin.html#module-envisage.plugin">envisage.plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugin_activator.html#module-envisage.plugin_activator">envisage.plugin_activator (module)</a>
-</li>
-      <li><a href="api/envisage.plugin_event.html#module-envisage.plugin_event">envisage.plugin_event (module)</a>
-</li>
-      <li><a href="api/envisage.plugin_extension_registry.html#module-envisage.plugin_extension_registry">envisage.plugin_extension_registry (module)</a>
-</li>
-      <li><a href="api/envisage.plugin_manager.html#module-envisage.plugin_manager">envisage.plugin_manager (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.html#module-envisage.plugins">envisage.plugins (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.event_manager.html#module-envisage.plugins.event_manager">envisage.plugins.event_manager (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.event_manager.api.html#module-envisage.plugins.event_manager.api">envisage.plugins.event_manager.api (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.event_manager.plugin.html#module-envisage.plugins.event_manager.plugin">envisage.plugins.event_manager.plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.html#module-envisage.plugins.ipython_kernel">envisage.plugins.ipython_kernel (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.actions.html#module-envisage.plugins.ipython_kernel.actions">envisage.plugins.ipython_kernel.actions (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.api.html#module-envisage.plugins.ipython_kernel.api">envisage.plugins.ipython_kernel.api (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.heartbeat.html#module-envisage.plugins.ipython_kernel.heartbeat">envisage.plugins.ipython_kernel.heartbeat (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.internal_ipkernel.html#module-envisage.plugins.ipython_kernel.internal_ipkernel">envisage.plugins.ipython_kernel.internal_ipkernel (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">envisage.plugins.ipython_kernel.ipython_kernel_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin">envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#module-envisage.plugins.ipython_kernel.kernelapp">envisage.plugins.ipython_kernel.kernelapp (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.html#module-envisage.plugins.python_shell">envisage.plugins.python_shell (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.api.html#module-envisage.plugins.python_shell.api">envisage.plugins.python_shell.api (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.i_python_shell.html#module-envisage.plugins.python_shell.i_python_shell">envisage.plugins.python_shell.i_python_shell (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.python_shell_plugin.html#module-envisage.plugins.python_shell.python_shell_plugin">envisage.plugins.python_shell.python_shell_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.view.html#module-envisage.plugins.python_shell.view">envisage.plugins.python_shell.view (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.view.api.html#module-envisage.plugins.python_shell.view.api">envisage.plugins.python_shell.view.api (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.view.namespace_view.html#module-envisage.plugins.python_shell.view.namespace_view">envisage.plugins.python_shell.view.namespace_view (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.python_shell.view.python_shell_view.html#module-envisage.plugins.python_shell.view.python_shell_view">envisage.plugins.python_shell.view.python_shell_view (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.tasks.html#module-envisage.plugins.tasks">envisage.plugins.tasks (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.tasks.python_shell_plugin.html#module-envisage.plugins.tasks.python_shell_plugin">envisage.plugins.tasks.python_shell_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.html#module-envisage.plugins.text_editor">envisage.plugins.text_editor (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.actions.html#module-envisage.plugins.text_editor.actions">envisage.plugins.text_editor.actions (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.api.html#module-envisage.plugins.text_editor.api">envisage.plugins.text_editor.api (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.editor.html#module-envisage.plugins.text_editor.editor">envisage.plugins.text_editor.editor (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.editor.text_editor.html#module-envisage.plugins.text_editor.editor.text_editor">envisage.plugins.text_editor.editor.text_editor (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.editor.text_editor_handler.html#module-envisage.plugins.text_editor.editor.text_editor_handler">envisage.plugins.text_editor.editor.text_editor_handler (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.text_editor_action_set.html#module-envisage.plugins.text_editor.text_editor_action_set">envisage.plugins.text_editor.text_editor_action_set (module)</a>
-</li>
-      <li><a href="api/envisage.plugins.text_editor.text_editor_plugin.html#module-envisage.plugins.text_editor.text_editor_plugin">envisage.plugins.text_editor.text_editor_plugin (module)</a>
-</li>
-      <li><a href="api/envisage.provider_extension_registry.html#module-envisage.provider_extension_registry">envisage.provider_extension_registry (module)</a>
-</li>
-      <li><a href="api/envisage.resource.html#module-envisage.resource">envisage.resource (module)</a>
-</li>
-      <li><a href="api/envisage.resource.api.html#module-envisage.resource.api">envisage.resource.api (module)</a>
-</li>
-      <li><a href="api/envisage.resource.file_resource_protocol.html#module-envisage.resource.file_resource_protocol">envisage.resource.file_resource_protocol (module)</a>
-</li>
-      <li><a href="api/envisage.resource.http_resource_protocol.html#module-envisage.resource.http_resource_protocol">envisage.resource.http_resource_protocol (module)</a>
-</li>
-      <li><a href="api/envisage.resource.i_resource_manager.html#module-envisage.resource.i_resource_manager">envisage.resource.i_resource_manager (module)</a>
-</li>
-      <li><a href="api/envisage.resource.i_resource_protocol.html#module-envisage.resource.i_resource_protocol">envisage.resource.i_resource_protocol (module)</a>
-</li>
-      <li><a href="api/envisage.resource.no_such_resource_error.html#module-envisage.resource.no_such_resource_error">envisage.resource.no_such_resource_error (module)</a>
-</li>
+      <li>
+    envisage
+
+      <ul>
+        <li><a href="api/envisage.html#module-envisage">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.api
+
+      <ul>
+        <li><a href="api/envisage.api.html#module-envisage.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.application
+
+      <ul>
+        <li><a href="api/envisage.application.html#module-envisage.application">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.application_event
+
+      <ul>
+        <li><a href="api/envisage.application_event.html#module-envisage.application_event">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.composite_plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.composite_plugin_manager.html#module-envisage.composite_plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.core_plugin
+
+      <ul>
+        <li><a href="api/envisage.core_plugin.html#module-envisage.core_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.egg_basket_plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.egg_basket_plugin_manager.html#module-envisage.egg_basket_plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.egg_plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.egg_plugin_manager.html#module-envisage.egg_plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.egg_utils
+
+      <ul>
+        <li><a href="api/envisage.egg_utils.html#module-envisage.egg_utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.examples
+
+      <ul>
+        <li><a href="api/envisage.examples.html#module-envisage.examples">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.extension_point
+
+      <ul>
+        <li><a href="api/envisage.extension_point.html#module-envisage.extension_point">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.extension_point_binding
+
+      <ul>
+        <li><a href="api/envisage.extension_point_binding.html#module-envisage.extension_point_binding">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.extension_point_changed_event
+
+      <ul>
+        <li><a href="api/envisage.extension_point_changed_event.html#module-envisage.extension_point_changed_event">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.extension_provider
+
+      <ul>
+        <li><a href="api/envisage.extension_provider.html#module-envisage.extension_provider">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.extension_registry
+
+      <ul>
+        <li><a href="api/envisage.extension_registry.html#module-envisage.extension_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_application
+
+      <ul>
+        <li><a href="api/envisage.i_application.html#module-envisage.i_application">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_extension_point
+
+      <ul>
+        <li><a href="api/envisage.i_extension_point.html#module-envisage.i_extension_point">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_extension_point_user
+
+      <ul>
+        <li><a href="api/envisage.i_extension_point_user.html#module-envisage.i_extension_point_user">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_extension_provider
+
+      <ul>
+        <li><a href="api/envisage.i_extension_provider.html#module-envisage.i_extension_provider">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_extension_registry
+
+      <ul>
+        <li><a href="api/envisage.i_extension_registry.html#module-envisage.i_extension_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_import_manager
+
+      <ul>
+        <li><a href="api/envisage.i_import_manager.html#module-envisage.i_import_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_plugin
+
+      <ul>
+        <li><a href="api/envisage.i_plugin.html#module-envisage.i_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_plugin_activator
+
+      <ul>
+        <li><a href="api/envisage.i_plugin_activator.html#module-envisage.i_plugin_activator">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.i_plugin_manager.html#module-envisage.i_plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_provider_extension_registry
+
+      <ul>
+        <li><a href="api/envisage.i_provider_extension_registry.html#module-envisage.i_provider_extension_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_service_registry
+
+      <ul>
+        <li><a href="api/envisage.i_service_registry.html#module-envisage.i_service_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.i_service_user
+
+      <ul>
+        <li><a href="api/envisage.i_service_user.html#module-envisage.i_service_user">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.ids
+
+      <ul>
+        <li><a href="api/envisage.ids.html#module-envisage.ids">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.import_manager
+
+      <ul>
+        <li><a href="api/envisage.import_manager.html#module-envisage.import_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.package_plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.package_plugin_manager.html#module-envisage.package_plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugin
+
+      <ul>
+        <li><a href="api/envisage.plugin.html#module-envisage.plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugin_activator
+
+      <ul>
+        <li><a href="api/envisage.plugin_activator.html#module-envisage.plugin_activator">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugin_event
+
+      <ul>
+        <li><a href="api/envisage.plugin_event.html#module-envisage.plugin_event">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugin_extension_registry
+
+      <ul>
+        <li><a href="api/envisage.plugin_extension_registry.html#module-envisage.plugin_extension_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugin_manager
+
+      <ul>
+        <li><a href="api/envisage.plugin_manager.html#module-envisage.plugin_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins
+
+      <ul>
+        <li><a href="api/envisage.plugins.html#module-envisage.plugins">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.event_manager
+
+      <ul>
+        <li><a href="api/envisage.plugins.event_manager.html#module-envisage.plugins.event_manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.event_manager.api
+
+      <ul>
+        <li><a href="api/envisage.plugins.event_manager.api.html#module-envisage.plugins.event_manager.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.event_manager.plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.event_manager.plugin.html#module-envisage.plugins.event_manager.plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.html#module-envisage.plugins.ipython_kernel">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.actions
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.actions.html#module-envisage.plugins.ipython_kernel.actions">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.api
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.api.html#module-envisage.plugins.ipython_kernel.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.heartbeat
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.heartbeat.html#module-envisage.plugins.ipython_kernel.heartbeat">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.internal_ipkernel
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.internal_ipkernel.html#module-envisage.plugins.ipython_kernel.internal_ipkernel">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.ipython_kernel_plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.ipython_kernel.kernelapp
+
+      <ul>
+        <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#module-envisage.plugins.ipython_kernel.kernelapp">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.html#module-envisage.plugins.python_shell">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.api
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.api.html#module-envisage.plugins.python_shell.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.i_python_shell
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.i_python_shell.html#module-envisage.plugins.python_shell.i_python_shell">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.python_shell_plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.python_shell_plugin.html#module-envisage.plugins.python_shell.python_shell_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.view
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.view.html#module-envisage.plugins.python_shell.view">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.view.api
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.view.api.html#module-envisage.plugins.python_shell.view.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.view.namespace_view
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.view.namespace_view.html#module-envisage.plugins.python_shell.view.namespace_view">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.python_shell.view.python_shell_view
+
+      <ul>
+        <li><a href="api/envisage.plugins.python_shell.view.python_shell_view.html#module-envisage.plugins.python_shell.view.python_shell_view">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.tasks
+
+      <ul>
+        <li><a href="api/envisage.plugins.tasks.html#module-envisage.plugins.tasks">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.tasks.python_shell_plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.tasks.python_shell_plugin.html#module-envisage.plugins.tasks.python_shell_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.html#module-envisage.plugins.text_editor">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.actions
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.actions.html#module-envisage.plugins.text_editor.actions">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.api
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.api.html#module-envisage.plugins.text_editor.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.editor
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.editor.html#module-envisage.plugins.text_editor.editor">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.editor.text_editor
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.editor.text_editor.html#module-envisage.plugins.text_editor.editor.text_editor">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.editor.text_editor_handler
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.editor.text_editor_handler.html#module-envisage.plugins.text_editor.editor.text_editor_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.text_editor_action_set
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.text_editor_action_set.html#module-envisage.plugins.text_editor.text_editor_action_set">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.plugins.text_editor.text_editor_plugin
+
+      <ul>
+        <li><a href="api/envisage.plugins.text_editor.text_editor_plugin.html#module-envisage.plugins.text_editor.text_editor_plugin">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.provider_extension_registry
+
+      <ul>
+        <li><a href="api/envisage.provider_extension_registry.html#module-envisage.provider_extension_registry">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.resource
+
+      <ul>
+        <li><a href="api/envisage.resource.html#module-envisage.resource">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.resource.api
+
+      <ul>
+        <li><a href="api/envisage.resource.api.html#module-envisage.resource.api">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.resource.file_resource_protocol
+
+      <ul>
+        <li><a href="api/envisage.resource.file_resource_protocol.html#module-envisage.resource.file_resource_protocol">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.resource.http_resource_protocol
+
+      <ul>
+        <li><a href="api/envisage.resource.http_resource_protocol.html#module-envisage.resource.http_resource_protocol">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/envisage.resource.package_resource_protocol.html#module-envisage.resource.package_resource_protocol">envisage.resource.package_resource_protocol (module)</a>
+      <li>
+    envisage.resource.i_resource_manager
+
+      <ul>
+        <li><a href="api/envisage.resource.i_resource_manager.html#module-envisage.resource.i_resource_manager">module</a>
 </li>
-      <li><a href="api/envisage.resource.resource_manager.html#module-envisage.resource.resource_manager">envisage.resource.resource_manager (module)</a>
+      </ul></li>
+      <li>
+    envisage.resource.i_resource_protocol
+
+      <ul>
+        <li><a href="api/envisage.resource.i_resource_protocol.html#module-envisage.resource.i_resource_protocol">module</a>
 </li>
-      <li><a href="api/envisage.safeweakref.html#module-envisage.safeweakref">envisage.safeweakref (module)</a>
+      </ul></li>
+      <li>
+    envisage.resource.no_such_resource_error
+
+      <ul>
+        <li><a href="api/envisage.resource.no_such_resource_error.html#module-envisage.resource.no_such_resource_error">module</a>
 </li>
-      <li><a href="api/envisage.service.html#module-envisage.service">envisage.service (module)</a>
+      </ul></li>
+      <li>
+    envisage.resource.package_resource_protocol
+
+      <ul>
+        <li><a href="api/envisage.resource.package_resource_protocol.html#module-envisage.resource.package_resource_protocol">module</a>
 </li>
-      <li><a href="api/envisage.service_offer.html#module-envisage.service_offer">envisage.service_offer (module)</a>
+      </ul></li>
+      <li>
+    envisage.resource.resource_manager
+
+      <ul>
+        <li><a href="api/envisage.resource.resource_manager.html#module-envisage.resource.resource_manager">module</a>
 </li>
-      <li><a href="api/envisage.service_registry.html#module-envisage.service_registry">envisage.service_registry (module)</a>
+      </ul></li>
+      <li>
+    envisage.safeweakref
+
+      <ul>
+        <li><a href="api/envisage.safeweakref.html#module-envisage.safeweakref">module</a>
 </li>
-      <li><a href="api/envisage.ui.html#module-envisage.ui">envisage.ui (module)</a>
+      </ul></li>
+      <li>
+    envisage.service
+
+      <ul>
+        <li><a href="api/envisage.service.html#module-envisage.service">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.html#module-envisage.ui.action">envisage.ui.action (module)</a>
+      </ul></li>
+      <li>
+    envisage.service_offer
+
+      <ul>
+        <li><a href="api/envisage.service_offer.html#module-envisage.service_offer">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.abstract_action_manager_builder.html#module-envisage.ui.action.abstract_action_manager_builder">envisage.ui.action.abstract_action_manager_builder (module)</a>
+      </ul></li>
+      <li>
+    envisage.service_registry
+
+      <ul>
+        <li><a href="api/envisage.service_registry.html#module-envisage.service_registry">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.action.html#module-envisage.ui.action.action">envisage.ui.action.action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui
+
+      <ul>
+        <li><a href="api/envisage.ui.html#module-envisage.ui">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.action_set.html#module-envisage.ui.action.action_set">envisage.ui.action.action_set (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action
+
+      <ul>
+        <li><a href="api/envisage.ui.action.html#module-envisage.ui.action">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.action_set_manager.html#module-envisage.ui.action.action_set_manager">envisage.ui.action.action_set_manager (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.abstract_action_manager_builder
+
+      <ul>
+        <li><a href="api/envisage.ui.action.abstract_action_manager_builder.html#module-envisage.ui.action.abstract_action_manager_builder">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.api.html#module-envisage.ui.action.api">envisage.ui.action.api (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.action
+
+      <ul>
+        <li><a href="api/envisage.ui.action.action.html#module-envisage.ui.action.action">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.group.html#module-envisage.ui.action.group">envisage.ui.action.group (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.action_set
+
+      <ul>
+        <li><a href="api/envisage.ui.action.action_set.html#module-envisage.ui.action.action_set">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.i_action_manager_builder.html#module-envisage.ui.action.i_action_manager_builder">envisage.ui.action.i_action_manager_builder (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.action_set_manager
+
+      <ul>
+        <li><a href="api/envisage.ui.action.action_set_manager.html#module-envisage.ui.action.action_set_manager">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.i_action_set.html#module-envisage.ui.action.i_action_set">envisage.ui.action.i_action_set (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.api
+
+      <ul>
+        <li><a href="api/envisage.ui.action.api.html#module-envisage.ui.action.api">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.location.html#module-envisage.ui.action.location">envisage.ui.action.location (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.group
+
+      <ul>
+        <li><a href="api/envisage.ui.action.group.html#module-envisage.ui.action.group">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.menu.html#module-envisage.ui.action.menu">envisage.ui.action.menu (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.i_action_manager_builder
+
+      <ul>
+        <li><a href="api/envisage.ui.action.i_action_manager_builder.html#module-envisage.ui.action.i_action_manager_builder">module</a>
 </li>
-      <li><a href="api/envisage.ui.action.tool_bar.html#module-envisage.ui.action.tool_bar">envisage.ui.action.tool_bar (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.i_action_set
+
+      <ul>
+        <li><a href="api/envisage.ui.action.i_action_set.html#module-envisage.ui.action.i_action_set">module</a>
 </li>
-      <li><a href="api/envisage.ui.gui_application.html#module-envisage.ui.gui_application">envisage.ui.gui_application (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.location
+
+      <ul>
+        <li><a href="api/envisage.ui.action.location.html#module-envisage.ui.action.location">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.html#module-envisage.ui.tasks">envisage.ui.tasks (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.menu
+
+      <ul>
+        <li><a href="api/envisage.ui.action.menu.html#module-envisage.ui.action.menu">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.html#module-envisage.ui.tasks.action">envisage.ui.tasks.action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.action.tool_bar
+
+      <ul>
+        <li><a href="api/envisage.ui.action.tool_bar.html#module-envisage.ui.action.tool_bar">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.api.html#module-envisage.ui.tasks.action.api">envisage.ui.tasks.action.api (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.gui_application
+
+      <ul>
+        <li><a href="api/envisage.ui.gui_application.html#module-envisage.ui.gui_application">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.exit_action.html#module-envisage.ui.tasks.action.exit_action">envisage.ui.tasks.action.exit_action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.html#module-envisage.ui.tasks">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.preferences_action.html#module-envisage.ui.tasks.action.preferences_action">envisage.ui.tasks.action.preferences_action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.html#module-envisage.ui.tasks.action">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.task_window_launch_group.html#module-envisage.ui.tasks.action.task_window_launch_group">envisage.ui.tasks.action.task_window_launch_group (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action.api
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.api.html#module-envisage.ui.tasks.action.api">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.action.task_window_toggle_group.html#module-envisage.ui.tasks.action.task_window_toggle_group">envisage.ui.tasks.action.task_window_toggle_group (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action.exit_action
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.exit_action.html#module-envisage.ui.tasks.action.exit_action">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.api.html#module-envisage.ui.tasks.api">envisage.ui.tasks.api (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action.preferences_action
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.preferences_action.html#module-envisage.ui.tasks.action.preferences_action">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.preferences_category.html#module-envisage.ui.tasks.preferences_category">envisage.ui.tasks.preferences_category (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action.task_window_launch_group
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.task_window_launch_group.html#module-envisage.ui.tasks.action.task_window_launch_group">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.preferences_dialog.html#module-envisage.ui.tasks.preferences_dialog">envisage.ui.tasks.preferences_dialog (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.action.task_window_toggle_group
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.action.task_window_toggle_group.html#module-envisage.ui.tasks.action.task_window_toggle_group">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.preferences_pane.html#module-envisage.ui.tasks.preferences_pane">envisage.ui.tasks.preferences_pane (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.api
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.api.html#module-envisage.ui.tasks.api">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.task_extension.html#module-envisage.ui.tasks.task_extension">envisage.ui.tasks.task_extension (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.preferences_category
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.preferences_category.html#module-envisage.ui.tasks.preferences_category">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.task_factory.html#module-envisage.ui.tasks.task_factory">envisage.ui.tasks.task_factory (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.preferences_dialog
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.preferences_dialog.html#module-envisage.ui.tasks.preferences_dialog">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.task_window.html#module-envisage.ui.tasks.task_window">envisage.ui.tasks.task_window (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.preferences_pane
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.preferences_pane.html#module-envisage.ui.tasks.preferences_pane">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.task_window_event.html#module-envisage.ui.tasks.task_window_event">envisage.ui.tasks.task_window_event (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.task_extension
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.task_extension.html#module-envisage.ui.tasks.task_extension">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.tasks_application.html#module-envisage.ui.tasks.tasks_application">envisage.ui.tasks.tasks_application (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.task_factory
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.task_factory.html#module-envisage.ui.tasks.task_factory">module</a>
 </li>
-      <li><a href="api/envisage.ui.tasks.tasks_plugin.html#module-envisage.ui.tasks.tasks_plugin">envisage.ui.tasks.tasks_plugin (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.task_window
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.task_window.html#module-envisage.ui.tasks.task_window">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.html#module-envisage.ui.workbench">envisage.ui.workbench (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.task_window_event
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.task_window_event.html#module-envisage.ui.tasks.task_window_event">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.action.html#module-envisage.ui.workbench.action">envisage.ui.workbench.action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.tasks_application
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.tasks_application.html#module-envisage.ui.tasks.tasks_application">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.action.about_action.html#module-envisage.ui.workbench.action.about_action">envisage.ui.workbench.action.about_action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.tasks.tasks_plugin
+
+      <ul>
+        <li><a href="api/envisage.ui.tasks.tasks_plugin.html#module-envisage.ui.tasks.tasks_plugin">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.action.api.html#module-envisage.ui.workbench.action.api">envisage.ui.workbench.action.api (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.html#module-envisage.ui.workbench">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.action.edit_preferences_action.html#module-envisage.ui.workbench.action.edit_preferences_action">envisage.ui.workbench.action.edit_preferences_action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.action
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.action.html#module-envisage.ui.workbench.action">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.action.exit_action.html#module-envisage.ui.workbench.action.exit_action">envisage.ui.workbench.action.exit_action (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.action.about_action
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.action.about_action.html#module-envisage.ui.workbench.action.about_action">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.api.html#module-envisage.ui.workbench.api">envisage.ui.workbench.api (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.action.api
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.action.api.html#module-envisage.ui.workbench.action.api">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.default_action_set.html#module-envisage.ui.workbench.default_action_set">envisage.ui.workbench.default_action_set (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.action.edit_preferences_action
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.action.edit_preferences_action.html#module-envisage.ui.workbench.action.edit_preferences_action">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench.html#module-envisage.ui.workbench.workbench">envisage.ui.workbench.workbench (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.action.exit_action
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.action.exit_action.html#module-envisage.ui.workbench.action.exit_action">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_action_manager_builder.html#module-envisage.ui.workbench.workbench_action_manager_builder">envisage.ui.workbench.workbench_action_manager_builder (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.api
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.api.html#module-envisage.ui.workbench.api">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_action_set.html#module-envisage.ui.workbench.workbench_action_set">envisage.ui.workbench.workbench_action_set (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.default_action_set
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.default_action_set.html#module-envisage.ui.workbench.default_action_set">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_application.html#module-envisage.ui.workbench.workbench_application">envisage.ui.workbench.workbench_application (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench.html#module-envisage.ui.workbench.workbench">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_editor_manager.html#module-envisage.ui.workbench.workbench_editor_manager">envisage.ui.workbench.workbench_editor_manager (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_action_manager_builder
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_action_manager_builder.html#module-envisage.ui.workbench.workbench_action_manager_builder">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_plugin.html#module-envisage.ui.workbench.workbench_plugin">envisage.ui.workbench.workbench_plugin (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_action_set
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_action_set.html#module-envisage.ui.workbench.workbench_action_set">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_preferences.html#module-envisage.ui.workbench.workbench_preferences">envisage.ui.workbench.workbench_preferences (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_application
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_application.html#module-envisage.ui.workbench.workbench_application">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_preferences_page.html#module-envisage.ui.workbench.workbench_preferences_page">envisage.ui.workbench.workbench_preferences_page (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_editor_manager
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_editor_manager.html#module-envisage.ui.workbench.workbench_editor_manager">module</a>
 </li>
-      <li><a href="api/envisage.ui.workbench.workbench_window.html#module-envisage.ui.workbench.workbench_window">envisage.ui.workbench.workbench_window (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_plugin
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_plugin.html#module-envisage.ui.workbench.workbench_plugin">module</a>
 </li>
-      <li><a href="api/envisage.unknown_extension.html#module-envisage.unknown_extension">envisage.unknown_extension (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_preferences
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_preferences.html#module-envisage.ui.workbench.workbench_preferences">module</a>
 </li>
-      <li><a href="api/envisage.unknown_extension_point.html#module-envisage.unknown_extension_point">envisage.unknown_extension_point (module)</a>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_preferences_page
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_preferences_page.html#module-envisage.ui.workbench.workbench_preferences_page">module</a>
 </li>
+      </ul></li>
+      <li>
+    envisage.ui.workbench.workbench_window
+
+      <ul>
+        <li><a href="api/envisage.ui.workbench.workbench_window.html#module-envisage.ui.workbench.workbench_window">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.unknown_extension
+
+      <ul>
+        <li><a href="api/envisage.unknown_extension.html#module-envisage.unknown_extension">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.unknown_extension_point
+
+      <ul>
+        <li><a href="api/envisage.unknown_extension_point.html#module-envisage.unknown_extension_point">module</a>
+</li>
+      </ul></li>
+      <li>
+    envisage.version
+
+      <ul>
+        <li><a href="api/envisage.version.html#module-envisage.version">module</a>
+</li>
+      </ul></li>
       <li><a href="api/envisage.egg_basket_plugin_manager.html#envisage.egg_basket_plugin_manager.EggBasketPluginManager.ENVISAGE_PLUGINS_ENTRY_POINT">ENVISAGE_PLUGINS_ENTRY_POINT (envisage.egg_basket_plugin_manager.EggBasketPluginManager attribute)</a>
 </li>
       <li><a href="api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask">EnvisagePythonShellTask (class in envisage.plugins.tasks.python_shell_plugin)</a>
@@ -887,6 +1538,8 @@
 </li>
       <li><a href="api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_tool_bars">get_tool_bars() (envisage.ui.action.action_set_manager.ActionSetManager method)</a>
 </li>
+      <li><a href="api/envisage.version.html#envisage.version.git_revision">git_revision (in module envisage.version)</a>
+</li>
       <li><a href="api/envisage.ui.action.group.html#envisage.ui.action.group.Group">Group (class in envisage.ui.action.group)</a>
 </li>
       <li><a href="tasks_user_manual/menus.html#index-2">GroupSchema</a>
@@ -993,10 +1646,10 @@
 </li>
       <li><a href="api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.include">include (envisage.plugin_manager.PluginManager attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_crash_handler">init_crash_handler() (envisage.plugins.ipython_kernel.kernelapp.IPKernelApp method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_heartbeat">init_heartbeat() (envisage.plugins.ipython_kernel.kernelapp.IPKernelApp method)</a>
 </li>
       <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#envisage.plugins.ipython_kernel.kernelapp.IPKernelApp.init_io">init_io() (envisage.plugins.ipython_kernel.kernelapp.IPKernelApp method)</a>
@@ -1053,6 +1706,8 @@
 </li>
       <li><a href="api/envisage.resource.i_resource_protocol.html#envisage.resource.i_resource_protocol.IResourceProtocol">IResourceProtocol (class in envisage.resource.i_resource_protocol)</a>
 </li>
+      <li><a href="api/envisage.version.html#envisage.version.is_released">is_released (in module envisage.version)</a>
+</li>
       <li><a href="api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty">isatty() (envisage.plugins.python_shell.view.python_shell_view.PseudoFile method)</a>
 </li>
       <li><a href="api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry">IServiceRegistry (class in envisage.i_service_registry)</a>
@@ -1105,14 +1760,279 @@
 </li>
       <li><a href="tasks_user_manual/menus.html#index-2">MenuSchema</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model">model (envisage.ui.tasks.preferences_pane.PreferencesPane attribute)</a>
 </li>
       <li><a href="tasks_user_manual/layout.html#index-1">model-view-controller pattern</a>
 </li>
       <li><a href="api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model_factory">model_factory (envisage.ui.tasks.preferences_pane.PreferencesPane attribute)</a>
 </li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/envisage.html#module-envisage">envisage</a>
+</li>
+        <li><a href="api/envisage.api.html#module-envisage.api">envisage.api</a>
+</li>
+        <li><a href="api/envisage.application.html#module-envisage.application">envisage.application</a>
+</li>
+        <li><a href="api/envisage.application_event.html#module-envisage.application_event">envisage.application_event</a>
+</li>
+        <li><a href="api/envisage.composite_plugin_manager.html#module-envisage.composite_plugin_manager">envisage.composite_plugin_manager</a>
+</li>
+        <li><a href="api/envisage.core_plugin.html#module-envisage.core_plugin">envisage.core_plugin</a>
+</li>
+        <li><a href="api/envisage.egg_basket_plugin_manager.html#module-envisage.egg_basket_plugin_manager">envisage.egg_basket_plugin_manager</a>
+</li>
+        <li><a href="api/envisage.egg_plugin_manager.html#module-envisage.egg_plugin_manager">envisage.egg_plugin_manager</a>
+</li>
+        <li><a href="api/envisage.egg_utils.html#module-envisage.egg_utils">envisage.egg_utils</a>
+</li>
+        <li><a href="api/envisage.examples.html#module-envisage.examples">envisage.examples</a>
+</li>
+        <li><a href="api/envisage.extension_point.html#module-envisage.extension_point">envisage.extension_point</a>
+</li>
+        <li><a href="api/envisage.extension_point_binding.html#module-envisage.extension_point_binding">envisage.extension_point_binding</a>
+</li>
+        <li><a href="api/envisage.extension_point_changed_event.html#module-envisage.extension_point_changed_event">envisage.extension_point_changed_event</a>
+</li>
+        <li><a href="api/envisage.extension_provider.html#module-envisage.extension_provider">envisage.extension_provider</a>
+</li>
+        <li><a href="api/envisage.extension_registry.html#module-envisage.extension_registry">envisage.extension_registry</a>
+</li>
+        <li><a href="api/envisage.i_application.html#module-envisage.i_application">envisage.i_application</a>
+</li>
+        <li><a href="api/envisage.i_extension_point.html#module-envisage.i_extension_point">envisage.i_extension_point</a>
+</li>
+        <li><a href="api/envisage.i_extension_point_user.html#module-envisage.i_extension_point_user">envisage.i_extension_point_user</a>
+</li>
+        <li><a href="api/envisage.i_extension_provider.html#module-envisage.i_extension_provider">envisage.i_extension_provider</a>
+</li>
+        <li><a href="api/envisage.i_extension_registry.html#module-envisage.i_extension_registry">envisage.i_extension_registry</a>
+</li>
+        <li><a href="api/envisage.i_import_manager.html#module-envisage.i_import_manager">envisage.i_import_manager</a>
+</li>
+        <li><a href="api/envisage.i_plugin.html#module-envisage.i_plugin">envisage.i_plugin</a>
+</li>
+        <li><a href="api/envisage.i_plugin_activator.html#module-envisage.i_plugin_activator">envisage.i_plugin_activator</a>
+</li>
+        <li><a href="api/envisage.i_plugin_manager.html#module-envisage.i_plugin_manager">envisage.i_plugin_manager</a>
+</li>
+        <li><a href="api/envisage.i_provider_extension_registry.html#module-envisage.i_provider_extension_registry">envisage.i_provider_extension_registry</a>
+</li>
+        <li><a href="api/envisage.i_service_registry.html#module-envisage.i_service_registry">envisage.i_service_registry</a>
+</li>
+        <li><a href="api/envisage.i_service_user.html#module-envisage.i_service_user">envisage.i_service_user</a>
+</li>
+        <li><a href="api/envisage.ids.html#module-envisage.ids">envisage.ids</a>
+</li>
+        <li><a href="api/envisage.import_manager.html#module-envisage.import_manager">envisage.import_manager</a>
+</li>
+        <li><a href="api/envisage.package_plugin_manager.html#module-envisage.package_plugin_manager">envisage.package_plugin_manager</a>
+</li>
+        <li><a href="api/envisage.plugin.html#module-envisage.plugin">envisage.plugin</a>
+</li>
+        <li><a href="api/envisage.plugin_activator.html#module-envisage.plugin_activator">envisage.plugin_activator</a>
+</li>
+        <li><a href="api/envisage.plugin_event.html#module-envisage.plugin_event">envisage.plugin_event</a>
+</li>
+        <li><a href="api/envisage.plugin_extension_registry.html#module-envisage.plugin_extension_registry">envisage.plugin_extension_registry</a>
+</li>
+        <li><a href="api/envisage.plugin_manager.html#module-envisage.plugin_manager">envisage.plugin_manager</a>
+</li>
+        <li><a href="api/envisage.plugins.html#module-envisage.plugins">envisage.plugins</a>
+</li>
+        <li><a href="api/envisage.plugins.event_manager.html#module-envisage.plugins.event_manager">envisage.plugins.event_manager</a>
+</li>
+        <li><a href="api/envisage.plugins.event_manager.api.html#module-envisage.plugins.event_manager.api">envisage.plugins.event_manager.api</a>
+</li>
+        <li><a href="api/envisage.plugins.event_manager.plugin.html#module-envisage.plugins.event_manager.plugin">envisage.plugins.event_manager.plugin</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.html#module-envisage.plugins.ipython_kernel">envisage.plugins.ipython_kernel</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.actions.html#module-envisage.plugins.ipython_kernel.actions">envisage.plugins.ipython_kernel.actions</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.api.html#module-envisage.plugins.ipython_kernel.api">envisage.plugins.ipython_kernel.api</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.heartbeat.html#module-envisage.plugins.ipython_kernel.heartbeat">envisage.plugins.ipython_kernel.heartbeat</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.internal_ipkernel.html#module-envisage.plugins.ipython_kernel.internal_ipkernel">envisage.plugins.ipython_kernel.internal_ipkernel</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_plugin">envisage.plugins.ipython_kernel.ipython_kernel_plugin</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin.html#module-envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin">envisage.plugins.ipython_kernel.ipython_kernel_ui_plugin</a>
+</li>
+        <li><a href="api/envisage.plugins.ipython_kernel.kernelapp.html#module-envisage.plugins.ipython_kernel.kernelapp">envisage.plugins.ipython_kernel.kernelapp</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.html#module-envisage.plugins.python_shell">envisage.plugins.python_shell</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.api.html#module-envisage.plugins.python_shell.api">envisage.plugins.python_shell.api</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.i_python_shell.html#module-envisage.plugins.python_shell.i_python_shell">envisage.plugins.python_shell.i_python_shell</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.python_shell_plugin.html#module-envisage.plugins.python_shell.python_shell_plugin">envisage.plugins.python_shell.python_shell_plugin</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.view.html#module-envisage.plugins.python_shell.view">envisage.plugins.python_shell.view</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.view.api.html#module-envisage.plugins.python_shell.view.api">envisage.plugins.python_shell.view.api</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.view.namespace_view.html#module-envisage.plugins.python_shell.view.namespace_view">envisage.plugins.python_shell.view.namespace_view</a>
+</li>
+        <li><a href="api/envisage.plugins.python_shell.view.python_shell_view.html#module-envisage.plugins.python_shell.view.python_shell_view">envisage.plugins.python_shell.view.python_shell_view</a>
+</li>
+        <li><a href="api/envisage.plugins.tasks.html#module-envisage.plugins.tasks">envisage.plugins.tasks</a>
+</li>
+        <li><a href="api/envisage.plugins.tasks.python_shell_plugin.html#module-envisage.plugins.tasks.python_shell_plugin">envisage.plugins.tasks.python_shell_plugin</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.html#module-envisage.plugins.text_editor">envisage.plugins.text_editor</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.actions.html#module-envisage.plugins.text_editor.actions">envisage.plugins.text_editor.actions</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.api.html#module-envisage.plugins.text_editor.api">envisage.plugins.text_editor.api</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.editor.html#module-envisage.plugins.text_editor.editor">envisage.plugins.text_editor.editor</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.editor.text_editor.html#module-envisage.plugins.text_editor.editor.text_editor">envisage.plugins.text_editor.editor.text_editor</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.editor.text_editor_handler.html#module-envisage.plugins.text_editor.editor.text_editor_handler">envisage.plugins.text_editor.editor.text_editor_handler</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.text_editor_action_set.html#module-envisage.plugins.text_editor.text_editor_action_set">envisage.plugins.text_editor.text_editor_action_set</a>
+</li>
+        <li><a href="api/envisage.plugins.text_editor.text_editor_plugin.html#module-envisage.plugins.text_editor.text_editor_plugin">envisage.plugins.text_editor.text_editor_plugin</a>
+</li>
+        <li><a href="api/envisage.provider_extension_registry.html#module-envisage.provider_extension_registry">envisage.provider_extension_registry</a>
+</li>
+        <li><a href="api/envisage.resource.html#module-envisage.resource">envisage.resource</a>
+</li>
+        <li><a href="api/envisage.resource.api.html#module-envisage.resource.api">envisage.resource.api</a>
+</li>
+        <li><a href="api/envisage.resource.file_resource_protocol.html#module-envisage.resource.file_resource_protocol">envisage.resource.file_resource_protocol</a>
+</li>
+        <li><a href="api/envisage.resource.http_resource_protocol.html#module-envisage.resource.http_resource_protocol">envisage.resource.http_resource_protocol</a>
+</li>
+        <li><a href="api/envisage.resource.i_resource_manager.html#module-envisage.resource.i_resource_manager">envisage.resource.i_resource_manager</a>
+</li>
+        <li><a href="api/envisage.resource.i_resource_protocol.html#module-envisage.resource.i_resource_protocol">envisage.resource.i_resource_protocol</a>
+</li>
+        <li><a href="api/envisage.resource.no_such_resource_error.html#module-envisage.resource.no_such_resource_error">envisage.resource.no_such_resource_error</a>
+</li>
+        <li><a href="api/envisage.resource.package_resource_protocol.html#module-envisage.resource.package_resource_protocol">envisage.resource.package_resource_protocol</a>
+</li>
+        <li><a href="api/envisage.resource.resource_manager.html#module-envisage.resource.resource_manager">envisage.resource.resource_manager</a>
+</li>
+        <li><a href="api/envisage.safeweakref.html#module-envisage.safeweakref">envisage.safeweakref</a>
+</li>
+        <li><a href="api/envisage.service.html#module-envisage.service">envisage.service</a>
+</li>
+        <li><a href="api/envisage.service_offer.html#module-envisage.service_offer">envisage.service_offer</a>
+</li>
+        <li><a href="api/envisage.service_registry.html#module-envisage.service_registry">envisage.service_registry</a>
+</li>
+        <li><a href="api/envisage.ui.html#module-envisage.ui">envisage.ui</a>
+</li>
+        <li><a href="api/envisage.ui.action.html#module-envisage.ui.action">envisage.ui.action</a>
+</li>
+        <li><a href="api/envisage.ui.action.abstract_action_manager_builder.html#module-envisage.ui.action.abstract_action_manager_builder">envisage.ui.action.abstract_action_manager_builder</a>
+</li>
+        <li><a href="api/envisage.ui.action.action.html#module-envisage.ui.action.action">envisage.ui.action.action</a>
+</li>
+        <li><a href="api/envisage.ui.action.action_set.html#module-envisage.ui.action.action_set">envisage.ui.action.action_set</a>
+</li>
+        <li><a href="api/envisage.ui.action.action_set_manager.html#module-envisage.ui.action.action_set_manager">envisage.ui.action.action_set_manager</a>
+</li>
+        <li><a href="api/envisage.ui.action.api.html#module-envisage.ui.action.api">envisage.ui.action.api</a>
+</li>
+        <li><a href="api/envisage.ui.action.group.html#module-envisage.ui.action.group">envisage.ui.action.group</a>
+</li>
+        <li><a href="api/envisage.ui.action.i_action_manager_builder.html#module-envisage.ui.action.i_action_manager_builder">envisage.ui.action.i_action_manager_builder</a>
+</li>
+        <li><a href="api/envisage.ui.action.i_action_set.html#module-envisage.ui.action.i_action_set">envisage.ui.action.i_action_set</a>
+</li>
+        <li><a href="api/envisage.ui.action.location.html#module-envisage.ui.action.location">envisage.ui.action.location</a>
+</li>
+        <li><a href="api/envisage.ui.action.menu.html#module-envisage.ui.action.menu">envisage.ui.action.menu</a>
+</li>
+        <li><a href="api/envisage.ui.action.tool_bar.html#module-envisage.ui.action.tool_bar">envisage.ui.action.tool_bar</a>
+</li>
+        <li><a href="api/envisage.ui.gui_application.html#module-envisage.ui.gui_application">envisage.ui.gui_application</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.html#module-envisage.ui.tasks">envisage.ui.tasks</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.html#module-envisage.ui.tasks.action">envisage.ui.tasks.action</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.api.html#module-envisage.ui.tasks.action.api">envisage.ui.tasks.action.api</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.exit_action.html#module-envisage.ui.tasks.action.exit_action">envisage.ui.tasks.action.exit_action</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.preferences_action.html#module-envisage.ui.tasks.action.preferences_action">envisage.ui.tasks.action.preferences_action</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.task_window_launch_group.html#module-envisage.ui.tasks.action.task_window_launch_group">envisage.ui.tasks.action.task_window_launch_group</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.action.task_window_toggle_group.html#module-envisage.ui.tasks.action.task_window_toggle_group">envisage.ui.tasks.action.task_window_toggle_group</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.api.html#module-envisage.ui.tasks.api">envisage.ui.tasks.api</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.preferences_category.html#module-envisage.ui.tasks.preferences_category">envisage.ui.tasks.preferences_category</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.preferences_dialog.html#module-envisage.ui.tasks.preferences_dialog">envisage.ui.tasks.preferences_dialog</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.preferences_pane.html#module-envisage.ui.tasks.preferences_pane">envisage.ui.tasks.preferences_pane</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.task_extension.html#module-envisage.ui.tasks.task_extension">envisage.ui.tasks.task_extension</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.task_factory.html#module-envisage.ui.tasks.task_factory">envisage.ui.tasks.task_factory</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.task_window.html#module-envisage.ui.tasks.task_window">envisage.ui.tasks.task_window</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.task_window_event.html#module-envisage.ui.tasks.task_window_event">envisage.ui.tasks.task_window_event</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.tasks_application.html#module-envisage.ui.tasks.tasks_application">envisage.ui.tasks.tasks_application</a>
+</li>
+        <li><a href="api/envisage.ui.tasks.tasks_plugin.html#module-envisage.ui.tasks.tasks_plugin">envisage.ui.tasks.tasks_plugin</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.html#module-envisage.ui.workbench">envisage.ui.workbench</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.action.html#module-envisage.ui.workbench.action">envisage.ui.workbench.action</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.action.about_action.html#module-envisage.ui.workbench.action.about_action">envisage.ui.workbench.action.about_action</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.action.api.html#module-envisage.ui.workbench.action.api">envisage.ui.workbench.action.api</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.action.edit_preferences_action.html#module-envisage.ui.workbench.action.edit_preferences_action">envisage.ui.workbench.action.edit_preferences_action</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.action.exit_action.html#module-envisage.ui.workbench.action.exit_action">envisage.ui.workbench.action.exit_action</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.api.html#module-envisage.ui.workbench.api">envisage.ui.workbench.api</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.default_action_set.html#module-envisage.ui.workbench.default_action_set">envisage.ui.workbench.default_action_set</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench.html#module-envisage.ui.workbench.workbench">envisage.ui.workbench.workbench</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_action_manager_builder.html#module-envisage.ui.workbench.workbench_action_manager_builder">envisage.ui.workbench.workbench_action_manager_builder</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_action_set.html#module-envisage.ui.workbench.workbench_action_set">envisage.ui.workbench.workbench_action_set</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_application.html#module-envisage.ui.workbench.workbench_application">envisage.ui.workbench.workbench_application</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_editor_manager.html#module-envisage.ui.workbench.workbench_editor_manager">envisage.ui.workbench.workbench_editor_manager</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_plugin.html#module-envisage.ui.workbench.workbench_plugin">envisage.ui.workbench.workbench_plugin</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_preferences.html#module-envisage.ui.workbench.workbench_preferences">envisage.ui.workbench.workbench_preferences</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_preferences_page.html#module-envisage.ui.workbench.workbench_preferences_page">envisage.ui.workbench.workbench_preferences_page</a>
+</li>
+        <li><a href="api/envisage.ui.workbench.workbench_window.html#module-envisage.ui.workbench.workbench_window">envisage.ui.workbench.workbench_window</a>
+</li>
+        <li><a href="api/envisage.unknown_extension.html#module-envisage.unknown_extension">envisage.unknown_extension</a>
+</li>
+        <li><a href="api/envisage.unknown_extension_point.html#module-envisage.unknown_extension_point">envisage.unknown_extension_point</a>
+</li>
+        <li><a href="api/envisage.version.html#module-envisage.version">envisage.version</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.module_to_str">module_to_str() (in module envisage.plugins.python_shell.view.namespace_view)</a>
 </li>
       <li><a href="tasks_user_manual/layout.html#index-1">MVC</a>
@@ -1773,6 +2693,8 @@
         <li><a href="api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup.validate">(envisage.ui.action.tool_bar.CGroup method)</a>
 </li>
       </ul></li>
+      <li><a href="api/envisage.version.html#envisage.version.version">version (in module envisage.version)</a>
+</li>
       <li><a href="api/envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent">VetoableTaskWindowEvent (class in envisage.ui.tasks.task_window_event)</a>
 </li>
   </ul></td>
@@ -1859,7 +2781,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -1876,13 +2798,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

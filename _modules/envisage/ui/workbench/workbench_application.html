@@ -10,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +25,11 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
     <link rel="index" title="Index" href="../../../../genindex.html" >
     <link rel="search" title="Search" href="../../../../search.html" >
     <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
@@ -77,7 +79,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_application</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2020 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,14 +95,14 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">Application</span>
-<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="k">import</span> <span class="n">AboutDialog</span><span class="p">,</span> <span class="n">Dialog</span><span class="p">,</span> <span class="n">GUI</span><span class="p">,</span> <span class="n">ImageResource</span>
-<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="k">import</span> <span class="n">SplashScreen</span>
-<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="k">import</span> <span class="n">IWorkbench</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">AboutDialog</span><span class="p">,</span> <span class="n">Dialog</span><span class="p">,</span> <span class="n">GUI</span><span class="p">,</span> <span class="n">ImageResource</span>
+<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">SplashScreen</span>
+<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="kn">import</span> <span class="n">IWorkbench</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.workbench</span> <span class="k">import</span> <span class="n">Workbench</span>
+<span class="kn">from</span> <span class="nn">.workbench</span> <span class="kn">import</span> <span class="n">Workbench</span>
 
 
 <span class="c1"># Logging.</span>
@@ -190,9 +192,7 @@
             <span class="c1"># Start the GUI event loop.</span>
             <span class="c1">#</span>
             <span class="c1"># THIS CALL DOES NOT RETURN UNTIL THE GUI IS CLOSED.</span>
-            <span class="n">gui</span><span class="o">.</span><span class="n">start_event_loop</span><span class="p">()</span>
-
-        <span class="k">return</span></div>
+            <span class="n">gui</span><span class="o">.</span><span class="n">start_event_loop</span><span class="p">()</span></div>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;WorkbenchApplication&#39; interface.</span>
@@ -222,9 +222,7 @@
 
         <span class="c1"># fixme: We really need to create a new &#39;about dialog&#39; every time so</span>
         <span class="c1"># that it can have the active window as its parent.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">about_dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-
-        <span class="k">return</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">about_dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span></div>
 
     <span class="c1"># fixme: Is this needed on the public API? Why can&#39;t we just do this in</span>
     <span class="c1"># the default initializer (_workbench_default)?</span>
@@ -242,9 +240,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-
-        <span class="k">return</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
@@ -262,9 +258,7 @@
         <span class="c1"># the handling of the window &#39;closed&#39; event is complete. Hance, this</span>
         <span class="c1"># might mean that somebody listening for the window being closed would</span>
         <span class="c1"># get the event *after* the application had already stopped!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">invoke_later</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
-
-        <span class="k">return</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">invoke_later</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -284,7 +278,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -301,13 +295,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

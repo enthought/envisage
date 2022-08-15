@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.egg_plugin_manager module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage package" href="envisage.html" >
+    <link rel="next" title="envisage.egg_utils module" href="envisage.egg_utils.html" >
+    <link rel="prev" title="envisage.egg_basket_plugin_manager module" href="envisage.egg_basket_plugin_manager.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" accesskey="U">envisage package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.egg_utils.html" title="envisage.egg_utils module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.egg_basket_plugin_manager.html" title="envisage.egg_basket_plugin_manager module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="module-envisage.egg_plugin_manager">
+<span id="envisage-egg-plugin-manager-module"></span><h1>envisage.egg_plugin_manager module<a class="headerlink" href="#module-envisage.egg_plugin_manager" title="Permalink to this headline">¶</a></h1>
+<p>A plugin manager that gets its plugins from Eggs.</p>
+<dl class="class">
+<dt id="envisage.egg_plugin_manager.EggPluginManager">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.egg_plugin_manager.</code><code class="sig-name descname">EggPluginManager</code><span class="sig-paren">(</span><em class="sig-param">plugins=None</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_plugin_manager.html#EggPluginManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_plugin_manager.EggPluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager" title="envisage.plugin_manager.PluginManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.plugin_manager.PluginManager</span></code></a></p>
+<p>A plugin manager that gets its plugins from Eggs.</p>
+<p>To declare a plugin (or plugins) in your egg use an entry point in your
+‘setup.py’ file, e.g.</p>
+<p>[envisage.plugins]
+acme.foo = acme.foo.foo_plugin:FooPlugin</p>
+<p>The left hand side of the entry point declaration must be the same as the
+‘id’ trait of the plugin (e.g. the ‘FooPlugin’ would have its ‘id’ trait
+set to ‘acme.foo’). This allows the plugin manager to filter out plugins
+using the ‘include’ and ‘exclude’ lists (if specified) <em>without</em> having to
+import and instantiate them.</p>
+<dl class="attribute">
+<dt id="envisage.egg_plugin_manager.EggPluginManager.PLUGINS">
+<code class="sig-name descname">PLUGINS</code><em class="property"> = 'envisage.plugins'</em><a class="headerlink" href="#envisage.egg_plugin_manager.EggPluginManager.PLUGINS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.egg_basket_plugin_manager.html"
+                        title="previous chapter">envisage.egg_basket_plugin_manager module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.egg_utils.html"
+                        title="next chapter">envisage.egg_utils module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.egg_plugin_manager.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

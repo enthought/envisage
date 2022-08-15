@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.egg_utils module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,40 +90,40 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.egg_utils">
+  <section id="module-envisage.egg_utils">
 <span id="envisage-egg-utils-module"></span><h1>envisage.egg_utils module<a class="headerlink" href="#module-envisage.egg_utils" title="Permalink to this headline">¶</a></h1>
 <p>Utility functions for working with Python Eggs.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="envisage.egg_utils.add_eggs_on_path">
-<code class="sig-prename descclassname">envisage.egg_utils.</code><code class="sig-name descname">add_eggs_on_path</code><span class="sig-paren">(</span><em class="sig-param">working_set</em>, <em class="sig-param">path</em>, <em class="sig-param">on_error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#add_eggs_on_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_utils.add_eggs_on_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">envisage.egg_utils.</span></code><code class="sig-name descname"><span class="pre">add_eggs_on_path</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#add_eggs_on_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.egg_utils.add_eggs_on_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add all eggs found on the path to a working set.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="envisage.egg_utils.get_distributions_in_egg_order">
-<code class="sig-prename descclassname">envisage.egg_utils.</code><code class="sig-name descname">get_distributions_in_egg_order</code><span class="sig-paren">(</span><em class="sig-param">working_set</em>, <em class="sig-param">distributions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_distributions_in_egg_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_utils.get_distributions_in_egg_order" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">envisage.egg_utils.</span></code><code class="sig-name descname"><span class="pre">get_distributions_in_egg_order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_distributions_in_egg_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.egg_utils.get_distributions_in_egg_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all distributions in Egg dependency order.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="envisage.egg_utils.get_distributions_with_entry_point">
-<code class="sig-prename descclassname">envisage.egg_utils.</code><code class="sig-name descname">get_distributions_with_entry_point</code><span class="sig-paren">(</span><em class="sig-param">working_set</em>, <em class="sig-param">entry_point_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_distributions_with_entry_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_utils.get_distributions_with_entry_point" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">envisage.egg_utils.</span></code><code class="sig-name descname"><span class="pre">get_distributions_with_entry_point</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_point_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_distributions_with_entry_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.egg_utils.get_distributions_with_entry_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all distributions that contribute to an entry point.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="envisage.egg_utils.get_entry_points_in_egg_order">
-<code class="sig-prename descclassname">envisage.egg_utils.</code><code class="sig-name descname">get_entry_points_in_egg_order</code><span class="sig-paren">(</span><em class="sig-param">working_set</em>, <em class="sig-param">entry_point_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_entry_points_in_egg_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_utils.get_entry_points_in_egg_order" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">envisage.egg_utils.</span></code><code class="sig-name descname"><span class="pre">get_entry_points_in_egg_order</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_point_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_entry_points_in_egg_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.egg_utils.get_entry_points_in_egg_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return entry points in Egg dependency order.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="envisage.egg_utils.get_requires">
-<code class="sig-prename descclassname">envisage.egg_utils.</code><code class="sig-name descname">get_requires</code><span class="sig-paren">(</span><em class="sig-param">working_set</em>, <em class="sig-param">distribution</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_requires"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.egg_utils.get_requires" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">envisage.egg_utils.</span></code><code class="sig-name descname"><span class="pre">get_requires</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/egg_utils.html#get_requires"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.egg_utils.get_requires" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all of the other distributions that a distribution requires.</p>
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -151,7 +154,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -168,13 +171,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.service_registry module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,85 +90,85 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.service_registry">
+  <section id="module-envisage.service_registry">
 <span id="envisage-service-registry-module"></span><h1>envisage.service_registry module<a class="headerlink" href="#module-envisage.service_registry" title="Permalink to this headline">¶</a></h1>
 <p>The service registry.</p>
-<dl class="exception">
+<dl class="py exception">
 <dt id="envisage.service_registry.NoSuchServiceError">
-<em class="property">exception </em><code class="sig-prename descclassname">envisage.service_registry.</code><code class="sig-name descname">NoSuchServiceError</code><a class="reference internal" href="../_modules/envisage/service_registry.html#NoSuchServiceError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.NoSuchServiceError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.service_registry.</span></code><code class="sig-name descname"><span class="pre">NoSuchServiceError</span></code><a class="reference internal" href="../_modules/envisage/service_registry.html#NoSuchServiceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.NoSuchServiceError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 <p>Raised when a required service is not found.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.service_registry.ServiceRegistry">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.service_registry.</code><code class="sig-name descname">ServiceRegistry</code><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.service_registry.</span></code><code class="sig-name descname"><span class="pre">ServiceRegistry</span></code><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
 <p>The service registry.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.get_required_service">
-<code class="sig-name descname">get_required_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_required_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_required_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_required_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_required_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_required_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the service that matches the specified query.</p>
 <p>Raise a ‘NoSuchServiceError’ exception if no such service exists.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.get_service">
-<code class="sig-name descname">get_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return at most one service that matches the specified query.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.get_service_from_id">
-<code class="sig-name descname">get_service_from_id</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service_from_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service_from_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_service_from_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service_from_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the service with the specified id.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.get_service_properties">
-<code class="sig-name descname">get_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_service_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_service_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the dictionary of properties associated with a service.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.get_services">
-<code class="sig-name descname">get_services</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">query=''</em>, <em class="sig-param">minimize=''</em>, <em class="sig-param">maximize=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_services" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_services</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.get_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.get_services" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all services that match the specified query.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.register_service">
-<code class="sig-name descname">register_service</code><span class="sig-paren">(</span><em class="sig-param">protocol</em>, <em class="sig-param">obj</em>, <em class="sig-param">properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.register_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.register_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">register_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.register_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.register_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a service.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.service_registry.ServiceRegistry.registered">
-<code class="sig-name descname">registered</code><em class="property"> = Event</em><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.registered" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">registered</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event</span></em><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.registered" title="Permalink to this definition">¶</a></dt>
 <dd><p>An event that is fired when a service is registered.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.set_service_properties">
-<code class="sig-name descname">set_service_properties</code><span class="sig-paren">(</span><em class="sig-param">service_id</em>, <em class="sig-param">properties</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.set_service_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.set_service_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_service_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.set_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.set_service_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the dictionary of properties associated with a service.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.service_registry.ServiceRegistry.unregister_service">
-<code class="sig-name descname">unregister_service</code><span class="sig-paren">(</span><em class="sig-param">service_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.unregister_service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.unregister_service" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">unregister_service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service_registry.html#ServiceRegistry.unregister_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.unregister_service" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unregister a service.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.service_registry.ServiceRegistry.unregistered">
-<code class="sig-name descname">unregistered</code><em class="property"> = Event</em><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.unregistered" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">unregistered</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event</span></em><a class="headerlink" href="#envisage.service_registry.ServiceRegistry.unregistered" title="Permalink to this definition">¶</a></dt>
 <dd><p>An event that is fired when a service is unregistered.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -196,7 +199,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -213,13 +216,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

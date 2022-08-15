@@ -10,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +25,11 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../../../../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
     <link rel="index" title="Index" href="../../../../genindex.html" >
     <link rel="search" title="Search" href="../../../../search.html" >
     <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
@@ -77,7 +79,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.tasks.tasks_application</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2020 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -92,8 +94,8 @@
 <span class="kn">import</span> <span class="nn">os.path</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="k">import</span> <span class="n">Application</span><span class="p">,</span> <span class="n">ExtensionPoint</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Application</span><span class="p">,</span> <span class="n">ExtensionPoint</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Bool</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Directory</span><span class="p">,</span>
@@ -105,7 +107,7 @@
     <span class="n">Str</span><span class="p">,</span>
     <span class="n">Vetoable</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">traits.etsconfig.api</span> <span class="k">import</span> <span class="n">ETSConfig</span>
+<span class="kn">from</span> <span class="nn">traits.etsconfig.api</span> <span class="kn">import</span> <span class="n">ETSConfig</span>
 
 
 <span class="c1"># Logging.</span>
@@ -129,11 +131,8 @@
     <span class="c1">#: Extension point ID for task extensions</span>
     <span class="n">TASK_EXTENSIONS</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.tasks.task_extensions&quot;</span>
 
-    <span class="c1">#: Pickle protocol to use for persisting layout information. Subclasses may</span>
-    <span class="c1">#: want to increase this, depending on their compatibility needs. Protocol</span>
-    <span class="c1">#: version 2 is safe for Python &gt;= 2.3. Protocol version 4 is safe for</span>
-    <span class="c1">#: Python &gt;= 3.4.</span>
-    <span class="n">layout_save_protocol</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1">#: Pickle protocol to use for persisting layout information.</span>
+    <span class="n">layout_save_protocol</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="c1">#### &#39;TasksApplication&#39; interface #########################################</span>
 
@@ -315,8 +314,8 @@
 <span class="sd">            The new TaskWindow.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="k">import</span> <span class="n">TaskWindowEvent</span>
-        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="k">import</span> <span class="n">TaskWindowLayout</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
+        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="kn">import</span> <span class="n">TaskWindowLayout</span>
 
         <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_factory</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
@@ -522,15 +521,25 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Application state successfully saved&quot;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_initialize_application_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the application directories.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Extend the base class method to ensure the state directory exists.</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_initialize_application_home</span><span class="p">()</span>
+
+        <span class="n">state_location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;tasks&quot;</span><span class="p">,</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">toolkit</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating folder for tasks state: </span><span class="si">{</span><span class="n">state_location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">state_location</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o700</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="c1">#### Trait initializers ###################################################</span>
 
     <span class="k">def</span> <span class="nf">_window_factory_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">envisage.ui.tasks.task_window</span> <span class="k">import</span> <span class="n">TaskWindow</span>
+        <span class="kn">from</span> <span class="nn">envisage.ui.tasks.task_window</span> <span class="kn">import</span> <span class="n">TaskWindow</span>
 
         <span class="k">return</span> <span class="n">TaskWindow</span>
 
     <span class="k">def</span> <span class="nf">_default_layout_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="k">import</span> <span class="n">TaskWindowLayout</span>
+        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="kn">import</span> <span class="n">TaskWindowLayout</span>
 
         <span class="n">window_layout</span> <span class="o">=</span> <span class="n">TaskWindowLayout</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">:</span>
@@ -538,17 +547,12 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">window_layout</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">pyface.gui</span> <span class="k">import</span> <span class="n">GUI</span>
+        <span class="kn">from</span> <span class="nn">pyface.gui</span> <span class="kn">import</span> <span class="n">GUI</span>
 
         <span class="k">return</span> <span class="n">GUI</span><span class="p">(</span><span class="n">splash_screen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">splash_screen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_state_location_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">state_location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">ETSConfig</span><span class="o">.</span><span class="n">application_home</span><span class="p">,</span> <span class="s2">&quot;tasks&quot;</span><span class="p">,</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">toolkit</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">state_location</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">state_location</span><span class="p">)</span>
-
+        <span class="n">state_location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;tasks&quot;</span><span class="p">,</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">toolkit</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Tasks state location is </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">state_location</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">state_location</span>
@@ -559,7 +563,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">active_window</span> <span class="o">=</span> <span class="n">window</span>
 
     <span class="k">def</span> <span class="nf">_on_window_opening</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="k">import</span> <span class="n">VetoableTaskWindowEvent</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">VetoableTaskWindowEvent</span>
 
         <span class="c1"># Event notification.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window_opening</span> <span class="o">=</span> <span class="n">window_event</span> <span class="o">=</span> <span class="n">VetoableTaskWindowEvent</span><span class="p">(</span>
@@ -570,7 +574,7 @@
             <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">_on_window_opened</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="k">import</span> <span class="n">TaskWindowEvent</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
 
@@ -578,7 +582,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">window_opened</span> <span class="o">=</span> <span class="n">TaskWindowEvent</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_on_window_closing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="k">import</span> <span class="n">VetoableTaskWindowEvent</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">VetoableTaskWindowEvent</span>
 
         <span class="c1"># Event notification.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window_closing</span> <span class="o">=</span> <span class="n">window_event</span> <span class="o">=</span> <span class="n">VetoableTaskWindowEvent</span><span class="p">(</span>
@@ -598,7 +602,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_exit</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_on_window_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="k">import</span> <span class="n">TaskWindowEvent</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
 
@@ -677,7 +681,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -694,13 +698,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

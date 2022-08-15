@@ -43,7 +43,7 @@ the Day| example::
     class MOTDPlugin(Plugin):
         """ The 'Message of the Day' plugin.
 
-	When this plugin is started it prints the 'Message of the Day' to stdout.
+        When this plugin is started it prints the 'Message of the Day' to stdout.
 
         """
 
@@ -67,7 +67,7 @@ two key lifecycle methods on the |IPlugin| interface::
         This method is called by the framework when the application is starting
         up. If you want to start a plugin manually use::
 
-          application.start_plugin(plugin)
+            application.start_plugin(plugin)
 
         """
 
@@ -77,7 +77,7 @@ two key lifecycle methods on the |IPlugin| interface::
         This method is called by the framework when the application is
         stopping. If you want to stop a plugin manually use::
 
-          application.stop_plugin(plugin)
+            application.stop_plugin(plugin)
 
         """
 

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>GUIApplication &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Envisage Core Documentation" href="index.html" >
+    <link rel="next" title="Glossary" href="glossary.html" >
+    <link rel="prev" title="Preferences with Envisage" href="preferences.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Envisage Core Documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="glossary.html" title="Glossary"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="preferences.html" title="Preferences with Envisage"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="guiapplication">
+<h1>GUIApplication<a class="headerlink" href="#guiapplication" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">GUIApplication</span></code> subclass of the standard Envisage
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code> class uses Pyface’s cross-platform GUI tools to ensure
+that an appropriate back-end application object is instantiated before plugins
+run their <code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code> methods, and then ensures that the GUI mainloop is
+started after the <code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code> methods have successfully completed.</p>
+<p>This allows developers to have a single place to start the application, but have
+plugins to listen for the <a class="reference internal" href="#application_initialized" title="application_initialized"><code class="xref py py-attr docutils literal notranslate"><span class="pre">application_initialized</span></code></a> event to create UI
+components.  In particular, Traits UIs can be created in an event listener
+method by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">edit_traits()</span></code>, something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyViewPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Instance</span>
+
+    <span class="n">ui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;traitsui.ui.UI&#39;</span><span class="p">)</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:application_initialized&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># we need to keep a reference to the ui object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is intended to be a cheap and simple way to take an existing application
+and start “lifting” it to Envisage, without having to use a more heavyweight
+UI framework such as Tasks immediately.  Developers can work on adding
+extensibility to the application’s model without having to at the same time
+add extensibility to their UI.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">GUIApplication</span></code> exposes the following public API:</p>
+<dl class="attribute">
+<dt id="gui">
+<code class="sig-name descname">gui</code><a class="headerlink" href="#gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Pyface <code class="xref py py-class docutils literal notranslate"><span class="pre">GUI</span></code> instance the <code class="xref py py-class docutils literal notranslate"><span class="pre">GUIApplication</span></code> creates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="splash_screen">
+<code class="sig-name descname">splash_screen</code><a class="headerlink" href="#splash_screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optional Pyface <code class="xref py py-class docutils literal notranslate"><span class="pre">ISplashScreen</span></code> that gets shown while
+the plugins are started.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="application_initialized">
+<code class="sig-name descname">application_initialized</code><a class="headerlink" href="#application_initialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>An event which is fired after the UI mainloop has started.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="preferences.html"
+                        title="previous chapter">Preferences with Envisage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glossary.html"
+                        title="next chapter">Glossary</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/envisage_core_documentation/gui_application.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

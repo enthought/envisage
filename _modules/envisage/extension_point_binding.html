@@ -10,13 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +25,11 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../../_static/img/favicon.png">
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
     <link rel="top" title="Envisage Documentation" href="../../index.html" >
@@ -77,7 +79,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.extension_point_binding</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2020 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,10 +95,10 @@
 <span class="kn">import</span> <span class="nn">weakref</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Undefined</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Undefined</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="k">import</span> <span class="n">IExtensionRegistry</span>
+<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="kn">import</span> <span class="n">IExtensionRegistry</span>
 
 
 <div class="viewcode-block" id="ExtensionPointBinding"><a class="viewcode-back" href="../../api/envisage.extension_point_binding.html#envisage.extension_point_binding.ExtensionPointBinding">[docs]</a><span class="k">class</span> <span class="nc">ExtensionPointBinding</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
@@ -133,7 +135,7 @@
     <span class="c1"># &#39;object&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Constructor. &quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
@@ -149,8 +151,6 @@
         <span class="n">bindings</span> <span class="o">=</span> <span class="n">ExtensionPointBinding</span><span class="o">.</span><span class="n">_bindings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">bindings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="k">return</span>
-
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;ExtensionPointBinding&#39; interface.</span>
     <span class="c1">###########################################################################</span>
@@ -161,7 +161,7 @@
         <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
 
         <span class="c1"># fixme: Sneaky global!!!!!</span>
-        <span class="kn">from</span> <span class="nn">.extension_point</span> <span class="k">import</span> <span class="n">ExtensionPoint</span>
+        <span class="kn">from</span> <span class="nn">.extension_point</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span>
 
         <span class="k">return</span> <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">extension_registry</span>
 
@@ -177,15 +177,11 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_extensions</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
 
-        <span class="k">return</span>
-
     <span class="k">def</span> <span class="nf">_on_trait_items_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Dynamic trait change handler. &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_extensions</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">))</span>
-
-        <span class="k">return</span>
 
     <span class="c1">#### Other observer pattern listeners #####################################</span>
 
@@ -199,8 +195,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_trait</span><span class="p">(</span><span class="n">notify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">return</span>
 
     <span class="c1">#### Methods ##############################################################</span>
 
@@ -219,8 +213,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_extension_point_listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span>
         <span class="p">)</span>
 
-        <span class="k">return</span>
-
     <span class="k">def</span> <span class="nf">_set_trait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notify</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set the object&#39;s trait to the value of the extension point. &quot;&quot;&quot;</span>
 
@@ -228,8 +220,6 @@
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">trait_set</span><span class="p">(</span><span class="n">trait_change_notify</span><span class="o">=</span><span class="n">notify</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">)</span>
-
-        <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_update_trait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Update the object&#39;s trait to the value of the extension point. &quot;&quot;&quot;</span>
@@ -240,16 +230,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span> <span class="o">+</span> <span class="s2">&quot;_items&quot;</span><span class="p">,</span> <span class="n">Undefined</span><span class="p">,</span> <span class="n">event</span>
         <span class="p">)</span>
 
-        <span class="k">return</span>
-
     <span class="k">def</span> <span class="nf">_set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set the extensions to an extension point. &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">set_extensions</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span></div>
+        <span class="p">)</span></div>
 
 
 <span class="c1"># Factory function for creating bindings.</span>
@@ -299,7 +285,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -316,13 +302,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

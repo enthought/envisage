@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>envisage.plugin_manager module &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -87,106 +90,101 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="module-envisage.plugin_manager">
+  <section id="module-envisage.plugin_manager">
 <span id="envisage-plugin-manager-module"></span><h1>envisage.plugin_manager module<a class="headerlink" href="#module-envisage.plugin_manager" title="Permalink to this headline">¶</a></h1>
 <p>A simple plugin manager implementation.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="envisage.plugin_manager.PluginManager">
-<em class="property">class </em><code class="sig-prename descclassname">envisage.plugin_manager.</code><code class="sig-name descname">PluginManager</code><span class="sig-paren">(</span><em class="sig-param">plugins=None</em>, <em class="sig-param">**traits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.plugin_manager.</span></code><code class="sig-name descname"><span class="pre">PluginManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasTraits</span></code></a></p>
 <p>A simple plugin manager implementation.</p>
 <p>This implementation manages an explicit collection of plugin instances,
 e.g:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugin_manager</span> <span class="o">=</span> <span class="n">PluginManager</span><span class="p">(</span>
-     <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span>
-         <span class="n">MyPlugin</span><span class="p">(),</span>
-         <span class="n">YourPlugin</span><span class="p">()</span>
-     <span class="p">]</span>
-<span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugin_manager</span> <span class="o">=</span> <span class="n">PluginManager</span><span class="p">(</span><span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">MyPlugin</span><span class="p">(),</span> <span class="n">YourPlugin</span><span class="p">()])</span>
 </pre></div>
 </div>
 <p>Plugins can be added and removed after construction time via the methods
 ‘add_plugin’ and ‘remove_plugin’.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.add_plugin">
-<code class="sig-name descname">add_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.add_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.add_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.add_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.add_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a plugin to the manager.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugin_manager.PluginManager.application">
-<code class="sig-name descname">application</code><em class="property"> = Instance(IApplication)</em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.application" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">application</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(IApplication)</span></em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.application" title="Permalink to this definition">¶</a></dt>
 <dd><p>The application that the plugin manager is part of.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugin_manager.PluginManager.exclude">
-<code class="sig-name descname">exclude</code><em class="property"> = List(Str)</em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.exclude" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">exclude</span></code><em class="property"> <span class="pre">=</span> <span class="pre">List(Str)</span></em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.exclude" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optional list of the Ids of the plugins that are to be excluded by
 the manager.</p>
 <p>Each item in the list is actually an ‘fnmatch’ expression.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.get_plugin">
-<code class="sig-name descname">get_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.get_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.get_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.get_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the plugin with the specified Id.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugin_manager.PluginManager.include">
-<code class="sig-name descname">include</code><em class="property"> = List(Str)</em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.include" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">include</span></code><em class="property"> <span class="pre">=</span> <span class="pre">List(Str)</span></em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.include" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optional list of the Ids of the plugins that are to be included by
 the manager (i.e. <em>only</em> plugins with Ids in this list will be added to
 the manager).</p>
 <p>Each item in the list is actually an ‘fnmatch’ expression.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugin_manager.PluginManager.plugin_added">
-<code class="sig-name descname">plugin_added</code><em class="property"> = Event(PluginEvent)</em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.plugin_added" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">plugin_added</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.plugin_added" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been added to the manager.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="envisage.plugin_manager.PluginManager.plugin_removed">
-<code class="sig-name descname">plugin_removed</code><em class="property"> = Event(PluginEvent)</em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.plugin_removed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">plugin_removed</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.plugin_manager.PluginManager.plugin_removed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been removed from the manager.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.remove_plugin">
-<code class="sig-name descname">remove_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.remove_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.remove_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">remove_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.remove_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.remove_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a plugin from the manager.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.start">
-<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the plugin manager.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.start_plugin">
-<code class="sig-name descname">start_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin=None</em>, <em class="sig-param">plugin_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.start_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.start_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">start_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.start_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the specified plugin.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the plugin manager.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="envisage.plugin_manager.PluginManager.stop_plugin">
-<code class="sig-name descname">stop_plugin</code><span class="sig-paren">(</span><em class="sig-param">plugin=None</em>, <em class="sig-param">plugin_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.stop_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.stop_plugin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">stop_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.stop_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the specified plugin.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
           </div>
@@ -217,7 +215,7 @@ the manager).</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -234,13 +232,13 @@ the manager).</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

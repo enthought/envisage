@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Plugins &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -86,7 +89,7 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="plugins">
+  <section id="plugins">
 <h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
 <p><em>Plugins</em> are used to “deliver” <a class="reference external" href="extension_points.html">Extension Points</a>, contributions to extension
 points, and <a class="reference external" href="services.html">Services</a> into an Envisage application. In fact, plugins can be
@@ -100,7 +103,7 @@ thought of as simply being “delivery trucks” – they rarely (if ever) do an
 <p>Plugins are located and managed by the <em>plugin manager</em>, and, whilst Envisage
 is designed such that you can write your own plugin manager, by default, it
 uses an implementation based on <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>.</p>
-<div class="section" id="creating-a-plugin">
+<section id="creating-a-plugin">
 <h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline">¶</a></h2>
 <p>All plugins must implement the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface (an easy way to achieve this
 is to subclass the base <a class="reference internal" href="../api/envisage.plugin.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> class), and should provide the following
@@ -120,7 +123,7 @@ domain name notation is probably a good idea!</p>
 <p>A nice description of the intent and features of your plugin.</p>
 </li>
 </ul>
-<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/examples/demo/MOTD">Message of the Day</a> example:</p>
+<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/6.1.0/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/6.1.0/envisage/examples/demo/MOTD">Message of the Day</a> example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
 
@@ -137,8 +140,8 @@ domain name notation is probably a good idea!</p>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MOTD&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="plugin-lifecycle">
+</section>
+<section id="plugin-lifecycle">
 <h2>Plugin Lifecycle<a class="headerlink" href="#plugin-lifecycle" title="Permalink to this headline">¶</a></h2>
 <p>Plugins have a lifecycle in the context of an application. There are currently
 two key lifecycle methods on the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface:</p>
@@ -148,7 +151,7 @@ two key lifecycle methods on the <a class="reference internal" href="../api/envi
 <span class="sd">    This method is called by the framework when the application is starting</span>
 <span class="sd">    up. If you want to start a plugin manually use::</span>
 
-<span class="sd">      application.start_plugin(plugin)</span>
+<span class="sd">        application.start_plugin(plugin)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -158,7 +161,7 @@ two key lifecycle methods on the <a class="reference internal" href="../api/envi
 <span class="sd">    This method is called by the framework when the application is</span>
 <span class="sd">    stopping. If you want to stop a plugin manually use::</span>
 
-<span class="sd">      application.stop_plugin(plugin)</span>
+<span class="sd">        application.stop_plugin(plugin)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 </pre></div>
@@ -169,8 +172,8 @@ manager being used, but by default this will be either a) the order of the list
 of plugins that was passed into the application or b) the order of the plugins
 based on egg dependencies. When the application stops, it calls the stop()
 method of each plugin in the reverse order that they were started in.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -210,7 +213,7 @@ method of each plugin in the reverse order that they were started in.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -227,13 +230,13 @@ method of each plugin in the reverse order that they were started in.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>

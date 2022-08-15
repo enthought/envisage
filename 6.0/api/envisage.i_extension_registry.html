@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.i_extension_registry module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage package" href="envisage.html" >
+    <link rel="next" title="envisage.i_import_manager module" href="envisage.i_import_manager.html" >
+    <link rel="prev" title="envisage.i_extension_provider module" href="envisage.i_extension_provider.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" accesskey="U">envisage package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_import_manager.html" title="envisage.i_import_manager module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.i_extension_provider.html" title="envisage.i_extension_provider module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="module-envisage.i_extension_registry">
+<span id="envisage-i-extension-registry-module"></span><h1>envisage.i_extension_registry module<a class="headerlink" href="#module-envisage.i_extension_registry" title="Permalink to this headline">¶</a></h1>
+<p>The interface for extension registries.</p>
+<dl class="class">
+<dt id="envisage.i_extension_registry.IExtensionRegistry">
+<em class="property">class </em><code class="sig-prename descclassname">envisage.i_extension_registry.</code><code class="sig-name descname">IExtensionRegistry</code><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
+<p>The interface for extension registries.</p>
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.add_extension_point">
+<code class="sig-name descname">add_extension_point</code><span class="sig-paren">(</span><em class="sig-param">extension_point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.add_extension_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.add_extension_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an extension point.</p>
+<p>If an extension point already exists with this Id then it is simply
+replaced.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.add_extension_point_listener">
+<code class="sig-name descname">add_extension_point_listener</code><span class="sig-paren">(</span><em class="sig-param">listener</em>, <em class="sig-param">extension_point_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.add_extension_point_listener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.add_extension_point_listener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a listener for extensions being added or removed.</p>
+<p>A listener is any Python callable with the following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">listener</span><span class="p">(</span><span class="n">extension_registry</span><span class="p">,</span> <span class="n">extension_point_changed_event</span><span class="p">):</span>
+
+      <span class="o">...</span>
+</pre></div>
+</div>
+<p>If an extension point is specified then the listener will only be
+called when extensions are added to or removed from that extension
+point (the extension point may or may not have been added to the
+registry at the time of this call).</p>
+<p>If <em>no</em> extension point is specified then the listener will be called
+when extensions are added to or removed from <em>any</em> extension point.</p>
+<p>When extensions are added or removed all specific listeners are called
+first (in arbitrary order), followed by all non-specific listeners
+(again, in arbitrary order).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.get_extension_point">
+<code class="sig-name descname">get_extension_point</code><span class="sig-paren">(</span><em class="sig-param">extension_point_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.get_extension_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.get_extension_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the extension point with the specified Id.</p>
+<p>Return None if no such extension point exists.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.get_extension_points">
+<code class="sig-name descname">get_extension_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.get_extension_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.get_extension_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all extension points that have been added to the registry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.get_extensions">
+<code class="sig-name descname">get_extensions</code><span class="sig-paren">(</span><em class="sig-param">extension_point_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.get_extensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.get_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the extensions contributed to an extension point.</p>
+<p>Return an empty list if the extension point does not exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.remove_extension_point">
+<code class="sig-name descname">remove_extension_point</code><span class="sig-paren">(</span><em class="sig-param">extension_point_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.remove_extension_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an extension point.</p>
+<p>Raise an ‘UnknownExtensionPoint’ exception if no extension point exists
+with the specified Id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.remove_extension_point_listener">
+<code class="sig-name descname">remove_extension_point_listener</code><span class="sig-paren">(</span><em class="sig-param">listener</em>, <em class="sig-param">extension_point_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.remove_extension_point_listener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point_listener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a listener for extensions being added or removed.</p>
+<p>Raise a ‘ValueError’ if the listener does not exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="envisage.i_extension_registry.IExtensionRegistry.set_extensions">
+<code class="sig-name descname">set_extensions</code><span class="sig-paren">(</span><em class="sig-param">extension_point_id</em>, <em class="sig-param">extensions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.set_extensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.set_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the extensions contributed to an extension point.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.i_extension_provider.html"
+                        title="previous chapter">envisage.i_extension_provider module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.i_import_manager.html"
+                        title="next chapter">envisage.i_import_manager module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.i_extension_registry.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2008-2020, Enthought
+      </li>
+      <li>
+      Last updated on Dec 03, 2020.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

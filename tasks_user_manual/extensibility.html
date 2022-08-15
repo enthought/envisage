@@ -3,20 +3,22 @@
 <html>
   <head>
     <meta charset="utf-8">
-    
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Extensibility &mdash; Envisage Documentation</title>
     
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '5.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '',
+        LINK_SUFFIX: '.html',
         SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
@@ -24,10 +26,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
-    <link rel="shortcut icon" href="../_static/img/favicon.ico">
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
@@ -86,7 +89,7 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body" role="main">
             
-  <div class="section" id="extensibility">
+  <section id="extensibility">
 <span id="id1"></span><h1>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h1>
 <p id="index-0">The foregoing sections have described those elements of the Tasks framework that
 belong to the Pyface project; as such, our imports have been from the
@@ -97,7 +100,7 @@ package.</p>
 <p>As remarked in the <a class="reference internal" href="intro.html#introduction"><span class="std std-ref">Introduction</span></a>, some familiarity with the Envisage
 plugin framework is assumed. For more information about Envisage, the reader is
 referred to the <a class="reference internal" href="../envisage_core_documentation/index.html"><span class="doc">Envisage Core Documentation</span></a>.</p>
-<div class="section" id="the-tasks-plugin">
+<section id="the-tasks-plugin">
 <span id="tasks-plugin"></span><h2>The Tasks Plugin<a class="headerlink" href="#the-tasks-plugin" title="Permalink to this headline">¶</a></h2>
 <p>In creating an extensible Tasks application, we imagine two primary
 extensibility use cases:</p>
@@ -133,8 +136,8 @@ is discussed in detail in the subsection on <a class="reference internal" href="
 <p>The Tasks plugin also provides two extensions points that permit the
 creation of extensible preferences dialogs. We defer discussion of this
 functionality to the subsection on <a class="reference internal" href="#creating-a-preferences-dialog"><span class="std std-ref">Creating a Preferences Dialog</span></a>.</p>
-<span class="target" id="tasks-applications"></span></div>
-<div class="section" id="creating-a-tasks-application">
+<span class="target" id="tasks-applications"></span></section>
+<section id="creating-a-tasks-application">
 <span id="index-3"></span><h2>Creating a Tasks Application<a class="headerlink" href="#creating-a-tasks-application" title="Permalink to this headline">¶</a></h2>
 <p>Let us imagine that we are building a (slightly whimsical) application for
 visualizing <a class="reference external" href="http://en.wikipedia.org/wiki/Attractor">strange attractors</a>, in
@@ -162,12 +165,18 @@ themselves. The <code class="docutils literal notranslate"><span class="pre">Tas
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.tasks.tasks&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_tasks_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span> <span class="n">TaskFactory</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.attractors.task_2d&#39;</span><span class="p">,</span>
-                             <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;2D Visualization&#39;</span><span class="p">,</span>
-                             <span class="n">factory</span> <span class="o">=</span> <span class="n">Visualize2dTask</span><span class="p">),</span>
-                 <span class="n">TaskFactory</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.attractors.task_3d&#39;</span><span class="p">,</span>
-                             <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;3D Visualization&#39;</span><span class="p">,</span>
-                             <span class="n">factory</span> <span class="o">=</span> <span class="n">Visualize3dTask</span><span class="p">)</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">TaskFactory</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;example.attractors.task_2d&#39;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;2D Visualization&#39;</span><span class="p">,</span>
+                <span class="n">factory</span><span class="o">=</span><span class="n">Visualize2dTask</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">TaskFactory</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;example.attractors.task_3d&#39;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;3D Visualization&#39;</span><span class="p">,</span>
+                <span class="n">factory</span><span class="o">=</span><span class="n">Visualize3dTask</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
 </pre></div>
 </div>
 <p id="index-4">Having contributed tasks to the Tasks plugin, we must now specify how the tasks
@@ -192,9 +201,13 @@ which must inherit <code class="docutils literal notranslate"><span class="pre">
     <span class="c1">#### &#39;TasksApplication&#39; interface #####################################</span>
 
     <span class="c1"># The default application-level layout for the application.</span>
-    <span class="n">default_layout</span> <span class="o">=</span> <span class="p">[</span> <span class="n">TaskWindowLayout</span><span class="p">(</span><span class="s1">&#39;example.attractors.task_2d&#39;</span><span class="p">,</span>
-                                        <span class="s1">&#39;example.attractors.task_3d&#39;</span><span class="p">,</span>
-                                        <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span> <span class="p">]</span>
+    <span class="n">default_layout</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">TaskWindowLayout</span><span class="p">(</span>
+            <span class="s1">&#39;example.attractors.task_2d&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;example.attractors.task_3d&#39;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
 </pre></div>
 </div>
 <p>Observe that each of the IDs specified in the layout must correspond to the ID
@@ -217,8 +230,8 @@ within a window, etc. This is to be expected, as these behaviors are
 fundamentally application-specific. That said, we shall see in
 <a class="reference internal" href="#global-task-extensions"><span class="std std-ref">Global Task Extensions</span></a> that the Tasks plugins provides a few built-in
 extensions for implementing common behaviors.</p>
-</div>
-<div class="section" id="creating-a-preferences-dialog">
+</section>
+<section id="creating-a-preferences-dialog">
 <span id="id3"></span><h2>Creating a Preferences Dialog<a class="headerlink" href="#creating-a-preferences-dialog" title="Permalink to this headline">¶</a></h2>
 <p id="index-6">There are three extensions points associated with preferences. One of these
 extension points is built into the Envisage core plugin, while the other two
@@ -271,7 +284,7 @@ application-level layout.</p>
     <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span> <span class="s1">&#39;pkgfile://example.attractors/preferences.ini&#39;</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://example.attractors/preferences.ini&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This construction assumes that the attractors example is in Python’s path (in
@@ -281,8 +294,8 @@ the <code class="docutils literal notranslate"><span class="pre">example.attract
 preferences helper is a model-level class that makes accessing the keys in the
 preferences file convenient and type safe. The preferences pane, introduced
 above, exposes a Traits UI view for this helper object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">envisage.ui.tasks.api</span> <span class="k">import</span> <span class="n">PreferencesPane</span><span class="p">,</span> <span class="n">TaskFactory</span>
-<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="k">import</span> <span class="n">PreferencesHelper</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">envisage.ui.tasks.api</span> <span class="kn">import</span> <span class="n">PreferencesPane</span><span class="p">,</span> <span class="n">TaskFactory</span>
+<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="kn">import</span> <span class="n">PreferencesHelper</span>
 
 <span class="k">class</span> <span class="nc">AttractorsPreferences</span><span class="p">(</span><span class="n">PreferencesHelper</span><span class="p">):</span>
 
@@ -296,6 +309,7 @@ above, exposes a Traits UI view for this helper object:</p>
     <span class="c1">#### Preferences ######################################################</span>
 
     <span class="n">default_task</span> <span class="o">=</span> <span class="n">Str</span>
+
     <span class="n">always_use_default_layout</span> <span class="o">=</span> <span class="n">Bool</span>
 
 <span class="k">class</span> <span class="nc">AttractorsPreferencesPane</span><span class="p">(</span><span class="n">PreferencesPane</span><span class="p">):</span>
@@ -311,16 +325,24 @@ above, exposes a Traits UI view for this helper object:</p>
 
     <span class="c1"># Notice that the default context for trait names is that of the model</span>
     <span class="c1"># object, and that we must prefix names for this object with &#39;handler.&#39;.</span>
-    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">Item</span><span class="p">(</span><span class="s1">&#39;always_use_default_layout&#39;</span><span class="p">),</span>
-                      <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;default_task&#39;</span><span class="p">,</span>
-                           <span class="n">editor</span> <span class="o">=</span> <span class="n">EnumEditor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;handler.task_map&#39;</span><span class="p">),</span>
-                           <span class="n">enabled_when</span> <span class="o">=</span> <span class="s1">&#39;always_use_default_layout&#39;</span><span class="p">),</span>
-                      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Application startup&#39;</span><span class="p">),</span>
-                <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Group</span><span class="p">(</span>
+            <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;always_use_default_layout&#39;</span><span class="p">),</span>
+            <span class="n">Item</span><span class="p">(</span>
+                <span class="s1">&#39;default_task&#39;</span><span class="p">,</span>
+                <span class="n">editor</span><span class="o">=</span><span class="n">EnumEditor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;handler.task_map&#39;</span><span class="p">),</span>
+                <span class="n">enabled_when</span><span class="o">=</span><span class="s1">&#39;always_use_default_layout&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Application startup&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_task_map_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">factory</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">factory</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">task_factories</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">factory</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">factory</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">task_factories</span>
+        <span class="p">)</span>
 </pre></div>
 </div>
 <p>Finally, we modify our application to make use of this new functionality:</p>
@@ -331,6 +353,7 @@ above, exposes a Traits UI view for this helper object:</p>
     <span class="c1">#### &#39;TasksApplication&#39; interface #####################################</span>
 
     <span class="n">default_layout</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">TaskWindowLayout</span><span class="p">)</span>
+
     <span class="n">always_use_default_layout</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Bool</span><span class="p">)</span>
 
     <span class="c1">#### &#39;AttractorsApplication&#39; interface ################################</span>
@@ -339,16 +362,20 @@ above, exposes a Traits UI view for this helper object:</p>
 
     <span class="k">def</span> <span class="nf">_default_layout_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">active_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_helper</span><span class="o">.</span><span class="n">default_task</span>
-        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span> <span class="n">factory</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span> <span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span> <span class="n">TaskWindowLayout</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span>
-                                  <span class="n">active_task</span> <span class="o">=</span> <span class="n">active_task</span><span class="p">,</span>
-                                  <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">factory</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">TaskWindowLayout</span><span class="p">(</span>
+                <span class="o">*</span><span class="n">tasks</span><span class="p">,</span>
+                <span class="n">active_task</span><span class="o">=</span><span class="n">active_task</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_get_always_use_default_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_helper</span><span class="o">.</span><span class="n">always_use_default_layout</span>
 
     <span class="k">def</span> <span class="nf">_preferences_helper_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">AttractorsPreferences</span><span class="p">(</span><span class="n">preferences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AttractorsPreferences</span><span class="p">(</span><span class="n">preferences</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and contribute the preferences pane to the Tasks plugin:</p>
@@ -357,14 +384,15 @@ above, exposes a Traits UI view for this helper object:</p>
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
     <span class="n">preferences_panes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
-        <span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.tasks.preferences_panes&#39;</span><span class="p">)</span>
+        <span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.tasks.preferences_panes&#39;</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_preferences_panes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-       <span class="k">return</span> <span class="p">[</span> <span class="n">AttractorsPreferencesPane</span> <span class="p">]</span>
+       <span class="k">return</span> <span class="p">[</span><span class="n">AttractorsPreferencesPane</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="extending-an-existing-task">
+</section>
+<section id="extending-an-existing-task">
 <span id="extending-a-task"></span><h2>Extending an Existing Task<a class="headerlink" href="#extending-an-existing-task" title="Permalink to this headline">¶</a></h2>
 <p>Contributions are made to an existing task via the <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> class,
 which was briefly introduced above. <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> is a simple class with
@@ -380,19 +408,31 @@ remarked that a task’s menu and tool bars are defined using schemas; the
 schemas.</p>
 <p id="index-10">A schema implicitly defines a <em>path</em> for each of its elements. For example, in
 the schema:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SMenuBar</span><span class="p">(</span><span class="n">SMenu</span><span class="p">(</span><span class="n">SGroup</span><span class="p">([</span> <span class="o">...</span> <span class="p">],</span>
-                      <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;SaveGroup&#39;</span><span class="p">),</span>
-               <span class="p">[</span> <span class="o">...</span> <span class="p">],</span>
-               <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;File&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&amp;File),</span>
-         <span class="n">SMenu</span><span class="p">([</span> <span class="o">...</span> <span class="p">],</span>
-               <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;Edit&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&amp;Edit&#39;</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SMenuBar</span><span class="p">(</span>
+    <span class="n">SMenu</span><span class="p">(</span>
+        <span class="n">SGroup</span><span class="p">(</span>
+            <span class="p">[</span> <span class="o">...</span> <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;SaveGroup&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">[</span> <span class="o">...</span> <span class="p">],</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;File&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&amp;File,</span>
+    <span class="p">),</span>
+    <span class="n">SMenu</span><span class="p">(</span>
+        <span class="p">[</span> <span class="o">...</span> <span class="p">],</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Edit&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&amp;Edit&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>the edit menu has the path “MenuBar/Edit”. Likewise, the save group in the file
 menu has the path “MenuBar/File/SaveGroup”. We might define an addition for this
 menu as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SchemaAddition</span><span class="p">(</span><span class="n">factory</span> <span class="o">=</span> <span class="n">MyContributedGroup</span><span class="p">,</span>
-               <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;MenuBar/File&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SchemaAddition</span><span class="p">(</span>
+    <span class="n">factory</span><span class="o">=</span><span class="n">MyContributedGroup</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="s1">&#39;MenuBar/File&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">factory</span></code> is a callable that produces either a schema or an object from
@@ -406,17 +446,19 @@ for specifying with greater precision the location of the insertion: <code class
 and <code class="docutils literal notranslate"><span class="pre">after</span></code>. Setting one of these attributes to the ID of a schema with the
 same path ensures that the insertion will be made before or after, respectively,
 that schema. For example, in the expanded addition:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SchemaAddition</span><span class="p">(</span><span class="n">factory</span> <span class="o">=</span> <span class="n">MyContributedGroup</span><span class="p">,</span>
-               <span class="n">before</span> <span class="o">=</span> <span class="s1">&#39;SaveGroup&#39;</span><span class="p">,</span>
-               <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;MenuBar/File&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SchemaAddition</span><span class="p">(</span>
+    <span class="n">factory</span><span class="o">=</span><span class="n">MyContributedGroup</span><span class="p">,</span>
+    <span class="n">before</span><span class="o">=</span><span class="s1">&#39;SaveGroup&#39;</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="s1">&#39;MenuBar/File&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>the created group would be inserted before the save group. If both <code class="docutils literal notranslate"><span class="pre">before</span></code>
 and <code class="docutils literal notranslate"><span class="pre">after</span></code> are set, Tasks will attempt to honor both of them <a class="footnote-reference brackets" href="#id9" id="id5">3</a>. In the
 event that Tasks cannot, the menu order is undefined (although the insertions
 are guaranteed to made) and an error is logged.</p>
-</div>
-<div class="section" id="global-task-extensions">
+</section>
+<section id="global-task-extensions">
 <span id="id6"></span><h2>Global Task Extensions<a class="headerlink" href="#global-task-extensions" title="Permalink to this headline">¶</a></h2>
 <p id="index-12">When creating an application with several tasks it is frequently the case that
 certain menu bar or tool bar actions should be present in all tasks. Such
@@ -448,7 +490,7 @@ several other menu-related conveniences, can be found in
 <dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>In this section, we shall be referencing–often with considerable
 simplification–the Attractors example code in the EnvisagePlugins
-package, available <a class="reference external" href="https://github.com/enthought/envisage/tree/master/envisage/examples/demo/plugins/tasks/attractors">online</a>
+package, available <a class="reference external" href="https://github.com/enthought/envisage/tree/6.1.0/envisage/examples/demo/plugins/tasks/attractors">online</a>
 and in the ETS distribution.</p>
 </dd>
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
@@ -461,8 +503,8 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
 <dd><p>Tasks differs from the Workbench in this regard.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -505,7 +547,7 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
         </div>
@@ -522,13 +564,13 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2008-2020, Enthought
+        &copy; Copyright 2007-2022, Enthought
       </li>
       <li>
-      Last updated on Dec 03, 2020.
+      Last updated on Aug 15, 2022.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
       </li>
     </ul>
     </div>
