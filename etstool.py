@@ -255,7 +255,10 @@ def install(edm, runtime, toolkit, environment, editable, source):
         # Without the --no-dependencies flag such that new dependencies on
         # main branch are brought in.
         commands = [
-            "python -m pip install --force-reinstall {pkg}".format(pkg=pkg)
+            (
+                "python -m pip install --no-build-isolation "
+                "--force-reinstall {pkg}".format(pkg=pkg)
+            )
             for pkg in source_pkgs
         ]
         commands = [
