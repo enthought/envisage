@@ -255,7 +255,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
 
         # Install build prerequisites from EDM (needed because we're avoiding
         # build isolation below).
-        commands = ["{edm} install -e {environment} setuptools wheel"]
+        commands = ["{edm} install -y -e {environment} setuptools wheel"]
         execute(commands, parameters)
 
         # Without the --no-dependencies flag such that new dependencies on
@@ -267,8 +267,8 @@ def install(edm, runtime, toolkit, environment, editable, source):
         commands = [
             (
                 "python -m pip install --no-build-isolation "
-                "--force-reinstall {pkg}".format(pkg=pkg)
-            )
+                "--force-reinstall {pkg}"
+            ).format(pkg=pkg)
             for pkg in source_pkgs
         ]
         commands = [
