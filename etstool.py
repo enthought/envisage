@@ -263,7 +263,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
 
         # --no-build-isolation is necessary to temporarily work around
         # an incompatibility between setuptools >= 65.2.0 and the EDM runtimes.
-        # See enthought/traits#1721.        
+        # See enthought/traits#1721.
         commands = [
             (
                 "python -m pip install --no-build-isolation "
