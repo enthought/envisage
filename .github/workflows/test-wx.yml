@@ -8,7 +8,7 @@ on:
     - cron:  '0 0 * * 5'
 
 env:
-  INSTALL_EDM_VERSION: 3.3.1
+  INSTALL_EDM_VERSION: 3.4.0
 
 jobs:
 
