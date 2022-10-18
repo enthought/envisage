@@ -331,13 +331,13 @@ if __name__ == "__main__":
                 # Avoid https://bugreports.qt.io/browse/PYSIDE-1797, which
                 # causes some versions of PySide6 to be unimportable on Python
                 # 3.6 and 3.7.
-                (
-                    "pyside6!=6.2.2,!=6.2.2.1,!=6.2.3,!=6.2.4,!=6.3.0; "
-                    + "python_version<'3.8'"
-                ),
                 # PySide6 6.4.0 has incompatible changes that Pyface hasn't
                 # yet adapted to. xref: enthought/pyface#1163
-                "pyside6<6.4; python_version>='3.8'",
+                (
+                    "pyside6!=6.2.2,!=6.2.2.1,!=6.2.3,!=6.2.4,!=6.3.0;<6.4.0 "
+                    + "python_version<'3.8'"
+                ),
+                "pyside6<6.4.0; python_version>='3.8'",
             ],
         },
         license="BSD",
