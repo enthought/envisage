@@ -13,4 +13,4 @@ import unittest
 
 class TestWorkbenchDefaultAction(unittest.TestCase):
     def test_workbench_default_action(self):
-        import envisage.ui.workbench.default_action_set
+        import envisage.ui.workbench.default_action_set  # noqa: F401
