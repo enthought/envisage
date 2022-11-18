@@ -432,6 +432,7 @@ class TasksApplication(Application):
         filename = os.path.join(self.state_location, self.state_filename)
         logger.debug("Saving application state to %s", filename)
         try:
+            os.makedirs(self.state_location, mode=0o700, exist_ok=True)
             with open(filename, "wb") as f:
                 pickle.dump(self._state, f, protocol=self.layout_save_protocol)
         except Exception:

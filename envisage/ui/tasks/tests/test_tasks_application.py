@@ -62,6 +62,23 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
+    def test_layout_save_new_directory(self):
+        # Test that the state can be saved if the target dir doesn't exist.
+        state_location = os.path.join(self.tmpdir, 'subdir')
+
+        # Create application, and set it up to exit as soon as it's launched.
+        app = TasksApplication(
+            state_location=state_location, layout_save_protocol=3,
+        )
+        app.on_trait_change(app.exit, "application_initialized")
+
+        memento_file = os.path.join(state_location, app.state_filename)
+        self.assertFalse(os.path.exists(state_location))
+        self.assertFalse(os.path.exists(memento_file))
+        app.run()
+        self.assertTrue(os.path.exists(state_location))
+        self.assertTrue(os.path.exists(memento_file))
+
     def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
