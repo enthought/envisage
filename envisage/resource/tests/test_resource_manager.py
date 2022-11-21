@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -12,13 +12,14 @@
 
 # Standard library imports.
 import unittest
+from io import StringIO
 from urllib.error import HTTPError
 import urllib.request
+try:
+    from importlib.resources import files, as_file
+except ImportError:
+    from importlib_resources import files, as_file
 
-from io import StringIO
-
-# Major package imports.
-from pkg_resources import resource_filename
 
 # Enthought library imports.
 from envisage.resource.api import ResourceManager
@@ -74,17 +75,18 @@ class ResourceManagerTestCase(unittest.TestCase):
         rm = ResourceManager()
 
         # Get the filename of the 'api.py' file.
-        filename = resource_filename("envisage.resource", "api.py")
+        resource = files("envisage.resource") / "api.py"
+        with as_file(resource) as path:
 
-        # Open a file resource.
-        f = rm.file("file://" + filename)
-        self.assertNotEqual(f, None)
-        contents = f.read()
-        f.close()
+            # Open a file resource.
+            f = rm.file(f"file://{path}")
+            self.assertNotEqual(f, None)
+            contents = f.read()
+            f.close()
 
-        # Open the api file via the file system.
-        with open(filename, "rb") as g:
-            self.assertEqual(g.read(), contents)
+            # Open the api file via the file system.
+            with open(path, "rb") as g:
+                self.assertEqual(g.read(), contents)
 
     def test_no_such_file_resource(self):
         """ no such file resource """
@@ -106,11 +108,25 @@ class ResourceManagerTestCase(unittest.TestCase):
         contents = f.read()
         f.close()
 
-        # Get the filename of the 'api.py' file.
-        filename = resource_filename("envisage.resource", "api.py")
+        # Get the bytes of the 'api.py' file.
+        resource = files("envisage.resource") / "api.py"
+        with resource.open("rb") as g:
+            self.assertEqual(g.read(), contents)
 
-        # Open the api file via the file system.
-        with open(filename, "rb") as g:
+    def test_package_resource_subdir(self):
+        """ package resource """
+
+        rm = ResourceManager()
+
+        # Open a package resource.
+        f = rm.file("pkgfile://envisage.resource/tests/__init__.py")
+        self.assertNotEqual(f, None)
+        contents = f.read()
+        f.close()
+
+        # Get the bytes of the 'api.py' file.
+        resource = files("envisage.resource") / "tests" / "__init__.py"
+        with resource.open("rb") as g:
             self.assertEqual(g.read(), contents)
 
     def test_no_such_package_resource(self):
@@ -120,10 +136,19 @@ class ResourceManagerTestCase(unittest.TestCase):
 
         # Open a package resource.
         with self.assertRaises(NoSuchResourceError):
+            rm.file("pkgfile://envisage.resource/")
+
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("pkgfile:///envisage")
+
+        with self.assertRaises(NoSuchResourceError):
             rm.file("pkgfile://envisage.resource/bogus.py")
 
         with self.assertRaises(NoSuchResourceError):
             rm.file("pkgfile://completely.bogus/bogus.py")
+
+        with self.assertRaises(NoSuchResourceError):
+            rm.file("pkgfile://envisage.resource.resource_manager/anything")
 
     def test_http_resource(self):
         """ http resource """

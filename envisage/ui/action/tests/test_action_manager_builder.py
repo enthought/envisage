@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -506,7 +506,14 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(
+                                id="NewGroup",
+                                path="MenuBar/File",
+                                before="ExitGroup",
+                            ),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
                     ),
                     Menu(name="&Edit", path="MenuBar"),
                     Menu(name="&Tools", path="MenuBar"),
@@ -574,13 +581,22 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(id="NewGroup", path="MenuBar/File"),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
                     ),
                 ],
             ),
             ActionSet(
                 menus=[
-                    Menu(name="&File", path="MenuBar", groups=["ExtraGroup"]),
+                    Menu(
+                        name="&File",
+                        path="MenuBar",
+                        groups=[
+                            Group(id="ExtraGroup", path="MenuBar/File"),
+                        ],
+                    ),
                 ],
             ),
         ]
@@ -619,13 +635,23 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                     Menu(
                         name="&File",
                         path="MenuBar",
-                        groups=["NewGroup", "ExitGroup"],
+                        groups=[
+                            Group(id="NewGroup", path="MenuBar/File"),
+                            Group(id="ExitGroup", path="MenuBar/File"),
+                        ],
+
                     ),
                 ],
             ),
             ActionSet(
                 menus=[
-                    Menu(name="&File", path="MenuBar", groups=["NewGroup"]),
+                    Menu(
+                        name="&File",
+                        path="MenuBar",
+                        groups=[
+                            Group(id="NewGroup", path="MenuBar/File"),
+                        ],
+                    ),
                 ],
             ),
         ]

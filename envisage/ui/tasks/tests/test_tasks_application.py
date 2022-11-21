@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -9,17 +9,17 @@
 # Thanks for using Enthought open source!
 
 import os
-import pickle
 import shutil
+import sys
 import tempfile
 import unittest
 
 import pkg_resources
+from pyface.i_gui import IGUI
+from traits.api import HasTraits, provides
 
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
-from pyface.i_gui import IGUI
-from traits.api import HasTraits, provides
 
 requires_gui = unittest.skipIf(
     os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
@@ -32,15 +32,16 @@ class DummyGUI(HasTraits):
     pass
 
 
+@unittest.skipIf(
+    sys.platform == "linux" and sys.version_info >= (3, 8),
+    "xref: enthought/envisage#476",
+)
 @requires_gui
 class TestTasksApplication(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
 
-    @unittest.skipUnless(
-        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
-    )
     def test_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
@@ -82,9 +83,6 @@ class TestTasksApplication(unittest.TestCase):
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
-    @unittest.skipUnless(
-        3 <= pickle.HIGHEST_PROTOCOL, "Test uses pickle protocol 3"
-    )
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.

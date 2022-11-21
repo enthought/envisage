@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -10,15 +10,16 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
 import glob
-from os.path import basename, dirname, join
+from os.path import basename, join
 import shutil
-import tempfile
 import sys
+import tempfile
 import unittest
 
 import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
+from envisage.tests.test_egg_based import build_egg
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
@@ -26,16 +27,44 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     #### 'unittest.TestCase' protocol #########################################
 
+    @classmethod
+    def setUpClass(cls):
+        """
+        Create eggs for testing purposes.
+        """
+        cls.eggs_dir = tempfile.mkdtemp()
+        cls.bad_eggs_dir = tempfile.mkdtemp()
+
+        eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "eggs")
+        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+            build_egg(
+                egg_dir=join(eggs_root_dir, egg_name),
+                dist_dir=cls.eggs_dir,
+            )
+
+        bad_eggs_root_dir = pkg_resources.resource_filename(
+            "envisage.tests", "bad_eggs")
+        for egg_name in ["acme.bad"]:
+            build_egg(
+                egg_dir=join(bad_eggs_root_dir, egg_name),
+                dist_dir=cls.bad_eggs_dir,
+            )
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Delete created eggs.
+        """
+        shutil.rmtree(cls.bad_eggs_dir)
+        shutil.rmtree(cls.eggs_dir)
+
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
         # Some tests cause sys.path to be modified. Capture the original
         # contents so that we can restore sys.path later.
         self._original_sys_path_contents = sys.path[:]
-
-        # The location of the 'eggs' test data directory.
-        self.eggs_dir = join(dirname(__file__), "eggs")
-        self.bad_eggs_dir = join(dirname(__file__), "bad_eggs")
 
     def tearDown(self):
         """ Called immediately after each test method has been called. """

@@ -50,6 +50,7 @@ pane. For example, we define a task for editing Python scripts::
     class ExampleTask(Task):
 
         id = 'example.example_task'
+
         name = 'Python Script Editor'
 
         def create_central_pane(self):
@@ -74,6 +75,7 @@ use of the ``PythonEditor`` available in Pyface::
     class PythonEditorPane(TaskPane):
 
         id = 'example.python_editor_pane'
+
         name = 'Python Editor'
 
         editor = Instance(PythonEditor)
@@ -131,12 +133,18 @@ Traits UI we see that it would be more convenient to use the Traits UI
         selected_file = File
 
         # The view used to construct the dock pane's widget.
-        view = View(Item('selected_file',
-                         editor=FileEditor(dclick_name='activated',
-                                           filter_name='filters'),
-                         style='custom',
-                         show_label=False),
-                    resizable=True)
+        view = View(
+            Item(
+                'selected_file',
+                editor=FileEditor(
+                    dclick_name='activated',
+                    filter_name='filters',
+                ),
+                style='custom',
+                show_label=False
+            ),
+            resizable=True,
+        )
 
 When a control is needed for the pane, it will be constructed using the standard
 Traits UI mechanisms. There exist additional options, not described here, for
@@ -160,7 +168,7 @@ which we connect to the dock pane's ``activated`` event::
             browser = PythonScriptBrowserPane()
             handler = lambda: self.open_file(browser.selected_file)
             browser.on_trait_change(handler, 'activated')
-            return [ browser ]
+            return [browser]
 
         def open_file(self, filename):
             """ Open the file with the specified path in the central pane.
@@ -186,9 +194,11 @@ A few examples should suffice to make this clear. To stack the dock pane with ID
 'dock_pane_1' on top of that with ID 'dock_pane_2', with both to the left of the
 central pane, one specifies::
 
-    left = Splitter(PaneItem('dock_pane_1'),
-                    PaneItem('dock_pane_2'),
-                    orientation='vertical')
+    left = Splitter(
+        PaneItem('dock_pane_1'),
+        PaneItem('dock_pane_2'),
+        orientation='vertical',
+    )
 
 .. index:: HSplitter, VSplitter
 
@@ -198,8 +208,10 @@ for a splitter with horizontal orientation.
 
 To put these dock panes in tab group below the central pane, we might write::
 
-    bottom_panes = Tabbed(PaneItem('dock_pane_1', height=400),
-                          PaneItem('dock_pane_2'))
+    bottom_panes = Tabbed(
+        PaneItem('dock_pane_1', height=400),
+        PaneItem('dock_pane_2'),
+    )
 
 Observe that we have explicitly provided a height for the first dock
 pane. Provided that the dock pane's underlying control does not have a
@@ -216,7 +228,8 @@ Now we will provide our example task with a simple layout using the
         [ ... ]
 
         default_layout = TaskLayout(
-            left=PaneItem('example.python_script_browser_pane'))
+            left=PaneItem('example.python_script_browser_pane')
+        )
 
 Note that dock panes that do not appear in the layout will not be visible by
 default. A task without a default layout is equivalent to a task with an empty

@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2021 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -161,18 +161,15 @@ class Application(HasTraits):
     def _user_data_default(self):
         """ Trait initializer. """
 
-        user_data = os.path.join(ETSConfig.user_data, self.id)
-
-        # Make sure it exists!
-        if not os.path.exists(user_data):
-            os.makedirs(user_data)
-
-        return user_data
+        return ETSConfig.user_data
 
     def _preferences_default(self):
         """ Trait initializer. """
 
-        return ScopedPreferences()
+        return ScopedPreferences(
+            application_preferences_filename=os.path.join(
+                self.home, 'preferences.ini')
+        )
 
     #### Methods ##############################################################
 
@@ -484,12 +481,7 @@ class Application(HasTraits):
         return ApplicationEvent(application=self)
 
     def _initialize_application_home(self):
-        """ Initialize the application home directory. """
+        """ Initialize the application directories. """
 
-        ETSConfig.application_home = os.path.join(
-            ETSConfig.application_data, self.id
-        )
-
-        # Make sure it exists!
-        if not os.path.exists(ETSConfig.application_home):
-            os.makedirs(ETSConfig.application_home)
+        os.makedirs(self.home, mode=0o700, exist_ok=True)
+        os.makedirs(self.user_data, exist_ok=True)
