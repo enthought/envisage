@@ -21,9 +21,23 @@ from traits.api import HasTraits, provides
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
+# Decorator for skipping tests that require a GUI
 requires_gui = unittest.skipIf(
-    os.environ.get("ETS_TOOLKIT", "none") in {"null", "none"},
+    os.getenv("ETS_TOOLKIT", default="none") in {"null", "none"},
     "Test requires a non-null GUI backend",
+)
+
+# There's a PySide6 end-of-process segfault on Linux that's
+# interfering with our CI runs, so we skip the relevant tests
+# when running under GitHub Actions CI.
+# xref: enthought/envisage#476
+skip_with_flaky_pyside = unittest.skipIf(
+    (
+        os.getenv("GITHUB_ACTIONS") == "true"
+        and sys.platform == "linux"
+        and os.getenv("ETS_TOOLKIT") == "qt"
+    ),
+    "Skipping segfault-causing test on Linux. See enthought/envisage#476",
 )
 
 
@@ -42,6 +56,7 @@ class TestTasksApplication(unittest.TestCase):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
 
+    @skip_with_flaky_pyside
     def test_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
@@ -62,6 +77,7 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
+    @skip_with_flaky_pyside
     def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
@@ -83,6 +99,7 @@ class TestTasksApplication(unittest.TestCase):
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
+    @skip_with_flaky_pyside
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
