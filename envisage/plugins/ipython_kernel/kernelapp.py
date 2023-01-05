@@ -138,13 +138,24 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         for line in lines:
             self.log.info(line)
 
-        self.ports = dict(
-            shell=self.shell_port,
-            iopub=self.iopub_port,
-            stdin=self.stdin_port,
-            hb=self.hb_port,
-            control=self.control_port,
-        )
+        # Backwards compatibility: ipykernel versions < 6.0.3 use ports instead
+        # of _ports. (xref: https://github.com/ipython/ipykernel/pull/731)
+        try:
+            self._ports = dict(
+                shell=self.shell_port,
+                iopub=self.iopub_port,
+                stdin=self.stdin_port,
+                hb=self.hb_port,
+                control=self.control_port,
+            )
+        except AttributeError:
+            self.ports = dict(
+                shell=self.shell_port,
+                iopub=self.iopub_port,
+                stdin=self.stdin_port,
+                hb=self.hb_port,
+                control=self.control_port,
+            )
 
     # Methods extending the base class methods ################################
 
@@ -232,6 +243,8 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         script_magics.parent = None
 
         # The shell's cleanup method restores the sys.module changes.
+        # Grab history manager now, because it's set to None later.
+        history_manager = shell.history_manager
         shell.cleanup()
 
         # The atexit_operations method ends the history manager session,
@@ -240,11 +253,12 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         shell.atexit_operations()
         atexit.unregister(shell.atexit_operations)
 
-        shell.history_manager.save_thread.stop()
-        atexit.unregister(shell.history_manager.save_thread.stop)
+        history_manager.save_thread.stop()
+        atexit.unregister(history_manager.save_thread.stop)
 
         # Rely on garbage collection to clean up the file connection.
-        shell.history_manager.db.close()
+        history_manager.db.close()
+        del history_manager
 
         # Remove some references to avoid keeping objects alive unnecessarily.
         del shell.configurables[:]
@@ -271,13 +285,15 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
         # The values written by the shell keep references that prevent
         # proper garbage collection from taking place.
         if self._original_ipython_utils_io_stderr is _MISSING:
-            del IPython.utils.io.stderr
+            if hasattr(IPython.utils.io, "stderr"):
+                del IPython.utils.io.stderr
         else:
             IPython.utils.io.stderr = self._original_ipython_utils_io_stderr
         del self._original_ipython_utils_io_stderr
 
         if self._original_ipython_utils_io_stdout is _MISSING:
-            del IPython.utils.io.stdout
+            if hasattr(IPython.utils.io, "stdout"):
+                del IPython.utils.io.stdout
         else:
             IPython.utils.io.stdout = self._original_ipython_utils_io_stdout
         del self._original_ipython_utils_io_stdout
@@ -293,11 +309,16 @@ class IPKernelApp(ipykernel.kernelapp.IPKernelApp):
             del self._original_sys_displayhook
 
         if self.outstream_class:
-            sys.stderr.close()
+            # We'd like to simply call sys.stderr.close() here, but
+            # that method is broken for some versions of ipykernel.
+            # So we imitate the effects of the close method instead.
+            # xref: https://github.com/ipython/ipykernel/issues/867
+            # xref: https://github.com/ipython/ipykernel/issues/868
+            sys.stderr.pub_thread = None
             sys.stderr = self._original_sys_stderr
             del self._original_sys_stderr
 
-            sys.stdout.close()
+            sys.stdout.pub_thread = None
             sys.stdout = self._original_sys_stdout
             del self._original_sys_stdout
 
