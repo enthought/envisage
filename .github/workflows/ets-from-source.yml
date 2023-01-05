@@ -56,9 +56,11 @@ jobs:
       - name: Create clean test directory
         run: |
           mkdir testdir
-      - name: Run tests (Linux)
+      - name: Run tests (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
         run: cd testdir && xvfb-run -a python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
-      - name: Run tests (not Linux)
+      - name: Run tests (not Ubuntu)
+        if: matrix.os != 'ubuntu-latest'
         run: cd testdir && python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
 
   notify-on-failure:
