@@ -15,3 +15,4 @@ runs:
       sudo apt-get install libxcb-randr0
       sudo apt-get install libxcb-render-util0
       sudo apt-get install libxcb-shape0
+    shell: bash
