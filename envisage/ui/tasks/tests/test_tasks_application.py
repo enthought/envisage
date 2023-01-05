@@ -9,6 +9,7 @@
 # Thanks for using Enthought open source!
 
 import os
+import pathlib
 import shutil
 import sys
 import tempfile
@@ -76,6 +77,28 @@ class TestTasksApplication(unittest.TestCase):
         with open(memento_file, "rb") as f:
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
+
+    @skip_with_flaky_pyside
+    def test_layout_save_creates_directory(self):
+        # Test that state can still be saved if the target directory
+        # doesn't exist.
+        state_location = pathlib.Path(self.tmpdir) / "subdir"
+        state_filename = "memento_test"
+        state_path = state_location / state_filename
+
+        self.assertFalse(state_location.exists())
+        self.assertFalse(state_path.exists())
+
+        # Create application and set it up to exit as soon as it's launched.
+        app = TasksApplication(
+            state_location=state_location,
+            state_filename=state_filename,
+        )
+        app.on_trait_change(app.exit, "application_initialized")
+        app.run()
+
+        self.assertTrue(state_location.exists())
+        self.assertTrue(state_path.exists())
 
     @skip_with_flaky_pyside
     def test_layout_load(self):
