@@ -55,7 +55,12 @@ jobs:
       - name: Flake8
         run: python etstool.py flake8 --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
         if: runner.os == 'Linux' && matrix.toolkit == 'null'
-      - name: Run tests
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
+      - name: Create clean test directory
+        run: |
+          mkdir testdir
+      - name: Run tests (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: cd testdir && xvfb-run -a python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
+      - name: Run tests (not Ubuntu)
+        if: matrix.os != 'ubuntu-latest'
+        run: cd testdir && python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
