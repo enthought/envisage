@@ -42,6 +42,7 @@ class TestTasksApplication(unittest.TestCase):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
 
+    @unittest.skip("Temporary skip to avoid segfault")
     def test_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
