@@ -307,7 +307,12 @@ def flake8(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    commands = ["{edm} run -e {environment} -- python -m flake8 "]
+    commands = [
+        (
+            "{edm} run -e {environment} -- "
+            "python -m flake8 --copyright-end-year 2022"
+        ),
+    ]
     execute(commands, parameters)
 
 
