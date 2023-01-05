@@ -7,7 +7,7 @@ name: Test with EDM
 on: [pull_request, workflow_dispatch]
 
 env:
-  INSTALL_EDM_VERSION: 3.3.1
+  INSTALL_EDM_VERSION: 3.4.0
   QT_MAC_WANTS_LAYER: 1
 
 jobs:
@@ -31,21 +31,8 @@ jobs:
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@v3
-      - name: Install Qt dependencies for Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install qt5-default
-          sudo apt-get install libxkbcommon-x11-0
-          sudo apt-get install libxcb-icccm4
-          sudo apt-get install libxcb-image0
-          sudo apt-get install libxcb-keysyms1
-          sudo apt-get install libxcb-randr0
-          sudo apt-get install libxcb-render-util0
-          sudo apt-get install libxcb-xinerama0
-          sudo apt-get install pulseaudio
-          sudo apt-get install libpulse-mainloop-glib0
-          sudo apt-get install libopengl0
-        if: runner.os == 'Linux'
+      - name: Install packages for Qt support
+        uses: ./.github/actions/install-qt-support
       - name: Cache EDM packages
         uses: actions/cache@v2
         with:
@@ -68,7 +55,9 @@ jobs:
       - name: Flake8
         run: python etstool.py flake8 --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
         if: runner.os == 'Linux' && matrix.toolkit == 'null'
-      - name: Run tests
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
+      - name: Run tests (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: xvfb-run -a python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
+      - name: Run tests (not Ubuntu)
+        if: matrix.os != 'ubuntu-latest'
+        run: python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}

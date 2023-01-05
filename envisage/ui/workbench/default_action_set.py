@@ -11,7 +11,7 @@
 
 
 # Enthought library imports.
-from envisage.ui.action.api import Action, ActionSet, Menu
+from envisage.ui.action.api import Action, ActionSet, Group, Menu
 
 
 # This module's package.
@@ -25,14 +25,25 @@ class DefaultActionSet(ActionSet):
         Menu(
             name="&File",
             path="MenuBar",
-            groups=["OpenGroup", "SaveGroup", "ImportGroup", "ExitGroup"],
+            groups=[
+                Group(id="OpenGroup"),
+                Group(id="SaveGroup"),
+                Group(id="ImportGroup"),
+                Group(id="ExitGroup")
+            ],
         ),
         Menu(
             path="MenuBar",
             class_name="pyface.workbench.action.api:ViewMenuManager",
         ),
-        Menu(name="&Tools", path="MenuBar", groups=["PreferencesGroup"]),
-        Menu(name="&Help", path="MenuBar", groups=["AboutGroup"]),
+        Menu(
+            name="&Tools", path="MenuBar",
+            groups=[Group(id="PreferencesGroup")]
+        ),
+        Menu(
+            name="&Help", path="MenuBar",
+            groups=[Group(id="AboutGroup")]
+        ),
     ]
 
     actions = [
