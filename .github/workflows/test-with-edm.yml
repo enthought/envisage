@@ -31,21 +31,18 @@ jobs:
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@v3
-      - name: Install Qt dependencies for Linux
+      - name: Install Linux packages for Qt 5 support
         run: |
           sudo apt-get update
-          sudo apt-get install qt5-default
+          sudo apt-get install libegl1
           sudo apt-get install libxkbcommon-x11-0
           sudo apt-get install libxcb-icccm4
           sudo apt-get install libxcb-image0
           sudo apt-get install libxcb-keysyms1
           sudo apt-get install libxcb-randr0
           sudo apt-get install libxcb-render-util0
-          sudo apt-get install libxcb-xinerama0
-          sudo apt-get install pulseaudio
-          sudo apt-get install libpulse-mainloop-glib0
-          sudo apt-get install libopengl0
-        if: runner.os == 'Linux'
+          sudo apt-get install libxcb-shape0
+        if: matrix.os == 'ubuntu-latest'
       - name: Cache EDM packages
         uses: actions/cache@v2
         with:
