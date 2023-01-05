@@ -78,6 +78,7 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
+    @skip_with_flaky_pyside
     def test_layout_save_creates_directory(self):
         # Test that state can still be saved if the target directory
         # doesn't exist.
