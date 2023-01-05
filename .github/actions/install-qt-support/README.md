@@ -11,14 +11,19 @@ There are no inputs.
 
 There are no outputs.
 
-
 ## Example usage
 
 ```yml
+jobs:
 
-TBD
+  # Test against EDM packages
+  test-with-edm:
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
 
-
-
-
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.github/actions/install-qt-support
 ```
