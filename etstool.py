@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -307,12 +307,7 @@ def flake8(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    commands = [
-        (
-            "{edm} run -e {environment} -- "
-            "python -m flake8 --copyright-end-year 2022"
-        ),
-    ]
+    commands = ["{edm} run -e {environment} -- python -m flake8"]
     execute(commands, parameters)
 
 
