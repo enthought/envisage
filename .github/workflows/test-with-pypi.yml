@@ -20,18 +20,8 @@ jobs:
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@v3
-      - name: Install Linux packages for Qt support
-        run: |
-          sudo apt-get update
-          sudo apt-get install libegl1
-          sudo apt-get install libxkbcommon-x11-0
-          sudo apt-get install libxcb-icccm4
-          sudo apt-get install libxcb-image0
-          sudo apt-get install libxcb-keysyms1
-          sudo apt-get install libxcb-randr0
-          sudo apt-get install libxcb-render-util0
-          sudo apt-get install libxcb-shape0
-        if: matrix.os == 'ubuntu-latest'
+      - name: Install packages for Qt support
+        uses: ./.github/actions/install-qt-support
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
