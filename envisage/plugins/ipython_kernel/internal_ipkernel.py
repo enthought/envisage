@@ -34,7 +34,7 @@ def _gui_kernel(gui_backend):
       without GUI support.
     """
 
-    kernel = IPKernelApp.instance()
+    kernel = IPKernelApp.instance(capture_fd_output=False)
 
     argv = ["python"]
     if gui_backend is not None:
