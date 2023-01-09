@@ -35,10 +35,6 @@ BINDINGS = 'envisage.plugins.python_shell.bindings'
 #: ``PythonShell``, defined on the ``PythonShellPlugin``.
 COMMANDS = 'envisage.plugins.python_shell.commands'
 
-#: Extension Point to contribute name/value pairs that will be bound to the
-#: ``IPythonShell``, defined on the ``IPythonKernelPlugin``.
-IPYTHON_NAMESPACE = 'ipython_plugin.namespace'
-
 #: Extension Point to contribute preferences categories, defined on the
 #: ``TasksPlugin``.
 PREFERENCES_CATEGORIES = 'envisage.ui.tasks.preferences_categories'
@@ -54,9 +50,3 @@ TASKS = 'envisage.ui.tasks.tasks'
 #: Extension Point to contribute task extensions, defined on the
 #: ``TasksPlugin``.
 TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
-
-#### Services ################################################################
-
-#: Service to access the active ``InternalIPKernel`` instance in the
-#: application, defined on the ``IPythonKernelPlugin``.
-IPYTHON_KERNEL_PROTOCOL = 'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'  # noqa: E501
