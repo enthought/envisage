@@ -34,7 +34,7 @@ jobs:
       - name: Install packages for Qt support
         uses: ./.github/actions/install-qt-support
       - name: Cache EDM packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
