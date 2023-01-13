@@ -222,9 +222,9 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # install wxPython with pip, because we don't have it in EDM
     if toolkit == "wx":
         if sys.platform == "linux":
-            # XXX This assumes Ubuntu 20.04, and targets CI.
+            # XXX This assumes Ubuntu 22.04, and targets CI.
             commands.append(
-                "{edm} run -e {environment} -- python -m pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-20.04/ wxPython"  # noqa: E501
+                "{edm} run -e {environment} -- python -m pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/ wxPython"  # noqa: E501
             )
         else:
             commands.append(
