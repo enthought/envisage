@@ -2,6 +2,38 @@
  Envisage CHANGELOG
 ====================
 
+Version 6.1.1
+=============
+
+Released: 2023-02-07
+
+This is a bugfix release that fixes an incompatibility between the workbench
+code and the latest Traits version, among other minor fixes.
+
+Thanks to:
+
+* Mark Dickinson
+* Prabhu Ramachandran
+* Scott Talbert
+
+Fixes
+-----
+* A trait validation error in the Workbench ``DefaultActionSet`` has been
+  fixed. This fixes a compatibility issue with Traits 6.4. (#485)
+* Initialization of application directories now correctly respects the
+  value of ``self.state_location``. (#490)
+* In the test suite, egg generation now uses ``sys.executable`` to ensure
+  it picks up the correct Python executable. (#499)
+
+Other changes
+-------------
+* The version of PySide6 used in test workflows has been restricted. (#487)
+* The EDM version used in test workflow has been updated. (#484)
+* Various fixes have been made to the GitHub Actions workflows, for
+  compatibility with the newest runners. (#491, #494)
+* Copyright headers have been updated for 2023. (#493)
+
+
 Version 6.1.0
 =============
 
