@@ -10,6 +10,7 @@
 
 # Plugin imports.
 from envisage.api import CorePlugin
+from envisage.ui.api import GUIPlugin
 from envisage.ui.tasks.api import TasksPlugin
 
 
@@ -20,7 +21,7 @@ def main(argv):
     from attractors.attractors_application import AttractorsApplication
     from attractors.attractors_plugin import AttractorsPlugin
 
-    plugins = [CorePlugin(), TasksPlugin(), AttractorsPlugin()]
+    plugins = [CorePlugin(), GUIPlugin(), TasksPlugin(), AttractorsPlugin()]
     app = AttractorsApplication(plugins=plugins)
     app.run()
 

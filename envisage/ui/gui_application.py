@@ -21,13 +21,13 @@ More sophisticated applications should use Tasks.
 
 """
 
-from traits.api import Event, Supports
-
+from traits.api import Event, Instance, observe
 from envisage.api import Application
+from envisage.ui.ids import IGUI_PROTOCOL
 
 
 class GUIApplication(Application):
-    """The entry point for an Envisage GUI application.
+    """ The entry point for an Envisage GUI application.
 
     This class handles the life-cycle of a Pyface GUI.  Plugins can
     display windows via mechinisms such as edit_traits().
@@ -42,11 +42,11 @@ class GUIApplication(Application):
     #### 'GUIApplication' interface #########################################
 
     #: The Pyface GUI for the application.
-    gui = Supports("pyface.i_gui.IGUI")
+    gui = Instance(IGUI_PROTOCOL)
 
     #: The splash screen for the application. By default, there is no splash
     #: screen.
-    splash_screen = Supports("pyface.i_splash_screen.ISplashScreen")
+    splash_screen = Instance("pyface.i_splash_screen.ISplashScreen")
 
     #### Application lifecycle events #########################################
 
@@ -58,7 +58,7 @@ class GUIApplication(Application):
     ###########################################################################
 
     def run(self):
-        """Run the application.
+        """ Run the application.
 
         Returns
         -------
@@ -67,25 +67,39 @@ class GUIApplication(Application):
             veto).
 
         """
-
-        # Make sure the GUI has been created (so that, if required, the splash
-        # screen is shown).
-        gui = self.gui
+        # show the splash screen if provided
+        if self.splash_screen is not None:
+            self.splash_screen.open()
 
         started = self.start()
         if started:
-            gui.set_trait_later(self, "application_initialized", self)
+            if self.gui is None:
+                gui_services = self.get_services(IGUI_PROTOCOL)
+                if gui_services:
+                    self.gui = gui_services[0]
+                else:
+                    # fall-back if not provided by plugin
+                    from pyface.api import GUI
+                    self.gui = GUI()
+            self.gui.set_trait_later(self, "application_initialized", self)
+
             # Start the GUI event loop.  The application will block here.
-            gui.start_event_loop()
+            self.gui.start_event_loop()
+
+            self.gui = None
 
             # clean up plugins once event loop stops
             self.stop()
 
         return started
 
-    #### Trait initializers ###################################################
+    #### Trait observers ######################################################
 
-    def _gui_default(self):
-        from pyface.api import GUI
-
-        return GUI(splash_screen=self.splash_screen)
+    @observe('application_initialized')
+    def _close_splash_screen(self, event):
+        """Once the app has started we don't need the splash screen any more.
+        """
+        if self.splash_screen is not None:
+            self.splash_screen.close()
+            self.splash_screen.destroy()
+            self.splash_screen = None

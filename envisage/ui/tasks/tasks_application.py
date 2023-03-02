@@ -12,6 +12,9 @@ import logging
 import os.path
 import pickle
 
+# Enthought library imports.
+from envisage.api import ExtensionPoint
+from envisage.ui.api import GUIApplication
 from traits.api import (
     Bool,
     Callable,
@@ -23,11 +26,9 @@ from traits.api import (
     List,
     Str,
     Vetoable,
+    observe,
 )
 from traits.etsconfig.api import ETSConfig
-
-# Enthought library imports.
-from envisage.api import Application, ExtensionPoint
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -36,7 +37,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_STATE_FILENAME = "application_memento"
 
 
-class TasksApplication(Application):
+class TasksApplication(GUIApplication):
     """The entry point for an Envisage Tasks application.
 
     This class handles the common case for Tasks applications and is
@@ -58,19 +59,12 @@ class TasksApplication(Application):
     #: The active task window (the last one to get focus).
     active_window = Instance("envisage.ui.tasks.task_window.TaskWindow")
 
-    #: The Pyface GUI for the application.
-    gui = Instance("pyface.i_gui.IGUI")
-
     #: Icon for the whole application. Will be used to override all taskWindows
     #: icons to have the same.
     icon = Instance("pyface.image_resource.ImageResource", allow_none=True)
 
     #: The name of the application (also used on window title bars).
     name = Str
-
-    #: The splash screen for the application. By default, there is no splash
-    #: screen.
-    splash_screen = Instance("pyface.splash_screen.SplashScreen")
 
     #: The directory on the local file system used to persist window layout
     #: information.
@@ -151,35 +145,6 @@ class TasksApplication(Application):
     _state = Instance(
         "envisage.ui.tasks.tasks_application.TasksApplicationState"
     )
-
-    ###########################################################################
-    # 'IApplication' interface.
-    ###########################################################################
-
-    def run(self):
-        """Run the application.
-
-        Returns
-        -------
-        bool
-            Whether the application started successfully (i.e., without a
-            veto).
-        """
-        # Make sure the GUI has been created (so that, if required, the splash
-        # screen is shown).
-        gui = self.gui
-
-        started = self.start()
-        if started:
-            # Create windows from the default or saved application layout.
-            self._create_windows()
-
-            # Start the GUI event loop.
-            gui.set_trait_later(self, "application_initialized", self)
-            gui.start_event_loop()
-            self.stop()
-
-        return started
 
     ###########################################################################
     # 'TasksApplication' interface.
@@ -462,11 +427,6 @@ class TasksApplication(Application):
             window_layout.items = [self.task_factories[0].id]
         return [window_layout]
 
-    def _gui_default(self):
-        from pyface.gui import GUI
-
-        return GUI(splash_screen=self.splash_screen)
-
     def _state_location_default(self):
         state_location = os.path.join(self.home, "tasks", ETSConfig.toolkit)
         logger.debug("Tasks state location is %s", state_location)
@@ -474,6 +434,10 @@ class TasksApplication(Application):
         return state_location
 
     #### Trait change handlers ################################################
+
+    @observe('application_initialized')
+    def _show_initial_windows(self, event):
+        self._create_windows()
 
     def _on_window_activated(self, window, trait_name, event):
         self.active_window = window
