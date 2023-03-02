@@ -7,6 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, Instance, List
