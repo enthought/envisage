@@ -65,6 +65,8 @@ from .i_plugin_activator import IPluginActivator
 from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
 
+from .ids import IPYTHON_KERNEL_PROTOCOL, SERVICE_OFFERS
+
 from .application import Application
 from .core_plugin import CorePlugin
 from .egg_plugin_manager import EggPluginManager
