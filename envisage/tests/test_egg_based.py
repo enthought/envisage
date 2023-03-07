@@ -35,7 +35,7 @@ def build_egg(egg_dir, dist_dir):
     """
     subprocess.run(
         [
-            "python",
+            sys.executable,
             "setup.py",
             "bdist_egg",
             "--dist-dir",

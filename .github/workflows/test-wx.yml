@@ -16,7 +16,7 @@ jobs:
   test-with-edm:
     strategy:
       matrix:
-        os: ['ubuntu-20.04']
+        os: ['ubuntu-latest']
         runtime: ['3.8']
         toolkit: ['wx']
 
@@ -29,14 +29,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install libsdl-image1.2
           sudo apt-get install libsdl2-2.0-0
+          sudo apt-get install libnotify4
         if: runner.os == 'Linux'
       - name: Cache EDM packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
       - name: Set up EDM
-        uses: enthought/setup-edm-action@v1
+        uses: enthought/setup-edm-action@v2
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Set up bootstrap Python
