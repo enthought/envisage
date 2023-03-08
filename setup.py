@@ -323,7 +323,6 @@ if __name__ == "__main__":
                 "Sphinx>=2.1.0",
                 "sphinx-copybutton",
             ],
-            "ipython": ["ipython<8", "ipykernel<6", "traitlets<5.1"],
             "test": ["coverage", "flake8"],
             "ui": ["pyface", "traitsui"],
             "pyside2": ["pyside2"],

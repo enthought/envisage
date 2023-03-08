@@ -107,7 +107,6 @@ dependencies = {
     "enthought_sphinx_theme",
     "flake8",
     "flake8_ets",
-    "ipykernel",
     "pyface",
     "sphinx",
     "traits",

@@ -40,8 +40,6 @@ The supported versions of Python are Python >= 3.6.  Envisage requires:
 
 Envisage has the following optional dependencies:
 
-* `Ipykernel <https://pypi.org/project/ipykernel/>`_
-* `Tornado <https://pypi.org/project/tornado>`_
 * `Pyface <https://pypi.org/project/pyface/>`_
 * `TraitsUI <https://pypi.org/project/traitsui/>`_
 
