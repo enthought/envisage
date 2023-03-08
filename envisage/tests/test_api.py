@@ -17,8 +17,6 @@ class ApiTestCase(unittest.TestCase):
     def test_import(self):
         self.assertEqual(api.BINDINGS, ids.BINDINGS)
         self.assertEqual(api.COMMANDS, ids.COMMANDS)
-        self.assertEqual(api.IPYTHON_KERNEL_PROTOCOL, ids.IPYTHON_KERNEL_PROTOCOL)
-        self.assertEqual(api.IPYTHON_NAMESPACE, ids.IPYTHON_NAMESPACE)
         self.assertEqual(api.PREFERENCES, ids.PREFERENCES)
         self.assertEqual(api.PREFERENCES_CATEGORIES, ids.PREFERENCES_CATEGORIES)
         self.assertEqual(api.PREFERENCES_PANES, ids.PREFERENCES_PANES)

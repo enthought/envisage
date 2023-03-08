@@ -65,7 +65,7 @@ from .i_plugin_activator import IPluginActivator
 from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
 
-from .ids import BINDINGS, COMMANDS, IPYTHON_KERNEL_PROTOCOL, IPYTHON_NAMESPACE, PREFERENCES, PREFERENCES_CATEGORIES, PREFERENCES_PANES, SERVICE_OFFERS, TASKS, TASK_EXTENSIONS
+from .ids import BINDINGS, COMMANDS, PREFERENCES, PREFERENCES_CATEGORIES, PREFERENCES_PANES, SERVICE_OFFERS, TASKS, TASK_EXTENSIONS
 
 from .application import Application
 from .core_plugin import CorePlugin
