@@ -146,6 +146,7 @@ environment_vars = {
 
 github_url_fmt = "git+http://github.com/enthought/{0}.git#egg={0}"
 
+
 # Options shared between different click commands.
 edm_option = click.option(
     "--edm",
@@ -261,6 +262,16 @@ def install(edm, runtime, toolkit, environment, editable, source):
             "{edm} run -e {environment} -- " + command for command in commands
         ]
         execute(commands, parameters)
+
+    # Hack / experiment: use a particular commit of pyface
+    pyface_url = "git+http://github.com/enthought/pyface.git@e6b82fdeb71033b61ea17c72a517c84025b06a94"  # noqa: E501
+    commands = [
+        f"python -m pip install --force-reinstall {pyface_url}"
+    ]
+    commands = [
+        "{edm} run -e {environment} -- " + command for command in commands
+    ]
+    execute(commands, parameters)
 
     # Always install local source at the end to mitigate risk of testing
     # against a distributed release.
