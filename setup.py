@@ -316,6 +316,7 @@ if __name__ == "__main__":
             "setuptools",
             "traits>=6.2",
             'importlib-resources>=1.1.0; python_version<"3.9"',
+            "pyface @ git+http://github.com/enthought/pyface.git@e6b82fdeb71033b61ea17c72a517c84025b06a94",
         ],
         extras_require={
             "docs": [
