@@ -37,11 +37,11 @@ to run tests in that environment.  You can remove the environment with::
 
 If you make changes you will either need to remove and re-install the
 environment or manually update the environment using ``edm``, as
-the install performs a ``python setup.py install`` rather than a ``develop``,
+the install performs a ``pip install`` rather than a ``pip install -e``,
 so changes in your code will not be automatically mirrored in the test
 environment.  You can update with a command like::
 
-    edm run --environment ... -- python setup.py install
+    edm run --environment ... -- pip install .
 
 You can run all three tasks at once with::
 
@@ -350,7 +350,6 @@ def cleanup(edm, runtime, toolkit, environment):
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
     commands = [
-        "{edm} run -e {environment} -- python setup.py clean",
         "{edm} environments remove {environment} --purge -y",
     ]
     click.echo("Cleaning up environment '{environment}'".format(**parameters))

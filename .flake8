@@ -1,4 +1,4 @@
 [flake8]
 exclude = examples
 ignore = E266, W503
-per-file-ignores = */api.py:F401, setup.py:H102,
+per-file-ignores = */api.py:F401
