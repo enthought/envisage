@@ -81,5 +81,13 @@ include = ['envisage*']
     'plugins/pear/*.py',
     'plugins/banana/*.py',
     'plugins/orange/*.py',
+    'preferences.ini',
 ]
 'envisage.ui.tasks.tests' = ['data/*.pkl']
+'envisage.ui.workbench' = [
+    'preferences.ini',
+    'images/*',
+]
+'envisage.ui.workbench.action' = [
+    'images/*',
+]
