@@ -25,8 +25,19 @@ Interfaces
 - :class:`~.IPluginManager`
 - :class:`~.IServiceRegistry`
 
+Constants
+---------
+- :data:`~.BINDINGS`
+- :data:`~.COMMANDS`
+- :data:`~.PREFERENCES`
+- :data:`~.PREFERENCES_CATEGORIES`
+- :data:`~.PREFERENCES_PANES`
+- :data:`~.SERVICE_OFFERS`
+- :data:`~.TASKS`
+- :data:`~.TASK_EXTENSIONS`
+
 Application, plugin and related classes
-------------------------------------------
+---------------------------------------
 - :class:`~.Application`
 - :class:`~.CorePlugin`
 - :class:`~.EggPluginManager`
@@ -76,6 +87,16 @@ from .extension_point_binding import (
 )
 from .extension_provider import ExtensionProvider
 from .extension_point_changed_event import ExtensionPointChangedEvent
+from .ids import (
+    BINDINGS,
+    COMMANDS,
+    PREFERENCES,
+    PREFERENCES_CATEGORIES,
+    PREFERENCES_PANES,
+    SERVICE_OFFERS,
+    TASKS,
+    TASK_EXTENSIONS
+)
 from .import_manager import ImportManager
 from .plugin import Plugin
 from .plugin_activator import PluginActivator
