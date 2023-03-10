@@ -9,11 +9,12 @@
 # Thanks for using Enthought open source!
 
 import unittest
+
 import envisage.api as api
 import envisage.ids as ids
 
 
-class ApiTestCase(unittest.TestCase):
+class TestApi(unittest.TestCase):
     """ Test for API """
     def test_import(self):
         self.assertEqual(api.BINDINGS, ids.BINDINGS)
