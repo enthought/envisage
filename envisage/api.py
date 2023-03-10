@@ -25,7 +25,7 @@ Interfaces
 - :class:`~.IPluginManager`
 - :class:`~.IServiceRegistry`
 
-Constans
+Constants
 ------------------------------------------
 - :data:`~.BINDINGS`
 - :data:`~.COMMANDS`
