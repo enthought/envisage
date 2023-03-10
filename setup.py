@@ -286,12 +286,7 @@ if __name__ == "__main__":
             Operating System :: Microsoft :: Windows
             Operating System :: POSIX :: Linux
             Programming Language :: Python
-            Programming Language :: Python :: 3.6
-            Programming Language :: Python :: 3.7
-            Programming Language :: Python :: 3.8
-            Programming Language :: Python :: 3.9
-            Programming Language :: Python :: 3.10
-            Programming Language :: Python :: 3.11
+            Programming Language :: Python :: 3
             Programming Language :: Python :: Implementation :: CPython
             Topic :: Scientific/Engineering
             Topic :: Software Development
@@ -329,7 +324,7 @@ if __name__ == "__main__":
             "pyside6": [
                 # Avoid https://bugreports.qt.io/browse/PYSIDE-1797, which
                 # causes some versions of PySide6 to be unimportable on Python
-                # 3.6 and 3.7.
+                # 3.7.
                 # PySide6 6.4.0 has incompatible changes that Pyface hasn't
                 # yet adapted to. xref: enthought/pyface#1163
                 (
@@ -372,6 +367,6 @@ if __name__ == "__main__":
             ],
             "envisage.ui.tasks.tests": ["data/*.pkl"],
         },
-        python_requires=">=3.6",
+        python_requires=">=3.7",
         zip_safe=False,
     )

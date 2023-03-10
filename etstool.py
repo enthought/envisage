@@ -85,7 +85,7 @@ from tempfile import mkdtemp
 import click
 
 # Python runtime versions supported by this tool.
-available_runtimes = ["3.6", "3.8"]
+available_runtimes = ["3.8"]
 
 # Python runtime used by default.
 default_runtime = "3.8"
@@ -97,7 +97,6 @@ available_toolkits = ["pyside2", "pyside6", "pyqt5", "wx", "null"]
 default_toolkit = "null"
 
 supported_combinations = {
-    "3.6": {"pyside2", "pyqt5", "wx", "null"},
     "3.8": {"pyside6", "wx", "null"},
 }
 
