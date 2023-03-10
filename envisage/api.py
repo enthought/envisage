@@ -26,7 +26,7 @@ Interfaces
 - :class:`~.IServiceRegistry`
 
 Constants
-------------------------------------------
+---------
 - :data:`~.BINDINGS`
 - :data:`~.COMMANDS`
 - :data:`~.PREFERENCES`
@@ -37,7 +37,7 @@ Constants
 - :data:`~.TASK_EXTENSIONS`
 
 Application, plugin and related classes
-------------------------------------------
+---------------------------------------
 - :class:`~.Application`
 - :class:`~.CorePlugin`
 - :class:`~.EggPluginManager`
