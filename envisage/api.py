@@ -25,6 +25,17 @@ Interfaces
 - :class:`~.IPluginManager`
 - :class:`~.IServiceRegistry`
 
+Constans
+------------------------------------------
+- :data:`~.BINDINGS`
+- :data:`~.COMMANDS`
+- :data:`~.PREFERENCES`
+- :data:`~.PREFERENCES_CATEGORIES`
+- :data:`~.PREFERENCES_PANES`
+- :data:`~.SERVICE_OFFERS`
+- :data:`~.TASKS`
+- :data:`~.TASK_EXTENSIONS`
+
 Application, plugin and related classes
 ------------------------------------------
 - :class:`~.Application`
