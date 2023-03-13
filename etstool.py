@@ -135,14 +135,6 @@ toolkit_dependencies = {
 
 runtime_dependencies = {}
 
-environment_vars = {
-    "pyside2": {"ETS_TOOLKIT": "qt", "QT_API": "pyside2"},
-    "pyside6": {"ETS_TOOLKIT": "qt", "QT_API": "pyside6"},
-    "pyqt5": {"ETS_TOOLKIT": "qt", "QT_API": "pyqt5"},
-    "wx": {"ETS_TOOLKIT": "wx"},
-    "null": {"ETS_TOOLKIT": "null"},
-}
-
 github_url_fmt = "git+http://github.com/enthought/{0}.git#egg={0}"
 
 # Options shared between different click commands.
@@ -319,8 +311,7 @@ def test(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    environ = environment_vars.get(toolkit, {}).copy()
-    environ["PYTHONUNBUFFERED"] = "1"
+    environ = dict(PYTHONUNBUFFERED = "1")
     commands = [
         (
             "{edm} run -e {environment} -- python -W default -m "

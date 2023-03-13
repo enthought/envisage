@@ -19,14 +19,9 @@ import pkg_resources
 from pyface.i_gui import IGUI
 from traits.api import HasTraits, provides
 
+from envisage.tests.support import pyside6_available, requires_gui
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
-
-# Decorator for skipping tests that require a GUI
-requires_gui = unittest.skipIf(
-    os.getenv("ETS_TOOLKIT", default="none") in {"null", "none"},
-    "Test requires a non-null GUI backend",
-)
 
 # There's a PySide6 end-of-process segfault on Linux that's
 # interfering with our CI runs, so we skip the relevant tests
@@ -36,7 +31,7 @@ skip_with_flaky_pyside = unittest.skipIf(
     (
         os.getenv("GITHUB_ACTIONS") == "true"
         and sys.platform == "linux"
-        and os.getenv("ETS_TOOLKIT") == "qt"
+        and pyside6_available
     ),
     "Skipping segfault-causing test on Linux. See enthought/envisage#476",
 )
@@ -47,10 +42,6 @@ class DummyGUI(HasTraits):
     pass
 
 
-@unittest.skipIf(
-    sys.platform == "linux" and sys.version_info >= (3, 8),
-    "xref: enthought/envisage#476",
-)
 @requires_gui
 class TestTasksApplication(unittest.TestCase):
     def setUp(self):
