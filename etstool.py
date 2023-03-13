@@ -91,13 +91,15 @@ available_runtimes = ["3.8"]
 default_runtime = "3.8"
 
 # Toolkits supported by this tool.
-available_toolkits = ["pyside2", "pyside6", "pyqt5", "wx", "null"]
+# PySide2 and PyQt5 are not (currently) available for EDM + Python 3.8, so we
+# don't support them here.
+available_toolkits = ["null", "pyqt6", "pyside6"]
 
 # Toolkit used by default.
 default_toolkit = "null"
 
 supported_combinations = {
-    "3.8": {"pyside6", "wx", "null"},
+    "3.8": {"null", "pyqt6", "pyside6"},
 }
 
 dependencies = {
@@ -108,12 +110,13 @@ dependencies = {
     "flake8_ets",
     "pyface",
     "sphinx",
+    "sphinx_copybutton",
     "traits",
     "traitsui",
 }
 
 # Dependencies we install from PyPI
-pypi_dependencies = {"sphinx-copybutton"}
+pypi_dependencies = {}
 
 # Dependencies we install from source for cron tests
 # Order from packages with the most dependencies to one with the least
@@ -127,21 +130,11 @@ source_dependencies = [
 
 # Toolkit dependencies installed from EDM.
 toolkit_dependencies = {
-    "pyside2": {"pyside2"},
     "pyside6": {"pyside6"},
-    "pyqt5": {"pyqt5"},
-    # wxPython is not available in EDM; we'll need to pip install it
+    "pyqt6": {"pyqt6"},
 }
 
 runtime_dependencies = {}
-
-environment_vars = {
-    "pyside2": {"ETS_TOOLKIT": "qt", "QT_API": "pyside2"},
-    "pyside6": {"ETS_TOOLKIT": "qt", "QT_API": "pyside6"},
-    "pyqt5": {"ETS_TOOLKIT": "qt", "QT_API": "pyqt5"},
-    "wx": {"ETS_TOOLKIT": "wx"},
-    "null": {"ETS_TOOLKIT": "null"},
-}
 
 github_url_fmt = "git+http://github.com/enthought/{0}.git#egg={0}"
 
@@ -216,19 +209,6 @@ def install(edm, runtime, toolkit, environment, editable, source):
         "{edm} environments create {environment} --force --version={runtime}",
         "{edm} --config edm.yaml install -y -e {environment} " + packages,
     ]
-
-    # install wxPython with pip, because we don't have it in EDM
-    if toolkit == "wx":
-        if sys.platform == "linux":
-            # XXX This assumes Ubuntu 22.04, and targets CI.
-            commands.append(
-                "{edm} run -e {environment} -- python -m pip install -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/ wxPython"  # noqa: E501
-            )
-        else:
-            commands.append(
-                "{edm} run -e {environment} -- python -m pip install wxPython"
-            )
-
     commands.extend(
         [
             "{edm} run -e {environment} -- pip install " + dep
@@ -319,8 +299,7 @@ def test(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    environ = environment_vars.get(toolkit, {}).copy()
-    environ["PYTHONUNBUFFERED"] = "1"
+    environ = dict(PYTHONUNBUFFERED="1")
     commands = [
         (
             "{edm} run -e {environment} -- python -W default -m "
