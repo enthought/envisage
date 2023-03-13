@@ -4,3 +4,4 @@ store_url: "https://packages.enthought.com"
 repositories:
   - enthought/free
   - enthought/lgpl
+  - enthought/gpl
