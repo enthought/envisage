@@ -16,9 +16,11 @@ import tempfile
 import unittest
 
 import pkg_resources
+from pyface.gui import GUI
 from pyface.i_gui import IGUI
-from traits.api import HasTraits, provides
+from traits.api import Event, HasTraits, provides
 
+from envisage.api import Plugin
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
@@ -45,6 +47,44 @@ skip_with_flaky_pyside = unittest.skipIf(
 @provides(IGUI)
 class DummyGUI(HasTraits):
     pass
+
+
+class LifecycleRecordingPlugin(Plugin):
+    """
+    Plugin that fires events when started and stopped.
+    """
+
+    #: Event fired when plugin starts
+    started = Event()
+
+    #: Event fired when plugin stops
+    stopped = Event()
+
+    def start(self):
+        self.started = True
+
+    def stop(self):
+        self.stopped = True
+
+
+class LifecycleRecordingGUI(GUI):
+    """
+    GUI subclass that adds events for watching start and stop of event loop.
+    """
+
+    #: Event fired just before we start the event loop.
+    starting = Event
+
+    #: Event fired just after we've exited the event loop.
+    stopped = Event
+
+    def start_event_loop(self):
+        """
+        Extend the base class method to fire the additional events.
+        """
+        self.starting = True
+        super().start_event_loop()
+        self.stopped = True
 
 
 @unittest.skipIf(
@@ -151,3 +191,40 @@ class TestTasksApplication(unittest.TestCase):
         # and the test passes because no errors are raised.
         app = TasksApplication()
         app.gui = DummyGUI()
+
+    def test_simple_lifecycle(self):
+        app = TasksApplication(state_location=self.tmpdir)
+        app.on_trait_change(app.exit, "application_initialized")
+        app.run()
+
+    def test_lifecycle_with_plugin(self):
+        events = []
+        plugin = LifecycleRecordingPlugin(record_to=events)
+        plugin.observe(events.append, "started,stopped")
+
+        gui = LifecycleRecordingGUI()
+        gui.observe(events.append, "starting,stopped")
+
+        app = TasksApplication(
+            gui=gui, state_location=self.tmpdir, plugins=[plugin]
+        )
+        app.observe(events.append, "starting,started,stopping,stopped")
+
+        # When we start and stop the application
+        app.observe(lambda event: app.exit(), "application_initialized")
+        app.run()
+
+        # Then events occurred in the following order.
+        self.assertEqual(
+            [(event.object, event.name) for event in events],
+            [
+                (app, "starting"),
+                (plugin, "started"),
+                (app, "started"),
+                (gui, "starting"),
+                (gui, "stopped"),
+                (app, "stopping"),
+                (plugin, "stopped"),
+                (app, "stopped"),
+            ],
+        )

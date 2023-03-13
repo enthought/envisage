@@ -177,6 +177,7 @@ class TasksApplication(Application):
             # Start the GUI event loop.
             gui.set_trait_later(self, "application_initialized", self)
             gui.start_event_loop()
+            self.stop()
 
         return started
 
@@ -530,7 +531,7 @@ class TasksApplication(Application):
 
         # Was this the last window?
         if len(self.windows) == 0:
-            self.stop()
+            self.gui.stop_event_loop()
 
 
 class TasksApplicationState(HasStrictTraits):
