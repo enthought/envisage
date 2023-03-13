@@ -25,6 +25,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install test dependencies
+        # See https://github.com/enthought/envisage/issues/528 for restrictions
         run: python -m pip install 'pyside6 < 6.4'
         if: matrix.python-version != '3.11'
       - name: Install package under test
