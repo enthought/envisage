@@ -194,7 +194,7 @@ class TestTasksApplication(unittest.TestCase):
 
     def test_simple_lifecycle(self):
         app = TasksApplication(state_location=self.tmpdir)
-        app.on_trait_change(app.exit, "application_initialized")
+        app.observe(lambda event: app.exit(), "application_initialized")
         app.run()
 
     def test_lifecycle_with_plugin(self):
