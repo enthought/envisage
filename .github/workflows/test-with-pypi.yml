@@ -13,8 +13,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
-        python-version: ['3.7', '3.8', '3.10']
-        toolkit: ['pyside6']
+        python-version: ['3.7', '3.8', '3.10', '3.11']
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -26,8 +25,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install package and dependencies
-        run: python -m pip install .[${{ matrix.toolkit }}]
+      - name: Install test dependencies
+        run: python -m pip install 'pyside6 < 6.4'
+        if: matrix.python-version != '3.11'
+      - name: Install package under test
+        run: python -m pip install .
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: |
