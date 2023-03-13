@@ -299,7 +299,7 @@ def test(edm, runtime, toolkit, environment):
 
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    environ = dict(PYTHONUNBUFFERED = "1")
+    environ = dict(PYTHONUNBUFFERED="1")
     commands = [
         (
             "{edm} run -e {environment} -- python -W default -m "
