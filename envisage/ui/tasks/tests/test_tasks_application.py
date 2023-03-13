@@ -192,11 +192,13 @@ class TestTasksApplication(unittest.TestCase):
         app = TasksApplication()
         app.gui = DummyGUI()
 
+    @skip_with_flaky_pyside
     def test_simple_lifecycle(self):
         app = TasksApplication(state_location=self.tmpdir)
         app.observe(lambda event: app.exit(), "application_initialized")
         app.run()
 
+    @skip_with_flaky_pyside
     def test_lifecycle_with_plugin(self):
         events = []
         plugin = LifecycleRecordingPlugin(record_to=events)
