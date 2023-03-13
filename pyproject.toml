@@ -42,9 +42,6 @@ dependencies = [
 [project.entry-points.etsdemo_data]
 demo_examples = 'envisage.examples._etsdemo_info:info'
 
-[project.optional-dependencies]
-pyside6 = ['pyside6<6.4.0']
-
 [project.urls]
 documentation = 'https://docs.enthought.com/envisage/'
 repository = 'https://github.com/enthought/envisage'
