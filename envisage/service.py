@@ -74,7 +74,7 @@ class Service(TraitType):
     def set(self, obj, name, value):
         """ Trait type setter. """
 
-        raise SystemError("Service traits cannot be set")
+        raise RuntimeError("Service traits cannot be set")
 
     ###########################################################################
     # Private interface.

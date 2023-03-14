@@ -118,7 +118,7 @@ class EggBasedTestCase(unittest.TestCase):
         # Py2 tests was checking that len(errors) > 0. This did not work on
         # Py3. Test changed to check the len(distributions)
         if len(distributions) == 0:
-            raise SystemError("Cannot find eggs %s" % errors)
+            raise RuntimeError("Cannot find compatible eggs %s" % errors)
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).
