@@ -1,3 +1,92 @@
 [build-system]
 requires = ['setuptools', 'wheel']
 build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'envisage'
+version = '7.0.0'
+description = 'Extensible application framework'
+readme = 'README.rst'
+requires-python = '>= 3.7'
+license = {file = 'LICENSE.txt'}
+authors = [{name = 'Enthought', email = 'info@enthought.com'}]
+keywords = ['extensible', 'plugin', 'application', 'framework']
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: MacOS :: MacOS X',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX :: Linux',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Software Development',
+    'Topic :: Software Development :: Libraries',
+    'Topic :: Software Development :: User Interfaces',
+]
+dependencies = [
+    'apptools',
+    'pyface',
+    'setuptools',
+    'traits>=6.2',
+    'traitsui',
+    'importlib-resources>=1.1.0; python_version<"3.9"',
+]
+
+[project.entry-points.'envisage.plugins']
+'envisage.core' = 'envisage.core_plugin:CorePlugin'
+
+[project.entry-points.etsdemo_data]
+demo_examples = 'envisage.examples._etsdemo_info:info'
+
+[project.urls]
+documentation = 'https://docs.enthought.com/envisage/'
+repository = 'https://github.com/enthought/envisage'
+issues = 'https://github.com/enthought/envisage/issues'
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+profile = 'black'
+line_length = 79
+order_by_type = false
+sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'ENTHOUGHT', 'FIRSTPARTY', 'LOCALFOLDER']
+known_enthought = ['apptools', 'pyface', 'traits', 'traitsui']
+
+[tool.setuptools.packages.find]
+include = ['envisage*']
+
+[tool.setuptools.package-data]
+'envisage.examples' = ['demo/**']
+'envisage.tests' = [
+    'bad_eggs/README.txt',
+    'bad_eggs/acme.bad/setup.py',
+    'bad_eggs/acme.bad/acme/*.py',
+    'bad_eggs/acme.bad/acme/bad/*.py',
+    'eggs/README.txt',
+    'eggs/acme.bar/setup.py',
+    'eggs/acme.bar/acme/*.py',
+    'eggs/acme.bar/acme/bar/*.py',
+    'eggs/acme.baz/setup.py',
+    'eggs/acme.baz/acme/*.py',
+    'eggs/acme.baz/acme/baz/*.py',
+    'eggs/acme.foo/setup.py',
+    'eggs/acme.foo/acme/*.py',
+    'eggs/acme.foo/acme/foo/*.py',
+    'plugins/pear/*.py',
+    'plugins/banana/*.py',
+    'plugins/orange/*.py',
+    'preferences.ini',
+]
+'envisage.ui.tasks.tests' = ['data/*.pkl']
+'envisage.ui.workbench' = [
+    'preferences.ini',
+    'images/*',
+]
+'envisage.ui.workbench.action' = [
+    'images/*',
+]
