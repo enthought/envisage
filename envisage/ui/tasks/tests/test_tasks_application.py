@@ -82,10 +82,6 @@ class LifecycleRecordingGUI(GUI):
         self.stopped = True
 
 
-@unittest.skipIf(
-    sys.platform == "linux" and sys.version_info >= (3, 8),
-    "xref: enthought/envisage#476",
-)
 @requires_gui
 class TestTasksApplication(unittest.TestCase):
     def setUp(self):
