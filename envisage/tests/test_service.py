@@ -56,7 +56,7 @@ class ServiceTestCase(unittest.TestCase):
         self.assertEqual(None, b.foo)
 
         # You can't set service traits!
-        with self.assertRaises(ValueError):
+        with self.assertRaises(RuntimeError):
             setattr(b, "foo", "bogus")
 
     def test_service_trait_type_with_no_service_registry(self):
