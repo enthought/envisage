@@ -22,15 +22,6 @@ from envisage.tests.support import SimpleApplication
 from traits.api import HasTraits, Instance, Int, Interface, List, provides
 
 
-def listener(obj, trait_name, old, new):
-    """ A useful trait change handler for testing! """
-
-    listener.obj = obj
-    listener.trait_name = trait_name
-    listener.old = old
-    listener.new = new
-
-
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
 

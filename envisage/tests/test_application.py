@@ -32,19 +32,10 @@ from envisage.tests.support import (
 )
 
 
-def listener(obj, trait_name, old, new):
-    """ A useful trait change handler for testing! """
-
-    listener.obj = obj
-    listener.trait_name = trait_name
-    listener.old = old
-    listener.new = new
-
-
 def vetoer(event):
-    """ A function that will veto an event. """
+    """ An observer that will veto an event. """
 
-    event.veto = True
+    event.new.veto = True
 
 
 class SimplePlugin(Plugin):
@@ -143,12 +134,6 @@ class ApplicationTestCase(unittest.TestCase):
     def setUp(self):
         """ Prepares the test fixture before each test method is called. """
 
-        # Make sure that the listener contents get cleand up before each test.
-        listener.obj = None
-        listener.trait_name = None
-        listener.old = None
-        listener.new = None
-
         ets_config_patcher = ETSConfigPatcher()
         ets_config_patcher.start()
         self.addCleanup(ets_config_patcher.stop)
@@ -205,7 +190,7 @@ class ApplicationTestCase(unittest.TestCase):
         application = SimpleApplication()
 
         # This listener will veto the 'starting' event.
-        application.on_trait_change(vetoer, "starting")
+        application.observe(vetoer, "starting")
 
         tracker = EventTracker(
             subscriptions=[
@@ -227,7 +212,7 @@ class ApplicationTestCase(unittest.TestCase):
         application = SimpleApplication()
 
         # This listener will veto the 'stopping' event.
-        application.on_trait_change(vetoer, "stopping")
+        application.observe(vetoer, "stopping")
 
         tracker = EventTracker(
             subscriptions=[
