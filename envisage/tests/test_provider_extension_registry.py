@@ -523,7 +523,7 @@ class ProviderExtensionRegistryTestCase(
         registry.add_extension_point(self.create_extension_point("my.ep"))
 
         # Set some extensions.
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(TypeError):
             registry.set_extensions("my.ep", [1, 2, 3])
 
     def test_remove_non_empty_extension_point(self):
