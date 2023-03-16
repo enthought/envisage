@@ -14,45 +14,18 @@ except ImportError:
     from importlib_metadata import EntryPoint, EntryPoints
 
 import unittest
-import contextlib
 
-from traits.api import Event
-
-from envisage.plugin import Plugin
+from envisage.core_plugin import CorePlugin
 from envisage.entry_point_plugin_manager import EntryPointPluginManager
 from envisage.i_plugin_manager import IPluginManager
-
-
-# XXX Move the EventRecorder to test support?
-
-# 'event_recorder' is a piece of global state that lets us record plugin start
-# and stop events.
-
-class EventRecorder:
-    @contextlib.contextmanager
-    def record_to(self, target_list):
-        self._events = target_list
-        try:
-            yield
-        finally:
-            del self._events
-
-    def record(self, event):
-        if not hasattr(self, "_events"):
-            raise RuntimeError(
-                "No target list for recording. Set a target list using "
-                "the 'record_to' context manager."
-            )
-        self._events.append(event)
-
-
-event_recorder = EventRecorder()
-
-
-# Instrumented plugins
+from envisage.plugin import Plugin
+from envisage.tests.support import event_recorder
 
 
 class BaseInstrumentedPlugin(Plugin):
+    """
+    A plugin that records its start and stop to the global event_recorder.
+    """
     def start(self):
         event_recorder.record(("starting", self.id))
 
@@ -68,45 +41,47 @@ class AnotherSpyPlugin(BaseInstrumentedPlugin):
     id = "AnotherSpyPlugin"
 
 
-
 class TestEntryPointPluginManager(unittest.TestCase):
     def test_implements_interface(self):
         self.assertIsInstance(EntryPointPluginManager(), IPluginManager)
 
-    def test_entry_points_directly_specified(self):
-
-        # Name of the entry points group that we'll use for testing.
-        group = "myapp.plugins"
-
-        # No good - we need to run in the target environment.
-        # Can we fake it for now, then add integration tests later?
-
-        # Entry points in the (mocked) environment.
-        # Triples (entry point group name, entry point name, object reference)
+    def test_using_entry_points(self):
+        # Given a collection of entry points referring to plugins ...
         entry_points = EntryPoints(
-            EntryPoint(group=group, name=name, value=value)
+            EntryPoint(group="myapp.plugins", name=name, value=value)
             for name, value in [
-                ("spy_plugin", "envisage.tests.test_entry_point_plugin_manager:SpyPlugin"),
-                ("another_spy_plugin", "envisage.tests.test_entry_point_plugin_manager:AnotherSpyPlugin"),
+                ("spy_plugin", f"{__name__}:SpyPlugin"),
+                ("another_spy_plugin", f"{__name__}:AnotherSpyPlugin"),
             ]
         )
 
-        # XXX Add other entry points that aren't plugins; check that they
-        # aren't picked up.
-
+        # ... and a manager that uses them
         manager = EntryPointPluginManager(entry_points=entry_points)
 
-        events = []
-        with event_recorder.record_to(events):
+        # When we start and stop the manager
+        with event_recorder.start_recording() as events:
             manager.start()
             manager.stop()
 
+        # Then the expected plugins are started and stopped.
         self.assertEqual(
             events,
-            [('starting', 'SpyPlugin'), ('starting', 'AnotherSpyPlugin'), ('stopping', 'AnotherSpyPlugin'), ('stopping', 'SpyPlugin')],
+            [
+                ("starting", "SpyPlugin"),
+                ("starting", "AnotherSpyPlugin"),
+                ("stopping", "AnotherSpyPlugin"),
+                ("stopping", "SpyPlugin"),
+            ],
         )
 
-    def test_select_by_group(self):
+    def test_global_entry_points_selected_by_group(self):
+        # Given a manager that selects entry points from the Python environment
         manager = EntryPointPluginManager(group="envisage.plugins")
 
-        breakpoint()
+        # When we retrieve the list of plugins
+        plugins = list(manager)
+
+        # Then we get the expected plugins (in this case, a single CorePlugin
+        # instance).
+        self.assertEqual(len(plugins), 1)
+        self.assertIsInstance(plugins[0], CorePlugin)

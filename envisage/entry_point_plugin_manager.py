@@ -9,34 +9,34 @@
 # Thanks for using Enthought open source!
 
 
-from traits.api import Instance, List, Str, Union
+try:
+    from importlib.metadata import entry_points, EntryPoints
+except ImportError:
+    from importlib_metadata import entry_points, EntryPoints
+
+from traits.api import Instance, Str
 
 from envisage.plugin_manager import PluginManager
 
 
-try:
-    from importlib.metadata import EntryPoints, entry_points
-except ImportError:
-    from importlib_metadata import EntryPoints, entry_points
-
-
 class EntryPointPluginManager(PluginManager):
+    """
+    A plugin manager that loads the initial set of plugins from
+    a collection of Python entry points (see importlib.metadata).
+    """
 
+    #: Name of the entry point group that we'll load plugins from, if
+    #: the 'entry_points' trait is not provided.
     group = Str("envisage.plugins")
 
-    #: Entry points that the plugins will be loaded from.
-    # XXX Add some kind of name-based filtering on top of this.
+    #: Entry points that the plugins will be loaded from. Overrides
+    #: the 'group' trait.
     entry_points = Instance(EntryPoints)
 
     def _entry_points_default(self):
-        # XXX Find a way to test this. Likely needs an integration test.
-        # Though we can safely test with envisage.plugins.
         return entry_points(group=self.group)
 
     # Protected 'PluginManager' protocol ######################################
 
     def __plugins_default(self):
-        return [
-            entry_point.load()()
-            for entry_point in self.entry_points
-        ]
+        return [entry_point.load()() for entry_point in self.entry_points]
