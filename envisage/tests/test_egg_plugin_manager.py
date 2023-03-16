@@ -35,7 +35,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._add_eggs_on_path([self.egg_dir])
 
         # Make sure that the plugin manager only includes those plugins.
-        plugin_manager = EggPluginManager()
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggPluginManager()
 
         # We don't know how many plugins we will actually get - it depends on
         # what eggs are on sys.path! What we *do* know however is the the 3
@@ -60,7 +61,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         include = [r"acme\.foo", r"acme\.bar"]
 
         # Make sure that the plugin manager only includes those plugins.
-        plugin_manager = EggPluginManager(include=include)
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggPluginManager(include=include)
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -81,7 +83,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         include = ["acme.*"]
 
         # Make sure that the plugin manager only includes those plugins.
-        plugin_manager = EggPluginManager(include=include)
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggPluginManager(include=include)
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -105,7 +108,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         exclude = [r"acme\.foo", r"acme\.baz"]
 
         # Make sure that the plugin manager excludes the specified plugins.
-        plugin_manager = EggPluginManager(include=include, exclude=exclude)
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggPluginManager(include=include, exclude=exclude)
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -129,7 +133,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         exclude = [r"acme\.b.*"]
 
         # Make sure that the plugin manager excludes the specified plugins.
-        plugin_manager = EggPluginManager(include=include, exclude=exclude)
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggPluginManager(include=include, exclude=exclude)
 
         # Make sure the plugin manager found only the required plugins and that
         # it starts and stops them correctly..
@@ -143,7 +148,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
             # plugin manager picks up the *current* value of
             # pkg_resources.working_set.
             pkg_resources.working_set = pkg_resources.WorkingSet()
-            plugin_manager = EggPluginManager()
+            with self.assertWarns(DeprecationWarning):
+                plugin_manager = EggPluginManager()
             self.assertEqual(
                 plugin_manager.working_set,
                 pkg_resources.working_set,
