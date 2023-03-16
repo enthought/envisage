@@ -80,7 +80,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
-        plugin_manager = EggBasketPluginManager(plugin_path=[self.eggs_dir])
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(plugin_path=[self.eggs_dir])
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
@@ -94,9 +95,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["acme.foo", "acme.bar"]
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir], include=include
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.eggs_dir], include=include
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo", "acme.bar"]
@@ -111,9 +113,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["acme.b*"]
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir], include=include
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.eggs_dir], include=include
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.bar", "acme.baz"]
@@ -128,9 +131,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["acme.foo", "acme.baz"]
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir], exclude=exclude
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.eggs_dir], exclude=exclude
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.bar"]
@@ -145,9 +149,10 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["acme.b*"]
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.eggs_dir], exclude=exclude
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.eggs_dir], exclude=exclude
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo"]
@@ -157,7 +162,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_reflect_changes_to_the_plugin_path(self):
-        plugin_manager = EggBasketPluginManager()
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager()
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
@@ -173,9 +179,11 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertEqual(len(ids), 0)
 
     def test_ignore_broken_plugins_raises_exceptions_by_default(self):
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.bad_eggs_dir, self.eggs_dir],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
+            )
+
         with self.assertRaises(ImportError):
             list(plugin_manager)
 
@@ -187,10 +195,11 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             data["entry_point"] = ep
             data["exc"] = exc
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[self.bad_eggs_dir, self.eggs_dir],
-            on_broken_plugin=on_broken_plugin,
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
+                on_broken_plugin=on_broken_plugin,
+            )
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
@@ -209,12 +218,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         for dist in pkg_resources.find_distributions(self.eggs_dir):
             pkg_resources.working_set.add(dist)
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[
-                # Attempt to add acme.foo, with conflicting version 0.1a11
-                self._create_broken_distribution_eggdir("acme.foo*.egg"),
-            ],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[
+                    # Attempt to add acme.foo, with conflicting version 0.1a11
+                    self._create_broken_distribution_eggdir("acme.foo*.egg"),
+                ],
+            )
+
         with self.assertRaises(SystemError):
             iter(plugin_manager)
 
@@ -231,13 +242,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             data["distribution"] = dist
             data["exc"] = exc
 
-        plugin_manager = EggBasketPluginManager(
-            plugin_path=[
-                self.eggs_dir,
-                self._create_broken_distribution_eggdir("acme.foo*.egg"),
-            ],
-            on_broken_distribution=on_broken_distribution,
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[
+                    self.eggs_dir,
+                    self._create_broken_distribution_eggdir("acme.foo*.egg"),
+                ],
+                on_broken_distribution=on_broken_distribution,
+            )
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
