@@ -27,7 +27,8 @@ class PackagePluginManagerTestCase(unittest.TestCase):
 
     def test_find_plugins_in_packages_on_the_plugin_path(self):
 
-        plugin_manager = PackagePluginManager(plugin_path=[self.plugins_dir])
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager(plugin_path=[self.plugins_dir])
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(len(ids), 3)
@@ -41,9 +42,10 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["orange", "pear"]
 
-        plugin_manager = PackagePluginManager(
-            plugin_path=[self.plugins_dir], include=include
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager(
+                plugin_path=[self.plugins_dir], include=include
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["orange", "pear"]
@@ -58,9 +60,10 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["*r*"]
 
-        plugin_manager = PackagePluginManager(
-            plugin_path=[self.plugins_dir], include=include
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager(
+                plugin_path=[self.plugins_dir], include=include
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["orange", "pear"]
@@ -75,9 +78,10 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["orange", "pear"]
 
-        plugin_manager = PackagePluginManager(
-            plugin_path=[self.plugins_dir], exclude=exclude
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager(
+                plugin_path=[self.plugins_dir], exclude=exclude
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["banana"]
@@ -92,9 +96,10 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["*r*"]
 
-        plugin_manager = PackagePluginManager(
-            plugin_path=[self.plugins_dir], exclude=exclude
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager(
+                plugin_path=[self.plugins_dir], exclude=exclude
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["banana"]
@@ -104,7 +109,8 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_reflect_changes_to_the_plugin_path(self):
-        plugin_manager = PackagePluginManager()
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PackagePluginManager()
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
