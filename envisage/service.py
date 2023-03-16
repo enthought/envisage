@@ -14,8 +14,7 @@
 import logging
 
 # Enthought library imports.
-from traits.api import TraitType
-from traits.trait_errors import TraitError
+from traits.api import TraitError, TraitType
 
 # Logging.
 logger = logging.getLogger(__name__)

@@ -14,8 +14,7 @@ import unittest
 
 # Enthought library imports.
 from envisage.api import Application, Plugin, Service
-from traits.api import HasTraits, Instance
-from traits.trait_errors import TraitError
+from traits.api import HasTraits, Instance, TraitError
 
 
 class TestApplication(Application):
