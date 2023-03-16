@@ -17,13 +17,14 @@ import unittest
 
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from envisage.api import Application, ExtensionPoint
+from envisage.api import ExtensionPoint
 from envisage.api import Plugin, PluginManager
 from traits.api import Bool, Int, List
 
 # Local imports.
 from envisage.tests.event_tracker import EventTracker
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
+from envisage.tests.support import SimpleApplication
 
 
 def listener(obj, trait_name, old, new):
@@ -39,12 +40,6 @@ def vetoer(event):
     """ A function that will veto an event. """
 
     event.veto = True
-
-
-class TestApplication(Application):
-    """ The type of application used in the tests. """
-
-    id = "test"
 
 
 class SimplePlugin(Plugin):
@@ -177,7 +172,7 @@ class ApplicationTestCase(unittest.TestCase):
     def test_home(self):
         """ home """
 
-        application = TestApplication()
+        application = SimpleApplication()
 
         # Make sure we get the right default value.
         self.assertEqual(ETSConfig.application_home, application.home)
@@ -186,7 +181,7 @@ class ApplicationTestCase(unittest.TestCase):
         shutil.rmtree(application.home)
 
         # Create a new application.
-        application = TestApplication()
+        application = SimpleApplication()
 
         # Make sure the directory got created.
         self.assertTrue(os.path.exists(application.home))
@@ -197,7 +192,7 @@ class ApplicationTestCase(unittest.TestCase):
     def test_no_plugins(self):
         """ no plugins """
 
-        application = TestApplication()
+        application = SimpleApplication()
 
         tracker = EventTracker(
             subscriptions=[
@@ -223,7 +218,7 @@ class ApplicationTestCase(unittest.TestCase):
     def test_veto_starting(self):
         """ veto starting """
 
-        application = TestApplication()
+        application = SimpleApplication()
 
         # This listener will veto the 'starting' event.
         application.on_trait_change(vetoer, "starting")
@@ -245,7 +240,7 @@ class ApplicationTestCase(unittest.TestCase):
     def test_veto_stopping(self):
         """ veto stopping """
 
-        application = TestApplication()
+        application = SimpleApplication()
 
         # This listener will veto the 'stopping' event.
         application.on_trait_change(vetoer, "stopping")
@@ -274,7 +269,7 @@ class ApplicationTestCase(unittest.TestCase):
 
         simple_plugin = SimplePlugin()
         bad_plugin = BadPlugin()
-        application = TestApplication(plugins=[simple_plugin, bad_plugin])
+        application = SimpleApplication(plugins=[simple_plugin, bad_plugin])
 
         # Try to start the application - the bad plugin should barf.
         with self.assertRaises(ZeroDivisionError):
@@ -299,7 +294,7 @@ class ApplicationTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # Make sure we can get the contributions via the application.
@@ -318,7 +313,7 @@ class ApplicationTestCase(unittest.TestCase):
         # Given
         d = PluginD()
         e = PluginE()
-        application = TestApplication(plugins=[d, e])
+        application = SimpleApplication(plugins=[d, e])
 
         # When
         application.start()
@@ -341,7 +336,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
         application.start()
 
         def listener(extension_registry, event):
@@ -375,7 +370,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just one of the plugins.
-        application = TestApplication(plugins=[a])
+        application = SimpleApplication(plugins=[a])
         application.start()
 
         def listener(extension_registry, event):
@@ -418,7 +413,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
         application.start()
 
         # Make sure we can get the contributions via the application.
@@ -452,7 +447,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # Make sure we can get the plugins.
@@ -470,7 +465,7 @@ class ApplicationTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # Make sure we can get the contributions via the application.
@@ -504,7 +499,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = TestApplication(
+        application = SimpleApplication(
             plugin_manager=PluginManager(plugins=[a, b, c])
         )
         application.start()

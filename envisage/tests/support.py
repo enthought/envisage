@@ -20,6 +20,9 @@ import unittest
 
 from pyface.api import GUI
 
+from envisage.api import Application
+
+
 # Skip decorator for tests that require a working GUI instance.
 try:
     GUI()
@@ -41,3 +44,11 @@ except ImportError:
 else:
     pyside6_available = True
     del PySide6
+
+
+# Application class used in various tests.
+
+class SimpleApplication(Application):
+    """ The type of application used in the tests. """
+
+    id = "test"

@@ -16,18 +16,13 @@ import unittest
 from pkg_resources import resource_filename
 
 # Enthought library imports.
-from envisage.api import Application, CorePlugin, Plugin
+from envisage.api import CorePlugin, Plugin
 from envisage.api import ServiceOffer
+from envisage.tests.support import SimpleApplication
 from traits.api import HasTraits, Interface, List, on_trait_change, Str
 
 # This module's package.
 PKG = "envisage.tests"
-
-
-class TestApplication(Application):
-    """ The type of application used in the tests. """
-
-    id = "core.plugin.test"
 
 
 class CorePluginTestCase(unittest.TestCase):
@@ -63,7 +58,7 @@ class CorePluginTestCase(unittest.TestCase):
         core = CorePlugin()
         a = PluginA()
 
-        application = TestApplication(plugins=[core, a])
+        application = SimpleApplication(plugins=[core, a])
         application.start()
 
         # Lookup the service.
@@ -106,7 +101,7 @@ class CorePluginTestCase(unittest.TestCase):
         a = PluginA()
 
         # Start off with just the core plugin.
-        application = TestApplication(plugins=[core])
+        application = SimpleApplication(plugins=[core])
         application.start()
 
         # Make sure the service does not exist!
@@ -144,7 +139,7 @@ class CorePluginTestCase(unittest.TestCase):
         core = CorePlugin()
         a = PluginA()
 
-        application = TestApplication(plugins=[core, a])
+        application = SimpleApplication(plugins=[core, a])
         application.run()
 
         # Make sure we can get one of the preferences.
@@ -166,7 +161,7 @@ class CorePluginTestCase(unittest.TestCase):
         a = PluginA()
 
         # Start with just the core plugin.
-        application = TestApplication(plugins=[core])
+        application = SimpleApplication(plugins=[core])
         application.start()
 
         # Now add a plugin that contains a preference.
@@ -213,7 +208,7 @@ class CorePluginTestCase(unittest.TestCase):
                 # only 1 service is registered so it has service_id of 1
                 self.application.unregister_service(1)
 
-        application = TestApplication(
+        application = SimpleApplication(
             plugins=[CorePlugin(), PluginA()],
         )
 
@@ -233,7 +228,7 @@ class CorePluginTestCase(unittest.TestCase):
 
         some_junk = Junk()
 
-        application = TestApplication(
+        application = SimpleApplication(
             plugins=[CorePlugin()],
         )
 

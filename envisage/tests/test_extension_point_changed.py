@@ -14,11 +14,11 @@ import unittest
 
 # Local imports.
 from envisage.api import ExtensionPointChangedEvent
+from envisage.tests.support import SimpleApplication
 from envisage.tests.test_application import (
     PluginA,
     PluginB,
     PluginC,
-    TestApplication,
     listener,
 )
 
@@ -40,7 +40,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = TestApplication(plugins=[a])
+        application = SimpleApplication(plugins=[a])
         application.start()
 
         # Try to set the extension point.
@@ -55,7 +55,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # when
@@ -72,7 +72,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # fixme: If the extension point has not been accessed then the
@@ -113,7 +113,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # fixme: If the extension point has not been accessed then the
@@ -154,7 +154,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # fixme: If the extension point has not been accessed then the
@@ -196,7 +196,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # Assign an empty list to one of the plugin's contributions.
@@ -228,7 +228,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # fixme: If the extension point has not been accessed then the
@@ -285,7 +285,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
         application.start()
 
         # Make sure we can get the contributions via the application.
@@ -335,7 +335,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         b = PluginB()
         c = PluginC()
 
-        application = TestApplication(plugins=[a, b, c])
+        application = SimpleApplication(plugins=[a, b, c])
         application.start()
 
         # Make sure we can get the contributions via the application.
