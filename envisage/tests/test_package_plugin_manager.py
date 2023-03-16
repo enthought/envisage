@@ -28,7 +28,9 @@ class PackagePluginManagerTestCase(unittest.TestCase):
     def test_find_plugins_in_packages_on_the_plugin_path(self):
 
         with self.assertWarns(DeprecationWarning):
-            plugin_manager = PackagePluginManager(plugin_path=[self.plugins_dir])
+            plugin_manager = PackagePluginManager(
+                plugin_path=[self.plugins_dir]
+            )
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(len(ids), 3)

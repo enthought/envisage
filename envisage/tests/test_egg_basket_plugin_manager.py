@@ -81,7 +81,9 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
 
         with self.assertWarns(DeprecationWarning):
-            plugin_manager = EggBasketPluginManager(plugin_path=[self.eggs_dir])
+            plugin_manager = EggBasketPluginManager(
+                plugin_path=[self.eggs_dir]
+            )
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
