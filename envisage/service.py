@@ -15,7 +15,7 @@ import logging
 
 # Enthought library imports.
 from traits.api import TraitType
-
+from traits.trait_errors import TraitError
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class Service(TraitType):
     def set(self, obj, name, value):
         """ Trait type setter. """
 
-        raise RuntimeError("Service traits cannot be set")
+        raise TraitError("Service traits cannot be set")
 
     ###########################################################################
     # Private interface.

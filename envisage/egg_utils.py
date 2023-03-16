@@ -29,7 +29,7 @@ def add_eggs_on_path(working_set, path, on_error=None):
         if on_error:
             on_error(errors)
         else:
-            raise RuntimeError("Cannot find compatible eggs %s" % errors)
+            raise RuntimeError("Cannot find eggs %s" % errors)
 
     # Add the distributions to the working set (this makes any Python
     # modules in the eggs available for importing).

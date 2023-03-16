@@ -15,6 +15,7 @@ import unittest
 # Enthought library imports.
 from envisage.api import Application, Plugin, Service
 from traits.api import HasTraits, Instance
+from traits.trait_errors import TraitError
 
 
 class TestApplication(Application):
@@ -56,7 +57,7 @@ class ServiceTestCase(unittest.TestCase):
         self.assertEqual(None, b.foo)
 
         # You can't set service traits!
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(TraitError):
             setattr(b, "foo", "bogus")
 
     def test_service_trait_type_with_no_service_registry(self):
