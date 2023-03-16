@@ -30,7 +30,6 @@ def listener(obj, trait_name, old, new):
     listener.new = new
 
 
-
 class TestPlugin(Plugin):
     id = "test_plugin"
 
