@@ -285,11 +285,11 @@ class ApplicationTestCase(unittest.TestCase):
             application.stop()
 
         # Try to start a non-existent plugin.
-        with self.assertRaises(SystemError):
+        with self.assertRaises(ValueError):
             application.start_plugin(plugin_id="bogus")
 
         # Try to stop a non-existent plugin.
-        with self.assertRaises(SystemError):
+        with self.assertRaises(ValueError):
             application.stop_plugin(plugin_id="bogus")
 
     def test_extension_point(self):

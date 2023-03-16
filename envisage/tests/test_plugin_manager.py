@@ -130,11 +130,11 @@ class PluginManagerTestCase(unittest.TestCase):
             plugin_manager.stop()
 
         # Try to start a non-existent plugin.
-        with self.assertRaises(SystemError):
+        with self.assertRaises(ValueError):
             plugin_manager.start_plugin(plugin_id="bogus")
 
         # Try to stop a non-existent plugin.
-        with self.assertRaises(SystemError):
+        with self.assertRaises(ValueError):
             plugin_manager.stop_plugin(plugin_id="bogus")
 
     def test_only_include_plugins_whose_ids_are_in_the_include_list(self):

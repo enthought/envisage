@@ -45,7 +45,7 @@ class ColorView(View):
 
         method = getattr(self, "_%s_create_control" % ETSConfig.toolkit, None)
         if method is None:
-            raise SystemError("Unknown toolkit %s", ETSConfig.toolkit)
+            raise RuntimeError("Unknown toolkit %s", ETSConfig.toolkit)
 
         color = self.name.lower()
 

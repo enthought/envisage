@@ -215,7 +215,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
                 self._create_broken_distribution_eggdir("acme.foo*.egg"),
             ],
         )
-        with self.assertRaises(SystemError):
+        with self.assertRaises(RuntimeError):
             iter(plugin_manager)
 
     def test_ignore_broken_distributions_loads_good_distributions(self):

@@ -42,7 +42,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     def set_extensions(self, extension_point_id, extensions):
         """ Set the extensions to an extension point. """
 
-        raise SystemError("extension points cannot be set")
+        raise TypeError("extension points cannot be set")
 
     ###########################################################################
     # 'ProviderExtensionRegistry' interface.
