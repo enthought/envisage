@@ -37,7 +37,7 @@ class CompositePluginManager(HasTraits):
     e.g::
 
         plugin_manager = CompositePluginManager(
-             plugin_mangers = [
+             plugin_managers = [
                  EggBasketPluginManager(...),
                  PackagePluginManager(...),
              ]
