@@ -6,7 +6,7 @@ from envisage.ui.action.api import Action, Group, Menu, ToolBar
 from envisage.ui.workbench.api import WorkbenchActionSet
 
 
-class TestActionSet(WorkbenchActionSet):
+class ExampleActionSet(WorkbenchActionSet):
     """ An action test useful for testing. """
 
     #### 'ActionSet' interface ################################################
@@ -15,12 +15,7 @@ class TestActionSet(WorkbenchActionSet):
     id = "envisage.ui.workbench.test"
 
     menus = [
-        Menu(
-            name="&Test",
-            path="MenuBar",
-            before="Help",
-            groups=["XGroup", "YGroup"],
-        ),
+        Menu(name="&Test", path="MenuBar", groups=["XGroup", "YGroup"]),
         Menu(name="Foo", path="MenuBar/Test", groups=["XGroup", "YGroup"]),
         Menu(name="Bar", path="MenuBar/Test", groups=["XGroup", "YGroup"]),
     ]
@@ -38,11 +33,6 @@ class TestActionSet(WorkbenchActionSet):
             path="MenuBar/Test",
             group="Fred",
             class_name="envisage.ui.workbench.action.api:AboutAction",
-        ),
-        Action(
-            path="MenuBar/Test",
-            group="Fred",
-            class_name="acme.workbench.action.new_view_action:NewViewAction",
         ),
         Action(
             path="ToolBar",
