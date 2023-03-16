@@ -19,21 +19,11 @@ from envisage.tests.test_application import (
     PluginA,
     PluginB,
     PluginC,
-    listener,
 )
 
 
 class ExtensionPointChangedTestCase(unittest.TestCase):
     """ Tests for the events fired when extension points are changed. """
-
-    def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
-        # Make sure that the listener contents get cleand up before each test.
-        listener.obj = None
-        listener.trait_name = None
-        listener.old = None
-        listener.new = None
 
     def test_set_extension_point(self):
         """ set extension point """
@@ -50,8 +40,10 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
     def test_mutate_extension_point_no_events(self):
         """ Mutation will not emit change event for name_items """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -62,13 +54,15 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         a.x.append(42)
 
         # then
-        self.assertIsNone(listener.obj)
+        self.assertEqual(events, [])
 
     def test_append(self):
         """ append """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -99,17 +93,21 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([4], listener.new.added)
-        self.assertEqual([], listener.new.removed)
-        self.assertEqual(3, listener.new.index)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([4], event.new.added)
+        self.assertEqual([], event.new.removed)
+        self.assertEqual(3, event.new.index)
 
     def test_remove(self):
         """ remove """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -140,17 +138,21 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([3], listener.new.removed)
-        self.assertEqual(2, listener.new.index)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([], event.new.added)
+        self.assertEqual([3], event.new.removed)
+        self.assertEqual(2, event.new.index)
 
     def test_assign_empty_list(self):
         """ assign empty list """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -181,18 +183,22 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([1, 2, 3], listener.new.removed)
-        self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(3, listener.new.index.stop)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([], event.new.added)
+        self.assertEqual([1, 2, 3], event.new.removed)
+        self.assertEqual(0, event.new.index.start)
+        self.assertEqual(3, event.new.index.stop)
 
     def test_assign_empty_list_no_event(self):
         """ assign empty list no event """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -218,13 +224,15 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # We shouldn't get a trait event here because we haven't accessed the
         # extension point yet!
-        self.assertEqual(None, listener.obj)
+        self.assertEqual(events, [])
 
     def test_assign_non_empty_list(self):
         """ assign non-empty list """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -258,29 +266,33 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([2, 4, 6, 8], listener.new.added)
-        self.assertEqual([1, 2, 3], listener.new.removed)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([2, 4, 6, 8], event.new.added)
+        self.assertEqual([1, 2, 3], event.new.removed)
 
         # The removed entry should match what the old values say
         self.assertEqual(
-            listener.new.removed, source_values[listener.new.index]
+            event.new.removed, source_values[event.new.index]
         )
 
         # If we use the index and apply the changes to the old list, we should
         # recover the new list
-        source_values[listener.new.index] = listener.new.added
+        source_values[event.new.index] = event.new.added
         self.assertEqual(source_values, application.get_extensions("a.x"))
 
-        self.assertEqual(0, listener.new.index.start)
-        self.assertEqual(3, listener.new.index.stop)
+        self.assertEqual(0, event.new.index.start)
+        self.assertEqual(3, event.new.index.stop)
 
     def test_add_plugin(self):
         """ add plugin """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -321,17 +333,21 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([98, 99, 100], listener.new.added)
-        self.assertEqual([], listener.new.removed)
-        self.assertEqual(3, listener.new.index)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([98, 99, 100], event.new.added)
+        self.assertEqual([], event.new.removed)
+        self.assertEqual(3, event.new.index)
 
     def test_remove_plugin(self):
         """ remove plugin """
 
+        events = []
+
         a = PluginA()
-        a.on_trait_change(listener, "x_items")
+        a.observe(events.append, "x_items")
         b = PluginB()
         c = PluginC()
 
@@ -371,11 +387,13 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
 
         # Make sure we got a trait event telling us that the contributions
         # to the extension point have been changed.
-        self.assertEqual(a, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual([], listener.new.added)
-        self.assertEqual([1, 2, 3], listener.new.removed)
-        self.assertEqual(0, listener.new.index)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(a, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual([], event.new.added)
+        self.assertEqual([1, 2, 3], event.new.removed)
+        self.assertEqual(0, event.new.index)
 
     def test_extension_point_change_event_str_representation(self):
         """ test string representation of the ExtensionPointChangedEvent class
