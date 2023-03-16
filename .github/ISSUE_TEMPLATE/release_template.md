@@ -17,7 +17,7 @@ Release candidate
 - [ ] From the commit just before bumping the version, create a new branch `maint/<release version number>`
 - [ ] Update changelog and open PR targeting a new `maint/<release version number>` branch
 - [ ] Check MANIFEST and requirements are still up to date.
-- [ ] Update version in setup.py for the prerelease, open 2 PRs against `maint/<release version number>`
+- [ ] Update version in pyproject.toml for the prerelease, open 2 PRs against `maint/<release version number>`
   - [ ] Create a new branch from `maint/<release version number>`: `git checkout maint/<release version number>`; `git pull`; `git checkout -b call-it-anything-you-like`
   - [ ] Set `PRERELEASE` to "rc1" and `IS_RELEASED` to true, commit, e.g. `git commit -m "Set IS_RELEASED to true for prerelease <release version number>rc1"`
   - [ ] Open and merge a PR against `maint/<release version number>`
@@ -25,8 +25,8 @@ Release candidate
   - [ ] Open and merge another PR against `maint/<release version number>`
 - [ ] Tag (annotated!) the release candidate on the commit where IS_RELEASED is set to true, e.g. `git tag -a -m "Release candidate <release version number>rc1" <release version number>rc1 <commit-hash>`
 - [ ] Push the tag to GitHub
-- [ ] Upload to PyPI
-       - `git checkout <tag>`, `git clean -ffxd`, `python setup.py sdist`, `twine check dist/<...>.tar.gz`, `twine upload dist/<...>.tar.gz`
+- [ ] Edit the GitHub release. (This should automatically trigger
+      wheel and sdist uploads to PyPI.)
 - [ ] Announcement for the release candidate
 
 Release blockers

@@ -18,15 +18,8 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        runtime: ['3.6', '3.8']
-        toolkit: ['null', 'pyqt5', 'pyside2', 'pyside6']
-        exclude:
-          - runtime: '3.6'
-            toolkit: 'pyside6'
-          - runtime: '3.8'
-            toolkit: 'pyside2'
-          - runtime: '3.8'
-            toolkit: 'pyqt5'
+        runtime: ['3.8']
+        toolkit: ['null', 'pyside6']
 
     runs-on: ${{ matrix.os }}
     steps:
