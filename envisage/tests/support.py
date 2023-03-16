@@ -19,8 +19,9 @@ private to Envisage.
 import unittest
 
 from pyface.api import GUI
+from traits.api import Int, List
 
-from envisage.api import Application
+from envisage.api import Application, ExtensionPoint, Plugin
 
 
 # Skip decorator for tests that require a working GUI instance.
@@ -52,3 +53,26 @@ class SimpleApplication(Application):
     """ The type of application used in the tests. """
 
     id = "test"
+
+
+# Plugins used in multiple tests.
+
+class PluginA(Plugin):
+    """ A plugin that offers an extension point. """
+
+    id = "A"
+    x = ExtensionPoint(List, id="a.x")
+
+
+class PluginB(Plugin):
+    """ A plugin that contributes to an extension point. """
+
+    id = "B"
+    x = List(Int, [1, 2, 3], contributes_to="a.x")
+
+
+class PluginC(Plugin):
+    """ Another plugin that contributes to an extension point! """
+
+    id = "C"
+    x = List(Int, [98, 99, 100], contributes_to="a.x")

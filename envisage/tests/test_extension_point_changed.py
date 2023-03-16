@@ -14,11 +14,11 @@ import unittest
 
 # Local imports.
 from envisage.api import ExtensionPointChangedEvent
-from envisage.tests.support import SimpleApplication
-from envisage.tests.test_application import (
+from envisage.tests.support import (
     PluginA,
     PluginB,
     PluginC,
+    SimpleApplication,
 )
 
 

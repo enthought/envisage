@@ -24,7 +24,12 @@ from traits.api import Bool, Int, List
 # Local imports.
 from envisage.tests.event_tracker import EventTracker
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
-from envisage.tests.support import SimpleApplication
+from envisage.tests.support import (
+    PluginA,
+    PluginB,
+    PluginC,
+    SimpleApplication,
+)
 
 
 def listener(obj, trait_name, old, new):
@@ -83,27 +88,6 @@ class BadPlugin(Plugin):
         """ Stop the plugin. """
 
         raise 1 / 0
-
-
-class PluginA(Plugin):
-    """ A plugin that offers an extension point. """
-
-    id = "A"
-    x = ExtensionPoint(List, id="a.x")
-
-
-class PluginB(Plugin):
-    """ A plugin that contributes to an extension point. """
-
-    id = "B"
-    x = List(Int, [1, 2, 3], contributes_to="a.x")
-
-
-class PluginC(Plugin):
-    """ Another plugin that contributes to an extension point! """
-
-    id = "C"
-    x = List(Int, [98, 99, 100], contributes_to="a.x")
 
 
 # PluginD and PluginE each contribute to the other's extension points, but both
