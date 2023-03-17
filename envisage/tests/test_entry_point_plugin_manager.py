@@ -19,7 +19,7 @@ from envisage.core_plugin import CorePlugin
 from envisage.entry_point_plugin_manager import EntryPointPluginManager
 from envisage.i_plugin_manager import IPluginManager
 from envisage.plugin import Plugin
-from envisage.tests.support import event_recorder
+from envisage.tests.support import event_recorder, SimpleApplication
 
 
 class BaseInstrumentedPlugin(Plugin):
@@ -85,3 +85,24 @@ class TestEntryPointPluginManager(unittest.TestCase):
         # instance).
         self.assertEqual(len(plugins), 1)
         self.assertIsInstance(plugins[0], CorePlugin)
+
+    def test_plugins_can_access_application(self):
+        entry_points = EntryPoints(
+            [
+                EntryPoint(
+                    group="myapp.plugins",
+                    name="A",
+                    value="envisage.tests.support:PluginA",
+                )
+            ]
+        )
+        plugin_manager = EntryPointPluginManager(entry_points=entry_points)
+        application = SimpleApplication(plugin_manager=plugin_manager)
+
+        application.start()
+        try:
+            plugin = plugin_manager.get_plugin("A")
+            self.assertIsNotNone(plugin)
+            self.assertIs(plugin.application, application)
+        finally:
+            application.stop()
