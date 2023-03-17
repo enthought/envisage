@@ -13,14 +13,10 @@
 import unittest
 
 # Enthought library imports.
-from envisage.api import Application, Plugin, Service
-from traits.api import HasTraits, Instance
+from traits.api import HasTraits, Instance, TraitError
 
-
-class TestApplication(Application):
-    """ The type of application used in the tests. """
-
-    id = "test"
+from envisage.api import Plugin, Service
+from envisage.tests.support import SimpleApplication
 
 
 class ServiceTestCase(unittest.TestCase):
@@ -43,7 +39,7 @@ class ServiceTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
         application.start()
 
         # Make sure the services were registered.
@@ -56,7 +52,7 @@ class ServiceTestCase(unittest.TestCase):
         self.assertEqual(None, b.foo)
 
         # You can't set service traits!
-        with self.assertRaises(SystemError):
+        with self.assertRaises(TraitError):
             setattr(b, "foo", "bogus")
 
     def test_service_trait_type_with_no_service_registry(self):

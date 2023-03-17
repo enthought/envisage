@@ -6,8 +6,8 @@ from envisage.ui.action.api import Action, Group, Menu, ToolBar
 from envisage.ui.workbench.api import WorkbenchActionSet
 
 
-class TestActionSet(WorkbenchActionSet):
-    """ An action test useful for testing. """
+class ExampleActionSet(WorkbenchActionSet):
+    """An action test useful for testing."""
 
     #### 'ActionSet' interface ################################################
 

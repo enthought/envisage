@@ -7,23 +7,26 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The 'Foo' plugin """
+""" The 'Bar' plugin """
 
 
 # Enthought library imports.
 from envisage.api import Plugin
 from traits.api import Bool
 
+# Deliberate bad import
+import busted_module  # noqa: F401
 
-class FooPlugin(Plugin):
-    """ The 'Foo' plugin """
+
+class BadPlugin(Plugin):
+    """The 'Bad' plugin"""
 
     #### 'IPlugin' interface ##################################################
 
     # The plugin's unique identifier.
-    id = "acme.foo"
+    id = "acme.bad"
 
-    #### 'FooPlugin' interface ################################################
+    #### 'BadPlugin' interface ################################################
 
     started = Bool(False)
     stopped = Bool(False)
@@ -33,13 +36,13 @@ class FooPlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True

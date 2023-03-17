@@ -58,12 +58,12 @@ class IPluginManager(Interface):
         """
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin.
+        """Start the specified plugin.
 
         If a plugin is specified then start it.
 
         If no plugin is specified then the Id is used to look up the plugin
-        and then start it. If no such plugin exists then a 'SystemError'
+        and then start it. If no such plugin exists then a 'ValueError'
         exception is raised.
 
         """
@@ -77,12 +77,12 @@ class IPluginManager(Interface):
         """
 
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin.
+        """Stop the specified plugin.
 
         If a plugin is specified then stop it (the Id is ignored).
 
         If no plugin is specified then the Id is used to look up the plugin and
-        then stop it. If no such plugin exists then a 'SystemError' exception
+        then stop it. If no such plugin exists then a 'ValueError' exception
         is raised.
 
         """
