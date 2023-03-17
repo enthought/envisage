@@ -7,5 +7,3 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-
-__import__("pkg_resources").declare_namespace(__name__)
