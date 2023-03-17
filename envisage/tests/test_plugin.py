@@ -18,26 +18,12 @@ import unittest
 from envisage.api import Application, ExtensionPoint
 from envisage.api import IPluginActivator, Plugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
+from envisage.tests.support import SimpleApplication
 from traits.api import HasTraits, Instance, Int, Interface, List, provides
-
-
-def listener(obj, trait_name, old, new):
-    """ A useful trait change handler for testing! """
-
-    listener.obj = obj
-    listener.trait_name = trait_name
-    listener.old = old
-    listener.new = new
 
 
 class TestPlugin(Plugin):
     id = "test_plugin"
-
-
-class TestApplication(Application):
-    """ The type of application used in the tests. """
-
-    id = "test"
 
 
 class PluginTestCase(unittest.TestCase):
@@ -110,7 +96,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA(activator=plugin_activator)
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
         application.start()
 
         # Make sure A's plugin activator was called.
@@ -142,7 +128,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = TestApplication(plugins=[a])
+        application = SimpleApplication(plugins=[a])
         application.start()
 
         # Make sure the services were registered.
@@ -181,7 +167,7 @@ class PluginTestCase(unittest.TestCase):
 
         a = PluginA()
 
-        application = TestApplication(plugins=[a])
+        application = SimpleApplication(plugins=[a])
         application.start()
 
         # Make sure the service was registered with the 'IBar' protocol.
@@ -209,7 +195,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
@@ -236,7 +222,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
 
         # We should get an when we try to get the contributions to the
         # extension point.
@@ -257,7 +243,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
 
         # We should get an error because the plugin has multiple traits
         # contributing to the same extension point.
@@ -287,7 +273,7 @@ class PluginTestCase(unittest.TestCase):
         c = PluginC()
 
         # Create an empty application.
-        application = TestApplication()
+        application = SimpleApplication()
         application.start()
 
         # Add the plugin that offers the extension point.
@@ -351,7 +337,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
 
         # Make sure that each plugin gets its own directory.
         self.assertEqual(join(application.home, "plugins", a.id), a.home)
@@ -366,7 +352,7 @@ class PluginTestCase(unittest.TestCase):
         a = PluginA()
         b = PluginB()
 
-        application = TestApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[a, b])
 
         # Make sure that each plugin gets its own directory.
         self.assertEqual(join(application.home, "plugins", a.id), a.home)
