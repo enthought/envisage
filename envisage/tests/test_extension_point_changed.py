@@ -34,7 +34,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         application.start()
 
         # Try to set the extension point.
-        with self.assertRaises(SystemError):
+        with self.assertRaises(TypeError):
             setattr(a, "x", [1, 2, 3])
 
     def test_mutate_extension_point_no_events(self):

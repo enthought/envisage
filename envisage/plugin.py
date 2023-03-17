@@ -376,4 +376,4 @@ class Plugin(ExtensionProvider):
 
     def __repr__(self):
         """ String representation of a Plugin object """
-        return "Plugin(id={!r}, name={!r})".format(self.id, self.name)
+        return f"{type(self).__name__}(id={self.id!r}, name={self.name!r})"

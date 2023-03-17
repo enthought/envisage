@@ -22,6 +22,10 @@ from envisage.tests.support import SimpleApplication
 from traits.api import HasTraits, Instance, Int, Interface, List, provides
 
 
+class TestPlugin(Plugin):
+    id = "test_plugin"
+
+
 class PluginTestCase(unittest.TestCase):
     """ Tests for plugins. """
 
@@ -370,7 +374,7 @@ class PluginTestCase(unittest.TestCase):
 
     def test_plugin_str_representation(self):
         """ test the string representation of the plugin """
-        plugin_repr = "Plugin(id={!r}, name={!r})"
-        plugin = Plugin(id="Fred", name="Wilma")
-        self.assertEqual(plugin_repr.format("Fred", "Wilma"), str(plugin))
-        self.assertEqual(plugin_repr.format("Fred", "Wilma"), repr(plugin))
+        plugin_repr = "TestPlugin(id={!r}, name={!r})"
+        plugin = TestPlugin(id="Fred", name="Wilma")
+        self.assertEqual(str(plugin), plugin_repr.format("Fred", "Wilma"))
+        self.assertEqual(repr(plugin), plugin_repr.format("Fred", "Wilma"))

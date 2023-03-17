@@ -73,7 +73,7 @@ def main():
 
     distributions, errors = working_set.find_plugins(environment)
     if len(errors) > 0:
-        raise SystemError('cannot add eggs %s' % errors)
+        raise RuntimeError('cannot add eggs %s' % errors)
 
     logger.debug('added eggs %s' % distributions)
 
