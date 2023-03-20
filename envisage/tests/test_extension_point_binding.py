@@ -21,15 +21,6 @@ from traits.api import HasTraits, List
 from envisage.tests.mutable_extension_registry import MutableExtensionRegistry
 
 
-def listener(obj, trait_name, old, new):
-    """ A useful trait change handler for testing! """
-
-    listener.obj = obj
-    listener.trait_name = trait_name
-    listener.old = old
-    listener.new = new
-
-
 class ExtensionPointBindingTestCase(unittest.TestCase):
     """ Tests for extension point binding. """
 
@@ -56,8 +47,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         class Foo(HasTraits):
             x = List
 
+        events = []
         f = Foo()
-        f.on_trait_change(listener)
+        f.observe(events.append, "x_items")
 
         # Make some bindings.
         bind_extension_point(f, "x", "my.ep")
@@ -75,10 +67,12 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in f.x)
 
         # ... and that the correct trait change event was fired.
-        self.assertEqual(f, listener.obj)
-        self.assertEqual("x_items", listener.trait_name)
-        self.assertEqual(1, len(listener.new.added))
-        self.assertTrue("a string" in listener.new.added)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(f, event.object)
+        self.assertEqual("x_items", event.name)
+        self.assertEqual(1, len(event.new.added))
+        self.assertTrue("a string" in event.new.added)
 
     def test_set_extensions_via_trait(self):
         """ set extensions via trait """
@@ -95,8 +89,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         class Foo(HasTraits):
             x = List
 
+        events = []
         f = Foo()
-        f.on_trait_change(listener)
+        f.observe(events.append, "*")
 
         # Make some bindings.
         bind_extension_point(f, "x", "my.ep")
@@ -116,10 +111,12 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in registry.get_extensions("my.ep"))
 
         # ... and that the correct trait change event was fired.
-        self.assertEqual(f, listener.obj)
-        self.assertEqual("x", listener.trait_name)
-        self.assertEqual(1, len(listener.new))
-        self.assertTrue("a string" in listener.new)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(f, event.object)
+        self.assertEqual("x", event.name)
+        self.assertEqual(1, len(event.new))
+        self.assertTrue("a string" in event.new)
 
     def test_set_extensions_via_registry(self):
         """ set extensions via registry """
@@ -136,8 +133,9 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         class Foo(HasTraits):
             x = List
 
+        events = []
         f = Foo()
-        f.on_trait_change(listener)
+        f.observe(events.append, "*")
 
         # Make some bindings.
         bind_extension_point(f, "x", "my.ep")
@@ -154,10 +152,12 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in f.x)
 
         # ... and that the correct trait change event was fired.
-        self.assertEqual(f, listener.obj)
-        self.assertEqual("x", listener.trait_name)
-        self.assertEqual(1, len(listener.new))
-        self.assertTrue("a string" in listener.new)
+        self.assertEqual(len(events), 1)
+        event = events[0]
+        self.assertEqual(f, event.object)
+        self.assertEqual("x", event.name)
+        self.assertEqual(1, len(event.new))
+        self.assertTrue("a string" in event.new)
 
     def test_explicit_extension_registry(self):
         """ explicit extension registry """
@@ -175,7 +175,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
             x = List
 
         f = Foo()
-        f.on_trait_change(listener)
 
         # Create an empty extension registry use that in the binding.
         extension_registry = MutableExtensionRegistry()

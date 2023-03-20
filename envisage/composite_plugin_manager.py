@@ -37,7 +37,7 @@ class CompositePluginManager(HasTraits):
     e.g::
 
         plugin_manager = CompositePluginManager(
-             plugin_mangers = [
+             plugin_managers = [
                  EggBasketPluginManager(...),
                  PackagePluginManager(...),
              ]
@@ -155,7 +155,7 @@ class CompositePluginManager(HasTraits):
             logger.debug("plugin %s started", plugin.id)
 
         else:
-            raise SystemError("no such plugin %s" % plugin_id)
+            raise ValueError("no such plugin %s" % plugin_id)
 
     def stop(self):
         """ Stop the plugin manager. """
@@ -177,4 +177,4 @@ class CompositePluginManager(HasTraits):
             logger.debug("plugin %s stopped", plugin.id)
 
         else:
-            raise SystemError("no such plugin %s" % plugin_id)
+            raise ValueError("no such plugin %s" % plugin_id)

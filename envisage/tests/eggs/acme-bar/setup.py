@@ -11,20 +11,19 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="acme.baz",
+    name="acme-bar",
     version="0.1a1",
     author="Enthought, Inc",
     author_email="info@enthought.com",
     license="BSD",
     zip_safe=True,
-    packages=find_packages(),
+    packages=find_packages(include="acme_bar*"),
     include_package_data=True,
-    namespace_packages=["acme", "acme.baz"],
-    install_requires=["acme.bar"],
+    install_requires=["acme-foo"],
     entry_points="""
 
     [envisage.plugins]
-    acme.baz = acme.baz.baz_plugin:BazPlugin
+    acme.bar = acme_bar.bar_plugin:BarPlugin
 
     """,
 )

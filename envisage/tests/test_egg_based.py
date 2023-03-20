@@ -59,7 +59,7 @@ class EggBasedTestCase(unittest.TestCase):
         cls.egg_dir = tempfile.mkdtemp()
         eggs_root_dir = pkg_resources.resource_filename(
             "envisage.tests", "eggs")
-        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+        for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
             build_egg(
                 egg_dir=join(eggs_root_dir, egg_name),
                 dist_dir=cls.egg_dir,
@@ -118,7 +118,7 @@ class EggBasedTestCase(unittest.TestCase):
         # Py2 tests was checking that len(errors) > 0. This did not work on
         # Py3. Test changed to check the len(distributions)
         if len(distributions) == 0:
-            raise SystemError("Cannot find eggs %s" % errors)
+            raise RuntimeError("Cannot find eggs %s" % errors)
 
         # Add the distributions to the working set (this makes any Python
         # modules in the eggs available for importing).

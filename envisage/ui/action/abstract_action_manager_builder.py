@@ -312,7 +312,7 @@ class AbstractActionManagerBuilder(HasTraits):
                 index = action_manager.groups.index(item) + 1
 
             else:
-                # If the menu manger has an 'additions' group then make sure
+                # If the menu manager has an 'additions' group then make sure
                 # that it is always the last one! In Pyface, the 'additions'
                 # groups is created by default, so unless someone has
                 # explicitly removed it, it *will* be there!

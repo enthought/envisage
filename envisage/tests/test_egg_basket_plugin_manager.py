@@ -37,7 +37,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         eggs_root_dir = pkg_resources.resource_filename(
             "envisage.tests", "eggs")
-        for egg_name in ["acme.bar", "acme.baz", "acme.foo"]:
+        for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
             build_egg(
                 egg_dir=join(eggs_root_dir, egg_name),
                 dist_dir=cls.eggs_dir,
@@ -45,7 +45,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         bad_eggs_root_dir = pkg_resources.resource_filename(
             "envisage.tests", "bad_eggs")
-        for egg_name in ["acme.bad"]:
+        for egg_name in ["acme-bad"]:
             build_egg(
                 egg_dir=join(bad_eggs_root_dir, egg_name),
                 dist_dir=cls.bad_eggs_dir,
@@ -216,24 +216,23 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
     def test_ignore_broken_distributions_raises_exceptions_by_default(self):
         # Make sure that the distributions from eggs are already in the working
-        # set. This includes acme.foo, with version 0.1a1.
+        # set. This includes acme-foo, with version 0.1a1.
         for dist in pkg_resources.find_distributions(self.eggs_dir):
             pkg_resources.working_set.add(dist)
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[
-                    # Attempt to add acme.foo, with conflicting version 0.1a11
-                    self._create_broken_distribution_eggdir("acme.foo*.egg"),
+                    # Attempt to add acme-foo, with conflicting version 0.1a11
+                    self._create_broken_distribution_eggdir("acme_foo*.egg"),
                 ],
             )
-
-        with self.assertRaises(SystemError):
+        with self.assertRaises(RuntimeError):
             iter(plugin_manager)
 
     def test_ignore_broken_distributions_loads_good_distributions(self):
         # Make sure that the distributions from eggs are already in the working
-        # set. This includes acme.foo, with version 0.1a1.
+        # set. This includes acme-foo, with version 0.1a1.
         for dist in pkg_resources.find_distributions(self.eggs_dir):
             pkg_resources.working_set.add(dist)
 
@@ -248,7 +247,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[
                     self.eggs_dir,
-                    self._create_broken_distribution_eggdir("acme.foo*.egg"),
+                    self._create_broken_distribution_eggdir("acme_foo*.egg"),
                 ],
                 on_broken_distribution=on_broken_distribution,
             )
@@ -260,7 +259,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertIn("acme.baz", ids)
 
         self.assertEqual(data["count"], 1)
-        self.assertEqual(data["distribution"].project_name, "acme.foo")
+        self.assertEqual(data["distribution"].project_name, "acme-foo")
         exc = data["exc"]
         self.assertTrue(isinstance(exc, pkg_resources.VersionConflict))
 

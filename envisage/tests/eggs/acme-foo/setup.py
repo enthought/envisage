@@ -11,20 +11,19 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="acme.foo",
+    name="acme-foo",
     version="0.1a1",
     author="Enthought, Inc",
     author_email="info@enthought.com",
     license="BSD",
     zip_safe=True,
-    packages=find_packages(),
+    packages=find_packages(include="acme_foo*"),
     include_package_data=True,
-    namespace_packages=["acme", "acme.foo"],
     install_requires=[],
     entry_points="""
 
     [envisage.plugins]
-    acme.foo = acme.foo.foo_plugin:FooPlugin
+    acme.foo = acme_foo.foo_plugin:FooPlugin
 
     """,
 )

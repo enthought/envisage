@@ -166,7 +166,7 @@ class EggBasketPluginManager(PluginManager):
     def _handle_broken_distributions(self, errors):
         logger.error("Error loading distributions: %s", errors)
         if self.on_broken_distribution is None:
-            raise SystemError("Cannot find eggs %s" % errors)
+            raise RuntimeError("Cannot find eggs %s" % errors)
         else:
             for dist, exc in errors.items():
                 self.on_broken_distribution(dist, exc)
