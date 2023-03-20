@@ -185,7 +185,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[self.bad_eggs_dir, self.eggs_dir],
             )
-
         with self.assertRaises(ImportError):
             list(plugin_manager)
 
