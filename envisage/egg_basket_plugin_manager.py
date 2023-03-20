@@ -50,7 +50,6 @@ class EggBasketPluginManager(PluginManager):
                 "The EggBasketPluginManager is deprecated. The recommended "
                 "approach is to install plugin-containing packages into "
                 "site-packages and advertise the plugins via entry points. "
-                "Consider using the EntryPointPluginManager instead."
             ),
             DeprecationWarning,
             stacklevel=2,
