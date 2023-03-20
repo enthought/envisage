@@ -13,6 +13,7 @@
 import logging
 import sys
 import traceback
+import warnings
 
 import pkg_resources
 
@@ -42,6 +43,18 @@ class EggBasketPluginManager(PluginManager):
     import and instantiate them.
 
     """
+
+    def __init__(self, **traits):
+        warnings.warn(
+            (
+                "The EggBasketPluginManager is deprecated. The recommended "
+                "approach is to install plugin-containing packages into "
+                "site-packages and advertise the plugins via entry points. "
+            ),
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        super().__init__(**traits)
 
     # Entry point Id.
     ENVISAGE_PLUGINS_ENTRY_POINT = "envisage.plugins"

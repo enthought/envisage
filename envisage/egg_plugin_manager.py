@@ -13,6 +13,7 @@
 # Standard library imports.
 import logging
 import re
+import warnings
 
 # 3rd party imports.
 import pkg_resources
@@ -45,6 +46,18 @@ class EggPluginManager(PluginManager):
     import and instantiate them.
 
     """
+
+    def __init__(self, **traits):
+        warnings.warn(
+            (
+                "The EggPluginManager is deprecated. The recommended "
+                "approach is to install plugin-containing packages into "
+                "site-packages and advertise the plugins via entry points. "
+            ),
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        super().__init__(**traits)
 
     # Entry point Id.
     PLUGINS = "envisage.plugins"

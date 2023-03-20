@@ -12,6 +12,7 @@
 
 import logging
 import sys
+import warnings
 
 from apptools.io import File
 from traits.api import Directory, List, on_trait_change
@@ -38,6 +39,18 @@ class PackagePluginManager(PluginManager):
     called with no arguments and it must return a single plugin.
 
     """
+
+    def __init__(self, **traits):
+        warnings.warn(
+            (
+                "The PackagePluginManager is deprecated. The recommended "
+                "approach is to install plugin-containing packages into "
+                "site-packages and advertise the plugins via entry points. "
+            ),
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        super().__init__(**traits)
 
     # Plugin manifest.
     PLUGIN_MANIFEST = "plugins.py"
