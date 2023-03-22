@@ -7,7 +7,9 @@ Envisage Documentation
 
     envisage_core_documentation/index
     tasks_user_manual/index
+    changelog
     api
+
 
 
 Indices and tables

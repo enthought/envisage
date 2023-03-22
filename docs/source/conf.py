@@ -18,8 +18,11 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import envisage
+import importlib.metadata
+
 import enthought_sphinx_theme
+
+import envisage
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -57,7 +60,7 @@ copyright = "2007-2023, Enthought"
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
-version = release = envisage.__version__
+version = release = importlib.metadata.version("envisage")
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
