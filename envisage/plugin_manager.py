@@ -12,6 +12,7 @@
 
 from fnmatch import fnmatch
 import logging
+import warnings
 
 from traits.api import Event, HasTraits, Instance, List, observe, provides, Str
 
@@ -82,6 +83,14 @@ class PluginManager(HasTraits):
         plugins use 'for plugin in plugin_manager'.
 
         """
+        if "include" in traits or "exclude" in traits:
+            warnings.warn(
+                "The 'include' and 'exclude' traits to PluginManager "
+                "are deprecated, and will be removed in a future version "
+                "of Envisage",
+                DeprecationWarning,
+                stacklevel=2,
+            )
 
         super().__init__(**traits)
 
