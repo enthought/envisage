@@ -143,14 +143,15 @@ class PluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["foo", "bar"]
 
-        plugin_manager = PluginManager(
-            include=include,
-            plugins=[
-                SimplePlugin(id="foo"),
-                SimplePlugin(id="bar"),
-                SimplePlugin(id="baz"),
-            ],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PluginManager(
+                include=include,
+                plugins=[
+                    SimplePlugin(id="foo"),
+                    SimplePlugin(id="bar"),
+                    SimplePlugin(id="baz"),
+                ],
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["foo", "bar"]
@@ -167,14 +168,15 @@ class PluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         include = ["b*"]
 
-        plugin_manager = PluginManager(
-            include=include,
-            plugins=[
-                SimplePlugin(id="foo"),
-                SimplePlugin(id="bar"),
-                SimplePlugin(id="baz"),
-            ],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PluginManager(
+                include=include,
+                plugins=[
+                    SimplePlugin(id="foo"),
+                    SimplePlugin(id="bar"),
+                    SimplePlugin(id="baz"),
+                ],
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["bar", "baz"]
@@ -189,14 +191,15 @@ class PluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["foo", "baz"]
 
-        plugin_manager = PluginManager(
-            exclude=exclude,
-            plugins=[
-                SimplePlugin(id="foo"),
-                SimplePlugin(id="bar"),
-                SimplePlugin(id="baz"),
-            ],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PluginManager(
+                exclude=exclude,
+                plugins=[
+                    SimplePlugin(id="foo"),
+                    SimplePlugin(id="bar"),
+                    SimplePlugin(id="baz"),
+                ],
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["bar"]
@@ -211,14 +214,15 @@ class PluginManagerTestCase(unittest.TestCase):
         # plugins Ids.
         exclude = ["b*"]
 
-        plugin_manager = PluginManager(
-            exclude=exclude,
-            plugins=[
-                SimplePlugin(id="foo"),
-                SimplePlugin(id="bar"),
-                SimplePlugin(id="baz"),
-            ],
-        )
+        with self.assertWarns(DeprecationWarning):
+            plugin_manager = PluginManager(
+                exclude=exclude,
+                plugins=[
+                    SimplePlugin(id="foo"),
+                    SimplePlugin(id="bar"),
+                    SimplePlugin(id="baz"),
+                ],
+            )
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["foo"]
