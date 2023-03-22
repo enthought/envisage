@@ -22,8 +22,6 @@ import importlib.metadata
 
 import enthought_sphinx_theme
 
-import envisage
-
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
