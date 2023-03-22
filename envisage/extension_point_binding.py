@@ -71,20 +71,6 @@ class ExtensionPointBinding(HasTraits):
         bindings.append(self)
 
     ###########################################################################
-    # 'ExtensionPointBinding' interface.
-    ###########################################################################
-
-    #### Trait initializers ###################################################
-
-    def _extension_registry_default(self):
-        """ Trait initializer. """
-
-        # fixme: Sneaky global!!!!!
-        from .extension_point import ExtensionPoint
-
-        return ExtensionPoint.extension_registry
-
-    ###########################################################################
     # Private interface.
     ###########################################################################
 
@@ -159,29 +145,13 @@ class ExtensionPointBinding(HasTraits):
 
 # Factory function for creating bindings.
 def bind_extension_point(
-    obj, trait_name, extension_point_id, extension_registry=None
+    obj, trait_name, extension_point_id, extension_registry
 ):
     """ Create a binding to an extension point. """
 
-    # This may seem a bit wierd, but we manually build up a dictionary of
-    # the traits that need to be set at the time the 'ExtensionPointBinding'
-    # instance is created.
-    #
-    # This is because we only want to set the 'extension_registry' trait iff
-    # one is explicitly specified. If we passed it in with the default argument
-    # value of 'None' then it counts as 'setting' the trait which prevents
-    # the binding instance from defaulting to the appropriate registry.
-    # Also, if we try to set the 'extension_registry' trait *after*
-    # construction time then it is too late as the binding initialization is
-    # done in the constructor (we could of course split that out, which may be
-    # the 'right' way to do it ;^).
-    traits = {
-        "obj": obj,
-        "trait_name": trait_name,
-        "extension_point_id": extension_point_id,
-    }
-
-    if extension_registry is not None:
-        traits["extension_registry"] = extension_registry
-
-    return ExtensionPointBinding(**traits)
+    return ExtensionPointBinding(
+        obj=obj,
+        trait_name=trait_name,
+        extension_point_id=extension_point_id,
+        extension_registry=extension_registry,
+    )
