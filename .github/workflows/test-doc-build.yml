@@ -1,0 +1,19 @@
+name: Test the documentation build
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        cache-dependency-path: '.github/workflows/doc-requirements.txt'
+    - run: python -m pip install -r .github/workflows/doc-requirements.txt
+    - run: |
+        python -m sphinx.ext.apidoc --separate --no-toc -o docs/source/api -t docs/source/api/templates envisage */tests
+        python -m sphinx -b html docs/source docs/build
