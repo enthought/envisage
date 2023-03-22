@@ -1,0 +1,20 @@
+name: Run style checks
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  style:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        cache-dependency-path: '.github/workflows/style-requirements.txt'
+    - run: python -m pip install -r .github/workflows/style-requirements.txt
+    - run: |
+        python -m black --check --diff .
+        python -m isort --check --diff .
+        python -m flake8 .

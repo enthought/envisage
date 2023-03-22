@@ -106,8 +106,6 @@ dependencies = {
     "apptools",
     "coverage",
     "enthought_sphinx_theme",
-    "flake8",
-    "flake8_ets",
     "pyface",
     "sphinx",
     "sphinx_copybutton",
@@ -116,7 +114,14 @@ dependencies = {
 }
 
 # Dependencies we install from PyPI
-pypi_dependencies = {}
+pypi_dependencies = {
+    # style packages; install from PyPI to make sure that we're compatible
+    # with the style checks used in the check-style.yml workflow
+    "black~=23.0",
+    "flake8",
+    "flake8-ets",
+    "isort",
+}
 
 # Dependencies we install from source for cron tests
 # Order from packages with the most dependencies to one with the least
@@ -185,6 +190,16 @@ editable_option = click.option(
 @click.group()
 def cli():
     pass
+
+
+# Subgroup for checking and fixing style
+
+
+@cli.group()
+def style():
+    """
+    Commands for checking style and applying style fixes.
+    """
 
 
 @cli.command()
@@ -275,17 +290,41 @@ def shell(edm, runtime, toolkit, environment):
     execute(commands, parameters)
 
 
-@cli.command()
+@style.command(name="check")
 @edm_option
 @runtime_option
 @toolkit_option
 @environment_option
-def flake8(edm, runtime, toolkit, environment):
-    """ Run a flake8 check in a given environment.
-
+def style_check(edm, runtime, toolkit, environment):
+    """
+    Run style checks.
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    commands = ["{edm} run -e {environment} -- python -m flake8"]
+    commands = [
+        "{edm} run -e {environment} -- python -m black --check --diff .",
+        "{edm} run -e {environment} -- python -m isort --check --diff .",
+        "{edm} run -e {environment} -- python -m flake8 .",
+    ]
+    execute(commands, parameters)
+
+
+@style.command(name="fix")
+@edm_option
+@runtime_option
+@toolkit_option
+@environment_option
+def style_fix(edm, runtime, toolkit, environment):
+    """
+    Run style fixers.
+
+    This automatically fixes any black or isort failures, but it won't
+    automatically fix all flake8 errors.
+    """
+    parameters = get_parameters(edm, runtime, toolkit, environment)
+    commands = [
+        "{edm} run -e {environment} -- python -m black .",
+        "{edm} run -e {environment} -- python -m isort .",
+    ]
     execute(commands, parameters)
 
 
