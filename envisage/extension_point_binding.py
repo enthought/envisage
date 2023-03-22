@@ -22,8 +22,7 @@ class ExtensionPointBinding(HasTraits):
 
     #### 'ExtensionPointBinding' *CLASS* interface ############################
 
-    # Global dictionary used to keep ExtensionPointBinding objects alive
-    # without needing to keep a reference to them.
+    # Global dictionary used to keep ExtensionPointBinding objects alive.
     _bindings = {}
 
     #### 'ExtensionPointBinding' interface ####################################
@@ -168,8 +167,7 @@ def bind_extension_point(
     obj : HasTraits
         The HasTraits object that we're binding to
     trait_name : str
-        The name of the trait on obj to bind to. This trait should have
-        List type.
+        The name of the trait on obj to bind to.
     extension_point_id : str
         The id of the extension point.
     extension_registry : IExtensionRegistry
@@ -202,17 +200,16 @@ def unbind_extension_point(
     """
     Remove an extension point binding.
 
-    Changes to extension point contributions will no longer affect the
-    related trait. Also removes the matching ExtensionPointBinding
-    object from the global dictionary.
+    Changes to extension point contributions will no longer affect the target
+    trait. Also removes the matching ExtensionPointBinding object from the
+    global dictionary.
 
     Parameters
     ----------
     obj : HasTraits
         The HasTraits object that we're binding to
     trait_name : str
-        The name of the trait on obj to bind to. This trait should have
-        List type.
+        The name of the trait on obj to bind to.
     extension_point_id : str
         The id of the extension point.
     extension_registry : IExtensionRegistry
