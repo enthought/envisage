@@ -29,9 +29,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         self.extension_registry = MutableExtensionRegistry()
 
-        # Use the extension registry for all extension points and bindings.
-        ExtensionPoint.extension_registry = self.extension_registry
-
     def test_untyped_extension_point(self):
         """ untyped extension point """
 
@@ -52,7 +49,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.observe(events.append, "x_items")
 
         # Make some bindings.
-        bind_extension_point(f, "x", "my.ep")
+        bind_extension_point(f, "x", "my.ep", registry)
 
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
@@ -94,7 +91,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.observe(events.append, "*")
 
         # Make some bindings.
-        bind_extension_point(f, "x", "my.ep")
+        bind_extension_point(f, "x", "my.ep", registry)
 
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
@@ -138,7 +135,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         f.observe(events.append, "*")
 
         # Make some bindings.
-        bind_extension_point(f, "x", "my.ep")
+        bind_extension_point(f, "x", "my.ep", registry)
 
         # Make sure that the object was initialized properly.
         self.assertEqual(1, len(f.x))
