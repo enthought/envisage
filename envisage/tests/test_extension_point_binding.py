@@ -11,23 +11,34 @@
 
 # Standard library imports.
 import unittest
+import weakref
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint
-from envisage.api import bind_extension_point
-from traits.api import HasTraits, List
+from envisage.api import bind_extension_point, unbind_extension_point
+from traits.api import Any, HasTraits, List
 
 # Local imports.
 from envisage.tests.mutable_extension_registry import MutableExtensionRegistry
+
+
+class BindingTarget(HasTraits):
+    """
+    Example class whose traits are used as a binding target.
+    """
+
+    #: Target trait for extension point binding.
+    target = List(Any())
 
 
 class ExtensionPointBindingTestCase(unittest.TestCase):
     """ Tests for extension point binding. """
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
-
         self.extension_registry = MutableExtensionRegistry()
+
+    def tearDown(self):
+        del self.extension_registry
 
     def test_untyped_extension_point(self):
         """ untyped extension point """
@@ -213,6 +224,51 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         # Make sure both traits were bound correctly.
         self.assertEqual(1, len(f.x))
         self.assertEqual(3, len(f.y))
+
+    def test_unbind_extension_point(self):
+        # Given ...
+        # ... an extension point ...
+        registry = self.extension_registry
+        registry.add_extension_point(self._create_extension_point("my.ep"))
+
+        # ... and an object with a corresponding trait ...
+        target = BindingTarget()
+
+        # When we bind the extension point to the trait ...
+        bind_extension_point(target, "target", "my.ep", registry)
+
+        # Then contributions to the extension point modify the trait.
+        registry.add_extension("my.ep", "a string")
+        self.assertEqual(target.target, ["a string"])
+
+        # When we unbind the extension point
+        unbind_extension_point(target, "target", "my.ep", registry)
+
+        # Then contributions no longer change the trait.
+        registry.add_extension("my.ep", "another string")
+        self.assertEqual(target.target, ["a string"])
+
+    def test_unbinding_removes_references(self):
+        # Given an extension point bound to a trait
+        extension_point = self._create_extension_point("my.ep")
+        self.extension_registry.add_extension_point(extension_point)
+        target = BindingTarget()
+        bind_extension_point(
+            target, "target", "my.ep", self.extension_registry
+        )
+
+        # Use a weakref finalizer to keep track of whether 'target' still
+        # has references keeping it alive.
+        target_monitor = weakref.finalize(target, lambda: None)
+
+        # When we unbind and delete the target object
+        unbind_extension_point(
+            target, "target", "my.ep", self.extension_registry
+        )
+        del target
+
+        # Then 'target' should no longer be alive.
+        self.assertFalse(target_monitor.alive)
 
     ###########################################################################
     # Private interface.
