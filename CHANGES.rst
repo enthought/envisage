@@ -17,6 +17,15 @@ Thanks to:
 * Chengyu Liu
 * Corran Webster
 
+Features
+--------
+* There's a new ``unbind_extension_point`` function that reverses the effects
+  of ``bind_extension_point``. This can be useful for clean teardown. (#546)
+* All id string constants that were previously available from ``envisage.ids``
+  are now also exported in ``envisage.api``. Users are encouraged to import
+  everything they need from ``envisage.api``, and to open an issue if anything
+  they need is not exported in ``envisage.api``. (#508)
+
 Changes
 -------
 * When exiting a ``TasksApplication``, the plugins are now stopped after
@@ -33,10 +42,6 @@ Changes
   version at runtime, use ``importlib.metadata`` to retrieve it.
 * Python 3.6 is no longer supported. All current versions of Python (3.7
   through 3.11) are supported. (#513)
-* All id string constants that were previously available from ``envisage.ids``
-  are now also exported in ``envisage.api``. Users are encouraged to import
-  everything then need from ``envisage.api``, and to open an issue if anything
-  they need is missing. (#508)
 
 Fixes
 -----
@@ -59,6 +64,11 @@ Removals
   ``IPKernelApp``. (#496)
 * The ``ExtensionPoint.bind`` method has been removed. (#545)
 * The previously deprecated ``safeweakref.ref`` class has been removed. (#522)
+* Some legacy unmaintained examples have been removed. (#557)
+
+Documentation
+-------------
+* The changelog is now included in the built documentation. (#550)
 
 Tests
 -----
@@ -66,13 +76,19 @@ Tests
   normal non-namespace packages. This fixes some warnings from the latest
   ``setuptools``. (#543)
 * The test suite now runs cleanly under ``pytest``. (#539)
+* Tests that are skipped due to a PySide6 problem should now be run
+  if the version of PySide6 is recent enough. (#554)
 
 Build
 -----
 * Package configuration now uses ``pyproject.toml`` in place of the old
   ``setup.py``-based configuration. (#513)
 * Optional dependencies are no longer declared. (#513)
-
+* A new style checking workflow has been added that runs ``black``, ``isort``
+  and ``flake8`` over the codebase, and new code is expected to comply with
+  ``black`` and ``isort`` configurations. (#549)
+* A new documentation build workflow has been added. The built documentation
+  is uploaded as an artifact. (#551)
 
 Version 6.1.1
 =============
