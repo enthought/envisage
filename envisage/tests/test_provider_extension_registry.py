@@ -12,44 +12,47 @@
 # Standard library imports.
 import unittest
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint, ExtensionProvider
-from envisage.api import ProviderExtensionRegistry
 from traits.api import Int, List
+
+# Enthought library imports.
+from envisage.api import (
+    ExtensionPoint,
+    ExtensionProvider,
+    ProviderExtensionRegistry,
+)
 
 # Local imports.
 from envisage.tests.test_extension_registry_mixin import (
-    ExtensionRegistryTestMixin
+    ExtensionRegistryTestMixin,
 )
 
 
 class ProviderExtensionRegistryTestCase(
-        ExtensionRegistryTestMixin, unittest.TestCase):
-    """ Tests for the provider extension registry. """
+    ExtensionRegistryTestMixin, unittest.TestCase
+):
+    """Tests for the provider extension registry."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         self.registry = ProviderExtensionRegistry()
 
     def test_providers(self):
-        """ providers """
+        """providers"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     extensions = [42, 43]
@@ -60,12 +63,10 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
         class ProviderB(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     extensions = [44, 45, 46]
@@ -76,7 +77,7 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
         class ProviderC(ExtensionProvider):
-            """ An empty provider! """
+            """An empty provider!"""
 
         # Add the providers to the registry.
         registry.add_provider(ProviderA())
@@ -94,25 +95,23 @@ class ProviderExtensionRegistryTestCase(
         self.assertEqual("x", extension_points[0].id)
 
     def test_provider_extensions_changed(self):
-        """ provider extensions changed """
+        """provider extensions changed"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             x = List(Int)
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "my.ep")]
 
             def get_extensions(self, extension_point_id):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point_id == "my.ep":
                     return self.x
@@ -123,28 +122,26 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
             def _x_changed(self, old, new):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "my.ep", new, old, slice(0, len(old))
                 )
 
             def _x_items_changed(self, event):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "my.ep", event.added, event.removed, event.index
                 )
 
         class ProviderB(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             x = List(Int)
 
             def get_extensions(self, extension_point_id):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point_id == "my.ep":
                     return self.x
@@ -155,14 +152,14 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
             def _x_changed(self, old, new):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "my.ep", new, old, slice(0, len(old))
                 )
 
             def _x_items_changed(self, event):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "my.ep", event.added, event.removed, event.index
@@ -181,7 +178,7 @@ class ProviderExtensionRegistryTestCase(
 
         # Add an extension listener to the registry.
         def listener(registry, event):
-            """ A useful trait change handler for testing! """
+            """A useful trait change handler for testing!"""
 
             listener.registry = registry
             listener.extension_point = event.extension_point_id
@@ -235,23 +232,21 @@ class ProviderExtensionRegistryTestCase(
         self.assertEqual([42, 43, 1, 2], extensions)
 
     def test_add_provider(self):
-        """ add provider """
+        """add provider"""
 
         registry = self.registry
 
         # A provider.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     return [42]
@@ -262,7 +257,7 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
             def _x_items_changed(self, event):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "x", event.added, event.removed, event.index
@@ -278,7 +273,7 @@ class ProviderExtensionRegistryTestCase(
 
         # Add an extension listener to the registry.
         def listener(registry, event):
-            """ A useful trait change handler for testing! """
+            """A useful trait change handler for testing!"""
 
             listener.registry = registry
             listener.extension_point = event.extension_point_id
@@ -290,12 +285,10 @@ class ProviderExtensionRegistryTestCase(
 
         # Add a new provider.
         class ProviderB(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     extensions = [43, 44]
@@ -320,16 +313,16 @@ class ProviderExtensionRegistryTestCase(
         self.assertTrue(44 in extensions)
 
     def test_get_providers(self):
-        """ get providers """
+        """get providers"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
         class ProviderB(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
         a = ProviderA()
         b = ProviderB()
@@ -342,23 +335,21 @@ class ProviderExtensionRegistryTestCase(
         self.assertEqual([a, b], registry.get_providers())
 
     def test_remove_provider(self):
-        """ remove provider """
+        """remove provider"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "x"), ExtensionPoint(List, "y")]
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     return [42]
@@ -369,19 +360,17 @@ class ProviderExtensionRegistryTestCase(
                 return extensions
 
             def _x_items_changed(self, event):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self._fire_extension_point_changed(
                     "x", event.added, event.removed, event.index
                 )
 
         class ProviderB(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     extensions = [43, 44]
@@ -406,7 +395,7 @@ class ProviderExtensionRegistryTestCase(
 
         # Add an extension listener to the registry.
         def listener(registry, event):
-            """ A useful trait change handler for testing! """
+            """A useful trait change handler for testing!"""
 
             listener.registry = registry
             listener.extension_point = event.extension_point_id
@@ -444,23 +433,21 @@ class ProviderExtensionRegistryTestCase(
         self.assertEqual([42], listener.removed)
 
     def test_remove_provider_with_no_contributions(self):
-        """ remove provider with no contributions """
+        """remove provider with no contributions"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "x"), ExtensionPoint(List, "y")]
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 return []
 
@@ -474,7 +461,7 @@ class ProviderExtensionRegistryTestCase(
 
         # Add an extension listener to the registry.
         def listener(registry, event):
-            """ A useful trait change handler for testing! """
+            """A useful trait change handler for testing!"""
 
             listener.registry = registry
             listener.extension_point = event.extension_point_id
@@ -498,13 +485,13 @@ class ProviderExtensionRegistryTestCase(
         self.assertEqual(None, getattr(listener, "registry", None))
 
     def test_remove_non_existent_provider(self):
-        """ remove provider """
+        """remove provider"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             pass
 
@@ -515,7 +502,7 @@ class ProviderExtensionRegistryTestCase(
             registry.remove_provider(a)
 
     def test_set_extensions(self):
-        """ set extensions """
+        """set extensions"""
 
         registry = self.registry
 
@@ -527,23 +514,21 @@ class ProviderExtensionRegistryTestCase(
             registry.set_extensions("my.ep", [1, 2, 3])
 
     def test_remove_non_empty_extension_point(self):
-        """ remove non-empty extension point """
+        """remove non-empty extension point"""
 
         registry = self.registry
 
         # Some providers.
         class ProviderA(ExtensionProvider):
-            """ An extension provider. """
+            """An extension provider."""
 
             def get_extension_points(self):
-                """ Return the extension points offered by the provider. """
+                """Return the extension points offered by the provider."""
 
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """ Return the provider's contributions to an extension point.
-
-                """
+                """Return the provider's contributions to an extension point."""
 
                 if extension_point == "x":
                     extensions = [42, 43]

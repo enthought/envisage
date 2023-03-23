@@ -19,7 +19,7 @@ from .location import Location
 
 # fixme: Remove duplication (in menu.py too!)
 class CGroup(Instance):
-    """ A trait type for a 'Group' or anything that can be cast to a 'Group'.
+    """A trait type for a 'Group' or anything that can be cast to a 'Group'.
 
     Currently, the only cast allowed is from string -> Group using the
     string as the group's ID.
@@ -31,7 +31,7 @@ class CGroup(Instance):
     ###########################################################################
 
     def __init__(self, **kw):
-        """ Constructor. """
+        """Constructor."""
 
         super().__init__(klass=Group, **kw)
 
@@ -40,7 +40,7 @@ class CGroup(Instance):
     ###########################################################################
 
     def validate(self, object, name, value):
-        """ Validate a value. """
+        """Validate a value."""
 
         if isinstance(value, str):
             value = Group(id=value)
@@ -49,7 +49,7 @@ class CGroup(Instance):
 
 
 class ToolBar(Location):
-    """ The *definition* of a menu in a menu bar or menu. """
+    """The *definition* of a menu in a menu bar or menu."""
 
     # The tool bars's unique identifier (unique within the multi-toolbar
     # that the tool bar is to be added to).
@@ -70,7 +70,7 @@ class ToolBar(Location):
     ###########################################################################
 
     def __str__(self):
-        """ Return the 'informal' string representation of the object. """
+        """Return the 'informal' string representation of the object."""
 
         return "ToolBar(%s)" % self.name
 
@@ -81,7 +81,7 @@ class ToolBar(Location):
     ###########################################################################
 
     def _path_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return "ToolBar"
 
@@ -90,6 +90,6 @@ class ToolBar(Location):
     ###########################################################################
 
     def _id_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return self.name

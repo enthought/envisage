@@ -17,13 +17,12 @@ import logging
 # Example imports.
 from acme.acmelab.api import Acmelab
 
-# Enthought plugins.
-from envisage.api import CorePlugin
-from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
-
 # Example plugins.
 from acme.workbench.acme_workbench_plugin import AcmeWorkbenchPlugin
 
+# Enthought plugins.
+from envisage.api import CorePlugin
+from envisage.ui.workbench.workbench_plugin import WorkbenchPlugin
 
 # Do whatever you want to do with log messages! Here we create a log file.
 logger = logging.getLogger()
@@ -33,7 +32,7 @@ logger.setLevel(logging.DEBUG)
 
 
 def main():
-    """ Run the application. """
+    """Run the application."""
 
     # Create an application with the specified plugins.
     acmelab = Acmelab(

@@ -22,11 +22,12 @@ More sophisticated applications should use Tasks.
 """
 
 from traits.api import Event, Supports
+
 from envisage.api import Application
 
 
 class GUIApplication(Application):
-    """ The entry point for an Envisage GUI application.
+    """The entry point for an Envisage GUI application.
 
     This class handles the life-cycle of a Pyface GUI.  Plugins can
     display windows via mechinisms such as edit_traits().
@@ -57,7 +58,7 @@ class GUIApplication(Application):
     ###########################################################################
 
     def run(self):
-        """ Run the application.
+        """Run the application.
 
         Returns
         -------

@@ -10,12 +10,13 @@
 """ The 'Orange' plugin """
 
 
-from envisage.api import Plugin
 from traits.api import Bool
+
+from envisage.api import Plugin
 
 
 class OrangePlugin(Plugin):
-    """ The 'Orange' plugin """
+    """The 'Orange' plugin"""
 
     #### 'IPlugin' protocol ###################################################
 
@@ -23,13 +24,13 @@ class OrangePlugin(Plugin):
     id = "orange"
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True

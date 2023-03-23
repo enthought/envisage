@@ -10,13 +10,14 @@
 """ An action that exits the workbench. """
 
 
+from pyface.action.api import Action
+
 # Enthought library imports.
 from pyface.api import ImageResource
-from pyface.action.api import Action
 
 
 class ExitAction(Action):
-    """ An action that exits the workbench. """
+    """An action that exits the workbench."""
 
     #### 'Action' interface ###################################################
 
@@ -37,6 +38,6 @@ class ExitAction(Action):
     ###########################################################################
 
     def perform(self, event):
-        """ Perform the action. """
+        """Perform the action."""
 
         self.window.application.exit()

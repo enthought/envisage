@@ -11,15 +11,16 @@
 
 import unittest
 
+from traits.api import Bool
+
 from envisage.application import Application
 from envisage.composite_plugin_manager import CompositePluginManager
-from envisage.plugin_manager import PluginManager
 from envisage.plugin import Plugin
-from traits.api import Bool
+from envisage.plugin_manager import PluginManager
 
 
 class SimplePlugin(Plugin):
-    """ A simple plugin. """
+    """A simple plugin."""
 
     #### 'SimplePlugin' protocol ##############################################
 
@@ -29,43 +30,41 @@ class SimplePlugin(Plugin):
     #### 'IPlugin' protocol ###################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True
 
 
 class CustomException(Exception):
-    """ Custom exception used for testing purposes. """
+    """Custom exception used for testing purposes."""
 
     pass
 
 
 class RaisingPluginManager(PluginManager):
-    """ A PluginManager that raises on iteration. """
+    """A PluginManager that raises on iteration."""
 
     def __iter__(self):
         raise CustomException("Something went wrong.")
 
 
 class CompositePluginManagerTestCase(unittest.TestCase):
-    """ Tests for the composite plugin manager. """
+    """Tests for the composite plugin manager."""
 
     def test_find_no_plugins_if_there_are_no_plugin_managers(self):
-
         plugin_manager = CompositePluginManager()
         ids = [plugin.id for plugin in plugin_manager]
 
         self.assertEqual(0, len(ids))
 
     def test_find_no_plugins_if_there_are_no_plugins_in_plugin_managers(self):
-
         plugin_manager = CompositePluginManager(
             plugin_managers=[PluginManager(), PluginManager()]
         )
@@ -74,7 +73,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         self.assertEqual(0, len(ids))
 
     def test_find_plugins_in_a_single_plugin_manager(self):
-
         plugin_manager = CompositePluginManager(
             plugin_managers=[
                 PluginManager(
@@ -91,7 +89,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, ["red", "yellow"])
 
     def test_find_plugins_in_a_multiple_plugin_managers(self):
-
         plugin_manager = CompositePluginManager(
             plugin_managers=[
                 PluginManager(
@@ -110,7 +107,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, ["red", "yellow", "green"])
 
     def test_application_gets_propogated_to_plugin_managers(self):
-
         application = Application()
 
         composite_plugin_manager = CompositePluginManager(
@@ -124,7 +120,6 @@ class CompositePluginManagerTestCase(unittest.TestCase):
     def test_propogate_plugin_added_or_remove_events_from_plugin_managers(
         self,
     ):
-
         a = PluginManager()
         b = PluginManager()
 
@@ -164,7 +159,7 @@ class CompositePluginManagerTestCase(unittest.TestCase):
     #### Private protocol #####################################################
 
     def _plugin_count(self, plugin_manager):
-        """ Return how many plugins the plugin manager contains. """
+        """Return how many plugins the plugin manager contains."""
 
         count = 0
         for plugin in plugin_manager:
@@ -173,9 +168,7 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         return count
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """ Make sure the plugin manager starts and stops the expected plugins.
-
-        """
+        """Make sure the plugin manager starts and stops the expected plugins."""
 
         # Make sure the plugin manager found only the required plugins.
         self.assertEqual(expected, [plugin.id for plugin in plugin_manager])

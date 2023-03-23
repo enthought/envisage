@@ -13,23 +13,22 @@
 # Standard library imports.
 import logging
 
-# Enthought library imports.
-from envisage.api import Application
-from pyface.api import AboutDialog, Dialog, GUI, ImageResource
-from pyface.api import SplashScreen
+from pyface.api import AboutDialog, Dialog, GUI, ImageResource, SplashScreen
 from pyface.workbench.api import IWorkbench
 from traits.api import Callable, Instance, Str, Tuple
 
+# Enthought library imports.
+from envisage.api import Application
+
 # Local imports.
 from .workbench import Workbench
-
 
 # Logging.
 logger = logging.getLogger(__name__)
 
 
 class WorkbenchApplication(Application):
-    """ The entry point for an Envisage Workbench application.
+    """The entry point for an Envisage Workbench application.
 
     i.e. a GUI application whose user interface is provided by the workbench
     plugin.
@@ -80,7 +79,7 @@ class WorkbenchApplication(Application):
     ###########################################################################
 
     def run(self):
-        """ Run the application.
+        """Run the application.
 
         This does the following (so you don't have to ;^):-
 
@@ -120,24 +119,24 @@ class WorkbenchApplication(Application):
     #### Initializers #########################################################
 
     def _about_dialog_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return AboutDialog(image=ImageResource("about"))
 
     def _gui_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return GUI(splash_screen=self.splash_screen)
 
     def _workbench_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return self.create_workbench()
 
     #### Methods ##############################################################
 
     def about(self):
-        """ Display the about dialog. """
+        """Display the about dialog."""
 
         # fixme: We really need to create a new 'about dialog' every time so
         # that it can have the active window as its parent.
@@ -146,14 +145,14 @@ class WorkbenchApplication(Application):
     # fixme: Is this needed on the public API? Why can't we just do this in
     # the default initializer (_workbench_default)?
     def create_workbench(self):
-        """ Create the workbench. """
+        """Create the workbench."""
 
         logger.debug("workbench factory %s", self.workbench_factory)
 
         return self.workbench_factory(application=self)
 
     def exit(self):
-        """ Exit the application.
+        """Exit the application.
 
         This closes all open windows and hence exits the GUI event loop.
 
@@ -166,7 +165,7 @@ class WorkbenchApplication(Application):
     ###########################################################################
 
     def _on_workbench_exited(self):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         # We don't invoke 'stop' directly because:-
         #

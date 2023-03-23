@@ -17,7 +17,7 @@ import sys
 
 @contextlib.contextmanager
 def demo_path(path):
-    """ Context manager to temporarily insert the directory containing
+    """Context manager to temporarily insert the directory containing
     the demo script to sys.path such that demo examples can be run using
     local packages.
 

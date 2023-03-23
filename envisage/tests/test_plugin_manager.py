@@ -13,13 +13,14 @@
 # Standard library imports.
 import unittest
 
+from traits.api import Bool
+
 # Enthought library imports.
 from envisage.api import Plugin, PluginManager
-from traits.api import Bool
 
 
 class SimplePlugin(Plugin):
-    """ A simple plugin. """
+    """A simple plugin."""
 
     #### 'SimplePlugin' interface #############################################
 
@@ -31,41 +32,41 @@ class SimplePlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True
 
 
 class BadPlugin(Plugin):
-    """ A plugin that just causes trouble ;^). """
+    """A plugin that just causes trouble ;^)."""
 
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         raise 1 / 0
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         raise 1 / 0
 
 
 class PluginManagerTestCase(unittest.TestCase):
-    """ Tests for the plugin manager. """
+    """Tests for the plugin manager."""
 
     def test_get_plugin(self):
-        """ get plugin """
+        """get plugin"""
 
         simple_plugin = SimplePlugin()
         plugin_manager = PluginManager(plugins=[simple_plugin])
@@ -78,7 +79,7 @@ class PluginManagerTestCase(unittest.TestCase):
         self.assertEqual(None, plugin_manager.get_plugin("bogus"))
 
     def test_iteration_over_plugins(self):
-        """ iteration over plugins """
+        """iteration over plugins"""
 
         simple_plugin = SimplePlugin()
         bad_plugin = BadPlugin()
@@ -93,7 +94,7 @@ class PluginManagerTestCase(unittest.TestCase):
         self.assertEqual([simple_plugin, bad_plugin], plugins)
 
     def test_start_and_stop(self):
-        """ start and stop """
+        """start and stop"""
 
         simple_plugin = SimplePlugin()
         plugin_manager = PluginManager(plugins=[simple_plugin])
@@ -113,7 +114,7 @@ class PluginManagerTestCase(unittest.TestCase):
         self.assertEqual(True, simple_plugin.stopped)
 
     def test_start_and_stop_errors(self):
-        """ start and stop errors """
+        """start and stop errors"""
 
         simple_plugin = SimplePlugin()
         bad_plugin = BadPlugin()
@@ -138,7 +139,6 @@ class PluginManagerTestCase(unittest.TestCase):
             plugin_manager.stop_plugin(plugin_id="bogus")
 
     def test_only_include_plugins_whose_ids_are_in_the_include_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["foo", "bar"]
@@ -163,7 +163,6 @@ class PluginManagerTestCase(unittest.TestCase):
     def test_only_include_plugins_matching_a_wildcard_in_the_include_list(
         self,
     ):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["b*"]
@@ -186,7 +185,6 @@ class PluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["foo", "baz"]
@@ -209,7 +207,6 @@ class PluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["b*"]
@@ -234,9 +231,7 @@ class PluginManagerTestCase(unittest.TestCase):
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """ Make sure the plugin manager starts and stops the expected plugins.
-
-        """
+        """Make sure the plugin manager starts and stops the expected plugins."""
 
         # Make sure the plugin manager found only the required plugins.
         self.assertEqual(expected, [plugin.id for plugin in plugin_manager])

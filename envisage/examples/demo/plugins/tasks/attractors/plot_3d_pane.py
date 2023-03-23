@@ -8,26 +8,20 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from mayavi.tools.mlab_scene_model import MlabSceneModel
-from mayavi.core.ui.mayavi_scene import MayaviScene
-from pyface.tasks.api import TraitsTaskPane
-from traits.api import (
-    Dict,
-    Instance,
-    List,
-    Str,
-    on_trait_change,
-)
-from traitsui.api import EnumEditor, HGroup, Item, Label, View
-from tvtk.pyface.scene_editor import SceneEditor
-
 # Local imports.
 from attractors.model.i_model_3d import IModel3d
+from mayavi.core.ui.mayavi_scene import MayaviScene
+
+# Enthought library imports.
+from mayavi.tools.mlab_scene_model import MlabSceneModel
+from tvtk.pyface.scene_editor import SceneEditor
+
+from pyface.tasks.api import TraitsTaskPane
+from traits.api import Dict, Instance, List, on_trait_change, Str
+from traitsui.api import EnumEditor, HGroup, Item, Label, View
 
 
 class Plot3dPane(TraitsTaskPane):
-
     #### 'ITaskPane' interface ################################################
 
     id = "example.attractors.plot_3d_pane"

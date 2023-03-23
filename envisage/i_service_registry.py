@@ -15,7 +15,7 @@ from traits.api import Event, Interface
 
 
 class IServiceRegistry(Interface):
-    """ The service registry interface.
+    """The service registry interface.
 
     The service registry provides a 'Yellow Pages' style mechanism, in that
     services are published and looked up by protocol (meaning, *interface*,
@@ -40,7 +40,7 @@ class IServiceRegistry(Interface):
     unregistered = Event
 
     def get_service(self, protocol, query="", minimize="", maximize=""):
-        """ Return at most one service that matches the specified query.
+        """Return at most one service that matches the specified query.
 
         The protocol can be an actual class or interface, or the *name* of a
         class or interface in the form '<module_name>.<class_name>'.
@@ -56,14 +56,14 @@ class IServiceRegistry(Interface):
         """
 
     def get_service_from_id(self, service_id):
-        """ Return the service with the specified id.
+        """Return the service with the specified id.
 
         If no such service exists a 'ValueError' exception is raised.
 
         """
 
     def get_services(self, protocol, query="", minimize="", maximize=""):
-        """ Return all services that match the specified query.
+        """Return all services that match the specified query.
 
         The protocol can be an actual class or interface, or the *name* of a
         class or interface in the form '<module_name>.<class_name>'.
@@ -76,7 +76,7 @@ class IServiceRegistry(Interface):
         """
 
     def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service.
+        """Return the dictionary of properties associated with a service.
 
         If no such service exists a 'ValueError' exception is raised.
 
@@ -86,7 +86,7 @@ class IServiceRegistry(Interface):
         """
 
     def register_service(self, protocol, obj, properties=None):
-        """ Register a service.
+        """Register a service.
 
         The protocol can be an actual class or interface, or the *name* of a
         class or interface in the form::
@@ -111,14 +111,14 @@ class IServiceRegistry(Interface):
         """
 
     def set_service_properties(self, service_id, properties):
-        """ Set the dictionary of properties associated with a service.
+        """Set the dictionary of properties associated with a service.
 
         If no such service exists a 'ValueError' exception is raised.
 
         """
 
     def unregister_service(self, service_id):
-        """ Unregister a service.
+        """Unregister a service.
 
         If no such service exists a 'ValueError' exception is raised.
 

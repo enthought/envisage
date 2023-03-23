@@ -12,10 +12,10 @@
 
 # Enthought library imports.
 import pyface.workbench.api as pyface
-
-from envisage.api import IApplication
 from pyface.api import YES
 from traits.api import Delegate, Instance
+
+from envisage.api import IApplication
 
 # Local imports.
 from .workbench_preferences import WorkbenchPreferences
@@ -23,7 +23,7 @@ from .workbench_window import WorkbenchWindow
 
 
 class Workbench(pyface.Workbench):
-    """ The Envisage workbench.
+    """The Envisage workbench.
 
     There is (usually) exactly *one* workbench per application. The workbench
     can create any number of workbench windows.
@@ -53,7 +53,7 @@ class Workbench(pyface.Workbench):
     ###########################################################################
 
     def _exiting_changed(self, event):
-        """ Called when the workbench is exiting. """
+        """Called when the workbench is exiting."""
 
         if self.prompt_on_exit:
             answer = self.active_window.confirm(

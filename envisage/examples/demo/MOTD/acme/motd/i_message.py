@@ -16,7 +16,7 @@ from traits.api import Interface, Str
 
 
 class IMessage(Interface):
-    """ The interface for 'Message of the Day' messages. """
+    """The interface for 'Message of the Day' messages."""
 
     # The author of the message.
     author = Str

@@ -8,18 +8,18 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from envisage.ui.tasks.api import TasksApplication
-from pyface.tasks.api import TaskWindowLayout
-from traits.api import Bool, Instance, List, Property
-
 # Local imports.
 from attractors.attractors_preferences import AttractorsPreferences
 
+from pyface.tasks.api import TaskWindowLayout
+from traits.api import Bool, Instance, List, Property
+
+# Enthought library imports.
+from envisage.ui.tasks.api import TasksApplication
+
 
 class AttractorsApplication(TasksApplication):
-    """ The chaotic attractors Tasks application.
-    """
+    """The chaotic attractors Tasks application."""
 
     #### 'IApplication' interface #############################################
 

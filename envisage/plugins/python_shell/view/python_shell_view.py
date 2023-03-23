@@ -14,21 +14,20 @@
 import logging
 import sys
 
-# Enthought library imports.
-from envisage.api import IExtensionRegistry
-from envisage.api import ExtensionPoint
-from envisage.plugins.python_shell.api import IPythonShell
 from pyface.api import PythonShell
 from pyface.workbench.api import View
 from traits.api import Any, Dict, Event, Instance, Property, provides, Str
+
+# Enthought library imports.
+from envisage.api import ExtensionPoint, IExtensionRegistry
+from envisage.plugins.python_shell.api import IPythonShell
 
 # Setup a logger for this module.
 logger = logging.getLogger(__name__)
 
 
 class PseudoFile(object):
-    """ Simulates a normal File object.
-    """
+    """Simulates a normal File object."""
 
     def __init__(self, write):
         self.write = write
@@ -49,7 +48,7 @@ class PseudoFile(object):
 
 @provides(IPythonShell)
 class PythonShellView(View):
-    """ A view containing an interactive Python shell. """
+    """A view containing an interactive Python shell."""
 
     #### 'IView' interface ####################################################
 
@@ -95,7 +94,7 @@ class PythonShellView(View):
     ###########################################################################
 
     def _get_extension_registry(self):
-        """ Trait property getter. """
+        """Trait property getter."""
 
         return self.window.application
 
@@ -104,7 +103,7 @@ class PythonShellView(View):
     ###########################################################################
 
     def create_control(self, parent):
-        """ Creates the toolkit-specific control that represents the view. """
+        """Creates the toolkit-specific control that represents the view."""
 
         self.shell = shell = PythonShell(parent)
         shell.on_trait_change(self._on_key_pressed, "key_pressed")
@@ -139,9 +138,7 @@ class PythonShellView(View):
         return self.shell.control
 
     def destroy_control(self):
-        """ Destroys the toolkit-specific control that represents the view.
-
-        """
+        """Destroys the toolkit-specific control that represents the view."""
 
         super().destroy_control()
 
@@ -161,36 +158,34 @@ class PythonShellView(View):
     #### Properties ###########################################################
 
     def _get_namespace(self):
-        """ Property getter. """
+        """Property getter."""
 
         return self.shell.interpreter().locals
 
     def _get_names(self):
-        """ Property getter. """
+        """Property getter."""
 
         return list(self.shell.interpreter().locals.keys())
 
     #### Methods ##############################################################
 
     def bind(self, name, value):
-        """ Binds a name to a value in the interpreter's namespace. """
+        """Binds a name to a value in the interpreter's namespace."""
 
         self.shell.bind(name, value)
 
     def execute_command(self, command, hidden=True):
-        """ Execute a command in the interpreter. """
+        """Execute a command in the interpreter."""
 
         return self.shell.execute_command(command, hidden)
 
     def execute_file(self, path, hidden=True):
-        """ Execute a command in the interpreter. """
+        """Execute a command in the interpreter."""
 
         return self.shell.execute_file(path, hidden)
 
     def lookup(self, name):
-        """ Returns the value bound to a name in the interpreter's namespace.
-
-        """
+        """Returns the value bound to a name in the interpreter's namespace."""
 
         return self.shell.interpreter().locals[name]
 
@@ -199,14 +194,14 @@ class PythonShellView(View):
     ###########################################################################
 
     def _write_stdout(self, text):
-        """ Handles text written to stdout. """
+        """Handles text written to stdout."""
 
         self.stdout_text = text
 
     #### Trait change handlers ################################################
 
     def _on_command_executed(self, shell):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         if self.control is not None:
             # Get the set of tuples of names and types in the current
@@ -225,7 +220,7 @@ class PythonShellView(View):
                 self.trait_property_changed("names", [], self.names)
 
     def _on_key_pressed(self, event):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         if event.alt_down and event.key_code == 317:
             zoom = self.shell.control.GetZoom()
@@ -238,6 +233,6 @@ class PythonShellView(View):
                 self.shell.control.SetZoom(zoom - 1)
 
     def _on_write_stdout(self, text):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         self.shell.control.write(text)

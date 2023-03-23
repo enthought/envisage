@@ -17,7 +17,7 @@ from envisage.ui.workbench.api import WorkbenchActionSet
 
 
 class ExampleActionSet(WorkbenchActionSet):
-    """ An action test useful for testing. """
+    """An action test useful for testing."""
 
     #### 'ActionSet' interface ################################################
 
@@ -29,26 +29,17 @@ class ExampleActionSet(WorkbenchActionSet):
             name="&Test",
             path="MenuBar",
             before="Help",
-            groups=[
-                Group(id="XGroup"),
-                Group(id="YGroup")
-            ],
+            groups=[Group(id="XGroup"), Group(id="YGroup")],
         ),
         Menu(
             name="Foo",
             path="MenuBar/Test",
-            groups=[
-                Group(id="XGroup"),
-                Group(id="YGroup")
-            ],
+            groups=[Group(id="XGroup"), Group(id="YGroup")],
         ),
         Menu(
             name="Bar",
             path="MenuBar/Test",
-            groups=[
-                Group(id="XGroup"),
-                Group(id="YGroup")
-            ],
+            groups=[Group(id="XGroup"), Group(id="YGroup")],
         ),
     ]
 

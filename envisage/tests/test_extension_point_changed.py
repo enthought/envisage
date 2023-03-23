@@ -14,19 +14,14 @@ import unittest
 
 # Local imports.
 from envisage.api import ExtensionPointChangedEvent
-from envisage.tests.support import (
-    PluginA,
-    PluginB,
-    PluginC,
-    SimpleApplication,
-)
+from envisage.tests.support import PluginA, PluginB, PluginC, SimpleApplication
 
 
 class ExtensionPointChangedTestCase(unittest.TestCase):
-    """ Tests for the events fired when extension points are changed. """
+    """Tests for the events fired when extension points are changed."""
 
     def test_set_extension_point(self):
-        """ set extension point """
+        """set extension point"""
 
         a = PluginA()
 
@@ -38,7 +33,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
             setattr(a, "x", [1, 2, 3])
 
     def test_mutate_extension_point_no_events(self):
-        """ Mutation will not emit change event for name_items """
+        """Mutation will not emit change event for name_items"""
 
         events = []
 
@@ -57,7 +52,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(events, [])
 
     def test_append(self):
-        """ append """
+        """append"""
 
         events = []
 
@@ -102,7 +97,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(3, event.new.index)
 
     def test_remove(self):
-        """ remove """
+        """remove"""
 
         events = []
 
@@ -147,7 +142,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(2, event.new.index)
 
     def test_assign_empty_list(self):
-        """ assign empty list """
+        """assign empty list"""
 
         events = []
 
@@ -193,7 +188,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(3, event.new.index.stop)
 
     def test_assign_empty_list_no_event(self):
-        """ assign empty list no event """
+        """assign empty list no event"""
 
         events = []
 
@@ -227,7 +222,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(events, [])
 
     def test_assign_non_empty_list(self):
-        """ assign non-empty list """
+        """assign non-empty list"""
 
         events = []
 
@@ -274,9 +269,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3], event.new.removed)
 
         # The removed entry should match what the old values say
-        self.assertEqual(
-            event.new.removed, source_values[event.new.index]
-        )
+        self.assertEqual(event.new.removed, source_values[event.new.index])
 
         # If we use the index and apply the changes to the old list, we should
         # recover the new list
@@ -287,7 +280,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(3, event.new.index.stop)
 
     def test_add_plugin(self):
-        """ add plugin """
+        """add plugin"""
 
         events = []
 
@@ -342,7 +335,7 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(3, event.new.index)
 
     def test_remove_plugin(self):
-        """ remove plugin """
+        """remove plugin"""
 
         events = []
 
@@ -396,10 +389,11 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(0, event.new.index)
 
     def test_extension_point_change_event_str_representation(self):
-        """ test string representation of the ExtensionPointChangedEvent class
-        """
-        desired_repr = ("ExtensionPointChangedEvent(extension_point_id={}, "
-                        "index=0, removed=[], added=[])")
+        """test string representation of the ExtensionPointChangedEvent class"""
+        desired_repr = (
+            "ExtensionPointChangedEvent(extension_point_id={}, "
+            "index=0, removed=[], added=[])"
+        )
         ext_pt_changed_evt = ExtensionPointChangedEvent(extension_point_id=1)
         self.assertEqual(desired_repr.format(1), str(ext_pt_changed_evt))
         self.assertEqual(desired_repr.format(1), repr(ext_pt_changed_evt))

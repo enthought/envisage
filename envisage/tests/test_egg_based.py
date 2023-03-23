@@ -10,12 +10,12 @@
 """ Base class for Egg-based test cases. """
 
 
-from os.path import join
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from os.path import join
 
 import pkg_resources
 
@@ -49,7 +49,7 @@ def build_egg(egg_dir, dist_dir):
 
 
 class EggBasedTestCase(unittest.TestCase):
-    """ Base class for Egg-based test cases. """
+    """Base class for Egg-based test cases."""
 
     @classmethod
     def setUpClass(cls):
@@ -58,7 +58,8 @@ class EggBasedTestCase(unittest.TestCase):
         """
         cls.egg_dir = tempfile.mkdtemp()
         eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "eggs")
+            "envisage.tests", "eggs"
+        )
         for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
             build_egg(
                 egg_dir=join(eggs_root_dir, egg_name),
@@ -73,14 +74,14 @@ class EggBasedTestCase(unittest.TestCase):
         shutil.rmtree(cls.egg_dir)
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # Some tests cause sys.path to be modified. Capture the original
         # contents so that we can restore sys.path later.
         self._original_sys_path_contents = sys.path[:]
 
     def tearDown(self):
-        """ Called immediately after each test method has been called. """
+        """Called immediately after each test method has been called."""
 
         # Undo any sys.path modifications
         sys.path[:] = self._original_sys_path_contents
@@ -88,7 +89,7 @@ class EggBasedTestCase(unittest.TestCase):
         pkg_resources.working_set = pkg_resources.WorkingSet()
 
     def _add_egg(self, filename, working_set=None):
-        """ Create and add a distribution from the specified '.egg'. """
+        """Create and add a distribution from the specified '.egg'."""
 
         if working_set is None:
             working_set = pkg_resources.working_set
@@ -105,7 +106,7 @@ class EggBasedTestCase(unittest.TestCase):
             working_set.add(distribution)
 
     def _add_eggs_on_path(self, path, working_set=None):
-        """ Add all eggs found on the path to a working set. """
+        """Add all eggs found on the path to a working set."""
 
         if working_set is None:
             working_set = pkg_resources.working_set

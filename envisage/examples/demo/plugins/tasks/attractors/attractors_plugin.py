@@ -11,15 +11,15 @@
 # Standard library imports.
 import os.path
 
+from traits.api import List
+
 # Enthought library imports.
 from envisage.api import Plugin
 from envisage.ui.tasks.api import TaskFactory
-from traits.api import List
 
 
 class AttractorsPlugin(Plugin):
-    """ The chaotic attractors plugin.
-    """
+    """The chaotic attractors plugin."""
 
     # Extension point IDs.
     PREFERENCES = "envisage.preferences"

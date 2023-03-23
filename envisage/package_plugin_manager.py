@@ -19,12 +19,11 @@ from traits.api import Directory, List, on_trait_change
 
 from .plugin_manager import PluginManager
 
-
 logger = logging.getLogger(__name__)
 
 
 class PackagePluginManager(PluginManager):
-    """ A plugin manager that finds plugins in packages on the 'plugin_path'.
+    """A plugin manager that finds plugins in packages on the 'plugin_path'.
 
     All items in 'plugin_path' are directory names and they are all added to
     'sys.path' (if not already present). Each directory is then searched for
@@ -68,7 +67,7 @@ class PackagePluginManager(PluginManager):
     #### Protected 'PluginManager' protocol ###################################
 
     def __plugins_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         plugins = [
             plugin
@@ -83,7 +82,7 @@ class PackagePluginManager(PluginManager):
     #### Private protocol #####################################################
 
     def _get_plugins_module(self, package_name):
-        """ Import 'plugins.py' from the package with the given name.
+        """Import 'plugins.py' from the package with the given name.
 
         If the package does not exist, or does not contain 'plugins.py' then
         return None.
@@ -102,7 +101,7 @@ class PackagePluginManager(PluginManager):
 
     # smell: Looooong and ugly!
     def _harvest_plugins_in_package(self, package_name, package_dirname):
-        """ Harvest plugins found in the given package. """
+        """Harvest plugins found in the given package."""
 
         # If the package contains a 'plugins.py' module, then we import it and
         # look for a callable 'get_plugins' that takes no arguments and returns
@@ -136,7 +135,7 @@ class PackagePluginManager(PluginManager):
         return plugins
 
     def _harvest_plugins_in_packages(self):
-        """ Harvest plugins found in packages on the plugin path. """
+        """Harvest plugins found in packages on the plugin path."""
 
         plugins = []
         for dirname in self.plugin_path:
@@ -151,7 +150,7 @@ class PackagePluginManager(PluginManager):
         return plugins
 
     def _update_sys_dot_path(self, removed, added):
-        """ Add/remove the given entries from sys.path. """
+        """Add/remove the given entries from sys.path."""
 
         for dirname in removed:
             if dirname in sys.path:

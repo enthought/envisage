@@ -66,6 +66,18 @@ Exceptions
 
 """
 
+from .application import Application
+from .core_plugin import CorePlugin
+from .egg_plugin_manager import EggPluginManager
+from .extension_point import ExtensionPoint
+from .extension_point_binding import (
+    bind_extension_point,
+    ExtensionPointBinding,
+    unbind_extension_point,
+)
+from .extension_point_changed_event import ExtensionPointChangedEvent
+from .extension_provider import ExtensionProvider
+from .extension_registry import ExtensionRegistry
 from .i_application import IApplication
 from .i_extension_point import IExtensionPoint
 from .i_extension_point_user import IExtensionPointUser
@@ -76,19 +88,6 @@ from .i_plugin import IPlugin
 from .i_plugin_activator import IPluginActivator
 from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
-
-from .application import Application
-from .core_plugin import CorePlugin
-from .egg_plugin_manager import EggPluginManager
-from .extension_registry import ExtensionRegistry
-from .extension_point import ExtensionPoint
-from .extension_point_binding import (
-    ExtensionPointBinding,
-    bind_extension_point,
-    unbind_extension_point,
-)
-from .extension_provider import ExtensionProvider
-from .extension_point_changed_event import ExtensionPointChangedEvent
 from .ids import (
     BINDINGS,
     COMMANDS,
@@ -96,8 +95,8 @@ from .ids import (
     PREFERENCES_CATEGORIES,
     PREFERENCES_PANES,
     SERVICE_OFFERS,
+    TASK_EXTENSIONS,
     TASKS,
-    TASK_EXTENSIONS
 )
 from .import_manager import ImportManager
 from .plugin import Plugin

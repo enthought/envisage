@@ -17,10 +17,12 @@ confused with a more full-featured shell, such as those provided by IPython.
 # Standard library imports.
 import logging
 
-# Enthought library imports.
-from traits.api import Str, List, Dict, Instance, Property
 from pyface.tasks.contrib.python_shell import PythonShellTask
-from envisage.api import Plugin, ExtensionPoint, IExtensionRegistry
+
+# Enthought library imports.
+from traits.api import Dict, Instance, List, Property, Str
+
+from envisage.api import ExtensionPoint, IExtensionRegistry, Plugin
 from envisage.ui.tasks.api import TaskFactory
 
 logger = logging.getLogger()
@@ -30,7 +32,7 @@ COMMANDS = "envisage.plugins.python_shell.commands"
 
 
 class EnvisagePythonShellTask(PythonShellTask):
-    """ Subclass of PythonShellTask that gets its bindings and commands from
+    """Subclass of PythonShellTask that gets its bindings and commands from
     an Envisage ExtensionPoint
     """
 
@@ -54,8 +56,7 @@ class EnvisagePythonShellTask(PythonShellTask):
 
 
 class PythonShellPlugin(Plugin):
-    """ A tasks plugin to display a simple Python shell to the user.
-    """
+    """A tasks plugin to display a simple Python shell to the user."""
 
     # Extension point IDs.
     BINDINGS = BINDINGS
@@ -116,8 +117,7 @@ class PythonShellPlugin(Plugin):
         logger.debug("started python shell plugin")
 
     def _contributed_bindings_default(self):
-        """ By default, expose the Envisage application object to the namespace
-        """
+        """By default, expose the Envisage application object to the namespace"""
         return [{"application": self.application}]
 
     def _tasks_default(self):

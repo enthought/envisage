@@ -20,7 +20,7 @@ from .i_import_manager import IImportManager
 
 @provides(IImportManager)
 class ImportManager(HasTraits):
-    """ The default import manager implementation.
+    """The default import manager implementation.
 
     Its just a guess, but I think using an import manager to do all imports
     will make debugging easier (as opposed to just letting imports happen from
@@ -33,7 +33,7 @@ class ImportManager(HasTraits):
     ###########################################################################
 
     def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path. """
+        """Import the symbol defined by the specified symbol path."""
 
         if ":" in symbol_path:
             module_name, symbol_name = symbol_path.split(":")

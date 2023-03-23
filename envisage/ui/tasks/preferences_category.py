@@ -12,8 +12,7 @@ from traits.api import HasTraits, Str
 
 
 class PreferencesCategory(HasTraits):
-    """ The description for a container of PreferencesPanes.
-    """
+    """The description for a container of PreferencesPanes."""
 
     # The globally unique identifier for the category.
     id = Str
@@ -32,6 +31,5 @@ class PreferencesCategory(HasTraits):
     ###########################################################################
 
     def _name_default(self):
-        """ By default, use the ID for the name.
-        """
+        """By default, use the ID for the name."""
         return self.id

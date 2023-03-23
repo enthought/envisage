@@ -15,10 +15,10 @@ from traits.api import Interface
 
 
 class IImportManager(Interface):
-    """ The interface for import managers. """
+    """The interface for import managers."""
 
     def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path.
+        """Import the symbol defined by the specified symbol path.
 
         'symbol_path' is a string containing the path to a symbol through the
         Python package namespace.

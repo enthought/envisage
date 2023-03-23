@@ -18,7 +18,7 @@ from .action_set import ActionSet
 
 
 class IActionManagerBuilder(Interface):
-    """ The interface for action manager builders.
+    """The interface for action manager builders.
 
     An action manager builder populates action managers (i.e. menus, menu bars
     and tool bars) from the menus, groups and actions defined in its action
@@ -30,6 +30,4 @@ class IActionManagerBuilder(Interface):
     action_sets = List(ActionSet)
 
     def initialize_action_manager(self, action_manager, root):
-        """ Initialize an action manager from the builder's action sets.
-
-        """
+        """Initialize an action manager from the builder's action sets."""

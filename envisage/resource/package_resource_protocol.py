@@ -26,7 +26,7 @@ from .no_such_resource_error import NoSuchResourceError
 
 @provides(IResourceProtocol)
 class PackageResourceProtocol(HasTraits):
-    """ A resource protocol for package resources.
+    """A resource protocol for package resources.
 
     This protocol uses 'importlib.resources' to find and access resources.
 
@@ -44,7 +44,7 @@ class PackageResourceProtocol(HasTraits):
     ###########################################################################
 
     def file(self, address):
-        """ Return a readable file-like object for the specified address. """
+        """Return a readable file-like object for the specified address."""
 
         package, *resource_path = address.split("/")
 
@@ -52,7 +52,7 @@ class PackageResourceProtocol(HasTraits):
             raise NoSuchResourceError(address)
 
         try:
-            f = files(package).joinpath(*resource_path).open('rb')
+            f = files(package).joinpath(*resource_path).open("rb")
         except (
             ModuleNotFoundError,
             TypeError,  # TypeError is raised if package is a module

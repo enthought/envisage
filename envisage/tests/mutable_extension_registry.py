@@ -15,19 +15,19 @@ from envisage.api import ExtensionRegistry, UnknownExtension
 
 
 class MutableExtensionRegistry(ExtensionRegistry):
-    """ A mutable, manually populated extension registry used for testing. """
+    """A mutable, manually populated extension registry used for testing."""
 
     ###########################################################################
     # 'MutableExtensionRegistry' interface.
     ###########################################################################
 
     def add_extension(self, extension_point_id, extension):
-        """ Contribute an extension to an extension point. """
+        """Contribute an extension to an extension point."""
 
         self.add_extensions(extension_point_id, [extension])
 
     def add_extensions(self, extension_point_id, extensions):
-        """ Contribute a list of extensions to an extension point. """
+        """Contribute a list of extensions to an extension point."""
 
         self._check_extension_point(extension_point_id)
 
@@ -40,12 +40,12 @@ class MutableExtensionRegistry(ExtensionRegistry):
         self._call_listeners(refs, extension_point_id, extensions, [], index)
 
     def remove_extension(self, extension_point_id, extension):
-        """ Remove a contribution from an extension point. """
+        """Remove a contribution from an extension point."""
 
         self.remove_extensions(extension_point_id, [extension])
 
     def remove_extensions(self, extension_point_id, extensions):
-        """ Remove a list of contributions from an extension point. """
+        """Remove a list of contributions from an extension point."""
 
         for extension in extensions:
             try:

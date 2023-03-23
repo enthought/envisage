@@ -11,15 +11,16 @@
 
 from contextlib import closing
 
+from traits.api import List, on_trait_change, Str
+
 # Enthought library imports.
 from envisage.extension_point import ExtensionPoint
 from envisage.plugin import Plugin
 from envisage.service_offer import ServiceOffer
-from traits.api import List, on_trait_change, Str
 
 
 class CorePlugin(Plugin):
-    """ The Envisage core plugin.
+    """The Envisage core plugin.
 
     The core plugin offers facilities that are generally useful when building
     extensible applications such as adapters and hooks etc. It does
@@ -82,7 +83,7 @@ class CorePlugin(Plugin):
 
     @on_trait_change("preferences_items")
     def _update_preferences(self, event):
-        """ React to new preferencess being *added*.
+        """React to new preferencess being *added*.
 
         Note that we don't currently do anything if preferences are *removed*.
 
@@ -115,7 +116,7 @@ class CorePlugin(Plugin):
 
     @on_trait_change("service_offers_items")
     def _register_new_services(self, event):
-        """ React to new service offers being *added*.
+        """React to new service offers being *added*.
 
         Note that we don't currently do anything if services are *removed* as
         we have no facility to let users of the service know that the offer
@@ -134,7 +135,7 @@ class CorePlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
         # Load all contributed preferences files into the application's root
         # preferences node.
         self._load_preferences(self.preferences)
@@ -151,7 +152,7 @@ class CorePlugin(Plugin):
     ###########################################################################
 
     def _load_preferences(self, preferences):
-        """ Load all contributed preferences into a preferences node. """
+        """Load all contributed preferences into a preferences node."""
 
         # Enthought library imports.
         from envisage.resource.api import ResourceManager
@@ -170,12 +171,12 @@ class CorePlugin(Plugin):
                 default.load(f)
 
     def _register_service_offers(self, service_offers):
-        """ Register a list of service offers. """
+        """Register a list of service offers."""
 
         return list(map(self._register_service_offer, service_offers))
 
     def _register_service_offer(self, service_offer):
-        """ Register a service offer. """
+        """Register a service offer."""
 
         service_id = self.application.register_service(
             protocol=service_offer.protocol,

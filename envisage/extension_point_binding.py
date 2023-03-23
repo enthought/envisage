@@ -18,7 +18,7 @@ from .i_extension_registry import IExtensionRegistry
 
 
 class ExtensionPointBinding(HasTraits):
-    """ A binding between a trait on an object and an extension point. """
+    """A binding between a trait on an object and an extension point."""
 
     #### 'ExtensionPointBinding' *CLASS* interface ############################
 
@@ -51,7 +51,7 @@ class ExtensionPointBinding(HasTraits):
     ###########################################################################
 
     def __init__(self, **traits):
-        """ Constructor. """
+        """Constructor."""
 
         super().__init__(**traits)
 
@@ -68,13 +68,13 @@ class ExtensionPointBinding(HasTraits):
     #### Trait change handlers ################################################
 
     def _on_trait_changed(self, obj, trait_name, old, new):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         if not self._event_handled:
             self._set_extensions(new)
 
     def _on_trait_items_changed(self, obj, trait_name, old, event):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         if not self._event_handled:
             self._set_extensions(getattr(obj, self.trait_name))
@@ -82,7 +82,7 @@ class ExtensionPointBinding(HasTraits):
     #### Other observer pattern listeners #####################################
 
     def _extension_point_listener(self, extension_registry, event):
-        """ Listener called when an extension point is changed. """
+        """Listener called when an extension point is changed."""
 
         self._event_handled = True
         if event.index is not None:
@@ -95,7 +95,7 @@ class ExtensionPointBinding(HasTraits):
     #### Methods ##############################################################
 
     def _bind(self):
-        """ Wire-up trait change handlers etc. """
+        """Wire-up trait change handlers etc."""
 
         # Listen for the object's trait being changed.
         self.obj.on_trait_change(self._on_trait_changed, self.trait_name)
@@ -127,7 +127,7 @@ class ExtensionPointBinding(HasTraits):
         )
 
     def _set_trait(self, notify):
-        """ Set the object's trait to the value of the extension point. """
+        """Set the object's trait to the value of the extension point."""
 
         value = self.extension_registry.get_extensions(self.extension_point_id)
         traits = {self.trait_name: value}
@@ -135,7 +135,7 @@ class ExtensionPointBinding(HasTraits):
         self.obj.trait_set(trait_change_notify=notify, **traits)
 
     def _update_trait(self, event):
-        """ Update the object's trait to the value of the extension point. """
+        """Update the object's trait to the value of the extension point."""
 
         self._set_trait(notify=False)
 
@@ -144,7 +144,7 @@ class ExtensionPointBinding(HasTraits):
         )
 
     def _set_extensions(self, extensions):
-        """ Set the extensions to an extension point. """
+        """Set the extensions to an extension point."""
 
         self.extension_registry.set_extensions(
             self.extension_point_id, extensions

@@ -15,7 +15,7 @@ import os
 from os.path import exists, join
 
 # Enthought library imports.
-from traits.api import Instance, List, Property, Str, provides
+from traits.api import Instance, List, Property, provides, Str
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 @provides(IPlugin, IExtensionPointUser, IServiceUser)
 class Plugin(ExtensionProvider):
-    """ The default implementation of the 'IPlugin' interface.
+    """The default implementation of the 'IPlugin' interface.
 
     This class is intended to be subclassed for each plugin that you create.
 
@@ -92,7 +92,7 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def _get_extension_registry(self):
-        """ Trait property getter. """
+        """Trait property getter."""
 
         return self.application
 
@@ -101,7 +101,7 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def _get_service_registry(self):
-        """ Trait property getter. """
+        """Trait property getter."""
 
         return self.application
 
@@ -110,7 +110,7 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def get_extension_points(self):
-        """ Return the extension points offered by the provider. """
+        """Return the extension points offered by the provider."""
 
         extension_points = [
             trait.trait_type
@@ -120,7 +120,7 @@ class Plugin(ExtensionProvider):
         return extension_points
 
     def get_extensions(self, extension_point_id):
-        """ Return the provider's extensions to an extension point. """
+        """Return the provider's extensions to an extension point."""
 
         # Each class can have at most *one* trait that contributes to a
         # particular extension point.
@@ -148,7 +148,7 @@ class Plugin(ExtensionProvider):
     #### Trait initializers ###################################################
 
     def _home_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Each plugin gets a sub-directory of a 'plugins' directory in
         # 'application.home'.
@@ -166,23 +166,25 @@ class Plugin(ExtensionProvider):
         return home_dir
 
     def _id_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
         logger.warning(
             "plugin {} has no Id - using <{}>".format(
-                object.__repr__(self), id)
+                object.__repr__(self), id
+            )
         )
 
         return id
 
     def _name_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         name = camel_case_to_words(type(self).__name__)
         logger.warning(
             "plugin {} has no name - using <{}>".format(
-                object.__repr__(self), name)
+                object.__repr__(self), name
+            )
         )
 
         return name
@@ -190,7 +192,7 @@ class Plugin(ExtensionProvider):
     #### Methods ##############################################################
 
     def start(self):
-        """ Start the plugin.
+        """Start the plugin.
 
         This method will *always* be empty so that you never have to call
         'super().start()' if you provide an implementation in a
@@ -204,7 +206,7 @@ class Plugin(ExtensionProvider):
         pass
 
     def stop(self):
-        """ Stop the plugin.
+        """Stop the plugin.
 
         This method will *always* be empty so that you never have to call
         'super().stop()' if you provide an implementation in a
@@ -222,7 +224,7 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def connect_extension_point_traits(self):
-        """ Connect all of the plugin's extension points.
+        """Connect all of the plugin's extension points.
 
         This means that the plugin will be notified if and when contributions
         are add or removed.
@@ -232,12 +234,12 @@ class Plugin(ExtensionProvider):
         ExtensionPoint.connect_extension_point_traits(self)
 
     def disconnect_extension_point_traits(self):
-        """ Disconnect all of the plugin's extension points."""
+        """Disconnect all of the plugin's extension points."""
 
         ExtensionPoint.disconnect_extension_point_traits(self)
 
     def register_services(self):
-        """ Register the services offered by the plugin. """
+        """Register the services offered by the plugin."""
 
         for trait_name, trait in self.traits(service=True).items():
             logger.warning(
@@ -256,7 +258,7 @@ class Plugin(ExtensionProvider):
             self._service_ids.append(service_id)
 
     def unregister_services(self):
-        """ Unregister any service offered by the plugin. """
+        """Unregister any service offered by the plugin."""
 
         # Unregister the services in the reverse order that we registered
         # them.
@@ -282,7 +284,7 @@ class Plugin(ExtensionProvider):
     #### Trait change handlers ################################################
 
     def _anytrait_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         # Ignore the '_items' part of the trait name (if it is there!), and get
         # the actual trait.
@@ -310,7 +312,7 @@ class Plugin(ExtensionProvider):
     #### Methods ##############################################################
 
     def _create_multiple_traits_exception(self, extension_point_id):
-        """ Create the exception raised when multiple traits are found. """
+        """Create the exception raised when multiple traits are found."""
 
         exception = ValueError(
             "multiple traits for extension point <%s> in plugin <%s>"
@@ -320,7 +322,7 @@ class Plugin(ExtensionProvider):
         return exception
 
     def _get_extensions_from_trait(self, trait_name):
-        """ Return the extensions contributed via the specified trait. """
+        """Return the extensions contributed via the specified trait."""
 
         try:
             extensions = getattr(self, trait_name)
@@ -334,7 +336,7 @@ class Plugin(ExtensionProvider):
         return extensions
 
     def _get_service_protocol(self, trait):
-        """ Determine the protocol to register a service trait with. """
+        """Determine the protocol to register a service trait with."""
 
         # If a specific protocol was specified then use it.
         if trait.service_protocol is not None:
@@ -354,7 +356,7 @@ class Plugin(ExtensionProvider):
         return protocol
 
     def _register_service_factory(self, trait_name, trait):
-        """ Register a service factory for the specified trait. """
+        """Register a service factory for the specified trait."""
 
         # Determine the protocol that the service should be registered with.
         protocol = self._get_service_protocol(trait)
@@ -364,7 +366,7 @@ class Plugin(ExtensionProvider):
         # (this could obviously be a lambda function, but I thought it best to
         # be more explicit 8^).
         def factory(**properties):
-            """ A service factory. """
+            """A service factory."""
 
             return getattr(self, trait_name)
 
@@ -375,5 +377,5 @@ class Plugin(ExtensionProvider):
     ###########################################################################
 
     def __repr__(self):
-        """ String representation of a Plugin object """
+        """String representation of a Plugin object"""
         return f"{type(self).__name__}(id={self.id!r}, name={self.name!r})"

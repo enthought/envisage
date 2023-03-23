@@ -10,9 +10,9 @@
 """ A simple plugin manager implementation. """
 
 
-from fnmatch import fnmatch
 import logging
 import warnings
+from fnmatch import fnmatch
 
 from traits.api import Event, HasTraits, Instance, List, observe, provides, Str
 
@@ -21,13 +21,12 @@ from .i_plugin import IPlugin
 from .i_plugin_manager import IPluginManager
 from .plugin_event import PluginEvent
 
-
 logger = logging.getLogger(__name__)
 
 
 @provides(IPluginManager)
 class PluginManager(HasTraits):
-    """ A simple plugin manager implementation.
+    """A simple plugin manager implementation.
 
     This implementation manages an explicit collection of plugin instances,
     e.g::
@@ -54,7 +53,7 @@ class PluginManager(HasTraits):
 
     @observe("application")
     def _set_new_application_on_all_plugins(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         self._update_application_on_plugins([], self._plugins)
 
@@ -74,7 +73,7 @@ class PluginManager(HasTraits):
     #### 'object' protocol ####################################################
 
     def __init__(self, plugins=None, **traits):
-        """ Constructor.
+        """Constructor.
 
         We allow the caller to specify an initial list of plugins, but the
         list itself is not part of the public API. To add and remove plugins
@@ -98,7 +97,7 @@ class PluginManager(HasTraits):
             self._plugins = plugins
 
     def __iter__(self):
-        """ Return an iterator over the manager's plugins. """
+        """Return an iterator over the manager's plugins."""
 
         plugins = [
             plugin
@@ -111,13 +110,13 @@ class PluginManager(HasTraits):
     #### 'IPluginManager' protocol ############################################
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the manager. """
+        """Add a plugin to the manager."""
 
         self._plugins.append(plugin)
         self.plugin_added = PluginEvent(plugin=plugin)
 
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id. """
+        """Return the plugin with the specified Id."""
 
         for plugin in self._plugins:
             if plugin_id == plugin.id:
@@ -132,19 +131,19 @@ class PluginManager(HasTraits):
         return plugin
 
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the manager. """
+        """Remove a plugin from the manager."""
 
         self._plugins.remove(plugin)
         self.plugin_removed = PluginEvent(plugin=plugin)
 
     def start(self):
-        """ Start the plugin manager. """
+        """Start the plugin manager."""
 
         for plugin in self._plugins:
             self.start_plugin(plugin)
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin. """
+        """Start the specified plugin."""
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
@@ -156,7 +155,7 @@ class PluginManager(HasTraits):
             raise ValueError("no such plugin %s" % plugin_id)
 
     def stop(self):
-        """ Stop the plugin manager. """
+        """Stop the plugin manager."""
 
         # We stop the plugins in the reverse order that they were started.
         stop_order = self._plugins[:]
@@ -166,7 +165,7 @@ class PluginManager(HasTraits):
             self.stop_plugin(plugin)
 
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin. """
+        """Stop the specified plugin."""
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
@@ -184,18 +183,18 @@ class PluginManager(HasTraits):
 
     @observe("_plugins")
     def _update_application_on_all_plugins(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         old, new = event.old, event.new
         self._update_application_on_plugins(old, new)
 
     @observe("_plugins:items")
     def _update_application_on_changed_plugins(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         self._update_application_on_plugins(event.removed, event.added)
 
     def _include_plugin(self, plugin_id):
-        """ Return True if the plugin should be included.
+        """Return True if the plugin should be included.
 
         This is just shorthand for:-
 
@@ -211,7 +210,7 @@ class PluginManager(HasTraits):
     #### Private protocol #####################################################
 
     def _is_excluded(self, plugin_id):
-        """ Return True if the plugin Id is excluded.
+        """Return True if the plugin Id is excluded.
 
         If no 'exclude' patterns are specified then this method returns False
         for all plugin Ids.
@@ -228,7 +227,7 @@ class PluginManager(HasTraits):
         return False
 
     def _is_included(self, plugin_id):
-        """ Return True if the plugin Id is included.
+        """Return True if the plugin Id is included.
 
         If no 'include' patterns are specified then this method returns True
         for all plugin Ids.
@@ -245,7 +244,7 @@ class PluginManager(HasTraits):
         return False
 
     def _update_application_on_plugins(self, removed, added):
-        """ Update the 'application' trait of plugins added/removed. """
+        """Update the 'application' trait of plugins added/removed."""
 
         for plugin in removed:
             plugin.application = None

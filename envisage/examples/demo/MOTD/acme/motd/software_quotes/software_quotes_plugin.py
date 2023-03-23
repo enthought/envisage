@@ -11,13 +11,14 @@
 """ The 'Software Quotes' plugin """
 
 
+from traits.api import List
+
 # Enthought library imports.
 from envisage.api import Plugin
-from traits.api import List
 
 
 class SoftwareQuotesPlugin(Plugin):
-    """ The 'Software Quotes' plugin. """
+    """The 'Software Quotes' plugin."""
 
     #### 'IPlugin' interface ##################################################
 
@@ -37,7 +38,7 @@ class SoftwareQuotesPlugin(Plugin):
     messages = List(contributes_to="acme.motd.messages")
 
     def _messages_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Only do imports when you need to!
         from acme.motd.software_quotes.messages import messages

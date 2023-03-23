@@ -10,8 +10,8 @@
 import logging
 
 from apptools.io.api import File
-from pyface.api import FileDialog, OK
 from pyface.action.api import Action
+from pyface.api import FileDialog, OK
 from traits.api import Any
 
 from .editor.text_editor import TextEditor
@@ -20,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 class NewFileAction(Action):
-    """ Open a new file in the text editor.
-    """
+    """Open a new file in the text editor."""
 
     tooltip = "Create a new file for editing"
     description = "Create a new file for editing"
@@ -37,8 +36,7 @@ class NewFileAction(Action):
 
 
 class OpenFileAction(Action):
-    """ Open an existing file in the text editor.
-    """
+    """Open an existing file in the text editor."""
 
     tooltip = "Open a file for editing"
     description = "Open a file for editing"

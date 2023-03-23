@@ -11,21 +11,20 @@
 # Enthought library imports.
 from traits.api import (
     Array,
+    cached_property,
     DelegatesTo,
     HasTraits,
-    Interface,
     Instance,
+    Interface,
     Property,
     Str,
     Trait,
-    cached_property,
 )
 from traitsui.api import Group, Item, View
 
 
 class IModel3d(Interface):
-    """ A model object that produces an array of 3D points.
-    """
+    """A model object that produces an array of 3D points."""
 
     # The user-visible name of the model.
     name = Str
@@ -35,8 +34,7 @@ class IModel3d(Interface):
 
 
 class IModel3dIPlottable2dMixin(HasTraits):
-    """ Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter.
-    """
+    """Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter."""
 
     #### 'Adapter' interface ##################################################
 

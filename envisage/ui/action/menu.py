@@ -18,7 +18,7 @@ from .location import Location
 
 
 class CGroup(Instance):
-    """ A trait type for a 'Group' or anything that can be cast to a 'Group'.
+    """A trait type for a 'Group' or anything that can be cast to a 'Group'.
 
     Currently, the only cast allowed is from string -> Group using the
     string as the group's ID.
@@ -30,7 +30,7 @@ class CGroup(Instance):
     ###########################################################################
 
     def __init__(self, **kw):
-        """ Constructor. """
+        """Constructor."""
 
         super().__init__(klass=Group, **kw)
 
@@ -39,7 +39,7 @@ class CGroup(Instance):
     ###########################################################################
 
     def validate(self, object, name, value):
-        """ Validate a value. """
+        """Validate a value."""
 
         if isinstance(value, str):
             value = Group(id=value)
@@ -48,7 +48,7 @@ class CGroup(Instance):
 
 
 class Menu(Location):
-    """ The *definition* of a menu in a menu bar or menu. """
+    """The *definition* of a menu in a menu bar or menu."""
 
     # The menu's unique identifier (unique within the group that the menu is to
     # be added to).
@@ -69,7 +69,7 @@ class Menu(Location):
     ###########################################################################
 
     def __str__(self):
-        """ Return the 'informal' string representation of the object. """
+        """Return the 'informal' string representation of the object."""
 
         return "Menu(%s)" % self.name
 
@@ -80,6 +80,6 @@ class Menu(Location):
     ###########################################################################
 
     def _id_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return self.name.strip("&")

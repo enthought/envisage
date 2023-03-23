@@ -15,7 +15,13 @@ import logging
 
 # Enthought library imports.
 from traits.api import (
-    Event, HasTraits, Instance, List, observe, on_trait_change, provides,
+    Event,
+    HasTraits,
+    Instance,
+    List,
+    observe,
+    on_trait_change,
+    provides,
 )
 
 # Local imports.
@@ -25,14 +31,13 @@ from .i_plugin_manager import IPluginManager
 from .plugin_event import PluginEvent
 from .plugin_manager import PluginManager
 
-
 # Logging.
 logger = logging.getLogger(__name__)
 
 
 @provides(IPluginManager)
 class CompositePluginManager(HasTraits):
-    """ A plugin manager composed of other plugin managers!
+    """A plugin manager composed of other plugin managers!
 
     e.g::
 
@@ -106,7 +111,7 @@ class CompositePluginManager(HasTraits):
     #### 'object' protocol ####################################################
 
     def __iter__(self):
-        """ Return an iterator over the manager's plugins. """
+        """Return an iterator over the manager's plugins."""
 
         plugins = []
         for plugin_manager in self.plugin_managers:
@@ -118,12 +123,12 @@ class CompositePluginManager(HasTraits):
     #### 'IPluginManager' protocol ############################################
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the manager. """
+        """Add a plugin to the manager."""
 
         raise NotImplementedError
 
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id. """
+        """Return the plugin with the specified Id."""
 
         for plugin in self:
             if plugin_id == plugin.id:
@@ -135,18 +140,18 @@ class CompositePluginManager(HasTraits):
         return plugin
 
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the manager. """
+        """Remove a plugin from the manager."""
 
         raise NotImplementedError
 
     def start(self):
-        """ Start the plugin manager. """
+        """Start the plugin manager."""
 
         for plugin in self:
             self.start_plugin(plugin)
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin. """
+        """Start the specified plugin."""
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:
@@ -158,7 +163,7 @@ class CompositePluginManager(HasTraits):
             raise ValueError("no such plugin %s" % plugin_id)
 
     def stop(self):
-        """ Stop the plugin manager. """
+        """Stop the plugin manager."""
 
         # We stop the plugins in the reverse order that they were started.
         stop_order = list(iter(self))
@@ -168,7 +173,7 @@ class CompositePluginManager(HasTraits):
             self.stop_plugin(plugin)
 
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin. """
+        """Stop the specified plugin."""
 
         plugin = plugin or self.get_plugin(plugin_id)
         if plugin is not None:

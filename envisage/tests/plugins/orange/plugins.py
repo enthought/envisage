@@ -11,7 +11,7 @@
 
 
 def get_plugins():
-    """ Get the plugins from this package. """
+    """Get the plugins from this package."""
 
     from .orange_plugin import OrangePlugin
 

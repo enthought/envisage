@@ -16,7 +16,7 @@ from .color_view import ColorView
 
 
 class BlackView(ColorView):
-    """ A view containing a black panel! """
+    """A view containing a black panel!"""
 
     #### 'IView' interface ####################################################
 

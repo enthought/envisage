@@ -10,16 +10,17 @@
 """ Tests for plugins. """
 
 
-# Standard library imports.
-from os.path import exists, join
 import unittest
 
+# Standard library imports.
+from os.path import exists, join
+
+from traits.api import HasTraits, Instance, Int, Interface, List, provides
+
 # Enthought library imports.
-from envisage.api import Application, ExtensionPoint
-from envisage.api import IPluginActivator, Plugin
+from envisage.api import Application, ExtensionPoint, IPluginActivator, Plugin
 from envisage.tests.ets_config_patcher import ETSConfigPatcher
 from envisage.tests.support import SimpleApplication
-from traits.api import HasTraits, Instance, Int, Interface, List, provides
 
 
 class TestPlugin(Plugin):
@@ -27,7 +28,7 @@ class TestPlugin(Plugin):
 
 
 class PluginTestCase(unittest.TestCase):
-    """ Tests for plugins. """
+    """Tests for plugins."""
 
     def setUp(self):
         ets_config_patcher = ETSConfigPatcher()
@@ -35,7 +36,7 @@ class PluginTestCase(unittest.TestCase):
         self.addCleanup(ets_config_patcher.stop)
 
     def test_id_policy(self):
-        """ id policy """
+        """id policy"""
 
         # If no Id is specified then use 'module_name.class_name'.
         p = Plugin()
@@ -51,7 +52,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual("fred", p.name)
 
     def test_name_policy(self):
-        """ name policy """
+        """name policy"""
 
         # If name is specified then use the plugin's class name.
         p = Plugin()
@@ -69,19 +70,19 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual("This Is My Plugin", p.name)
 
     def test_plugin_activator(self):
-        """ plugin activator. """
+        """plugin activator."""
 
         @provides(IPluginActivator)
         class NullPluginActivator(HasTraits):
-            """ A plugin activator that does nothing! """
+            """A plugin activator that does nothing!"""
 
             def start_plugin(self, plugin):
-                """ Start a plugin. """
+                """Start a plugin."""
 
                 self.started = plugin
 
             def stop_plugin(self, plugin):
-                """ Stop a plugin. """
+                """Stop a plugin."""
 
                 self.stopped = plugin
 
@@ -109,7 +110,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(a, plugin_activator.stopped)
 
     def test_service(self):
-        """ service """
+        """service"""
 
         class Foo(HasTraits):
             pass
@@ -149,7 +150,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(None, application.get_service(Baz))
 
     def test_service_protocol(self):
-        """ service protocol """
+        """service protocol"""
 
         class IFoo(Interface):
             pass
@@ -180,7 +181,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual(None, application.get_service(IBar))
 
     def test_multiple_trait_contributions(self):
-        """ multiple trait contributions """
+        """multiple trait contributions"""
 
         class PluginA(Plugin):
             id = "A"
@@ -203,7 +204,7 @@ class PluginTestCase(unittest.TestCase):
             application.get_extensions("x")
 
     def test_exception_in_trait_contribution(self):
-        """ exception in trait contribution """
+        """exception in trait contribution"""
 
         class PluginA(Plugin):
             id = "A"
@@ -215,7 +216,7 @@ class PluginTestCase(unittest.TestCase):
             x = List(contributes_to="x")
 
             def _x_default(self):
-                """ Trait initializer. """
+                """Trait initializer."""
 
                 raise 1 / 0
 
@@ -230,7 +231,7 @@ class PluginTestCase(unittest.TestCase):
             application.get_extensions("x")
 
     def test_contributes_to(self):
-        """ contributes to """
+        """contributes to"""
 
         class PluginA(Plugin):
             id = "A"
@@ -250,7 +251,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3], application.get_extensions("x"))
 
     def test_add_plugins_to_empty_application(self):
-        """ add plugins to empty application """
+        """add plugins to empty application"""
 
         class PluginA(Plugin):
             id = "A"
@@ -326,7 +327,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual([4, 5, 6], a.removed)
 
     def test_home(self):
-        """ home """
+        """home"""
 
         class PluginA(Plugin):
             id = "A"
@@ -363,7 +364,7 @@ class PluginTestCase(unittest.TestCase):
         self.assertTrue(exists(b.home))
 
     def test_no_recursion(self):
-        """ Regression test for #119. """
+        """Regression test for #119."""
 
         class PluginA(Plugin):
             id = "A"
@@ -373,7 +374,7 @@ class PluginTestCase(unittest.TestCase):
         application.get_extensions("bob")
 
     def test_plugin_str_representation(self):
-        """ test the string representation of the plugin """
+        """test the string representation of the plugin"""
         plugin_repr = "TestPlugin(id={!r}, name={!r})"
         plugin = TestPlugin(id="Fred", name="Wilma")
         self.assertEqual(str(plugin), plugin_repr.format("Fred", "Wilma"))

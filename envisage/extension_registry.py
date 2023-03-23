@@ -23,7 +23,6 @@ from .extension_point_changed_event import ExtensionPointChangedEvent
 from .i_extension_registry import IExtensionRegistry
 from .unknown_extension_point import UnknownExtensionPoint
 
-
 # Logging.
 logger = logging.getLogger(__name__)
 
@@ -63,7 +62,7 @@ def _saferef(listener):
 
 @provides(IExtensionRegistry)
 class ExtensionRegistry(HasTraits):
-    """ A base class for extension registry implementation. """
+    """A base class for extension registry implementation."""
 
     ###########################################################################
     # Protected 'ExtensionRegistry' interface.
@@ -93,42 +92,42 @@ class ExtensionRegistry(HasTraits):
     ###########################################################################
 
     def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added or removed. """
+        """Add a listener for extensions being added or removed."""
 
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.append(_saferef(listener))
 
     def add_extension_point(self, extension_point):
-        """ Add an extension point. """
+        """Add an extension point."""
 
         self._extension_points[extension_point.id] = extension_point
         logger.debug("extension point <%s> added", extension_point.id)
 
     def get_extensions(self, extension_point_id):
-        """ Return the extensions contributed to an extension point. """
+        """Return the extensions contributed to an extension point."""
 
         return self._get_extensions(extension_point_id)[:]
 
     def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id. """
+        """Return the extension point with the specified Id."""
 
         return self._extension_points.get(extension_point_id)
 
     def get_extension_points(self):
-        """ Return all extension points. """
+        """Return all extension points."""
 
         return list(self._extension_points.values())
 
     def remove_extension_point_listener(
         self, listener, extension_point_id=None
     ):
-        """ Remove a listener for extensions being added or removed. """
+        """Remove a listener for extensions being added or removed."""
 
         listeners = self._listeners.setdefault(extension_point_id, [])
         listeners.remove(_saferef(listener))
 
     def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point. """
+        """Remove an extension point."""
 
         self._check_extension_point(extension_point_id)
 
@@ -149,7 +148,7 @@ class ExtensionRegistry(HasTraits):
         logger.debug("extension point <%s> removed", extension_point_id)
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point. """
+        """Set the extensions contributed to an extension point."""
 
         self._check_extension_point(extension_point_id)
 
@@ -164,7 +163,7 @@ class ExtensionRegistry(HasTraits):
     ###########################################################################
 
     def _call_listeners(self, refs, extension_point_id, added, removed, index):
-        """ Call listeners that are listening to an extension point. """
+        """Call listeners that are listening to an extension point."""
 
         event = ExtensionPointChangedEvent(
             extension_point_id=extension_point_id,
@@ -179,7 +178,7 @@ class ExtensionRegistry(HasTraits):
                 listener(self, event)
 
     def _check_extension_point(self, extension_point_id):
-        """ Check to see if the extension point exists.
+        """Check to see if the extension point exists.
 
         Raise an 'UnknownExtensionPoint' if it does not.
 
@@ -189,12 +188,12 @@ class ExtensionRegistry(HasTraits):
             raise UnknownExtensionPoint(extension_point_id)
 
     def _get_extensions(self, extension_point_id):
-        """ Return the extensions for the given extension point. """
+        """Return the extensions for the given extension point."""
 
         return self._extensions.setdefault(extension_point_id, [])
 
     def _get_listener_refs(self, extension_point_id):
-        """ Get weak references to all listeners to an extension point.
+        """Get weak references to all listeners to an extension point.
 
         Returns a list containing the weak references to those listeners that
         are listening to this extension point specifically first, followed by

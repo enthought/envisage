@@ -10,6 +10,10 @@
 
 # System library imports.
 import numpy as np
+
+# Local imports
+from attractors.model.i_model_3d import IModel3d, IModel3dIPlottable2dMixin
+from attractors.model.i_plottable_2d import IPlottable2d
 from scipy import arange, array
 from scipy.integrate import odeint
 
@@ -17,26 +21,21 @@ from scipy.integrate import odeint
 from traits.api import (
     Adapter,
     Array,
+    cached_property,
     Float,
     HasTraits,
     Instance,
     Property,
-    Str,
-    cached_property,
     provides,
     register_factory,
+    Str,
 )
-from traitsui.api import View, Item
-
-# Local imports
-from attractors.model.i_model_3d import IModel3d, IModel3dIPlottable2dMixin
-from attractors.model.i_plottable_2d import IPlottable2d
+from traitsui.api import Item, View
 
 
 @provides(IModel3d)
 class Rossler(HasTraits):
-    """ The model object for the Rossler attractor.
-    """
+    """The model object for the Rossler attractor."""
 
     #### 'IModel3d' interface #################################################
 
@@ -92,7 +91,6 @@ class Rossler(HasTraits):
 
 @provides(IPlottable2d)
 class RosslerIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
-
     adaptee = Instance(Rossler)
 
     plot_type = Str("line")

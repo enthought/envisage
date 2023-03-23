@@ -13,8 +13,8 @@
 
 # Enthought library imports.
 from traits.api import List
-from envisage.api import Plugin
 
+from envisage.api import Plugin
 
 # The plugin's globally unique identifier (also used as the prefix for all
 # identifiers defined in this module).
@@ -22,8 +22,7 @@ ID = "envisage.plugins.text_editor"
 
 
 class TextEditorPlugin(Plugin):
-    """ Text Editor plugin for the Workbench UI.
-    """
+    """Text Editor plugin for the Workbench UI."""
 
     name = "Text Editor plugin"
 

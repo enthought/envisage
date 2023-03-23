@@ -11,9 +11,9 @@
 
 
 class NoSuchResourceError(Exception):
-    """ The exception raised when trying to open a non-existent resource. """
+    """The exception raised when trying to open a non-existent resource."""
 
     def __init__(self, message=""):
-        """ Constructor. """
+        """Constructor."""
 
         Exception.__init__(self, message)

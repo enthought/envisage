@@ -10,29 +10,28 @@
 
 # System library imports.
 import numpy as np
+
+# Local imports.
+from attractors.model.i_plottable_2d import IPlottable2d
 from scipy import array, zeros
 
 # Enthought library imports.
 from traits.api import (
     Array,
+    cached_property,
     Float,
     HasTraits,
     Int,
     Property,
-    Str,
-    cached_property,
     provides,
+    Str,
 )
 from traitsui.api import Item, View
-
-# Local imports.
-from attractors.model.i_plottable_2d import IPlottable2d
 
 
 @provides(IPlottable2d)
 class Henon(HasTraits):
-    """ The model object for the Henon map.
-    """
+    """The model object for the Henon map."""
 
     #### 'Henon' interface ####################################################
 
@@ -75,7 +74,7 @@ class Henon(HasTraits):
         points = zeros((self.steps, 2))
         for i in range(self.steps):
             x, y = points[i] = point
-            point = array([y + 1 - self.a * x ** 2, self.b * x])
+            point = array([y + 1 - self.a * x**2, self.b * x])
         return points
 
     @cached_property

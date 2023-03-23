@@ -10,11 +10,11 @@
 """ Tests for the 'Egg Basket' plugin manager. """
 
 import glob
-from os.path import basename, join
 import shutil
 import sys
 import tempfile
 import unittest
+from os.path import basename, join
 
 import pkg_resources
 
@@ -23,7 +23,7 @@ from envisage.tests.test_egg_based import build_egg
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
-    """ Tests for the 'Egg Basket' plugin manager. """
+    """Tests for the 'Egg Basket' plugin manager."""
 
     #### 'unittest.TestCase' protocol #########################################
 
@@ -36,7 +36,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         cls.bad_eggs_dir = tempfile.mkdtemp()
 
         eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "eggs")
+            "envisage.tests", "eggs"
+        )
         for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
             build_egg(
                 egg_dir=join(eggs_root_dir, egg_name),
@@ -44,7 +45,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             )
 
         bad_eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "bad_eggs")
+            "envisage.tests", "bad_eggs"
+        )
         for egg_name in ["acme-bad"]:
             build_egg(
                 egg_dir=join(bad_eggs_root_dir, egg_name),
@@ -60,14 +62,14 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         shutil.rmtree(cls.eggs_dir)
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # Some tests cause sys.path to be modified. Capture the original
         # contents so that we can restore sys.path later.
         self._original_sys_path_contents = sys.path[:]
 
     def tearDown(self):
-        """ Called immediately after each test method has been called. """
+        """Called immediately after each test method has been called."""
 
         # Undo any sys.path modifications
         sys.path[:] = self._original_sys_path_contents
@@ -79,7 +81,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     #### Tests ################################################################
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
-
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[self.eggs_dir]
@@ -92,7 +93,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.assertIn("acme.baz", ids)
 
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["acme.foo", "acme.bar"]
@@ -110,7 +110,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_only_find_plugins_matching_a_wildcard_in_the_include_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["acme.b*"]
@@ -128,7 +127,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["acme.foo", "acme.baz"]
@@ -146,7 +144,6 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["acme.b*"]
@@ -265,9 +262,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """ Make sure the plugin manager starts and stops the expected plugins.
-
-        """
+        """Make sure the plugin manager starts and stops the expected plugins."""
 
         # Make sure the plugin manager found only the required plugins.
         self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
@@ -293,7 +288,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
             self.assertEqual(True, plugin.stopped)
 
     def _create_broken_distribution_eggdir(self, egg_pat, replacement=None):
-        """ Copy a good egg to a different version egg name in a new temp dir
+        """Copy a good egg to a different version egg name in a new temp dir
         and return the new directory.
 
         Parameters

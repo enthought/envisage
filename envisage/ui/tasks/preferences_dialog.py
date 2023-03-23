@@ -8,9 +8,9 @@
 #
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from traits.api import Bool, HasTraits, Instance, List, Str, on_trait_change
-from traitsui.api import Item, Handler, ListEditor, View
 from pyface.tasks.topological_sort import before_after_sort
+from traits.api import Bool, HasTraits, Instance, List, on_trait_change, Str
+from traitsui.api import Handler, Item, ListEditor, View
 
 # Local imports.
 from .preferences_category import PreferencesCategory
@@ -18,8 +18,7 @@ from .preferences_pane import PreferencesPane
 
 
 class PreferencesTab(HasTraits):
-    """ An object used internally by PreferencesDialog.
-    """
+    """An object used internally by PreferencesDialog."""
 
     name = Str
     panes = List(PreferencesPane)
@@ -36,8 +35,7 @@ class PreferencesTab(HasTraits):
 
 
 class PreferencesDialog(Handler):
-    """ A dialog for editing preferences.
-    """
+    """A dialog for editing preferences."""
 
     #### 'PreferencesDialog' interface ########################################
 
@@ -63,8 +61,7 @@ class PreferencesDialog(Handler):
     ###########################################################################
 
     def select_pane(self, pane_id):
-        """ Find and activate the notebook tab that contains the given pane id.
-        """
+        """Find and activate the notebook tab that contains the given pane id."""
         for tab in self._tabs:
             for pane in tab.panes:
                 if pane.id == pane_id:
@@ -76,14 +73,13 @@ class PreferencesDialog(Handler):
     ###########################################################################
 
     def trait_context(self):
-        """ Returns the default context to use for editing or configuring
-            traits.
+        """Returns the default context to use for editing or configuring
+        traits.
         """
         return {"object": self, "handler": self}
 
     def traits_view(self):
-        """ Build the dynamic dialog view.
-        """
+        """Build the dynamic dialog view."""
         buttons = ["OK", "Cancel"]
         if self.show_apply:
             buttons = ["Apply"] + buttons
@@ -114,15 +110,13 @@ class PreferencesDialog(Handler):
     ###########################################################################
 
     def apply(self, info=None):
-        """ Handles the Apply button being clicked.
-        """
+        """Handles the Apply button being clicked."""
         for tab in self._tabs:
             for pane in tab.panes:
                 pane.apply()
 
     def close(self, info, is_ok):
-        """ Handles the user attempting to close a dialog-based user interface.
-        """
+        """Handles the user attempting to close a dialog-based user interface."""
         if is_ok:
             self.apply()
         return super().close(info, is_ok)

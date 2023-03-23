@@ -13,7 +13,6 @@ from traits.api import Array, Interface, Str
 
 
 class IModel2d(Interface):
-
     # The user-visible name of the model.
     name = Str()
 

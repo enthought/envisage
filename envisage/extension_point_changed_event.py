@@ -15,10 +15,10 @@ from traits.api import TraitListEvent
 
 
 class ExtensionPointChangedEvent(TraitListEvent):
-    """ An event fired when an extension point's extensions have changed. """
+    """An event fired when an extension point's extensions have changed."""
 
     def __init__(self, extension_point_id=None, **kw):
-        """ Constructor. """
+        """Constructor."""
 
         # The base class has the 'index', 'removed' and 'added' attributes.
         super().__init__(**kw)
@@ -27,9 +27,7 @@ class ExtensionPointChangedEvent(TraitListEvent):
         self.extension_point_id = extension_point_id
 
     def __repr__(self):
-        return ("ExtensionPointChangedEvent(extension_point_id={!r}, "
-                "index={!r}, removed={!r}, added={!r})").format(
-                    self.extension_point_id,
-                    self.index,
-                    self.removed,
-                    self.added)
+        return (
+            "ExtensionPointChangedEvent(extension_point_id={!r}, "
+            "index={!r}, removed={!r}, added={!r})"
+        ).format(self.extension_point_id, self.index, self.removed, self.added)

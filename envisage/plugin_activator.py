@@ -19,14 +19,14 @@ from .i_plugin_activator import IPluginActivator
 
 @provides(IPluginActivator)
 class PluginActivator(HasTraits):
-    """ The default plugin activator. """
+    """The default plugin activator."""
 
     ###########################################################################
     # 'IPluginActivator' interface.
     ###########################################################################
 
     def start_plugin(self, plugin):
-        """ Start the specified plugin. """
+        """Start the specified plugin."""
 
         # Connect all of the plugin's extension point traits so that the plugin
         # will be notified if and when contributions are added or removed.
@@ -39,7 +39,7 @@ class PluginActivator(HasTraits):
         plugin.start()
 
     def stop_plugin(self, plugin):
-        """ Stop the specified plugin. """
+        """Stop the specified plugin."""
 
         # Plugin specific stop.
         plugin.stop()
