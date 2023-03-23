@@ -6,6 +6,18 @@ from traits.etsconfig.api import ETSConfig
 from pyface.workbench.api import View
 
 
+_TOOLKIT_MAPPING = {
+    "qt4": "qt",
+}
+
+
+def _normalize_toolkit_name(toolkit):
+    """ Convert legacy toolkit names to current toolkit names. """
+
+    toolkit = toolkit.lower()
+    return _TOOLKIT_MAPPING.get(toolkit, toolkit)
+
+
 class ColorView(View):
     """ A view containing a colored panel!
 
@@ -43,9 +55,10 @@ class ColorView(View):
 
         """
 
-        method = getattr(self, "_%s_create_control" % ETSConfig.toolkit, None)
+        toolkit = _normalize_toolkit_name(ETSConfig.toolkit)
+        method = getattr(self, f"_{toolkit}_create_control", None)
         if method is None:
-            raise RuntimeError("Unknown toolkit %s", ETSConfig.toolkit)
+            raise RuntimeError(f"Unknown toolkit {ETSConfig.toolkit}")
 
         color = self.name.lower()
 
@@ -65,8 +78,8 @@ class ColorView(View):
 
         return panel
 
-    def _qt4_create_control(self, parent, color):
-        """ Create a Qt4 version of the control. """
+    def _qt_create_control(self, parent, color):
+        """ Create a Qt version of the control. """
 
         from pyface.qt import QtGui
 
