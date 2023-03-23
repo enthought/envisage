@@ -58,7 +58,7 @@ Deprecations
 
 Removals
 --------
-* Plugins and machinery related to ``IPython`` have been removed. Specifically,
+* Plugins and machinery related to IPython have been removed. Specifically,
   the ``IPythonKernelPlugin`` and ``IPythonKernelUIPlugin`` plugins have been
   removed, along with supporting classes ``InternalIPKernel`` and
   ``IPKernelApp``. (#496)
@@ -84,10 +84,10 @@ Build
 * Package configuration now uses ``pyproject.toml`` in place of the old
   ``setup.py``-based configuration. (#513)
 * Optional dependencies are no longer declared. (#513)
-* A new style checking workflow has been added that runs ``black``, ``isort``
+* A new style-checking workflow has been added that runs ``black``, ``isort``
   and ``flake8`` over the codebase, and new code is expected to comply with
   ``black`` and ``isort`` configurations. (#549)
-* A new documentation build workflow has been added. The built documentation
+* A new documentation-build workflow has been added. The built documentation
   is uploaded as an artifact. (#551)
 
 Version 6.1.1
