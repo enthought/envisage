@@ -21,4 +21,6 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: documentation
-        path: docs/build/html
+        path: |
+          docs/build/
+          !docs/build/doctrees/
