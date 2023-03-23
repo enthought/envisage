@@ -21,7 +21,11 @@ from pyface.i_gui import IGUI
 from traits.api import Event, HasTraits, provides
 
 from envisage.api import Plugin
-from envisage.tests.support import pyside6_available, requires_gui
+from envisage.tests.support import (
+    pyside6_available,
+    pyside6_version,
+    requires_gui,
+)
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
@@ -34,6 +38,7 @@ skip_with_flaky_pyside = unittest.skipIf(
         os.getenv("GITHUB_ACTIONS") == "true"
         and sys.platform == "linux"
         and pyside6_available
+        and pyside6_version < (6, 4, 3)
     ),
     "Skipping segfault-causing test on Linux. See enthought/envisage#476",
 )

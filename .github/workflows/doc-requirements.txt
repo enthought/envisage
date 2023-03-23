@@ -1,0 +1,3 @@
+enthought-sphinx-theme
+sphinx
+sphinx-copybutton
