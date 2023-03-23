@@ -39,7 +39,7 @@ Changes
   ``PluginManager.stop_plugin`` methods now raise ``ValueError`` rather
   than ``SystemError`` when given an invalid plugin id. (#529)
 * ``envisage.__version__`` is no longer defined. If you need the Envisage
-  version at runtime, use ``importlib.metadata`` to retrieve it.
+  version at runtime, use ``importlib.metadata`` to retrieve it. (#513)
 * Python 3.6 is no longer supported. All current versions of Python (3.7
   through 3.11) are supported. (#513)
 
