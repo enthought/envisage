@@ -27,7 +27,7 @@ def main():
 
     # Create an application with the specified plugins.
     acmelab = Acmelab(
-        plugins=[CorePlugin(), WorkbenchPlugin(), AcmeWorkbenchPlugin(),]
+        plugins=[CorePlugin(), WorkbenchPlugin(), AcmeWorkbenchPlugin()]
     )
 
     # Run it! This starts the application, starts the GUI event loop, and when
