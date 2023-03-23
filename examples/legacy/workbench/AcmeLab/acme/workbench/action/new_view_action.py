@@ -2,7 +2,6 @@
 
 
 # Enthought library imports.
-from pyface.api import ImageResource
 from pyface.action.api import Action
 from pyface.workbench.api import View
 

@@ -1,7 +1,7 @@
 # Enthought library imports.
-from envisage.ui.tasks.api import PreferencesPane, TaskFactory
+from envisage.ui.tasks.api import PreferencesPane
 from apptools.preferences.api import PreferencesHelper
-from traits.api import Bool, Dict, Enum, List, Str
+from traits.api import Bool, Dict, Str
 from traitsui.api import EnumEditor, HGroup, VGroup, Item, Label, View
 
 

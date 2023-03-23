@@ -4,10 +4,8 @@ from mayavi.core.ui.mayavi_scene import MayaviScene
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
     Dict,
-    Enum,
     Instance,
     List,
-    Property,
     Str,
     on_trait_change,
 )

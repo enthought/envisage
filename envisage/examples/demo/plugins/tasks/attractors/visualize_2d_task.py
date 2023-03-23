@@ -1,5 +1,5 @@
 # Enthought library imports.
-from pyface.tasks.action.api import SGroup, SMenu, SMenuBar, TaskToggleGroup
+from pyface.tasks.action.api import SMenu, SMenuBar, TaskToggleGroup
 from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
 from traits.api import Any, Instance, List, adapt
 

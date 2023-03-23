@@ -8,7 +8,6 @@
 #
 # Thanks for using Enthought open source!
 import os
-import pkg_resources
 import unittest
 
 from envisage.examples._etsdemo_info import info

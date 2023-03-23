@@ -4,7 +4,6 @@ from enable.api import ComponentEditor
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
     Dict,
-    Enum,
     Instance,
     List,
     Property,
