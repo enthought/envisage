@@ -18,7 +18,7 @@ from .location import Location
 
 
 class Action(Location):
-    """ The *definition* of an action in a tool bar or menu. """
+    """The *definition* of an action in a tool bar or menu."""
 
     #### Action implementation ################################################
 
@@ -33,7 +33,7 @@ class Action(Location):
     ###########################################################################
 
     def __str__(self):
-        """ Return the 'informal' string representation of the object. """
+        """Return the 'informal' string representation of the object."""
 
         return "Action(%s)" % self.name
 

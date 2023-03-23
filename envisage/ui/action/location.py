@@ -15,9 +15,7 @@ from traits.api import HasTraits, Str
 
 
 class Location(HasTraits):
-    """ The location of a group, menu, or action, within an action hierarchy.
-
-    """
+    """The location of a group, menu, or action, within an action hierarchy."""
 
     # A forward-slash-separated path through the action hierarchy to the menu
     # to add the action, group or menu to.

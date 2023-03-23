@@ -15,21 +15,21 @@ import unittest
 # Major package imports.
 from pkg_resources import resource_filename
 
-# Enthought library imports.
-from envisage.api import CorePlugin, Plugin
-from envisage.api import ServiceOffer
-from envisage.tests.support import SimpleApplication
 from traits.api import HasTraits, Interface, List, on_trait_change, Str
+
+# Enthought library imports.
+from envisage.api import CorePlugin, Plugin, ServiceOffer
+from envisage.tests.support import SimpleApplication
 
 # This module's package.
 PKG = "envisage.tests"
 
 
 class CorePluginTestCase(unittest.TestCase):
-    """ Tests for the core plugin. """
+    """Tests for the core plugin."""
 
     def test_service_offers(self):
-        """ service offers """
+        """service offers"""
 
         class IMyService(Interface):
             pass
@@ -40,7 +40,7 @@ class CorePluginTestCase(unittest.TestCase):
             service_offers = List(contributes_to="envisage.service_offers")
 
             def _service_offers_default(self):
-                """ Trait initializer. """
+                """Trait initializer."""
 
                 service_offers = [
                     ServiceOffer(
@@ -51,7 +51,7 @@ class CorePluginTestCase(unittest.TestCase):
                 return service_offers
 
             def _my_service_factory(self, **properties):
-                """ Service factory. """
+                """Service factory."""
 
                 return 42
 
@@ -71,7 +71,7 @@ class CorePluginTestCase(unittest.TestCase):
         self.assertEqual(None, application.get_service(IMyService))
 
     def test_dynamically_added_service_offer(self):
-        """ dynamically added service offer """
+        """dynamically added service offer"""
 
         class IMyService(Interface):
             pass
@@ -82,7 +82,7 @@ class CorePluginTestCase(unittest.TestCase):
             service_offers = List(contributes_to="envisage.service_offers")
 
             def _service_offers_default(self):
-                """ Trait initializer. """
+                """Trait initializer."""
 
                 service_offers = [
                     ServiceOffer(
@@ -93,7 +93,7 @@ class CorePluginTestCase(unittest.TestCase):
                 return service_offers
 
             def _my_service_factory(self, **properties):
-                """ Service factory. """
+                """Service factory."""
 
                 return 42
 
@@ -125,14 +125,14 @@ class CorePluginTestCase(unittest.TestCase):
         self.assertEqual(42, service)
 
     def test_preferences(self):
-        """ preferences """
+        """preferences"""
 
         class PluginA(Plugin):
             id = "A"
             preferences = List(contributes_to="envisage.preferences")
 
             def _preferences_default(self):
-                """ Trait initializer. """
+                """Trait initializer."""
 
                 return ["file://" + resource_filename(PKG, "preferences.ini")]
 
@@ -146,14 +146,14 @@ class CorePluginTestCase(unittest.TestCase):
         self.assertEqual("42", application.preferences.get("enthought.test.x"))
 
     def test_dynamically_added_preferences(self):
-        """ dynamically added preferences """
+        """dynamically added preferences"""
 
         class PluginA(Plugin):
             id = "A"
             preferences = List(contributes_to="envisage.preferences")
 
             def _preferences_default(self):
-                """ Trait initializer. """
+                """Trait initializer."""
 
                 return ["file://" + resource_filename(PKG, "preferences.ini")]
 
@@ -172,7 +172,7 @@ class CorePluginTestCase(unittest.TestCase):
 
     # regression test for enthought/envisage#251
     def test_unregister_service_offer(self):
-        """ Unregister a service that is contributed to the
+        """Unregister a service that is contributed to the
         "envisage.service_offers" extension point while the application is
         running.
         """
@@ -190,7 +190,6 @@ class CorePluginTestCase(unittest.TestCase):
             service_offers = List(contributes_to=SERVICE_OFFERS)
 
             def _service_offers_default(self):
-
                 a_service_offer = ServiceOffer(
                     protocol=IJunk,
                     factory=self._create_junk_service,
@@ -199,7 +198,7 @@ class CorePluginTestCase(unittest.TestCase):
                 return [a_service_offer]
 
             def _create_junk_service(self):
-                """ Factory method for the 'Junk' service. """
+                """Factory method for the 'Junk' service."""
 
                 return Junk()
 
@@ -216,9 +215,9 @@ class CorePluginTestCase(unittest.TestCase):
         application.run()
 
     def test_unregister_service(self):
-        """ Unregister a service which was registered on the application
+        """Unregister a service which was registered on the application
         directly, not through the CorePlugin's extension point. CorePlugin
-        should not do anything to interfere. """
+        should not do anything to interfere."""
 
         class IJunk(Interface):
             trash = Str()

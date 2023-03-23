@@ -8,21 +8,20 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from pyface.tasks.action.api import SMenu, SMenuBar, TaskToggleGroup
-from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
-from traits.api import Any, Instance, List, adapt
-
 # Local imports.
 from attractors.model.i_plottable_2d import IPlottable2d
 from attractors.model_config_pane import ModelConfigPane
 from attractors.model_help_pane import ModelHelpPane
 from attractors.plot_2d_pane import Plot2dPane
 
+# Enthought library imports.
+from pyface.tasks.action.api import SMenu, SMenuBar, TaskToggleGroup
+from pyface.tasks.api import PaneItem, Tabbed, Task, TaskLayout
+from traits.api import adapt, Any, Instance, List
+
 
 class Visualize2dTask(Task):
-    """ A task for visualizing attractors in 2D.
-    """
+    """A task for visualizing attractors in 2D."""
 
     #### 'Task' interface #####################################################
 
@@ -49,8 +48,8 @@ class Visualize2dTask(Task):
     ###########################################################################
 
     def create_central_pane(self):
-        """ Create a plot pane with a list of models. Keep track of which model
-            is active so that dock panes can introspect it.
+        """Create a plot pane with a list of models. Keep track of which model
+        is active so that dock panes can introspect it.
         """
         pane = Plot2dPane(models=self.models)
 

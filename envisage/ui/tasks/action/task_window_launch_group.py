@@ -10,14 +10,13 @@
 
 # Enthought library imports.
 from pyface.action.api import ActionItem, Group
-from pyface.tasks.api import TaskWindowLayout
 from pyface.tasks.action.api import TaskAction
+from pyface.tasks.api import TaskWindowLayout
 from traits.api import List, observe, Str
 
 
 class TaskWindowLaunchAction(TaskAction):
-    """ An Action that creates a task window with a single task.
-    """
+    """An Action that creates a task window with a single task."""
 
     #### 'TaskWindowLaunchAction' interface ###################################
 
@@ -40,8 +39,7 @@ class TaskWindowLaunchAction(TaskAction):
 
     @observe("task")
     def _update_name(self, event):
-        """ Name the action (unless a name has already been assigned).
-        """
+        """Name the action (unless a name has already been assigned)."""
         task = event.new
         if task and not self.name:
             name = ""
@@ -53,8 +51,7 @@ class TaskWindowLaunchAction(TaskAction):
 
 
 class TaskWindowLaunchGroup(Group):
-    """ A Group for creating task windows with a single task.
-    """
+    """A Group for creating task windows with a single task."""
 
     #### 'Group' interface ####################################################
 

@@ -16,7 +16,7 @@ from pyface.workbench.api import Perspective, PerspectiveItem
 
 
 class BarPerspective(Perspective):
-    """ An example perspective. """
+    """An example perspective."""
 
     # The perspective's name.
     name = "Bar"

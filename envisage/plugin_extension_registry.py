@@ -19,7 +19,7 @@ from .provider_extension_registry import ProviderExtensionRegistry
 
 
 class PluginExtensionRegistry(ProviderExtensionRegistry):
-    """ An extension registry that uses plugins as extension providers.
+    """An extension registry that uses plugins as extension providers.
 
     The application's plugins are used as the registries providers so adding
     or removing a plugin affects the extension points and extensions etc.
@@ -39,7 +39,7 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
 
     @observe("plugin_manager")
     def _update_providers(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         old, new = event.old, event.new
 
         # In practise I can't see why you would ever want (or need) to change
@@ -55,12 +55,12 @@ class PluginExtensionRegistry(ProviderExtensionRegistry):
 
     @on_trait_change("plugin_manager:plugin_added")
     def _on_plugin_added(self, obj, trait_name, old, event):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         self.add_provider(event.plugin)
 
     @on_trait_change("plugin_manager:plugin_removed")
     def _on_plugin_removed(self, obj, trait_name, old, event):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         self.remove_provider(event.plugin)

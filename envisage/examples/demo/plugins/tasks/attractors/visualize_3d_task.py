@@ -8,20 +8,19 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from pyface.tasks.action.api import SMenu, SMenuBar, TaskToggleGroup
-from pyface.tasks.api import Task, TaskLayout, Tabbed, PaneItem
-from traits.api import Any, List
-
 # Local imports.
 from attractors.model_config_pane import ModelConfigPane
 from attractors.model_help_pane import ModelHelpPane
 from attractors.plot_3d_pane import Plot3dPane
 
+# Enthought library imports.
+from pyface.tasks.action.api import SMenu, SMenuBar, TaskToggleGroup
+from pyface.tasks.api import PaneItem, Tabbed, Task, TaskLayout
+from traits.api import Any, List
+
 
 class Visualize3dTask(Task):
-    """ A task for visualizing attractors in 3D.
-    """
+    """A task for visualizing attractors in 3D."""
 
     #### 'Task' interface #####################################################
 
@@ -48,8 +47,8 @@ class Visualize3dTask(Task):
     ###########################################################################
 
     def create_central_pane(self):
-        """ Create a plot pane with a list of models. Keep track of which model
-            is active so that dock panes can introspect it.
+        """Create a plot pane with a list of models. Keep track of which model
+        is active so that dock panes can introspect it.
         """
         pane = Plot3dPane(models=self.models)
 

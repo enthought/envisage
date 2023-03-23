@@ -10,16 +10,17 @@
 """ The 'Bar' plugin """
 
 
-# Enthought library imports.
-from envisage.api import Plugin
-from traits.api import Bool
-
 # Deliberate bad import
 import busted_module  # noqa: F401
 
+from traits.api import Bool
+
+# Enthought library imports.
+from envisage.api import Plugin
+
 
 class BadPlugin(Plugin):
-    """ The 'Bad' plugin """
+    """The 'Bad' plugin"""
 
     #### 'IPlugin' interface ##################################################
 
@@ -36,13 +37,13 @@ class BadPlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True

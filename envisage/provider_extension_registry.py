@@ -14,13 +14,12 @@
 import logging
 
 # Enthought library imports.
-from traits.api import List, provides, on_trait_change
+from traits.api import List, on_trait_change, provides
 
 # Local imports.
 from .extension_registry import ExtensionRegistry
 from .i_extension_provider import IExtensionProvider
 from .i_provider_extension_registry import IProviderExtensionRegistry
-
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -28,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 @provides(IProviderExtensionRegistry)
 class ProviderExtensionRegistry(ExtensionRegistry):
-    """ An extension registry implementation with multiple providers. """
+    """An extension registry implementation with multiple providers."""
 
     #### Protected 'ProviderExtensionRegistry' interface ######################
 
@@ -40,7 +39,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     ###########################################################################
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions to an extension point. """
+        """Set the extensions to an extension point."""
 
         raise TypeError("extension points cannot be set")
 
@@ -49,7 +48,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     ###########################################################################
 
     def add_provider(self, provider):
-        """ Add an extension provider. """
+        """Add an extension provider."""
 
         events = self._add_provider(provider)
 
@@ -57,12 +56,12 @@ class ProviderExtensionRegistry(ExtensionRegistry):
             self._call_listeners(refs, extension_point_id, added, [], index)
 
     def get_providers(self):
-        """ Return all of the providers in the registry. """
+        """Return all of the providers in the registry."""
 
         return self._providers[:]
 
     def remove_provider(self, provider):
-        """ Remove an extension provider.
+        """Remove an extension provider.
 
         Raise a 'ValueError' if the provider is not in the registry.
 
@@ -78,7 +77,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     ###########################################################################
 
     def _get_extensions(self, extension_point_id):
-        """ Return the extensions for the given extension point. """
+        """Return the extensions for the given extension point."""
 
         # If we don't know about the extension point then it sure ain't got
         # any extensions!
@@ -119,7 +118,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     ###########################################################################
 
     def _add_provider(self, provider):
-        """ Add a new provider. """
+        """Add a new provider."""
 
         # Add the provider's extension points.
         self._add_provider_extension_points(provider)
@@ -133,7 +132,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return events
 
     def _add_provider_extensions(self, provider):
-        """ Add a provider's extensions to the registry. """
+        """Add a provider's extensions to the registry."""
 
         # Each provider can contribute to multiple extension points, so we
         # build up a dictionary of the 'ExtensionPointChanged' events that we
@@ -158,13 +157,13 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return events
 
     def _add_provider_extension_points(self, provider):
-        """ Add a provider's extension points to the registry. """
+        """Add a provider's extension points to the registry."""
 
         for extension_point in provider.get_extension_points():
             self._extension_points[extension_point.id] = extension_point
 
     def _remove_provider(self, provider):
-        """ Remove a provider. """
+        """Remove a provider."""
 
         # Remove the provider's extensions.
         events = self._remove_provider_extensions(provider)
@@ -178,7 +177,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return events
 
     def _remove_provider_extensions(self, provider):
-        """ Remove a provider's extensions from the registry. """
+        """Remove a provider's extensions from the registry."""
 
         # Each provider can contribute to multiple extension points, so we
         # build up a dictionary of the 'ExtensionPointChanged' events that we
@@ -206,7 +205,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return events
 
     def _remove_provider_extension_points(self, provider, events):
-        """ Remove a provider's extension points from the registry. """
+        """Remove a provider's extension points from the registry."""
 
         for extension_point in provider.get_extension_points():
             # Remove the extension point.
@@ -220,7 +219,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
 
     @on_trait_change("_providers:extension_point_changed")
     def _providers_extension_point_changed(self, obj, trait_name, old, event):
-        """ Dynamic trait change handler. """
+        """Dynamic trait change handler."""
 
         logger.debug("provider <%s> extension point changed", obj)
 
@@ -270,7 +269,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
     #### Methods ##############################################################
 
     def _initialize_extensions(self, extension_point_id):
-        """ Initialize the extensions to an extension point. """
+        """Initialize the extensions to an extension point."""
 
         # We store the extensions as a list of lists, with each inner list
         # containing the contributions from a single provider.
@@ -283,7 +282,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         return extensions
 
     def _translate_index(self, index, offset):
-        """ Translate an event index by the given offset. """
+        """Translate an event index by the given offset."""
 
         if isinstance(index, slice):
             index = slice(

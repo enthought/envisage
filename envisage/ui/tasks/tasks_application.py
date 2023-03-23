@@ -9,11 +9,9 @@
 # Thanks for using Enthought open source!
 # Standard library imports.
 import logging
-import pickle
 import os.path
+import pickle
 
-# Enthought library imports.
-from envisage.api import Application, ExtensionPoint
 from traits.api import (
     Bool,
     Callable,
@@ -28,6 +26,8 @@ from traits.api import (
 )
 from traits.etsconfig.api import ETSConfig
 
+# Enthought library imports.
+from envisage.api import Application, ExtensionPoint
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -157,7 +157,7 @@ class TasksApplication(Application):
     ###########################################################################
 
     def run(self):
-        """ Run the application.
+        """Run the application.
 
         Returns
         -------
@@ -186,7 +186,7 @@ class TasksApplication(Application):
     ###########################################################################
 
     def create_task(self, id):
-        """ Creates the Task with the specified ID.
+        """Creates the Task with the specified ID.
 
         Returns
         -------
@@ -234,8 +234,9 @@ class TasksApplication(Application):
             The new TaskWindow.
 
         """
-        from .task_window_event import TaskWindowEvent
         from pyface.tasks.task_window_layout import TaskWindowLayout
+
+        from .task_window_event import TaskWindowEvent
 
         window = self.window_factory(application=self, **traits)
 
@@ -318,8 +319,8 @@ class TasksApplication(Application):
     ###########################################################################
 
     def _create_windows(self):
-        """ Called at startup to create TaskWindows from the default or saved
-            application layout.
+        """Called at startup to create TaskWindows from the default or saved
+        application layout.
         """
         # Build a list of TaskWindowLayouts.
         self._load_state()
@@ -355,23 +356,21 @@ class TasksApplication(Application):
             window.open()
 
     def _get_task_factory(self, id):
-        """ Returns the TaskFactory with the specified ID, or None.
-        """
+        """Returns the TaskFactory with the specified ID, or None."""
         for factory in self.task_factories:
             if factory.id == id:
                 return factory
         return None
 
     def _prepare_exit(self):
-        """ Called immediately before the extant windows are destroyed and the
-            GUI event loop is terminated.
+        """Called immediately before the extant windows are destroyed and the
+        GUI event loop is terminated.
         """
         self.application_exiting = self
         self._save_state()
 
     def _load_state(self):
-        """ Loads saved application state, if possible.
-        """
+        """Loads saved application state, if possible."""
         state = TasksApplicationState()
         filename = os.path.join(self.state_location, self.state_filename)
         if os.path.exists(filename):
@@ -400,8 +399,7 @@ class TasksApplication(Application):
         self._state = state
 
     def _restore_layout_from_state(self, layout):
-        """ Restores an equivalent layout from saved application state.
-        """
+        """Restores an equivalent layout from saved application state."""
         # First, see if a window layout matches exactly.
         match = self._state.get_equivalent_window_layout(layout)
         if match:
@@ -423,8 +421,7 @@ class TasksApplication(Application):
         return layout
 
     def _save_state(self):
-        """ Saves the application state.
-        """
+        """Saves the application state."""
         # Grab the current window layouts.
         window_layouts = [w.get_window_layout() for w in self.windows]
         self._state.previous_window_layouts = window_layouts
@@ -442,8 +439,7 @@ class TasksApplication(Application):
             logger.debug("Application state successfully saved")
 
     def _initialize_application_home(self):
-        """ Initialize the application directories.
-        """
+        """Initialize the application directories."""
         # Extend the base class method to ensure the state directory exists.
         super()._initialize_application_home()
 
@@ -535,8 +531,8 @@ class TasksApplication(Application):
 
 
 class TasksApplicationState(HasStrictTraits):
-    """ A class used internally by TasksApplication for saving and restoring
-        application state.
+    """A class used internally by TasksApplication for saving and restoring
+    application state.
     """
 
     # TaskWindowLayouts for the windows extant at application
@@ -557,16 +553,14 @@ class TasksApplicationState(HasStrictTraits):
     version = Int(1)
 
     def get_equivalent_window_layout(self, window_layout):
-        """ Gets an equivalent TaskWindowLayout, if there is one.
-        """
+        """Gets an equivalent TaskWindowLayout, if there is one."""
         for layout in self.window_layouts:
             if layout.is_equivalent_to(window_layout):
                 return layout
         return None
 
     def get_task_layout(self, task_id):
-        """ Gets a TaskLayout with the specified ID, there is one.
-        """
+        """Gets a TaskLayout with the specified ID, there is one."""
         for window_layout in self.window_layouts:
             for layout in window_layout.items:
                 if layout.id == task_id:
@@ -574,8 +568,7 @@ class TasksApplicationState(HasStrictTraits):
         return None
 
     def push_window_layout(self, window_layout):
-        """ Merge a TaskWindowLayout into the accumulated list.
-        """
+        """Merge a TaskWindowLayout into the accumulated list."""
         self.window_layouts = [
             layout
             for layout in self.window_layouts

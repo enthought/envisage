@@ -13,17 +13,17 @@
 # Standard library imports.
 import weakref
 
+from pyface.action.api import Action, Group, MenuManager
+from pyface.workbench.action.api import MenuBarManager, ToolBarManager
+from traits.api import Any, Instance
+
 # Enthought library imports.
 from envisage.ui.action.api import AbstractActionManagerBuilder
-from pyface.action.api import Action, Group, MenuManager
-from pyface.workbench.action.api import MenuBarManager
-from pyface.workbench.action.api import ToolBarManager
-from traits.api import Any, Instance
 
 
 class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
-    """ The action manager builder used to build the workbench menu/tool bars.
-
+    """
+    The action manager builder used to build the workbench menu/tool bars.
     """
 
     #### 'WorkbenchActionManagerBuilder' interface ############################
@@ -41,7 +41,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     ###########################################################################
 
     def _create_action(self, definition):
-        """ Create an action implementation from an action definition. """
+        """Create an action implementation from an action definition."""
 
         traits = {"window": self.window}
 
@@ -69,7 +69,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         return action
 
     def _create_group(self, definition):
-        """ Create a group implementation from a group definition. """
+        """Create a group implementation from a group definition."""
 
         traits = {}
 
@@ -93,7 +93,7 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         return group
 
     def _create_menu_manager(self, definition):
-        """ Create a menu manager implementation from a menu definition. """
+        """Create a menu manager implementation from a menu definition."""
 
         # fixme: 'window' is not actually a trait on 'MenuManager'! We set
         # it here to allow the 'View' menu to be created. However, it seems
@@ -129,12 +129,12 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
         return menu_manager
 
     def _create_menu_bar_manager(self):
-        """ Create a menu bar manager from the builder's action sets. """
+        """Create a menu bar manager from the builder's action sets."""
 
         return MenuBarManager(window=self.window)
 
     def _create_tool_bar_manager(self, definition):
-        """ Create a tool bar manager implementation from a definition. """
+        """Create a tool bar manager implementation from a definition."""
 
         traits = {"window": self.window, "show_tool_names": False}
 
@@ -173,11 +173,11 @@ class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
     ###########################################################################
 
     def __actions_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return weakref.WeakValueDictionary()
 
     def _import_symbol(self, symbol_path):
-        """ Import a symbol. """
+        """Import a symbol."""
 
         return self.window.application.import_symbol(symbol_path)

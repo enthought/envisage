@@ -14,18 +14,19 @@
 from apptools.preferences.api import IPreferences
 from traits.api import Event, Instance, Str, VetoableEvent
 
+from .application_event import ApplicationEvent
+
 # Local imports.
 from .i_extension_registry import IExtensionRegistry
 from .i_import_manager import IImportManager
 from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
-from .application_event import ApplicationEvent
 
 
 class IApplication(
     IExtensionRegistry, IImportManager, IPluginManager, IServiceRegistry
 ):
-    """ The application interface. """
+    """The application interface."""
 
     #: The application's globally unique identifier.
     id = Str
@@ -60,7 +61,7 @@ class IApplication(
     stopped = Event(ApplicationEvent)
 
     def run(self):
-        """ Run the application.
+        """Run the application.
 
         The same as::
 

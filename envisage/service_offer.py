@@ -15,7 +15,7 @@ from traits.api import Callable, Dict, HasTraits, Str, Type, Union
 
 
 class ServiceOffer(HasTraits):
-    """ An offer to provide a service. """
+    """An offer to provide a service."""
 
     #### 'ServiceOffer' interface #############################################
 

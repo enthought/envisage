@@ -10,17 +10,17 @@
 """ The Envisage workbench plugin. """
 
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, List
 
+# Enthought library imports.
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 
 # This module's package.
 PKG = ".".join(__name__.split(".")[:-1])
 
 
 class WorkbenchPlugin(Plugin):
-    """ The Envisage workbench plugin.
+    """The Envisage workbench plugin.
 
     The workbench plugin uses the Pyface workbench to provide the basis of an
     IDE-like user interface. The interface is made up of perspectives, views
@@ -180,7 +180,7 @@ class WorkbenchPlugin(Plugin):
     my_action_sets = List(contributes_to=ACTION_SETS)
 
     def _my_action_sets_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         from .default_action_set import DefaultActionSet
 
@@ -189,14 +189,14 @@ class WorkbenchPlugin(Plugin):
     my_preferences = List(contributes_to=PREFERENCES)
 
     def _my_preferences_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return ["pkgfile://envisage.ui.workbench/preferences.ini"]
 
     my_preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     def _my_preferences_pages_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         from .workbench_preferences_page import WorkbenchPreferencesPage
 
@@ -205,7 +205,7 @@ class WorkbenchPlugin(Plugin):
     my_service_offers = List(contributes_to=SERVICE_OFFERS)
 
     def _my_service_offers_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         preferences_manager_service_offer = ServiceOffer(
             protocol="apptools.preferences.ui.preferences_manager"
@@ -225,7 +225,7 @@ class WorkbenchPlugin(Plugin):
     ###########################################################################
 
     def _create_preferences_manager_service(self, **properties):
-        """ Factory method for the preferences manager service. """
+        """Factory method for the preferences manager service."""
 
         from apptools.preferences.ui.api import PreferencesManager
 
@@ -236,7 +236,7 @@ class WorkbenchPlugin(Plugin):
         return preferences_manager
 
     def _create_workbench_service(self, **properties):
-        """ Factory method for the workbench service. """
+        """Factory method for the workbench service."""
 
         # We don't actually create the workbench here, we just return a
         # reference to it.

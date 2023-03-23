@@ -14,18 +14,18 @@
 # Standard library imports.
 from random import choice
 
-# Enthought library imports.
-from traits.api import HasTraits, List, provides
-
 # Local imports.
 from acme.motd.i_message import IMessage
 from acme.motd.i_motd import IMOTD
 from acme.motd.message import Message
 
+# Enthought library imports.
+from traits.api import HasTraits, List, provides
+
 
 @provides(IMOTD)
 class MOTD(HasTraits):
-    """ The 'Message of the Day' implementation! """
+    """The 'Message of the Day' implementation!"""
 
     # The default message is used when there are no other messages!
     DEFAULT_MESSAGE = Message(
@@ -40,7 +40,7 @@ class MOTD(HasTraits):
     ###########################################################################
 
     def motd(self):
-        """ Prints a random message. """
+        """Prints a random message."""
 
         if len(self.messages) > 0:
             message = choice(self.messages)

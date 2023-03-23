@@ -13,10 +13,14 @@
 import unittest
 import weakref
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint
-from envisage.api import bind_extension_point, unbind_extension_point
 from traits.api import Any, HasTraits, List
+
+# Enthought library imports.
+from envisage.api import (
+    bind_extension_point,
+    ExtensionPoint,
+    unbind_extension_point,
+)
 
 # Local imports.
 from envisage.tests.mutable_extension_registry import MutableExtensionRegistry
@@ -32,7 +36,7 @@ class BindingTarget(HasTraits):
 
 
 class ExtensionPointBindingTestCase(unittest.TestCase):
-    """ Tests for extension point binding. """
+    """Tests for extension point binding."""
 
     def setUp(self):
         self.extension_registry = MutableExtensionRegistry()
@@ -41,7 +45,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         del self.extension_registry
 
     def test_untyped_extension_point(self):
-        """ untyped extension point """
+        """untyped extension point"""
 
         registry = self.extension_registry
 
@@ -83,7 +87,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in event.new.added)
 
     def test_set_extensions_via_trait(self):
-        """ set extensions via trait """
+        """set extensions via trait"""
 
         registry = self.extension_registry
 
@@ -127,7 +131,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in event.new)
 
     def test_set_extensions_via_registry(self):
-        """ set extensions via registry """
+        """set extensions via registry"""
 
         registry = self.extension_registry
 
@@ -168,7 +172,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertTrue("a string" in event.new)
 
     def test_explicit_extension_registry(self):
-        """ explicit extension registry """
+        """explicit extension registry"""
 
         registry = self.extension_registry
 
@@ -195,7 +199,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         self.assertEqual(0, len(f.x))
 
     def test_should_be_able_to_bind_multiple_traits_on_a_single_object(self):
-
         registry = self.extension_registry
 
         # Add 2 extension points.
@@ -275,6 +278,6 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
     ###########################################################################
 
     def _create_extension_point(self, id, trait_type=List, desc=""):
-        """ Create an extension point. """
+        """Create an extension point."""
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

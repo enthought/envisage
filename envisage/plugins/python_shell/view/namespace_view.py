@@ -11,31 +11,30 @@
 
 # Enthought library imports.
 
+from pyface.workbench.api import View
+from traits.api import (
+    cached_property,
+    DelegatesTo,
+    HasTraits,
+    Instance,
+    List,
+    Property,
+    Str,
+)
+from traitsui.api import Item, TableEditor, VGroup
+from traitsui.api import View as TraitsView
+from traitsui.table_column import ObjectColumn
+from traitsui.table_filter import (
+    EvalFilterTemplate,
+    MenuFilterTemplate,
+    RuleFilterTemplate,
+    RuleTableFilter,
+)
+
 from envisage.plugins.python_shell.api import IPythonShell
 from envisage.plugins.python_shell.view.python_shell_view import (
     PythonShellView,
 )
-
-from pyface.workbench.api import View
-
-from traits.api import (
-    HasTraits,
-    Str,
-    Property,
-    List,
-    Instance,
-    DelegatesTo,
-    cached_property,
-)
-
-from traitsui.api import Item, TableEditor, VGroup
-from traitsui.api import View as TraitsView
-from traitsui.table_column import ObjectColumn
-from traitsui.table_filter import RuleTableFilter
-from traitsui.table_filter import MenuFilterTemplate
-from traitsui.table_filter import EvalFilterTemplate
-from traitsui.table_filter import RuleFilterTemplate
-
 
 # Table editor definition:
 filters = [EvalFilterTemplate, MenuFilterTemplate, RuleFilterTemplate]
@@ -82,7 +81,7 @@ def module_to_str(obj):
 
 
 class NamespaceView(View):
-    """ A view containing the contents of the Python shell namespace. """
+    """A view containing the contents of the Python shell namespace."""
 
     #### 'IView' interface ####################################################
 
@@ -127,7 +126,7 @@ class NamespaceView(View):
     ###########################################################################
 
     def create_control(self, parent):
-        """ Creates the toolkit-specific control that represents the view.
+        """Creates the toolkit-specific control that represents the view.
 
         'parent' is the toolkit-specific control that is the view's parent.
 
@@ -149,7 +148,7 @@ class NamespaceView(View):
 
     @cached_property
     def _get_bindings(self):
-        """ Property getter. """
+        """Property getter."""
 
         if self.shell_view is None:
             return []

@@ -11,13 +11,14 @@
 """ The AcmeLab Workbench plugin. """
 
 
+from traits.api import List
+
 # Enthought library imports.
 from envisage.api import Plugin
-from traits.api import List
 
 
 class AcmeWorkbenchPlugin(Plugin):
-    """ The AcmeLab Workbench plugin.
+    """The AcmeLab Workbench plugin.
 
     This plugin is part of the 'AcmeLab' example application.
 
@@ -43,7 +44,7 @@ class AcmeWorkbenchPlugin(Plugin):
     action_sets = List(contributes_to=ACTION_SETS)
 
     def _action_sets_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         from .example_action_set import ExampleActionSet
 
@@ -53,10 +54,12 @@ class AcmeWorkbenchPlugin(Plugin):
     perspectives = List(contributes_to=PERSPECTIVES)
 
     def _perspectives_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
-        from acme.workbench.perspective.api import FooPerspective
-        from acme.workbench.perspective.api import BarPerspective
+        from acme.workbench.perspective.api import (
+            BarPerspective,
+            FooPerspective,
+        )
 
         return [FooPerspective, BarPerspective]
 
@@ -64,7 +67,7 @@ class AcmeWorkbenchPlugin(Plugin):
     preferences_pages = List(contributes_to=PREFERENCES_PAGES)
 
     def _preferences_pages_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         from acme_preferences_page import AcmePreferencesPage
 
@@ -74,9 +77,14 @@ class AcmeWorkbenchPlugin(Plugin):
     views = List(contributes_to=VIEWS)
 
     def _views_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
-        from acme.workbench.view.api import BlackView, BlueView, GreenView
-        from acme.workbench.view.api import RedView, YellowView
+        from acme.workbench.view.api import (
+            BlackView,
+            BlueView,
+            GreenView,
+            RedView,
+            YellowView,
+        )
 
         return [BlackView, BlueView, GreenView, RedView, YellowView]

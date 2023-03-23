@@ -9,14 +9,14 @@
 # Thanks for using Enthought open source!
 """ A menu builder that doesn't build real actions! """
 
+from pyface.action.api import Action, Group, MenuBarManager, MenuManager
+
 # Enthought library imports.
 from envisage.ui.action.api import AbstractActionManagerBuilder
-from pyface.action.api import Action, Group, MenuManager
-from pyface.action.api import MenuBarManager
 
 
 class DummyActionManagerBuilder(AbstractActionManagerBuilder):
-    """ An action manager builder that doesn't build real actions!
+    """An action manager builder that doesn't build real actions!
 
     This makes it very easy to test!
 
@@ -27,7 +27,7 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
     ###########################################################################
 
     def create_menu_bar_manager(self, root):
-        """ Create a menu bar manager from the builder's action sets. """
+        """Create a menu bar manager from the builder's action sets."""
 
         menu_bar_manager = MenuBarManager(id="MenuBar")
 
@@ -40,17 +40,17 @@ class DummyActionManagerBuilder(AbstractActionManagerBuilder):
     ###########################################################################
 
     def _create_action(self, action_definition):
-        """ Create an action implementation from a definition. """
+        """Create an action implementation from a definition."""
 
         return Action(name=action_definition.class_name)
 
     def _create_group(self, group_definition):
-        """ Create a group implementation from a definition. """
+        """Create a group implementation from a definition."""
 
         return Group(id=group_definition.id)
 
     def _create_menu_manager(self, menu_definition):
-        """ Create a menu manager implementation from a definition. """
+        """Create a menu manager implementation from a definition."""
 
         menu_manager = MenuManager(id=menu_definition.id)
         for group_definition in menu_definition.groups:

@@ -11,4 +11,4 @@
 
 
 class UnknownExtensionPoint(Exception):
-    """ The exception raised when an unknown extension point is referenced. """
+    """The exception raised when an unknown extension point is referenced."""

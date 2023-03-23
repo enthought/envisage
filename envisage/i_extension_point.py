@@ -15,7 +15,7 @@ from traits.api import Instance, Interface, Str, TraitType
 
 
 class IExtensionPoint(Interface):
-    """ The interface for extension points. """
+    """The interface for extension points."""
 
     # A description of what the extension point is and does! (it is called
     # the slightly dubious, 'desc', instead of 'description', or, to be more

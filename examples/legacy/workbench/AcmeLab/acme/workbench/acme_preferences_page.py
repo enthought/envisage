@@ -13,12 +13,12 @@
 
 # Enthought library imports.
 from apptools.preferences.ui.api import PreferencesPage
-from traits.api import Color, Int, Float, Font
+from traits.api import Color, Float, Font, Int
 from traitsui.api import View
 
 
 class AcmePreferencesPage(PreferencesPage):
-    """ The preferences page for the Acme workbench. """
+    """The preferences page for the Acme workbench."""
 
     #### 'PreferencesPage' interface ##########################################
 

@@ -21,7 +21,7 @@ from .tool_bar import ToolBar
 
 
 class IActionSet(Interface):
-    """ The action set interface.
+    """The action set interface.
 
     An action set is a collection of menus, groups, and actions.
 

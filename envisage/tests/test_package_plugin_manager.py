@@ -10,23 +10,22 @@
 """ Tests for the 'Package' plugin manager. """
 
 
-from os.path import dirname, join
 import unittest
+from os.path import dirname, join
 
 from envisage.package_plugin_manager import PackagePluginManager
 
 
 class PackagePluginManagerTestCase(unittest.TestCase):
-    """ Tests for the 'Package' plugin manager. """
+    """Tests for the 'Package' plugin manager."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # The location of the 'plugins' test data directory.
         self.plugins_dir = join(dirname(__file__), "plugins")
 
     def test_find_plugins_in_packages_on_the_plugin_path(self):
-
         with self.assertWarns(DeprecationWarning):
             plugin_manager = PackagePluginManager(
                 plugin_path=[self.plugins_dir]
@@ -39,7 +38,6 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self.assertIn("pear", ids)
 
     def test_only_find_plugins_whose_ids_are_in_the_include_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["orange", "pear"]
@@ -57,7 +55,6 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_only_find_plugins_matching_a_wildcard_in_the_include_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         include = ["*r*"]
@@ -75,7 +72,6 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["orange", "pear"]
@@ -93,7 +89,6 @@ class PackagePluginManagerTestCase(unittest.TestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
-
         # Note that the items in the list use the 'fnmatch' syntax for matching
         # plugins Ids.
         exclude = ["*r*"]
@@ -130,8 +125,8 @@ class PackagePluginManagerTestCase(unittest.TestCase):
     #### Private protocol #####################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """ Make sure the plugin manager starts and stops the expected plugins.
-
+        """
+        Make sure the plugin manager starts and stops the expected plugins.
         """
 
         # Make sure the plugin manager found only the required plugins.

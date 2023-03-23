@@ -11,4 +11,4 @@
 
 
 class UnknownExtension(Exception):
-    """ The exception raised when an unknown extension is referenced. """
+    """The exception raised when an unknown extension is referenced."""

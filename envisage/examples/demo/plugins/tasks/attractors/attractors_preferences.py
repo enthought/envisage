@@ -8,16 +8,16 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from envisage.ui.tasks.api import PreferencesPane
 from apptools.preferences.api import PreferencesHelper
 from traits.api import Bool, Dict, Str
-from traitsui.api import EnumEditor, HGroup, VGroup, Item, Label, View
+from traitsui.api import EnumEditor, HGroup, Item, Label, VGroup, View
+
+# Enthought library imports.
+from envisage.ui.tasks.api import PreferencesPane
 
 
 class AttractorsPreferences(PreferencesHelper):
-    """ The preferences helper for the Attractors application.
-    """
+    """The preferences helper for the Attractors application."""
 
     #### 'PreferencesHelper' interface ########################################
 
@@ -35,8 +35,7 @@ class AttractorsPreferences(PreferencesHelper):
 
 
 class AttractorsPreferencesPane(PreferencesPane):
-    """ The preferences pane for the Attractors application.
-    """
+    """The preferences pane for the Attractors application."""
 
     #### 'PreferencesPane' interface ##########################################
 

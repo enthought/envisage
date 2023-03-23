@@ -11,16 +11,16 @@
 """ The default implementation of the 'IMessage' interface. """
 
 
-# Enthought library imports.
-from traits.api import HasTraits, Str, provides
-
 # Local imports.
 from acme.motd.i_message import IMessage
+
+# Enthought library imports.
+from traits.api import HasTraits, provides, Str
 
 
 @provides(IMessage)
 class Message(HasTraits):
-    """ The default implementation of the 'IMessage' interface. """
+    """The default implementation of the 'IMessage' interface."""
 
     # The author of the message.
     author = Str

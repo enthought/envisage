@@ -8,27 +8,27 @@
 #
 # Thanks for using Enthought open source!
 
+# Local imports.
+from attractors.model.i_plottable_2d import IPlottable2d
+
 # Enthought library imports.
 from chaco.api import ArrayPlotData, Plot
 from enable.api import ComponentEditor
+
 from pyface.tasks.api import TraitsTaskPane
 from traits.api import (
     Dict,
     Instance,
     List,
-    Property,
-    Str,
     observe,
     on_trait_change,
+    Property,
+    Str,
 )
 from traitsui.api import EnumEditor, HGroup, Item, Label, UItem, View
 
-# Local imports.
-from attractors.model.i_plottable_2d import IPlottable2d
-
 
 class Plot2dPane(TraitsTaskPane):
-
     #### 'ITaskPane' interface ################################################
 
     id = "example.attractors.plot_2d_pane"
@@ -56,8 +56,8 @@ class Plot2dPane(TraitsTaskPane):
             ("x", "y"),
             type=self.plot_type,
             name=self.title,
-            marker='pixel',
-            color="blue"
+            marker="pixel",
+            color="blue",
         )
 
         return plot
@@ -89,8 +89,8 @@ class Plot2dPane(TraitsTaskPane):
             ("x", "y"),
             type=self.plot_type,
             name=self.title,
-            marker='pixel',
-            color="blue"
+            marker="pixel",
+            color="blue",
         )
         self.plot.invalidate_and_redraw()
 
@@ -100,9 +100,7 @@ class Plot2dPane(TraitsTaskPane):
             Item("active_model", editor=EnumEditor(name="_enum_map")),
             show_labels=False,
         ),
-        UItem(
-            "plot", editor=ComponentEditor()
-        ),
+        UItem("plot", editor=ComponentEditor()),
         resizable=True,
     )
 

@@ -15,31 +15,27 @@ import os
 import shutil
 import unittest
 
+from traits.api import Bool, Int, List
+
 # Enthought library imports.
 from traits.etsconfig.api import ETSConfig
-from envisage.api import ExtensionPoint
-from envisage.api import Plugin, PluginManager
-from traits.api import Bool, Int, List
+
+from envisage.api import ExtensionPoint, Plugin, PluginManager
+from envisage.tests.ets_config_patcher import ETSConfigPatcher
 
 # Local imports.
 from envisage.tests.event_tracker import EventTracker
-from envisage.tests.ets_config_patcher import ETSConfigPatcher
-from envisage.tests.support import (
-    PluginA,
-    PluginB,
-    PluginC,
-    SimpleApplication,
-)
+from envisage.tests.support import PluginA, PluginB, PluginC, SimpleApplication
 
 
 def vetoer(event):
-    """ An observer that will veto an event. """
+    """An observer that will veto an event."""
 
     event.new.veto = True
 
 
 class SimplePlugin(Plugin):
-    """ A simple plugin. """
+    """A simple plugin."""
 
     #### 'SimplePlugin' interface #############################################
 
@@ -51,32 +47,32 @@ class SimplePlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True
 
 
 class BadPlugin(Plugin):
-    """ A plugin that just causes trouble ;^). """
+    """A plugin that just causes trouble ;^)."""
 
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         raise 1 / 0
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         raise 1 / 0
 
@@ -87,8 +83,8 @@ class BadPlugin(Plugin):
 
 
 class PluginD(Plugin):
-    """ Plugin that expects to be started before contributing to
-    extension points. """
+    """Plugin that expects to be started before contributing to
+    extension points."""
 
     id = "D"
     x = ExtensionPoint(List, id="d.x")
@@ -108,8 +104,8 @@ class PluginD(Plugin):
 
 
 class PluginE(Plugin):
-    """ Another plugin that expects to be started before contributing to
-    extension points. """
+    """Another plugin that expects to be started before contributing to
+    extension points."""
 
     id = "E"
     x = ExtensionPoint(List, id="e.x")
@@ -129,17 +125,17 @@ class PluginE(Plugin):
 
 
 class ApplicationTestCase(unittest.TestCase):
-    """ Tests for applications and plugins. """
+    """Tests for applications and plugins."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         ets_config_patcher = ETSConfigPatcher()
         ets_config_patcher.start()
         self.addCleanup(ets_config_patcher.stop)
 
     def test_home(self):
-        """ home """
+        """home"""
 
         application = SimpleApplication()
 
@@ -159,7 +155,7 @@ class ApplicationTestCase(unittest.TestCase):
         shutil.rmtree(application.home)
 
     def test_no_plugins(self):
-        """ no plugins """
+        """no plugins"""
 
         application = SimpleApplication()
 
@@ -185,7 +181,7 @@ class ApplicationTestCase(unittest.TestCase):
         )
 
     def test_veto_starting(self):
-        """ veto starting """
+        """veto starting"""
 
         application = SimpleApplication()
 
@@ -207,7 +203,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertTrue("started" not in tracker.event_names)
 
     def test_veto_stopping(self):
-        """ veto stopping """
+        """veto stopping"""
 
         application = SimpleApplication()
 
@@ -234,7 +230,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertTrue("stopped" not in tracker.event_names)
 
     def test_start_and_stop_errors(self):
-        """ start and stop errors """
+        """start and stop errors"""
 
         simple_plugin = SimplePlugin()
         bad_plugin = BadPlugin()
@@ -257,7 +253,7 @@ class ApplicationTestCase(unittest.TestCase):
             application.stop_plugin(plugin_id="bogus")
 
     def test_extension_point(self):
-        """ extension point """
+        """extension point"""
 
         a = PluginA()
         b = PluginB()
@@ -298,7 +294,7 @@ class ApplicationTestCase(unittest.TestCase):
         )
 
     def test_add_extension_point_listener(self):
-        """ add extension point listener """
+        """add extension point listener"""
 
         a = PluginA()
         b = PluginB()
@@ -309,7 +305,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         def listener(extension_registry, event):
-            """ An extension point listener. """
+            """An extension point listener."""
 
             listener.extension_point_id = event.extension_point_id
             listener.added = event.added
@@ -332,7 +328,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([98, 99, 100], listener.added)
 
     def test_remove_extension_point_listener(self):
-        """ remove extension point listener """
+        """remove extension point listener"""
 
         a = PluginA()
         b = PluginB()
@@ -343,7 +339,7 @@ class ApplicationTestCase(unittest.TestCase):
         application.start()
 
         def listener(extension_registry, event):
-            """ An extension point listener. """
+            """An extension point listener."""
 
             listener.extension_point_id = event.extension_point_id
             listener.added = event.added
@@ -375,7 +371,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(None, listener.extension_point_id)
 
     def test_add_plugin(self):
-        """ add plugin """
+        """add plugin"""
 
         a = PluginA()
         b = PluginB()
@@ -409,7 +405,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([1, 2, 3, 98, 99, 100], extensions)
 
     def test_get_plugin(self):
-        """ get plugin """
+        """get plugin"""
 
         a = PluginA()
         b = PluginB()
@@ -428,7 +424,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual(None, application.get_plugin("BOGUS"))
 
     def test_remove_plugin(self):
-        """ remove plugin """
+        """remove plugin"""
 
         a = PluginA()
         b = PluginB()
@@ -461,7 +457,7 @@ class ApplicationTestCase(unittest.TestCase):
         self.assertEqual([98, 99, 100], extensions)
 
     def test_set_plugin_manager_at_contruction_time(self):
-        """ set plugin manager at construction time"""
+        """set plugin manager at construction time"""
 
         a = PluginA()
         b = PluginB()

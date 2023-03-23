@@ -15,13 +15,14 @@ creates a service to offer the event manager and sets the evt_mgr instance
 of the application to the created event manager.
 """
 
+from traits.api import List
+
 # Enthought library imports.
 from envisage.api import Plugin, ServiceOffer
-from traits.api import List
 
 
 class EventManagerPlugin(Plugin):
-    """ Plugin to add event manager to the application. """
+    """Plugin to add event manager to the application."""
 
     id = "envisage.event_manager"
 
@@ -32,6 +33,7 @@ class EventManagerPlugin(Plugin):
         from encore.events.api import BaseEventManager, get_event_manager
 
         evt_mgr_service_offer = ServiceOffer(
-            protocol=BaseEventManager, factory=get_event_manager,
+            protocol=BaseEventManager,
+            factory=get_event_manager,
         )
         return [evt_mgr_service_offer]

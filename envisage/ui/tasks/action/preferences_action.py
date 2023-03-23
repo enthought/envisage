@@ -12,8 +12,7 @@ from pyface.action.api import Action, Group
 
 
 class PreferencesAction(Action):
-    """ An action that displays the preferences dialog.
-    """
+    """An action that displays the preferences dialog."""
 
     #### 'Action' interface ###################################################
 
@@ -42,8 +41,7 @@ class PreferencesAction(Action):
 
 
 class PreferencesGroup(Group):
-    """ A group that contains the preferences action.
-    """
+    """A group that contains the preferences action."""
 
     #### 'Action' interface ###################################################
 

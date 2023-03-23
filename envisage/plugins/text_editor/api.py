@@ -7,5 +7,5 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-from .text_editor_action_set import TextEditorActionSet
 from .editor.text_editor import TextEditor
+from .text_editor_action_set import TextEditorActionSet

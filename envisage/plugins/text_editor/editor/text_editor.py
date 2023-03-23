@@ -13,9 +13,10 @@
 # Standard library imports.
 from os.path import basename
 
+from pyface.api import CANCEL, FileDialog
+
 # Enthought library imports.
 from pyface.workbench.api import TraitsUIEditor
-from pyface.api import FileDialog, CANCEL
 from traits.api import Code, Instance, observe
 from traitsui.api import CodeEditor, Group, Item, View
 from traitsui.key_bindings import KeyBinding, KeyBindings
@@ -26,7 +27,7 @@ from .text_editor_handler import TextEditorHandler
 
 
 def _id_generator():
-    """ A generator that returns the next number for untitled files. """
+    """A generator that returns the next number for untitled files."""
 
     i = 1
     while True:
@@ -38,7 +39,7 @@ _id_generator = _id_generator()
 
 
 class TextEditor(TraitsUIEditor):
-    """ A text editor. """
+    """A text editor."""
 
     #### 'TextEditor' interface ###############################################
 
@@ -53,7 +54,7 @@ class TextEditor(TraitsUIEditor):
     ###########################################################################
 
     def save(self):
-        """ Saves the text to disk. """
+        """Saves the text to disk."""
 
         # If the file has not yet been saved then prompt for the file name.
         if len(self.obj.path) == 0:
@@ -67,7 +68,7 @@ class TextEditor(TraitsUIEditor):
             self.dirty = False
 
     def save_as(self):
-        """ Saves the text to disk after prompting for the file name. """
+        """Saves the text to disk after prompting for the file name."""
 
         dialog = FileDialog(
             parent=self.window.control,
@@ -91,7 +92,7 @@ class TextEditor(TraitsUIEditor):
     ###########################################################################
 
     def create_ui(self, parent):
-        """ Creates the traits UI that represents the editor. """
+        """Creates the traits UI that represents the editor."""
 
         ui = self.edit_traits(
             parent=parent, view=self._create_traits_ui_view(), kind="subpanel"
@@ -104,7 +105,7 @@ class TextEditor(TraitsUIEditor):
     ###########################################################################
 
     def run(self):
-        """ Runs the file as Python. """
+        """Runs the file as Python."""
 
         # The file must be saved first!
         self.save()
@@ -121,7 +122,7 @@ class TextEditor(TraitsUIEditor):
                 )
 
     def select_line(self, lineno):
-        """ Selects the specified line. """
+        """Selects the specified line."""
 
         self.ui.info.text.selected_line = lineno
 
@@ -132,7 +133,7 @@ class TextEditor(TraitsUIEditor):
     #### Trait initializers ###################################################
 
     def _key_bindings_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         key_bindings = KeyBindings(
             KeyBinding(
@@ -153,7 +154,7 @@ class TextEditor(TraitsUIEditor):
 
     @observe("obj")
     def _handle_update_to_object(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         new = event.new
         # The path will be the empty string if we are editing a file that has
         # not yet been saved.
@@ -170,14 +171,14 @@ class TextEditor(TraitsUIEditor):
 
     @observe("text")
     def _update_dirty(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         if self.traits_inited():
             self.dirty = True
 
     @observe("dirty")
     def _update_name(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         dirty = event.new
         if len(self.obj.path) > 0:
             if dirty:
@@ -189,7 +190,7 @@ class TextEditor(TraitsUIEditor):
     #### Methods ##############################################################
 
     def _create_traits_ui_view(self):
-        """ Create the traits UI view used by the editor.
+        """Create the traits UI view used by the editor.
 
         fixme: We create the view dynamically to allow the key bindings to be
         created dynamically (we don't use this just yet, but obviously plugins
@@ -216,7 +217,7 @@ class TextEditor(TraitsUIEditor):
         return view
 
     def _get_unique_id(self, prefix="Untitled "):
-        """ Return a unique id for a new file. """
+        """Return a unique id for a new file."""
 
         id = prefix + str(next(_id_generator))
         while self.window.get_editor_by_id(id) is not None:

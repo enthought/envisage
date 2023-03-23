@@ -15,8 +15,8 @@ from traitsui.api import Item, View
 
 
 class ModelConfigPane(TraitsDockPane):
-    """ A simple dock pane for editing an attractor model's configuration
-        options.
+    """A simple dock pane for editing an attractor model's configuration
+    options.
     """
 
     #### 'ITaskPane' interface ################################################

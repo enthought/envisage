@@ -18,7 +18,7 @@ from .location import Location
 
 
 class Group(Location):
-    """ The *definition* of a group in a tool bar or menu. """
+    """The *definition* of a group in a tool bar or menu."""
 
     # The group's unique identifier (unique within the tool bar, menu bar or
     # menu that the group is to be added to).
@@ -36,7 +36,7 @@ class Group(Location):
     ###########################################################################
 
     def __str__(self):
-        """ Return the 'informal' string representation of the object. """
+        """Return the 'informal' string representation of the object."""
 
         return "Group(%s)" % self.id
 

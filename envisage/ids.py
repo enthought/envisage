@@ -20,33 +20,33 @@ simply a convenient location from which the user can import the IDs.
 
 #: Extension Point to contribute preference files, defined on the
 #: ``CorePlugin``.
-PREFERENCES = 'envisage.preferences'
+PREFERENCES = "envisage.preferences"
 
 #: Extension Point to contribute ``ServiceOffer`` s, defined on the
 #: ``CorePlugin``.
-SERVICE_OFFERS = 'envisage.service_offers'
+SERVICE_OFFERS = "envisage.service_offers"
 
 # NOTE : The other PythonShellPlugin defines extension points with the same ID.
 #: Extension Point to contribute name/value pairs that will be bound to the
 #: ``PythonShell``, defined on the ``PythonShellPlugin``.
-BINDINGS = 'envisage.plugins.python_shell.bindings'
+BINDINGS = "envisage.plugins.python_shell.bindings"
 
 #: Extension Point to contribute commands that will be executed in the
 #: ``PythonShell``, defined on the ``PythonShellPlugin``.
-COMMANDS = 'envisage.plugins.python_shell.commands'
+COMMANDS = "envisage.plugins.python_shell.commands"
 
 #: Extension Point to contribute preferences categories, defined on the
 #: ``TasksPlugin``.
-PREFERENCES_CATEGORIES = 'envisage.ui.tasks.preferences_categories'
+PREFERENCES_CATEGORIES = "envisage.ui.tasks.preferences_categories"
 
 #: Extension Point to contribute preference panes, defined on the
 #: ``TasksPlugin``.
-PREFERENCES_PANES = 'envisage.ui.tasks.preferences_panes'
+PREFERENCES_PANES = "envisage.ui.tasks.preferences_panes"
 
 #: Extension Point to contribute task factories, defined on the
 #: ``TasksPlugin``.
-TASKS = 'envisage.ui.tasks.tasks'
+TASKS = "envisage.ui.tasks.tasks"
 
 #: Extension Point to contribute task extensions, defined on the
 #: ``TasksPlugin``.
-TASK_EXTENSIONS = 'envisage.ui.tasks.task_extensions'
+TASK_EXTENSIONS = "envisage.ui.tasks.task_extensions"

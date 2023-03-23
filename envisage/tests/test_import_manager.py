@@ -17,17 +17,17 @@ from envisage.api import Application, ImportManager
 
 
 class ImportManagerTestCase(unittest.TestCase):
-    """ Tests for the import manager. """
+    """Tests for the import manager."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
         self.import_manager = Application(import_manager=ImportManager())
 
     def test_import_dotted_symbol(self):
-        """ import dotted symbol """
+        """import dotted symbol"""
 
         import tarfile
 
@@ -35,7 +35,7 @@ class ImportManagerTestCase(unittest.TestCase):
         self.assertEqual(symbol, tarfile.TarFile)
 
     def test_import_nested_symbol(self):
-        """ import nested symbol """
+        """import nested symbol"""
 
         import tarfile
 
@@ -43,7 +43,7 @@ class ImportManagerTestCase(unittest.TestCase):
         self.assertEqual(symbol, tarfile.TarFile.open)
 
     def test_import_dotted_module(self):
-        """ import dotted module """
+        """import dotted module"""
 
         symbol = self.import_manager.import_symbol(
             "envisage.api:ImportManager"

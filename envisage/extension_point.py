@@ -15,11 +15,10 @@ import inspect
 import weakref
 
 # Enthought library imports.
-from traits.api import List, TraitType, Undefined, provides
+from traits.api import List, provides, TraitType, Undefined
 
 # Local imports.
 from .i_extension_point import IExtensionPoint
-
 
 # Exception message template.
 INVALID_TRAIT_TYPE = (
@@ -32,7 +31,7 @@ INVALID_TRAIT_TYPE = (
 # declare that we implement an interface.
 @provides(IExtensionPoint)
 class ExtensionPoint(TraitType):
-    """ A trait type used to declare and access extension points.
+    """A trait type used to declare and access extension points.
 
     Note that this is a trait *type* and hence does *NOT* have traits itself
     (i.e. it does *not* inherit from 'HasTraits').
@@ -45,14 +44,14 @@ class ExtensionPoint(TraitType):
 
     @staticmethod
     def connect_extension_point_traits(obj):
-        """ Connect all of the 'ExtensionPoint' traits on an object. """
+        """Connect all of the 'ExtensionPoint' traits on an object."""
 
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.connect(obj, trait_name)
 
     @staticmethod
     def disconnect_extension_point_traits(obj):
-        """ Disconnect all of the 'ExtensionPoint' traits on an object. """
+        """Disconnect all of the 'ExtensionPoint' traits on an object."""
 
         for trait_name, trait in obj.traits(__extension_point__=True).items():
             trait.trait_type.disconnect(obj, trait_name)
@@ -62,7 +61,7 @@ class ExtensionPoint(TraitType):
     ###########################################################################
 
     def __init__(self, trait_type=List, id=None, **metadata):
-        """ Constructor. """
+        """Constructor."""
 
         # We add '__extension_point__' to the metadata to make the extension
         # point traits easier to find with the 'traits' and 'trait_names'
@@ -98,7 +97,7 @@ class ExtensionPoint(TraitType):
         self._obj_to_listeners_map = weakref.WeakKeyDictionary()
 
     def __repr__(self):
-        """ String representation of an ExtensionPoint object """
+        """String representation of an ExtensionPoint object"""
         return "ExtensionPoint(id={!r})".format(self.id)
 
     ###########################################################################
@@ -106,7 +105,7 @@ class ExtensionPoint(TraitType):
     ###########################################################################
 
     def get(self, obj, trait_name):
-        """ Trait type getter. """
+        """Trait type getter."""
 
         extension_registry = self._get_extension_registry(obj)
 
@@ -117,7 +116,7 @@ class ExtensionPoint(TraitType):
         return self.trait_type.validate(obj, trait_name, extensions)
 
     def set(self, obj, name, value):
-        """ Trait type setter. """
+        """Trait type setter."""
 
         extension_registry = self._get_extension_registry(obj)
 
@@ -131,7 +130,7 @@ class ExtensionPoint(TraitType):
     ###########################################################################
 
     def connect(self, obj, trait_name):
-        """ Connect the extension point to a trait on an object.
+        """Connect the extension point to a trait on an object.
 
         This allows the object to react when contributions are added or
         removed from the extension point.
@@ -143,7 +142,7 @@ class ExtensionPoint(TraitType):
         """
 
         def listener(extension_registry, event):
-            """ Listener called when an extension point is changed. """
+            """Listener called when an extension point is changed."""
 
             # If an index was specified then we fire an '_items' changed event.
             if event.index is not None:
@@ -170,7 +169,7 @@ class ExtensionPoint(TraitType):
         listeners[trait_name] = listener
 
     def disconnect(self, obj, trait_name):
-        """ Disconnect the extension point from a trait on an object. """
+        """Disconnect the extension point from a trait on an object."""
 
         extension_registry = self._get_extension_registry(obj)
 
@@ -189,7 +188,7 @@ class ExtensionPoint(TraitType):
     ###########################################################################
 
     def _get_extension_registry(self, obj):
-        """ Return the extension registry in effect for an object. """
+        """Return the extension registry in effect for an object."""
 
         extension_registry = getattr(obj, "extension_registry", None)
         if extension_registry is None:

@@ -17,7 +17,7 @@ from traitsui.api import View
 
 
 class WorkbenchPreferencesPage(PreferencesPage):
-    """ The main preferences page for the workbench. """
+    """The main preferences page for the workbench."""
 
     #### 'PreferencesPage' interface ##########################################
 

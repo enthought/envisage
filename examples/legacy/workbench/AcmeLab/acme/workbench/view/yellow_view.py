@@ -16,7 +16,7 @@ from .color_view import ColorView
 
 
 class YellowView(ColorView):
-    """ A view containing a yellow panel! """
+    """A view containing a yellow panel!"""
 
     #### 'IView' interface ####################################################
 

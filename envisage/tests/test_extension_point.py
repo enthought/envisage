@@ -12,23 +12,23 @@
 # Standard library imports.
 import unittest
 
-# Enthought library imports.
-from envisage.api import Application, ExtensionPoint
-from envisage.api import ExtensionRegistry
 from traits.api import HasTraits, Int, List, TraitError
+
+# Enthought library imports.
+from envisage.api import Application, ExtensionPoint, ExtensionRegistry
 
 
 class HasExtensionPoints(HasTraits):
-    """ Base class for all test classes that use the 'ExtensionPoint' type. """
+    """Base class for all test classes that use the 'ExtensionPoint' type."""
 
     extension_registry = None
 
 
 class ExtensionPointTestCase(unittest.TestCase):
-    """ Tests for extension points. """
+    """Tests for extension points."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
@@ -38,7 +38,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         HasExtensionPoints.extension_registry = self.registry
 
     def test_invalid_extension_point_type(self):
-        """ invalid extension point type """
+        """invalid extension point type"""
 
         # Extension points currently have to be 'List's of something! The
         # default is a list of anything.
@@ -46,7 +46,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             ExtensionPoint(Int, "my.ep")
 
     def test_no_reference_to_extension_registry(self):
-        """ no reference to extension registry """
+        """no reference to extension registry"""
 
         registry = self.registry
 
@@ -67,7 +67,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             getattr(f, "x")
 
     def test_extension_point_changed(self):
-        """ extension point changed """
+        """extension point changed"""
 
         registry = self.registry
 
@@ -79,7 +79,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             x = ExtensionPoint(id="my.ep")
 
             def _x_changed(self):
-                """ Static trait change handler. """
+                """Static trait change handler."""
 
                 self.x_changed_called = True
 
@@ -112,7 +112,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(False, f.x_changed_called)
 
     def test_mutate_extension_point_no_effect(self):
-        """ Extension point is recomputed so mutation has no effect. """
+        """Extension point is recomputed so mutation has no effect."""
 
         registry = self.registry
 
@@ -137,7 +137,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual(f.x, [1, 2, 3])
 
     def test_untyped_extension_point(self):
-        """ untyped extension point """
+        """untyped extension point"""
 
         registry = self.registry
 
@@ -161,7 +161,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual([42, "a string", True], g.x)
 
     def test_typed_extension_point(self):
-        """ typed extension point """
+        """typed extension point"""
 
         registry = self.registry
 
@@ -185,7 +185,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual([42, 43, 44], g.x)
 
     def test_invalid_extension_point(self):
-        """ invalid extension point """
+        """invalid extension point"""
 
         registry = self.registry
 
@@ -206,7 +206,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             getattr(f, "x")
 
     def test_extension_point_with_no_id(self):
-        """ extension point with no Id """
+        """extension point with no Id"""
 
         def factory():
             class Foo(HasExtensionPoints):
@@ -216,7 +216,7 @@ class ExtensionPointTestCase(unittest.TestCase):
             factory()
 
     def test_set_untyped_extension_point(self):
-        """ set untyped extension point """
+        """set untyped extension point"""
 
         registry = self.registry
 
@@ -235,7 +235,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual([42], registry.get_extensions("my.ep"))
 
     def test_set_typed_extension_point(self):
-        """ set typed extension point """
+        """set typed extension point"""
 
         registry = self.registry
 
@@ -254,7 +254,7 @@ class ExtensionPointTestCase(unittest.TestCase):
         self.assertEqual([42], registry.get_extensions("my.ep"))
 
     def test_extension_point_str_representation(self):
-        """ test the string representation of the extension point """
+        """test the string representation of the extension point"""
         ep_repr = "ExtensionPoint(id={!r})"
         ep = self._create_extension_point("my.ep")
         self.assertEqual(ep_repr.format("my.ep"), str(ep))
@@ -265,6 +265,6 @@ class ExtensionPointTestCase(unittest.TestCase):
     ###########################################################################
 
     def _create_extension_point(self, id, trait_type=List, desc=""):
-        """ Create an extension point. """
+        """Create an extension point."""
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

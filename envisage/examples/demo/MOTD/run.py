@@ -15,13 +15,14 @@ from envisage.api import Application, CorePlugin
 
 
 def main():
-    """ Run the application. """
+    """Run the application."""
     # Import here so that this script can be run from anywhere without
     # having to install the packages.
     from acme.motd.motd_plugin import MOTDPlugin
     from acme.motd.software_quotes.software_quotes_plugin import (
         SoftwareQuotesPlugin,
     )
+
     # Create an application containing the appropriate plugins.
     application = Application(
         id="acme.motd",

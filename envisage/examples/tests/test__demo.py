@@ -15,7 +15,7 @@ from envisage.examples._demo import demo_path
 
 
 class TestDemoUtilities(unittest.TestCase):
-    """ Test utility functions in the _demo module."""
+    """Test utility functions in the _demo module."""
 
     def test_sys_path_inserted(self):
         path = os.path.join("dirname", "file.py")

@@ -14,7 +14,7 @@ import os.path
 
 # Enthought library imports.
 from pyface.tasks.api import TraitsDockPane
-from traits.api import HasTraits, Instance, Property, Str, cached_property
+from traits.api import cached_property, HasTraits, Instance, Property, Str
 from traitsui.api import HTMLEditor, Item, View
 
 # Constants.
@@ -22,8 +22,7 @@ HELP_PATH = os.path.join(os.path.dirname(__file__), "help")
 
 
 class ModelHelpPane(TraitsDockPane):
-    """ A dock pane for viewing any help associated with a model.
-    """
+    """A dock pane for viewing any help associated with a model."""
 
     #### 'ITaskPane' interface ################################################
 
@@ -52,8 +51,7 @@ class ModelHelpPane(TraitsDockPane):
 
     @cached_property
     def _get_html(self):
-        """ Fetch the help HTML for the current model.
-        """
+        """Fetch the help HTML for the current model."""
         if self.model is None:
             return "No model selected."
 

@@ -106,8 +106,6 @@ dependencies = {
     "apptools",
     "coverage",
     "enthought_sphinx_theme",
-    "flake8",
-    "flake8_ets",
     "pyface",
     "sphinx",
     "sphinx_copybutton",
@@ -116,7 +114,14 @@ dependencies = {
 }
 
 # Dependencies we install from PyPI
-pypi_dependencies = {}
+pypi_dependencies = {
+    # style packages; install from PyPI to make sure that we're compatible
+    # with the style checks used in the check-style.yml workflow
+    "black~=23.0",
+    "flake8",
+    "flake8-ets",
+    "isort",
+}
 
 # Dependencies we install from source for cron tests
 # Order from packages with the most dependencies to one with the least
@@ -187,6 +192,16 @@ def cli():
     pass
 
 
+# Subgroup for checking and fixing style
+
+
+@cli.group()
+def style():
+    """
+    Commands for checking style and applying style fixes.
+    """
+
+
 @cli.command()
 @edm_option
 @runtime_option
@@ -195,9 +210,7 @@ def cli():
 @editable_option
 @source_option
 def install(edm, runtime, toolkit, environment, editable, source):
-    """ Install project and dependencies into a clean EDM environment.
-
-    """
+    """Install project and dependencies into a clean EDM environment."""
     parameters = get_parameters(edm, runtime, toolkit, environment)
     packages = " ".join(
         dependencies
@@ -264,7 +277,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
 @toolkit_option
 @environment_option
 def shell(edm, runtime, toolkit, environment):
-    """ Create a shell into the EDM development environment
+    """Create a shell into the EDM development environment
     (aka 'activate' it).
 
     """
@@ -275,17 +288,41 @@ def shell(edm, runtime, toolkit, environment):
     execute(commands, parameters)
 
 
-@cli.command()
+@style.command(name="check")
 @edm_option
 @runtime_option
 @toolkit_option
 @environment_option
-def flake8(edm, runtime, toolkit, environment):
-    """ Run a flake8 check in a given environment.
-
+def style_check(edm, runtime, toolkit, environment):
+    """
+    Run style checks.
     """
     parameters = get_parameters(edm, runtime, toolkit, environment)
-    commands = ["{edm} run -e {environment} -- python -m flake8"]
+    commands = [
+        "{edm} run -e {environment} -- python -m black --check --diff .",
+        "{edm} run -e {environment} -- python -m isort --check --diff .",
+        "{edm} run -e {environment} -- python -m flake8 .",
+    ]
+    execute(commands, parameters)
+
+
+@style.command(name="fix")
+@edm_option
+@runtime_option
+@toolkit_option
+@environment_option
+def style_fix(edm, runtime, toolkit, environment):
+    """
+    Run style fixers.
+
+    This automatically fixes any black or isort failures, but it won't
+    automatically fix all flake8 errors.
+    """
+    parameters = get_parameters(edm, runtime, toolkit, environment)
+    commands = [
+        "{edm} run -e {environment} -- python -m black .",
+        "{edm} run -e {environment} -- python -m isort .",
+    ]
     execute(commands, parameters)
 
 
@@ -295,9 +332,7 @@ def flake8(edm, runtime, toolkit, environment):
 @toolkit_option
 @environment_option
 def test(edm, runtime, toolkit, environment):
-    """ Run the test suite in a given environment with the specified toolkit.
-
-    """
+    """Run the test suite in a given environment with the specified toolkit."""
     parameters = get_parameters(edm, runtime, toolkit, environment)
     environ = dict(PYTHONUNBUFFERED="1")
     commands = [
@@ -324,9 +359,7 @@ def test(edm, runtime, toolkit, environment):
 @toolkit_option
 @environment_option
 def cleanup(edm, runtime, toolkit, environment):
-    """ Remove a development environment.
-
-    """
+    """Remove a development environment."""
     parameters = get_parameters(edm, runtime, toolkit, environment)
     commands = [
         "{edm} environments remove {environment} --purge -y",
@@ -341,9 +374,7 @@ def cleanup(edm, runtime, toolkit, environment):
 @runtime_option
 @toolkit_option
 def test_clean(edm, runtime, toolkit):
-    """ Run tests in a clean environment, cleaning up afterwards
-
-    """
+    """Run tests in a clean environment, cleaning up afterwards"""
     args = ["--toolkit={}".format(toolkit), "--runtime={}".format(runtime)]
     if edm is not None:
         args.append("--edm={}".format(edm))
@@ -362,9 +393,7 @@ def test_clean(edm, runtime, toolkit):
 @environment_option
 @editable_option
 def update(edm, runtime, toolkit, environment, editable):
-    """ Update/Reinstall package into environment.
-
-    """
+    """Update/Reinstall package into environment."""
     parameters = get_parameters(edm, runtime, toolkit, environment)
     if editable:
         install_cmd = (
@@ -385,9 +414,7 @@ def update(edm, runtime, toolkit, environment, editable):
 @cli.command()
 @edm_option
 def test_all(edm):
-    """ Run test_clean across all supported environment combinations.
-
-    """
+    """Run test_clean across all supported environment combinations."""
     failed_command = False
     for runtime, toolkits in supported_combinations.items():
         for toolkit in toolkits:
@@ -412,7 +439,7 @@ def test_all(edm):
 @toolkit_option
 @environment_option
 def docs(edm, runtime, toolkit, environment):
-    """ Build HTML documentation. """
+    """Build HTML documentation."""
 
     parameters = get_parameters(edm, runtime, toolkit, environment)
     parameters["docs_source"] = "docs/source"
@@ -422,9 +449,10 @@ def docs(edm, runtime, toolkit, environment):
 
     # Remove any previously autogenerated API documentation.
     doc_api_files = os.listdir(docs_source_api)
-    permanent = ['envisage.api.rst', 'templates']
-    previously_autogenerated = \
-        [file for file in doc_api_files if file not in permanent]
+    permanent = ["envisage.api.rst", "templates"]
+    previously_autogenerated = [
+        file for file in doc_api_files if file not in permanent
+    ]
     for file in previously_autogenerated:
         os.remove(os.path.join(docs_source_api, file))
 
@@ -443,8 +471,9 @@ def docs(edm, runtime, toolkit, environment):
 
 # Utility routines
 
+
 def get_parameters(edm, runtime, toolkit, environment):
-    """ Set up parameters dictionary for format() substitution """
+    """Set up parameters dictionary for format() substitution"""
 
     if edm is None:
         edm = locate_edm()
@@ -472,7 +501,7 @@ def get_parameters(edm, runtime, toolkit, environment):
 
 @contextmanager
 def do_in_tempdir(files=(), capture_files=()):
-    """ Create a temporary directory, cleaning up after done.
+    """Create a temporary directory, cleaning up after done.
 
     Creates the temporary directory, and changes into it.  On exit returns to
     original directory and removes temporary dir.

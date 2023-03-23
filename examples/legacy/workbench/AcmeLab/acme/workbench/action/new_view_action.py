@@ -17,7 +17,7 @@ from pyface.workbench.api import View
 
 
 class NewViewAction(Action):
-    """ An action that dynamically creates and adds a view. """
+    """An action that dynamically creates and adds a view."""
 
     #### 'Action' interface ###################################################
 
@@ -35,7 +35,7 @@ class NewViewAction(Action):
     ###########################################################################
 
     def perform(self, event):
-        """ Perform the action. """
+        """Perform the action."""
 
         # You can give the view a position... (it default to 'left')...
         view = View(id="my.view.fred", name="Fred", position="right")

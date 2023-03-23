@@ -20,10 +20,10 @@ from envisage.tests.support import SimpleApplication
 
 
 class ServiceTestCase(unittest.TestCase):
-    """ Tests for the 'Service' trait type. """
+    """Tests for the 'Service' trait type."""
 
     def test_service_trait_type(self):
-        """ service trait type"""
+        """service trait type"""
 
         class Foo(HasTraits):
             pass
@@ -56,7 +56,7 @@ class ServiceTestCase(unittest.TestCase):
             setattr(b, "foo", "bogus")
 
     def test_service_trait_type_with_no_service_registry(self):
-        """ service trait type with no service registry """
+        """service trait type with no service registry"""
 
         class Foo(HasTraits):
             pass
@@ -71,7 +71,7 @@ class ServiceTestCase(unittest.TestCase):
             getattr(b, "foo")
 
     def test_service_str_representation(self):
-        """ test the string representation of the service """
+        """test the string representation of the service"""
 
         class Foo(HasTraits):
             pass

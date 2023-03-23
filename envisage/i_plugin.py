@@ -18,7 +18,7 @@ from .i_plugin_activator import IPluginActivator
 
 
 class IPlugin(Interface):
-    """ The plugin interface. """
+    """The plugin interface."""
 
     #: The activator used to start and stop the plugin.
     activator = Instance(IPluginActivator)
@@ -42,7 +42,7 @@ class IPlugin(Interface):
     name = Str
 
     def start(self):
-        """ Start the plugin.
+        """Start the plugin.
 
         This method is called by the framework when the application is starting
         up. If you want to start a plugin manually use::
@@ -52,7 +52,7 @@ class IPlugin(Interface):
         """
 
     def stop(self):
-        """ Stop the plugin.
+        """Stop the plugin.
 
         This method is called by the framework when the application is
         stopping. If you want to stop a plugin manually use::

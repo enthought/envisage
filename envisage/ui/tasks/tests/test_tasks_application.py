@@ -16,6 +16,7 @@ import tempfile
 import unittest
 
 import pkg_resources
+
 from pyface.gui import GUI
 from pyface.i_gui import IGUI
 from traits.api import Event, HasTraits, provides
@@ -100,7 +101,8 @@ class TestTasksApplication(unittest.TestCase):
 
         # Create application, and set it up to exit as soon as it's launched.
         app = TasksApplication(
-            state_location=state_location, layout_save_protocol=3,
+            state_location=state_location,
+            layout_save_protocol=3,
         )
         app.on_trait_change(app.exit, "application_initialized")
 
@@ -174,7 +176,8 @@ class TestTasksApplication(unittest.TestCase):
 
         # Use a non-standard filename, to exercise that machinery.
         app = TasksApplication(
-            state_location=state_location, state_filename="fancy_state.pkl",
+            state_location=state_location,
+            state_filename="fancy_state.pkl",
         )
         app.on_trait_change(app.exit, "application_initialized")
         app.run()

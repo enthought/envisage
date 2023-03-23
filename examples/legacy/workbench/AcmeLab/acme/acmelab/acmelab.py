@@ -14,13 +14,14 @@
 # Standard library imports.
 from logging import DEBUG
 
+from pyface.api import AboutDialog, ImageResource, SplashScreen
+
 # Enthought library imports.
 from envisage.ui.workbench.api import WorkbenchApplication
-from pyface.api import AboutDialog, ImageResource, SplashScreen
 
 
 class Acmelab(WorkbenchApplication):
-    """ The Acme Lab application. """
+    """The Acme Lab application."""
 
     #### 'IApplication' interface #############################################
 
@@ -42,7 +43,7 @@ class Acmelab(WorkbenchApplication):
     ###########################################################################
 
     def _about_dialog_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         about_dialog = AboutDialog(
             parent=self.workbench.active_window.control,
@@ -52,7 +53,7 @@ class Acmelab(WorkbenchApplication):
         return about_dialog
 
     def _splash_screen_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         splash_screen = SplashScreen(
             image=ImageResource("splash"),

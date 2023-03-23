@@ -14,14 +14,14 @@ from pyface.workbench.api import EditorManager, TraitsUIEditor
 
 
 class WorkbenchEditorManager(EditorManager):
-    """ An editor manager that uses contributed editors. """
+    """An editor manager that uses contributed editors."""
 
     ###########################################################################
     # 'IEditorManager' interface.
     ###########################################################################
 
     def create_editor(self, window, obj, kind):
-        """ Create an editor for an object.
+        """Create an editor for an object.
 
         For now, the 'kind' is actually a factory that produces editors. It
         should be a callable with the following signature::
@@ -43,7 +43,7 @@ class WorkbenchEditorManager(EditorManager):
     ###########################################################################
 
     def _is_editing(self, editor, obj, kind):
-        """ Return True if the editor is editing the object. """
+        """Return True if the editor is editing the object."""
 
         if kind is None:
             kind = TraitsUIEditor
