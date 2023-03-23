@@ -2,6 +2,78 @@
  Envisage CHANGELOG
 ====================
 
+Version 7.0.0
+=============
+
+Released: 2023-03-27
+
+This is a major release aimed at modernization and cleanup of some out-of-date
+code. In particular, this release removes the IPython-related plugins, and
+drops support for Python 3.6.
+
+Thanks to:
+
+* Mark Dickinson
+* Chengyu Liu
+* Corran Webster
+
+Changes
+-------
+* When exiting a ``TasksApplication``, the plugins are now stopped after
+  exiting the event loop. Previously they were stopped while the event loop was
+  still running, causing some lifecycle issues. (#524)
+* The ``extension_registry`` argument to ``bind_extension_point`` is no
+  longer optional, and ``ExtensionPointBinding`` will no longer look for
+  an extension registry on the ``ExtensionPoint`` class. (#545)
+* Operations that used to raise ``SystemError`` now raise something more
+  appropriate. In particular, the ``PluginManager.start_plugin`` and
+  ``PluginManager.stop_plugin`` methods now raise ``ValueError`` rather
+  than ``SystemError`` when given an invalid plugin id. (#529)
+* ``envisage.__version__`` is no longer defined. If you need the Envisage
+  version at runtime, use ``importlib.metadata`` to retrieve it.
+* Python 3.6 is no longer supported. All current versions of Python (3.7
+  through 3.11) are supported. (#513)
+* All id string constants that were previously available from ``envisage.ids``
+  are now also exported in ``envisage.api``. Users are encouraged to import
+  everything then need from ``envisage.api``, and to open an issue if anything
+  they need is missing. (#508)
+
+Fixes
+-----
+* The ``repr`` of a ``Plugin`` instance now correctly uses the name of the
+  plugin class. (#535)
+
+Deprecations
+------------
+* The ``EggPluginManager``, ``EggBasketPluginManager`` and
+  ``PackagePluginManager`` are deprecated, and will be removed in Envisage 8.0.
+  (#540)
+* The ``include`` and ``exclude`` traits on the ``PluginManager`` are
+  deprecated, and will be removed in Envisage 8.0. (#544)
+
+Removals
+--------
+* Plugins and machinery related to ``IPython`` have been removed. Specifically,
+  the ``IPythonKernelPlugin`` and ``IPythonKernelUIPlugin`` plugins have been
+  removed, along with supporting classes ``InternalIPKernel`` and
+  ``IPKernelApp``. (#496)
+* The ``ExtensionPoint.bind`` method has been removed. (#545)
+* The previously deprecated ``safeweakref.ref`` class has been removed. (#522)
+
+Tests
+-----
+* Old-style namespace packages used for testing have been replaced with
+  normal non-namespace packages. This fixes some warnings from the latest
+  ``setuptools``. (#543)
+* The test suite now runs cleanly under ``pytest``. (#539)
+
+Build
+-----
+* Package configuration now uses ``pyproject.toml`` in place of the old
+  ``setup.py``-based configuration. (#513)
+* Optional dependencies are no longer declared. (#513)
+
+
 Version 6.1.1
 =============
 
