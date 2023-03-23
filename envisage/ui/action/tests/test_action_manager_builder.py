@@ -20,10 +20,10 @@ from .dummy_action_manager_builder import DummyActionManagerBuilder
 
 
 class ActionManagerBuilderTestCase(unittest.TestCase):
-    """ Tests for the action manager builder. """
+    """Tests for the action manager builder."""
 
     def test_action_with_nonexistent_group(self):
-        """ action with non-existent group """
+        """action with non-existent group"""
 
         action_sets = [
             ActionSet(
@@ -43,7 +43,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_action_with_nonexistent_sibling(self):
-        """ action with non-existent sibling """
+        """action with non-existent sibling"""
 
         action_sets = [
             ActionSet(
@@ -65,7 +65,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_group_with_nonexistent_sibling(self):
-        """ group with non-existent sibling """
+        """group with non-existent sibling"""
 
         action_sets = [
             ActionSet(
@@ -83,7 +83,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_menu_with_nonexistent_sibling(self):
-        """ menu with non-existent sibling """
+        """menu with non-existent sibling"""
 
         action_sets = [
             ActionSet(
@@ -99,7 +99,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_action_with_path_component_that_is_not_a_menu(self):
-        """ action with path component that is not a menu """
+        """action with path component that is not a menu"""
 
         action_sets = [
             ActionSet(
@@ -118,7 +118,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_single_top_level_menu_with_no_group(self):
-        """ single top level menu with no group """
+        """single top level menu with no group"""
 
         action_sets = [ActionSet(menus=[Menu(name="&File", path="MenuBar")])]
 
@@ -137,7 +137,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(["File"], ids)
 
     def test_single_top_level_group(self):
-        """ single top level group """
+        """single top level group"""
 
         action_sets = [
             ActionSet(groups=[Group(id="FileMenuGroup", path="MenuBar")])
@@ -156,7 +156,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(["FileMenuGroup", "additions"], ids)
 
     def test_top_level_menus_with_no_groups(self):
-        """ top level menus with_no groups """
+        """top level menus with_no groups"""
 
         action_sets = [
             ActionSet(
@@ -184,7 +184,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(["File", "Edit", "Tools", "Help"], ids)
 
     def test_top_level_menus_no_groups_before_and_after(self):
-        """ top level menus no groups, before and after """
+        """top level menus no groups, before and after"""
 
         action_sets = [
             ActionSet(
@@ -212,7 +212,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(["File", "Edit", "Tools", "Help"], ids)
 
     def test_top_level_menu_non_existent_group(self):
-        """ top level menu non-existent group """
+        """top level menu non-existent group"""
 
         action_sets = [
             ActionSet(
@@ -230,7 +230,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             builder.create_menu_bar_manager("MenuBar")
 
     def test_top_level_menu_group(self):
-        """ top level menu group """
+        """top level menu group"""
 
         action_sets = [
             ActionSet(
@@ -258,7 +258,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("File", group.items[0].id)
 
     def test_sub_menus_no_groups(self):
-        """ sub-menus no groups """
+        """sub-menus no groups"""
 
         # We split the contributions into different action sets just because
         # that is how it might end up in an actual application... not because
@@ -289,7 +289,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("New", additions.items[0].id)
 
     def test_actions_no_groups(self):
-        """ actions no groups """
+        """actions no groups"""
 
         # We split the contributions into different action sets just because
         # that is how it might end up in an actual application... not because
@@ -332,7 +332,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("About", additions.items[0].id)
 
     def test_actions_make_submenus(self):
-        """ actions make submenus """
+        """actions make submenus"""
 
         action_sets = [
             ActionSet(
@@ -372,7 +372,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("File", additions.items[1].id)
 
     def test_actions_make_submenus_before_and_after(self):
-        """ actions make submenus before and after """
+        """actions make submenus before and after"""
 
         action_sets = [
             ActionSet(
@@ -421,7 +421,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(["Project", "Folder", "File"], ids)
 
     def test_explicit_groups(self):
-        """ explicit groups """
+        """explicit groups"""
 
         action_sets = [
             ActionSet(
@@ -498,7 +498,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("Exit", group.items[0].id)
 
     def test_actions_and_menus_in_groups(self):
-        """ actions and menus in groups """
+        """actions and menus in groups"""
 
         action_sets = [
             ActionSet(
@@ -573,7 +573,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual("Exit", group.items[0].id)
 
     def test_duplicate_menu(self):
-        """ duplicate menu """
+        """duplicate menu"""
 
         action_sets = [
             ActionSet(
@@ -627,7 +627,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         )
 
     def test_duplicate_group(self):
-        """ duplicate group """
+        """duplicate group"""
 
         action_sets = [
             ActionSet(
@@ -639,7 +639,6 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
                             Group(id="NewGroup", path="MenuBar/File"),
                             Group(id="ExitGroup", path="MenuBar/File"),
                         ],
-
                     ),
                 ],
             ),

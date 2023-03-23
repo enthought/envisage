@@ -25,13 +25,12 @@ from traits.api import Instance, List, Str
 from .egg_utils import get_entry_points_in_egg_order
 from .plugin_manager import PluginManager
 
-
 # Logging.
 logger = logging.getLogger(__name__)
 
 
 class EggPluginManager(PluginManager):
-    """ A plugin manager that gets its plugins from Eggs.
+    """A plugin manager that gets its plugins from Eggs.
 
     To declare a plugin (or plugins) in your egg use an entry point in your
     'setup.py' file, e.g.
@@ -89,7 +88,7 @@ class EggPluginManager(PluginManager):
     ###########################################################################
 
     def __plugins_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         plugins = []
         for ep in get_entry_points_in_egg_order(
@@ -104,7 +103,7 @@ class EggPluginManager(PluginManager):
         return plugins
 
     def _working_set_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return pkg_resources.working_set
 
@@ -113,7 +112,7 @@ class EggPluginManager(PluginManager):
     ###########################################################################
 
     def _create_plugin_from_ep(self, ep):
-        """ Create a plugin from an extension point. """
+        """Create a plugin from an extension point."""
 
         klass = ep.load()
         plugin = klass(application=self.application)
@@ -129,7 +128,7 @@ class EggPluginManager(PluginManager):
         return plugin
 
     def _is_excluded(self, plugin_id):
-        """ Return True if the plugin Id is excluded.
+        """Return True if the plugin Id is excluded.
 
         If no 'exclude' patterns are specified then this method returns False
         for all plugin Ids.
@@ -146,7 +145,7 @@ class EggPluginManager(PluginManager):
         return False
 
     def _is_included(self, plugin_id):
-        """ Return True if the plugin Id is included.
+        """Return True if the plugin Id is included.
 
         If no 'include' patterns are specified then this method returns True
         for all plugin Ids.

@@ -16,7 +16,7 @@ import pkg_resources
 
 
 def info(request):
-    """ Return a configuration for contributing examples to the
+    """Return a configuration for contributing examples to the
     Demo application.
     Parameters
     ----------
@@ -30,7 +30,5 @@ def info(request):
     return dict(
         version=1,
         name="Envisage Examples",
-        root=(
-            pkg_resources.resource_filename("envisage.examples", "demo")
-        ),
+        root=(pkg_resources.resource_filename("envisage.examples", "demo")),
     )

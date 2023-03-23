@@ -19,8 +19,9 @@ No arguments are required. Run with::
 import pathlib
 import pickle
 
-from envisage.ui.tasks.api import TasksApplicationState
 from pyface.tasks.api import TaskWindowLayout
+
+from envisage.ui.tasks.api import TasksApplicationState
 
 state = TasksApplicationState(
     version=1,

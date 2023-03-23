@@ -22,12 +22,11 @@ from traits.api import Callable, Directory, List, on_trait_change
 from .egg_utils import add_eggs_on_path, get_entry_points_in_egg_order
 from .plugin_manager import PluginManager
 
-
 logger = logging.getLogger(__name__)
 
 
 class EggBasketPluginManager(PluginManager):
-    """ A plugin manager that finds plugins in eggs on the 'plugin_path'.
+    """A plugin manager that finds plugins in eggs on the 'plugin_path'.
 
     To declare a plugin (or plugins) in your egg use an entry point in your
     'setup.py' file, e.g.
@@ -87,7 +86,7 @@ class EggBasketPluginManager(PluginManager):
     # Protected 'PluginManager' protocol ######################################
 
     def __plugins_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         plugins = self._harvest_plugins_in_eggs(self.application)
 
@@ -98,7 +97,7 @@ class EggBasketPluginManager(PluginManager):
     #### Private protocol #####################################################
 
     def _create_plugin_from_entry_point(self, ep, application):
-        """ Create a plugin from an entry point. """
+        """Create a plugin from an entry point."""
 
         klass = ep.load()
         plugin = klass(application=application)
@@ -114,7 +113,7 @@ class EggBasketPluginManager(PluginManager):
         return plugin
 
     def _get_plugin_entry_points(self, working_set):
-        """ Return all plugin entry points in the working set. """
+        """Return all plugin entry points in the working set."""
 
         entry_points = get_entry_points_in_egg_order(
             working_set, self.ENVISAGE_PLUGINS_ENTRY_POINT
@@ -123,7 +122,7 @@ class EggBasketPluginManager(PluginManager):
         return entry_points
 
     def _harvest_plugins_in_eggs(self, application):
-        """ Harvest plugins found in eggs on the plugin path. """
+        """Harvest plugins found in eggs on the plugin path."""
 
         # We first add the eggs to a local working set so that when we get
         # the plugin entry points we don't pick up any from other eggs
@@ -172,7 +171,7 @@ class EggBasketPluginManager(PluginManager):
                 self.on_broken_distribution(dist, exc)
 
     def _update_sys_dot_path(self, removed, added):
-        """ Add/remove the given entries from sys.path. """
+        """Add/remove the given entries from sys.path."""
 
         for dirname in removed:
             if dirname in sys.path:

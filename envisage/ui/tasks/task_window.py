@@ -15,8 +15,7 @@ from traits.api import Instance, Property
 
 
 class TaskWindow(PyfaceTaskWindow):
-    """ A TaskWindow for use with the Envisage Tasks plugin.
-    """
+    """A TaskWindow for use with the Envisage Tasks plugin."""
 
     #: The application that created and is managing this window.
     application = Instance("envisage.ui.tasks.api.TasksApplication")
@@ -34,8 +33,8 @@ class TaskWindow(PyfaceTaskWindow):
     ###########################################################################
 
     def _get_title(self):
-        """ If the application has a name, add it to the title. Otherwise,
-            behave like the base class.
+        """If the application has a name, add it to the title. Otherwise,
+        behave like the base class.
         """
         if self._title or self.active_task is None:
             return self._title
@@ -47,8 +46,7 @@ class TaskWindow(PyfaceTaskWindow):
         return title
 
     def _get_icon(self):
-        """If we have an icon return it, else delegate to the application.
-        """
+        """If we have an icon return it, else delegate to the application."""
         if self._icon is not None:
             return self._icon
         elif self.application is not None:
@@ -57,6 +55,5 @@ class TaskWindow(PyfaceTaskWindow):
             return None
 
     def _set_icon(self, icon):
-        """Explicitly set the icon to use.  None is allowed.
-        """
+        """Explicitly set the icon to use.  None is allowed."""
         self._icon = icon

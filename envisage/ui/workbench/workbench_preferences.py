@@ -16,7 +16,7 @@ from traits.api import Bool
 
 
 class WorkbenchPreferences(PreferencesHelper):
-    """ Helper for the workbench preferences. """
+    """Helper for the workbench preferences."""
 
     #### 'PreferencesHelper' interface ########################################
 

@@ -10,13 +10,14 @@
 """ The 'Baz' plugin """
 
 
+from traits.api import Bool
+
 # Enthought library imports.
 from envisage.api import Plugin
-from traits.api import Bool
 
 
 class BazPlugin(Plugin):
-    """ The 'Baz' plugin """
+    """The 'Baz' plugin"""
 
     #### 'IPlugin' interface ##################################################
 
@@ -33,13 +34,13 @@ class BazPlugin(Plugin):
     ###########################################################################
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True

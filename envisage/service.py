@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 class Service(TraitType):
-    """ A trait type used to access services.
+    """A trait type used to access services.
 
     Note that this is a trait *type* and hence does *NOT* have traits itself
     (i.e. it does *not* inherit from 'HasTraits').
@@ -35,7 +35,7 @@ class Service(TraitType):
     def __init__(
         self, protocol=None, query="", minimize="", maximize="", **metadata
     ):
-        """ Constructor. """
+        """Constructor."""
 
         super().__init__(**metadata)
 
@@ -52,7 +52,7 @@ class Service(TraitType):
         self._maximize = maximize
 
     def __repr__(self):
-        """ String representation of a Service object """
+        """String representation of a Service object"""
         return "Service(protocol={!r})".format(self._protocol)
 
     ###########################################################################
@@ -60,7 +60,7 @@ class Service(TraitType):
     ###########################################################################
 
     def get(self, obj, trait_name):
-        """ Trait type getter. """
+        """Trait type getter."""
 
         service_registry = self._get_service_registry(obj)
 
@@ -71,7 +71,7 @@ class Service(TraitType):
         return obj
 
     def set(self, obj, name, value):
-        """ Trait type setter. """
+        """Trait type setter."""
 
         raise TraitError("Service traits cannot be set")
 
@@ -80,7 +80,7 @@ class Service(TraitType):
     ###########################################################################
 
     def _get_service_registry(self, obj):
-        """ Return the service registry in effect for an object. """
+        """Return the service registry in effect for an object."""
 
         service_registry = getattr(obj, "service_registry", None)
         if service_registry is None:

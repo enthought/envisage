@@ -10,13 +10,14 @@
 """ The interactive Python shell plugin. """
 
 
+from traits.api import Dict, List, Str
+
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin
-from traits.api import Dict, List, Str
 
 
 class PythonShellPlugin(Plugin):
-    """ The interactive Python shell plugin. """
+    """The interactive Python shell plugin."""
 
     # Extension point Ids.
     BINDINGS = "envisage.plugins.python_shell.bindings"
@@ -73,7 +74,7 @@ class PythonShellPlugin(Plugin):
     contributed_bindings = List(contributes_to=BINDINGS)
 
     def _contributed_bindings_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return [{"application": self.application}]
 
@@ -81,10 +82,10 @@ class PythonShellPlugin(Plugin):
     contributed_views = List(contributes_to=VIEWS)
 
     def _contributed_views_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Local imports.
-        from .view.python_shell_view import PythonShellView
         from .view.namespace_view import NamespaceView
+        from .view.python_shell_view import PythonShellView
 
         return [PythonShellView, NamespaceView]

@@ -18,7 +18,7 @@ from .plugin_event import PluginEvent
 
 
 class IPluginManager(Interface):
-    """ The plugin manager interface. """
+    """The plugin manager interface."""
 
     #### Events ####
 
@@ -29,36 +29,30 @@ class IPluginManager(Interface):
     plugin_removed = Event(PluginEvent)
 
     def __iter__(self):
-        """ Return an iterator over the manager's plugins.
-
-        """
+        """Return an iterator over the manager's plugins."""
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the manager.
-
-        """
+        """Add a plugin to the manager."""
 
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id.
+        """Return the plugin with the specified Id.
 
         Return None if no such plugin exists.
 
         """
 
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the manager.
-
-        """
+        """Remove a plugin from the manager."""
 
     def start(self):
-        """ Start the plugin manager.
+        """Start the plugin manager.
 
         This starts all of the manager's plugins.
 
         """
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin.
+        """Start the specified plugin.
 
         If a plugin is specified then start it.
 
@@ -69,7 +63,7 @@ class IPluginManager(Interface):
         """
 
     def stop(self):
-        """ Stop the plugin manager.
+        """Stop the plugin manager.
 
         This stop's all of the plugin manager's plugins (in the reverse order
         that they were started).
@@ -77,7 +71,7 @@ class IPluginManager(Interface):
         """
 
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin.
+        """Stop the specified plugin.
 
         If a plugin is specified then stop it (the Id is ignored).
 

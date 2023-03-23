@@ -8,8 +8,9 @@
 #
 # Thanks for using Enthought open source!
 # Enthought library imports.
-from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 from traits.api import Callable, Instance, List
+
+from envisage.api import ExtensionPoint, Plugin, ServiceOffer
 
 # Local imports.
 from .preferences_category import PreferencesCategory
@@ -19,7 +20,7 @@ PKG = ".".join(__name__.split(".")[:-1])
 
 
 class TasksPlugin(Plugin):
-    """ The Envisage Tasks plugin.
+    """The Envisage Tasks plugin.
 
     The Tasks plugin uses Pyface Tasks to provide an extensible framework for
     building user interfaces. For more information, see the Tasks User Manual.
@@ -126,10 +127,11 @@ class TasksPlugin(Plugin):
     my_task_extensions = List(contributes_to=TASK_EXTENSIONS)
 
     def _my_task_extensions_default(self):
+        from pyface.tasks.action.api import DockPaneToggleGroup, SchemaAddition
+
         from .action.exit_action import ExitAction
         from .action.preferences_action import PreferencesGroup
         from .task_extension import TaskExtension
-        from pyface.tasks.action.api import DockPaneToggleGroup, SchemaAddition
 
         actions = [
             SchemaAddition(id="Exit", factory=ExitAction, path="MenuBar/File"),
@@ -150,8 +152,7 @@ class TasksPlugin(Plugin):
     ###########################################################################
 
     def _create_preferences_dialog_service(self):
-        """ Factory method for preferences dialog service.
-        """
+        """Factory method for preferences dialog service."""
         from .preferences_dialog import PreferencesDialog
 
         dialog = PreferencesDialog(application=self.application)

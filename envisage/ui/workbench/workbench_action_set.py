@@ -10,13 +10,14 @@
 """ An action set in a workbench window. """
 
 
+from traits.api import Instance, List, Str
+
 # Enthought library imports.
 from envisage.ui.action.api import ActionSet
-from traits.api import Instance, List, Str
 
 
 class WorkbenchActionSet(ActionSet):
-    """ An action set in a workbench window.
+    """An action set in a workbench window.
 
     This class adds a 'window' trait which is the workbench window that the
     action set is in. The trait is set by the framework when the action set is
@@ -62,14 +63,14 @@ class WorkbenchActionSet(ActionSet):
     ###########################################################################
 
     def _enabled_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         if self.window is not None:
             self._update_tool_bars(self.window, "enabled", new)
             self._update_actions(self.window, "enabled", new)
 
     def _visible_changed(self, trait_name, old, new):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         if self.window is not None:
             self._update_tool_bars(self.window, "visible", new)
@@ -80,7 +81,7 @@ class WorkbenchActionSet(ActionSet):
     ###########################################################################
 
     def initialize(self):
-        """ Called when the action set has been added to a window.
+        """Called when the action set has been added to a window.
 
         Use this method to hook up any listeners that you need to control
         the enabled and/or visible state of the action set.
@@ -105,7 +106,7 @@ class WorkbenchActionSet(ActionSet):
     #### Trait change handlers ################################################
 
     def _window_changed(self):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         # fixme: We put the code into an 'initialize' method because it seems
         # easier to explain that we expect it to be overridden. It seems a bit
@@ -115,7 +116,7 @@ class WorkbenchActionSet(ActionSet):
     #### Methods ##############################################################
 
     def _refresh(self):
-        """ Refresh the enabled/visible state of the action set. """
+        """Refresh the enabled/visible state of the action set."""
 
         window = self.window
 
@@ -150,10 +151,10 @@ class WorkbenchActionSet(ActionSet):
             )
 
     def _update_actions(self, window, trait_name, value):
-        """ Update the state of the tool bars in the action set. """
+        """Update the state of the tool bars in the action set."""
 
         def visitor(item):
-            """ Called when we visit each item in an action manager. """
+            """Called when we visit each item in an action manager."""
 
             # fixme: The 'additions' group gets created by default and hence
             # has no '_action_set_' attribute. This smells because of the fact
@@ -172,7 +173,7 @@ class WorkbenchActionSet(ActionSet):
             tool_bar_manager.walk(visitor)
 
     def _update_tool_bars(self, window, trait_name, value):
-        """ Update the state of the tool bars in the action set. """
+        """Update the state of the tool bars in the action set."""
 
         for tool_bar_manager in window.tool_bar_managers:
             if tool_bar_manager._action_set_ is self:

@@ -57,6 +57,5 @@ class TestIds(unittest.TestCase):
             The Plugin subclass to check.
         """
         self.assertEqual(
-            getattr(envisage.ids, id_string),
-            getattr(plugin_klass, id_string)
+            getattr(envisage.ids, id_string), getattr(plugin_klass, id_string)
         )

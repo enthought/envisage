@@ -15,12 +15,24 @@ import logging
 import os
 
 # Enthought library imports.
-from apptools.preferences.api import IPreferences, ScopedPreferences
-from apptools.preferences.api import set_default_preferences
+from apptools.preferences.api import (
+    IPreferences,
+    ScopedPreferences,
+    set_default_preferences,
+)
 from traits.api import (
-    Delegate, Event, HasTraits, Instance, observe, provides, Str, VetoableEvent
+    Delegate,
+    Event,
+    HasTraits,
+    Instance,
+    observe,
+    provides,
+    Str,
+    VetoableEvent,
 )
 from traits.etsconfig.api import ETSConfig
+
+from .application_event import ApplicationEvent
 
 # Local imports.
 from .i_application import IApplication
@@ -28,10 +40,7 @@ from .i_extension_registry import IExtensionRegistry
 from .i_import_manager import IImportManager
 from .i_plugin_manager import IPluginManager
 from .i_service_registry import IServiceRegistry
-
-from .application_event import ApplicationEvent
 from .import_manager import ImportManager
-
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -39,7 +48,7 @@ logger = logging.getLogger(__name__)
 
 @provides(IApplication)
 class Application(HasTraits):
-    """ An extensible, pluggable, application.
+    """An extensible, pluggable, application.
 
     This class handles the common case for non-GUI applications, and it is
     intended to be subclassed to change start/stop behaviour etc.
@@ -113,7 +122,7 @@ class Application(HasTraits):
     ###########################################################################
 
     def __init__(self, plugins=None, **traits):
-        """ Constructor.
+        """Constructor.
 
         We allow the caller to specify an initial list of plugins, but the list
         itself is not part of the public API. To add and remove plugins after
@@ -154,27 +163,28 @@ class Application(HasTraits):
     #### Trait initializers ###################################################
 
     def _home_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return ETSConfig.application_home
 
     def _user_data_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return ETSConfig.user_data
 
     def _preferences_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         return ScopedPreferences(
             application_preferences_filename=os.path.join(
-                self.home, 'preferences.ini')
+                self.home, "preferences.ini"
+            )
         )
 
     #### Methods ##############################################################
 
     def run(self):
-        """ Run the application. """
+        """Run the application."""
 
         if self.start():
             self.stop()
@@ -184,52 +194,48 @@ class Application(HasTraits):
     ###########################################################################
 
     def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added/removed. """
+        """Add a listener for extensions being added/removed."""
 
         self.extension_registry.add_extension_point_listener(
             listener, extension_point_id
         )
 
     def add_extension_point(self, extension_point):
-        """ Add an extension point. """
+        """Add an extension point."""
 
         self.extension_registry.add_extension_point(extension_point)
 
     def get_extensions(self, extension_point_id):
-        """ Return a list containing all contributions to an extension point.
-
-        """
+        """Return a list containing all contributions to an extension point."""
 
         return self.extension_registry.get_extensions(extension_point_id)
 
     def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id. """
+        """Return the extension point with the specified Id."""
 
         return self.extension_registry.get_extension_point(extension_point_id)
 
     def get_extension_points(self):
-        """ Return all extension points that have been added to the registry.
-
-        """
+        """Return all extension points that have been added to the registry."""
 
         return self.extension_registry.get_extension_points()
 
     def remove_extension_point_listener(
         self, listener, extension_point_id=None
     ):
-        """ Remove a listener for extensions being added/removed. """
+        """Remove a listener for extensions being added/removed."""
 
         self.extension_registry.remove_extension_point_listener(
             listener, extension_point_id
         )
 
     def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point. """
+        """Remove an extension point."""
 
         self.extension_registry.remove_extension_point(extension_point_id)
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point. """
+        """Set the extensions contributed to an extension point."""
 
         self.extension_registry.set_extensions(extension_point_id, extensions)
 
@@ -238,7 +244,7 @@ class Application(HasTraits):
     ###########################################################################
 
     def import_symbol(self, symbol_path):
-        """ Import the symbol defined by the specified symbol path. """
+        """Import the symbol defined by the specified symbol path."""
 
         return self._import_manager.import_symbol(symbol_path)
 
@@ -247,27 +253,27 @@ class Application(HasTraits):
     ###########################################################################
 
     def __iter__(self):
-        """ Return an iterator over the manager's plugins. """
+        """Return an iterator over the manager's plugins."""
 
         return iter(self.plugin_manager)
 
     def add_plugin(self, plugin):
-        """ Add a plugin to the manager. """
+        """Add a plugin to the manager."""
 
         self.plugin_manager.add_plugin(plugin)
 
     def get_plugin(self, plugin_id):
-        """ Return the plugin with the specified Id. """
+        """Return the plugin with the specified Id."""
 
         return self.plugin_manager.get_plugin(plugin_id)
 
     def remove_plugin(self, plugin):
-        """ Remove a plugin from the manager. """
+        """Remove a plugin from the manager."""
 
         self.plugin_manager.remove_plugin(plugin)
 
     def start(self):
-        """ Start the plugin manager.
+        """Start the plugin manager.
 
         Returns True unless the start was vetoed.
 
@@ -296,12 +302,12 @@ class Application(HasTraits):
         return not event.veto
 
     def start_plugin(self, plugin=None, plugin_id=None):
-        """ Start the specified plugin. """
+        """Start the specified plugin."""
 
         return self.plugin_manager.start_plugin(plugin, plugin_id)
 
     def stop(self):
-        """ Stop the plugin manager.
+        """Stop the plugin manager.
 
         Returns True unless the stop was vetoed.
 
@@ -333,7 +339,7 @@ class Application(HasTraits):
         return not event.veto
 
     def stop_plugin(self, plugin=None, plugin_id=None):
-        """ Stop the specified plugin. """
+        """Stop the specified plugin."""
 
         return self.plugin_manager.stop_plugin(plugin, plugin_id)
 
@@ -344,7 +350,7 @@ class Application(HasTraits):
     def get_required_service(
         self, protocol, query="", minimize="", maximize=""
     ):
-        """ Return the service that matches the specified query.
+        """Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.
 
@@ -357,7 +363,7 @@ class Application(HasTraits):
         return service
 
     def get_service(self, protocol, query="", minimize="", maximize=""):
-        """ Return at most one service that matches the specified query. """
+        """Return at most one service that matches the specified query."""
 
         service = self.service_registry.get_service(
             protocol, query, minimize, maximize
@@ -366,17 +372,17 @@ class Application(HasTraits):
         return service
 
     def get_service_from_id(self, service_id):
-        """ Return the service with the specified id. """
+        """Return the service with the specified id."""
 
         return self.service_registry.get_service_from_id(service_id)
 
     def get_service_properties(self, service_id):
-        """ Return the dictionary of properties associated with a service. """
+        """Return the dictionary of properties associated with a service."""
 
         return self.service_registry.get_service_properties(service_id)
 
     def get_services(self, protocol, query="", minimize="", maximize=""):
-        """ Return all services that match the specified query. """
+        """Return all services that match the specified query."""
 
         services = self.service_registry.get_services(
             protocol, query, minimize, maximize
@@ -385,7 +391,7 @@ class Application(HasTraits):
         return services
 
     def register_service(self, protocol, obj, properties=None):
-        """ Register a service. """
+        """Register a service."""
 
         service_id = self.service_registry.register_service(
             protocol, obj, properties
@@ -394,12 +400,12 @@ class Application(HasTraits):
         return service_id
 
     def set_service_properties(self, service_id, properties):
-        """ Set the dictionary of properties associated with a service. """
+        """Set the dictionary of properties associated with a service."""
 
         self.service_registry.set_service_properties(service_id, properties)
 
     def unregister_service(self, service_id):
-        """ Unregister a service. """
+        """Unregister a service."""
 
         self.service_registry.unregister_service(service_id)
 
@@ -410,7 +416,7 @@ class Application(HasTraits):
     #### Trait initializers ###################################################
 
     def _extension_registry_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
@@ -420,7 +426,7 @@ class Application(HasTraits):
         return PluginExtensionRegistry(plugin_manager=self)
 
     def _plugin_manager_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
@@ -430,7 +436,7 @@ class Application(HasTraits):
         return PluginManager(application=self)
 
     def _service_registry_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Do the import here to emphasize the fact that this is just the
         # default implementation and that the application developer is free
@@ -464,7 +470,7 @@ class Application(HasTraits):
 
     @observe("plugin_manager")
     def _update_application(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         old, new = event.old, event.new
 
         if old is not None:
@@ -476,12 +482,12 @@ class Application(HasTraits):
     #### Methods ##############################################################
 
     def _create_application_event(self):
-        """ Create an application event. """
+        """Create an application event."""
 
         return ApplicationEvent(application=self)
 
     def _initialize_application_home(self):
-        """ Initialize the application directories. """
+        """Initialize the application directories."""
 
         os.makedirs(self.home, mode=0o700, exist_ok=True)
         os.makedirs(self.user_data, exist_ok=True)

@@ -12,21 +12,21 @@ Base set of tests for extension registry and its subclasses wrapped in a
 mixin class.
 """
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint
-from envisage.api import UnknownExtensionPoint
 from traits.api import List
+
+# Enthought library imports.
+from envisage.api import ExtensionPoint, UnknownExtensionPoint
 
 
 class ExtensionRegistryTestMixin:
-    """ Base set of tests for extension registry and its subclasses.
+    """Base set of tests for extension registry and its subclasses.
 
     Test cases inherriting from this mixin should define a setUp method that
     defines self.registry as an instance of ExtensionPointRegistry.
     """
 
     def test_empty_registry(self):
-        """ empty registry """
+        """empty registry"""
 
         registry = self.registry
 
@@ -39,7 +39,7 @@ class ExtensionRegistryTestMixin:
         self.assertEqual(0, len(extension_points))
 
     def test_add_extension_point(self):
-        """ add extension point """
+        """add extension point"""
 
         registry = self.registry
 
@@ -56,7 +56,7 @@ class ExtensionRegistryTestMixin:
         self.assertEqual("my.ep", extension_points[0].id)
 
     def test_get_extension_point(self):
-        """ get extension point """
+        """get extension point"""
 
         registry = self.registry
 
@@ -69,11 +69,11 @@ class ExtensionRegistryTestMixin:
         self.assertEqual("my.ep", extension_point.id)
 
     def test_get_extension_point_return_none_if_not_found(self):
-        """ get extension point return None if id is not found. """
+        """get extension point return None if id is not found."""
         self.assertIsNone(self.registry.get_extension_point("i.do.not.exist"))
 
     def test_get_extensions_mutation_no_effect_if_undefined(self):
-        """ test one cannot mutate the registry by mutating the list. """
+        """test one cannot mutate the registry by mutating the list."""
         # The extension point with id "my.ep" has not been defined
         extensions = self.registry.get_extensions("my.ep")
 
@@ -85,7 +85,7 @@ class ExtensionRegistryTestMixin:
         self.assertEqual(self.registry.get_extensions("my.ep"), [])
 
     def test_remove_empty_extension_point(self):
-        """ remove empty_extension point """
+        """remove empty_extension point"""
 
         registry = self.registry
 
@@ -100,7 +100,7 @@ class ExtensionRegistryTestMixin:
         self.assertEqual(0, len(extension_points))
 
     def test_remove_non_existent_extension_point(self):
-        """ remove non existent extension point """
+        """remove non existent extension point"""
 
         registry = self.registry
 
@@ -108,12 +108,12 @@ class ExtensionRegistryTestMixin:
             registry.remove_extension_point("my.ep")
 
     def test_remove_non_existent_listener(self):
-        """ remove non existent listener """
+        """remove non existent listener"""
 
         registry = self.registry
 
         def listener(registry, extension_point, added, removed, index):
-            """ Called when an extension point has changed. """
+            """Called when an extension point has changed."""
 
             self.listener_called = (registry, extension_point, added, removed)
 
@@ -121,6 +121,6 @@ class ExtensionRegistryTestMixin:
             registry.remove_extension_point_listener(listener)
 
     def create_extension_point(self, id, trait_type=List, desc=""):
-        """ Create an extension point. """
+        """Create an extension point."""
 
         return ExtensionPoint(id=id, trait_type=trait_type, desc=desc)

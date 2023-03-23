@@ -15,7 +15,7 @@ from pyface.action.api import Action
 
 
 class AboutAction(Action):
-    """ An action that shows the 'About' dialog. """
+    """An action that shows the 'About' dialog."""
 
     #### 'Action' interface ###################################################
 
@@ -33,6 +33,6 @@ class AboutAction(Action):
     ###########################################################################
 
     def perform(self, event):
-        """ Perform the action. """
+        """Perform the action."""
 
         self.window.application.about()

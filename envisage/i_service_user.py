@@ -18,7 +18,7 @@ from .i_service_registry import IServiceRegistry
 
 
 class IServiceUser(Interface):
-    """ The interface for objects using the 'Service' trait type. """
+    """The interface for objects using the 'Service' trait type."""
 
     # The service registry that the object's services are stored in.
     service_registry = Instance(IServiceRegistry)

@@ -1,3 +1,13 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 """ The 'Message of the Day' plugin """
 
 
@@ -10,13 +20,14 @@
 # Eveything else should be imported when it is actually required.
 
 
+from traits.api import Instance, List, on_trait_change
+
 # Enthought library imports.
 from envisage.api import ExtensionPoint, Plugin, ServiceOffer
-from traits.api import Instance, List, on_trait_change
 
 
 class MOTDPlugin(Plugin):
-    """ The 'Message of the Day' plugin.
+    """The 'Message of the Day' plugin.
 
     This plugin simply prints the 'Message of the Day' to stdout.
 
@@ -59,7 +70,7 @@ class MOTDPlugin(Plugin):
     service_offers = List(contributes_to=SERVICE_OFFERS)
 
     def _service_offers_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         # Register the protocol as a string containing the actual module path
         # and *not* a module path that goes via an 'api.py' file as this does
@@ -79,7 +90,7 @@ class MOTDPlugin(Plugin):
     ###########################################################################
 
     def _create_motd_service(self):
-        """ Factory method for the 'MOTD' service. """
+        """Factory method for the 'MOTD' service."""
 
         # Only do imports when you need to! This makes sure that the import
         # only happens when somebody needs an 'IMOTD' service.
@@ -91,7 +102,7 @@ class MOTDPlugin(Plugin):
     # the application has started all of its plugins.
     @on_trait_change("application:started")
     def _print_motd(self):
-        """ Print the 'Message of the Day' to stdout! """
+        """Print the 'Message of the Day' to stdout!"""
 
         # Note that we always offer the service via its name, but look it up
         # via the actual protocol.

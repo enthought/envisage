@@ -8,15 +8,13 @@
 #
 # Thanks for using Enthought open source!
 import os
-import pkg_resources
 import unittest
 
 from envisage.examples._etsdemo_info import info
 
 
 class TestETSDemoInfo(unittest.TestCase):
-
     def test_info(self):
         # input to info is currently just a placeholder
         response = info({})
-        self.assertTrue(os.path.exists(response['root']))
+        self.assertTrue(os.path.exists(response["root"]))

@@ -13,28 +13,27 @@
 import contextlib
 import unittest
 
-# Enthought library imports.
-from envisage.api import Application, ExtensionPoint
-from envisage.api import ExtensionRegistry
 from traits.api import List
 
+# Enthought library imports.
+from envisage.api import Application, ExtensionPoint, ExtensionRegistry
 from envisage.tests.test_extension_registry_mixin import (
-    ExtensionRegistryTestMixin
+    ExtensionRegistryTestMixin,
 )
 
 
 class ExtensionRegistryTestCase(ExtensionRegistryTestMixin, unittest.TestCase):
-    """ Tests for the base extension registry. """
+    """Tests for the base extension registry."""
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
         self.registry = Application(extension_registry=ExtensionRegistry())
 
     def test_remove_non_empty_extension_point(self):
-        """ remove non-empty extension point """
+        """remove non-empty extension point"""
 
         registry = self.registry
 
@@ -55,7 +54,7 @@ class ExtensionRegistryTestCase(ExtensionRegistryTestMixin, unittest.TestCase):
         self.assertEqual([], registry.get_extensions("my.ep"))
 
     def test_set_extensions(self):
-        """ set extensions """
+        """set extensions"""
 
         registry = self.registry
 
@@ -75,6 +74,7 @@ def make_function_listener(events):
 
     The listener appends events to the ``events`` list.
     """
+
     def listener(registry, event):
         events.append(event)
 
@@ -85,6 +85,7 @@ class ListensToExtensionPoint:
     """
     Class with a method that can be used as an extension point listener.
     """
+
     def __init__(self, events):
         self.events = events
 
@@ -177,7 +178,8 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         new_length = len(some_list)
         diff = new_length - old_length
         self.assertEqual(
-            diff, 1,
+            diff,
+            1,
             msg="Expected exactly one new element; got {}".format(diff),
         )
 
@@ -194,6 +196,7 @@ class ExtensionPointListenerLifetimeTestCase(unittest.TestCase):
         new_length = len(some_list)
         diff = new_length - old_length
         self.assertEqual(
-            diff, 0,
+            diff,
+            0,
             msg="Expected no new elements; got {}".format(diff),
         )

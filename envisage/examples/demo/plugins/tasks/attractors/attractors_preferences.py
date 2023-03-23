@@ -1,13 +1,23 @@
-# Enthought library imports.
-from envisage.ui.tasks.api import PreferencesPane, TaskFactory
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 from apptools.preferences.api import PreferencesHelper
-from traits.api import Bool, Dict, Enum, List, Str
-from traitsui.api import EnumEditor, HGroup, VGroup, Item, Label, View
+from traits.api import Bool, Dict, Str
+from traitsui.api import EnumEditor, HGroup, Item, Label, VGroup, View
+
+# Enthought library imports.
+from envisage.ui.tasks.api import PreferencesPane
 
 
 class AttractorsPreferences(PreferencesHelper):
-    """ The preferences helper for the Attractors application.
-    """
+    """The preferences helper for the Attractors application."""
 
     #### 'PreferencesHelper' interface ########################################
 
@@ -25,8 +35,7 @@ class AttractorsPreferences(PreferencesHelper):
 
 
 class AttractorsPreferencesPane(PreferencesPane):
-    """ The preferences pane for the Attractors application.
-    """
+    """The preferences pane for the Attractors application."""
 
     #### 'PreferencesPane' interface ##########################################
 

@@ -7,12 +7,11 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-from .i_action_set import IActionSet
-from .i_action_manager_builder import IActionManagerBuilder
-
 from .abstract_action_manager_builder import AbstractActionManagerBuilder
 from .action import Action
 from .action_set import ActionSet
 from .group import Group
+from .i_action_manager_builder import IActionManagerBuilder
+from .i_action_set import IActionSet
 from .menu import Menu
 from .tool_bar import ToolBar

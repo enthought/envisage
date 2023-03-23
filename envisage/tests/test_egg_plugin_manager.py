@@ -20,7 +20,7 @@ from .test_egg_based import EggBasedTestCase
 
 
 class EggPluginManagerTestCase(EggBasedTestCase):
-    """ Tests for the Egg plugin manager. """
+    """Tests for the Egg plugin manager."""
 
     ###########################################################################
     # Tests.
@@ -29,7 +29,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     # fixme: Depending how many eggs are on sys.path, this test may take too
     # long to be part of the TDD cycle.
     def test_no_include_or_exclude(self):
-        """ no include or exclude """
+        """no include or exclude"""
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
@@ -48,7 +48,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self.assertTrue("acme.baz" in ids)
 
     def test_include_specific(self):
-        """ include specific """
+        """include specific"""
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
 
@@ -69,7 +69,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_include_multiple(self):
-        """ include multiple """
+        """include multiple"""
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
@@ -91,7 +91,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_exclude_specific(self):
-        """ exclude specific """
+        """exclude specific"""
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
@@ -116,7 +116,7 @@ class EggPluginManagerTestCase(EggBasedTestCase):
         self._test_start_and_stop(plugin_manager, expected)
 
     def test_exclude_multiple(self):
-        """ exclude multiple """
+        """exclude multiple"""
 
         # Add all of the eggs in the egg basket.
         self._add_eggs_on_path([self.egg_dir])
@@ -162,8 +162,8 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     ###########################################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """ Make sure the plugin manager starts and stops the expected plugins.
-
+        """
+        Make sure the plugin manager starts and stops the expected plugins.
         """
 
         # Make sure the plugin manager found only the required plugins.

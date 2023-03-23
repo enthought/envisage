@@ -1,0 +1,4 @@
+black ~= 23.0
+flake8
+flake8-ets
+isort

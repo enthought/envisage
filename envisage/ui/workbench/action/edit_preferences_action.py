@@ -10,13 +10,14 @@
 """ An action that displays the preferences dialog. """
 
 
+from pyface.action.api import Action
+
 # Enthought library imports.
 from pyface.api import ImageResource
-from pyface.action.api import Action
 
 
 class EditPreferencesAction(Action):
-    """ An action that displays the preferences dialog. """
+    """An action that displays the preferences dialog."""
 
     #### 'Action' interface ###################################################
 
@@ -37,7 +38,7 @@ class EditPreferencesAction(Action):
     ###########################################################################
 
     def perform(self, event):
-        """ Performs the action. """
+        """Performs the action."""
 
         from apptools.preferences.ui.api import PreferencesManager
 

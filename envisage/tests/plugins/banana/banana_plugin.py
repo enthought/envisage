@@ -10,12 +10,13 @@
 """ The 'Banana' plugin """
 
 
-from envisage.api import Plugin
 from traits.api import Bool
+
+from envisage.api import Plugin
 
 
 class BananaPlugin(Plugin):
-    """ The 'Banana' plugin """
+    """The 'Banana' plugin"""
 
     #### 'IPlugin' protocol ###################################################
 
@@ -23,13 +24,13 @@ class BananaPlugin(Plugin):
     id = "banana"
 
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         self.started = True
         self.stopped = False
 
     def stop(self):
-        """ Stop the plugin. """
+        """Stop the plugin."""
 
         self.started = False
         self.stopped = True

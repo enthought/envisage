@@ -14,30 +14,30 @@
 import sys
 import unittest
 
-# Enthought library imports.
-from envisage.api import Application, ServiceRegistry, NoSuchServiceError
 from traits.api import HasTraits, Int, Interface, provides
 
+# Enthought library imports.
+from envisage.api import Application, NoSuchServiceError, ServiceRegistry
 
 # This module's package.
 PKG = "envisage.tests"
 
 
 def service_factory(**properties):
-    """ A factory for foos. """
+    """A factory for foos."""
 
     return HasTraits(**properties)
 
 
 class ServiceRegistryTestCase(unittest.TestCase):
-    """ Tests for the service registry. """
+    """Tests for the service registry."""
 
     ###########################################################################
     # 'TestCase' interface.
     ###########################################################################
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         # We do all of the testing via the application to make sure it offers
         # the same interface!
@@ -72,7 +72,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             self.service_registry.get_required_service(IFoo)
 
     def test_imported_service_factory(self):
-        """ imported service factory """
+        """imported service factory"""
 
         class IFoo(Interface):
             price = Int
@@ -98,7 +98,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertTrue(service is service2)
 
     def test_function_service_factory(self):
-        """ function service factory """
+        """function service factory"""
 
         class IFoo(Interface):
             price = Int
@@ -108,7 +108,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             price = Int
 
         def foo_factory(**properties):
-            """ A factory for foos. """
+            """A factory for foos."""
 
             return Foo(**properties)
 
@@ -128,11 +128,11 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertTrue(service is service2)
 
     def test_lazy_function_service_factory(self):
-        """ lazy function service factory """
+        """lazy function service factory"""
 
         # Register a service factory by name.
         def foo_factory(**properties):
-            """ A factory for foos. """
+            """A factory for foos."""
 
             from envisage.tests.foo import Foo
 
@@ -167,13 +167,13 @@ class ServiceRegistryTestCase(unittest.TestCase):
         del sys.modules[foo]
 
     def test_lazy_bound_method_service_factory(self):
-        """ lazy bound method service factory """
+        """lazy bound method service factory"""
 
         i_foo = PKG + ".i_foo.IFoo"
         foo = PKG + ".foo"
 
         class ServiceProvider(HasTraits):
-            """ A class that provides a service.
+            """A class that provides a service.
 
             This is used to make sure a bound method can be used as a service
             factory.
@@ -182,7 +182,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
             # Register a service factory by name.
             def foo_factory(self, **properties):
-                """ A factory for foos. """
+                """A factory for foos."""
 
                 from envisage.tests.foo import Foo
 
@@ -215,7 +215,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         del sys.modules[foo]
 
     def test_get_services(self):
-        """ get services """
+        """get services"""
 
         class IFoo(Interface):
             pass
@@ -243,7 +243,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual([], services)
 
     def test_get_services_with_strings(self):
-        """ get services with strings """
+        """get services with strings"""
 
         from envisage.tests.foo import Foo
 
@@ -258,7 +258,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(2, len(services))
 
     def test_get_services_with_query(self):
-        """ get services with query """
+        """get services with query"""
 
         class IFoo(Interface):
             price = Int
@@ -301,7 +301,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual([], services)
 
     def test_get_service(self):
-        """ get service """
+        """get service"""
 
         class IFoo(Interface):
             pass
@@ -329,7 +329,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(None, service)
 
     def test_get_service_with_query(self):
-        """ get service with query """
+        """get service with query"""
 
         class IFoo(Interface):
             price = Int
@@ -370,7 +370,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         self.assertEqual(None, service)
 
     def test_get_and_set_service_properties(self):
-        """ get and set service properties """
+        """get and set service properties"""
 
         class IFoo(Interface):
             price = Int
@@ -422,7 +422,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             self.service_registry.set_service_properties(-1, {})
 
     def test_unregister_service(self):
-        """ unregister service """
+        """unregister service"""
 
         class IFoo(Interface):
             price = Int
@@ -478,7 +478,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             self.service_registry.unregister_service(-1)
 
     def test_minimize_and_maximize(self):
-        """ minimize and maximize """
+        """minimize and maximize"""
 
         class IFoo(Interface):
             price = Int

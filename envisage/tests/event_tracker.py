@@ -16,7 +16,7 @@ from traits.has_traits import observe
 
 
 class EventTracker(HasTraits):
-    """ Used to track traits events. """
+    """Used to track traits events."""
 
     # The traits events that have fired.
     #
@@ -49,7 +49,7 @@ class EventTracker(HasTraits):
 
     @observe("subscriptions")
     def _update_listeners_on_all_subscriptions(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         old, new = event.old, event.new
         for subscription in old:
             self._remove_subscription(subscription)
@@ -59,7 +59,7 @@ class EventTracker(HasTraits):
 
     @observe("subscriptions:items")
     def _update_listeners_on_changed_subscriptions(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
 
         for subscription in event.removed:
             self._remove_subscription(subscription)
@@ -68,7 +68,7 @@ class EventTracker(HasTraits):
             self._add_subscription(subscription)
 
     def _listener(self, obj, trait_name, old, new):
-        """ Dynamic trait change listener. """
+        """Dynamic trait change listener."""
 
         self.events.append((obj, trait_name, old, new))
         self.event_names.append(trait_name)
@@ -76,7 +76,7 @@ class EventTracker(HasTraits):
     #### Methods ##############################################################
 
     def _add_subscription(self, subscription):
-        """ Add a subscription. """
+        """Add a subscription."""
 
         obj, trait_name = subscription
 
@@ -87,7 +87,7 @@ class EventTracker(HasTraits):
             obj.on_trait_change(self._listener)
 
     def _remove_subscription(self, subscription):
-        """ Remove a subscription. """
+        """Remove a subscription."""
 
         obj, trait_name = subscription
 

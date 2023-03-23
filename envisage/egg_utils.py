@@ -18,7 +18,7 @@ from traits.util.toposort import topological_sort
 
 
 def add_eggs_on_path(working_set, path, on_error=None):
-    """ Add all eggs found on the path to a working set. """
+    """Add all eggs found on the path to a working set."""
 
     environment = pkg_resources.Environment(path)
 
@@ -38,7 +38,7 @@ def add_eggs_on_path(working_set, path, on_error=None):
 
 
 def get_entry_points_in_egg_order(working_set, entry_point_name):
-    """ Return entry points in Egg dependency order. """
+    """Return entry points in Egg dependency order."""
 
     # Find all distributions that actually contain contributions to the
     # entry point.
@@ -58,9 +58,7 @@ def get_entry_points_in_egg_order(working_set, entry_point_name):
 
 
 def get_distributions_with_entry_point(working_set, entry_point_name):
-    """ Return all distributions that contribute to an entry point.
-
-    """
+    """Return all distributions that contribute to an entry point."""
 
     distributions = []
     for distribution in working_set:
@@ -71,7 +69,7 @@ def get_distributions_with_entry_point(working_set, entry_point_name):
 
 
 def get_distributions_in_egg_order(working_set, distributions=None):
-    """ Return all distributions in Egg dependency order. """
+    """Return all distributions in Egg dependency order."""
 
     # If no specific list of distributions is specified then use all
     # distributions in the working set.
@@ -91,7 +89,7 @@ def get_distributions_in_egg_order(working_set, distributions=None):
 
 
 def get_requires(working_set, distribution):
-    """ Return all of the other distributions that a distribution requires. """
+    """Return all of the other distributions that a distribution requires."""
 
     requires = []
     for requirement in distribution.requires():

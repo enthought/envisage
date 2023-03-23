@@ -15,7 +15,7 @@ from traitsui.api import Handler
 
 
 class TextEditorHandler(Handler):
-    """ The traits UI handler for the text editor. """
+    """The traits UI handler for the text editor."""
 
     ###########################################################################
     # 'TextEditorHandler' interface.
@@ -25,11 +25,11 @@ class TextEditorHandler(Handler):
     # dynamically! Plugins will want to add bindings to the editor to bind
     # a key to an action.
     def run(self, info):
-        """ Run the text as Python code. """
+        """Run the text as Python code."""
 
         info.object.run()
 
     def save(self, info):
-        """ Save the text to disk. """
+        """Save the text to disk."""
 
         info.object.save()

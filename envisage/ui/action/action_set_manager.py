@@ -18,7 +18,7 @@ from .action_set import ActionSet
 
 
 class ActionSetManager(HasTraits):
-    """ Manages a collection of action sets. """
+    """Manages a collection of action sets."""
 
     #### 'ActionSetManager' interface #########################################
 
@@ -30,22 +30,22 @@ class ActionSetManager(HasTraits):
     ###########################################################################
 
     def get_actions(self, root):
-        """ Return all action definitions for a root. """
+        """Return all action definitions for a root."""
 
         return self._get_items(self.action_sets, "actions", root)
 
     def get_groups(self, root):
-        """ Return all group definitions for a root. """
+        """Return all group definitions for a root."""
 
         return self._get_items(self.action_sets, "groups", root)
 
     def get_menus(self, root):
-        """ Return all menu definitions for a root. """
+        """Return all menu definitions for a root."""
 
         return self._get_items(self.action_sets, "menus", root)
 
     def get_tool_bars(self, root):
-        """ Return all tool bar definitions for a root. """
+        """Return all tool bar definitions for a root."""
 
         return self._get_items(self.action_sets, "tool_bars", root)
 
@@ -54,7 +54,7 @@ class ActionSetManager(HasTraits):
     ###########################################################################
 
     def _get_items(self, action_sets, attribute_name, root):
-        """ Return all actions, groups or menus for a particular root.
+        """Return all actions, groups or menus for a particular root.
 
         e.g. To get all of the groups::
 
@@ -81,7 +81,7 @@ class ActionSetManager(HasTraits):
         return items
 
     def _get_root(self, path, aliases):
-        """ Return the effective root for a path.
+        """Return the effective root for a path.
 
         If the first component of the path matches an alias, then we return
         the value of the alias.

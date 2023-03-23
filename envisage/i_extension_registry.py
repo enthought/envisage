@@ -15,10 +15,10 @@ from traits.api import Interface
 
 
 class IExtensionRegistry(Interface):
-    """ The interface for extension registries. """
+    """The interface for extension registries."""
 
     def add_extension_point_listener(self, listener, extension_point_id=None):
-        """ Add a listener for extensions being added or removed.
+        """Add a listener for extensions being added or removed.
 
         A listener is any Python callable with the following signature::
 
@@ -41,7 +41,7 @@ class IExtensionRegistry(Interface):
         """
 
     def add_extension_point(self, extension_point):
-        """ Add an extension point.
+        """Add an extension point.
 
         If an extension point already exists with this Id then it is simply
         replaced.
@@ -49,35 +49,33 @@ class IExtensionRegistry(Interface):
         """
 
     def get_extensions(self, extension_point_id):
-        """ Return the extensions contributed to an extension point.
+        """Return the extensions contributed to an extension point.
 
         Return an empty list if the extension point does not exist.
 
         """
 
     def get_extension_point(self, extension_point_id):
-        """ Return the extension point with the specified Id.
+        """Return the extension point with the specified Id.
 
         Return None if no such extension point exists.
 
         """
 
     def get_extension_points(self):
-        """ Return all extension points that have been added to the registry.
-
-        """
+        """Return all extension points that have been added to the registry."""
 
     def remove_extension_point_listener(
         self, listener, extension_point_id=None
     ):
-        """ Remove a listener for extensions being added or removed.
+        """Remove a listener for extensions being added or removed.
 
         Raise a 'ValueError' if the listener does not exist.
 
         """
 
     def remove_extension_point(self, extension_point_id):
-        """ Remove an extension point.
+        """Remove an extension point.
 
         Raise an 'UnknownExtensionPoint' exception if no extension point exists
         with the specified Id.
@@ -85,6 +83,4 @@ class IExtensionRegistry(Interface):
         """
 
     def set_extensions(self, extension_point_id, extensions):
-        """ Set the extensions contributed to an extension point.
-
-        """
+        """Set the extensions contributed to an extension point."""

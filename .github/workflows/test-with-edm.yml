@@ -45,9 +45,6 @@ jobs:
         run: python -m pip install -r .github/workflows/bootstrap-requirements.txt
       - name: Install test environment
         run: python etstool.py install --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
-      - name: Flake8
-        run: python etstool.py flake8 --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}
-        if: runner.os == 'Linux' && matrix.toolkit == 'null'
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: xvfb-run -a python etstool.py test --runtime=${{ matrix.runtime }} --toolkit=${{ matrix.toolkit }}

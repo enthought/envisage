@@ -15,13 +15,15 @@ import envisage.ids as ids
 
 
 class TestApi(unittest.TestCase):
-    """ Test for API """
+    """Test for API"""
+
     def test_import(self):
         self.assertEqual(api.BINDINGS, ids.BINDINGS)
         self.assertEqual(api.COMMANDS, ids.COMMANDS)
         self.assertEqual(api.PREFERENCES, ids.PREFERENCES)
-        self.assertEqual(api.PREFERENCES_CATEGORIES,
-                         ids.PREFERENCES_CATEGORIES)
+        self.assertEqual(
+            api.PREFERENCES_CATEGORIES, ids.PREFERENCES_CATEGORIES
+        )
         self.assertEqual(api.PREFERENCES_PANES, ids.PREFERENCES_PANES)
         self.assertEqual(api.SERVICE_OFFERS, ids.SERVICE_OFFERS)
         self.assertEqual(api.TASKS, ids.TASKS)

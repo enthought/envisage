@@ -19,14 +19,14 @@ from .no_such_resource_error import NoSuchResourceError
 
 @provides(IResourceProtocol)
 class HTTPResourceProtocol(HasTraits):
-    """ A resource protocol for HTTP documents. """
+    """A resource protocol for HTTP documents."""
 
     ###########################################################################
     # 'IResourceProtocol' interface.
     ###########################################################################
 
     def file(self, address):
-        """ Return a readable file-like object for the specified address. """
+        """Return a readable file-like object for the specified address."""
 
         # Do the imports here 'cos I'm not sure how much this will actually
         # be used.

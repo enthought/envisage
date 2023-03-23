@@ -15,7 +15,7 @@ from traits.api import Interface
 
 
 class IPluginActivator(Interface):
-    """ The plugin activator interface.
+    """The plugin activator interface.
 
     A plugin activator is really just a collection of two strategies - one
     to start the plugin and one to stop it.
@@ -31,11 +31,7 @@ class IPluginActivator(Interface):
     """
 
     def start_plugin(self, plugin):
-        """ Start the specified plugin.
-
-        """
+        """Start the specified plugin."""
 
     def stop_plugin(self, plugin):
-        """ Stop the specified plugin.
-
-        """
+        """Stop the specified plugin."""

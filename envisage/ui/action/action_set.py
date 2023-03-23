@@ -14,16 +14,15 @@
 import logging
 
 # Enthought library imports.
-from traits.api import Bool, Dict, HasTraits, List, Str, provides
+from traits.api import Bool, Dict, HasTraits, List, provides, Str
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
 from .action import Action
 from .group import Group
+from .i_action_set import IActionSet
 from .menu import Menu
 from .tool_bar import ToolBar
-from .i_action_set import IActionSet
-
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -31,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 @provides(IActionSet)
 class ActionSet(HasTraits):
-    """ An action set is a collection of menus, groups, and actions. """
+    """An action set is a collection of menus, groups, and actions."""
 
     # The action set's globally unique identifier.
     id = Str
@@ -97,7 +96,7 @@ class ActionSet(HasTraits):
     #### Trait initializers ###################################################
 
     def _id_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
         logger.warning("action set %s has no Id - using <%s>" % (self, id))
@@ -105,7 +104,7 @@ class ActionSet(HasTraits):
         return id
 
     def _name_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         name = camel_case_to_words(type(self).__name__)
         logger.warning("action set %s has no name - using <%s>" % (self, name))

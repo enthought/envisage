@@ -18,7 +18,8 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import envisage
+import importlib.metadata
+
 import enthought_sphinx_theme
 
 # If your extensions are in another directory, add it here. If the directory
@@ -57,7 +58,7 @@ copyright = "2007-2023, Enthought"
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
-version = release = envisage.__version__
+version = release = importlib.metadata.version("envisage")
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -119,7 +120,7 @@ rst_epilog = """
 .. |Message| replace:: :github-demo:`Message <MOTD/acme/motd/message.py>`
 .. |messages.py| replace:: :github-demo:`message.py <MOTD/acme/motd/software_quotes/messages.py>`
 .. |Message of the Day| replace:: :github-demo:`Message of the Day <MOTD>`
-"""   # noqa: E501
+"""  # noqa: E501
 
 # Options for HTML output
 # -----------------------
@@ -233,7 +234,8 @@ intersphinx_mapping = {
 # -- Options for extlinks extension -------------------------------------------
 
 extlinks = {
-    'github-demo': (
-        f'https://github.com/enthought/envisage/tree/{version}/envisage/examples/demo/%s',   # noqa: E501
-        '')
+    "github-demo": (
+        f"https://github.com/enthought/envisage/tree/{version}/envisage/examples/demo/%s",  # noqa: E501
+        "",
+    )
 }

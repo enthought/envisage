@@ -12,18 +12,18 @@
 
 # Standard library imports.
 import unittest
+import urllib.request
 from io import StringIO
 from urllib.error import HTTPError
-import urllib.request
+
 try:
-    from importlib.resources import files, as_file
+    from importlib.resources import as_file, files
 except ImportError:
-    from importlib_resources import files, as_file
+    from importlib_resources import as_file, files
 
 
 # Enthought library imports.
-from envisage.resource.api import ResourceManager
-from envisage.resource.api import NoSuchResourceError
+from envisage.resource.api import NoSuchResourceError, ResourceManager
 
 # Module to patch urlopen in during testing.
 url_library = urllib.request
@@ -48,20 +48,20 @@ def stubout_urlopen(url):
 
 
 class ResourceManagerTestCase(unittest.TestCase):
-    """ Tests for the resource manager. """
+    """Tests for the resource manager."""
 
     ###########################################################################
     # 'TestCase' interface.
     ###########################################################################
 
     def setUp(self):
-        """ Prepares the test fixture before each test method is called. """
+        """Prepares the test fixture before each test method is called."""
 
         self.stored_urlopen = url_library.urlopen
         url_library.urlopen = stubout_urlopen
 
     def tearDown(self):
-        """ Called immediately after each test method has been called. """
+        """Called immediately after each test method has been called."""
 
         url_library.urlopen = self.stored_urlopen
 
@@ -70,14 +70,13 @@ class ResourceManagerTestCase(unittest.TestCase):
     ###########################################################################
 
     def test_file_resource(self):
-        """ file resource """
+        """file resource"""
 
         rm = ResourceManager()
 
         # Get the filename of the 'api.py' file.
         resource = files("envisage.resource") / "api.py"
         with as_file(resource) as path:
-
             # Open a file resource.
             f = rm.file(f"file://{path}")
             self.assertNotEqual(f, None)
@@ -89,7 +88,7 @@ class ResourceManagerTestCase(unittest.TestCase):
                 self.assertEqual(g.read(), contents)
 
     def test_no_such_file_resource(self):
-        """ no such file resource """
+        """no such file resource"""
 
         rm = ResourceManager()
 
@@ -98,7 +97,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             rm.file("file://../bogus.py")
 
     def test_package_resource(self):
-        """ package resource """
+        """package resource"""
 
         rm = ResourceManager()
 
@@ -114,7 +113,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             self.assertEqual(g.read(), contents)
 
     def test_package_resource_subdir(self):
-        """ package resource """
+        """package resource"""
 
         rm = ResourceManager()
 
@@ -130,7 +129,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             self.assertEqual(g.read(), contents)
 
     def test_no_such_package_resource(self):
-        """ no such package resource """
+        """no such package resource"""
 
         rm = ResourceManager()
 
@@ -151,7 +150,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             rm.file("pkgfile://envisage.resource.resource_manager/anything")
 
     def test_http_resource(self):
-        """ http resource """
+        """http resource"""
 
         # Open an HTTP document resource.
         rm = ResourceManager()
@@ -164,7 +163,7 @@ class ResourceManagerTestCase(unittest.TestCase):
         self.assertEqual(contents, "This is a test file.\n")
 
     def test_no_such_http_resource(self):
-        """ no such http resource """
+        """no such http resource"""
 
         # Open an HTTP document resource.
         rm = ResourceManager()
@@ -173,7 +172,7 @@ class ResourceManagerTestCase(unittest.TestCase):
             rm.file("http://localhost:1234/bogus.dat")
 
     def test_unknown_protocol(self):
-        """ unknown protocol """
+        """unknown protocol"""
 
         # Open an HTTP document resource.
         rm = ResourceManager()

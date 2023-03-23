@@ -9,12 +9,11 @@
 # Thanks for using Enthought open source!
 # Enthought library imports.
 from pyface.tasks.action.api import SchemaAddition
-from traits.api import HasStrictTraits, Callable, List, Str
+from traits.api import Callable, HasStrictTraits, List, Str
 
 
 class TaskExtension(HasStrictTraits):
-    """ A bundle of items for extending a Task.
-    """
+    """A bundle of items for extending a Task."""
 
     #: The ID of the task to extend. If the ID is omitted, the extension
     #: applies to all tasks.

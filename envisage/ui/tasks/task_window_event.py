@@ -15,15 +15,13 @@ from .task_window import TaskWindow
 
 
 class TaskWindowEvent(HasTraits):
-    """ A task window lifecycle event.
-    """
+    """A task window lifecycle event."""
 
     #: The window that the event occurred on.
     window = Instance(TaskWindow)
 
 
 class VetoableTaskWindowEvent(TaskWindowEvent, Vetoable):
-    """ A vetoable task window lifecycle event.
-    """
+    """A vetoable task window lifecycle event."""
 
     pass

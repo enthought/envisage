@@ -1,5 +1,19 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 # System library imports.
 import numpy as np
+
+# Local imports
+from attractors.model.i_model_3d import IModel3d, IModel3dIPlottable2dMixin
+from attractors.model.i_plottable_2d import IPlottable2d
 from scipy import arange, array
 from scipy.integrate import odeint
 
@@ -7,26 +21,21 @@ from scipy.integrate import odeint
 from traits.api import (
     Adapter,
     Array,
+    cached_property,
     Float,
     HasTraits,
     Instance,
     Property,
-    Str,
-    cached_property,
     provides,
     register_factory,
+    Str,
 )
-from traitsui.api import View, Item
-
-# Local imports
-from attractors.model.i_model_3d import IModel3d, IModel3dIPlottable2dMixin
-from attractors.model.i_plottable_2d import IPlottable2d
+from traitsui.api import Item, View
 
 
 @provides(IModel3d)
 class Lorenz(HasTraits):
-    """ The model object for the Lorenz attractor.
-    """
+    """The model object for the Lorenz attractor."""
 
     #### 'IModel3d' interface #################################################
 
@@ -90,7 +99,6 @@ class Lorenz(HasTraits):
 
 @provides(IPlottable2d)
 class LorenzIPlottable2dAdapter(Adapter, IModel3dIPlottable2dMixin):
-
     adaptee = Instance(Lorenz)
 
     plot_type = Str("line")

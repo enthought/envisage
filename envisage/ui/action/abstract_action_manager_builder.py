@@ -23,7 +23,7 @@ from .i_action_manager_builder import IActionManagerBuilder
 
 @provides(IActionManagerBuilder)
 class AbstractActionManagerBuilder(HasTraits):
-    """ Builds menus, menu bars and tool bars from action sets.
+    """Builds menus, menu bars and tool bars from action sets.
 
     This class *must* be subclassed, and the following methods implemented::
 
@@ -47,7 +47,7 @@ class AbstractActionManagerBuilder(HasTraits):
     ###########################################################################
 
     def create_menu_bar_manager(self, root):
-        """ Create a menu bar manager from the builder's action sets. """
+        """Create a menu bar manager from the builder's action sets."""
 
         menu_bar_manager = self._create_menu_bar_manager()
 
@@ -57,7 +57,7 @@ class AbstractActionManagerBuilder(HasTraits):
 
     # fixme: V3 refactor loooong (and confusing) method!
     def create_tool_bar_managers(self, root):
-        """ Creates all tool bar managers from the builder's action sets. """
+        """Creates all tool bar managers from the builder's action sets."""
 
         ########################################
         # New style (i.e multi) tool bars.
@@ -128,7 +128,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return tool_bar_managers
 
     def initialize_action_manager(self, action_manager, root):
-        """ Initialize an action manager from the builder's action sets. """
+        """Initialize an action manager from the builder's action sets."""
 
         # Get all of the groups and menus for the specified root (for toolbars
         # there will **only** be groups).
@@ -149,27 +149,27 @@ class AbstractActionManagerBuilder(HasTraits):
     ###########################################################################
 
     def _create_action(self, action_definition):
-        """ Creates an action implementation from a definition. """
+        """Creates an action implementation from a definition."""
 
         raise NotImplementedError
 
     def _create_group(self, group_definition):
-        """ Creates a group implementation from a definition. """
+        """Creates a group implementation from a definition."""
 
         raise NotImplementedError
 
     def _create_menu_manager(self, menu_manager_definition):
-        """ Creates a menu manager implementation from a definition. """
+        """Creates a menu manager implementation from a definition."""
 
         raise NotImplementedError
 
     def _create_menu_bar_manager(self):
-        """ Creates a menu bar manager implementation. """
+        """Creates a menu bar manager implementation."""
 
         raise NotImplementedError
 
     def _create_tool_bar_manager(self, tool_bar_definition):
-        """ Creates a tool bar manager implementation from a definition. """
+        """Creates a tool bar manager implementation from a definition."""
 
         raise NotImplementedError
 
@@ -181,14 +181,14 @@ class AbstractActionManagerBuilder(HasTraits):
 
     @observe("action_sets")
     def _update_action_sets_on_manager(self, event):
-        """ Static trait change handler. """
+        """Static trait change handler."""
         new = event.new
         self._action_set_manager.action_sets = new
 
     #### Methods ##############################################################
 
     def _add_actions(self, action_manager, actions):
-        """ Add the specified actions to an action manager. """
+        """Add the specified actions to an action manager."""
 
         while len(actions) > 0:
             start = len(actions)
@@ -217,7 +217,7 @@ class AbstractActionManagerBuilder(HasTraits):
                 raise ValueError("Could not place %s" % actions)
 
     def _add_action(self, action_manager, action):
-        """ Add an action to an action manager.
+        """Add an action to an action manager.
 
         Return True if the action was added successfully.
 
@@ -253,7 +253,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return True
 
     def _add_groups_and_menus(self, action_manager, groups_and_menus):
-        """ Add the specified groups and menus to an action manager. """
+        """Add the specified groups and menus to an action manager."""
 
         # The reason we put the groups and menus together is that as we iterate
         # over the list trying to add them, we might need to add a group before
@@ -285,7 +285,7 @@ class AbstractActionManagerBuilder(HasTraits):
                 raise ValueError("Could not place %s" % groups_and_menus)
 
     def _add_group(self, action_manager, group):
-        """ Add a group to an action manager.
+        """Add a group to an action manager.
 
         Return True if the group was added successfully.
 
@@ -328,7 +328,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return True
 
     def _add_menu(self, menu_manager, menu):
-        """ Add a menu manager to a errr, menu manager.
+        """Add a menu manager to a errr, menu manager.
 
         Return True if the menu was added successfully.
 
@@ -371,7 +371,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return True
 
     def _find_group(self, action_manager, id):
-        """ Find the group with the specified ID. """
+        """Find the group with the specified ID."""
 
         if len(id) > 0:
             group = action_manager.find_group(id)
@@ -382,7 +382,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return group
 
     def _find_action_manager(self, action_manager, path):
-        """ Return the action manager at the specified path.
+        """Return the action manager at the specified path.
 
         Returns None if the action manager cannot be found.
 
@@ -398,7 +398,7 @@ class AbstractActionManagerBuilder(HasTraits):
         return action_manager
 
     def _make_submenus(self, menu_manager, path):
-        """ Retutn the menu manager identified by the path.
+        """Retutn the menu manager identified by the path.
 
         Make any intermediate menu-managers that are missing.
 

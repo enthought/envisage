@@ -1,21 +1,30 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 # Enthought library imports.
 from traits.api import (
     Array,
+    cached_property,
     DelegatesTo,
     HasTraits,
-    Interface,
     Instance,
+    Interface,
     Property,
     Str,
     Trait,
-    cached_property,
 )
 from traitsui.api import Group, Item, View
 
 
 class IModel3d(Interface):
-    """ A model object that produces an array of 3D points.
-    """
+    """A model object that produces an array of 3D points."""
 
     # The user-visible name of the model.
     name = Str
@@ -25,7 +34,8 @@ class IModel3d(Interface):
 
 
 class IModel3dIPlottable2dMixin(HasTraits):
-    """ Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter.
+    """
+    Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter.
     """
 
     #### 'Adapter' interface ##################################################

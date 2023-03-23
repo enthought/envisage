@@ -1,3 +1,13 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 """ Run the MOTD example application. """
 
 # Enthought library imports.
@@ -5,13 +15,14 @@ from envisage.api import Application, CorePlugin
 
 
 def main():
-    """ Run the application. """
+    """Run the application."""
     # Import here so that this script can be run from anywhere without
     # having to install the packages.
     from acme.motd.motd_plugin import MOTDPlugin
     from acme.motd.software_quotes.software_quotes_plugin import (
         SoftwareQuotesPlugin,
     )
+
     # Create an application containing the appropriate plugins.
     application = Application(
         id="acme.motd",

@@ -1,25 +1,27 @@
-# Enthought library imports.
-from mayavi.tools.mlab_scene_model import MlabSceneModel
-from mayavi.core.ui.mayavi_scene import MayaviScene
-from pyface.tasks.api import TraitsTaskPane
-from traits.api import (
-    Dict,
-    Enum,
-    Instance,
-    List,
-    Property,
-    Str,
-    on_trait_change,
-)
-from traitsui.api import EnumEditor, HGroup, Item, Label, View
-from tvtk.pyface.scene_editor import SceneEditor
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
 
 # Local imports.
 from attractors.model.i_model_3d import IModel3d
+from mayavi.core.ui.mayavi_scene import MayaviScene
+
+# Enthought library imports.
+from mayavi.tools.mlab_scene_model import MlabSceneModel
+from tvtk.pyface.scene_editor import SceneEditor
+
+from pyface.tasks.api import TraitsTaskPane
+from traits.api import Dict, Instance, List, on_trait_change, Str
+from traitsui.api import EnumEditor, HGroup, Item, Label, View
 
 
 class Plot3dPane(TraitsTaskPane):
-
     #### 'ITaskPane' interface ################################################
 
     id = "example.attractors.plot_3d_pane"

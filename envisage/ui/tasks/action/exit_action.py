@@ -12,8 +12,7 @@ from pyface.action.api import Action
 
 
 class ExitAction(Action):
-    """ An action that exits the application.
-    """
+    """An action that exits the application."""
 
     #### 'Action' interface ###################################################
 

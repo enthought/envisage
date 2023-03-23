@@ -1,12 +1,23 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 """ The Envisage version of the old chestnut. """
+
+from traits.api import List, Str
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint, Plugin
-from traits.api import List, Str
 
 
 class HelloWorld(Plugin):
-    """ The 'Hello World' plugin.
+    """The 'Hello World' plugin.
 
     This plugin offers a single extension point 'greetings' which is a list of
     greetings, one of which is used to produce the '<greeting> World' message
@@ -25,7 +36,7 @@ class HelloWorld(Plugin):
     # methods are called automatically by Envisage when the application is
     # started and stopped respectively.
     def start(self):
-        """ Start the plugin. """
+        """Start the plugin."""
 
         # Standard library imports.
         #
@@ -37,7 +48,7 @@ class HelloWorld(Plugin):
 
 
 class Greetings(Plugin):
-    """ A plugin that contributes to the 'greetings' extension point. """
+    """A plugin that contributes to the 'greetings' extension point."""
 
     # This tells us that the plugin contributes the value of this trait to the
     # 'greetings' extension point.
@@ -45,7 +56,7 @@ class Greetings(Plugin):
 
 
 class MoreGreetings(Plugin):
-    """ Another plugin that contributes to the 'greetings' extension point. """
+    """Another plugin that contributes to the 'greetings' extension point."""
 
     # This tells us that the plugin contributes the value of this trait to the
     # 'greetings' extension point.
@@ -54,7 +65,7 @@ class MoreGreetings(Plugin):
     # This shows how you can use a standard trait initializer to populate the
     # list dynamically.
     def _greetings_default(self):
-        """ Trait initializer. """
+        """Trait initializer."""
 
         extensions = [
             "The %s application says %s" % (self.application.id, greeting)
@@ -66,7 +77,6 @@ class MoreGreetings(Plugin):
 
 # Application entry point.
 if __name__ == "__main__":
-
     # Create the application.
     #
     # An application is simply a collection of plugins. In this case we

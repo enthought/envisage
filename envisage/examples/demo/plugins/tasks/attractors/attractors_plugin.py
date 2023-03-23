@@ -1,15 +1,25 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 # Standard library imports.
 import os.path
+
+from traits.api import List
 
 # Enthought library imports.
 from envisage.api import Plugin
 from envisage.ui.tasks.api import TaskFactory
-from traits.api import List
 
 
 class AttractorsPlugin(Plugin):
-    """ The chaotic attractors plugin.
-    """
+    """The chaotic attractors plugin."""
 
     # Extension point IDs.
     PREFERENCES = "envisage.preferences"
