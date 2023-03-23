@@ -5,7 +5,7 @@
 Version 7.0.0
 =============
 
-Released: 2023-03-27
+Released: 2023-03-24
 
 This is a major release aimed at modernization and cleanup of some out-of-date
 code. In particular, this release removes the IPython-related plugins, and
