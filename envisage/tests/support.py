@@ -42,8 +42,10 @@ try:
     import PySide6
 except ImportError:
     pyside6_available = False
+    pyside6_version = None
 else:
     pyside6_available = True
+    pyside6_version = PySide6.__version_info__
     del PySide6
 
 
