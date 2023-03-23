@@ -2,6 +2,94 @@
  Release history
 =================
 
+Version 7.0.0
+=============
+
+Released: 2023-03-24
+
+This is a major release aimed at modernization and cleanup of some out-of-date
+code. In particular, this release removes the IPython-related plugins, and
+drops support for Python 3.6.
+
+Thanks to:
+
+* Mark Dickinson
+* Chengyu Liu
+* Corran Webster
+
+Features
+--------
+* There's a new ``unbind_extension_point`` function that reverses the effects
+  of ``bind_extension_point``. This can be useful for clean teardown. (#546)
+* All id string constants that were previously available from ``envisage.ids``
+  are now also exported in ``envisage.api``. Users are encouraged to import
+  everything they need from ``envisage.api``, and to open an issue if anything
+  they need is not exported in ``envisage.api``. (#508)
+
+Changes
+-------
+* When exiting a ``TasksApplication``, the plugins are now stopped after
+  exiting the event loop. Previously they were stopped while the event loop was
+  still running, causing some lifecycle issues. (#524)
+* The ``extension_registry`` argument to ``bind_extension_point`` is no
+  longer optional, and ``ExtensionPointBinding`` will no longer look for
+  an extension registry on the ``ExtensionPoint`` class. (#545)
+* Operations that used to raise ``SystemError`` now raise something more
+  appropriate. In particular, the ``PluginManager.start_plugin`` and
+  ``PluginManager.stop_plugin`` methods now raise ``ValueError`` rather
+  than ``SystemError`` when given an invalid plugin id. (#529)
+* ``envisage.__version__`` is no longer defined. If you need the Envisage
+  version at runtime, use ``importlib.metadata`` to retrieve it. (#513)
+* Python 3.6 is no longer supported. All current versions of Python (3.7
+  through 3.11) are supported. (#513)
+
+Fixes
+-----
+* The ``repr`` of a ``Plugin`` instance now correctly uses the name of the
+  plugin class. (#535)
+
+Deprecations
+------------
+* The ``EggPluginManager``, ``EggBasketPluginManager`` and
+  ``PackagePluginManager`` are deprecated, and will be removed in Envisage 8.0.
+  (#540)
+* The ``include`` and ``exclude`` traits on the ``PluginManager`` are
+  deprecated, and will be removed in Envisage 8.0. (#544)
+
+Removals
+--------
+* Plugins and machinery related to IPython have been removed. Specifically,
+  the ``IPythonKernelPlugin`` and ``IPythonKernelUIPlugin`` plugins have been
+  removed, along with supporting classes ``InternalIPKernel`` and
+  ``IPKernelApp``. (#496)
+* The ``ExtensionPoint.bind`` method has been removed. (#545)
+* The previously deprecated ``safeweakref.ref`` class has been removed. (#522)
+* Some legacy unmaintained examples have been removed. (#557)
+
+Documentation
+-------------
+* The changelog is now included in the built documentation. (#550)
+
+Tests
+-----
+* Old-style namespace packages used for testing have been replaced with
+  normal non-namespace packages. This fixes some warnings from the latest
+  ``setuptools``. (#543)
+* The test suite now runs cleanly under ``pytest``. (#539)
+* Tests that are skipped due to a PySide6 problem should now be run
+  if the version of PySide6 is recent enough. (#554)
+
+Build
+-----
+* Package configuration now uses ``pyproject.toml`` in place of the old
+  ``setup.py``-based configuration. (#513)
+* Optional dependencies are no longer declared. (#513)
+* A new style-checking workflow has been added that runs ``black``, ``isort``
+  and ``flake8`` over the codebase, and new code is expected to comply with
+  ``black`` and ``isort`` configurations. (#549)
+* A new documentation-build workflow has been added. The built documentation
+  is uploaded as an artifact. (#551)
+
 Version 6.1.1
 =============
 
