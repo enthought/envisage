@@ -8,16 +8,21 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from traits.api import Enum, Str
+""" A view containing a green panel! """
+
 
 # Local imports.
-from attractors.model.i_model_2d import IModel2d
+from .color_view import ColorView
 
 
-class IPlottable2d(IModel2d):
+class GreenView(ColorView):
+    """ A view containing a green panel! """
 
-    plot_type = Enum("line", "scatter")
+    #### 'IView' interface ####################################################
 
-    x_label = Str()
-    y_label = Str()
+    # The view's name.
+    name = "Green"
+
+    # The default position of the view relative to the item specified in the
+    # 'relative_to' trait.
+    position = "bottom"

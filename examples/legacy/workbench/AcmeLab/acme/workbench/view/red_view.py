@@ -8,14 +8,21 @@
 #
 # Thanks for using Enthought open source!
 
-# Enthought library imports.
-from traits.api import Array, Interface, Str
+""" A view containing a red panel! """
 
 
-class IModel2d(Interface):
+# Local imports.
+from .color_view import ColorView
 
-    # The user-visible name of the model.
-    name = Str()
 
-    x_data = Array()
-    y_data = Array()
+class RedView(ColorView):
+    """ A view containing a red panel! """
+
+    #### 'IView' interface ####################################################
+
+    # The view's name.
+    name = "Red"
+
+    # The default position of the view relative to the item specified in the
+    # 'relative_to' trait.
+    position = "bottom"
