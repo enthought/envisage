@@ -52,7 +52,9 @@ class ProviderExtensionRegistryTestCase(
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     extensions = [42, 43]
@@ -66,7 +68,9 @@ class ProviderExtensionRegistryTestCase(
             """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     extensions = [44, 45, 46]
@@ -111,7 +115,9 @@ class ProviderExtensionRegistryTestCase(
                 return [ExtensionPoint(List, "my.ep")]
 
             def get_extensions(self, extension_point_id):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point_id == "my.ep":
                     return self.x
@@ -141,7 +147,9 @@ class ProviderExtensionRegistryTestCase(
             x = List(Int)
 
             def get_extensions(self, extension_point_id):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point_id == "my.ep":
                     return self.x
@@ -246,7 +254,9 @@ class ProviderExtensionRegistryTestCase(
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     return [42]
@@ -288,7 +298,9 @@ class ProviderExtensionRegistryTestCase(
             """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     extensions = [43, 44]
@@ -349,7 +361,9 @@ class ProviderExtensionRegistryTestCase(
                 return [ExtensionPoint(List, "x"), ExtensionPoint(List, "y")]
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     return [42]
@@ -370,7 +384,9 @@ class ProviderExtensionRegistryTestCase(
             """An extension provider."""
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     extensions = [43, 44]
@@ -447,7 +463,9 @@ class ProviderExtensionRegistryTestCase(
                 return [ExtensionPoint(List, "x"), ExtensionPoint(List, "y")]
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 return []
 
@@ -523,12 +541,16 @@ class ProviderExtensionRegistryTestCase(
             """An extension provider."""
 
             def get_extension_points(self):
-                """Return the extension points offered by the provider."""
+                """
+                Return the extension points offered by the provider.
+                """
 
                 return [ExtensionPoint(List, "x")]
 
             def get_extensions(self, extension_point):
-                """Return the provider's contributions to an extension point."""
+                """
+                Return the provider's contributions to an extension point.
+                """
 
                 if extension_point == "x":
                     extensions = [42, 43]

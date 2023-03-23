@@ -389,7 +389,9 @@ class ExtensionPointChangedTestCase(unittest.TestCase):
         self.assertEqual(0, event.new.index)
 
     def test_extension_point_change_event_str_representation(self):
-        """test string representation of the ExtensionPointChangedEvent class"""
+        """
+        test string representation of the ExtensionPointChangedEvent class
+        """
         desired_repr = (
             "ExtensionPointChangedEvent(extension_point_id={}, "
             "index=0, removed=[], added=[])"

@@ -22,7 +22,9 @@ from envisage.ui.action.api import AbstractActionManagerBuilder
 
 
 class WorkbenchActionManagerBuilder(AbstractActionManagerBuilder):
-    """The action manager builder used to build the workbench menu/tool bars."""
+    """
+    The action manager builder used to build the workbench menu/tool bars.
+    """
 
     #### 'WorkbenchActionManagerBuilder' interface ############################
 

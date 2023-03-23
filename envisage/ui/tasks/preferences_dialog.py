@@ -61,7 +61,9 @@ class PreferencesDialog(Handler):
     ###########################################################################
 
     def select_pane(self, pane_id):
-        """Find and activate the notebook tab that contains the given pane id."""
+        """
+        Find and activate the notebook tab that contains the given pane id.
+        """
         for tab in self._tabs:
             for pane in tab.panes:
                 if pane.id == pane_id:
@@ -116,7 +118,9 @@ class PreferencesDialog(Handler):
                 pane.apply()
 
     def close(self, info, is_ok):
-        """Handles the user attempting to close a dialog-based user interface."""
+        """
+        Handles the user attempting to close a dialog-based user interface.
+        """
         if is_ok:
             self.apply()
         return super().close(info, is_ok)

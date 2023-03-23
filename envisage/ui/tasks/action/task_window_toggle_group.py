@@ -52,7 +52,9 @@ class TaskWindowToggleAction(Action):
 
 
 class TaskWindowToggleGroup(Group):
-    """A Group for toggling the activation state of an application's windows."""
+    """
+    A Group for toggling the activation state of an application's windows.
+    """
 
     #### 'Group' interface ####################################################
 

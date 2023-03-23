@@ -162,7 +162,9 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     ###########################################################################
 
     def _test_start_and_stop(self, plugin_manager, expected):
-        """Make sure the plugin manager starts and stops the expected plugins."""
+        """
+        Make sure the plugin manager starts and stops the expected plugins.
+        """
 
         # Make sure the plugin manager found only the required plugins.
         self.assertEqual(expected, [plugin.id for plugin in plugin_manager])

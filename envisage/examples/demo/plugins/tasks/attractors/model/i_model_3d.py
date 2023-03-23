@@ -34,7 +34,9 @@ class IModel3d(Interface):
 
 
 class IModel3dIPlottable2dMixin(HasTraits):
-    """Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter."""
+    """
+    Mixin class to facilitate defining a IModel3d -> IPlottable2D adapter.
+    """
 
     #### 'Adapter' interface ##################################################
 

@@ -117,7 +117,9 @@ class PythonShellPlugin(Plugin):
         logger.debug("started python shell plugin")
 
     def _contributed_bindings_default(self):
-        """By default, expose the Envisage application object to the namespace"""
+        """
+        By default, expose the Envisage application object to the namespace
+        """
         return [{"application": self.application}]
 
     def _tasks_default(self):

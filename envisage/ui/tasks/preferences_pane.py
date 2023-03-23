@@ -80,7 +80,9 @@ class PreferencesPane(Controller):
         self.model.copy_traits(self._model, trait_names)
 
     def close(self, info, is_ok):
-        """Handles the user attempting to close a dialog-based user interface."""
+        """
+        Handles the user attempting to close a dialog-based user interface.
+        """
         if is_ok:
             self.apply()
         return super().close(info, is_ok)
