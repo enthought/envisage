@@ -110,7 +110,7 @@ class ExtensionPointBinding(HasTraits):
         )
 
     def _unbind(self):
-        """Undo the effects of _initialize"""
+        """Undo the effects of _bind"""
 
         self.extension_registry.remove_extension_point_listener(
             self._extension_point_listener, self.extension_point_id
