@@ -1,1 +1,1 @@
-from acmelab import Acmelab
+from .acmelab import Acmelab

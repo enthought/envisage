@@ -2,7 +2,7 @@
 
 
 # Local imports.
-from color_view import ColorView
+from .color_view import ColorView
 
 
 class BlueView(ColorView):

@@ -19,16 +19,33 @@ class ExampleActionSet(WorkbenchActionSet):
             name="&Test",
             path="MenuBar",
             before="Help",
-            groups=["XGroup", "YGroup"],
+            groups=[
+                Group(id="XGroup"),
+                Group(id="YGroup")
+            ],
         ),
-        Menu(name="Foo", path="MenuBar/Test", groups=["XGroup", "YGroup"]),
-        Menu(name="Bar", path="MenuBar/Test", groups=["XGroup", "YGroup"]),
+        Menu(
+            name="Foo",
+            path="MenuBar/Test",
+            groups=[
+                Group(id="XGroup"),
+                Group(id="YGroup")
+            ],
+        ),
+        Menu(
+            name="Bar",
+            path="MenuBar/Test",
+            groups=[
+                Group(id="XGroup"),
+                Group(id="YGroup")
+            ],
+        ),
     ]
 
     groups = [Group(id="Fred", path="MenuBar/Test")]
 
     tool_bars = [
-        ToolBar(name="Fred", groups=["AToolBarGroup"]),
+        ToolBar(name="Fred", groups=[Group(id="AToolBarGroup")]),
         ToolBar(name="Wilma"),
         ToolBar(name="Barney"),
     ]
