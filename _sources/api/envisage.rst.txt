@@ -1,0 +1,68 @@
+..
+   (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+   All rights reserved.
+
+   This software is provided without warranty under the terms of the BSD
+   license included in LICENSE.txt and may be redistributed only under
+   the conditions described in the aforementioned license. The license
+   is also available online at http://www.enthought.com/licenses/BSD.txt
+
+   Thanks for using Enthought open source!
+
+envisage package
+================
+
+.. automodule:: envisage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+
+   envisage.api
+   envisage.application
+   envisage.application_event
+   envisage.composite_plugin_manager
+   envisage.core_plugin
+   envisage.egg_basket_plugin_manager
+   envisage.egg_plugin_manager
+   envisage.egg_utils
+   envisage.extension_point
+   envisage.extension_point_binding
+   envisage.extension_point_changed_event
+   envisage.extension_provider
+   envisage.extension_registry
+   envisage.i_application
+   envisage.i_extension_point
+   envisage.i_extension_point_user
+   envisage.i_extension_provider
+   envisage.i_extension_registry
+   envisage.i_import_manager
+   envisage.i_plugin
+   envisage.i_plugin_activator
+   envisage.i_plugin_manager
+   envisage.i_provider_extension_registry
+   envisage.i_service_registry
+   envisage.i_service_user
+   envisage.ids
+   envisage.import_manager
+   envisage.package_plugin_manager
+   envisage.plugin
+   envisage.plugin_activator
+   envisage.plugin_event
+   envisage.plugin_extension_registry
+   envisage.plugin_manager
+   envisage.provider_extension_registry
+   envisage.service
+   envisage.service_offer
+   envisage.service_registry
+   envisage.unknown_extension
+   envisage.unknown_extension_point
+
+
+.. toctree::
+
+   envisage.examples
+   envisage.plugins
+   envisage.resource
+   envisage.ui

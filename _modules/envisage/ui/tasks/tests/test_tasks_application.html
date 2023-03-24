@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.tasks.tests.test_tasks_application &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '7.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.ui.tasks.tests.test_tasks_application</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+
+<span class="kn">from</span> <span class="nn">pyface.gui</span> <span class="kn">import</span> <span class="n">GUI</span>
+<span class="kn">from</span> <span class="nn">pyface.i_gui</span> <span class="kn">import</span> <span class="n">IGUI</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
+
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Plugin</span>
+<span class="kn">from</span> <span class="nn">envisage.tests.support</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">pyside6_available</span><span class="p">,</span>
+    <span class="n">pyside6_version</span><span class="p">,</span>
+    <span class="n">requires_gui</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.tasks.api</span> <span class="kn">import</span> <span class="n">TasksApplication</span>
+<span class="kn">from</span> <span class="nn">envisage.ui.tasks.tasks_application</span> <span class="kn">import</span> <span class="n">DEFAULT_STATE_FILENAME</span>
+
+<span class="c1"># There&#39;s a PySide6 end-of-process segfault on Linux that&#39;s</span>
+<span class="c1"># interfering with our CI runs, so we skip the relevant tests</span>
+<span class="c1"># when running under GitHub Actions CI.</span>
+<span class="c1"># xref: enthought/envisage#476</span>
+<span class="n">skip_with_flaky_pyside</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_ACTIONS&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
+        <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span>
+        <span class="ow">and</span> <span class="n">pyside6_available</span>
+        <span class="ow">and</span> <span class="n">pyside6_version</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;Skipping segfault-causing test on Linux. See enthought/envisage#476&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="DummyGUI"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.DummyGUI">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IGUI</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">DummyGUI</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="LifecycleRecordingPlugin"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin">[docs]</a><span class="k">class</span> <span class="nc">LifecycleRecordingPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plugin that fires events when started and stopped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Event fired when plugin starts</span>
+    <span class="n">started</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+
+    <span class="c1">#: Event fired when plugin stops</span>
+    <span class="n">stopped</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LifecycleRecordingPlugin.start"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="LifecycleRecordingPlugin.stop"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="LifecycleRecordingGUI"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI">[docs]</a><span class="k">class</span> <span class="nc">LifecycleRecordingGUI</span><span class="p">(</span><span class="n">GUI</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GUI subclass that adds events for watching start and stop of event loop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Event fired just before we start the event loop.</span>
+    <span class="n">starting</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1">#: Event fired just after we&#39;ve exited the event loop.</span>
+    <span class="n">stopped</span> <span class="o">=</span> <span class="n">Event</span>
+
+<div class="viewcode-block" id="LifecycleRecordingGUI.start_event_loop"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI.start_event_loop">[docs]</a>    <span class="k">def</span> <span class="nf">start_event_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extend the base class method to fire the additional events.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start_event_loop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="TestTasksApplication"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication">[docs]</a><span class="nd">@requires_gui</span>
+<span class="k">class</span> <span class="nc">TestTasksApplication</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="TestTasksApplication.setUp"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addCleanup</span><span class="p">(</span><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_layout_save_with_protocol_3"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_save_with_protocol_3">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_layout_save_with_protocol_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test that the protocol can be overridden on a per-application basis.</span>
+        <span class="n">state_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span>
+
+        <span class="c1"># Create application, and set it up to exit as soon as it&#39;s launched.</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span>
+            <span class="n">state_location</span><span class="o">=</span><span class="n">state_location</span><span class="p">,</span>
+            <span class="n">layout_save_protocol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+
+        <span class="n">memento_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state_location</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state_filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">memento_file</span><span class="p">))</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">memento_file</span><span class="p">))</span>
+
+        <span class="c1"># Check that the generated file uses protocol 3.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">memento_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">protocol_bytes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">protocol_bytes</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x80\x03</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_layout_save_creates_directory"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_save_creates_directory">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_layout_save_creates_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test that state can still be saved if the target directory</span>
+        <span class="c1"># doesn&#39;t exist.</span>
+        <span class="n">state_location</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;subdir&quot;</span>
+        <span class="n">state_filename</span> <span class="o">=</span> <span class="s2">&quot;memento_test&quot;</span>
+        <span class="n">state_path</span> <span class="o">=</span> <span class="n">state_location</span> <span class="o">/</span> <span class="n">state_filename</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">state_location</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">state_path</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+
+        <span class="c1"># Create application and set it up to exit as soon as it&#39;s launched.</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span>
+            <span class="n">state_location</span><span class="o">=</span><span class="n">state_location</span><span class="p">,</span>
+            <span class="n">state_filename</span><span class="o">=</span><span class="n">state_filename</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">state_location</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">state_path</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_layout_load"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_load">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_layout_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Check we can load a previously-created state. That previous state</span>
+        <span class="c1"># has an main window size of (492, 743) (to allow us to check that</span>
+        <span class="c1"># we&#39;re actually using the file).</span>
+        <span class="n">stored_state_location</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+            <span class="s2">&quot;envisage.ui.tasks.tests&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">state_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stored_state_location</span><span class="p">,</span> <span class="s2">&quot;application_memento_v2.pkl&quot;</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state_location</span><span class="p">,</span> <span class="n">DEFAULT_STATE_FILENAME</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span><span class="n">state_location</span><span class="o">=</span><span class="n">state_location</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">previous_window_layouts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="mi">492</span><span class="p">,</span> <span class="mi">743</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_layout_load_pickle_protocol_3"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_load_pickle_protocol_3">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_layout_load_pickle_protocol_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Same as the above test, but using a state stored with pickle</span>
+        <span class="c1"># protocol 3.</span>
+        <span class="n">stored_state_location</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+            <span class="s2">&quot;envisage.ui.tasks.tests&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">state_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stored_state_location</span><span class="p">,</span> <span class="s2">&quot;application_memento_v3.pkl&quot;</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state_location</span><span class="p">,</span> <span class="s2">&quot;fancy_state.pkl&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Use a non-standard filename, to exercise that machinery.</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span>
+            <span class="n">state_location</span><span class="o">=</span><span class="n">state_location</span><span class="p">,</span>
+            <span class="n">state_filename</span><span class="o">=</span><span class="s2">&quot;fancy_state.pkl&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">previous_window_layouts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="mi">492</span><span class="p">,</span> <span class="mi">743</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_gui_trait_expects_IGUI_interface"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_gui_trait_expects_IGUI_interface">[docs]</a>    <span class="k">def</span> <span class="nf">test_gui_trait_expects_IGUI_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Trivial test where we simply set the trait</span>
+        <span class="c1"># and the test passes because no errors are raised.</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">gui</span> <span class="o">=</span> <span class="n">DummyGUI</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_simple_lifecycle"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_simple_lifecycle">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_simple_lifecycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span><span class="n">state_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">(),</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestTasksApplication.test_lifecycle_with_plugin"><a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_lifecycle_with_plugin">[docs]</a>    <span class="nd">@skip_with_flaky_pyside</span>
+    <span class="k">def</span> <span class="nf">test_lifecycle_with_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">LifecycleRecordingPlugin</span><span class="p">(</span><span class="n">record_to</span><span class="o">=</span><span class="n">events</span><span class="p">)</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">,</span> <span class="s2">&quot;started,stopped&quot;</span><span class="p">)</span>
+
+        <span class="n">gui</span> <span class="o">=</span> <span class="n">LifecycleRecordingGUI</span><span class="p">()</span>
+        <span class="n">gui</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">,</span> <span class="s2">&quot;starting,stopped&quot;</span><span class="p">)</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">TasksApplication</span><span class="p">(</span>
+            <span class="n">gui</span><span class="o">=</span><span class="n">gui</span><span class="p">,</span> <span class="n">state_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">,</span> <span class="s2">&quot;starting,started,stopping,stopped&quot;</span><span class="p">)</span>
+
+        <span class="c1"># When we start and stop the application</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">(),</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="c1"># Then events occurred in the following order.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">event</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">],</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s2">&quot;starting&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;started&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s2">&quot;started&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">gui</span><span class="p">,</span> <span class="s2">&quot;starting&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">gui</span><span class="p">,</span> <span class="s2">&quot;stopped&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s2">&quot;stopping&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;stopped&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s2">&quot;stopped&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../../index.html">
+              <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

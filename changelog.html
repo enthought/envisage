@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Release history &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '7.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="_static/img/favicon.png">
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Envisage Documentation" href="index.html" >
+    <link rel="prev" title="envisage.ui.workbench.action.exit_action module" href="api/envisage.ui.workbench.action.exit_action.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">Envisage Documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="api/envisage.ui.workbench.action.exit_action.html" title="envisage.ui.workbench.action.exit_action module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <section id="release-history">
+<h1>Release history<a class="headerlink" href="#release-history" title="Permalink to this heading">¶</a></h1>
+<section id="version-7-0-0">
+<h2>Version 7.0.0<a class="headerlink" href="#version-7-0-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2023-03-24</p>
+<p>This is a major release aimed at modernization and cleanup of some out-of-date
+code. In particular, this release removes the IPython-related plugins, and
+drops support for Python 3.6.</p>
+<p>Thanks to:</p>
+<ul class="simple">
+<li><p>Mark Dickinson</p></li>
+<li><p>Chengyu Liu</p></li>
+<li><p>Corran Webster</p></li>
+</ul>
+<section id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>There’s a new <code class="docutils literal notranslate"><span class="pre">unbind_extension_point</span></code> function that reverses the effects
+of <code class="docutils literal notranslate"><span class="pre">bind_extension_point</span></code>. This can be useful for clean teardown. (#546)</p></li>
+<li><p>All id string constants that were previously available from <code class="docutils literal notranslate"><span class="pre">envisage.ids</span></code>
+are now also exported in <code class="docutils literal notranslate"><span class="pre">envisage.api</span></code>. Users are encouraged to import
+everything they need from <code class="docutils literal notranslate"><span class="pre">envisage.api</span></code>, and to open an issue if anything
+they need is not exported in <code class="docutils literal notranslate"><span class="pre">envisage.api</span></code>. (#508)</p></li>
+</ul>
+</section>
+<section id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>When exiting a <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code>, the plugins are now stopped after
+exiting the event loop. Previously they were stopped while the event loop was
+still running, causing some lifecycle issues. (#524)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">extension_registry</span></code> argument to <code class="docutils literal notranslate"><span class="pre">bind_extension_point</span></code> is no
+longer optional, and <code class="docutils literal notranslate"><span class="pre">ExtensionPointBinding</span></code> will no longer look for
+an extension registry on the <code class="docutils literal notranslate"><span class="pre">ExtensionPoint</span></code> class. (#545)</p></li>
+<li><p>Operations that used to raise <code class="docutils literal notranslate"><span class="pre">SystemError</span></code> now raise something more
+appropriate. In particular, the <code class="docutils literal notranslate"><span class="pre">PluginManager.start_plugin</span></code> and
+<code class="docutils literal notranslate"><span class="pre">PluginManager.stop_plugin</span></code> methods now raise <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather
+than <code class="docutils literal notranslate"><span class="pre">SystemError</span></code> when given an invalid plugin id. (#529)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">envisage.__version__</span></code> is no longer defined. If you need the Envisage
+version at runtime, use <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> to retrieve it. (#513)</p></li>
+<li><p>Python 3.6 is no longer supported. All current versions of Python (3.7
+through 3.11) are supported. (#513)</p></li>
+</ul>
+</section>
+<section id="fixes">
+<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">repr</span></code> of a <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> instance now correctly uses the name of the
+plugin class. (#535)</p></li>
+</ul>
+</section>
+<section id="deprecations">
+<h3>Deprecations<a class="headerlink" href="#deprecations" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">EggPluginManager</span></code>, <code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager</span></code> and
+<code class="docutils literal notranslate"><span class="pre">PackagePluginManager</span></code> are deprecated, and will be removed in Envisage 8.0.
+(#540)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">include</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude</span></code> traits on the <code class="docutils literal notranslate"><span class="pre">PluginManager</span></code> are
+deprecated, and will be removed in Envisage 8.0. (#544)</p></li>
+</ul>
+</section>
+<section id="removals">
+<h3>Removals<a class="headerlink" href="#removals" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Plugins and machinery related to IPython have been removed. Specifically,
+the <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code> and <code class="docutils literal notranslate"><span class="pre">IPythonKernelUIPlugin</span></code> plugins have been
+removed, along with supporting classes <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> and
+<code class="docutils literal notranslate"><span class="pre">IPKernelApp</span></code>. (#496)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ExtensionPoint.bind</span></code> method has been removed. (#545)</p></li>
+<li><p>The previously deprecated <code class="docutils literal notranslate"><span class="pre">safeweakref.ref</span></code> class has been removed. (#522)</p></li>
+<li><p>Some legacy unmaintained examples have been removed. (#557)</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The changelog is now included in the built documentation. (#550)</p></li>
+</ul>
+</section>
+<section id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Old-style namespace packages used for testing have been replaced with
+normal non-namespace packages. This fixes some warnings from the latest
+<code class="docutils literal notranslate"><span class="pre">setuptools</span></code>. (#543)</p></li>
+<li><p>The test suite now runs cleanly under <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. (#539)</p></li>
+<li><p>Tests that are skipped due to a PySide6 problem should now be run
+if the version of PySide6 is recent enough. (#554)</p></li>
+</ul>
+</section>
+<section id="build">
+<h3>Build<a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Package configuration now uses <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> in place of the old
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>-based configuration. (#513)</p></li>
+<li><p>Optional dependencies are no longer declared. (#513)</p></li>
+<li><p>A new style-checking workflow has been added that runs <code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">isort</span></code>
+and <code class="docutils literal notranslate"><span class="pre">flake8</span></code> over the codebase, and new code is expected to comply with
+<code class="docutils literal notranslate"><span class="pre">black</span></code> and <code class="docutils literal notranslate"><span class="pre">isort</span></code> configurations. (#549)</p></li>
+<li><p>A new documentation-build workflow has been added. The built documentation
+is uploaded as an artifact. (#551)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-6-1-1">
+<h2>Version 6.1.1<a class="headerlink" href="#version-6-1-1" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2023-02-07</p>
+<p>This is a bugfix release that fixes an incompatibility between the workbench
+code and the latest Traits version, among other minor fixes.</p>
+<p>Thanks to:</p>
+<ul class="simple">
+<li><p>Mark Dickinson</p></li>
+<li><p>Prabhu Ramachandran</p></li>
+<li><p>Scott Talbert</p></li>
+</ul>
+<section id="id1">
+<h3>Fixes<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>A trait validation error in the Workbench <code class="docutils literal notranslate"><span class="pre">DefaultActionSet</span></code> has been
+fixed. This fixes a compatibility issue with Traits 6.4. (#485)</p></li>
+<li><p>Initialization of application directories now correctly respects the
+value of <code class="docutils literal notranslate"><span class="pre">self.state_location</span></code>. (#490)</p></li>
+<li><p>In the test suite, egg generation now uses <code class="docutils literal notranslate"><span class="pre">sys.executable</span></code> to ensure
+it picks up the correct Python executable. (#499)</p></li>
+</ul>
+</section>
+<section id="other-changes">
+<h3>Other changes<a class="headerlink" href="#other-changes" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The version of PySide6 used in test workflows has been restricted. (#487)</p></li>
+<li><p>The EDM version used in test workflow has been updated. (#484)</p></li>
+<li><p>Various fixes have been made to the GitHub Actions workflows, for
+compatibility with the newest runners. (#491, #494)</p></li>
+<li><p>Copyright headers have been updated for 2023. (#493)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-6-1-0">
+<h2>Version 6.1.0<a class="headerlink" href="#version-6-1-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2022-08-15</p>
+<p>This is a minor feature release whose main focus is on compatibility with
+Python 3.8 and PySide 6. It includes a collection of other cleanups and minor
+fixes.</p>
+<p>In this release, there are some changes in the way that the Envisage
+<code class="docutils literal notranslate"><span class="pre">Application</span></code> interacts with <code class="docutils literal notranslate"><span class="pre">ETSConfig</span></code>. You should double check that
+the locations of user data, preferences and application home directories are
+the ones that you expect after upgrading.</p>
+<p>Please note that the IPython-related portions of Envisage are currently not
+compatible with the latest versions of ipykernel and IPython available from
+PyPI. This has been made explicit in this release in the form of version
+restrictions on those packages in the <code class="docutils literal notranslate"><span class="pre">envisage[ipython]</span></code> install target.</p>
+<p>Thanks to:</p>
+<ul class="simple">
+<li><p>Aaron Ayres</p></li>
+<li><p>Mark Dickinson</p></li>
+<li><p>Sai Rahul Poruri</p></li>
+<li><p>Corran Webster</p></li>
+</ul>
+<section id="id2">
+<h3>Changes<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Application.user_data</span></code> directory no longer includes the id
+of the application, but instead matches the <code class="docutils literal notranslate"><span class="pre">ETSConfig.user_data</span></code>. (#467)</p></li>
+<li><p>The Envisage <code class="docutils literal notranslate"><span class="pre">Application</span></code> will no longer try to change the
+<code class="docutils literal notranslate"><span class="pre">ETSConfig.application_home</span></code> attribute. (#467)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">PackageResourceProtocol</span></code> now uses <code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> instead
+of <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>. (#466)</p></li>
+<li><p>The IPython-related features of Envisage require ipykernel version &lt; 6 and
+IPython version &lt; 8. (#449)</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Fixes<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix EggPluginManager to use current pkg_resources.working_set. (#444)</p></li>
+</ul>
+</section>
+<section id="refactoring-and-maintenance">
+<h3>Refactoring and maintenance<a class="headerlink" href="#refactoring-and-maintenance" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Simplify ImportManager by using importlib. (#465)</p></li>
+<li><p>Update end year in copyright headers. (#458)</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Tests<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The tests no longer rely on pre-built eggs for test packages. (#459, #436)</p></li>
+<li><p>Skip tests for recent ipykernel, and add check for IPython version. (#457)</p></li>
+<li><p>Work around a Python 3.6 issue with <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> and lru caches in tests.
+(#470)</p></li>
+<li><p>Fix an <code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager</span></code> test that only passed due to test
+interactions. (#443)</p></li>
+<li><p>Some pickles used in testing have been regenerated in order to work
+correctly with more recent versions of Traits. (#472)</p></li>
+<li><p>Fix poorly specified action and menu groups in tests. (#468)</p></li>
+<li><p>Fix test hangs with PySide2 / macOS 11. (#454)</p></li>
+<li><p>Skip an ipykernel-using test if ipykernel is not available in the test
+environment. (#423)</p></li>
+</ul>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fixes for the Attractors example. (#408, #416)</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>Documentation<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Code samples in the documentation now have a “copy” button. (#474)</p></li>
+<li><p>Stylistic changes and updates to documentation. (#406)</p></li>
+<li><p>Fix documentation links to examples on main branch. (#447)</p></li>
+<li><p>Add a Read the Docs config file. (#434)</p></li>
+<li><p>Miscellaneous minor fixes. (#435)</p></li>
+</ul>
+</section>
+<section id="build-and-ci">
+<h3>Build and CI<a class="headerlink" href="#build-and-ci" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Update build machinery to support Python 3.8 and PySide 6. (#477)</p></li>
+<li><p>Add workflow to automatically upload releases to PyPI. (#478)</p></li>
+<li><p>Set up Slack notification for cron jobs. (#433)</p></li>
+<li><p>Cron job failures are now reported to the main Slack channel, not
+to the bots channel. (#473)</p></li>
+<li><p>Add GitHub Actions workflow to test PyPI install. (#450)</p></li>
+<li><p>The default branch has been renamed from master to main. (#446)</p></li>
+<li><p>Update classifiers for Python 3.10. (#437)</p></li>
+<li><p>Port CI from Appveyor to GitHub Actions. (#432, #426)</p></li>
+<li><p>Simplify flake8 command in <code class="docutils literal notranslate"><span class="pre">etstool.py</span></code>. (#431)</p></li>
+<li><p>Traits version 6.2 or later is now required. (#410)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-6-0-1">
+<h2>Version 6.0.1<a class="headerlink" href="#version-6-0-1" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2021-06-18</p>
+<p>This bugfix release fixes the issue where Extension Point resolution was
+happening too eagerly, which caused issues during application startup time in
+certain cases. We recommend all users of Envisage to upgrade to this bugfix
+version.</p>
+<section id="id6">
+<h3>Fixes<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Revert PR #354, which caused the issue #417. (#422)</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Tests<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Ensure that the testsuite passes with minimal dependencies. (#423)</p></li>
+<li><p>Add a regression test for issue #417. (#421)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-6-0-0">
+<h2>Version 6.0.0<a class="headerlink" href="#version-6-0-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2021-05-14</p>
+<p>This major release focuses on speeding up Envisage applications. We achieved
+this speedup by removing unused functionality in the package. Specifically,
+we removed the <code class="docutils literal notranslate"><span class="pre">&#64;contributes_to</span></code> decorator and the code needed to handle
+methods decorated with the above decorator.</p>
+<p>Additionally, with this release, parts of envisage start using the new traits
+observation framework instead of the old traits <code class="docutils literal notranslate"><span class="pre">on_trait_change</span></code>. So,
+Envisage now depends on Traits version &gt;= 6.2.</p>
+<section id="id8">
+<h3>Features<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Support <code class="docutils literal notranslate"><span class="pre">observe(name:items)</span></code> for Extension Points. (#354)</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>Changes<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">Either</span></code> trait type with <code class="docutils literal notranslate"><span class="pre">Union</span></code>. (#405)</p></li>
+<li><p>Rewrite <code class="docutils literal notranslate"><span class="pre">*_changed</span></code> static trait handlers to use <code class="docutils literal notranslate"><span class="pre">observe</span></code>. (#401)</p></li>
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> in <code class="docutils literal notranslate"><span class="pre">Property</span></code> traits with <code class="docutils literal notranslate"><span class="pre">observe</span></code>. (#400)</p></li>
+<li><p>Change default pickle protocol to be compatible with Python &gt;= 3.4. (#390)</p></li>
+</ul>
+</section>
+<section id="id10">
+<h3>Removals<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">contributes_to</span></code> decorator and supporting code. (#402)</p></li>
+<li><p>Remove unnecessary return statements throughout the codebase. (#393)</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Build<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Ensure that the cron job installs all necessary dependencies. (#383)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-5-0-0">
+<h2>Version 5.0.0<a class="headerlink" href="#version-5-0-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2020-12-03</p>
+<p>This is a major release mainly relating to code modernization. In this
+release, support for Python versions &lt;3.6 have been dropped. The
+class_load_hooks and single_project modules have been removed. Additionally,
+there were various fixes to bugs, examples, tests, and documentation. Demo
+examples are also distributed as package data such that they are visible via
+the “etsdemo” GUI application (to be installed separately).</p>
+<section id="id12">
+<h3>Features<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Re-export CorePlugin in envisage.api (#332)</p></li>
+<li><p>Create and fill plugin subpackage api modules (#323)</p></li>
+<li><p>Add relevant classes to envisage.ui.tasks.api (#322)</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>Fixes<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix index slice in ExtensionPointChangedEvent when plugin changes (#357)</p></li>
+<li><p>Fix ValueError from unregistering services when application stops (#345)</p></li>
+<li><p>Fix the MOTD example (#319)</p></li>
+<li><p>Fix the Hello_World example (#318)</p></li>
+<li><p>Fix the attractors tasks application example (#317)</p></li>
+<li><p>Make TasksApplication.gui expect an IGUI interface, not a GUI instance (#301)</p></li>
+</ul>
+</section>
+<section id="id14">
+<h3>Documentation<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Contribute examples to etsdemo (#380)</p></li>
+<li><p>Refactor documentation links to source on GitHub (#379)</p></li>
+<li><p>Make example run from any directory (#377)</p></li>
+<li><p>Setup intersphinx in docs (#343)</p></li>
+<li><p>Add documentation for envisage APIs (#340)</p></li>
+<li><p>Use jinja templates for API documentation (#339)</p></li>
+<li><p>Improve API docs : document traits (#334)</p></li>
+<li><p>Rebuild documentation, mostly to fix search functionality (#290)</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>Deprecations<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Deprecate safeweakref and replace its uses (#275)</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>Removals<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Drop support for Python 3 versions older than Python 3.6. (#341)</p></li>
+<li><p>Remove single_project (#331)</p></li>
+<li><p>Remove class_load_hooks and ClassLoadHook (#321)</p></li>
+</ul>
+</section>
+<section id="id17">
+<h3>Tests<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add tests for ExtensionRegistry getters (#349)</p></li>
+<li><p>Add tests to demonstrate behaviour when mutating extension point directly
+(#346)</p></li>
+<li><p>Use mixin instead of having ProviderExtensionRegistryTestCase inherit from
+ExtensionRegistryTestCase (#335)</p></li>
+<li><p>Switch on default warning flag for CI test command (#326)</p></li>
+<li><p>Add test eggs for Python 3.9 and remove eggs for Python 2.7 (#289)</p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>Build<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Turn off macOS builds on Travis CI (#375)</p></li>
+<li><p>Fix CI cron job setup to install apptools (#348)</p></li>
+<li><p>Update setup.py to allow prerelease version (#344)</p></li>
+<li><p>Add wx as being supported in etstool, add it back to CI, and test against
+wxPython v4.x (#336)</p></li>
+<li><p>Update EDM version to 3.0.1 in Travis CI and Appveyor. (#297)</p></li>
+<li><p>Stop reporting code coverage in CI (#288)</p></li>
+<li><p>Fix CI setup on Linux, Windows (#287)</p></li>
+<li><p>Remove support for PySide and PyQt4 from CI (#285)</p></li>
+<li><p>Add Slack notification for Travis CI runs (#283)</p></li>
+<li><p>Add flake8 check to etstool and CI (#268)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-9-2">
+<h2>Version 4.9.2<a class="headerlink" href="#version-4-9-2" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2020-02-17</p>
+<p>This is a bugfix release that fixes tests that assumed the existence
+of categories machinery (which is removed in Traits 6.0.0).</p>
+<section id="id19">
+<h3>Fixes<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Conditionally skip tests that fail against Traits 6.0.0 due to the removal
+of Categories. (#263)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-9-1">
+<h2>Version 4.9.1<a class="headerlink" href="#version-4-9-1" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2020-02-13</p>
+<p>This is a bugfix release aimed at ensuring compatibility with the
+upcoming Traits 6.0.0 release.</p>
+<section id="id20">
+<h3>Fixes<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix tests that fail against Traits 6.0.0 due to the removal
+of double nesting in list events. (#255)</p></li>
+<li><p>Replace a comment mention of <code class="docutils literal notranslate"><span class="pre">AdaptedTo</span></code> with <code class="docutils literal notranslate"><span class="pre">Supports</span></code>. (#253)</p></li>
+<li><p>Remove dependence on <code class="docutils literal notranslate"><span class="pre">clean_filename</span></code> from Traits. (#252)</p></li>
+<li><p>Replace a use of the deprecated <code class="docutils literal notranslate"><span class="pre">DictStrAny</span></code> trait with
+<code class="docutils literal notranslate"><span class="pre">Dict(Str,</span> <span class="pre">Any)</span></code>. (#250)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-9-0">
+<h2>Version 4.9.0<a class="headerlink" href="#version-4-9-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2019-11-19</p>
+<p>This is a minor feature release with a small handful of fixes, and a single
+new feature to make the <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code> easier to use for applications.</p>
+<section id="id21">
+<h3>Features<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add an option to allow the <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> to initialise its kernel at
+kernel creation time. At some point in the future, this will become the
+default behaviour. (#227)</p></li>
+</ul>
+</section>
+<section id="id22">
+<h3>Fixes<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Replace a use of the deprecated <code class="docutils literal notranslate"><span class="pre">adapts</span></code> function with
+<code class="docutils literal notranslate"><span class="pre">register_factory</span></code>. (#234)</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">IPKernelApp</span></code>, correctly restore the original state of
+<code class="docutils literal notranslate"><span class="pre">IPython.utils.io.std*</span></code> streams even if those streams didn’t exist
+originally. (#232)</p></li>
+<li><p>Remove duplicate copyright header from autogenerated version file. (#220)</p></li>
+</ul>
+</section>
+<section id="id23">
+<h3>Tests<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Remove a <code class="docutils literal notranslate"><span class="pre">print</span></code> call from a unit test. (#240)</p></li>
+<li><p>Add unit tests for the <code class="docutils literal notranslate"><span class="pre">envisage.ui.single_project</span></code> adapters. (#235)</p></li>
+<li><p>Add unit tests to check that <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> doesn’t affect
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>. (#233)</p></li>
+<li><p>Fix the test suite not to write to the user’s <code class="docutils literal notranslate"><span class="pre">~/.ipython</span></code> directory.
+(#231)</p></li>
+<li><p>Fix the test suite not to write to the user’s <code class="docutils literal notranslate"><span class="pre">~/.enthought</span></code> directory.
+(#230)</p></li>
+<li><p>Remove an unused import and a useless <code class="docutils literal notranslate"><span class="pre">tearDown</span></code> method in the
+<code class="docutils literal notranslate"><span class="pre">IPythonKernel</span></code> tests. (#223)</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">DeprecationWarning``s</span> <span class="pre">from</span> <span class="pre">uses</span> <span class="pre">of</span> <span class="pre">long-deprecated</span> <span class="pre">``TestCase</span></code>
+methods. (#222)</p></li>
+<li><p>Add test eggs for Python 3.8. (#214)</p></li>
+</ul>
+</section>
+<section id="id24">
+<h3>Build<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Rename changelog extension from <code class="docutils literal notranslate"><span class="pre">.txt</span></code> to <code class="docutils literal notranslate"><span class="pre">.rst</span></code>. (#238)</p></li>
+<li><p>Update EDM version used in Travis CI and Appveyor. (#236)</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">mock</span></code> to test dependencies on Python 2. (#229)</p></li>
+<li><p>Fix status badges in <code class="docutils literal notranslate"><span class="pre">README</span></code>. (#216)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-8-0">
+<h2>Version 4.8.0<a class="headerlink" href="#version-4-8-0" title="Permalink to this heading">¶</a></h2>
+<p>Released: 2019-09-13</p>
+<p>The main focus of this feature release is the <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code>, which
+has been updated to work with the latest IPython-related packages from PyPI,
+and is now much more careful about releasing resources allocated.</p>
+<p>Also in this release, a number of outdated, incomplete or otherwise
+nonfunctional pieces of code were removed.</p>
+<section id="id25">
+<h3>Features<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Improved <code class="docutils literal notranslate"><span class="pre">repr</span></code> for <code class="docutils literal notranslate"><span class="pre">ExtensionPoint</span></code> objects. (#142)</p></li>
+</ul>
+</section>
+<section id="id26">
+<h3>Changes<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Drop support for Python versions older than 2.7 and Python 3 versions older
+than Python 3.5. (#139)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code> now releases all allocated resources (threads,
+file descriptors, etc.) and undoes global state changes at plugin <code class="docutils literal notranslate"><span class="pre">stop</span></code>
+time. (#188)</p></li>
+<li><p>Suppress the Ctrl-C message printed by the IPython kernel at start time.
+(#182)</p></li>
+<li><p>Add license headers to all files, and make license header statements
+consistent. (#192)</p></li>
+</ul>
+</section>
+<section id="id27">
+<h3>Fixes<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Use a fixed pickle protocol when saving task layout state, to avoid
+cross-Python-version difficulties. (#179)</p></li>
+<li><p>Fix deprecation warnings from use of <code class="docutils literal notranslate"><span class="pre">Logger.warn</span></code>. (#178)</p></li>
+<li><p>Fix some Python 3 syntax errors in example scripts. (#171)</p></li>
+</ul>
+</section>
+<section id="id28">
+<h3>Removals<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Remove the unsupported and incomplete <code class="docutils literal notranslate"><span class="pre">UpdateCheckerPlugin</span></code>. (#199)</p></li>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">plugin.debug</span></code> empty submodule. (#195)</p></li>
+<li><p>Remove the old <code class="docutils literal notranslate"><span class="pre">IPythonShell</span></code> plugin, which was based on pre-IPython 1.0.
+(#173)</p></li>
+<li><p>Remove the non-functional <code class="docutils literal notranslate"><span class="pre">RefreshCodePlugin</span></code>. (#202)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">project_runnable</span></code>, which was never functional. (#169)</p></li>
+<li><p>Remove outdated debugging fallback from the <code class="docutils literal notranslate"><span class="pre">ExtensionPoint</span></code> source. (#167)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">FBIPlugin</span></code>. (#166)</p></li>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">remote_editor</span></code> plugins. (#137)</p></li>
+</ul>
+</section>
+<section id="id29">
+<h3>Documentation<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add docstrings for tasks plugin extension points. (#181)</p></li>
+<li><p>Fix incorrect documentation for <code class="docutils literal notranslate"><span class="pre">always_use_default_layout</span></code>. (#177)</p></li>
+<li><p>Spell “Pyface” correctly. (#176)</p></li>
+<li><p>NumPyDoc style fixes. (#168)</p></li>
+<li><p>Add API documentation, with corresponding build infrastructure. (#165)</p></li>
+<li><p>Fix invalid syntax in Tetris example. (#158)</p></li>
+<li><p>Use the Enthought Sphinx Theme for documentation. (#157)</p></li>
+</ul>
+</section>
+<section id="id30">
+<h3>Tests<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Remove dependency on the <code class="docutils literal notranslate"><span class="pre">nose</span></code> package, and rename test modules. All
+tests can now be discovered and run using <code class="docutils literal notranslate"><span class="pre">unittest</span></code>. (#200, #194)</p></li>
+</ul>
+</section>
+<section id="id31">
+<h3>Build<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Revise version-handling mechanisms and other minor details
+in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script. (#197, #190)</p></li>
+<li><p>Remove unused and outdated <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> file. (#201)</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">etstool.py</span></code> to work with a non-EDM bootstrap environment on
+Windows. (#203)</p></li>
+<li><p>Test against other ETS packages from source, using Travis CI cron jobs.
+(#162)</p></li>
+<li><p>Fix deprecated pieces in Travis CI configuration. (#160, #159)</p></li>
+<li><p>Update EDM version used, and clean up and simplify Travis CI and
+Appveyor configurations. (#152)</p></li>
+<li><p>Usability improvements to <code class="docutils literal notranslate"><span class="pre">etstool.py</span></code>. (#145, #148)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-7-2">
+<h2>Version 4.7.2<a class="headerlink" href="#version-4-7-2" title="Permalink to this heading">¶</a></h2>
+<p>Released: 03 May 2019</p>
+<section id="id32">
+<h3>Fixes<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix some broken imports and name errors in the <code class="docutils literal notranslate"><span class="pre">envisage.developer</span></code>
+package. (#130)</p></li>
+<li><p>Add missing test data to support running tests on Python 3.7. (#136)</p></li>
+<li><p>Fix reversed interpretation of the
+<code class="docutils literal notranslate"><span class="pre">TasksApplication.always_use_default_layout</span></code> when creating task windows.
+(#144)</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> plugin, restore original standard streams
+(<code class="docutils literal notranslate"><span class="pre">stdout</span></code>, <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stderr</span></code>) at plugin stop time. (#146)</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> plugin, fix <code class="docutils literal notranslate"><span class="pre">ResourceWarnings</span></code> from
+unclosed pipes attached to qt consoles. (#147)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-7-1">
+<h2>Version 4.7.1<a class="headerlink" href="#version-4-7-1" title="Permalink to this heading">¶</a></h2>
+<p>Released : 31 January 2019</p>
+<section id="id33">
+<h3>Changes<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Replace use of deprecated <code class="docutils literal notranslate"><span class="pre">HasTraits.set</span></code> method (#118)</p></li>
+</ul>
+</section>
+<section id="id34">
+<h3>Fixes<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix IPython GUI kernel issue when used with ipykernel 4.7.0 (#123)</p></li>
+<li><p>Fix infinite recursion issue when harvesting extension methods (#121)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-7-0">
+<h2>Version 4.7.0<a class="headerlink" href="#version-4-7-0" title="Permalink to this heading">¶</a></h2>
+<section id="id35">
+<h3>Changes<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Update CI setup and include <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> in devenv (#105, #111, #114)</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">--gui</span></code> rather than <code class="docutils literal notranslate"><span class="pre">--matplotlib</span></code> when starting IPython kernel (#101)</p></li>
+<li><p>Downgrade level of a logging message (#95)</p></li>
+</ul>
+</section>
+<section id="id36">
+<h3>Fixes<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fix old-style relative import (#109)</p></li>
+<li><p>Fix attractors example (#103)</p></li>
+<li><p>Stop the IOPubThread as part of IPython kernel shutdown (#100)</p></li>
+<li><p>Fix Sphinx conf to be able to build docs again (#91)</p></li>
+<li><p>Fix deprecated IPython import (#92)</p></li>
+<li><p>Fix task layout serialization under Python 3 (#90)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-6-0">
+<h2>Version 4.6.0<a class="headerlink" href="#version-4-6-0" title="Permalink to this heading">¶</a></h2>
+<p>This is an incremental release, mainly consisting of bug fixes.  The most
+significant change is the support for IPython &gt;= 4 in the IPython plugin.</p>
+<p>Thanks to &#64;corranwebster, &#64;dpinte, &#64;itziakos, &#64;jonathanrocher, &#64;kamalx,
+&#64;rahulporuri, &#64;robmcmullen, &#64;sjagoe</p>
+<section id="enhancements">
+<h3>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>IPython kernel plugin now supports IPython &gt;= 4 (#82)</p></li>
+<li><p>Remove usage of deprecated IPython QtConsole API (#80)</p></li>
+<li><p>Defer selection of toolkit and avoid creating GUI applications as side-effects as
+much as possible (#77, #76)</p></li>
+</ul>
+</section>
+<section id="id37">
+<h3>Fixes<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Fixes for tests under Python 3.5 (#86)</p></li>
+<li><p>Work around for issue with Traits in Python 3 (#78)</p></li>
+<li><p>Replace uses of ‘file’ and ‘execfile’ (#75)</p></li>
+<li><p>Fix MOTD_Using_Eggs example (#66)</p></li>
+<li><p>Fix broken and outdated links in documentation (#72)</p></li>
+<li><p>Fix link to docs from README (#70)</p></li>
+<li><p>Fix degenerate case where window is created with no layout (#44)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-5-1">
+<h2>Version 4.5.1<a class="headerlink" href="#version-4-5-1" title="Permalink to this heading">¶</a></h2>
+<section id="id38">
+<h3>Enhancements<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Add tox for testing package install (#67)</p></li>
+</ul>
+</section>
+<section id="id39">
+<h3>Fixes<a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Include missing test files in the package data (#67)</p></li>
+<li><p>Include missing test cases for Python 3.4 (#67)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-5-0">
+<h2>Version 4.5.0<a class="headerlink" href="#version-4-5-0" title="Permalink to this heading">¶</a></h2>
+<section id="new-features">
+<h3>New features<a class="headerlink" href="#new-features" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>IPythonKernelPlugin for Tasks: run an IPython kernel within the
+envisage app and expose it as a service (#54).</p></li>
+<li><p>Envisage now supports Python 3.4 (#61).</p></li>
+</ul>
+</section>
+<section id="id40">
+<h3>Enhancements<a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Allow loading plugins from an egg basket even when some eggs are
+invalid (#40, #46).</p></li>
+<li><p>Add a simple <code class="docutils literal notranslate"><span class="pre">GUIApplication</span></code> to bootstrap basic plugin-driven
+applications (#34).</p></li>
+<li><p>Split the IPython kernel and IPython menu action into two separate
+plugins for flexibility (#57).</p></li>
+</ul>
+</section>
+<section id="id41">
+<h3>Fixes<a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Use new Traits interfaces and adaptation implementation (#37).</p></li>
+<li><p>Envisage now configures the logger with a <code class="docutils literal notranslate"><span class="pre">NullHandler</span></code> to avoid
+spurios unconfigured logger warnings (#45).</p></li>
+<li><p>Envisage no longer swallows exceptions in plugin startup (#50).</p></li>
+<li><p>Various fixes to continuous integration configuration (#47, #60).</p></li>
+</ul>
+</section>
+</section>
+<section id="version-4-4-0">
+<h2>Version 4.4.0<a class="headerlink" href="#version-4-4-0" title="Permalink to this heading">¶</a></h2>
+<p>The major component of this feature is to work with the new
+<code class="docutils literal notranslate"><span class="pre">traits.adaptation</span></code> mechanism in place of the deprecated
+<code class="docutils literal notranslate"><span class="pre">traits.protocols</span></code>, maintaining compatibility with <code class="docutils literal notranslate"><span class="pre">traits</span></code> version
+4.4.0.</p>
+<p>This release also adds a new method to retrieve a service that is
+required by the application and provides documentation and test updates.</p>
+<section id="id42">
+<h3>New features<a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Added a simple GUIApplication class (673c8f6)</p></li>
+<li><p>Added a method to get a required service (94dfdea)</p></li>
+</ul>
+</section>
+<section id="id43">
+<h3>Enhancements<a class="headerlink" href="#id43" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Updated to use the new traits.adaptation functionality (34fa5e6)</p></li>
+</ul>
+</section>
+<section id="id44">
+<h3>Fixes<a class="headerlink" href="#id44" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Updated links to point to github instead of svn codebase (87cdb87)</p></li>
+<li><p>Fixed test cases and added to Travis-CI (6c11d9f)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Release history</a><ul>
+<li><a class="reference internal" href="#version-7-0-0">Version 7.0.0</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#changes">Changes</a></li>
+<li><a class="reference internal" href="#fixes">Fixes</a></li>
+<li><a class="reference internal" href="#deprecations">Deprecations</a></li>
+<li><a class="reference internal" href="#removals">Removals</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#build">Build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-6-1-1">Version 6.1.1</a><ul>
+<li><a class="reference internal" href="#id1">Fixes</a></li>
+<li><a class="reference internal" href="#other-changes">Other changes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-6-1-0">Version 6.1.0</a><ul>
+<li><a class="reference internal" href="#id2">Changes</a></li>
+<li><a class="reference internal" href="#id3">Fixes</a></li>
+<li><a class="reference internal" href="#refactoring-and-maintenance">Refactoring and maintenance</a></li>
+<li><a class="reference internal" href="#id4">Tests</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#id5">Documentation</a></li>
+<li><a class="reference internal" href="#build-and-ci">Build and CI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-6-0-1">Version 6.0.1</a><ul>
+<li><a class="reference internal" href="#id6">Fixes</a></li>
+<li><a class="reference internal" href="#id7">Tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-6-0-0">Version 6.0.0</a><ul>
+<li><a class="reference internal" href="#id8">Features</a></li>
+<li><a class="reference internal" href="#id9">Changes</a></li>
+<li><a class="reference internal" href="#id10">Removals</a></li>
+<li><a class="reference internal" href="#id11">Build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-5-0-0">Version 5.0.0</a><ul>
+<li><a class="reference internal" href="#id12">Features</a></li>
+<li><a class="reference internal" href="#id13">Fixes</a></li>
+<li><a class="reference internal" href="#id14">Documentation</a></li>
+<li><a class="reference internal" href="#id15">Deprecations</a></li>
+<li><a class="reference internal" href="#id16">Removals</a></li>
+<li><a class="reference internal" href="#id17">Tests</a></li>
+<li><a class="reference internal" href="#id18">Build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-9-2">Version 4.9.2</a><ul>
+<li><a class="reference internal" href="#id19">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-9-1">Version 4.9.1</a><ul>
+<li><a class="reference internal" href="#id20">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-9-0">Version 4.9.0</a><ul>
+<li><a class="reference internal" href="#id21">Features</a></li>
+<li><a class="reference internal" href="#id22">Fixes</a></li>
+<li><a class="reference internal" href="#id23">Tests</a></li>
+<li><a class="reference internal" href="#id24">Build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-8-0">Version 4.8.0</a><ul>
+<li><a class="reference internal" href="#id25">Features</a></li>
+<li><a class="reference internal" href="#id26">Changes</a></li>
+<li><a class="reference internal" href="#id27">Fixes</a></li>
+<li><a class="reference internal" href="#id28">Removals</a></li>
+<li><a class="reference internal" href="#id29">Documentation</a></li>
+<li><a class="reference internal" href="#id30">Tests</a></li>
+<li><a class="reference internal" href="#id31">Build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-7-2">Version 4.7.2</a><ul>
+<li><a class="reference internal" href="#id32">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-7-1">Version 4.7.1</a><ul>
+<li><a class="reference internal" href="#id33">Changes</a></li>
+<li><a class="reference internal" href="#id34">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-7-0">Version 4.7.0</a><ul>
+<li><a class="reference internal" href="#id35">Changes</a></li>
+<li><a class="reference internal" href="#id36">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-6-0">Version 4.6.0</a><ul>
+<li><a class="reference internal" href="#enhancements">Enhancements</a></li>
+<li><a class="reference internal" href="#id37">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-5-1">Version 4.5.1</a><ul>
+<li><a class="reference internal" href="#id38">Enhancements</a></li>
+<li><a class="reference internal" href="#id39">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-5-0">Version 4.5.0</a><ul>
+<li><a class="reference internal" href="#new-features">New features</a></li>
+<li><a class="reference internal" href="#id40">Enhancements</a></li>
+<li><a class="reference internal" href="#id41">Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-4-4-0">Version 4.4.0</a><ul>
+<li><a class="reference internal" href="#id42">New features</a></li>
+<li><a class="reference internal" href="#id43">Enhancements</a></li>
+<li><a class="reference internal" href="#id44">Fixes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="api/envisage.ui.workbench.action.exit_action.html"
+                          title="previous chapter">envisage.ui.workbench.action.exit_action module</a></p>
+  </div>
+  <h3>This Page</h3>
+  <div>
+    <a href="_sources/changelog.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

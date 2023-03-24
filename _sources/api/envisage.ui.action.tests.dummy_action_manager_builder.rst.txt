@@ -1,0 +1,7 @@
+envisage.ui.action.tests.dummy\_action\_manager\_builder module
+===============================================================
+
+.. automodule:: envisage.ui.action.tests.dummy_action_manager_builder
+   :members:
+   :undoc-members:
+   :show-inheritance:

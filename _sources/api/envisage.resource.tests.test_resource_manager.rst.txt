@@ -1,0 +1,7 @@
+envisage.resource.tests.test\_resource\_manager module
+======================================================
+
+.. automodule:: envisage.resource.tests.test_resource_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

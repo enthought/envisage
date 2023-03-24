@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>envisage.ui.tasks package &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '7.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage.ui package" href="envisage.ui.html" >
+    <link rel="next" title="envisage.ui.tasks.api module" href="envisage.ui.tasks.api.html" >
+    <link rel="prev" title="envisage.ui.action.tests.test_action_manager_builder module" href="envisage.ui.action.tests.test_action_manager_builder.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" >envisage package</a></li>
+          <li class="active"><a href="envisage.ui.html" accesskey="U">envisage.ui package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.tasks.api.html" title="envisage.ui.tasks.api module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.action.tests.test_action_manager_builder.html" title="envisage.ui.action.tests.test_action_manager_builder module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <section id="module-envisage.ui.tasks">
+<span id="envisage-ui-tasks-package"></span><h1>envisage.ui.tasks package<a class="headerlink" href="#module-envisage.ui.tasks" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.api.html">envisage.ui.tasks.api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.preferences_category.html">envisage.ui.tasks.preferences_category module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.preferences_category.html#envisage.ui.tasks.preferences_category.PreferencesCategory"><code class="docutils literal notranslate"><span class="pre">PreferencesCategory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html">envisage.ui.tasks.preferences_dialog module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.apply()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.close"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.select_pane()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.trait_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.traits_view()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesTab"><code class="docutils literal notranslate"><span class="pre">PreferencesTab</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html">envisage.ui.tasks.preferences_pane module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane"><code class="docutils literal notranslate"><span class="pre">PreferencesPane</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.after"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.after</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.apply"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.apply()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.before"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.before</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.category"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.close"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.dialog"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.dialog</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.id"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model_factory"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.model_factory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.trait_context"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.trait_context()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.task_extension.html">envisage.ui.tasks.task_extension module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension"><code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.actions"><code class="docutils literal notranslate"><span class="pre">TaskExtension.actions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.dock_pane_factories"><code class="docutils literal notranslate"><span class="pre">TaskExtension.dock_pane_factories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.task_id"><code class="docutils literal notranslate"><span class="pre">TaskExtension.task_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.task_factory.html">envisage.ui.tasks.task_factory module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory"><code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create"><code class="docutils literal notranslate"><span class="pre">TaskFactory.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create_with_extensions"><code class="docutils literal notranslate"><span class="pre">TaskFactory.create_with_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.factory"><code class="docutils literal notranslate"><span class="pre">TaskFactory.factory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.id"><code class="docutils literal notranslate"><span class="pre">TaskFactory.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.name"><code class="docutils literal notranslate"><span class="pre">TaskFactory.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.task_window.html">envisage.ui.tasks.task_window module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow"><code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow.application"><code class="docutils literal notranslate"><span class="pre">TaskWindow.application</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow.icon"><code class="docutils literal notranslate"><span class="pre">TaskWindow.icon</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html">envisage.ui.tasks.task_window_event module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.TaskWindowEvent"><code class="docutils literal notranslate"><span class="pre">TaskWindowEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.TaskWindowEvent.window"><code class="docutils literal notranslate"><span class="pre">TaskWindowEvent.window</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent"><code class="docutils literal notranslate"><span class="pre">VetoableTaskWindowEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html">envisage.ui.tasks.tasks_application module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME"><code class="docutils literal notranslate"><span class="pre">DEFAULT_STATE_FILENAME</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication"><code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TasksApplication.TASK_EXTENSIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.TASK_FACTORIES"><code class="docutils literal notranslate"><span class="pre">TasksApplication.TASK_FACTORIES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.active_window"><code class="docutils literal notranslate"><span class="pre">TasksApplication.active_window</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.always_use_default_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplication.always_use_default_layout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.application_exiting"><code class="docutils literal notranslate"><span class="pre">TasksApplication.application_exiting</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.application_initialized"><code class="docutils literal notranslate"><span class="pre">TasksApplication.application_initialized</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_task"><code class="docutils literal notranslate"><span class="pre">TasksApplication.create_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_window"><code class="docutils literal notranslate"><span class="pre">TasksApplication.create_window()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.default_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplication.default_layout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.exit"><code class="docutils literal notranslate"><span class="pre">TasksApplication.exit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.gui"><code class="docutils literal notranslate"><span class="pre">TasksApplication.gui</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.icon"><code class="docutils literal notranslate"><span class="pre">TasksApplication.icon</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.layout_save_protocol"><code class="docutils literal notranslate"><span class="pre">TasksApplication.layout_save_protocol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.name"><code class="docutils literal notranslate"><span class="pre">TasksApplication.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.run"><code class="docutils literal notranslate"><span class="pre">TasksApplication.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.splash_screen"><code class="docutils literal notranslate"><span class="pre">TasksApplication.splash_screen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.state_filename"><code class="docutils literal notranslate"><span class="pre">TasksApplication.state_filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.state_location"><code class="docutils literal notranslate"><span class="pre">TasksApplication.state_location</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.task_extensions"><code class="docutils literal notranslate"><span class="pre">TasksApplication.task_extensions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.task_factories"><code class="docutils literal notranslate"><span class="pre">TasksApplication.task_factories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_closed"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_closed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_closing"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_closing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_created"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_created</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_factory"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_factory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_opened"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_opened</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_opening"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_opening</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.windows"><code class="docutils literal notranslate"><span class="pre">TasksApplication.windows</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_equivalent_window_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.get_equivalent_window_layout()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_task_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.get_task_layout()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.push_window_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.push_window_layout()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html">envisage.ui.tasks.tasks_plugin module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin"><code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.PREFERENCES_CATEGORIES"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.PREFERENCES_CATEGORIES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.PREFERENCES_PANES"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.PREFERENCES_PANES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.TASKS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.TASKS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.TASK_EXTENSIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.id"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.name"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_categories"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.preferences_categories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_panes"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.preferences_panes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.task_extensions"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.task_extensions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.tasks"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.tasks</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.action.html">envisage.ui.tasks.action package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.action.api.html">envisage.ui.tasks.action.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html">envisage.ui.tasks.action.exit_action module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html#envisage.ui.tasks.action.exit_action.ExitAction"><code class="docutils literal notranslate"><span class="pre">ExitAction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html#envisage.ui.tasks.action.exit_action.ExitAction.perform"><code class="docutils literal notranslate"><span class="pre">ExitAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html">envisage.ui.tasks.action.preferences_action module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesAction"><code class="docutils literal notranslate"><span class="pre">PreferencesAction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesAction.perform"><code class="docutils literal notranslate"><span class="pre">PreferencesAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesGroup"><code class="docutils literal notranslate"><span class="pre">PreferencesGroup</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html">envisage.ui.tasks.action.task_window_launch_group module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchAction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction.perform"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchGroup</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html">envisage.ui.tasks.action.task_window_toggle_group module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleAction"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleAction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleAction.perform"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup.destroy"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleGroup.destroy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.tasks.tests.html">envisage.ui.tasks.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html">envisage.ui.tasks.tests.test_tasks_application module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.DummyGUI"><code class="docutils literal notranslate"><span class="pre">DummyGUI</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingGUI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI.start_event_loop"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingGUI.start_event_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI.starting"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingGUI.starting</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingGUI.stopped"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingGUI.stopped</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingPlugin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.start"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingPlugin.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.started"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingPlugin.started</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.stop"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingPlugin.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.LifecycleRecordingPlugin.stopped"><code class="docutils literal notranslate"><span class="pre">LifecycleRecordingPlugin.stopped</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.setUp"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_gui_trait_expects_IGUI_interface"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_gui_trait_expects_IGUI_interface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_load"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_layout_load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_load_pickle_protocol_3"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_layout_load_pickle_protocol_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_save_creates_directory"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_layout_save_creates_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_layout_save_with_protocol_3"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_layout_save_with_protocol_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_lifecycle_with_plugin"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_lifecycle_with_plugin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tests.test_tasks_application.html#envisage.ui.tasks.tests.test_tasks_application.TestTasksApplication.test_simple_lifecycle"><code class="docutils literal notranslate"><span class="pre">TestTasksApplication.test_simple_lifecycle()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="envisage.ui.action.tests.test_action_manager_builder.html"
+                          title="previous chapter">envisage.ui.action.tests.test_action_manager_builder module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.ui.tasks.api.html"
+                          title="next chapter">envisage.ui.tasks.api module</a></p>
+  </div>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.ui.tasks.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

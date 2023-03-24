@@ -1,0 +1,7 @@
+envisage.examples.tests.test\_etsdemo\_info module
+==================================================
+
+.. automodule:: envisage.examples.tests.test_etsdemo_info
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,37 @@
+..
+   (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+   All rights reserved.
+
+   This software is provided without warranty under the terms of the BSD
+   license included in LICENSE.txt and may be redistributed only under
+   the conditions described in the aforementioned license. The license
+   is also available online at http://www.enthought.com/licenses/BSD.txt
+
+   Thanks for using Enthought open source!
+
+envisage.ui.action package
+==========================
+
+.. automodule:: envisage.ui.action
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+
+   envisage.ui.action.abstract_action_manager_builder
+   envisage.ui.action.action
+   envisage.ui.action.action_set
+   envisage.ui.action.action_set_manager
+   envisage.ui.action.api
+   envisage.ui.action.group
+   envisage.ui.action.i_action_manager_builder
+   envisage.ui.action.i_action_set
+   envisage.ui.action.location
+   envisage.ui.action.menu
+   envisage.ui.action.tool_bar
+
+
+.. toctree::
+
+   envisage.ui.action.tests

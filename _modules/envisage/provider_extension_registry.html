@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.provider_extension_registry &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '7.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../index.html" >
+    <link rel="up" title="Module code" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.provider_extension_registry</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot; An extension registry implementation with multiple providers. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span><span class="p">,</span> <span class="n">provides</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.extension_registry</span> <span class="kn">import</span> <span class="n">ExtensionRegistry</span>
+<span class="kn">from</span> <span class="nn">.i_extension_provider</span> <span class="kn">import</span> <span class="n">IExtensionProvider</span>
+<span class="kn">from</span> <span class="nn">.i_provider_extension_registry</span> <span class="kn">import</span> <span class="n">IProviderExtensionRegistry</span>
+
+<span class="c1"># Logging.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ProviderExtensionRegistry"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IProviderExtensionRegistry</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ProviderExtensionRegistry</span><span class="p">(</span><span class="n">ExtensionRegistry</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An extension registry implementation with multiple providers.&quot;&quot;&quot;</span>
+
+    <span class="c1">#### Protected &#39;ProviderExtensionRegistry&#39; interface ######################</span>
+
+    <span class="c1"># The extension providers that populate the registry.</span>
+    <span class="n">_providers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">IExtensionProvider</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IExtensionRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ProviderExtensionRegistry.set_extensions"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the extensions to an extension point.&quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;extension points cannot be set&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;ProviderExtensionRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="ProviderExtensionRegistry.add_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider">[docs]</a>    <span class="k">def</span> <span class="nf">add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an extension provider.&quot;&quot;&quot;</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">events</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_call_listeners</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="p">[],</span> <span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProviderExtensionRegistry.get_providers"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers">[docs]</a>    <span class="k">def</span> <span class="nf">get_providers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all of the providers in the registry.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="p">[:]</span></div>
+
+<div class="viewcode-block" id="ProviderExtensionRegistry.remove_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider">[docs]</a>    <span class="k">def</span> <span class="nf">remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an extension provider.</span>
+
+<span class="sd">        Raise a &#39;ValueError&#39; if the provider is not in the registry.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">events</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_call_listeners</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="p">[],</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Protected &#39;ExtensionRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions for the given extension point.&quot;&quot;&quot;</span>
+
+        <span class="c1"># If we don&#39;t know about the extension point then it sure ain&#39;t got</span>
+        <span class="c1"># any extensions!</span>
+        <span class="k">if</span> <span class="n">extension_point_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;getting extensions of unknown extension point &lt;</span><span class="si">%s</span><span class="s2">&gt;&quot;</span>
+                <span class="o">%</span> <span class="n">extension_point_id</span>
+            <span class="p">)</span>
+            <span class="n">extensions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Has this extension point already been accessed?</span>
+        <span class="k">elif</span> <span class="n">extension_point_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="p">:</span>
+            <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="p">[</span><span class="n">extension_point_id</span><span class="p">]</span>
+
+        <span class="c1"># If not, then ask each provider for its contributions to the extension</span>
+        <span class="c1"># point.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="p">[</span><span class="n">extension_point_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">extensions</span>
+
+        <span class="c1"># We store the extensions as a list of lists, with each inner list</span>
+        <span class="c1"># containing the contributions from a single provider. Here we just</span>
+        <span class="c1"># concatenate them into a single list.</span>
+        <span class="c1">#</span>
+        <span class="c1"># You could use a list comprehension, here:-</span>
+        <span class="c1">#</span>
+        <span class="c1">#     all = [x for y in extensions for x in y]</span>
+        <span class="c1">#</span>
+        <span class="c1"># But I&#39;m sure that that makes it any clearer ;^)</span>
+
+        <span class="nb">all</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">extensions_of_single_provider</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+            <span class="nb">all</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions_of_single_provider</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">all</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Protected &#39;ProviderExtensionRegistry&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new provider.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Add the provider&#39;s extension points.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_provider_extension_points</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="c1"># Add the provider&#39;s extensions.</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_provider_extensions</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="c1"># And finally, tag it into the list of providers.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="nf">_add_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a provider&#39;s extensions to the registry.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Each provider can contribute to multiple extension points, so we</span>
+        <span class="c1"># build up a dictionary of the &#39;ExtensionPointChanged&#39; events that we</span>
+        <span class="c1"># need to fire.</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Does the provider contribute any extensions to an extension point</span>
+        <span class="c1"># that has already been accessed?</span>
+
+        <span class="k">for</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+
+            <span class="c1"># We only need fire an event for this extension point if the</span>
+            <span class="c1"># provider contributes any extensions.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">extensions</span><span class="p">))</span>
+                <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_listener_refs</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+                <span class="n">events</span><span class="p">[</span><span class="n">extension_point_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">new</span><span class="p">[:],</span> <span class="n">index</span><span class="p">)</span>
+
+            <span class="n">extensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="nf">_add_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a provider&#39;s extension points to the registry.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">extension_point</span> <span class="ow">in</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_extension_points</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">[</span><span class="n">extension_point</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">extension_point</span>
+
+    <span class="k">def</span> <span class="nf">_remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Remove the provider&#39;s extensions.</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove_provider_extensions</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="c1"># Remove the provider&#39;s extension points.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_provider_extension_points</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
+
+        <span class="c1"># And finally take it out of the list of providers.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="nf">_remove_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider&#39;s extensions from the registry.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Each provider can contribute to multiple extension points, so we</span>
+        <span class="c1"># build up a dictionary of the &#39;ExtensionPointChanged&#39; events that we</span>
+        <span class="c1"># need to fire.</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Find the index of the provider in the provider list. Its</span>
+        <span class="c1"># contributions are at the same index in the extensions list of lists.</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="c1"># Does the provider contribute any extensions to an extension point</span>
+        <span class="c1"># that has already been accessed?</span>
+        <span class="k">for</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">old</span> <span class="o">=</span> <span class="n">extensions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+            <span class="c1"># We only need fire an event for this extension point if the</span>
+            <span class="c1"># provider contributed any extensions.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">old</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">extensions</span><span class="p">[:</span><span class="n">index</span><span class="p">]))</span>
+                <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_listener_refs</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+                <span class="n">events</span><span class="p">[</span><span class="n">extension_point_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">old</span><span class="p">[:],</span> <span class="n">offset</span><span class="p">)</span>
+
+            <span class="k">del</span> <span class="n">extensions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="nf">_remove_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">,</span> <span class="n">events</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider&#39;s extension points from the registry.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">extension_point</span> <span class="ow">in</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_extension_points</span><span class="p">():</span>
+            <span class="c1"># Remove the extension point.</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">[</span><span class="n">extension_point</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Private interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="c1">#### Trait change handlers ################################################</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;_providers:extension_point_changed&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_providers_extension_point_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;provider &lt;</span><span class="si">%s</span><span class="s2">&gt; extension point changed&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+        <span class="n">extension_point_id</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">extension_point_id</span>
+
+        <span class="c1"># If the extension point has not yet been accessed then we don&#39;t fire a</span>
+        <span class="c1"># changed event.</span>
+        <span class="c1">#</span>
+        <span class="c1"># This is because we only access extension points lazily and so we</span>
+        <span class="c1"># can&#39;t tell what has actually changed because we have nothing to</span>
+        <span class="c1"># compare it to!</span>
+        <span class="k">if</span> <span class="n">extension_point_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># This is a list of lists where each inner list contains the</span>
+        <span class="c1"># contributions made to the extension point by a single provider.</span>
+        <span class="c1">#</span>
+        <span class="c1"># fixme: This causes a problem if the extension point has not yet been</span>
+        <span class="c1"># accessed! The tricky thing is that if it hasn&#39;t been accessed yet</span>
+        <span class="c1"># how do we know what has changed?!? Maybe we should just return an</span>
+        <span class="c1"># empty list instead of barfing!</span>
+        <span class="n">extensions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="p">[</span><span class="n">extension_point_id</span><span class="p">]</span>
+
+        <span class="c1"># Find the index of the provider in the provider list. Its</span>
+        <span class="c1"># contributions are at the same index in the extensions list of lists.</span>
+        <span class="n">provider_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="c1"># Get the updated list from the provider.</span>
+        <span class="n">extensions</span><span class="p">[</span><span class="n">provider_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+
+        <span class="c1"># Find where the provider&#39;s contributions are in the whole &#39;list&#39;.</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">extensions</span><span class="p">[:</span><span class="n">provider_index</span><span class="p">]))</span>
+
+        <span class="c1"># Translate the event index from one that refers to the list of</span>
+        <span class="c1"># contributions from the provider, to the list of contributions from</span>
+        <span class="c1"># all providers.</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_index</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+
+        <span class="c1"># Find out who is listening.</span>
+        <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_listener_refs</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
+
+        <span class="c1"># Let any listeners know that the extensions have been added.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_call_listeners</span><span class="p">(</span>
+            <span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">added</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">removed</span><span class="p">,</span> <span class="n">index</span>
+        <span class="p">)</span>
+
+    <span class="c1">#### Methods ##############################################################</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the extensions to an extension point.&quot;&quot;&quot;</span>
+
+        <span class="c1"># We store the extensions as a list of lists, with each inner list</span>
+        <span class="c1"># containing the contributions from a single provider.</span>
+        <span class="n">extensions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">provider</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="p">:</span>
+            <span class="n">extensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">provider</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)[:])</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;extensions to &lt;</span><span class="si">%s</span><span class="s2">&gt; &lt;</span><span class="si">%s</span><span class="s2">&gt;&quot;</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">extensions</span>
+
+    <span class="k">def</span> <span class="nf">_translate_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate an event index by the given offset.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span>
+                <span class="n">index</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">offset</span>
+
+        <span class="k">return</span> <span class="n">index</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.tasks.tasks_application &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '7.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.ui.tasks.tasks_application</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="c1"># Standard library imports.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Bool</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Directory</span><span class="p">,</span>
+    <span class="n">Event</span><span class="p">,</span>
+    <span class="n">HasStrictTraits</span><span class="p">,</span>
+    <span class="n">Instance</span><span class="p">,</span>
+    <span class="n">Int</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Str</span><span class="p">,</span>
+    <span class="n">Vetoable</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">traits.etsconfig.api</span> <span class="kn">import</span> <span class="n">ETSConfig</span>
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Application</span><span class="p">,</span> <span class="n">ExtensionPoint</span>
+
+<span class="c1"># Logging.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1">#: Default filename for saving layout information</span>
+<span class="n">DEFAULT_STATE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;application_memento&quot;</span>
+
+
+<div class="viewcode-block" id="TasksApplication"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication">[docs]</a><span class="k">class</span> <span class="nc">TasksApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The entry point for an Envisage Tasks application.</span>
+
+<span class="sd">    This class handles the common case for Tasks applications and is</span>
+<span class="sd">    intended to be subclassed to modify its start/stop behavior, etc.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Extension point ID for task factories</span>
+    <span class="n">TASK_FACTORIES</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.tasks.tasks&quot;</span>
+
+    <span class="c1">#: Extension point ID for task extensions</span>
+    <span class="n">TASK_EXTENSIONS</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.tasks.task_extensions&quot;</span>
+
+    <span class="c1">#: Pickle protocol to use for persisting layout information.</span>
+    <span class="n">layout_save_protocol</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1">#### &#39;TasksApplication&#39; interface #########################################</span>
+
+    <span class="c1">#: The active task window (the last one to get focus).</span>
+    <span class="n">active_window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window.TaskWindow&quot;</span><span class="p">)</span>
+
+    <span class="c1">#: The Pyface GUI for the application.</span>
+    <span class="n">gui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.i_gui.IGUI&quot;</span><span class="p">)</span>
+
+    <span class="c1">#: Icon for the whole application. Will be used to override all taskWindows</span>
+    <span class="c1">#: icons to have the same.</span>
+    <span class="n">icon</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.image_resource.ImageResource&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#: The name of the application (also used on window title bars).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1">#: The splash screen for the application. By default, there is no splash</span>
+    <span class="c1">#: screen.</span>
+    <span class="n">splash_screen</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.splash_screen.SplashScreen&quot;</span><span class="p">)</span>
+
+    <span class="c1">#: The directory on the local file system used to persist window layout</span>
+    <span class="c1">#: information.</span>
+    <span class="n">state_location</span> <span class="o">=</span> <span class="n">Directory</span>
+
+    <span class="c1">#: The filename that the application uses to persist window layout</span>
+    <span class="c1">#: information.</span>
+    <span class="n">state_filename</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">DEFAULT_STATE_FILENAME</span><span class="p">)</span>
+
+    <span class="c1">#: Contributed task factories. This attribute is primarily for run-time</span>
+    <span class="c1">#: inspection; to instantiate a task, use the &#39;create_task&#39; method.</span>
+    <span class="n">task_factories</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">TASK_FACTORIES</span><span class="p">)</span>
+
+    <span class="c1">#: Contributed task extensions.</span>
+    <span class="n">task_extensions</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">TASK_EXTENSIONS</span><span class="p">)</span>
+
+    <span class="c1">#: The list of task windows created by the application.</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window.TaskWindow&quot;</span><span class="p">))</span>
+
+    <span class="c1">#: The factory for creating task windows.</span>
+    <span class="n">window_factory</span> <span class="o">=</span> <span class="n">Callable</span>
+
+    <span class="c1">#### Application layout ###################################################</span>
+
+    <span class="c1">#: The default layout for the application. If not specified, a single</span>
+    <span class="c1">#: window will be created with the first available task factory.</span>
+    <span class="n">default_layout</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.tasks.task_window_layout.TaskWindowLayout&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#: Whether to always apply the default *application level* layout when the</span>
+    <span class="c1">#: application is started. Even if this is True, the layout state of</span>
+    <span class="c1">#: individual tasks will be restored.</span>
+    <span class="n">always_use_default_layout</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">#### Application lifecycle events #########################################</span>
+
+    <span class="c1">#: Fired after the initial windows have been created and the GUI event loop</span>
+    <span class="c1">#: has been started.</span>
+    <span class="n">application_initialized</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1">#: Fired immediately before the extant windows are destroyed and the GUI</span>
+    <span class="c1">#: event loop is terminated.</span>
+    <span class="n">application_exiting</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1">#: Fired when a task window has been created.</span>
+    <span class="n">window_created</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window_event.TaskWindowEvent&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#: Fired when a task window is opening.</span>
+    <span class="n">window_opening</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#: Fired when a task window has been opened.</span>
+    <span class="n">window_opened</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window_event.TaskWindowEvent&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#: Fired when a task window is closing.</span>
+    <span class="n">window_closing</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#: Fired when a task window has been closed.</span>
+    <span class="n">window_closed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window_event.TaskWindowEvent&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">#### Protected interface ##################################################</span>
+
+    <span class="c1"># An &#39;explicit&#39; exit is when the the &#39;exit&#39; method is called.</span>
+    <span class="c1"># An &#39;implicit&#39; exit is when the user closes the last open window.</span>
+    <span class="n">_explicit_exit</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Application state.</span>
+    <span class="n">_state</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span>
+        <span class="s2">&quot;envisage.ui.tasks.tasks_application.TasksApplicationState&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;IApplication&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="TasksApplication.run"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the application.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Whether the application started successfully (i.e., without a</span>
+<span class="sd">            veto).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Make sure the GUI has been created (so that, if required, the splash</span>
+        <span class="c1"># screen is shown).</span>
+        <span class="n">gui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gui</span>
+
+        <span class="n">started</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">started</span><span class="p">:</span>
+            <span class="c1"># Create windows from the default or saved application layout.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_create_windows</span><span class="p">()</span>
+
+            <span class="c1"># Start the GUI event loop.</span>
+            <span class="n">gui</span><span class="o">.</span><span class="n">set_trait_later</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="n">gui</span><span class="o">.</span><span class="n">start_event_loop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">started</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;TasksApplication&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="TasksApplication.create_task"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_task">[docs]</a>    <span class="k">def</span> <span class="nf">create_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the Task with the specified ID.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyface.tasks.task.Task</span>
+<span class="sd">            The new Task, or None if there is not a suitable TaskFactory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the factory for the task.</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_task_factory</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Create the task using suitable task extensions.</span>
+        <span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ext</span>
+            <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_extensions</span>
+            <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">task_id</span> <span class="o">==</span> <span class="nb">id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">task_id</span>
+        <span class="p">]</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_with_extensions</span><span class="p">(</span><span class="n">extensions</span><span class="p">)</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="n">task</span></div>
+
+<div class="viewcode-block" id="TasksApplication.create_window"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_window">[docs]</a>    <span class="k">def</span> <span class="nf">create_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restore</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new TaskWindow, possibly with some Tasks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layout : TaskWindowLayout, optional</span>
+<span class="sd">             The layout to use for the window. The tasks described in</span>
+<span class="sd">             the layout will be created and added to the window</span>
+<span class="sd">             automatically. If not specified, the window will contain</span>
+<span class="sd">             no tasks.</span>
+
+<span class="sd">        restore : bool, optional (default True)</span>
+<span class="sd">             If set, the application will restore old size and</span>
+<span class="sd">             positions for the window and its panes, if possible. If a</span>
+<span class="sd">             layout is not provided, this parameter has no effect.</span>
+
+<span class="sd">        **traits : dict, optional</span>
+<span class="sd">             Additional parameters to pass to ``window_factory()``</span>
+<span class="sd">             when creating the TaskWindow.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        envisage.ui.tasks.task_window.TaskWindow</span>
+<span class="sd">            The new TaskWindow.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="kn">import</span> <span class="n">TaskWindowLayout</span>
+
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
+
+        <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_factory</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">)</span>
+
+        <span class="c1"># Listen for the window events.</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_window_activated</span><span class="p">,</span> <span class="s2">&quot;activated&quot;</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_window_opening</span><span class="p">,</span> <span class="s2">&quot;opening&quot;</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_window_opened</span><span class="p">,</span> <span class="s2">&quot;opened&quot;</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_window_closing</span><span class="p">,</span> <span class="s2">&quot;closing&quot;</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_window_closed</span><span class="p">,</span> <span class="s2">&quot;closed&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Event notification.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_created</span> <span class="o">=</span> <span class="n">TaskWindowEvent</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layout</span><span class="p">:</span>
+            <span class="c1"># Create and add tasks.</span>
+            <span class="k">for</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">():</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">task</span><span class="p">:</span>
+                    <span class="n">window</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Missing factory for task with ID </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">task_id</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># Apply a suitable layout.</span>
+            <span class="k">if</span> <span class="n">restore</span><span class="p">:</span>
+                <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restore_layout_from_state</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Create an empty layout to set default size and position only</span>
+            <span class="n">layout</span> <span class="o">=</span> <span class="n">TaskWindowLayout</span><span class="p">()</span>
+
+        <span class="n">window</span><span class="o">.</span><span class="n">set_window_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">window</span></div>
+
+<div class="viewcode-block" id="TasksApplication.exit"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exits the application, closing all open task windows.</span>
+
+<span class="sd">        Each window is sent a veto-able closing event. If any window vetoes the</span>
+<span class="sd">        close request, no window will be closed. Otherwise, all windows will be</span>
+<span class="sd">        closed and the GUI event loop will terminate.</span>
+
+<span class="sd">        This method is not called when the user clicks the close</span>
+<span class="sd">        button on a window or otherwise closes a window through his or</span>
+<span class="sd">        her window manager. It is only called via the File-&gt;Exit menu</span>
+<span class="sd">        item. It can also, of course, be called programatically.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        force : bool, optional (default False)</span>
+<span class="sd">            If set, windows will receive no closing events and will be</span>
+<span class="sd">            destroyed unconditionally. This can be useful for reliably</span>
+<span class="sd">            tearing down regression tests, but should be used with</span>
+<span class="sd">            caution.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            A boolean indicating whether the application exited.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_explicit_exit</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">):</span>
+                    <span class="n">window</span><span class="o">.</span><span class="n">closing</span> <span class="o">=</span> <span class="n">event</span> <span class="o">=</span> <span class="n">Vetoable</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">veto</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_exit</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">):</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_explicit_exit</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Protected interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_create_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at startup to create TaskWindows from the default or saved</span>
+<span class="sd">        application layout.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Build a list of TaskWindowLayouts.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_state</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">always_use_default_layout</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">previous_window_layouts</span>
+        <span class="p">):</span>
+            <span class="n">window_layouts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_layout</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Choose the stored TaskWindowLayouts, but only if all the task IDs</span>
+            <span class="c1"># are still valid.</span>
+            <span class="n">window_layouts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">previous_window_layouts</span>
+            <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">window_layouts</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="n">layout</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_task_factory</span><span class="p">(</span><span class="n">task_id</span><span class="p">):</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="s2">&quot;Saved application layout references &quot;</span>
+                            <span class="s2">&quot;non-existent task </span><span class="si">%r</span><span class="s2">. Falling back to &quot;</span>
+                            <span class="s2">&quot;default application layout.&quot;</span> <span class="o">%</span> <span class="n">task_id</span>
+                        <span class="p">)</span>
+                        <span class="n">window_layouts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_layout</span>
+                        <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Create a TaskWindow for each TaskWindowLayout.</span>
+        <span class="k">for</span> <span class="n">window_layout</span> <span class="ow">in</span> <span class="n">window_layouts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">always_use_default_layout</span><span class="p">:</span>
+                <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="n">window_layout</span><span class="p">,</span> <span class="n">restore</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="n">window_layout</span><span class="p">,</span> <span class="n">restore</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_task_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the TaskFactory with the specified ID, or None.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">factory</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">factory</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_prepare_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called immediately before the extant windows are destroyed and the</span>
+<span class="sd">        GUI event loop is terminated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">application_exiting</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_state</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_load_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads saved application state, if possible.&quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">TasksApplicationState</span><span class="p">()</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="c1"># Attempt to unpickle the saved application state.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading application state from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">restored_state</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># If anything goes wrong, log the error and continue.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Error while restoring application state&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="n">restored_state</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="n">restored_state</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Application state successfully restored&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Discarding outdated application state: &quot;</span>
+                        <span class="s2">&quot;expected version </span><span class="si">%s</span><span class="s2">, got version </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+                        <span class="n">restored_state</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No saved application state found at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">_restore_layout_from_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restores an equivalent layout from saved application state.&quot;&quot;&quot;</span>
+        <span class="c1"># First, see if a window layout matches exactly.</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get_equivalent_window_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="c1"># The active task is not part of the equivalency relation, so we</span>
+            <span class="c1"># ensure that it is correct.</span>
+            <span class="k">match</span><span class="o">.</span><span class="n">active_task</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">get_active_task</span><span class="p">()</span>
+            <span class="n">layout</span> <span class="o">=</span> <span class="n">match</span>
+
+        <span class="c1"># If that fails, at least try to restore the layout of</span>
+        <span class="c1"># individual tasks.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">clone_traits</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">items</span><span class="p">):</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">item</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">item</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get_task_layout</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="n">layout</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span>
+
+        <span class="k">return</span> <span class="n">layout</span>
+
+    <span class="k">def</span> <span class="nf">_save_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves the application state.&quot;&quot;&quot;</span>
+        <span class="c1"># Grab the current window layouts.</span>
+        <span class="n">window_layouts</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">get_window_layout</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">previous_window_layouts</span> <span class="o">=</span> <span class="n">window_layouts</span>
+
+        <span class="c1"># Attempt to pickle the application state.</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_filename</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving application state to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">layout_save_protocol</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># If anything goes wrong, log the error and continue.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Error while saving application state&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Application state successfully saved&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_application_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the application directories.&quot;&quot;&quot;</span>
+        <span class="c1"># Extend the base class method to ensure the state directory exists.</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_initialize_application_home</span><span class="p">()</span>
+
+        <span class="n">state_location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_location</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating folder for tasks state: </span><span class="si">{</span><span class="n">state_location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">state_location</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o700</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#### Trait initializers ###################################################</span>
+
+    <span class="k">def</span> <span class="nf">_window_factory_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">envisage.ui.tasks.task_window</span> <span class="kn">import</span> <span class="n">TaskWindow</span>
+
+        <span class="k">return</span> <span class="n">TaskWindow</span>
+
+    <span class="k">def</span> <span class="nf">_default_layout_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pyface.tasks.task_window_layout</span> <span class="kn">import</span> <span class="n">TaskWindowLayout</span>
+
+        <span class="n">window_layout</span> <span class="o">=</span> <span class="n">TaskWindowLayout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">:</span>
+            <span class="n">window_layout</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">window_layout</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pyface.gui</span> <span class="kn">import</span> <span class="n">GUI</span>
+
+        <span class="k">return</span> <span class="n">GUI</span><span class="p">(</span><span class="n">splash_screen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">splash_screen</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_state_location_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">state_location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;tasks&quot;</span><span class="p">,</span> <span class="n">ETSConfig</span><span class="o">.</span><span class="n">toolkit</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Tasks state location is </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">state_location</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">state_location</span>
+
+    <span class="c1">#### Trait change handlers ################################################</span>
+
+    <span class="k">def</span> <span class="nf">_on_window_activated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_window</span> <span class="o">=</span> <span class="n">window</span>
+
+    <span class="k">def</span> <span class="nf">_on_window_opening</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">VetoableTaskWindowEvent</span>
+
+        <span class="c1"># Event notification.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_opening</span> <span class="o">=</span> <span class="n">window_event</span> <span class="o">=</span> <span class="n">VetoableTaskWindowEvent</span><span class="p">(</span>
+            <span class="n">window</span><span class="o">=</span><span class="n">window</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">window_event</span><span class="o">.</span><span class="n">veto</span><span class="p">:</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_on_window_opened</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+
+        <span class="c1"># Event notification.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_opened</span> <span class="o">=</span> <span class="n">TaskWindowEvent</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_on_window_closing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">VetoableTaskWindowEvent</span>
+
+        <span class="c1"># Event notification.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_closing</span> <span class="o">=</span> <span class="n">window_event</span> <span class="o">=</span> <span class="n">VetoableTaskWindowEvent</span><span class="p">(</span>
+            <span class="n">window</span><span class="o">=</span><span class="n">window</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">window_event</span><span class="o">.</span><span class="n">veto</span><span class="p">:</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Store the layout of the window.</span>
+            <span class="n">window_layout</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">get_window_layout</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">push_window_layout</span><span class="p">(</span><span class="n">window_layout</span><span class="p">)</span>
+
+            <span class="c1"># If we&#39;re exiting implicitly and this is the last window, save</span>
+            <span class="c1"># state, because we won&#39;t get another chance.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explicit_exit</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_exit</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_on_window_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.task_window_event</span> <span class="kn">import</span> <span class="n">TaskWindowEvent</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+
+        <span class="c1"># Event notification.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_closed</span> <span class="o">=</span> <span class="n">TaskWindowEvent</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
+
+        <span class="c1"># Was this the last window?</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">stop_event_loop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="TasksApplicationState"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState">[docs]</a><span class="k">class</span> <span class="nc">TasksApplicationState</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class used internally by TasksApplication for saving and restoring</span>
+<span class="sd">    application state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TaskWindowLayouts for the windows extant at application</span>
+    <span class="c1"># exit. Only used if &#39;always_use_default_layout&#39; is disabled.</span>
+    <span class="n">previous_window_layouts</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.tasks.task_window_layout.TaskWindowLayout&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># A list of TaskWindowLayouts accumulated throughout the application&#39;s</span>
+    <span class="c1"># lifecycle.</span>
+    <span class="n">window_layouts</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+        <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;pyface.tasks.task_window_layout.TaskWindowLayout&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># The &quot;version&quot; for the state data. This should be incremented whenever a</span>
+    <span class="c1"># backwards incompatible change is made to this class or any of the layout</span>
+    <span class="c1"># classes. This ensures that loading application state is always safe.</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TasksApplicationState.get_equivalent_window_layout"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_equivalent_window_layout">[docs]</a>    <span class="k">def</span> <span class="nf">get_equivalent_window_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_layout</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets an equivalent TaskWindowLayout, if there is one.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_layouts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">layout</span><span class="o">.</span><span class="n">is_equivalent_to</span><span class="p">(</span><span class="n">window_layout</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">layout</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="TasksApplicationState.get_task_layout"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_task_layout">[docs]</a>    <span class="k">def</span> <span class="nf">get_task_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets a TaskLayout with the specified ID, there is one.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">window_layout</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_layouts</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">window_layout</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">layout</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">task_id</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">layout</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="TasksApplicationState.push_window_layout"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.push_window_layout">[docs]</a>    <span class="k">def</span> <span class="nf">push_window_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_layout</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge a TaskWindowLayout into the accumulated list.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_layouts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">layout</span>
+            <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_layouts</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">is_equivalent_to</span><span class="p">(</span><span class="n">window_layout</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_layouts</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">window_layout</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

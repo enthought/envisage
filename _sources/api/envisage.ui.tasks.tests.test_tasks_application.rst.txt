@@ -1,0 +1,7 @@
+envisage.ui.tasks.tests.test\_tasks\_application module
+=======================================================
+
+.. automodule:: envisage.ui.tasks.tests.test_tasks_application
+   :members:
+   :undoc-members:
+   :show-inheritance:
