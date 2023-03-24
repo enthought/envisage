@@ -1,3 +1,4 @@
+# Requirements for building documentation
+Sphinx
 enthought-sphinx-theme
-sphinx
 sphinx-copybutton
