@@ -1,0 +1,7 @@
+envisage.ui.action.action\_set\_manager module
+==============================================
+
+.. automodule:: envisage.ui.action.action_set_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

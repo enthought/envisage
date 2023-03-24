@@ -1,0 +1,7 @@
+envisage.ui.tasks.action.exit\_action module
+============================================
+
+.. automodule:: envisage.ui.tasks.action.exit_action
+   :members:
+   :undoc-members:
+   :show-inheritance:

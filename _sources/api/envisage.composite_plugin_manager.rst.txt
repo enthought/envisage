@@ -1,0 +1,7 @@
+envisage.composite\_plugin\_manager module
+==========================================
+
+.. automodule:: envisage.composite_plugin_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

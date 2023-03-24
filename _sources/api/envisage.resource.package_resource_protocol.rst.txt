@@ -1,0 +1,7 @@
+envisage.resource.package\_resource\_protocol module
+====================================================
+
+.. automodule:: envisage.resource.package_resource_protocol
+   :members:
+   :undoc-members:
+   :show-inheritance:

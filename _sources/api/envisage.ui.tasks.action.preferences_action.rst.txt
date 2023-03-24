@@ -1,0 +1,7 @@
+envisage.ui.tasks.action.preferences\_action module
+===================================================
+
+.. automodule:: envisage.ui.tasks.action.preferences_action
+   :members:
+   :undoc-members:
+   :show-inheritance:

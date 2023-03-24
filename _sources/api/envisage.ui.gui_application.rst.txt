@@ -1,0 +1,7 @@
+envisage.ui.gui\_application module
+===================================
+
+.. automodule:: envisage.ui.gui_application
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Window Layout &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '7.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="Tasks User Manual" href="index.html" >
+    <link rel="next" title="Menus and Tool Bars" href="menus.html" >
+    <link rel="prev" title="Introduction" href="intro.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Tasks User Manual</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="menus.html" title="Menus and Tool Bars"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="intro.html" title="Introduction"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <section id="window-layout">
+<span id="layout"></span><h1>Window Layout<a class="headerlink" href="#window-layout" title="Permalink to this heading">¶</a></h1>
+<p>First and foremost, the Tasks plugin is designed to facilitate the layout of
+modern, customizable user interfaces. Accordingly, we shall begin by learning
+how to use Tasks to perform basic window layout.</p>
+<section id="lifecycle-of-a-task">
+<span id="index-0"></span><h2>Lifecycle of a Task<a class="headerlink" href="#lifecycle-of-a-task" title="Permalink to this heading">¶</a></h2>
+<p id="index-1">The Tasks plugin adheres to the model-view-controller (MVC) design pattern <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>,
+for which the <code class="docutils literal notranslate"><span class="pre">Task</span></code> class functions as the controller and the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>
+class as the view, with the model being application-specific <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Insofar as a
+<code class="docutils literal notranslate"><span class="pre">Task</span></code> is a controller, it does not itself instantiate or contain any GUI
+controls, although it does provide factories and a default layout for the
+controls that it manages. Controls are instantiated when a <code class="docutils literal notranslate"><span class="pre">Task</span></code> is assigned
+to a <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>. Specifically, the following actions are taken at this time:</p>
+<ol class="arabic simple">
+<li><p>The task’s central pane is constructed and attached to the window</p></li>
+<li><p>All of the task’s dock panes are constructed, even if they are not by default
+visible</p></li>
+<li><p>The visible dock panes are laid out around the central pane according to the
+task’s default layout or persisted UI state information</p></li>
+</ol>
+<p>While the <code class="docutils literal notranslate"><span class="pre">Task</span></code> remains connected to the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>, neither its central
+pane nor its dock panes will be destroyed. If the user “closes” a dock pane, the
+pane will be merely hidden, and can be re-activated via the application’s View
+menu. Only when the <code class="docutils literal notranslate"><span class="pre">Task</span></code> itself is closed—that is, when it is removed from
+the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>—will its panes be destroyed. This marks the end of the
+<code class="docutils literal notranslate"><span class="pre">Task</span></code>’s lifecycle. If the task is to be re-used, a new instance should be
+constructed.</p>
+</section>
+<section id="defining-a-task">
+<span id="index-2"></span><h2>Defining a Task<a class="headerlink" href="#defining-a-task" title="Permalink to this heading">¶</a></h2>
+<p>Minimally, a task is defined by subclassing <code class="docutils literal notranslate"><span class="pre">Task</span></code> and providing a central
+pane. For example, we define a task for editing Python scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">Task</span>
+
+<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.example_task&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Python Script Editor&#39;</span>
+
+    <span class="k">def</span> <span class="nf">create_central_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PythonEditorPane</span><span class="p">()</span>
+</pre></div>
+</div>
+<p id="index-3">The <code class="docutils literal notranslate"><span class="pre">id</span></code> attribute is a unique internal identifier for the task, whereas
+<code class="docutils literal notranslate"><span class="pre">name</span></code> is a user-visible descriptor for the task. We shall see that this is a
+common pattern in the Tasks framework.</p>
+<p id="index-4">All tasks must implement <code class="docutils literal notranslate"><span class="pre">create_central_pane()</span></code> and return a TaskPane
+instance. We might define the <code class="docutils literal notranslate"><span class="pre">PythonEditorPane</span></code> pane above as follows, making
+use of the <code class="docutils literal notranslate"><span class="pre">PythonEditor</span></code> available in Pyface:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">PythonEditor</span>
+<span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">TaskPane</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span>
+
+<span class="k">class</span> <span class="nc">PythonEditorPane</span><span class="p">(</span><span class="n">TaskPane</span><span class="p">):</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.python_editor_pane&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Python Editor&#39;</span>
+
+    <span class="n">editor</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PythonEditor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">PythonEditor</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">control</span>
+
+    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>Besides providing an ID and a name for the pane, we implement the two basic
+methods of <code class="docutils literal notranslate"><span class="pre">TaskPane</span></code>, namely <code class="docutils literal notranslate"><span class="pre">create(parent)</span></code> and <code class="docutils literal notranslate"><span class="pre">destroy()</span></code>. The former
+constructs a toolkit-specific control for the pane and assigns its to the pane’s
+<code class="docutils literal notranslate"><span class="pre">control</span></code> attribute. The latter performs the inverse operation, destroying the
+control and clearing <code class="docutils literal notranslate"><span class="pre">control</span></code> attribute. These methods give one full control
+over how a pane is constructed, but as we shall see below there are other, more
+convenient methods for defining a pane.</p>
+</section>
+<section id="defining-a-dock-pane">
+<span id="index-5"></span><h2>Defining a Dock Pane<a class="headerlink" href="#defining-a-dock-pane" title="Permalink to this heading">¶</a></h2>
+<p>Now we imagine that we are building a very primitive Python IDE and that we
+would like to add a dock pane for browsing the local filesystem. We could create
+a <code class="docutils literal notranslate"><span class="pre">DockPane</span></code> subclass similarly to the <code class="docutils literal notranslate"><span class="pre">TaskPane</span></code> above, implementing the
+<code class="docutils literal notranslate"><span class="pre">create_contents(parent)</span></code> method of <code class="docutils literal notranslate"><span class="pre">DockPane</span></code> to provide the
+toolkit-specific control for the file browser. But if we are familiar with
+Traits UI we see that it would be more convenient to use the Traits UI
+<code class="docutils literal notranslate"><span class="pre">FileEditor</span></code> for this purpose. The Tasks framework provides the
+<code class="docutils literal notranslate"><span class="pre">TraitsDockPane</span></code> class to facilitate this. We define the pane as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">TraitsDockPane</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">View</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">FileEditor</span>
+
+<span class="k">class</span> <span class="nc">FileBrowserPane</span><span class="p">(</span><span class="n">TraitsDockPane</span><span class="p">):</span>
+
+    <span class="c1">#### TaskPane interface ###############################################</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.file_browser_pane&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;File Browser&#39;</span>
+
+    <span class="c1">#### FileBrowserPane interface ########################################</span>
+
+    <span class="c1"># Fired when a file is double-clicked.</span>
+    <span class="n">activated</span> <span class="o">=</span> <span class="n">Event</span>
+
+    <span class="c1"># The list of wildcard filters for filenames.</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Str</span><span class="p">)</span>
+
+    <span class="c1"># The currently selected file.</span>
+    <span class="n">selected_file</span> <span class="o">=</span> <span class="n">File</span>
+
+    <span class="c1"># The view used to construct the dock pane&#39;s widget.</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span>
+            <span class="s1">&#39;selected_file&#39;</span><span class="p">,</span>
+            <span class="n">editor</span><span class="o">=</span><span class="n">FileEditor</span><span class="p">(</span>
+                <span class="n">dclick_name</span><span class="o">=</span><span class="s1">&#39;activated&#39;</span><span class="p">,</span>
+                <span class="n">filter_name</span><span class="o">=</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="s1">&#39;custom&#39;</span><span class="p">,</span>
+            <span class="n">show_label</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">),</span>
+        <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>When a control is needed for the pane, it will be constructed using the standard
+Traits UI mechanisms. There exist additional options, not described here, for
+specifying a model object, which is often important when building a complex
+application. There is also a <code class="docutils literal notranslate"><span class="pre">TraitsTaskPane</span></code> class that provides similar
+functionality for defining Traits-based central panes. As always, the reader is
+referred to the Tasks API documentation for more information.</p>
+<p>Now let us amend the example task defined above with a <code class="docutils literal notranslate"><span class="pre">create_dock_panes()</span></code>
+method. This method returns the list of dock pane instances associated with the
+task. We also define a method on our task for opening a file in the editor,
+which we connect to the dock pane’s <code class="docutils literal notranslate"><span class="pre">activated</span></code> event:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">create_dock_panes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the file browser and connect to its double click event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">browser</span> <span class="o">=</span> <span class="n">PythonScriptBrowserPane</span><span class="p">()</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">browser</span><span class="o">.</span><span class="n">selected_file</span><span class="p">)</span>
+        <span class="n">browser</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s1">&#39;activated&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">browser</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Open the file with the specified path in the central pane.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">central_pane</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
+</pre></div>
+</div>
+</section>
+<section id="providing-a-default-layout">
+<span id="index-6"></span><h2>Providing a Default Layout<a class="headerlink" href="#providing-a-default-layout" title="Permalink to this heading">¶</a></h2>
+<p>Although dock panes are designed to be moved around and otherwise manipulated by
+the user, we often have a particular default layout in mind when designing an
+application. The Tasks framework provides the <code class="docutils literal notranslate"><span class="pre">TaskLayout</span></code> class to make the
+specification of this layout possible. Usually, we are only concerned with four
+attributes of this class, namely <code class="docutils literal notranslate"><span class="pre">left</span></code>, <code class="docutils literal notranslate"><span class="pre">right</span></code>, <code class="docutils literal notranslate"><span class="pre">bottom</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">top</span></code>. Each of these attributes may be assigned a layout item, which is
+either a <code class="docutils literal notranslate"><span class="pre">PaneItem</span></code>, for specifying a particular dock pane; a <code class="docutils literal notranslate"><span class="pre">Tabbed</span></code> item,
+containing other <code class="docutils literal notranslate"><span class="pre">PaneItem</span></code> instances; or a <code class="docutils literal notranslate"><span class="pre">Splitter</span></code>, containing arbitrary
+subitems.</p>
+<p>A few examples should suffice to make this clear. To stack the dock pane with ID
+‘dock_pane_1’ on top of that with ID ‘dock_pane_2’, with both to the left of the
+central pane, one specifies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left</span> <span class="o">=</span> <span class="n">Splitter</span><span class="p">(</span>
+    <span class="n">PaneItem</span><span class="p">(</span><span class="s1">&#39;dock_pane_1&#39;</span><span class="p">),</span>
+    <span class="n">PaneItem</span><span class="p">(</span><span class="s1">&#39;dock_pane_2&#39;</span><span class="p">),</span>
+    <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p id="index-7">We could also have used <code class="docutils literal notranslate"><span class="pre">VSplitter</span></code>, which is a convenient abbreviation for a
+splitter with vertical orientation. Similarly, <code class="docutils literal notranslate"><span class="pre">HSplitter</span></code> is an abbrevation
+for a splitter with horizontal orientation.</p>
+<p>To put these dock panes in tab group below the central pane, we might write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bottom_panes</span> <span class="o">=</span> <span class="n">Tabbed</span><span class="p">(</span>
+    <span class="n">PaneItem</span><span class="p">(</span><span class="s1">&#39;dock_pane_1&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">),</span>
+    <span class="n">PaneItem</span><span class="p">(</span><span class="s1">&#39;dock_pane_2&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Observe that we have explicitly provided a height for the first dock
+pane. Provided that the dock pane’s underlying control does not have a
+conflicting minimum or maximum size constraint, Tasks guarantees that it will
+honor this height exactly. Of course, if <code class="docutils literal notranslate"><span class="pre">width</span></code> or <code class="docutils literal notranslate"><span class="pre">height</span></code> are not
+provided, Tasks will use the dock pane’s toolkit-specific size hint to
+determine its size.</p>
+<p>Now we will provide our example task with a simple layout using the
+<code class="docutils literal notranslate"><span class="pre">default_layout</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">Task</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+
+    <span class="n">default_layout</span> <span class="o">=</span> <span class="n">TaskLayout</span><span class="p">(</span>
+        <span class="n">left</span><span class="o">=</span><span class="n">PaneItem</span><span class="p">(</span><span class="s1">&#39;example.python_script_browser_pane&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that dock panes that do not appear in the layout will not be visible by
+default. A task without a default layout is equivalent to a task with an empty
+layout; in both cases, only the central pane will be visible by
+default. Finally, note that the layout behavior is undefined if a dock pane
+appears multiple times in a layout.</p>
+<p class="rubric">Footnotes</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>For more information about the MVC pattern as used in ETS, the reader is
+referred to the <a class="reference external" href="http://enthought.github.com/traits/TUIUG/intro.html">Introduction</a> of the Traits UI
+User Guide.</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Throughout this document, “<code class="docutils literal notranslate"><span class="pre">Task</span></code>” will refer to the class of that name
+in the Tasks API, while “task” will be reserved for the general UI
+concept, and similarly for other terms.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Window Layout</a><ul>
+<li><a class="reference internal" href="#lifecycle-of-a-task">Lifecycle of a Task</a></li>
+<li><a class="reference internal" href="#defining-a-task">Defining a Task</a></li>
+<li><a class="reference internal" href="#defining-a-dock-pane">Defining a Dock Pane</a></li>
+<li><a class="reference internal" href="#providing-a-default-layout">Providing a Default Layout</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="intro.html"
+                          title="previous chapter">Introduction</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="menus.html"
+                          title="next chapter">Menus and Tool Bars</a></p>
+  </div>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/tasks_user_manual/layout.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Mar 24, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
