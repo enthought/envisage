@@ -2,6 +2,19 @@
  Release history
 =================
 
+Version 7.0.1
+=============
+
+Released: 2023-03-24
+
+This is a bugfix release whose sole purpose is to fix the Read the Docs
+build for the Envisage documentation.
+
+Fixes
+-----
+* Fix the documentation build for Read the Docs. (#560)
+
+
 Version 7.0.0
 =============
 
