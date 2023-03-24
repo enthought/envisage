@@ -461,7 +461,7 @@ def docs(edm, runtime, toolkit, environment):
         "{docs_source} {docs_build}"
     )
 
-    commands = [apidoc_command, html_build_command]
+    commands = [html_build_command]
     execute(commands, parameters)
 
 
