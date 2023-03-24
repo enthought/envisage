@@ -242,6 +242,7 @@ extlinks = {
 
 # -- Automated apidoc building
 
+
 def run_apidoc(app, config):
     """
     Hook to autogenerate API documentation via sphinx-apidoc.
@@ -258,9 +259,9 @@ def run_apidoc(app, config):
         "--separate",
         "--no-toc",
         "--output-dir",
-        docs/"source"/"api",
+        docs / "source" / "api",
         "--templatedir",
-        docs/"source"/"api"/"templates",
+        docs / "source" / "api" / "templates",
         envisage,
         "*/tests",  # exclusions
     ]
