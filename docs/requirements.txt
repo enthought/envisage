@@ -1,4 +1,4 @@
 # Requirements for building documentation
-Sphinx
-enthought-sphinx-theme
-sphinx-copybutton
+Sphinx==6.1.3
+enthought-sphinx-theme==0.7.2
+sphinx-copybutton==0.5.1
