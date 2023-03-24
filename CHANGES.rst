@@ -13,7 +13,7 @@ build for the Envisage documentation.
 Fixes
 -----
 * Fix the documentation build for Read the Docs. (#560)
-* Fix example that was importing ``Font`` and ``Color`` from Traits
+* Fix example code that was importing ``Font`` and ``Color`` from Traits
   instead of TraitsUI. (#558)
 
 
