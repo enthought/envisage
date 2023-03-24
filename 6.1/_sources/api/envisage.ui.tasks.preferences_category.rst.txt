@@ -1,0 +1,7 @@
+envisage.ui.tasks.preferences\_category module
+==============================================
+
+.. automodule:: envisage.ui.tasks.preferences_category
+   :members:
+   :undoc-members:
+   :show-inheritance:

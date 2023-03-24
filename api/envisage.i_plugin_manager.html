@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>envisage.i_plugin_manager module &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -91,76 +93,76 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="module-envisage.i_plugin_manager">
-<span id="envisage-i-plugin-manager-module"></span><h1>envisage.i_plugin_manager module<a class="headerlink" href="#module-envisage.i_plugin_manager" title="Permalink to this headline">¶</a></h1>
+<span id="envisage-i-plugin-manager-module"></span><h1>envisage.i_plugin_manager module<a class="headerlink" href="#module-envisage.i_plugin_manager" title="Permalink to this heading">¶</a></h1>
 <p>The plugin manager interface.</p>
 <dl class="py class">
-<dt id="envisage.i_plugin_manager.IPluginManager">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.i_plugin_manager.</span></code><code class="sig-name descname"><span class="pre">IPluginManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">adaptee</span></em>, <em class="sig-param"><span class="pre">default=&lt;class</span> <span class="pre">'traits.adaptation.adaptation_error.AdaptationError'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.Interface</span></code></a></p>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.i_plugin_manager.</span></span><span class="sig-name descname"><span class="pre">IPluginManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adaptee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default=&lt;class</span> <span class="pre">'traits.adaptation.adaptation_error.AdaptationError'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a></p>
 <p>The plugin manager interface.</p>
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.add_plugin">
-<code class="sig-name descname"><span class="pre">add_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.add_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.add_plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.add_plugin">
+<span class="sig-name descname"><span class="pre">add_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.add_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.add_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a plugin to the manager.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.get_plugin">
-<code class="sig-name descname"><span class="pre">get_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.get_plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.get_plugin">
+<span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.get_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the plugin with the specified Id.</p>
 <p>Return None if no such plugin exists.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="envisage.i_plugin_manager.IPluginManager.plugin_added">
-<code class="sig-name descname"><span class="pre">plugin_added</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.plugin_added" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.plugin_added">
+<span class="sig-name descname"><span class="pre">plugin_added</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.plugin_added" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been added to the manager.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="envisage.i_plugin_manager.IPluginManager.plugin_removed">
-<code class="sig-name descname"><span class="pre">plugin_removed</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.plugin_removed" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.plugin_removed">
+<span class="sig-name descname"><span class="pre">plugin_removed</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Event(PluginEvent)</span></em><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.plugin_removed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been removed from the manager.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.remove_plugin">
-<code class="sig-name descname"><span class="pre">remove_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.remove_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.remove_plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.remove_plugin">
+<span class="sig-name descname"><span class="pre">remove_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.remove_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.remove_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a plugin from the manager.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.start">
-<code class="sig-name descname"><span class="pre">start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the plugin manager.</p>
 <p>This starts all of the manager’s plugins.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.start_plugin">
-<code class="sig-name descname"><span class="pre">start_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.start_plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.start_plugin">
+<span class="sig-name descname"><span class="pre">start_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.start_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the specified plugin.</p>
 <p>If a plugin is specified then start it.</p>
 <p>If no plugin is specified then the Id is used to look up the plugin
-and then start it. If no such plugin exists then a ‘SystemError’
+and then start it. If no such plugin exists then a ‘ValueError’
 exception is raised.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.stop">
-<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.stop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the plugin manager.</p>
 <p>This stop’s all of the plugin manager’s plugins (in the reverse order
 that they were started).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.i_plugin_manager.IPluginManager.stop_plugin">
-<code class="sig-name descname"><span class="pre">stop_plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.stop_plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.i_plugin_manager.IPluginManager.stop_plugin">
+<span class="sig-name descname"><span class="pre">stop_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_plugin_manager.html#IPluginManager.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_plugin_manager.IPluginManager.stop_plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the specified plugin.</p>
 <p>If a plugin is specified then stop it (the Id is ignored).</p>
 <p>If no plugin is specified then the Id is used to look up the plugin and
-then stop it. If no such plugin exists then a ‘SystemError’ exception
+then stop it. If no such plugin exists then a ‘ValueError’ exception
 is raised.</p>
 </dd></dl>
 
@@ -177,12 +179,37 @@ is raised.</p>
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="envisage.i_plugin_activator.html"
-                        title="previous chapter">envisage.i_plugin_activator module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="envisage.i_provider_extension_registry.html"
-                        title="next chapter">envisage.i_provider_extension_registry module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">envisage.i_plugin_manager module</a><ul>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager"><code class="docutils literal notranslate"><span class="pre">IPluginManager</span></code></a><ul>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.add_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.add_plugin()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.get_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.get_plugin()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.plugin_added"><code class="docutils literal notranslate"><span class="pre">IPluginManager.plugin_added</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.plugin_removed"><code class="docutils literal notranslate"><span class="pre">IPluginManager.plugin_removed</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.remove_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.remove_plugin()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.start"><code class="docutils literal notranslate"><span class="pre">IPluginManager.start()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.start_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.start_plugin()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.stop"><code class="docutils literal notranslate"><span class="pre">IPluginManager.stop()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.i_plugin_manager.IPluginManager.stop_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="envisage.i_plugin_activator.html"
+                          title="previous chapter">envisage.i_plugin_activator module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.i_provider_extension_registry.html"
+                          title="next chapter">envisage.i_provider_extension_registry module</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/api/envisage.i_plugin_manager.rst.txt"
@@ -192,12 +219,12 @@ is raised.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -214,13 +241,13 @@ is raised.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

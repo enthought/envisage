@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Plugins &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -90,7 +92,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="plugins">
-<h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
+<h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading">¶</a></h1>
 <p><em>Plugins</em> are used to “deliver” <a class="reference external" href="extension_points.html">Extension Points</a>, contributions to extension
 points, and <a class="reference external" href="services.html">Services</a> into an Envisage application. In fact, plugins can be
 thought of as simply being “delivery trucks” – they rarely (if ever) do any
@@ -104,7 +106,7 @@ thought of as simply being “delivery trucks” – they rarely (if ever) do an
 is designed such that you can write your own plugin manager, by default, it
 uses an implementation based on <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>.</p>
 <section id="creating-a-plugin">
-<h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline">¶</a></h2>
+<h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this heading">¶</a></h2>
 <p>All plugins must implement the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface (an easy way to achieve this
 is to subclass the base <a class="reference internal" href="../api/envisage.plugin.html#envisage.plugin.Plugin" title="envisage.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> class), and should provide the following
 “housekeeping” information:</p>
@@ -123,9 +125,9 @@ domain name notation is probably a good idea!</p>
 <p>A nice description of the intent and features of your plugin.</p>
 </li>
 </ul>
-<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/6.1.0/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/6.1.0/envisage/examples/demo/MOTD">Message of the Day</a> example:</p>
+<p>Here is a snippet from the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin that is part of the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD">Message of the Day</a> example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
 
 <span class="sd">    When this plugin is started it prints the &#39;Message of the Day&#39; to stdout.</span>
 
@@ -142,11 +144,11 @@ domain name notation is probably a good idea!</p>
 </div>
 </section>
 <section id="plugin-lifecycle">
-<h2>Plugin Lifecycle<a class="headerlink" href="#plugin-lifecycle" title="Permalink to this headline">¶</a></h2>
+<h2>Plugin Lifecycle<a class="headerlink" href="#plugin-lifecycle" title="Permalink to this heading">¶</a></h2>
 <p>Plugins have a lifecycle in the context of an application. There are currently
 two key lifecycle methods on the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Start the plugin.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Start the plugin.</span>
 
 <span class="sd">    This method is called by the framework when the application is starting</span>
 <span class="sd">    up. If you want to start a plugin manually use::</span>
@@ -156,7 +158,7 @@ two key lifecycle methods on the <a class="reference internal" href="../api/envi
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Stop the plugin.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Stop the plugin.</span>
 
 <span class="sd">    This method is called by the framework when the application is</span>
 <span class="sd">    stopping. If you want to stop a plugin manually use::</span>
@@ -184,8 +186,9 @@ method of each plugin in the reverse order that they were started in.</p>
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Plugins</a><ul>
 <li><a class="reference internal" href="#creating-a-plugin">Creating a Plugin</a></li>
 <li><a class="reference internal" href="#plugin-lifecycle">Plugin Lifecycle</a></li>
@@ -193,12 +196,17 @@ method of each plugin in the reverse order that they were started in.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="services.html"
-                        title="previous chapter">Services</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="howto_create_a_plugin.html"
-                        title="next chapter">How To Create a Plugin for an Envisage Application</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="services.html"
+                          title="previous chapter">Services</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="howto_create_a_plugin.html"
+                          title="next chapter">How To Create a Plugin for an Envisage Application</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/envisage_core_documentation/plugins.rst.txt"
@@ -208,12 +216,12 @@ method of each plugin in the reverse order that they were started in.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -230,13 +238,13 @@ method of each plugin in the reverse order that they were started in.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.action.i_action_set &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '6.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.ui.action.i_action_set</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="sd">&quot;&quot;&quot; The action set interface. &quot;&quot;&quot;</span>
+
+
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.action</span> <span class="kn">import</span> <span class="n">Action</span>
+<span class="kn">from</span> <span class="nn">.group</span> <span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span> <span class="nn">.menu</span> <span class="kn">import</span> <span class="n">Menu</span>
+<span class="kn">from</span> <span class="nn">.tool_bar</span> <span class="kn">import</span> <span class="n">ToolBar</span>
+
+
+<div class="viewcode-block" id="IActionSet"><a class="viewcode-back" href="../../../../api/envisage.ui.action.i_action_set.html#envisage.ui.action.i_action_set.IActionSet">[docs]</a><span class="k">class</span> <span class="nc">IActionSet</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The action set interface.</span>
+
+<span class="sd">    An action set is a collection of menus, groups, and actions.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The action set&#39;s globally unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1"># The action set&#39;s name.</span>
+    <span class="c1">#</span>
+    <span class="c1"># fixme: This is not currently used, but in future it will be the name that</span>
+    <span class="c1"># is shown to the user when they are customizing perspectives by adding or</span>
+    <span class="c1"># removing action sets etc.</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
+
+    <span class="c1"># The actions in this set.</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Action</span><span class="p">)</span>
+
+    <span class="c1"># The groups in this set.</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
+
+    <span class="c1"># The menus in this set.</span>
+    <span class="n">menus</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Menu</span><span class="p">)</span>
+
+    <span class="c1"># The tool bars in this set.</span>
+    <span class="n">tool_bars</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">ToolBar</span><span class="p">)</span>
+
+    <span class="c1"># A mapping from human-readable names to globally unique IDs.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This mapping is used when interpreting the first item in a location path</span>
+    <span class="c1"># (i.e., the **path** trait of a **Location** instance).</span>
+    <span class="c1">#</span>
+    <span class="c1"># When the path is intepreted, the first component (i.e., the first item</span>
+    <span class="c1"># before any &#39;/&#39;) is checked to see if it is in the mapping, and if so it</span>
+    <span class="c1"># is replaced with the value in the map.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This technique allows paths to start with human readable names, as</span>
+    <span class="c1"># opposed to IDs (which are required in order to manage the namespace of</span>
+    <span class="c1"># all action sets).</span>
+    <span class="c1">#</span>
+    <span class="c1"># For example, in the Envisage workbench, the menu bar ID is:</span>
+    <span class="c1">#</span>
+    <span class="c1"># ``&#39;envisage.workbench.menubar&#39;``</span>
+    <span class="c1">#</span>
+    <span class="c1"># Without aliases, you must specify a location like this:</span>
+    <span class="c1">#</span>
+    <span class="c1"># ``Location(path=&#39;envisage.workbench.menubar/ASubMenu/AGroup&#39;)``</span>
+    <span class="c1">#</span>
+    <span class="c1"># This is a bit long-winded! Instead, you can define an alias:</span>
+    <span class="c1">#</span>
+    <span class="c1">#     ``aliases = { &#39;MenuBar&#39; : &#39;envisage.workbench.menubar&#39; }``</span>
+    <span class="c1">#</span>
+    <span class="c1"># In that case, you can specify a location like this:</span>
+    <span class="c1">#</span>
+    <span class="c1">#     ``Location(path=&#39;MenuBar/ASubMenu/AGroup&#39;)``</span>
+    <span class="c1">#</span>
+    <span class="n">aliases</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">Str</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2022, Enthought
+      </li>
+      <li>
+      Last updated on Aug 15, 2022.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

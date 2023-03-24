@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>envisage.ids module &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -91,78 +93,64 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="module-envisage.ids">
-<span id="envisage-ids-module"></span><h1>envisage.ids module<a class="headerlink" href="#module-envisage.ids" title="Permalink to this headline">¶</a></h1>
+<span id="envisage-ids-module"></span><h1>envisage.ids module<a class="headerlink" href="#module-envisage.ids" title="Permalink to this heading">¶</a></h1>
 <p>This module redefines the Extension Point IDs and Service IDs defined on
 Plugins provided by Envisage. Note that this module does not contain IDs
 defined by all of the Plugins available in Envisage.</p>
 <p>The Plugins themselves remain the ground truth for the IDs. This module is
 simply a convenient location from which the user can import the IDs.</p>
 <dl class="py data">
-<dt id="envisage.ids.BINDINGS">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">BINDINGS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.plugins.python_shell.bindings'</span></em><a class="headerlink" href="#envisage.ids.BINDINGS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.BINDINGS">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">BINDINGS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.plugins.python_shell.bindings'</span></em><a class="headerlink" href="#envisage.ids.BINDINGS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute name/value pairs that will be bound to the
 <code class="docutils literal notranslate"><span class="pre">PythonShell</span></code>, defined on the <code class="docutils literal notranslate"><span class="pre">PythonShellPlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.COMMANDS">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">COMMANDS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.plugins.python_shell.commands'</span></em><a class="headerlink" href="#envisage.ids.COMMANDS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.COMMANDS">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">COMMANDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.plugins.python_shell.commands'</span></em><a class="headerlink" href="#envisage.ids.COMMANDS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute commands that will be executed in the
 <code class="docutils literal notranslate"><span class="pre">PythonShell</span></code>, defined on the <code class="docutils literal notranslate"><span class="pre">PythonShellPlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.IPYTHON_KERNEL_PROTOCOL">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">IPYTHON_KERNEL_PROTOCOL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.plugins.ipython_kernel.internal_ipkernel.InternalIPKernel'</span></em><a class="headerlink" href="#envisage.ids.IPYTHON_KERNEL_PROTOCOL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Service to access the active <code class="docutils literal notranslate"><span class="pre">InternalIPKernel</span></code> instance in the
-application, defined on the <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code>.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="envisage.ids.IPYTHON_NAMESPACE">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">IPYTHON_NAMESPACE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'ipython_plugin.namespace'</span></em><a class="headerlink" href="#envisage.ids.IPYTHON_NAMESPACE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extension Point to contribute name/value pairs that will be bound to the
-<code class="docutils literal notranslate"><span class="pre">IPythonShell</span></code>, defined on the <code class="docutils literal notranslate"><span class="pre">IPythonKernelPlugin</span></code>.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="envisage.ids.PREFERENCES">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">PREFERENCES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.preferences'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.PREFERENCES">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">PREFERENCES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.preferences'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute preference files, defined on the
 <code class="docutils literal notranslate"><span class="pre">CorePlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.PREFERENCES_CATEGORIES">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">PREFERENCES_CATEGORIES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.preferences_categories'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES_CATEGORIES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.PREFERENCES_CATEGORIES">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">PREFERENCES_CATEGORIES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.ui.tasks.preferences_categories'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES_CATEGORIES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute preferences categories, defined on the
 <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.PREFERENCES_PANES">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">PREFERENCES_PANES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.preferences_panes'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES_PANES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.PREFERENCES_PANES">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">PREFERENCES_PANES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.ui.tasks.preferences_panes'</span></em><a class="headerlink" href="#envisage.ids.PREFERENCES_PANES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute preference panes, defined on the
 <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.SERVICE_OFFERS">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">SERVICE_OFFERS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.service_offers'</span></em><a class="headerlink" href="#envisage.ids.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.SERVICE_OFFERS">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">SERVICE_OFFERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.service_offers'</span></em><a class="headerlink" href="#envisage.ids.SERVICE_OFFERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute <code class="docutils literal notranslate"><span class="pre">ServiceOffer</span></code> s, defined on the
 <code class="docutils literal notranslate"><span class="pre">CorePlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.TASKS">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">TASKS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.tasks'</span></em><a class="headerlink" href="#envisage.ids.TASKS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.TASKS">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">TASKS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.ui.tasks.tasks'</span></em><a class="headerlink" href="#envisage.ids.TASKS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute task factories, defined on the
 <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt id="envisage.ids.TASK_EXTENSIONS">
-<code class="sig-prename descclassname"><span class="pre">envisage.ids.</span></code><code class="sig-name descname"><span class="pre">TASK_EXTENSIONS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.task_extensions'</span></em><a class="headerlink" href="#envisage.ids.TASK_EXTENSIONS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.ids.TASK_EXTENSIONS">
+<span class="sig-prename descclassname"><span class="pre">envisage.ids.</span></span><span class="sig-name descname"><span class="pre">TASK_EXTENSIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'envisage.ui.tasks.task_extensions'</span></em><a class="headerlink" href="#envisage.ids.TASK_EXTENSIONS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extension Point to contribute task extensions, defined on the
 <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>.</p>
 </dd></dl>
@@ -178,12 +166,33 @@ application, defined on the <code class="docutils literal notranslate"><span cla
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="envisage.i_service_user.html"
-                        title="previous chapter">envisage.i_service_user module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="envisage.import_manager.html"
-                        title="next chapter">envisage.import_manager module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">envisage.ids module</a><ul>
+<li><a class="reference internal" href="#envisage.ids.BINDINGS"><code class="docutils literal notranslate"><span class="pre">BINDINGS</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.COMMANDS"><code class="docutils literal notranslate"><span class="pre">COMMANDS</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.PREFERENCES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.PREFERENCES_CATEGORIES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES_CATEGORIES</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.PREFERENCES_PANES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES_PANES</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">SERVICE_OFFERS</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.TASKS"><code class="docutils literal notranslate"><span class="pre">TASKS</span></code></a></li>
+<li><a class="reference internal" href="#envisage.ids.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TASK_EXTENSIONS</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="envisage.i_service_user.html"
+                          title="previous chapter">envisage.i_service_user module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.import_manager.html"
+                          title="next chapter">envisage.import_manager module</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/api/envisage.ids.rst.txt"
@@ -193,12 +202,12 @@ application, defined on the <code class="docutils literal notranslate"><span cla
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -215,13 +224,13 @@ application, defined on the <code class="docutils literal notranslate"><span cla
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

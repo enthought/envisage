@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>envisage.provider_extension_registry module &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -35,7 +37,7 @@
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="Envisage Documentation" href="../index.html" >
     <link rel="up" title="envisage package" href="envisage.html" >
-    <link rel="next" title="envisage.safeweakref module" href="envisage.safeweakref.html" >
+    <link rel="next" title="envisage.service module" href="envisage.service.html" >
     <link rel="prev" title="envisage.plugin_manager module" href="envisage.plugin_manager.html" > 
   </head>
   <body>
@@ -70,7 +72,7 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="envisage.safeweakref.html" title="envisage.safeweakref module"
+        <a href="envisage.service.html" title="envisage.service module"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -91,35 +93,35 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="module-envisage.provider_extension_registry">
-<span id="envisage-provider-extension-registry-module"></span><h1>envisage.provider_extension_registry module<a class="headerlink" href="#module-envisage.provider_extension_registry" title="Permalink to this headline">¶</a></h1>
+<span id="envisage-provider-extension-registry-module"></span><h1>envisage.provider_extension_registry module<a class="headerlink" href="#module-envisage.provider_extension_registry" title="Permalink to this heading">¶</a></h1>
 <p>An extension registry implementation with multiple providers.</p>
 <dl class="py class">
-<dt id="envisage.provider_extension_registry.ProviderExtensionRegistry">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.provider_extension_registry.</span></code><code class="sig-name descname"><span class="pre">ProviderExtensionRegistry</span></code><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry" title="envisage.extension_registry.ExtensionRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.extension_registry.ExtensionRegistry</span></code></a></p>
+<dt class="sig sig-object py" id="envisage.provider_extension_registry.ProviderExtensionRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.provider_extension_registry.</span></span><span class="sig-name descname"><span class="pre">ProviderExtensionRegistry</span></span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry" title="envisage.extension_registry.ExtensionRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionRegistry</span></code></a></p>
 <p>An extension registry implementation with multiple providers.</p>
 <dl class="py method">
-<dt id="envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider">
-<code class="sig-name descname"><span class="pre">add_provider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.add_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider">
+<span class="sig-name descname"><span class="pre">add_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.add_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an extension provider.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers">
-<code class="sig-name descname"><span class="pre">get_providers</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.get_providers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers">
+<span class="sig-name descname"><span class="pre">get_providers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.get_providers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all of the providers in the registry.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider">
-<code class="sig-name descname"><span class="pre">remove_provider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.remove_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider">
+<span class="sig-name descname"><span class="pre">remove_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.remove_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove an extension provider.</p>
 <p>Raise a ‘ValueError’ if the provider is not in the registry.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions">
-<code class="sig-name descname"><span class="pre">set_extensions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.set_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions">
+<span class="sig-name descname"><span class="pre">set_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/provider_extension_registry.html#ProviderExtensionRegistry.set_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the extensions to an extension point.</p>
 </dd></dl>
 
@@ -136,12 +138,32 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="envisage.plugin_manager.html"
-                        title="previous chapter">envisage.plugin_manager module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="envisage.safeweakref.html"
-                        title="next chapter">envisage.safeweakref module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">envisage.provider_extension_registry module</a><ul>
+<li><a class="reference internal" href="#envisage.provider_extension_registry.ProviderExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry</span></code></a><ul>
+<li><a class="reference internal" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.add_provider()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.get_providers()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.remove_provider()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.set_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="envisage.plugin_manager.html"
+                          title="previous chapter">envisage.plugin_manager module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.service.html"
+                          title="next chapter">envisage.service module</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/api/envisage.provider_extension_registry.rst.txt"
@@ -151,12 +173,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -173,13 +195,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

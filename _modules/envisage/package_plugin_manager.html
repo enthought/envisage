@@ -10,11 +10,13 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -22,9 +24,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
@@ -79,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.package_plugin_manager</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,18 +95,18 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">apptools.io</span> <span class="kn">import</span> <span class="n">File</span>
 <span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span>
 
 <span class="kn">from</span> <span class="nn">.plugin_manager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
 
-
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="PackagePluginManager"><a class="viewcode-back" href="../../api/envisage.package_plugin_manager.html#envisage.package_plugin_manager.PackagePluginManager">[docs]</a><span class="k">class</span> <span class="nc">PackagePluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A plugin manager that finds plugins in packages on the &#39;plugin_path&#39;.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A plugin manager that finds plugins in packages on the &#39;plugin_path&#39;.</span>
 
 <span class="sd">    All items in &#39;plugin_path&#39; are directory names and they are all added to</span>
 <span class="sd">    &#39;sys.path&#39; (if not already present). Each directory is then searched for</span>
@@ -119,6 +121,18 @@
 <span class="sd">    called with no arguments and it must return a single plugin.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;The PackagePluginManager is deprecated. The recommended &quot;</span>
+                <span class="s2">&quot;approach is to install plugin-containing packages into &quot;</span>
+                <span class="s2">&quot;site-packages and advertise the plugins via entry points. &quot;</span>
+            <span class="p">),</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
     <span class="c1"># Plugin manifest.</span>
     <span class="n">PLUGIN_MANIFEST</span> <span class="o">=</span> <span class="s2">&quot;plugins.py&quot;</span>
@@ -136,7 +150,7 @@
     <span class="c1">#### Protected &#39;PluginManager&#39; protocol ###################################</span>
 
     <span class="k">def</span> <span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">plugin</span>
@@ -151,7 +165,7 @@
     <span class="c1">#### Private protocol #####################################################</span>
 
     <span class="k">def</span> <span class="nf">_get_plugins_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Import &#39;plugins.py&#39; from the package with the given name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import &#39;plugins.py&#39; from the package with the given name.</span>
 
 <span class="sd">        If the package does not exist, or does not contain &#39;plugins.py&#39; then</span>
 <span class="sd">        return None.</span>
@@ -170,7 +184,7 @@
 
     <span class="c1"># smell: Looooong and ugly!</span>
     <span class="k">def</span> <span class="nf">_harvest_plugins_in_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="n">package_dirname</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Harvest plugins found in the given package. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Harvest plugins found in the given package.&quot;&quot;&quot;</span>
 
         <span class="c1"># If the package contains a &#39;plugins.py&#39; module, then we import it and</span>
         <span class="c1"># look for a callable &#39;get_plugins&#39; that takes no arguments and returns</span>
@@ -204,7 +218,7 @@
         <span class="k">return</span> <span class="n">plugins</span>
 
     <span class="k">def</span> <span class="nf">_harvest_plugins_in_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Harvest plugins found in packages on the plugin path. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Harvest plugins found in packages on the plugin path.&quot;&quot;&quot;</span>
 
         <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_path</span><span class="p">:</span>
@@ -219,7 +233,7 @@
         <span class="k">return</span> <span class="n">plugins</span>
 
     <span class="k">def</span> <span class="nf">_update_sys_dot_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Add/remove the given entries from sys.path. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add/remove the given entries from sys.path.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
@@ -242,12 +256,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -264,13 +278,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

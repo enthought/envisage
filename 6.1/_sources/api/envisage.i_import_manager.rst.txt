@@ -1,0 +1,7 @@
+envisage.i\_import\_manager module
+==================================
+
+.. automodule:: envisage.i_import_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

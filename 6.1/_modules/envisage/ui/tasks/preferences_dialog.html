@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>envisage.ui.tasks.preferences_dialog &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '6.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../../../../genindex.html" >
+    <link rel="search" title="Search" href="../../../../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../../../../index.html" >
+    <link rel="up" title="Module code" href="../../../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../../../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../../../index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <h1>Source code for envisage.ui.tasks.preferences_dialog</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This software is provided without warranty under the terms of the BSD</span>
+<span class="c1"># license included in LICENSE.txt and may be redistributed only under</span>
+<span class="c1"># the conditions described in the aforementioned license. The license</span>
+<span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
+<span class="c1">#</span>
+<span class="c1"># Thanks for using Enthought open source!</span>
+<span class="c1"># Enthought library imports.</span>
+<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">on_trait_change</span>
+<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">Item</span><span class="p">,</span> <span class="n">Handler</span><span class="p">,</span> <span class="n">ListEditor</span><span class="p">,</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">pyface.tasks.topological_sort</span> <span class="kn">import</span> <span class="n">before_after_sort</span>
+
+<span class="c1"># Local imports.</span>
+<span class="kn">from</span> <span class="nn">.preferences_category</span> <span class="kn">import</span> <span class="n">PreferencesCategory</span>
+<span class="kn">from</span> <span class="nn">.preferences_pane</span> <span class="kn">import</span> <span class="n">PreferencesPane</span>
+
+
+<div class="viewcode-block" id="PreferencesTab"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesTab">[docs]</a><span class="k">class</span> <span class="nc">PreferencesTab</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; An object used internally by PreferencesDialog.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
+    <span class="n">panes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">PreferencesPane</span><span class="p">)</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span>
+            <span class="s2">&quot;panes&quot;</span><span class="p">,</span>
+            <span class="n">editor</span><span class="o">=</span><span class="n">ListEditor</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;custom&quot;</span><span class="p">),</span>
+            <span class="n">show_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="s2">&quot;readonly&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PreferencesDialog"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog">[docs]</a><span class="k">class</span> <span class="nc">PreferencesDialog</span><span class="p">(</span><span class="n">Handler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A dialog for editing preferences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#### &#39;PreferencesDialog&#39; interface ########################################</span>
+
+    <span class="c1"># The application that created and is managing this dialog.</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.api.TasksApplication&quot;</span><span class="p">)</span>
+
+    <span class="c1"># The list of categories to use when building the dialog.</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">PreferencesCategory</span><span class="p">)</span>
+
+    <span class="c1"># The list of panes to use when building the dialog.</span>
+    <span class="n">panes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">PreferencesPane</span><span class="p">)</span>
+
+    <span class="c1"># Should the Apply button be shown?</span>
+    <span class="n">show_apply</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">#### Private interface ####################################################</span>
+
+    <span class="n">_tabs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">PreferencesTab</span><span class="p">)</span>
+    <span class="n">_selected</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PreferencesTab</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Public interface</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="PreferencesDialog.select_pane"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane">[docs]</a>    <span class="k">def</span> <span class="nf">select_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pane_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find and activate the notebook tab that contains the given pane id.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pane</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">panes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pane</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">pane_id</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_selected</span> <span class="o">=</span> <span class="n">tab</span>
+                    <span class="k">return</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;HasTraits&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="PreferencesDialog.trait_context"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context">[docs]</a>    <span class="k">def</span> <span class="nf">trait_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the default context to use for editing or configuring</span>
+<span class="sd">            traits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;handler&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="PreferencesDialog.traits_view"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view">[docs]</a>    <span class="k">def</span> <span class="nf">traits_view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Build the dynamic dialog view.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;Cancel&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_apply</span><span class="p">:</span>
+            <span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Apply&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">buttons</span>
+
+        <span class="c1"># Only show the tab bar if there is more than one category.</span>
+        <span class="n">tabs_style</span> <span class="o">=</span> <span class="s2">&quot;custom&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tabs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;readonly&quot;</span>
+
+        <span class="k">return</span> <span class="n">View</span><span class="p">(</span>
+            <span class="n">Item</span><span class="p">(</span>
+                <span class="s2">&quot;_tabs&quot;</span><span class="p">,</span>
+                <span class="n">editor</span><span class="o">=</span><span class="n">ListEditor</span><span class="p">(</span>
+                    <span class="n">page_name</span><span class="o">=</span><span class="s2">&quot;.name&quot;</span><span class="p">,</span>
+                    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;custom&quot;</span><span class="p">,</span>
+                    <span class="n">use_notebook</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;_selected&quot;</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">show_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="n">tabs_style</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">buttons</span><span class="o">=</span><span class="n">buttons</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;livemodal&quot;</span><span class="p">,</span>
+            <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Preferences&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># &#39;Handler&#39; interface.</span>
+    <span class="c1">###########################################################################</span>
+
+<div class="viewcode-block" id="PreferencesDialog.apply"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handles the Apply button being clicked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pane</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">panes</span><span class="p">:</span>
+                <span class="n">pane</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PreferencesDialog.close"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handles the user attempting to close a dialog-based user interface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_ok</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">)</span></div>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Protected interface.</span>
+    <span class="c1">###########################################################################</span>
+
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;categories, panes&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_update_tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Build a { category id -&gt; [ PreferencePane ] } map.</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">[:]</span>
+        <span class="n">category_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">category</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pane</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pane</span><span class="o">.</span><span class="n">category</span> <span class="ow">in</span> <span class="n">category_map</span><span class="p">:</span>
+                <span class="n">category_map</span><span class="p">[</span><span class="n">pane</span><span class="o">.</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pane</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">categories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PreferencesCategory</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pane</span><span class="o">.</span><span class="n">category</span><span class="p">))</span>
+                <span class="n">category_map</span><span class="p">[</span><span class="n">pane</span><span class="o">.</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pane</span><span class="p">]</span>
+
+        <span class="c1"># Construct the appropriately sorted list of preference tabs.</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">before_after_sort</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+            <span class="n">panes</span> <span class="o">=</span> <span class="n">before_after_sort</span><span class="p">(</span><span class="n">category_map</span><span class="p">[</span><span class="n">category</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+            <span class="n">tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PreferencesTab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">category</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">panes</span><span class="o">=</span><span class="n">panes</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tabs</span> <span class="o">=</span> <span class="n">tabs</span></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2022, Enthought
+      </li>
+      <li>
+      Last updated on Aug 15, 2022.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

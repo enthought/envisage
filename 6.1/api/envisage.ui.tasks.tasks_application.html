@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>envisage.ui.tasks.tasks_application module &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '6.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="envisage.ui.tasks package" href="envisage.ui.tasks.html" >
+    <link rel="next" title="envisage.ui.tasks.tasks_plugin module" href="envisage.ui.tasks.tasks_plugin.html" >
+    <link rel="prev" title="envisage.ui.tasks.task_window_event module" href="envisage.ui.tasks.task_window_event.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" >API documentation</a></li>
+          <li class="active"><a href="envisage.html" >envisage package</a></li>
+          <li class="active"><a href="envisage.ui.html" >envisage.ui package</a></li>
+          <li class="active"><a href="envisage.ui.tasks.html" accesskey="U">envisage.ui.tasks package</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.tasks.tasks_plugin.html" title="envisage.ui.tasks.tasks_plugin module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="envisage.ui.tasks.task_window_event.html" title="envisage.ui.tasks.task_window_event module"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <section id="module-envisage.ui.tasks.tasks_application">
+<span id="envisage-ui-tasks-tasks-application-module"></span><h1>envisage.ui.tasks.tasks_application module<a class="headerlink" href="#module-envisage.ui.tasks.tasks_application" title="Permalink to this headline">¶</a></h1>
+<dl class="py data">
+<dt id="envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME">
+<code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.tasks_application.</span></code><code class="sig-name descname"><span class="pre">DEFAULT_STATE_FILENAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'application_memento'</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default filename for saving layout information</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.tasks_application.</span></code><code class="sig-name descname"><span class="pre">TasksApplication</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="envisage.application.html#envisage.application.Application" title="envisage.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">envisage.application.Application</span></code></a></p>
+<p>The entry point for an Envisage Tasks application.</p>
+<p>This class handles the common case for Tasks applications and is
+intended to be subclassed to modify its start/stop behavior, etc.</p>
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.TASK_EXTENSIONS">
+<code class="sig-name descname"><span class="pre">TASK_EXTENSIONS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.task_extensions'</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.TASK_EXTENSIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extension point ID for task extensions</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.TASK_FACTORIES">
+<code class="sig-name descname"><span class="pre">TASK_FACTORIES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'envisage.ui.tasks.tasks'</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.TASK_FACTORIES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extension point ID for task factories</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.active_window">
+<code class="sig-name descname"><span class="pre">active_window</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(&quot;envisage.ui.tasks.task_window.TaskWindow&quot;)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.active_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>The active task window (the last one to get focus).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.always_use_default_layout">
+<code class="sig-name descname"><span class="pre">always_use_default_layout</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Bool(False)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.always_use_default_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to always apply the default <em>application level</em> layout when the
+application is started. Even if this is True, the layout state of
+individual tasks will be restored.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.application_exiting">
+<code class="sig-name descname"><span class="pre">application_exiting</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.application_exiting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired immediately before the extant windows are destroyed and the GUI
+event loop is terminated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.application_initialized">
+<code class="sig-name descname"><span class="pre">application_initialized</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.application_initialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired after the initial windows have been created and the GUI event loop
+has been started.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.create_task">
+<code class="sig-name descname"><span class="pre">create_task</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication.create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.create_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the Task with the specified ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The new Task, or None if there is not a suitable TaskFactory.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.enthought.com/pyface/api/pyface.tasks.task.html#pyface.tasks.task.Task" title="(in pyface v7.4)">pyface.tasks.task.Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.create_window">
+<code class="sig-name descname"><span class="pre">create_window</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication.create_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.create_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new TaskWindow, possibly with some Tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layout</strong> (<em>TaskWindowLayout</em><em>, </em><em>optional</em>) – The layout to use for the window. The tasks described in
+the layout will be created and added to the window
+automatically. If not specified, the window will contain
+no tasks.</p></li>
+<li><p><strong>restore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default True</em><em>)</em>) – If set, the application will restore old size and
+positions for the window and its panes, if possible. If a
+layout is not provided, this parameter has no effect.</p></li>
+<li><p><strong>**traits</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional parameters to pass to <code class="docutils literal notranslate"><span class="pre">window_factory()</span></code>
+when creating the TaskWindow.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new TaskWindow.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow" title="envisage.ui.tasks.task_window.TaskWindow">envisage.ui.tasks.task_window.TaskWindow</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.default_layout">
+<code class="sig-name descname"><span class="pre">default_layout</span></code><em class="property"> <span class="pre">=</span> <span class="pre">List(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.default_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default layout for the application. If not specified, a single
+window will be created with the first available task factory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.exit">
+<code class="sig-name descname"><span class="pre">exit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication.exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exits the application, closing all open task windows.</p>
+<p>Each window is sent a veto-able closing event. If any window vetoes the
+close request, no window will be closed. Otherwise, all windows will be
+closed and the GUI event loop will terminate.</p>
+<p>This method is not called when the user clicks the close
+button on a window or otherwise closes a window through his or
+her window manager. It is only called via the File-&gt;Exit menu
+item. It can also, of course, be called programatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If set, windows will receive no closing events and will be
+destroyed unconditionally. This can be useful for reliably
+tearing down regression tests, but should be used with
+caution.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean indicating whether the application exited.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.gui">
+<code class="sig-name descname"><span class="pre">gui</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(&quot;pyface.i_gui.IGUI&quot;)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Pyface GUI for the application.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.icon">
+<code class="sig-name descname"><span class="pre">icon</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(&quot;pyface.image_resource.ImageResource&quot;,</span> <span class="pre">allow_none=True)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.icon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Icon for the whole application. Will be used to override all taskWindows
+icons to have the same.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.layout_save_protocol">
+<code class="sig-name descname"><span class="pre">layout_save_protocol</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Int(4)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.layout_save_protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pickle protocol to use for persisting layout information.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.name">
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the application (also used on window title bars).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplication.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether the application started successfully (i.e., without a
+veto).</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.splash_screen">
+<code class="sig-name descname"><span class="pre">splash_screen</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Instance(&quot;pyface.splash_screen.SplashScreen&quot;)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.splash_screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>The splash screen for the application. By default, there is no splash
+screen.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.state_filename">
+<code class="sig-name descname"><span class="pre">state_filename</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Str(DEFAULT_STATE_FILENAME)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.state_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>The filename that the application uses to persist window layout
+information.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.state_location">
+<code class="sig-name descname"><span class="pre">state_location</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Directory</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.state_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>The directory on the local file system used to persist window layout
+information.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.task_extensions">
+<code class="sig-name descname"><span class="pre">task_extensions</span></code><em class="property"> <span class="pre">=</span> <span class="pre">ExtensionPoint(id=TASK_EXTENSIONS)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.task_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed task extensions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.task_factories">
+<code class="sig-name descname"><span class="pre">task_factories</span></code><em class="property"> <span class="pre">=</span> <span class="pre">ExtensionPoint(id=TASK_FACTORIES)</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.task_factories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contributed task factories. This attribute is primarily for run-time
+inspection; to instantiate a task, use the ‘create_task’ method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_closed">
+<code class="sig-name descname"><span class="pre">window_closed</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired when a task window has been closed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_closing">
+<code class="sig-name descname"><span class="pre">window_closing</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_closing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired when a task window is closing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_created">
+<code class="sig-name descname"><span class="pre">window_created</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired when a task window has been created.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_factory">
+<code class="sig-name descname"><span class="pre">window_factory</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Callable</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>The factory for creating task windows.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_opened">
+<code class="sig-name descname"><span class="pre">window_opened</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_opened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired when a task window has been opened.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.window_opening">
+<code class="sig-name descname"><span class="pre">window_opening</span></code><em class="property"> <span class="pre">=</span> <span class="pre">Event(</span> <span class="pre">…</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.window_opening" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fired when a task window is opening.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplication.windows">
+<code class="sig-name descname"><span class="pre">windows</span></code><em class="property"> <span class="pre">=</span> <span class="pre">List(Instance(&quot;envisage.ui.tasks.task_window.TaskWindow&quot;))</span></em><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplication.windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of task windows created by the application.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplicationState">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.tasks_application.</span></code><code class="sig-name descname"><span class="pre">TasksApplicationState</span></code><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplicationState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplicationState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasStrictTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.has_traits.HasStrictTraits</span></code></a></p>
+<p>A class used internally by TasksApplication for saving and restoring
+application state.</p>
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplicationState.get_equivalent_window_layout">
+<code class="sig-name descname"><span class="pre">get_equivalent_window_layout</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_layout</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplicationState.get_equivalent_window_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplicationState.get_equivalent_window_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an equivalent TaskWindowLayout, if there is one.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplicationState.get_task_layout">
+<code class="sig-name descname"><span class="pre">get_task_layout</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplicationState.get_task_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplicationState.get_task_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a TaskLayout with the specified ID, there is one.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="envisage.ui.tasks.tasks_application.TasksApplicationState.push_window_layout">
+<code class="sig-name descname"><span class="pre">push_window_layout</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_layout</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplicationState.push_window_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplicationState.push_window_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge a TaskWindowLayout into the accumulated list.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="envisage.ui.tasks.task_window_event.html"
+                        title="previous chapter">envisage.ui.tasks.task_window_event module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="envisage.ui.tasks.tasks_plugin.html"
+                        title="next chapter">envisage.ui.tasks.tasks_plugin module</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.ui.tasks.tasks_application.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2022, Enthought
+      </li>
+      <li>
+      Last updated on Aug 15, 2022.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+..
+   (C) Copyright 2007-2022 Enthought, Inc., Austin, TX
+   All rights reserved.
+
+   This software is provided without warranty under the terms of the BSD
+   license included in LICENSE.txt and may be redistributed only under
+   the conditions described in the aforementioned license. The license
+   is also available online at http://www.enthought.com/licenses/BSD.txt
+
+   Thanks for using Enthought open source!
+
+envisage.ui.workbench package
+=============================
+
+.. automodule:: envisage.ui.workbench
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+
+   envisage.ui.workbench.api
+   envisage.ui.workbench.default_action_set
+   envisage.ui.workbench.workbench
+   envisage.ui.workbench.workbench_action_manager_builder
+   envisage.ui.workbench.workbench_action_set
+   envisage.ui.workbench.workbench_application
+   envisage.ui.workbench.workbench_editor_manager
+   envisage.ui.workbench.workbench_plugin
+   envisage.ui.workbench.workbench_preferences
+   envisage.ui.workbench.workbench_preferences_page
+   envisage.ui.workbench.workbench_window
+
+
+.. toctree::
+
+   envisage.ui.workbench.action

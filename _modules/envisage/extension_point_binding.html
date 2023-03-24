@@ -10,11 +10,13 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -22,9 +24,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
@@ -79,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.extension_point_binding</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2022 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -91,9 +93,6 @@
 <span class="sd">&quot;&quot;&quot; A binding between a trait on an object and an extension point. &quot;&quot;&quot;</span>
 
 
-<span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">weakref</span>
-
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Undefined</span>
 
@@ -102,13 +101,12 @@
 
 
 <div class="viewcode-block" id="ExtensionPointBinding"><a class="viewcode-back" href="../../api/envisage.extension_point_binding.html#envisage.extension_point_binding.ExtensionPointBinding">[docs]</a><span class="k">class</span> <span class="nc">ExtensionPointBinding</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A binding between a trait on an object and an extension point. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A binding between a trait on an object and an extension point.&quot;&quot;&quot;</span>
 
     <span class="c1">#### &#39;ExtensionPointBinding&#39; *CLASS* interface ############################</span>
 
-    <span class="c1"># We keep a reference to each binding alive until its associated object</span>
-    <span class="c1"># is garbage collected.</span>
-    <span class="n">_bindings</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakKeyDictionary</span><span class="p">()</span>
+    <span class="c1"># Global dictionary used to keep ExtensionPointBinding objects alive.</span>
+    <span class="n">_bindings</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1">#### &#39;ExtensionPointBinding&#39; interface ####################################</span>
 
@@ -136,7 +134,7 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Constructor. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
@@ -144,26 +142,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_trait</span><span class="p">(</span><span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Wire-up the trait change and extension point handlers.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
-
-        <span class="c1"># We keep a reference to each binding alive until its associated</span>
-        <span class="c1"># object is garbage collected.</span>
-        <span class="n">bindings</span> <span class="o">=</span> <span class="n">ExtensionPointBinding</span><span class="o">.</span><span class="n">_bindings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="n">bindings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-    <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;ExtensionPointBinding&#39; interface.</span>
-    <span class="c1">###########################################################################</span>
-
-    <span class="c1">#### Trait initializers ###################################################</span>
-
-    <span class="k">def</span> <span class="nf">_extension_registry_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
-
-        <span class="c1"># fixme: Sneaky global!!!!!</span>
-        <span class="kn">from</span> <span class="nn">.extension_point</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span>
-
-        <span class="k">return</span> <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">extension_registry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bind</span><span class="p">()</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
@@ -172,13 +151,13 @@
     <span class="c1">#### Trait change handlers ################################################</span>
 
     <span class="k">def</span> <span class="nf">_on_trait_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Dynamic trait change handler. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_extensions</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_on_trait_items_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Dynamic trait change handler. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_extensions</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">))</span>
@@ -186,7 +165,7 @@
     <span class="c1">#### Other observer pattern listeners #####################################</span>
 
     <span class="k">def</span> <span class="nf">_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_registry</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Listener called when an extension point is changed. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Listener called when an extension point is changed.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_event_handled</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -198,8 +177,8 @@
 
     <span class="c1">#### Methods ##############################################################</span>
 
-    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Wire-up trait change handlers etc. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_bind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wire-up trait change handlers etc.&quot;&quot;&quot;</span>
 
         <span class="c1"># Listen for the object&#39;s trait being changed.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_trait_changed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">)</span>
@@ -213,8 +192,25 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_extension_point_listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_unbind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Undo the effects of _bind&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extension_point_listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_on_trait_items_changed</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span> <span class="o">+</span> <span class="s2">&quot;_items&quot;</span><span class="p">,</span>
+            <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_on_trait_changed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_set_trait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notify</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the object&#39;s trait to the value of the extension point. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the object&#39;s trait to the value of the extension point.&quot;&quot;&quot;</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span><span class="p">)</span>
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trait_name</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
@@ -222,7 +218,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">trait_set</span><span class="p">(</span><span class="n">trait_change_notify</span><span class="o">=</span><span class="n">notify</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_trait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Update the object&#39;s trait to the value of the extension point. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the object&#39;s trait to the value of the extension point.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_trait</span><span class="p">(</span><span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -231,7 +227,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set the extensions to an extension point. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the extensions to an extension point.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">set_extensions</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span>
@@ -240,32 +236,90 @@
 
 <span class="c1"># Factory function for creating bindings.</span>
 <div class="viewcode-block" id="bind_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_point_binding.html#envisage.extension_point_binding.bind_extension_point">[docs]</a><span class="k">def</span> <span class="nf">bind_extension_point</span><span class="p">(</span>
-    <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extension_registry</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extension_registry</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Create a binding to an extension point. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a binding to an extension point.</span>
 
-    <span class="c1"># This may seem a bit wierd, but we manually build up a dictionary of</span>
-    <span class="c1"># the traits that need to be set at the time the &#39;ExtensionPointBinding&#39;</span>
-    <span class="c1"># instance is created.</span>
-    <span class="c1">#</span>
-    <span class="c1"># This is because we only want to set the &#39;extension_registry&#39; trait iff</span>
-    <span class="c1"># one is explicitly specified. If we passed it in with the default argument</span>
-    <span class="c1"># value of &#39;None&#39; then it counts as &#39;setting&#39; the trait which prevents</span>
-    <span class="c1"># the binding instance from defaulting to the appropriate registry.</span>
-    <span class="c1"># Also, if we try to set the &#39;extension_registry&#39; trait *after*</span>
-    <span class="c1"># construction time then it is too late as the binding initialization is</span>
-    <span class="c1"># done in the constructor (we could of course split that out, which may be</span>
-    <span class="c1"># the &#39;right&#39; way to do it ;^).</span>
-    <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;obj&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="p">,</span>
-        <span class="s2">&quot;trait_name&quot;</span><span class="p">:</span> <span class="n">trait_name</span><span class="p">,</span>
-        <span class="s2">&quot;extension_point_id&quot;</span><span class="p">:</span> <span class="n">extension_point_id</span><span class="p">,</span>
-    <span class="p">}</span>
+<span class="sd">    The returned ExtensionPointBinding object is also stored in a (private)</span>
+<span class="sd">    global dictionary, so that users aren&#39;t required to keep a reference to it.</span>
+<span class="sd">    That global dictionary entry can be removed with a matching call to</span>
+<span class="sd">    unbind_extension_point.</span>
 
-    <span class="k">if</span> <span class="n">extension_registry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;extension_registry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extension_registry</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : HasTraits</span>
+<span class="sd">        The HasTraits object that we&#39;re binding to</span>
+<span class="sd">    trait_name : str</span>
+<span class="sd">        The name of the trait on obj to bind to.</span>
+<span class="sd">    extension_point_id : str</span>
+<span class="sd">        The id of the extension point.</span>
+<span class="sd">    extension_registry : IExtensionRegistry</span>
+<span class="sd">        The extension registry that the extension point is registered to.</span>
 
-    <span class="k">return</span> <span class="n">ExtensionPointBinding</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span></div>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ExtensionPointBinding</span>
+<span class="sd">        An object that manages the binding.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">binding</span> <span class="o">=</span> <span class="n">ExtensionPointBinding</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
+        <span class="n">trait_name</span><span class="o">=</span><span class="n">trait_name</span><span class="p">,</span>
+        <span class="n">extension_point_id</span><span class="o">=</span><span class="n">extension_point_id</span><span class="p">,</span>
+        <span class="n">extension_registry</span><span class="o">=</span><span class="n">extension_registry</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Keep a reference to each binding in the ExtensionPointBinding._bindings</span>
+    <span class="c1"># global dictionary. Without this, the binding would become inactive</span>
+    <span class="c1"># if the caller didn&#39;t keep a reference.</span>
+    <span class="n">bindings</span> <span class="o">=</span> <span class="n">ExtensionPointBinding</span><span class="o">.</span><span class="n">_bindings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">bindings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">binding</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">binding</span></div>
+
+
+<div class="viewcode-block" id="unbind_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_point_binding.html#envisage.extension_point_binding.unbind_extension_point">[docs]</a><span class="k">def</span> <span class="nf">unbind_extension_point</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extension_registry</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove an extension point binding.</span>
+
+<span class="sd">    Changes to extension point contributions will no longer affect the target</span>
+<span class="sd">    trait. Also removes the matching ExtensionPointBinding object from the</span>
+<span class="sd">    global dictionary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : HasTraits</span>
+<span class="sd">        The HasTraits object that we&#39;re binding to</span>
+<span class="sd">    trait_name : str</span>
+<span class="sd">        The name of the trait on obj to bind to.</span>
+<span class="sd">    extension_point_id : str</span>
+<span class="sd">        The id of the extension point.</span>
+<span class="sd">    extension_registry : IExtensionRegistry</span>
+<span class="sd">        The extension registry that the extension point is registered to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Find the corresponding binding in the global dict.</span>
+    <span class="n">bindings</span> <span class="o">=</span> <span class="n">ExtensionPointBinding</span><span class="o">.</span><span class="n">_bindings</span>
+
+    <span class="c1"># Find the matching ExtensionPointBinding object. Search in reverse order,</span>
+    <span class="c1"># since that&#39;s most likely to give the right binding quickly under the</span>
+    <span class="c1"># normal first-in-last-out pattern for nested setup and teardown.</span>
+    <span class="n">index</span><span class="p">,</span> <span class="n">binding</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">binding</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">binding</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">bindings</span><span class="p">[</span><span class="n">obj</span><span class="p">])))</span>
+        <span class="k">if</span> <span class="n">binding</span><span class="o">.</span><span class="n">trait_name</span> <span class="o">==</span> <span class="n">trait_name</span>
+        <span class="k">if</span> <span class="n">binding</span><span class="o">.</span><span class="n">extension_point_id</span> <span class="o">==</span> <span class="n">extension_point_id</span>
+        <span class="k">if</span> <span class="n">binding</span><span class="o">.</span><span class="n">extension_registry</span> <span class="o">==</span> <span class="n">extension_registry</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Remove the binding from the global dict, and remove the dict entry</span>
+    <span class="c1"># altogether if it&#39;s now empty.</span>
+    <span class="n">bindings</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bindings</span><span class="p">[</span><span class="n">obj</span><span class="p">]:</span>
+        <span class="n">bindings</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="c1"># Undo the binding</span>
+    <span class="n">binding</span><span class="o">.</span><span class="n">_unbind</span><span class="p">()</span></div>
 </pre></div>
 
           </div>
@@ -280,12 +334,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -302,13 +356,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

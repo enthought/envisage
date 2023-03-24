@@ -1,0 +1,7 @@
+envisage.unknown\_extension module
+==================================
+
+.. automodule:: envisage.unknown_extension
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+envisage.ui.workbench.action.edit\_preferences\_action module
+=============================================================
+
+.. automodule:: envisage.ui.workbench.action.edit_preferences_action
+   :members:
+   :undoc-members:
+   :show-inheritance:

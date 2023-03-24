@@ -1,0 +1,7 @@
+envisage.ui.workbench.workbench\_editor\_manager module
+=======================================================
+
+.. automodule:: envisage.ui.workbench.workbench_editor_manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

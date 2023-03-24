@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>How To Create a Plugin for an Envisage Application &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -90,7 +92,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="how-to-create-a-plugin-for-an-envisage-application">
-<h1>How To Create a Plugin for an Envisage Application<a class="headerlink" href="#how-to-create-a-plugin-for-an-envisage-application" title="Permalink to this headline">¶</a></h1>
+<h1>How To Create a Plugin for an Envisage Application<a class="headerlink" href="#how-to-create-a-plugin-for-an-envisage-application" title="Permalink to this heading">¶</a></h1>
 <p>This document describes the process of creating an Envisage plugin that works
 with a Workbench-based application.</p>
 <p>There are several questions to consider when designing a plugin:</p>
@@ -101,7 +103,7 @@ with a Workbench-based application.</p>
 <li><p>What does it need from other plugins?</p></li>
 </ul>
 <section id="what-does-your-plugin-do">
-<h2>What Does Your Plugin Do?<a class="headerlink" href="#what-does-your-plugin-do" title="Permalink to this headline">¶</a></h2>
+<h2>What Does Your Plugin Do?<a class="headerlink" href="#what-does-your-plugin-do" title="Permalink to this heading">¶</a></h2>
 <p>“What your plugin does” refers to the basic functionality that your plugin
 adds to the application.</p>
 <p>Very often, you want to take some pre-existing chunk of functionality (module,
@@ -116,7 +118,7 @@ functionality work within Envisage.</p>
 <p>In either case, we will refer to the code that does this core functionality as
 “the library”.</p>
 <section id="example-library">
-<h3>Example Library<a class="headerlink" href="#example-library" title="Permalink to this headline">¶</a></h3>
+<h3>Example Library<a class="headerlink" href="#example-library" title="Permalink to this heading">¶</a></h3>
 <p>Suppose you have a library that implements a game of Tetris. You want to add
 this game to an Envisage application that lets users pick a game to play from
 a catalog of available games. You have a Tetris class that looks something
@@ -137,7 +139,7 @@ integrated into the application by a plugin.</p>
 </section>
 </section>
 <section id="what-does-your-plugin-offer-to-other-plugins">
-<h2>What Does Your Plugin Offer to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-offer-to-other-plugins" title="Permalink to this headline">¶</a></h2>
+<h2>What Does Your Plugin Offer to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-offer-to-other-plugins" title="Permalink to this heading">¶</a></h2>
 <p>There are two ways that a plugin can provide functionality to other
 plugins.</p>
 <ul class="simple">
@@ -153,7 +155,7 @@ of some other type, plus an ID. In other words, an extension point is a list,
 used by your plugin, that is populated by plugins.</p></li>
 </ul>
 <section id="examples-of-offering-functionality-to-other-plugins">
-<h3>Examples of Offering Functionality to Other Plugins<a class="headerlink" href="#examples-of-offering-functionality-to-other-plugins" title="Permalink to this headline">¶</a></h3>
+<h3>Examples of Offering Functionality to Other Plugins<a class="headerlink" href="#examples-of-offering-functionality-to-other-plugins" title="Permalink to this heading">¶</a></h3>
 <p>Suppose that the games application defines an “IGame” interface that it uses to
 control games, with methods for starting, stopping, displaying scores, and so
 on. In this case, you offer the Tetris library as a service that implements the
@@ -170,13 +172,13 @@ plugin, so that users don’t <em>need</em> to contribute any.)</p>
 </section>
 </section>
 <section id="what-does-your-plugin-add-to-other-plugins">
-<h2>What Does Your Plugin Add to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-add-to-other-plugins" title="Permalink to this headline">¶</a></h2>
+<h2>What Does Your Plugin Add to Other Plugins?<a class="headerlink" href="#what-does-your-plugin-add-to-other-plugins" title="Permalink to this heading">¶</a></h2>
 <p>Other plugins may provide extension points that are useful to your plugin. If
 so, you can contribute to those extension points. Essentially, your plugin
 passes one or more objects to the plugin whose extension point you are
 contributing to, and that plugin “does the right thing” with those items.</p>
 <section id="examples-of-contributing-to-extension-points">
-<h3>Examples of Contributing to Extension Points<a class="headerlink" href="#examples-of-contributing-to-extension-points" title="Permalink to this headline">¶</a></h3>
+<h3>Examples of Contributing to Extension Points<a class="headerlink" href="#examples-of-contributing-to-extension-points" title="Permalink to this heading">¶</a></h3>
 <p>Continuing the example of the Tetris game, the application might keep a list
 of available games, and present the list for the user to select from. Thus, it
 might have a ‘games’ extension point, to which you can contribute an object
@@ -212,7 +214,7 @@ being returned contains a reference to a service.</p></li>
 </section>
 </section>
 <section id="what-does-your-plugin-need-from-other-plugins">
-<h2>What Does Your Plugin Need from Other Plugins?<a class="headerlink" href="#what-does-your-plugin-need-from-other-plugins" title="Permalink to this headline">¶</a></h2>
+<h2>What Does Your Plugin Need from Other Plugins?<a class="headerlink" href="#what-does-your-plugin-need-from-other-plugins" title="Permalink to this heading">¶</a></h2>
 <p>Your plugin may need to use the API of some other plugin. In Envisage, you use
 the other plugin’s API via a service, rather than directly. This allows for the
 plugin offering the service to be replaced with another one, transparently to
@@ -220,7 +222,7 @@ your plugin. There may be multiple plugins offering a particular type of
 service, but a client plugin uses only one instance of a service at any given
 time.</p>
 <section id="example-of-using-a-service">
-<h3>Example of Using a Service<a class="headerlink" href="#example-of-using-a-service" title="Permalink to this headline">¶</a></h3>
+<h3>Example of Using a Service<a class="headerlink" href="#example-of-using-a-service" title="Permalink to this heading">¶</a></h3>
 <p>The service you use may be your own. For the Tetris game, the object that you
 contribute to the application’s ‘games’ extension point needs to be able to
 start the game. However, to reduce memory overhead, you don’t want the Tetris
@@ -229,10 +231,10 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 </section>
 </section>
 <section id="complete-example">
-<h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline">¶</a></h2>
+<h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this heading">¶</a></h2>
 <p>The complete plugin for the Tetris game might look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1">### Extension points offered by the plugin</span>
@@ -245,7 +247,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="n">my_shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_my_shapes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;my_shapes&#39; contribution to this plugin&#39;s</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;my_shapes&#39; contribution to this plugin&#39;s</span>
 <span class="sd">            own &#39;shapes&#39; extension point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Shape1</span><span class="p">(),</span> <span class="n">Shape2</span><span class="p">(),</span> <span class="n">Shape3</span><span class="p">()]</span>
@@ -253,7 +255,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
 <span class="sd">            plugin&#39;s &#39;games&#39; extension point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -268,7 +270,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences&#39; contribution. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences&#39; contribution. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://acme.tetris.plugin/preferences.ini&#39;</span><span class="p">]</span>
 
     <span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
@@ -276,7 +278,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences_pages&#39; contribution. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences_pages&#39; contribution. &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">acme.tetris.plugin.preferences_pages</span> <span class="kn">import</span> <span class="p">(</span>
             <span class="n">TetrisPreferencesPages</span><span class="p">,</span>
         <span class="p">)</span>
@@ -285,7 +287,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="n">services_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisages.service_offers&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Trait initializer for &#39;service_offers&#39; contribution. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;service_offers&#39; contribution. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">ServiceOffer</span><span class="p">(</span>
                 <span class="n">protocol</span><span class="o">=</span><span class="n">IGame</span><span class="p">,</span>
@@ -297,7 +299,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <span class="c1">#### Private interface #################################################</span>
 
     <span class="k">def</span> <span class="nf">_create_tetris_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Factory method for the Tetris service. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Factory method for the Tetris service. &quot;&quot;&quot;</span>
         <span class="n">tetris</span> <span class="o">=</span> <span class="n">Tetris</span><span class="p">()</span> <span class="c1"># This creates the non-Envisage library object.</span>
 
         <span class="c1"># Hook up the extension point contributions to the library object trait.</span>
@@ -313,7 +315,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
         <span class="k">return</span> <span class="n">tetris</span>
 
     <span class="k">def</span> <span class="nf">_start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Starts a Tetris game. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Starts a Tetris game. &quot;&quot;&quot;</span>
         <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IGame</span><span class="p">,</span> <span class="s2">&quot;name == &#39;tetris&#39;&quot;</span><span class="p">)</span>
         <span class="n">game</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
@@ -330,8 +332,9 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">How To Create a Plugin for an Envisage Application</a><ul>
 <li><a class="reference internal" href="#what-does-your-plugin-do">What Does Your Plugin Do?</a><ul>
 <li><a class="reference internal" href="#example-library">Example Library</a></li>
@@ -354,12 +357,17 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="plugins.html"
-                        title="previous chapter">Plugins</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="message_of_the_day.html"
-                        title="next chapter">The “Message of the Day” (MOTD) Example</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="plugins.html"
+                          title="previous chapter">Plugins</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="message_of_the_day.html"
+                          title="next chapter">The “Message of the Day” (MOTD) Example</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/envisage_core_documentation/howto_create_a_plugin.rst.txt"
@@ -369,12 +377,12 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -391,13 +399,13 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

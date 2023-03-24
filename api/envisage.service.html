@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>envisage.service module &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -36,7 +38,7 @@
     <link rel="top" title="Envisage Documentation" href="../index.html" >
     <link rel="up" title="envisage package" href="envisage.html" >
     <link rel="next" title="envisage.service_offer module" href="envisage.service_offer.html" >
-    <link rel="prev" title="envisage.safeweakref module" href="envisage.safeweakref.html" > 
+    <link rel="prev" title="envisage.provider_extension_registry module" href="envisage.provider_extension_registry.html" > 
   </head>
   <body>
   <div class="container">
@@ -74,7 +76,7 @@
            accesskey="N">next</a>
       </li>
       <li class="active">
-        <a href="envisage.safeweakref.html" title="envisage.safeweakref module"
+        <a href="envisage.provider_extension_registry.html" title="envisage.provider_extension_registry module"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -91,24 +93,24 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="module-envisage.service">
-<span id="envisage-service-module"></span><h1>envisage.service module<a class="headerlink" href="#module-envisage.service" title="Permalink to this headline">¶</a></h1>
+<span id="envisage-service-module"></span><h1>envisage.service module<a class="headerlink" href="#module-envisage.service" title="Permalink to this heading">¶</a></h1>
 <p>A trait type used to access services.</p>
 <dl class="py class">
-<dt id="envisage.service.Service">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">envisage.service.</span></code><code class="sig-name descname"><span class="pre">Service</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_type.html#traits.trait_type.TraitType" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">traits.trait_type.TraitType</span></code></a></p>
+<dt class="sig sig-object py" id="envisage.service.Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.service.</span></span><span class="sig-name descname"><span class="pre">Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/trait_type.html#traits.trait_type.TraitType" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TraitType</span></code></a></p>
 <p>A trait type used to access services.</p>
 <p>Note that this is a trait <em>type</em> and hence does <em>NOT</em> have traits itself
 (i.e. it does <em>not</em> inherit from ‘HasTraits’).</p>
 <dl class="py method">
-<dt id="envisage.service.Service.get">
-<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service.get" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.service.Service.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trait_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trait type getter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="envisage.service.Service.set">
-<code class="sig-name descname"><span class="pre">set</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service.set" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="envisage.service.Service.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/service.html#Service.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.service.Service.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trait type setter.</p>
 </dd></dl>
 
@@ -125,12 +127,30 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="envisage.safeweakref.html"
-                        title="previous chapter">envisage.safeweakref module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="envisage.service_offer.html"
-                        title="next chapter">envisage.service_offer module</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">envisage.service module</a><ul>
+<li><a class="reference internal" href="#envisage.service.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
+<li><a class="reference internal" href="#envisage.service.Service.get"><code class="docutils literal notranslate"><span class="pre">Service.get()</span></code></a></li>
+<li><a class="reference internal" href="#envisage.service.Service.set"><code class="docutils literal notranslate"><span class="pre">Service.set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="envisage.provider_extension_registry.html"
+                          title="previous chapter">envisage.provider_extension_registry module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.service_offer.html"
+                          title="next chapter">envisage.service_offer module</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/api/envisage.service.rst.txt"
@@ -140,12 +160,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -162,13 +182,13 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>

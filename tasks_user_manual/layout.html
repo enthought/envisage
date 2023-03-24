@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Window Layout &mdash; Envisage Documentation</title>
     
@@ -11,11 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '6.1.0',
+        VERSION:     '7.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -23,9 +25,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../_static/clipboard.min.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
@@ -90,15 +92,15 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="window-layout">
-<span id="layout"></span><h1>Window Layout<a class="headerlink" href="#window-layout" title="Permalink to this headline">¶</a></h1>
+<span id="layout"></span><h1>Window Layout<a class="headerlink" href="#window-layout" title="Permalink to this heading">¶</a></h1>
 <p>First and foremost, the Tasks plugin is designed to facilitate the layout of
 modern, customizable user interfaces. Accordingly, we shall begin by learning
 how to use Tasks to perform basic window layout.</p>
 <section id="lifecycle-of-a-task">
-<span id="index-0"></span><h2>Lifecycle of a Task<a class="headerlink" href="#lifecycle-of-a-task" title="Permalink to this headline">¶</a></h2>
-<p id="index-1">The Tasks plugin adheres to the model-view-controller (MVC) design pattern <a class="footnote-reference brackets" href="#id3" id="id1">1</a>,
+<span id="index-0"></span><h2>Lifecycle of a Task<a class="headerlink" href="#lifecycle-of-a-task" title="Permalink to this heading">¶</a></h2>
+<p id="index-1">The Tasks plugin adheres to the model-view-controller (MVC) design pattern <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>,
 for which the <code class="docutils literal notranslate"><span class="pre">Task</span></code> class functions as the controller and the <code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code>
-class as the view, with the model being application-specific <a class="footnote-reference brackets" href="#id4" id="id2">2</a>. Insofar as a
+class as the view, with the model being application-specific <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Insofar as a
 <code class="docutils literal notranslate"><span class="pre">Task</span></code> is a controller, it does not itself instantiate or contain any GUI
 controls, although it does provide factories and a default layout for the
 controls that it manages. Controls are instantiated when a <code class="docutils literal notranslate"><span class="pre">Task</span></code> is assigned
@@ -119,7 +121,7 @@ the <code class="docutils literal notranslate"><span class="pre">TaskWindow</spa
 constructed.</p>
 </section>
 <section id="defining-a-task">
-<span id="index-2"></span><h2>Defining a Task<a class="headerlink" href="#defining-a-task" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><h2>Defining a Task<a class="headerlink" href="#defining-a-task" title="Permalink to this heading">¶</a></h2>
 <p>Minimally, a task is defined by subclassing <code class="docutils literal notranslate"><span class="pre">Task</span></code> and providing a central
 pane. For example, we define a task for editing Python scripts:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">Task</span>
@@ -170,7 +172,7 @@ over how a pane is constructed, but as we shall see below there are other, more
 convenient methods for defining a pane.</p>
 </section>
 <section id="defining-a-dock-pane">
-<span id="index-5"></span><h2>Defining a Dock Pane<a class="headerlink" href="#defining-a-dock-pane" title="Permalink to this headline">¶</a></h2>
+<span id="index-5"></span><h2>Defining a Dock Pane<a class="headerlink" href="#defining-a-dock-pane" title="Permalink to this heading">¶</a></h2>
 <p>Now we imagine that we are building a very primitive Python IDE and that we
 would like to add a dock pane for browsing the local filesystem. We could create
 a <code class="docutils literal notranslate"><span class="pre">DockPane</span></code> subclass similarly to the <code class="docutils literal notranslate"><span class="pre">TaskPane</span></code> above, implementing the
@@ -231,7 +233,7 @@ which we connect to the dock pane’s <code class="docutils literal notranslate"
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">create_dock_panes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Create the file browser and connect to its double click event.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the file browser and connect to its double click event.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">browser</span> <span class="o">=</span> <span class="n">PythonScriptBrowserPane</span><span class="p">()</span>
         <span class="n">handler</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">browser</span><span class="o">.</span><span class="n">selected_file</span><span class="p">)</span>
@@ -239,14 +241,14 @@ which we connect to the dock pane’s <code class="docutils literal notranslate"
         <span class="k">return</span> <span class="p">[</span><span class="n">browser</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Open the file with the specified path in the central pane.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Open the file with the specified path in the central pane.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">central_pane</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
 </pre></div>
 </div>
 </section>
 <section id="providing-a-default-layout">
-<span id="index-6"></span><h2>Providing a Default Layout<a class="headerlink" href="#providing-a-default-layout" title="Permalink to this headline">¶</a></h2>
+<span id="index-6"></span><h2>Providing a Default Layout<a class="headerlink" href="#providing-a-default-layout" title="Permalink to this heading">¶</a></h2>
 <p>Although dock panes are designed to be moved around and otherwise manipulated by
 the user, we often have a particular default layout in mind when designing an
 application. The Tasks framework provides the <code class="docutils literal notranslate"><span class="pre">TaskLayout</span></code> class to make the
@@ -299,18 +301,20 @@ layout; in both cases, only the central pane will be visible by
 default. Finally, note that the layout behavior is undefined if a dock pane
 appears multiple times in a layout.</p>
 <p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>For more information about the MVC pattern as used in ETS, the reader is
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>For more information about the MVC pattern as used in ETS, the reader is
 referred to the <a class="reference external" href="http://enthought.github.com/traits/TUIUG/intro.html">Introduction</a> of the Traits UI
 User Guide.</p>
-</dd>
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Throughout this document, “<code class="docutils literal notranslate"><span class="pre">Task</span></code>” will refer to the class of that name
+</aside>
+<aside class="footnote brackets" id="id4" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Throughout this document, “<code class="docutils literal notranslate"><span class="pre">Task</span></code>” will refer to the class of that name
 in the Tasks API, while “task” will be reserved for the general UI
 concept, and similarly for other terms.</p>
-</dd>
-</dl>
+</aside>
+</aside>
 </section>
 </section>
 
@@ -323,8 +327,9 @@ concept, and similarly for other terms.</p>
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
             </a></p>
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Window Layout</a><ul>
 <li><a class="reference internal" href="#lifecycle-of-a-task">Lifecycle of a Task</a></li>
 <li><a class="reference internal" href="#defining-a-task">Defining a Task</a></li>
@@ -334,12 +339,17 @@ concept, and similarly for other terms.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="intro.html"
-                        title="previous chapter">Introduction</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="menus.html"
-                        title="next chapter">Menus and Tool Bars</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="intro.html"
+                          title="previous chapter">Introduction</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="menus.html"
+                          title="next chapter">Menus and Tool Bars</a></p>
+  </div>
   <h3>This Page</h3>
   <div>
     <a href="../_sources/tasks_user_manual/layout.rst.txt"
@@ -349,12 +359,12 @@ concept, and similarly for other terms.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
         </div>
@@ -371,13 +381,13 @@ concept, and similarly for other terms.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2022, Enthought
+        &copy; Copyright 2007-2023, Enthought
       </li>
       <li>
-      Last updated on Aug 15, 2022.
+      Last updated on Mar 24, 2023.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
       </li>
     </ul>
     </div>
