@@ -11,6 +11,7 @@
 """ Tests for the Egg plugin manager. """
 
 import contextlib
+import os
 import unittest
 
 import pkg_resources
@@ -49,7 +50,7 @@ class EggPluginManagerTestCase(unittest.TestCase):
         # Make eggs importable
         # 'find_plugins' identifies those distributions that *could* be added
         # to the working set without version conflicts or missing requirements.
-        environment = Environment([self.egg_dir])
+        environment = Environment([os.fspath(self.egg_dir)])
         distributions, errors = working_set.find_plugins(environment)
         if len(distributions) == 0 or len(errors) > 0:
             raise RuntimeError(f"Cannot find eggs {errors}")
