@@ -117,15 +117,21 @@ def restore_pkg_resources_working_set():
     original_entries = working_set.entries[:]
     original_entry_keys = set(working_set.entry_keys)
     original_by_key = set(working_set.by_key)
-    original_normalized = set(working_set.normalized_to_canonical_keys)
+    # Older setuptools versions don't have this attribute; it appears to
+    # be new in setuptools ~ 62.
+    if hasattr(working_set, "normalized_to_canonical_keys"):
+        original_normalized = set(working_set.normalized_to_canonical_keys)
+    else:
+        original_normalized = None
     try:
         yield
     finally:
-        for key in (
-            working_set.normalized_to_canonical_keys.keys()
-            - original_normalized
-        ):
-            del working_set.normalized_to_canonical_keys[key]
+        if original_normalized is not None:
+            for key in (
+                working_set.normalized_to_canonical_keys.keys()
+                - original_normalized
+            ):
+                del working_set.normalized_to_canonical_keys[key]
         for key in working_set.by_key.keys() - original_by_key:
             del working_set.by_key[key]
         for key in working_set.entry_keys.keys() - original_entry_keys:

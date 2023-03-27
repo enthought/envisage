@@ -266,7 +266,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         Parameters
         ----------
-        egg_pat: a glob pattern for the egg in `self.eggs_dir` eg 'foo.bar*.egg'
+        egg_pat: a glob pattern for the egg in `self.eggs_dir`
+           for example 'foo.bar*.egg'
         replacement: a string replacement for the version part of egg name.
             If None, '1' is appended to the original version.
 
