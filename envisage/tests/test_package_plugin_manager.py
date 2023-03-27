@@ -15,6 +15,7 @@ import unittest
 from os.path import dirname, join
 
 from envisage.package_plugin_manager import PackagePluginManager
+
 # XXX Move the support functionality elsewhere.
 from envisage.tests.test_egg_based import restore_sys_path
 

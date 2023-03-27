@@ -19,16 +19,8 @@ import pathlib
 import subprocess
 import sys
 import tempfile
-import unittest
 
-from pkg_resources import Environment, resource_filename, working_set
-
-#: Example packages used in the tests.
-EXAMPLE_PKGS_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
-EXAMPLE_PKGS = [
-    EXAMPLE_PKGS_DIR / package_name
-    for package_name in ["acme-bar", "acme-baz", "acme-foo"]
-]
+from pkg_resources import working_set
 
 
 @contextlib.contextmanager
@@ -73,7 +65,7 @@ def restore_sys_modules():
         yield
     finally:
         for name in sys.modules.keys() - original_modules:
-            sys.modules.pop(name)
+            del sys.modules[name]
 
 
 @contextlib.contextmanager
@@ -98,11 +90,11 @@ def restore_pkg_resources_working_set():
             working_set.normalized_to_canonical_keys.keys()
             - original_normalized
         ):
-            working_set.normalized_to_canonical_keys.pop(key)
+            del working_set.normalized_to_canonical_keys[key]
         for key in working_set.by_key.keys() - original_by_key:
-            working_set.by_key.pop(key)
+            del working_set.by_key[key]
         for key in working_set.entry_keys.keys() - original_entry_keys:
-            working_set.entry_keys.pop(key)
+            del working_set.entry_keys[key]
         working_set.entries[:] = original_entries
 
 
@@ -132,33 +124,3 @@ def build_egg(package_dir, dist_dir):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-
-
-class EggBasedTestCase(unittest.TestCase):
-    """Base class for Egg-based test cases."""
-
-    def setUp(self):
-        """
-        Create eggs for testing purposes.
-        """
-        cleanup_stack = contextlib.ExitStack()
-        self.addCleanup(cleanup_stack.close)
-
-        self.egg_dir = cleanup_stack.enter_context(temporary_directory())
-        cleanup_stack.enter_context(restore_sys_path())
-        cleanup_stack.enter_context(restore_sys_modules())
-        cleanup_stack.enter_context(restore_pkg_resources_working_set())
-
-        # Build eggs
-        for package in EXAMPLE_PKGS:
-            build_egg(package_dir=package, dist_dir=self.egg_dir)
-
-        # Make eggs importable
-        # 'find_plugins' identifies those distributions that *could* be added
-        # to the working set without version conflicts or missing requirements.
-        environment = Environment([self.egg_dir])
-        distributions, errors = working_set.find_plugins(environment)
-        if len(distributions) == 0 or len(errors) > 0:
-            raise RuntimeError(f"Cannot find eggs {errors}")
-        for distribution in distributions:
-            working_set.add(distribution)

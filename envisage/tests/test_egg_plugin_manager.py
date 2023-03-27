@@ -7,20 +7,64 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+
 """ Tests for the Egg plugin manager. """
 
-# 3rd party imports.
-import pkg_resources
+import contextlib
+import pathlib
+import unittest
 
-# Enthought library imports.
+import pkg_resources
+from pkg_resources import Environment, resource_filename, working_set
+
 from envisage.api import EggPluginManager
 
-# Local imports.
-from .test_egg_based import EggBasedTestCase
+# XXX Move these to test support
+from envisage.tests.test_egg_based import (
+    build_egg,
+    restore_pkg_resources_working_set,
+    restore_sys_modules,
+    restore_sys_path,
+    temporary_directory,
+)
+
+#: Example packages used in the tests.
+PACKAGES_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
+PACKAGES = [
+    PACKAGES_DIR / "acme-bar",
+    PACKAGES_DIR / "acme-baz",
+    PACKAGES_DIR / "acme-foo",
+]
 
 
-class EggPluginManagerTestCase(EggBasedTestCase):
+class EggPluginManagerTestCase(unittest.TestCase):
     """Tests for the Egg plugin manager."""
+
+    def setUp(self):
+        """
+        Create eggs for testing purposes.
+        """
+        cleanup_stack = contextlib.ExitStack()
+        self.addCleanup(cleanup_stack.close)
+
+        self.egg_dir = cleanup_stack.enter_context(temporary_directory())
+        cleanup_stack.enter_context(restore_sys_path())
+        cleanup_stack.enter_context(restore_sys_modules())
+        cleanup_stack.enter_context(restore_pkg_resources_working_set())
+
+        # Build eggs
+        for package in PACKAGES:
+            build_egg(package_dir=package, dist_dir=self.egg_dir)
+
+        # Make eggs importable
+        # 'find_plugins' identifies those distributions that *could* be added
+        # to the working set without version conflicts or missing requirements.
+        environment = Environment([self.egg_dir])
+        distributions, errors = working_set.find_plugins(environment)
+        if len(distributions) == 0 or len(errors) > 0:
+            raise RuntimeError(f"Cannot find eggs {errors}")
+        for distribution in distributions:
+            working_set.add(distribution)
 
     ###########################################################################
     # Tests.

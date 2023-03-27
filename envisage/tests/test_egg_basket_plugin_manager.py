@@ -9,83 +9,65 @@
 # Thanks for using Enthought open source!
 """ Tests for the 'Egg Basket' plugin manager. """
 
+import contextlib
 import glob
+import pathlib
 import shutil
-import sys
 import tempfile
 import unittest
 from os.path import basename, join
 
 import pkg_resources
+from pkg_resources import resource_filename
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
-# XXX Move build_egg to test support
-from envisage.tests.test_egg_based import build_egg
+
+# XXX Move all of these to test support
+from envisage.tests.test_egg_based import (
+    build_egg,
+    restore_pkg_resources_working_set,
+    restore_sys_modules,
+    restore_sys_path,
+    temporary_directory,
+)
+
+PACKAGES_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
+PACKAGES = [
+    PACKAGES_DIR / "acme-bar",
+    PACKAGES_DIR / "acme-baz",
+    PACKAGES_DIR / "acme-foo",
+]
+
+BAD_PACKAGES_DIR = pathlib.Path(
+    resource_filename("envisage.tests", "bad_eggs")
+)
+BAD_PACKAGES = [BAD_PACKAGES_DIR / "acme-bad"]
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
     """Tests for the 'Egg Basket' plugin manager."""
 
-    #### 'unittest.TestCase' protocol #########################################
-
-    @classmethod
-    def setUpClass(cls):
-        """
-        Create eggs for testing purposes.
-        """
-        cls.eggs_dir = tempfile.mkdtemp()
-        cls.bad_eggs_dir = tempfile.mkdtemp()
-
-        eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "eggs"
-        )
-        for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
-            build_egg(
-                package_dir=join(eggs_root_dir, egg_name),
-                dist_dir=cls.eggs_dir,
-            )
-
-        bad_eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "bad_eggs"
-        )
-        for egg_name in ["acme-bad"]:
-            build_egg(
-                package_dir=join(bad_eggs_root_dir, egg_name),
-                dist_dir=cls.bad_eggs_dir,
-            )
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-        Delete created eggs.
-        """
-        shutil.rmtree(cls.bad_eggs_dir)
-        shutil.rmtree(cls.eggs_dir)
-
     def setUp(self):
-        """Prepares the test fixture before each test method is called."""
+        cleanup_stack = contextlib.ExitStack()
+        self.addCleanup(cleanup_stack.close)
 
-        # Some tests cause sys.path to be modified. Capture the original
-        # contents so that we can restore sys.path later.
-        self._original_sys_path_contents = sys.path[:]
+        self.egg_dir = cleanup_stack.enter_context(temporary_directory())
+        self.bad_egg_dir = cleanup_stack.enter_context(temporary_directory())
+        cleanup_stack.enter_context(restore_sys_path())
+        cleanup_stack.enter_context(restore_sys_modules())
+        cleanup_stack.enter_context(restore_pkg_resources_working_set())
 
-    def tearDown(self):
-        """Called immediately after each test method has been called."""
-
-        # Undo any sys.path modifications
-        sys.path[:] = self._original_sys_path_contents
-
-        # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
-        # global working set.
-        pkg_resources.working_set = pkg_resources.WorkingSet()
+        # Build eggs
+        for package in PACKAGES:
+            build_egg(package_dir=package, dist_dir=self.egg_dir)
+        for package in BAD_PACKAGES:
+            build_egg(package_dir=package, dist_dir=self.bad_egg_dir)
 
     #### Tests ################################################################
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
         with self.assertWarns(DeprecationWarning):
-            plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.eggs_dir]
-            )
+            plugin_manager = EggBasketPluginManager(plugin_path=[self.egg_dir])
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
@@ -100,7 +82,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.eggs_dir], include=include
+                plugin_path=[self.egg_dir], include=include
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -117,7 +99,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.eggs_dir], include=include
+                plugin_path=[self.egg_dir], include=include
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -134,7 +116,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.eggs_dir], exclude=exclude
+                plugin_path=[self.egg_dir], exclude=exclude
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -151,7 +133,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.eggs_dir], exclude=exclude
+                plugin_path=[self.egg_dir], exclude=exclude
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -167,7 +149,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
-        plugin_manager.plugin_path.append(self.eggs_dir)
+        plugin_manager.plugin_path.append(self.egg_dir)
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
         self.assertIn("acme.foo", ids)
@@ -181,7 +163,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_plugins_raises_exceptions_by_default(self):
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
+                plugin_path=[self.bad_egg_dir, self.egg_dir],
             )
         with self.assertRaises(ImportError):
             list(plugin_manager)
@@ -196,7 +178,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
+                plugin_path=[self.bad_egg_dir, self.egg_dir],
                 on_broken_plugin=on_broken_plugin,
             )
 
@@ -214,7 +196,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_distributions_raises_exceptions_by_default(self):
         # Make sure that the distributions from eggs are already in the working
         # set. This includes acme-foo, with version 0.1a1.
-        for dist in pkg_resources.find_distributions(self.eggs_dir):
+        for dist in pkg_resources.find_distributions(self.egg_dir):
             pkg_resources.working_set.add(dist)
 
         with self.assertWarns(DeprecationWarning):
@@ -230,7 +212,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_distributions_loads_good_distributions(self):
         # Make sure that the distributions from eggs are already in the working
         # set. This includes acme-foo, with version 0.1a1.
-        for dist in pkg_resources.find_distributions(self.eggs_dir):
+        for dist in pkg_resources.find_distributions(self.egg_dir):
             pkg_resources.working_set.add(dist)
 
         data = {"count": 0}
@@ -243,7 +225,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[
-                    self.eggs_dir,
+                    self.egg_dir,
                     self._create_broken_distribution_eggdir("acme_foo*.egg"),
                 ],
                 on_broken_distribution=on_broken_distribution,
@@ -310,7 +292,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.addCleanup(shutil.rmtree, tmpdir)
 
         # Copy the egg to the temp dir and rename it
-        eggs = glob.glob(join(self.eggs_dir, egg_pat))
+        eggs = glob.glob(join(self.egg_dir, egg_pat))
         for egg in eggs:
             egg_name = basename(egg)
             split_name = egg_name.split("-")
