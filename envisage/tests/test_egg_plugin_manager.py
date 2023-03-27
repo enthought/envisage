@@ -31,9 +31,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     def test_no_include_or_exclude(self):
         """no include or exclude"""
 
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
-
         # Make sure that the plugin manager only includes those plugins.
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggPluginManager()
@@ -49,8 +46,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_include_specific(self):
         """include specific"""
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo", "acme.bar"]
@@ -71,9 +66,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     def test_include_multiple(self):
         """include multiple"""
 
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
-
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo", "acme.bar", "acme.baz"]
 
@@ -92,9 +84,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_exclude_specific(self):
         """exclude specific"""
-
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.bar"]
@@ -117,9 +106,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_exclude_multiple(self):
         """exclude multiple"""
-
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo"]
