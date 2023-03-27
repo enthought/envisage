@@ -11,30 +11,20 @@
 """ Tests for the Egg plugin manager. """
 
 import contextlib
-import pathlib
 import unittest
 
 import pkg_resources
-from pkg_resources import Environment, resource_filename, working_set
+from pkg_resources import Environment, working_set
 
 from envisage.api import EggPluginManager
-
-# XXX Move these to test support
-from envisage.tests.test_egg_based import (
+from envisage.tests.support import (
     build_egg,
+    PLUGIN_PACKAGES,
     restore_pkg_resources_working_set,
     restore_sys_modules,
     restore_sys_path,
     temporary_directory,
 )
-
-#: Example packages used in the tests.
-PACKAGES_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
-PACKAGES = [
-    PACKAGES_DIR / "acme-bar",
-    PACKAGES_DIR / "acme-baz",
-    PACKAGES_DIR / "acme-foo",
-]
 
 
 class EggPluginManagerTestCase(unittest.TestCase):
@@ -53,7 +43,7 @@ class EggPluginManagerTestCase(unittest.TestCase):
         cleanup_stack.enter_context(restore_pkg_resources_working_set())
 
         # Build eggs
-        for package in PACKAGES:
+        for package in PLUGIN_PACKAGES:
             build_egg(package_dir=package, dist_dir=self.egg_dir)
 
         # Make eggs importable

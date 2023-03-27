@@ -11,37 +11,23 @@
 
 import contextlib
 import glob
-import pathlib
 import shutil
 import tempfile
 import unittest
 from os.path import basename, join
 
 import pkg_resources
-from pkg_resources import resource_filename
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
-
-# XXX Move all of these to test support
-from envisage.tests.test_egg_based import (
+from envisage.tests.support import (
+    BAD_PLUGIN_PACKAGES,
     build_egg,
+    PLUGIN_PACKAGES,
     restore_pkg_resources_working_set,
     restore_sys_modules,
     restore_sys_path,
     temporary_directory,
 )
-
-PACKAGES_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
-PACKAGES = [
-    PACKAGES_DIR / "acme-bar",
-    PACKAGES_DIR / "acme-baz",
-    PACKAGES_DIR / "acme-foo",
-]
-
-BAD_PACKAGES_DIR = pathlib.Path(
-    resource_filename("envisage.tests", "bad_eggs")
-)
-BAD_PACKAGES = [BAD_PACKAGES_DIR / "acme-bad"]
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
@@ -51,23 +37,23 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         cleanup_stack = contextlib.ExitStack()
         self.addCleanup(cleanup_stack.close)
 
-        self.egg_dir = cleanup_stack.enter_context(temporary_directory())
-        self.bad_egg_dir = cleanup_stack.enter_context(temporary_directory())
+        self.eggs_dir = cleanup_stack.enter_context(temporary_directory())
+        self.bad_eggs_dir = cleanup_stack.enter_context(temporary_directory())
         cleanup_stack.enter_context(restore_sys_path())
         cleanup_stack.enter_context(restore_sys_modules())
         cleanup_stack.enter_context(restore_pkg_resources_working_set())
 
         # Build eggs
-        for package in PACKAGES:
-            build_egg(package_dir=package, dist_dir=self.egg_dir)
-        for package in BAD_PACKAGES:
-            build_egg(package_dir=package, dist_dir=self.bad_egg_dir)
+        for package in PLUGIN_PACKAGES:
+            build_egg(package_dir=package, dist_dir=self.eggs_dir)
+        for package in BAD_PLUGIN_PACKAGES:
+            build_egg(package_dir=package, dist_dir=self.bad_eggs_dir)
 
     #### Tests ################################################################
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
         with self.assertWarns(DeprecationWarning):
-            plugin_manager = EggBasketPluginManager(plugin_path=[self.egg_dir])
+            plugin_manager = EggBasketPluginManager(plugin_path=[self.eggs_dir])
 
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
@@ -82,7 +68,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.egg_dir], include=include
+                plugin_path=[self.eggs_dir], include=include
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -99,7 +85,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.egg_dir], include=include
+                plugin_path=[self.eggs_dir], include=include
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -116,7 +102,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.egg_dir], exclude=exclude
+                plugin_path=[self.eggs_dir], exclude=exclude
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -133,7 +119,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.egg_dir], exclude=exclude
+                plugin_path=[self.eggs_dir], exclude=exclude
             )
 
         # The Ids of the plugins that we expect the plugin manager to find.
@@ -149,7 +135,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 0)
 
-        plugin_manager.plugin_path.append(self.egg_dir)
+        plugin_manager.plugin_path.append(self.eggs_dir)
         ids = [plugin.id for plugin in plugin_manager]
         self.assertEqual(len(ids), 3)
         self.assertIn("acme.foo", ids)
@@ -163,7 +149,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_plugins_raises_exceptions_by_default(self):
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.bad_egg_dir, self.egg_dir],
+                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
             )
         with self.assertRaises(ImportError):
             list(plugin_manager)
@@ -178,7 +164,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
-                plugin_path=[self.bad_egg_dir, self.egg_dir],
+                plugin_path=[self.bad_eggs_dir, self.eggs_dir],
                 on_broken_plugin=on_broken_plugin,
             )
 
@@ -196,7 +182,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_distributions_raises_exceptions_by_default(self):
         # Make sure that the distributions from eggs are already in the working
         # set. This includes acme-foo, with version 0.1a1.
-        for dist in pkg_resources.find_distributions(self.egg_dir):
+        for dist in pkg_resources.find_distributions(self.eggs_dir):
             pkg_resources.working_set.add(dist)
 
         with self.assertWarns(DeprecationWarning):
@@ -212,7 +198,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
     def test_ignore_broken_distributions_loads_good_distributions(self):
         # Make sure that the distributions from eggs are already in the working
         # set. This includes acme-foo, with version 0.1a1.
-        for dist in pkg_resources.find_distributions(self.egg_dir):
+        for dist in pkg_resources.find_distributions(self.eggs_dir):
             pkg_resources.working_set.add(dist)
 
         data = {"count": 0}
@@ -225,7 +211,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         with self.assertWarns(DeprecationWarning):
             plugin_manager = EggBasketPluginManager(
                 plugin_path=[
-                    self.egg_dir,
+                    self.eggs_dir,
                     self._create_broken_distribution_eggdir("acme_foo*.egg"),
                 ],
                 on_broken_distribution=on_broken_distribution,
@@ -278,7 +264,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         Parameters
         ----------
-        egg_pat: a glob pattern for the egg in `self.egg_dir` eg 'foo.bar*.egg'
+        egg_pat: a glob pattern for the egg in `self.eggs_dir` eg 'foo.bar*.egg'
         replacement: a string replacement for the version part of egg name.
             If None, '1' is appended to the original version.
 
@@ -292,7 +278,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         self.addCleanup(shutil.rmtree, tmpdir)
 
         # Copy the egg to the temp dir and rename it
-        eggs = glob.glob(join(self.egg_dir, egg_pat))
+        eggs = glob.glob(join(self.eggs_dir, egg_pat))
         for egg in eggs:
             egg_name = basename(egg)
             split_name = egg_name.split("-")
