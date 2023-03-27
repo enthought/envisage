@@ -38,8 +38,12 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         cleanup_stack = contextlib.ExitStack()
         self.addCleanup(cleanup_stack.close)
 
-        self.eggs_dir = os.fspath(cleanup_stack.enter_context(temporary_directory()))
-        self.bad_eggs_dir = os.fspath(cleanup_stack.enter_context(temporary_directory()))
+        self.eggs_dir = os.fspath(
+            cleanup_stack.enter_context(temporary_directory())
+        )
+        self.bad_eggs_dir = os.fspath(
+            cleanup_stack.enter_context(temporary_directory())
+        )
         cleanup_stack.enter_context(restore_sys_path())
         cleanup_stack.enter_context(restore_sys_modules())
         cleanup_stack.enter_context(restore_pkg_resources_working_set())
