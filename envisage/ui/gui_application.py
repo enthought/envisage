@@ -22,12 +22,13 @@ More sophisticated applications should use Tasks.
 """
 
 from traits.api import Event, Instance, observe
+
 from envisage.api import Application
 from envisage.ui.ids import IGUI_PROTOCOL
 
 
 class GUIApplication(Application):
-    """ The entry point for an Envisage GUI application.
+    """The entry point for an Envisage GUI application.
 
     This class handles the life-cycle of a Pyface GUI.  Plugins can
     display windows via mechinisms such as edit_traits().
@@ -58,7 +59,7 @@ class GUIApplication(Application):
     ###########################################################################
 
     def run(self):
-        """ Run the application.
+        """Run the application.
 
         Returns
         -------
@@ -80,6 +81,7 @@ class GUIApplication(Application):
                 else:
                     # fall-back if not provided by plugin
                     from pyface.api import GUI
+
                     self.gui = GUI()
             self.gui.set_trait_later(self, "application_initialized", self)
 
@@ -95,9 +97,10 @@ class GUIApplication(Application):
 
     #### Trait observers ######################################################
 
-    @observe('application_initialized')
+    @observe("application_initialized")
     def _close_splash_screen(self, event):
-        """Once the app has started we don't need the splash screen any more.
+        """
+        Once the app has started we don't need the splash screen any more.
         """
         if self.splash_screen is not None:
             self.splash_screen.close()

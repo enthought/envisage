@@ -12,9 +12,6 @@ import logging
 import os.path
 import pickle
 
-# Enthought library imports.
-from envisage.api import ExtensionPoint
-from envisage.ui.api import GUIApplication
 from traits.api import (
     Bool,
     Callable,
@@ -24,11 +21,15 @@ from traits.api import (
     Instance,
     Int,
     List,
+    observe,
     Str,
     Vetoable,
-    observe,
 )
 from traits.etsconfig.api import ETSConfig
+
+# Enthought library imports.
+from envisage.api import ExtensionPoint
+from envisage.ui.api import GUIApplication
 
 # Logging.
 logger = logging.getLogger(__name__)
@@ -435,7 +436,7 @@ class TasksApplication(GUIApplication):
 
     #### Trait change handlers ################################################
 
-    @observe('application_initialized')
+    @observe("application_initialized")
     def _show_initial_windows(self, event):
         self._create_windows()
 

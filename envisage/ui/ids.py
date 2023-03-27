@@ -9,4 +9,4 @@
 # Thanks for using Enthought open source!
 
 #: IGUI service protocol
-IGUI_PROTOCOL = 'pyface.i_gui.IGUI'
+IGUI_PROTOCOL = "pyface.i_gui.IGUI"

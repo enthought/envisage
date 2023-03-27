@@ -18,15 +18,16 @@ script as they generally should be shown as soon as possible after startup,
 often before expensive imports or operations.
 """
 
-from traits.api import List, Instance
-from envisage.service_offer import ServiceOffer
-from envisage.plugin import Plugin
+from traits.api import Instance, List
+
 from envisage.ids import SERVICE_OFFERS
+from envisage.plugin import Plugin
+from envisage.service_offer import ServiceOffer
 from envisage.ui.ids import IGUI_PROTOCOL
 
 
 class GUIPlugin(Plugin):
-    """ A simple plugin that provides a Pyface GUI.
+    """A simple plugin that provides a Pyface GUI.
 
     This class handles the life-cycle of a Pyface GUI.  Applications that need
     the GUI object should request the `pyface.i_gui.IGUI` interface, allowing

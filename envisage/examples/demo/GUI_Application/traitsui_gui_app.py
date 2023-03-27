@@ -1,14 +1,25 @@
+# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
+
 """ A simple example of a GUIApplication which wraps a TraitsUI """
+
+from pyface.api import SplashScreen
+from traits.api import Enum, HasTraits, Instance, Int, on_trait_change, Str
+from traitsui.api import Item, View
 
 from envisage.api import CorePlugin, Plugin
 from envisage.ui.api import GUIApplication, GUIPlugin
-from pyface.api import SplashScreen
-from traits.api import HasTraits, Str, Int, Enum, Instance, on_trait_change
-from traitsui.api import View, Item
 
 
 class Person(HasTraits):
-    """ A typical traits model object """
+    """A typical traits model object"""
 
     name = Str("John Doe")
 
@@ -24,7 +35,7 @@ class Person(HasTraits):
 
 
 class PersonViewPlugin(Plugin):
-    """ The 'Person View' plugin.
+    """The 'Person View' plugin.
 
     This plugin waits for the application to start, and then creates a traits
     UI.
@@ -35,12 +46,12 @@ class PersonViewPlugin(Plugin):
 
     @on_trait_change("application:application_initialized")
     def on_application_start(self):
-        """ Start the UI. """
+        """Start the UI."""
 
         person = Person()
 
         # keep a reference to the ui object to avoid garbage collection
-        self.ui = person.edit_traits(kind='live')
+        self.ui = person.edit_traits(kind="live")
 
 
 def main():
@@ -54,7 +65,7 @@ def main():
             GUIPlugin(),
             PersonViewPlugin(),
         ],
-        splash_screen=SplashScreen(image='splash'),
+        splash_screen=SplashScreen(image="splash"),
     )
 
     # Run it!
