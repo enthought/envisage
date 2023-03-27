@@ -19,6 +19,7 @@ from os.path import basename, join
 import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
+# XXX Move build_egg to test support
 from envisage.tests.test_egg_based import build_egg
 
 
@@ -40,7 +41,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
         for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
             build_egg(
-                egg_dir=join(eggs_root_dir, egg_name),
+                package_dir=join(eggs_root_dir, egg_name),
                 dist_dir=cls.eggs_dir,
             )
 
@@ -49,7 +50,7 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
         )
         for egg_name in ["acme-bad"]:
             build_egg(
-                egg_dir=join(bad_eggs_root_dir, egg_name),
+                package_dir=join(bad_eggs_root_dir, egg_name),
                 dist_dir=cls.bad_eggs_dir,
             )
 
