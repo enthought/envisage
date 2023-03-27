@@ -167,13 +167,11 @@ class EggPluginManagerTestCase(unittest.TestCase):
             # Create fresh working set for this test, to make sure that the
             # plugin manager picks up the *current* value of
             # pkg_resources.working_set.
-            pkg_resources.working_set = pkg_resources.WorkingSet()
+            fresh_working_set = pkg_resources.WorkingSet()
+            pkg_resources.working_set = fresh_working_set
             with self.assertWarns(DeprecationWarning):
                 plugin_manager = EggPluginManager()
-            self.assertEqual(
-                plugin_manager.working_set,
-                pkg_resources.working_set,
-            )
+            self.assertEqual(plugin_manager.working_set, fresh_working_set)
         finally:
             pkg_resources.working_set = original_working_set
 
