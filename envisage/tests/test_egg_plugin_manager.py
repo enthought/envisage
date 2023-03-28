@@ -63,12 +63,6 @@ class EggPluginManagerTestCase(unittest.TestCase):
         for distribution in distributions:
             working_set.add(distribution)
 
-    ###########################################################################
-    # Tests.
-    ###########################################################################
-
-    # fixme: Depending how many eggs are on sys.path, this test may take too
-    # long to be part of the TDD cycle.
     def test_no_include_or_exclude(self):
         """no include or exclude"""
 
