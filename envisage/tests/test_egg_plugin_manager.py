@@ -31,21 +31,27 @@ from envisage.tests.support import (
 class EggPluginManagerTestCase(unittest.TestCase):
     """Tests for the Egg plugin manager."""
 
-    def setUp(self):
-        """
-        Create eggs for testing purposes.
-        """
-        cleanup_stack = contextlib.ExitStack()
-        self.addCleanup(cleanup_stack.close)
-
-        self.egg_dir = cleanup_stack.enter_context(temporary_directory())
-        cleanup_stack.enter_context(restore_sys_path())
-        cleanup_stack.enter_context(restore_sys_modules())
-        cleanup_stack.enter_context(restore_pkg_resources_working_set())
+    @classmethod
+    def setUpClass(cls):
+        cls.egg_cleanup_stack = contextlib.ExitStack()
+        cls.egg_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
+        )
 
         # Build eggs
         for package in PLUGIN_PACKAGES:
-            build_egg(package_dir=package, dist_dir=self.egg_dir)
+            build_egg(package_dir=package, dist_dir=cls.egg_dir)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.egg_cleanup_stack.close()
+
+    def setUp(self):
+        with contextlib.ExitStack() as cleanup_stack:
+            cleanup_stack.enter_context(restore_sys_path())
+            cleanup_stack.enter_context(restore_sys_modules())
+            cleanup_stack.enter_context(restore_pkg_resources_working_set())
+            self.addCleanup(cleanup_stack.pop_all().close)
 
         # Make eggs importable
         # 'find_plugins' identifies those distributions that *could* be added

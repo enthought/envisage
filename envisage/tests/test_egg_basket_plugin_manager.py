@@ -34,27 +34,32 @@ from envisage.tests.support import (
 class EggBasketPluginManagerTestCase(unittest.TestCase):
     """Tests for the 'Egg Basket' plugin manager."""
 
-    def setUp(self):
-        cleanup_stack = contextlib.ExitStack()
-        self.addCleanup(cleanup_stack.close)
-
-        self.eggs_dir = os.fspath(
-            cleanup_stack.enter_context(temporary_directory())
+    @classmethod
+    def setUpClass(cls):
+        cls.egg_cleanup_stack = contextlib.ExitStack()
+        cls.eggs_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
         )
-        self.bad_eggs_dir = os.fspath(
-            cleanup_stack.enter_context(temporary_directory())
+        cls.bad_eggs_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
         )
-        cleanup_stack.enter_context(restore_sys_path())
-        cleanup_stack.enter_context(restore_sys_modules())
-        cleanup_stack.enter_context(restore_pkg_resources_working_set())
 
         # Build eggs
         for package in PLUGIN_PACKAGES:
-            build_egg(package_dir=package, dist_dir=self.eggs_dir)
+            build_egg(package_dir=package, dist_dir=cls.eggs_dir)
         for package in BAD_PLUGIN_PACKAGES:
-            build_egg(package_dir=package, dist_dir=self.bad_eggs_dir)
+            build_egg(package_dir=package, dist_dir=cls.bad_eggs_dir)
 
-    #### Tests ################################################################
+    @classmethod
+    def tearDownClass(cls):
+        cls.egg_cleanup_stack.close()
+
+    def setUp(self):
+        with contextlib.ExitStack() as cleanup_stack:
+            cleanup_stack.enter_context(restore_sys_path())
+            cleanup_stack.enter_context(restore_sys_modules())
+            cleanup_stack.enter_context(restore_pkg_resources_working_set())
+            self.addCleanup(cleanup_stack.pop_all().close)
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
         with self.assertWarns(DeprecationWarning):
