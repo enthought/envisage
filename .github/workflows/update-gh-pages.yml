@@ -40,3 +40,6 @@ jobs:
         git add .
         # Only commit if there are changes
         git diff-index --quiet --cached HEAD || git commit -m "Automated update of main branch documentation"
+    - name: Push the changes upstream
+      run: |
+        git push
