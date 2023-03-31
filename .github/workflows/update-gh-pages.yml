@@ -30,6 +30,10 @@ jobs:
     - name: Update the docs on the gh-pages-staging branch
       run: |
         python graft_docs.py
+    - name: Configure Git
+      run: |
+        git config user.name "Documentation Bot"
+        git config user.email "<>"
     - name: Commit the changes
       run: |
         cd ../docs
