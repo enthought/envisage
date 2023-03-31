@@ -18,6 +18,7 @@ Example usage:
 # XXX Don't hard-code ROOT_DIR, GH_PAGES_DIR, ...
 # XXX Add argparse interface.
 # XXX Remove .buildinfo
+# XXX Re-enable other workflows
 
 
 import pathlib
@@ -40,10 +41,10 @@ OLD_DOCS_MATCHER = re.compile(r"\d+\.\d+").fullmatch
 for child in GH_PAGES_DIR.iterdir():
     if child.name.startswith("."):
         # Ex: .git, .nojekyll
-        print(f"Skipping {child.name}")
+        print(f"Not removing hidden {child.name}")
         continue
     if child.is_dir() and OLD_DOCS_MATCHER(child.name):
-        print(f"Skipping {child.name}")
+        print(f"Not removing old docs dir {child.name}")
         continue
     print(f"Removing {child}")
     if child.is_file():
@@ -53,11 +54,13 @@ for child in GH_PAGES_DIR.iterdir():
 
 # Copy new docs into place.
 for child in NEW_DOCS_DIR.iterdir():
-    if child.is_file():
-
+    # XXX Log the copies.
+    if child.name.startswith("."):
+        # Ex: .buildinfo, .nojekyll
+        print(f"Not copying hidden {child.name}")
+        continue
+    elif child.is_file():
         shutil.copyfile(child, GH_PAGES_DIR / child.name)
     elif child.is_dir():
         shutil.copytree(child, GH_PAGES_DIR / child.name)
-    print(child)
-
-# List what's there.
+    # XXX Complain loudly if we get something else.
