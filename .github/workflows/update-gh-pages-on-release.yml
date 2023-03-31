@@ -1,9 +1,9 @@
-name: Update gh-pages documentation
+name: Update gh-pages documentation on release
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
+  workflow_dispatch
+  release:
+    types: [published]
 
 jobs:
   update-docs:
@@ -27,7 +27,7 @@ jobs:
         git worktree add ../docs gh-pages-staging
     - name: Update the docs on the gh-pages-staging branch
       run: |
-        python graft_docs.py docs/build/html ../docs
+        python graft_docs.py docs/build/html ../docs --tag ${{ GITHUB_REF_NAME }}
     - name: Configure Git
       run: |
         git config user.name "Documentation Bot"
@@ -37,7 +37,7 @@ jobs:
         cd ../docs
         git add .
         # Only commit if there are changes
-        git diff-index --quiet --cached HEAD || git commit -m "Automated update of main branch documentation"
+        git diff-index --quiet --cached HEAD || git commit -m "Automated update of release branch documentation"
     - name: Push the changes upstream
       run: |
         git push origin gh-pages-staging
