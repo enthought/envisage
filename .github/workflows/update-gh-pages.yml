@@ -1,6 +1,6 @@
 name: Update gh-pages documentation
 
-# To do:
+# To do before merging:
 # - [ ] Switch out the pull_request trigger and trigger on push to main
 #       instead. (But keep the workflow dispatch trigger.)
 # - [ ] Replace gh-pages-staging with gh-pages throughout.
