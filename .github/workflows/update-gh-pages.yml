@@ -25,6 +25,7 @@ jobs:
         python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - name: Check out gh-pages-staging branch
       run: |
+        git fetch origin gh-pages-staging --depth 1
         git worktree add ../docs gh-pages-staging
     - name: Update the docs on the gh-pages-staging branch
       run: |
