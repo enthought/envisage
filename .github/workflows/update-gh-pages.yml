@@ -25,8 +25,14 @@ jobs:
         python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - name: Check out gh-pages-staging branch
       run: |
-        git fetch origin gh-pages-staging --depth 1
+        git fetch --depth=1 origin gh-pages-staging
         git worktree add ../docs gh-pages-staging
     - name: Update the docs on the gh-pages-staging branch
       run: |
         python graft_docs.py
+    - name: Commit the changes
+      run: |
+        cd ../docs
+        git add .
+        # Only commit if there are changes
+        git diff-index --quiet --cached HEAD || git commit -m "Automated update of main branch documentation"
