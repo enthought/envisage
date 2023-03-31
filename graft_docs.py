@@ -1,66 +1,85 @@
 """
-Script to aid gh-pages documentation updates.
+Helper script for gh-pages documentation updates.
 
-Example usage:
-
-- Create a venv and activate it
-- Build documentation in the usual way (e.g., as in the test-doc-build workflow)
-- Check out the gh-pages branch in a directory alongside this one; the worktree
-  command is useful for this.
-      git worktree add ../docs gh-pages-staging
-- Graft newly-built docs onto that branch with
-      python graft_docs.py
-- Commit and push the changes.
-
-
+This script assumes that you already have the gh-pages branch checked out
+locally and that the documentation has been built and is available in
+another local directory (e.g., docs/build/html).
 """
 
-# XXX Don't hard-code ROOT_DIR, GH_PAGES_DIR, ...
-# XXX Add argparse interface.
-# XXX Remove .buildinfo
-# XXX Re-enable other workflows
-
-
+import argparse
 import pathlib
 import re
 import shutil
 
-
-HERE = pathlib.Path(__file__)
-
-ROOT_DIR = HERE.parent
-GH_PAGES_DIR = ROOT_DIR.parent / "docs"
-NEW_DOCS_DIR = ROOT_DIR / "docs" / "build" / "html"
-
 #: Matcher for names of directories containing historical docs.
 OLD_DOCS_MATCHER = re.compile(r"\d+\.\d+").fullmatch
 
-# Remove everything that's not hidden and that doesn't match
-# a directory for previous versions.
 
-for child in GH_PAGES_DIR.iterdir():
-    if child.name.startswith("."):
-        # Ex: .git, .nojekyll
-        print(f"Not removing hidden {child.name}")
-        continue
-    if child.is_dir() and OLD_DOCS_MATCHER(child.name):
-        print(f"Not removing old docs dir {child.name}")
-        continue
-    print(f"Removing {child}")
-    if child.is_file():
-        child.unlink()
-    elif child.is_dir():
-        shutil.rmtree(child)
+def remove_existing_docs(docs_dir: pathlib.Path) -> None:
+    """
+    Remove existing documentation files and directories.
 
-# Copy new docs into place.
-for child in NEW_DOCS_DIR.iterdir():
-    # XXX Log the copies.
-    if child.name.startswith("."):
-        # Ex: .buildinfo, .nojekyll
-        print(f"Not copying hidden {child.name}")
-        continue
-    elif child.is_file():
-        shutil.copyfile(child, GH_PAGES_DIR / child.name)
-    elif child.is_dir():
-        shutil.copytree(child, GH_PAGES_DIR / child.name)
-    # XXX Complain loudly if we get something else.
+    Skips hidden files and directories (like .nojekyll and .git), and
+    ignores directories whose name matches <major>.<minor> - these are
+    directories that contain previous documentation versions.
+    """
+    print(f"Removing existing documentation from {docs_dir} ...")
+    for child in docs_dir.iterdir():
+        if child.name.startswith("."):
+            print(f"  Not removing hidden file or directory {child}")
+        elif child.is_file():
+            print(f"  Removing file {child}")
+            child.unlink()
+        elif child.is_dir():
+            if OLD_DOCS_MATCHER(child.name):
+                print(f"  Not removing old docs directory {child}")
+            else:
+                print(f"  Removing directory {child}")
+                shutil.rmtree(child)
+        else:
+            raise RuntimeError("Not a file or directory: {child}: aborting")
+
+
+def copy_new_docs(source_docs: pathlib.Path, target_dir: pathlib.Path) -> None:
+    """
+    Copy new documentation into place.
+
+    Copies newly-built docs from their build location (e.g., docs/build/html)
+    to the target directory in the gh-pages branch.
+
+    Hidden files and directories (for example .buildinfo, .nojekyll, .doctrees)
+    are ignored.
+    """
+    print(f"Copying docs from {source_docs} to {target_dir} ...")
+    for child in source_docs.iterdir():
+        if child.name.startswith("."):
+            print(f"  Not copying hidden file or directory {child.name}")
+        elif child.is_file():
+            print(f"  Copying file {child} to {target_dir}")
+            shutil.copyfile(child, target_dir / child.name)
+        elif child.is_dir():
+            print(f"  Copying directory {child} to {target_dir}")
+            shutil.copytree(child, target_dir / child.name)
+        else:
+            raise RuntimeError("Not a file or directory: {child}: aborting")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "source",
+        help="Directory containing newly-built documentation",
+        type=pathlib.Path,
+    )
+    parser.add_argument(
+        "target",
+        help="Directory containing the gh-pages checkout",
+        type=pathlib.Path,
+    )
+    args = parser.parse_args()
+    remove_existing_docs(args.target)
+    copy_new_docs(args.source, args.target)
+
+
+if __name__ == "__main__":
+    main()

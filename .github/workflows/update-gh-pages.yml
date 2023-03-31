@@ -1,10 +1,5 @@
 name: Update gh-pages documentation
 
-# To do before merging:
-# - [ ] Switch out the pull_request trigger and trigger on push to main
-#       instead. (But keep the workflow dispatch trigger.)
-# - [ ] Replace gh-pages-staging with gh-pages throughout.
-
 on: [pull_request, workflow_dispatch]
 
 jobs:
@@ -29,7 +24,7 @@ jobs:
         git worktree add ../docs gh-pages-staging
     - name: Update the docs on the gh-pages-staging branch
       run: |
-        python graft_docs.py
+        python graft_docs.py docs/build/html ../docs
     - name: Configure Git
       run: |
         git config user.name "Documentation Bot"
