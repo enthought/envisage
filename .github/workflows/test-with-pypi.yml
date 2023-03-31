@@ -1,6 +1,6 @@
 name: Test with PyPI
 
-on: [pull_request, workflow_dispatch]
+on: [workflow_dispatch]
 
 env:
   PYTHONUNBUFFERED: 1

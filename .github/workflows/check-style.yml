@@ -1,6 +1,6 @@
 name: Run style checks
 
-on: [pull_request, workflow_dispatch]
+on: [workflow_dispatch]
 
 jobs:
   style:

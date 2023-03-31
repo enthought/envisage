@@ -4,7 +4,7 @@
 
 name: Test with EDM
 
-on: [pull_request, workflow_dispatch]
+on: [workflow_dispatch]
 
 env:
   INSTALL_EDM_VERSION: 3.4.0
