@@ -5,7 +5,7 @@
 Version 7.0.3
 =============
 
-Released: 2023-04-04
+Released: 2023-04-03
 
 This is a bugfix release that fixes the automated documentation build
 for releases.
