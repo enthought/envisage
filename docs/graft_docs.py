@@ -126,7 +126,7 @@ def remove_existing_docs(docs_dir: pathlib.Path) -> None:
             child.unlink()
         elif child.is_dir():
             if RELEASE_DOCS_DIR_MATCHER(child.name):
-                print(f"  Not removing old docs directory {child}")
+                print(f"  Not removing release docs directory {child}")
             elif child.is_symlink() and child.name == LATEST:
                 # avoid removing the 'latest' symlink
                 print(f"  Not removing symlink {child}")
