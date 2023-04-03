@@ -21,7 +21,9 @@ Documentation
   (https://docs.enthought.com/envisage) now matches the contents of the GitHub
   ``main`` branch, while subdirectories (e.g.,
   https://docs.enthought.com/envisage/7.0) provide documentation for released
-  versions. (#565)
+  versions. A 'latest' symlink is in place, so
+  https://docs.enthought.com/envisage/latest will bring up the documentation
+  for the latest release. (#565)
 
 Build
 -----
