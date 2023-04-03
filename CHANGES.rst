@@ -2,6 +2,34 @@
  Release history
 =================
 
+Version 7.0.2
+=============
+
+Released: 2023-04-03
+
+This is a bugfix release that fixes some test interaction issues and
+automates the documentation build.
+
+Fixes
+-----
+* Fix test-ordering issues with egg-based tests that modify ``pkg_resources``
+  global state. (#564)
+
+Documentation
+-------------
+* Reorganise the gh-pages documentation. The main gh-pages page
+  (https://docs.enthought.com/envisage) now matches the contents of the GitHub
+  ``main`` branch, while subdirectories (e.g.,
+  https://docs.enthought.com/envisage/7.0) provide documentation for released
+  versions. (#565)
+
+Build
+-----
+* Add GitHub Actions workflows to automate documentation updates. The main
+  documentation is updated on every push to ``main``, while the release
+  documentation is updated on each GitHub release creation. (#565)
+
+
 Version 7.0.1
 =============
 
