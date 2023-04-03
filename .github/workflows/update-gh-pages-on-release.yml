@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  pull_request:
 
 jobs:
   update-docs:
@@ -40,4 +41,4 @@ jobs:
         git diff-index --quiet --cached HEAD || git commit -m "Automated update of release branch documentation"
     - name: Push the changes upstream
       run: |
-        git push origin gh-pages
+        # git push origin gh-pages
