@@ -10,10 +10,12 @@
 """ Tests for the 'Package' plugin manager. """
 
 
+import contextlib
 import unittest
 from os.path import dirname, join
 
 from envisage.package_plugin_manager import PackagePluginManager
+from envisage.tests.support import restore_sys_path
 
 
 class PackagePluginManagerTestCase(unittest.TestCase):
@@ -21,6 +23,10 @@ class PackagePluginManagerTestCase(unittest.TestCase):
 
     def setUp(self):
         """Prepares the test fixture before each test method is called."""
+
+        cleanup_stack = contextlib.ExitStack()
+        self.addCleanup(cleanup_stack.close)
+        cleanup_stack.enter_context(restore_sys_path())
 
         # The location of the 'plugins' test data directory.
         self.plugins_dir = join(dirname(__file__), "plugins")

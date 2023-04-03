@@ -9,9 +9,10 @@
 # Thanks for using Enthought open source!
 """ Tests for the 'Egg Basket' plugin manager. """
 
+import contextlib
 import glob
+import os
 import shutil
-import sys
 import tempfile
 import unittest
 from os.path import basename, join
@@ -19,66 +20,46 @@ from os.path import basename, join
 import pkg_resources
 
 from envisage.egg_basket_plugin_manager import EggBasketPluginManager
-from envisage.tests.test_egg_based import build_egg
+from envisage.tests.support import (
+    BAD_PLUGIN_PACKAGES,
+    build_egg,
+    PLUGIN_PACKAGES,
+    restore_pkg_resources_working_set,
+    restore_sys_modules,
+    restore_sys_path,
+    temporary_directory,
+)
 
 
 class EggBasketPluginManagerTestCase(unittest.TestCase):
     """Tests for the 'Egg Basket' plugin manager."""
 
-    #### 'unittest.TestCase' protocol #########################################
-
     @classmethod
     def setUpClass(cls):
-        """
-        Create eggs for testing purposes.
-        """
-        cls.eggs_dir = tempfile.mkdtemp()
-        cls.bad_eggs_dir = tempfile.mkdtemp()
-
-        eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "eggs"
+        cls.egg_cleanup_stack = contextlib.ExitStack()
+        cls.eggs_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
         )
-        for egg_name in ["acme-bar", "acme-baz", "acme-foo"]:
-            build_egg(
-                egg_dir=join(eggs_root_dir, egg_name),
-                dist_dir=cls.eggs_dir,
-            )
-
-        bad_eggs_root_dir = pkg_resources.resource_filename(
-            "envisage.tests", "bad_eggs"
+        cls.bad_eggs_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
         )
-        for egg_name in ["acme-bad"]:
-            build_egg(
-                egg_dir=join(bad_eggs_root_dir, egg_name),
-                dist_dir=cls.bad_eggs_dir,
-            )
+
+        # Build eggs
+        for package in PLUGIN_PACKAGES:
+            build_egg(package_dir=package, dist_dir=cls.eggs_dir)
+        for package in BAD_PLUGIN_PACKAGES:
+            build_egg(package_dir=package, dist_dir=cls.bad_eggs_dir)
 
     @classmethod
     def tearDownClass(cls):
-        """
-        Delete created eggs.
-        """
-        shutil.rmtree(cls.bad_eggs_dir)
-        shutil.rmtree(cls.eggs_dir)
+        cls.egg_cleanup_stack.close()
 
     def setUp(self):
-        """Prepares the test fixture before each test method is called."""
-
-        # Some tests cause sys.path to be modified. Capture the original
-        # contents so that we can restore sys.path later.
-        self._original_sys_path_contents = sys.path[:]
-
-    def tearDown(self):
-        """Called immediately after each test method has been called."""
-
-        # Undo any sys.path modifications
-        sys.path[:] = self._original_sys_path_contents
-
-        # `envisage.egg_utils.get_entry_points_in_egg_order` modifies the
-        # global working set.
-        pkg_resources.working_set = pkg_resources.WorkingSet()
-
-    #### Tests ################################################################
+        with contextlib.ExitStack() as cleanup_stack:
+            cleanup_stack.enter_context(restore_sys_path())
+            cleanup_stack.enter_context(restore_sys_modules())
+            cleanup_stack.enter_context(restore_pkg_resources_working_set())
+            self.addCleanup(cleanup_stack.pop_all().close)
 
     def test_find_plugins_in_eggs_on_the_plugin_path(self):
         with self.assertWarns(DeprecationWarning):
@@ -295,7 +276,8 @@ class EggBasketPluginManagerTestCase(unittest.TestCase):
 
         Parameters
         ----------
-        egg_pat: a glob pattern for the egg in `self.egg_dir` eg 'foo.bar*.egg'
+        egg_pat: a glob pattern for the egg in `self.eggs_dir`
+           for example 'foo.bar*.egg'
         replacement: a string replacement for the version part of egg name.
             If None, '1' is appended to the original version.
 

@@ -7,32 +7,64 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
+
 """ Tests for the Egg plugin manager. """
 
-# 3rd party imports.
+import contextlib
+import os
+import unittest
+
 import pkg_resources
+from pkg_resources import Environment, working_set
 
-# Enthought library imports.
 from envisage.api import EggPluginManager
+from envisage.tests.support import (
+    build_egg,
+    PLUGIN_PACKAGES,
+    restore_pkg_resources_working_set,
+    restore_sys_modules,
+    restore_sys_path,
+    temporary_directory,
+)
 
-# Local imports.
-from .test_egg_based import EggBasedTestCase
 
-
-class EggPluginManagerTestCase(EggBasedTestCase):
+class EggPluginManagerTestCase(unittest.TestCase):
     """Tests for the Egg plugin manager."""
 
-    ###########################################################################
-    # Tests.
-    ###########################################################################
+    @classmethod
+    def setUpClass(cls):
+        cls.egg_cleanup_stack = contextlib.ExitStack()
+        cls.egg_dir = os.fspath(
+            cls.egg_cleanup_stack.enter_context(temporary_directory())
+        )
 
-    # fixme: Depending how many eggs are on sys.path, this test may take too
-    # long to be part of the TDD cycle.
+        # Build eggs
+        for package in PLUGIN_PACKAGES:
+            build_egg(package_dir=package, dist_dir=cls.egg_dir)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.egg_cleanup_stack.close()
+
+    def setUp(self):
+        with contextlib.ExitStack() as cleanup_stack:
+            cleanup_stack.enter_context(restore_sys_path())
+            cleanup_stack.enter_context(restore_sys_modules())
+            cleanup_stack.enter_context(restore_pkg_resources_working_set())
+            self.addCleanup(cleanup_stack.pop_all().close)
+
+        # Make eggs importable
+        # 'find_plugins' identifies those distributions that *could* be added
+        # to the working set without version conflicts or missing requirements.
+        environment = Environment([os.fspath(self.egg_dir)])
+        distributions, errors = working_set.find_plugins(environment)
+        if len(distributions) == 0 or len(errors) > 0:
+            raise RuntimeError(f"Cannot find eggs {errors}")
+        for distribution in distributions:
+            working_set.add(distribution)
+
     def test_no_include_or_exclude(self):
         """no include or exclude"""
-
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # Make sure that the plugin manager only includes those plugins.
         with self.assertWarns(DeprecationWarning):
@@ -49,8 +81,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_include_specific(self):
         """include specific"""
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo", "acme.bar"]
@@ -71,9 +101,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
     def test_include_multiple(self):
         """include multiple"""
 
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
-
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo", "acme.bar", "acme.baz"]
 
@@ -92,9 +119,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_exclude_specific(self):
         """exclude specific"""
-
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.bar"]
@@ -117,9 +141,6 @@ class EggPluginManagerTestCase(EggBasedTestCase):
 
     def test_exclude_multiple(self):
         """exclude multiple"""
-
-        # Add all of the eggs in the egg basket.
-        self._add_eggs_on_path([self.egg_dir])
 
         # The Ids of the plugins that we expect the plugin manager to find.
         expected = ["acme.foo"]
@@ -147,13 +168,11 @@ class EggPluginManagerTestCase(EggBasedTestCase):
             # Create fresh working set for this test, to make sure that the
             # plugin manager picks up the *current* value of
             # pkg_resources.working_set.
-            pkg_resources.working_set = pkg_resources.WorkingSet()
+            fresh_working_set = pkg_resources.WorkingSet()
+            pkg_resources.working_set = fresh_working_set
             with self.assertWarns(DeprecationWarning):
                 plugin_manager = EggPluginManager()
-            self.assertEqual(
-                plugin_manager.working_set,
-                pkg_resources.working_set,
-            )
+            self.assertEqual(plugin_manager.working_set, fresh_working_set)
         finally:
             pkg_resources.working_set = original_working_set
 
