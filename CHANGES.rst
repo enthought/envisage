@@ -2,6 +2,20 @@
  Release history
 =================
 
+Version 7.0.3
+=============
+
+Released: 2023-04-04
+
+This is a bugfix release that fixes the automated documentation build
+for releases.
+
+Fixes
+-----
+* Fix the GitHub Actions workflow for automated documentation updates
+  on releases. (#568)
+
+
 Version 7.0.2
 =============
 
