@@ -36,6 +36,18 @@ import shutil
 #: Matcher for names of directories containing release docs.
 RELEASE_DOCS_DIR_MATCHER = re.compile(r"\d+\.\d+").fullmatch
 
+#: Name of the symlink that points to the latest docs
+LATEST = "latest"
+
+
+def release_version(dir_name: str) -> list[int]:
+    """
+    Mapping from release docs directory names to orderable values.
+
+    E.g., '7.13' -> (7, 13).
+    """
+    return [int(piece) for piece in dir_name.split(".")]
+
 
 def subdir_from_tagname(version: str) -> str:
     """
@@ -48,6 +60,31 @@ def subdir_from_tagname(version: str) -> str:
             f"tagname {version} does not have the expected form"
         )
     return subdir
+
+
+def update_latest_symlink(docs_dir: pathlib.Path) -> None:
+    """
+    Update the 'latest' symlink to point to documentation for the most recent
+    release.
+
+    docs_dir should point to the root gh-pages directory.
+    """
+    all_release_docs = [
+        child.name
+        for child in docs_dir.iterdir()
+        if child.is_dir() and RELEASE_DOCS_DIR_MATCHER(child.name)
+    ]
+    latest_docs = max(all_release_docs, key=release_version)
+
+    # Remove existing symlink if present.
+    latest_symlink = docs_dir / LATEST
+    if latest_symlink.is_symlink():
+        print(f"Removing symlink {latest_symlink}")
+        latest_symlink.unlink()
+
+    # Create new symlink
+    print(f"Updating symlink {latest_symlink} to point to {latest_docs}")
+    latest_symlink.symlink_to(latest_docs, target_is_directory=True)
 
 
 def remove_existing_docs(docs_dir: pathlib.Path) -> None:
@@ -68,6 +105,9 @@ def remove_existing_docs(docs_dir: pathlib.Path) -> None:
         elif child.is_dir():
             if RELEASE_DOCS_DIR_MATCHER(child.name):
                 print(f"  Not removing old docs directory {child}")
+            elif child.is_symlink() and child.name == LATEST:
+                # avoid removing the 'latest' symlink
+                print(f"  Not removing symlink {child}")
             else:
                 print(f"  Removing directory {child}")
                 shutil.rmtree(child)
@@ -127,6 +167,9 @@ def main() -> None:
 
     remove_existing_docs(target)
     copy_new_docs(args.source, target)
+    if args.tag is not None:
+        # Update symlink if necessary on a release docs update.
+        update_latest_symlink(args.target)
 
 
 if __name__ == "__main__":
