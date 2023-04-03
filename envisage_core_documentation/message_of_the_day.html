@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '7.0.1',
+        VERSION:     '7.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -100,7 +100,7 @@ application, we might not choose to use a framework like Envisage (it is one of
 the rare applications that is so simple that why would you bother), but it does
 serve to illustrate all of the fundamental aspects of building an Envisage
 application.</p>
-<p>All of the code for this example can be found in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD">Message of the Day</a>
+<p>All of the code for this example can be found in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD">Message of the Day</a>
 directory of the Envisage distribution, and to run it simply type:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">.../</span><span class="n">examples</span><span class="o">/</span><span class="n">MOTD</span>
 <span class="n">python</span> <span class="n">run</span><span class="o">.</span><span class="n">py</span>
@@ -117,28 +117,28 @@ general, as it allows our code to be reused outside of Envisage applications.</p
 <section id="plain-ol-motd">
 <h2>Plain Ol’ MOTD<a class="headerlink" href="#plain-ol-motd" title="Permalink to this heading">¶</a></h2>
 <p>So lets take a look at our non-Envisage aware MOTD application, the code for
-which is in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> package. A good place to start as a developer
+which is in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> package. A good place to start as a developer
 <em>using</em> any package in Envisage (and, for that matter, the entire Enthought
 tool-suite) is to look at any interfaces and classes exposed via its ‘api.py’
 module.</p>
 <p>In this case, there are 2 interfaces</p>
 <ol class="arabic">
-<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/i_motd.py">IMOTD</a></p>
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/i_motd.py">IMOTD</a></p>
 <p>The interface for simple “Message of the Day” functionality.</p>
 </li>
-<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a></p>
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a></p>
 <p>The interface supported by each message returned by the motd() method on
-the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/i_motd.py">IMOTD</a> interface.</p>
+the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/i_motd.py">IMOTD</a> interface.</p>
 </li>
 </ol>
 <p>We also (<em>not</em> coincidentally!) have 2 corresponding implementation classes:</p>
 <ol class="arabic simple">
-<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a></p></li>
-<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a></p></li>
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a></p></li>
+<li><p><a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a></p></li>
 </ol>
-<p>As you can see, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class simply contains a list of messages and
+<p>As you can see, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class simply contains a list of messages and
 when its motd() method is called, it returns a random choice from that list.</p>
-<p>An example of using our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class at the Python prompt might be:</p>
+<p>An example of using our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class at the Python prompt might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">acme.motd.api</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MOTD</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">motd</span> <span class="o">=</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39;Anon&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
@@ -161,7 +161,7 @@ turn it into an extensible, pluggable Envisage application.</p>
 itself. In Envisage, this can be any object that implements the <a class="reference internal" href="../api/envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a>
 interface, but is usually either an instance of the default <a class="reference internal" href="../api/envisage.application.html#envisage.application.Application" title="envisage.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code></a> class,
 or one derived from it.</p>
-<p>In the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> example, we create the class in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/run.py">run.py</a> module as follows:</p>
+<p>In the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> example, we create the class in the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/run.py">run.py</a> module as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span> <span class="o">=</span> <span class="n">Application</span><span class="p">(</span>
     <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.motd&#39;</span><span class="p">,</span>
     <span class="n">plugins</span><span class="o">=</span><span class="p">[</span>
@@ -184,7 +184,7 @@ offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
 <section id="the-acme-motd-plugin">
 <h3>The ‘acme.motd’ plugin<a class="headerlink" href="#the-acme-motd-plugin" title="Permalink to this heading">¶</a></h3>
 <p>As shown above, the corresponding plugin implementation is in the
-<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">MOTDPlugin</a> class:</p>
+<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">MOTDPlugin</a> class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
 
@@ -280,17 +280,17 @@ offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
 </pre></div>
 </div>
 <p>Although it is obviously a bit of overkill, the example shows how we would
-take a <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> object and register it a service for other parts of the
+take a <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> object and register it a service for other parts of the
 application to use. Sadly, in this example, there are no other parts of the
 application, so we just lookup and use the service ourselves!</p>
 </section>
 <section id="the-acme-motd-software-quotes-plugin">
 <h3>The ‘acme.motd.software_quotes’ plugin<a class="headerlink" href="#the-acme-motd-software-quotes-plugin" title="Permalink to this heading">¶</a></h3>
 <p>First of all, we have to create the messages that we want to add. Remember that
-when the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin advertised the extension point, it told us that
-every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
-a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a>) and so we create
-a simple module (‘messages.py’_) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
+when the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin advertised the extension point, it told us that
+every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
+a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a>) and so we create
+a simple module (‘messages.py’_) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
 
@@ -312,7 +312,7 @@ a simple module (‘messages.py’_) and add our <a class="reference external" h
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.1/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
+<p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.2/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
 Envisage about the messages that we have just created:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Software Quotes&#39; plugin. &quot;&quot;&quot;</span>
