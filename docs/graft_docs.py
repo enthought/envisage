@@ -11,21 +11,43 @@
 """
 Helper script for gh-pages documentation updates.
 
+This script helps maintain the documentation in the gh-pages branch
+of the repository; that documentation is automatically served by
+GitHub and made available via docs.enthought.com.
+
+The intended structure of the gh-pages branch is:
+
+- the root directory contains documentation matching the contents
+  of the 'main' branch of the codebase.
+- named subdirectories with names of the form <major>.<minor> contain
+  documentation for released versions of the package.
+- the root directory also contains a 'latest' symlink pointing to the
+  docs matching the latest release (i.e., the release with highest
+  version number).
+
 Example usage
 -------------
-Assuming that the gh-pages branch has been checked out into ../docs
-(for example using `git worktree add ../docs gh-pages`), and that
-documentation has been built locally via Sphinx and is in docs/build/html:
+In the examples below we assume that:
 
-After an update to the main branch, to update the docs in the root directory
-of the gh-pages branch, do:
+- the current working directory is the root of the repository
+- the gh-pages branch has been checked out into ../docs
+  (for example using `git worktree add ../docs gh-pages`)
+- documentation has been built locally via Sphinx and is in docs/build/html
 
-    python graft_docs.py docs/build/html ../docs
+Then to update the docs in the root directory of the gh-pages branch (for
+example after a push to the main branch), do:
+
+    python docs/graft_docs.py docs/build/html ../docs
 
 After releasing version 7.3.2 (for example) of the package, to update the
 docs in the 7.3/ subdirectory of the gh-pages branch, do:
 
-    python graft_docs.py docs/build/html ../docs --tag 7.3.2
+    python docs/graft_docs.py docs/build/html ../docs --tag 7.3.2
+
+Note that for a bugfix release, the intention is that the docs for the bugfix
+release (e.g., 7.3.2) overwrite the docs for the previous release with the same
+<major>.<minor> version (e.g., 7.3.1). The docs end up in the 7.3/ subdirectory
+of the gh-pages tree in both cases.
 """
 
 import argparse

@@ -27,7 +27,7 @@ jobs:
         git worktree add ../docs gh-pages-staging
     - name: Update the docs on the gh-pages-staging branch
       run: |
-        python graft_docs.py docs/build/html ../docs --tag ${{ GITHUB_REF_NAME }}
+        python docs/graft_docs.py docs/build/html ../docs --tag ${{ GITHUB_REF_NAME }}
     - name: Configure Git
       run: |
         git config user.name "Documentation Bot"
