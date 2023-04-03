@@ -1,0 +1,7 @@
+envisage.i\_service\_registry module
+====================================
+
+.. automodule:: envisage.i_service_registry
+   :members:
+   :undoc-members:
+   :show-inheritance:

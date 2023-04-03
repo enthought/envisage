@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>envisage package &mdash; Envisage Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '7.0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Envisage Documentation" href="../index.html" >
+    <link rel="up" title="API documentation" href="../api.html" >
+    <link rel="next" title="envisage.api module" href="envisage.api.html" >
+    <link rel="prev" title="API documentation" href="../api.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Envisage Documentation</a></li>
+	
+          <li class="active"><a href="../api.html" accesskey="U">API documentation</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="envisage.api.html" title="envisage.api module"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="../api.html" title="API documentation"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <section id="module-envisage">
+<span id="envisage-package"></span><h1>envisage package<a class="headerlink" href="#module-envisage" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envisage.api.html">envisage.api module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.api.html#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.api.html#constants">Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.api.html#application-plugin-and-related-classes">Application, plugin and related classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.api.html#exceptions">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.application.html">envisage.application module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.application.html#envisage.application.Application"><code class="docutils literal notranslate"><span class="pre">Application</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.add_extension_point"><code class="docutils literal notranslate"><span class="pre">Application.add_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.add_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">Application.add_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.add_plugin"><code class="docutils literal notranslate"><span class="pre">Application.add_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.extension_registry"><code class="docutils literal notranslate"><span class="pre">Application.extension_registry</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_extension_point"><code class="docutils literal notranslate"><span class="pre">Application.get_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_extension_points"><code class="docutils literal notranslate"><span class="pre">Application.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_extensions"><code class="docutils literal notranslate"><span class="pre">Application.get_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_plugin"><code class="docutils literal notranslate"><span class="pre">Application.get_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_required_service"><code class="docutils literal notranslate"><span class="pre">Application.get_required_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_service"><code class="docutils literal notranslate"><span class="pre">Application.get_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_service_from_id"><code class="docutils literal notranslate"><span class="pre">Application.get_service_from_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_service_properties"><code class="docutils literal notranslate"><span class="pre">Application.get_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.get_services"><code class="docutils literal notranslate"><span class="pre">Application.get_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.home"><code class="docutils literal notranslate"><span class="pre">Application.home</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.id"><code class="docutils literal notranslate"><span class="pre">Application.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.import_symbol"><code class="docutils literal notranslate"><span class="pre">Application.import_symbol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.plugin_added"><code class="docutils literal notranslate"><span class="pre">Application.plugin_added</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.plugin_manager"><code class="docutils literal notranslate"><span class="pre">Application.plugin_manager</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.plugin_removed"><code class="docutils literal notranslate"><span class="pre">Application.plugin_removed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.preferences"><code class="docutils literal notranslate"><span class="pre">Application.preferences</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.register_service"><code class="docutils literal notranslate"><span class="pre">Application.register_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.remove_extension_point"><code class="docutils literal notranslate"><span class="pre">Application.remove_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.remove_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">Application.remove_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.remove_plugin"><code class="docutils literal notranslate"><span class="pre">Application.remove_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.run"><code class="docutils literal notranslate"><span class="pre">Application.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.service_registry"><code class="docutils literal notranslate"><span class="pre">Application.service_registry</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.set_extensions"><code class="docutils literal notranslate"><span class="pre">Application.set_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.set_service_properties"><code class="docutils literal notranslate"><span class="pre">Application.set_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.start"><code class="docutils literal notranslate"><span class="pre">Application.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.start_plugin"><code class="docutils literal notranslate"><span class="pre">Application.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.started"><code class="docutils literal notranslate"><span class="pre">Application.started</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.starting"><code class="docutils literal notranslate"><span class="pre">Application.starting</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.stop"><code class="docutils literal notranslate"><span class="pre">Application.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.stop_plugin"><code class="docutils literal notranslate"><span class="pre">Application.stop_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.stopped"><code class="docutils literal notranslate"><span class="pre">Application.stopped</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.stopping"><code class="docutils literal notranslate"><span class="pre">Application.stopping</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.unregister_service"><code class="docutils literal notranslate"><span class="pre">Application.unregister_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.application.html#envisage.application.Application.user_data"><code class="docutils literal notranslate"><span class="pre">Application.user_data</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.application_event.html">envisage.application_event module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.application_event.html#envisage.application_event.ApplicationEvent"><code class="docutils literal notranslate"><span class="pre">ApplicationEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.composite_plugin_manager.html">envisage.composite_plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.add_plugin"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.add_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.get_plugin"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.get_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.remove_plugin"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.remove_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.start"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.start_plugin"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.stop"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.composite_plugin_manager.html#envisage.composite_plugin_manager.CompositePluginManager.stop_plugin"><code class="docutils literal notranslate"><span class="pre">CompositePluginManager.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.core_plugin.html">envisage.core_plugin module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin"><code class="docutils literal notranslate"><span class="pre">CorePlugin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.PREFERENCES"><code class="docutils literal notranslate"><span class="pre">CorePlugin.PREFERENCES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">CorePlugin.SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.id"><code class="docutils literal notranslate"><span class="pre">CorePlugin.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.name"><code class="docutils literal notranslate"><span class="pre">CorePlugin.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.preferences"><code class="docutils literal notranslate"><span class="pre">CorePlugin.preferences</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.service_offers"><code class="docutils literal notranslate"><span class="pre">CorePlugin.service_offers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.core_plugin.html#envisage.core_plugin.CorePlugin.start"><code class="docutils literal notranslate"><span class="pre">CorePlugin.start()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.egg_basket_plugin_manager.html">envisage.egg_basket_plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_basket_plugin_manager.html#envisage.egg_basket_plugin_manager.EggBasketPluginManager"><code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.egg_basket_plugin_manager.html#envisage.egg_basket_plugin_manager.EggBasketPluginManager.ENVISAGE_PLUGINS_ENTRY_POINT"><code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager.ENVISAGE_PLUGINS_ENTRY_POINT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.egg_plugin_manager.html">envisage.egg_plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_plugin_manager.html#envisage.egg_plugin_manager.EggPluginManager"><code class="docutils literal notranslate"><span class="pre">EggPluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.egg_plugin_manager.html#envisage.egg_plugin_manager.EggPluginManager.PLUGINS"><code class="docutils literal notranslate"><span class="pre">EggPluginManager.PLUGINS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.egg_utils.html">envisage.egg_utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_utils.html#envisage.egg_utils.add_eggs_on_path"><code class="docutils literal notranslate"><span class="pre">add_eggs_on_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_utils.html#envisage.egg_utils.get_distributions_in_egg_order"><code class="docutils literal notranslate"><span class="pre">get_distributions_in_egg_order()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_utils.html#envisage.egg_utils.get_distributions_with_entry_point"><code class="docutils literal notranslate"><span class="pre">get_distributions_with_entry_point()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_utils.html#envisage.egg_utils.get_entry_points_in_egg_order"><code class="docutils literal notranslate"><span class="pre">get_entry_points_in_egg_order()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.egg_utils.html#envisage.egg_utils.get_requires"><code class="docutils literal notranslate"><span class="pre">get_requires()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.extension_point.html">envisage.extension_point module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect_extension_point_traits"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.connect_extension_point_traits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.disconnect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.disconnect_extension_point_traits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.get"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_point.html#envisage.extension_point.ExtensionPoint.set"><code class="docutils literal notranslate"><span class="pre">ExtensionPoint.set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.extension_point_binding.html">envisage.extension_point_binding module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_point_binding.html#envisage.extension_point_binding.ExtensionPointBinding"><code class="docutils literal notranslate"><span class="pre">ExtensionPointBinding</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_point_binding.html#envisage.extension_point_binding.bind_extension_point"><code class="docutils literal notranslate"><span class="pre">bind_extension_point()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_point_binding.html#envisage.extension_point_binding.unbind_extension_point"><code class="docutils literal notranslate"><span class="pre">unbind_extension_point()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.extension_point_changed_event.html">envisage.extension_point_changed_event module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_point_changed_event.html#envisage.extension_point_changed_event.ExtensionPointChangedEvent"><code class="docutils literal notranslate"><span class="pre">ExtensionPointChangedEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.extension_provider.html">envisage.extension_provider module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_provider.html#envisage.extension_provider.ExtensionProvider"><code class="docutils literal notranslate"><span class="pre">ExtensionProvider</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_provider.html#envisage.extension_provider.ExtensionProvider.extension_point_changed"><code class="docutils literal notranslate"><span class="pre">ExtensionProvider.extension_point_changed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_provider.html#envisage.extension_provider.ExtensionProvider.get_extension_points"><code class="docutils literal notranslate"><span class="pre">ExtensionProvider.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_provider.html#envisage.extension_provider.ExtensionProvider.get_extensions"><code class="docutils literal notranslate"><span class="pre">ExtensionProvider.get_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.extension_registry.html">envisage.extension_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.add_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.add_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_point"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.get_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_points"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extensions"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.get_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.remove_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.remove_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.set_extensions"><code class="docutils literal notranslate"><span class="pre">ExtensionRegistry.set_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_application.html">envisage.i_application module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication"><code class="docutils literal notranslate"><span class="pre">IApplication</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.home"><code class="docutils literal notranslate"><span class="pre">IApplication.home</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.id"><code class="docutils literal notranslate"><span class="pre">IApplication.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.preferences"><code class="docutils literal notranslate"><span class="pre">IApplication.preferences</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.run"><code class="docutils literal notranslate"><span class="pre">IApplication.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.started"><code class="docutils literal notranslate"><span class="pre">IApplication.started</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.starting"><code class="docutils literal notranslate"><span class="pre">IApplication.starting</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.stopped"><code class="docutils literal notranslate"><span class="pre">IApplication.stopped</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.stopping"><code class="docutils literal notranslate"><span class="pre">IApplication.stopping</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_application.html#envisage.i_application.IApplication.user_data"><code class="docutils literal notranslate"><span class="pre">IApplication.user_data</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_extension_point.html">envisage.i_extension_point module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_extension_point.html#envisage.i_extension_point.IExtensionPoint"><code class="docutils literal notranslate"><span class="pre">IExtensionPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_extension_point_user.html">envisage.i_extension_point_user module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_extension_point_user.html#envisage.i_extension_point_user.IExtensionPointUser"><code class="docutils literal notranslate"><span class="pre">IExtensionPointUser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_extension_provider.html">envisage.i_extension_provider module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_extension_provider.html#envisage.i_extension_provider.IExtensionProvider"><code class="docutils literal notranslate"><span class="pre">IExtensionProvider</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_provider.html#envisage.i_extension_provider.IExtensionProvider.get_extension_points"><code class="docutils literal notranslate"><span class="pre">IExtensionProvider.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_provider.html#envisage.i_extension_provider.IExtensionProvider.get_extensions"><code class="docutils literal notranslate"><span class="pre">IExtensionProvider.get_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_extension_registry.html">envisage.i_extension_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.add_extension_point"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.add_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.add_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.add_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extension_point"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.get_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extension_points"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extensions"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.get_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.remove_extension_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point_listener"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.remove_extension_point_listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.set_extensions"><code class="docutils literal notranslate"><span class="pre">IExtensionRegistry.set_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_import_manager.html">envisage.i_import_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_import_manager.html#envisage.i_import_manager.IImportManager"><code class="docutils literal notranslate"><span class="pre">IImportManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_import_manager.html#envisage.i_import_manager.IImportManager.import_symbol"><code class="docutils literal notranslate"><span class="pre">IImportManager.import_symbol()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_plugin.html">envisage.i_plugin module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin"><code class="docutils literal notranslate"><span class="pre">IPlugin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.activator"><code class="docutils literal notranslate"><span class="pre">IPlugin.activator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.application"><code class="docutils literal notranslate"><span class="pre">IPlugin.application</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.home"><code class="docutils literal notranslate"><span class="pre">IPlugin.home</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.id"><code class="docutils literal notranslate"><span class="pre">IPlugin.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.name"><code class="docutils literal notranslate"><span class="pre">IPlugin.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.start"><code class="docutils literal notranslate"><span class="pre">IPlugin.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin.html#envisage.i_plugin.IPlugin.stop"><code class="docutils literal notranslate"><span class="pre">IPlugin.stop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_plugin_activator.html">envisage.i_plugin_activator module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator"><code class="docutils literal notranslate"><span class="pre">IPluginActivator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator.start_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginActivator.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator.stop_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginActivator.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_plugin_manager.html">envisage.i_plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager"><code class="docutils literal notranslate"><span class="pre">IPluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.add_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.add_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.get_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.get_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.plugin_added"><code class="docutils literal notranslate"><span class="pre">IPluginManager.plugin_added</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.plugin_removed"><code class="docutils literal notranslate"><span class="pre">IPluginManager.plugin_removed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.remove_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.remove_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start"><code class="docutils literal notranslate"><span class="pre">IPluginManager.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop"><code class="docutils literal notranslate"><span class="pre">IPluginManager.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop_plugin"><code class="docutils literal notranslate"><span class="pre">IPluginManager.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_provider_extension_registry.html">envisage.i_provider_extension_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_provider_extension_registry.html#envisage.i_provider_extension_registry.IProviderExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">IProviderExtensionRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_provider_extension_registry.html#envisage.i_provider_extension_registry.IProviderExtensionRegistry.add_provider"><code class="docutils literal notranslate"><span class="pre">IProviderExtensionRegistry.add_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_provider_extension_registry.html#envisage.i_provider_extension_registry.IProviderExtensionRegistry.get_providers"><code class="docutils literal notranslate"><span class="pre">IProviderExtensionRegistry.get_providers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_provider_extension_registry.html#envisage.i_provider_extension_registry.IProviderExtensionRegistry.remove_provider"><code class="docutils literal notranslate"><span class="pre">IProviderExtensionRegistry.remove_provider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_service_registry.html">envisage.i_service_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.get_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service_from_id"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.get_service_from_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service_properties"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.get_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_services"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.get_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.register_service"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.register_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.set_service_properties"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.set_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.unregister_service"><code class="docutils literal notranslate"><span class="pre">IServiceRegistry.unregister_service()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.i_service_user.html">envisage.i_service_user module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.i_service_user.html#envisage.i_service_user.IServiceUser"><code class="docutils literal notranslate"><span class="pre">IServiceUser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ids.html">envisage.ids module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.BINDINGS"><code class="docutils literal notranslate"><span class="pre">BINDINGS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.COMMANDS"><code class="docutils literal notranslate"><span class="pre">COMMANDS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.PREFERENCES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.PREFERENCES_CATEGORIES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES_CATEGORIES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.PREFERENCES_PANES"><code class="docutils literal notranslate"><span class="pre">PREFERENCES_PANES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.TASKS"><code class="docutils literal notranslate"><span class="pre">TASKS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ids.html#envisage.ids.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TASK_EXTENSIONS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.import_manager.html">envisage.import_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.import_manager.html#envisage.import_manager.ImportManager"><code class="docutils literal notranslate"><span class="pre">ImportManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.import_manager.html#envisage.import_manager.ImportManager.import_symbol"><code class="docutils literal notranslate"><span class="pre">ImportManager.import_symbol()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.package_plugin_manager.html">envisage.package_plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.package_plugin_manager.html#envisage.package_plugin_manager.PackagePluginManager"><code class="docutils literal notranslate"><span class="pre">PackagePluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.package_plugin_manager.html#envisage.package_plugin_manager.PackagePluginManager.PLUGIN_MANIFEST"><code class="docutils literal notranslate"><span class="pre">PackagePluginManager.PLUGIN_MANIFEST</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugin.html">envisage.plugin module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin"><code class="docutils literal notranslate"><span class="pre">Plugin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.activator"><code class="docutils literal notranslate"><span class="pre">Plugin.activator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.application"><code class="docutils literal notranslate"><span class="pre">Plugin.application</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.connect_extension_point_traits"><code class="docutils literal notranslate"><span class="pre">Plugin.connect_extension_point_traits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.disconnect_extension_point_traits"><code class="docutils literal notranslate"><span class="pre">Plugin.disconnect_extension_point_traits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.extension_registry"><code class="docutils literal notranslate"><span class="pre">Plugin.extension_registry</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.get_extension_points"><code class="docutils literal notranslate"><span class="pre">Plugin.get_extension_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.get_extensions"><code class="docutils literal notranslate"><span class="pre">Plugin.get_extensions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.home"><code class="docutils literal notranslate"><span class="pre">Plugin.home</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.id"><code class="docutils literal notranslate"><span class="pre">Plugin.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.name"><code class="docutils literal notranslate"><span class="pre">Plugin.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.register_services"><code class="docutils literal notranslate"><span class="pre">Plugin.register_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.service_registry"><code class="docutils literal notranslate"><span class="pre">Plugin.service_registry</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.start"><code class="docutils literal notranslate"><span class="pre">Plugin.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.stop"><code class="docutils literal notranslate"><span class="pre">Plugin.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin.html#envisage.plugin.Plugin.unregister_services"><code class="docutils literal notranslate"><span class="pre">Plugin.unregister_services()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugin_activator.html">envisage.plugin_activator module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator"><code class="docutils literal notranslate"><span class="pre">PluginActivator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator.start_plugin"><code class="docutils literal notranslate"><span class="pre">PluginActivator.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator.stop_plugin"><code class="docutils literal notranslate"><span class="pre">PluginActivator.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugin_event.html">envisage.plugin_event module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugin_event.html#envisage.plugin_event.PluginEvent"><code class="docutils literal notranslate"><span class="pre">PluginEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugin_extension_registry.html">envisage.plugin_extension_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugin_extension_registry.html#envisage.plugin_extension_registry.PluginExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">PluginExtensionRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_extension_registry.html#envisage.plugin_extension_registry.PluginExtensionRegistry.plugin_manager"><code class="docutils literal notranslate"><span class="pre">PluginExtensionRegistry.plugin_manager</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugin_manager.html">envisage.plugin_manager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager"><code class="docutils literal notranslate"><span class="pre">PluginManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.add_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.add_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.application"><code class="docutils literal notranslate"><span class="pre">PluginManager.application</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.exclude"><code class="docutils literal notranslate"><span class="pre">PluginManager.exclude</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.get_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.get_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.include"><code class="docutils literal notranslate"><span class="pre">PluginManager.include</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.plugin_added"><code class="docutils literal notranslate"><span class="pre">PluginManager.plugin_added</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.plugin_removed"><code class="docutils literal notranslate"><span class="pre">PluginManager.plugin_removed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.remove_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.remove_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.start"><code class="docutils literal notranslate"><span class="pre">PluginManager.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.start_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.start_plugin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.stop"><code class="docutils literal notranslate"><span class="pre">PluginManager.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.stop_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.stop_plugin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.provider_extension_registry.html">envisage.provider_extension_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.add_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.get_providers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.remove_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions"><code class="docutils literal notranslate"><span class="pre">ProviderExtensionRegistry.set_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.service.html">envisage.service module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.service.html#envisage.service.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service.html#envisage.service.Service.get"><code class="docutils literal notranslate"><span class="pre">Service.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service.html#envisage.service.Service.set"><code class="docutils literal notranslate"><span class="pre">Service.set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.service_offer.html">envisage.service_offer module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.service_offer.html#envisage.service_offer.ServiceOffer"><code class="docutils literal notranslate"><span class="pre">ServiceOffer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_offer.html#envisage.service_offer.ServiceOffer.factory"><code class="docutils literal notranslate"><span class="pre">ServiceOffer.factory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_offer.html#envisage.service_offer.ServiceOffer.properties"><code class="docutils literal notranslate"><span class="pre">ServiceOffer.properties</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_offer.html#envisage.service_offer.ServiceOffer.protocol"><code class="docutils literal notranslate"><span class="pre">ServiceOffer.protocol</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.service_registry.html">envisage.service_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.NoSuchServiceError"><code class="docutils literal notranslate"><span class="pre">NoSuchServiceError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.get_required_service"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.get_required_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.get_service"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.get_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.get_service_from_id"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.get_service_from_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.get_service_properties"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.get_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.get_services"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.get_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.register_service"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.register_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.registered"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.registered</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.set_service_properties"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.set_service_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.unregister_service"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.unregister_service()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.service_registry.html#envisage.service_registry.ServiceRegistry.unregistered"><code class="docutils literal notranslate"><span class="pre">ServiceRegistry.unregistered</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.unknown_extension.html">envisage.unknown_extension module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.unknown_extension.html#envisage.unknown_extension.UnknownExtension"><code class="docutils literal notranslate"><span class="pre">UnknownExtension</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.unknown_extension_point.html">envisage.unknown_extension_point module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.unknown_extension_point.html#envisage.unknown_extension_point.UnknownExtensionPoint"><code class="docutils literal notranslate"><span class="pre">UnknownExtensionPoint</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envisage.examples.html">envisage.examples package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.plugins.html">envisage.plugins package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugins.event_manager.html">envisage.plugins.event_manager package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.event_manager.api.html">envisage.plugins.event_manager.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.event_manager.plugin.html">envisage.plugins.event_manager.plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin"><code class="docutils literal notranslate"><span class="pre">EventManagerPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">EventManagerPlugin.SERVICE_OFFERS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugins.python_shell.html">envisage.plugins.python_shell package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.python_shell.api.html">envisage.plugins.python_shell.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html">envisage.plugins.python_shell.i_python_shell module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell"><code class="docutils literal notranslate"><span class="pre">IPythonShell</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.bind"><code class="docutils literal notranslate"><span class="pre">IPythonShell.bind()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command"><code class="docutils literal notranslate"><span class="pre">IPythonShell.execute_command()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file"><code class="docutils literal notranslate"><span class="pre">IPythonShell.execute_file()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup"><code class="docutils literal notranslate"><span class="pre">IPythonShell.lookup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.python_shell.python_shell_plugin.html">envisage.plugins.python_shell.python_shell_plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.python_shell.python_shell_plugin.html#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.python_shell_plugin.html#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.BINDINGS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.BINDINGS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.python_shell_plugin.html#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.COMMANDS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.COMMANDS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.python_shell_plugin.html#envisage.plugins.python_shell.python_shell_plugin.PythonShellPlugin.VIEWS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.VIEWS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.python_shell.view.html">envisage.plugins.python_shell.view package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.python_shell.view.api.html">envisage.plugins.python_shell.view.api module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html">envisage.plugins.python_shell.view.namespace_view module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView"><code class="docutils literal notranslate"><span class="pre">NamespaceView</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.bindings"><code class="docutils literal notranslate"><span class="pre">NamespaceView.bindings</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.create_control"><code class="docutils literal notranslate"><span class="pre">NamespaceView.create_control()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.id"><code class="docutils literal notranslate"><span class="pre">NamespaceView.id</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.name"><code class="docutils literal notranslate"><span class="pre">NamespaceView.name</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.namespace"><code class="docutils literal notranslate"><span class="pre">NamespaceView.namespace</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.position"><code class="docutils literal notranslate"><span class="pre">NamespaceView.position</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.shell_view"><code class="docutils literal notranslate"><span class="pre">NamespaceView.shell_view</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.NamespaceView.traits_view"><code class="docutils literal notranslate"><span class="pre">NamespaceView.traits_view</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.module_to_str"><code class="docutils literal notranslate"><span class="pre">module_to_str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.view.namespace_view.html#envisage.plugins.python_shell.view.namespace_view.type_to_str"><code class="docutils literal notranslate"><span class="pre">type_to_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html">envisage.plugins.python_shell.view.python_shell_view module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile"><code class="docutils literal notranslate"><span class="pre">PseudoFile</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush"><code class="docutils literal notranslate"><span class="pre">PseudoFile.flush()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty"><code class="docutils literal notranslate"><span class="pre">PseudoFile.isatty()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline"><code class="docutils literal notranslate"><span class="pre">PseudoFile.readline()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines"><code class="docutils literal notranslate"><span class="pre">PseudoFile.writelines()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView"><code class="docutils literal notranslate"><span class="pre">PythonShellView</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind"><code class="docutils literal notranslate"><span class="pre">PythonShellView.bind()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control"><code class="docutils literal notranslate"><span class="pre">PythonShellView.create_control()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control"><code class="docutils literal notranslate"><span class="pre">PythonShellView.destroy_control()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command"><code class="docutils literal notranslate"><span class="pre">PythonShellView.execute_command()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file"><code class="docutils literal notranslate"><span class="pre">PythonShellView.execute_file()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.extension_registry"><code class="docutils literal notranslate"><span class="pre">PythonShellView.extension_registry</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.id"><code class="docutils literal notranslate"><span class="pre">PythonShellView.id</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup"><code class="docutils literal notranslate"><span class="pre">PythonShellView.lookup()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.name"><code class="docutils literal notranslate"><span class="pre">PythonShellView.name</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.names"><code class="docutils literal notranslate"><span class="pre">PythonShellView.names</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.namespace"><code class="docutils literal notranslate"><span class="pre">PythonShellView.namespace</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.original_stdout"><code class="docutils literal notranslate"><span class="pre">PythonShellView.original_stdout</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.position"><code class="docutils literal notranslate"><span class="pre">PythonShellView.position</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.stdout_text"><code class="docutils literal notranslate"><span class="pre">PythonShellView.stdout_text</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugins.tasks.html">envisage.plugins.tasks package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html">envisage.plugins.tasks.python_shell_plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask"><code class="docutils literal notranslate"><span class="pre">EnvisagePythonShellTask</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.BINDINGS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.BINDINGS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.COMMANDS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.COMMANDS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.TASKS"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.TASKS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start"><code class="docutils literal notranslate"><span class="pre">PythonShellPlugin.start()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.plugins.text_editor.html">envisage.plugins.text_editor package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.text_editor.actions.html">envisage.plugins.text_editor.actions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction"><code class="docutils literal notranslate"><span class="pre">NewFileAction</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform"><code class="docutils literal notranslate"><span class="pre">NewFileAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction"><code class="docutils literal notranslate"><span class="pre">OpenFileAction</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform"><code class="docutils literal notranslate"><span class="pre">OpenFileAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.text_editor.api.html">envisage.plugins.text_editor.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.text_editor.text_editor_action_set.html">envisage.plugins.text_editor.text_editor_action_set module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.text_editor_action_set.html#envisage.plugins.text_editor.text_editor_action_set.TextEditorActionSet"><code class="docutils literal notranslate"><span class="pre">TextEditorActionSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.text_editor.text_editor_plugin.html">envisage.plugins.text_editor.text_editor_plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.text_editor_plugin.html#envisage.plugins.text_editor.text_editor_plugin.TextEditorPlugin"><code class="docutils literal notranslate"><span class="pre">TextEditorPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.text_editor.text_editor_plugin.html#envisage.plugins.text_editor.text_editor_plugin.TextEditorPlugin.ACTION_SETS"><code class="docutils literal notranslate"><span class="pre">TextEditorPlugin.ACTION_SETS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.plugins.text_editor.editor.html">envisage.plugins.text_editor.editor package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html">envisage.plugins.text_editor.editor.text_editor module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor"><code class="docutils literal notranslate"><span class="pre">TextEditor</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui"><code class="docutils literal notranslate"><span class="pre">TextEditor.create_ui()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.key_bindings"><code class="docutils literal notranslate"><span class="pre">TextEditor.key_bindings</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.run"><code class="docutils literal notranslate"><span class="pre">TextEditor.run()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save"><code class="docutils literal notranslate"><span class="pre">TextEditor.save()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as"><code class="docutils literal notranslate"><span class="pre">TextEditor.save_as()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line"><code class="docutils literal notranslate"><span class="pre">TextEditor.select_line()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.text"><code class="docutils literal notranslate"><span class="pre">TextEditor.text</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor_handler.html">envisage.plugins.text_editor.editor.text_editor_handler module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler"><code class="docutils literal notranslate"><span class="pre">TextEditorHandler</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.run"><code class="docutils literal notranslate"><span class="pre">TextEditorHandler.run()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.save"><code class="docutils literal notranslate"><span class="pre">TextEditorHandler.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.resource.html">envisage.resource package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.api.html">envisage.resource.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.file_resource_protocol.html">envisage.resource.file_resource_protocol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.file_resource_protocol.html#envisage.resource.file_resource_protocol.FileResourceProtocol"><code class="docutils literal notranslate"><span class="pre">FileResourceProtocol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.file_resource_protocol.html#envisage.resource.file_resource_protocol.FileResourceProtocol.file"><code class="docutils literal notranslate"><span class="pre">FileResourceProtocol.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.http_resource_protocol.html">envisage.resource.http_resource_protocol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.http_resource_protocol.html#envisage.resource.http_resource_protocol.HTTPResourceProtocol"><code class="docutils literal notranslate"><span class="pre">HTTPResourceProtocol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.http_resource_protocol.html#envisage.resource.http_resource_protocol.HTTPResourceProtocol.file"><code class="docutils literal notranslate"><span class="pre">HTTPResourceProtocol.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.i_resource_manager.html">envisage.resource.i_resource_manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager"><code class="docutils literal notranslate"><span class="pre">IResourceManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager.file"><code class="docutils literal notranslate"><span class="pre">IResourceManager.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.i_resource_protocol.html">envisage.resource.i_resource_protocol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.i_resource_protocol.html#envisage.resource.i_resource_protocol.IResourceProtocol"><code class="docutils literal notranslate"><span class="pre">IResourceProtocol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.i_resource_protocol.html#envisage.resource.i_resource_protocol.IResourceProtocol.file"><code class="docutils literal notranslate"><span class="pre">IResourceProtocol.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.no_such_resource_error.html">envisage.resource.no_such_resource_error module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.no_such_resource_error.html#envisage.resource.no_such_resource_error.NoSuchResourceError"><code class="docutils literal notranslate"><span class="pre">NoSuchResourceError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.package_resource_protocol.html">envisage.resource.package_resource_protocol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.package_resource_protocol.html#envisage.resource.package_resource_protocol.PackageResourceProtocol"><code class="docutils literal notranslate"><span class="pre">PackageResourceProtocol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.package_resource_protocol.html#envisage.resource.package_resource_protocol.PackageResourceProtocol.file"><code class="docutils literal notranslate"><span class="pre">PackageResourceProtocol.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.resource.resource_manager.html">envisage.resource.resource_manager module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.resource.resource_manager.html#envisage.resource.resource_manager.ResourceManager"><code class="docutils literal notranslate"><span class="pre">ResourceManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.resource.resource_manager.html#envisage.resource.resource_manager.ResourceManager.file"><code class="docutils literal notranslate"><span class="pre">ResourceManager.file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envisage.ui.html">envisage.ui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.gui_application.html">envisage.ui.gui_application module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.gui_application.html#envisage-gui-application">Envisage GUI Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication"><code class="docutils literal notranslate"><span class="pre">GUIApplication</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.application_initialized"><code class="docutils literal notranslate"><span class="pre">GUIApplication.application_initialized</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.gui"><code class="docutils literal notranslate"><span class="pre">GUIApplication.gui</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.run"><code class="docutils literal notranslate"><span class="pre">GUIApplication.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.splash_screen"><code class="docutils literal notranslate"><span class="pre">GUIApplication.splash_screen</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.action.html">envisage.ui.action package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.abstract_action_manager_builder.html">envisage.ui.action.abstract_action_manager_builder module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder"><code class="docutils literal notranslate"><span class="pre">AbstractActionManagerBuilder</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_menu_bar_manager"><code class="docutils literal notranslate"><span class="pre">AbstractActionManagerBuilder.create_menu_bar_manager()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_tool_bar_managers"><code class="docutils literal notranslate"><span class="pre">AbstractActionManagerBuilder.create_tool_bar_managers()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.initialize_action_manager"><code class="docutils literal notranslate"><span class="pre">AbstractActionManagerBuilder.initialize_action_manager()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.action.html">envisage.ui.action.action module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.action.html#envisage.ui.action.action.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.action_set.html">envisage.ui.action.action_set module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.action_set.html#envisage.ui.action.action_set.ActionSet"><code class="docutils literal notranslate"><span class="pre">ActionSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.action_set_manager.html">envisage.ui.action.action_set_manager module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager"><code class="docutils literal notranslate"><span class="pre">ActionSetManager</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_actions"><code class="docutils literal notranslate"><span class="pre">ActionSetManager.get_actions()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_groups"><code class="docutils literal notranslate"><span class="pre">ActionSetManager.get_groups()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_menus"><code class="docutils literal notranslate"><span class="pre">ActionSetManager.get_menus()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_tool_bars"><code class="docutils literal notranslate"><span class="pre">ActionSetManager.get_tool_bars()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.api.html">envisage.ui.action.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.group.html">envisage.ui.action.group module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.group.html#envisage.ui.action.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.i_action_manager_builder.html">envisage.ui.action.i_action_manager_builder module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.i_action_manager_builder.html#envisage.ui.action.i_action_manager_builder.IActionManagerBuilder"><code class="docutils literal notranslate"><span class="pre">IActionManagerBuilder</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.i_action_manager_builder.html#envisage.ui.action.i_action_manager_builder.IActionManagerBuilder.initialize_action_manager"><code class="docutils literal notranslate"><span class="pre">IActionManagerBuilder.initialize_action_manager()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.i_action_set.html">envisage.ui.action.i_action_set module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.i_action_set.html#envisage.ui.action.i_action_set.IActionSet"><code class="docutils literal notranslate"><span class="pre">IActionSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.location.html">envisage.ui.action.location module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.location.html#envisage.ui.action.location.Location"><code class="docutils literal notranslate"><span class="pre">Location</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.menu.html">envisage.ui.action.menu module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.menu.html#envisage.ui.action.menu.CGroup"><code class="docutils literal notranslate"><span class="pre">CGroup</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.menu.html#envisage.ui.action.menu.CGroup.validate"><code class="docutils literal notranslate"><span class="pre">CGroup.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.menu.html#envisage.ui.action.menu.Menu"><code class="docutils literal notranslate"><span class="pre">Menu</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.action.tool_bar.html">envisage.ui.action.tool_bar module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup"><code class="docutils literal notranslate"><span class="pre">CGroup</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup.validate"><code class="docutils literal notranslate"><span class="pre">CGroup.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.ToolBar"><code class="docutils literal notranslate"><span class="pre">ToolBar</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.tasks.html">envisage.ui.tasks package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.api.html">envisage.ui.tasks.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_category.html">envisage.ui.tasks.preferences_category module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.preferences_category.html#envisage.ui.tasks.preferences_category.PreferencesCategory"><code class="docutils literal notranslate"><span class="pre">PreferencesCategory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html">envisage.ui.tasks.preferences_dialog module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.apply"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.apply()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.close"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.close()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.select_pane"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.select_pane()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.trait_context"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.trait_context()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesDialog.traits_view"><code class="docutils literal notranslate"><span class="pre">PreferencesDialog.traits_view()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.preferences_dialog.html#envisage.ui.tasks.preferences_dialog.PreferencesTab"><code class="docutils literal notranslate"><span class="pre">PreferencesTab</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html">envisage.ui.tasks.preferences_pane module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane"><code class="docutils literal notranslate"><span class="pre">PreferencesPane</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.after"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.after</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.apply"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.apply()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.before"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.before</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.category"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.category</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.close"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.close()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.dialog"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.dialog</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.id"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.id</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.model</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.model_factory"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.model_factory</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.trait_context"><code class="docutils literal notranslate"><span class="pre">PreferencesPane.trait_context()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_extension.html">envisage.ui.tasks.task_extension module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension"><code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.actions"><code class="docutils literal notranslate"><span class="pre">TaskExtension.actions</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.dock_pane_factories"><code class="docutils literal notranslate"><span class="pre">TaskExtension.dock_pane_factories</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_extension.html#envisage.ui.tasks.task_extension.TaskExtension.task_id"><code class="docutils literal notranslate"><span class="pre">TaskExtension.task_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_factory.html">envisage.ui.tasks.task_factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory"><code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create"><code class="docutils literal notranslate"><span class="pre">TaskFactory.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create_with_extensions"><code class="docutils literal notranslate"><span class="pre">TaskFactory.create_with_extensions()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.factory"><code class="docutils literal notranslate"><span class="pre">TaskFactory.factory</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.id"><code class="docutils literal notranslate"><span class="pre">TaskFactory.id</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.name"><code class="docutils literal notranslate"><span class="pre">TaskFactory.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_window.html">envisage.ui.tasks.task_window module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow"><code class="docutils literal notranslate"><span class="pre">TaskWindow</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow.application"><code class="docutils literal notranslate"><span class="pre">TaskWindow.application</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_window.html#envisage.ui.tasks.task_window.TaskWindow.icon"><code class="docutils literal notranslate"><span class="pre">TaskWindow.icon</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html">envisage.ui.tasks.task_window_event module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.TaskWindowEvent"><code class="docutils literal notranslate"><span class="pre">TaskWindowEvent</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.TaskWindowEvent.window"><code class="docutils literal notranslate"><span class="pre">TaskWindowEvent.window</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.task_window_event.html#envisage.ui.tasks.task_window_event.VetoableTaskWindowEvent"><code class="docutils literal notranslate"><span class="pre">VetoableTaskWindowEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html">envisage.ui.tasks.tasks_application module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.DEFAULT_STATE_FILENAME"><code class="docutils literal notranslate"><span class="pre">DEFAULT_STATE_FILENAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication"><code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TasksApplication.TASK_EXTENSIONS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.TASK_FACTORIES"><code class="docutils literal notranslate"><span class="pre">TasksApplication.TASK_FACTORIES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.active_window"><code class="docutils literal notranslate"><span class="pre">TasksApplication.active_window</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.always_use_default_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplication.always_use_default_layout</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.application_exiting"><code class="docutils literal notranslate"><span class="pre">TasksApplication.application_exiting</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.application_initialized"><code class="docutils literal notranslate"><span class="pre">TasksApplication.application_initialized</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_task"><code class="docutils literal notranslate"><span class="pre">TasksApplication.create_task()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.create_window"><code class="docutils literal notranslate"><span class="pre">TasksApplication.create_window()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.default_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplication.default_layout</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.exit"><code class="docutils literal notranslate"><span class="pre">TasksApplication.exit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.gui"><code class="docutils literal notranslate"><span class="pre">TasksApplication.gui</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.icon"><code class="docutils literal notranslate"><span class="pre">TasksApplication.icon</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.layout_save_protocol"><code class="docutils literal notranslate"><span class="pre">TasksApplication.layout_save_protocol</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.name"><code class="docutils literal notranslate"><span class="pre">TasksApplication.name</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.run"><code class="docutils literal notranslate"><span class="pre">TasksApplication.run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.splash_screen"><code class="docutils literal notranslate"><span class="pre">TasksApplication.splash_screen</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.state_filename"><code class="docutils literal notranslate"><span class="pre">TasksApplication.state_filename</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.state_location"><code class="docutils literal notranslate"><span class="pre">TasksApplication.state_location</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.task_extensions"><code class="docutils literal notranslate"><span class="pre">TasksApplication.task_extensions</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.task_factories"><code class="docutils literal notranslate"><span class="pre">TasksApplication.task_factories</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_closed"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_closed</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_closing"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_closing</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_created"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_created</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_factory"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_factory</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_opened"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_opened</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.window_opening"><code class="docutils literal notranslate"><span class="pre">TasksApplication.window_opening</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplication.windows"><code class="docutils literal notranslate"><span class="pre">TasksApplication.windows</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_equivalent_window_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.get_equivalent_window_layout()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.get_task_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.get_task_layout()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_application.html#envisage.ui.tasks.tasks_application.TasksApplicationState.push_window_layout"><code class="docutils literal notranslate"><span class="pre">TasksApplicationState.push_window_layout()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html">envisage.ui.tasks.tasks_plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin"><code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.PREFERENCES_CATEGORIES"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.PREFERENCES_CATEGORIES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.PREFERENCES_PANES"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.PREFERENCES_PANES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.TASKS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.TASKS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.TASK_EXTENSIONS"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.TASK_EXTENSIONS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.id"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.id</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.name"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.name</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_categories"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.preferences_categories</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.preferences_panes"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.preferences_panes</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.task_extensions"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.task_extensions</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin.tasks"><code class="docutils literal notranslate"><span class="pre">TasksPlugin.tasks</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.tasks.action.html">envisage.ui.tasks.action package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.api.html">envisage.ui.tasks.action.api module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html">envisage.ui.tasks.action.exit_action module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html#envisage.ui.tasks.action.exit_action.ExitAction"><code class="docutils literal notranslate"><span class="pre">ExitAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.tasks.action.exit_action.html#envisage.ui.tasks.action.exit_action.ExitAction.perform"><code class="docutils literal notranslate"><span class="pre">ExitAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html">envisage.ui.tasks.action.preferences_action module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesAction"><code class="docutils literal notranslate"><span class="pre">PreferencesAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesAction.perform"><code class="docutils literal notranslate"><span class="pre">PreferencesAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesGroup"><code class="docutils literal notranslate"><span class="pre">PreferencesGroup</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html">envisage.ui.tasks.action.task_window_launch_group module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction.perform"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup"><code class="docutils literal notranslate"><span class="pre">TaskWindowLaunchGroup</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html">envisage.ui.tasks.action.task_window_toggle_group module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleAction"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleAction.perform"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleAction.perform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleGroup</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup.destroy"><code class="docutils literal notranslate"><span class="pre">TaskWindowToggleGroup.destroy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envisage.ui.workbench.html">envisage.ui.workbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.api.html">envisage.ui.workbench.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.default_action_set.html">envisage.ui.workbench.default_action_set module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.default_action_set.html#envisage.ui.workbench.default_action_set.DefaultActionSet"><code class="docutils literal notranslate"><span class="pre">DefaultActionSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench.html">envisage.ui.workbench.workbench module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench.html#envisage.ui.workbench.workbench.Workbench"><code class="docutils literal notranslate"><span class="pre">Workbench</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_action_manager_builder.html">envisage.ui.workbench.workbench_action_manager_builder module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_action_manager_builder.html#envisage.ui.workbench.workbench_action_manager_builder.WorkbenchActionManagerBuilder"><code class="docutils literal notranslate"><span class="pre">WorkbenchActionManagerBuilder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_action_set.html">envisage.ui.workbench.workbench_action_set module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet"><code class="docutils literal notranslate"><span class="pre">WorkbenchActionSet</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet.initialize"><code class="docutils literal notranslate"><span class="pre">WorkbenchActionSet.initialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html">envisage.ui.workbench.workbench_application module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication"><code class="docutils literal notranslate"><span class="pre">WorkbenchApplication</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.about"><code class="docutils literal notranslate"><span class="pre">WorkbenchApplication.about()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench"><code class="docutils literal notranslate"><span class="pre">WorkbenchApplication.create_workbench()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.exit"><code class="docutils literal notranslate"><span class="pre">WorkbenchApplication.exit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.run"><code class="docutils literal notranslate"><span class="pre">WorkbenchApplication.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_editor_manager.html">envisage.ui.workbench.workbench_editor_manager module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager"><code class="docutils literal notranslate"><span class="pre">WorkbenchEditorManager</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager.create_editor"><code class="docutils literal notranslate"><span class="pre">WorkbenchEditorManager.create_editor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html">envisage.ui.workbench.workbench_plugin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.ACTION_SETS"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.ACTION_SETS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.PERSPECTIVES"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.PERSPECTIVES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.PREFERENCES"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.PREFERENCES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.PREFERENCES_PAGES"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.PREFERENCES_PAGES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.VIEWS"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.VIEWS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin.WORKBENCH_SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">WorkbenchPlugin.WORKBENCH_SERVICE_OFFERS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_preferences.html">envisage.ui.workbench.workbench_preferences module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_preferences.html#envisage.ui.workbench.workbench_preferences.WorkbenchPreferences"><code class="docutils literal notranslate"><span class="pre">WorkbenchPreferences</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_preferences_page.html">envisage.ui.workbench.workbench_preferences_page module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_preferences_page.html#envisage.ui.workbench.workbench_preferences_page.WorkbenchPreferencesPage"><code class="docutils literal notranslate"><span class="pre">WorkbenchPreferencesPage</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html">envisage.ui.workbench.workbench_window module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.ACTION_SETS"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.ACTION_SETS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.PERSPECTIVES"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.PERSPECTIVES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.SERVICE_OFFERS"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.SERVICE_OFFERS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.VIEWS"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.VIEWS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.action_sets"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.action_sets</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.application"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.application</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.extension_registry"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.extension_registry</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.get_service()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.get_service_properties()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.get_services()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.register_service()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.service_registry"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.service_registry</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.set_service_properties()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service"><code class="docutils literal notranslate"><span class="pre">WorkbenchWindow.unregister_service()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="envisage.ui.workbench.action.html">envisage.ui.workbench.action package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.action.about_action.html">envisage.ui.workbench.action.about_action module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.action.about_action.html#envisage.ui.workbench.action.about_action.AboutAction"><code class="docutils literal notranslate"><span class="pre">AboutAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.workbench.action.about_action.html#envisage.ui.workbench.action.about_action.AboutAction.perform"><code class="docutils literal notranslate"><span class="pre">AboutAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.action.api.html">envisage.ui.workbench.action.api module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.action.edit_preferences_action.html">envisage.ui.workbench.action.edit_preferences_action module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.action.edit_preferences_action.html#envisage.ui.workbench.action.edit_preferences_action.EditPreferencesAction"><code class="docutils literal notranslate"><span class="pre">EditPreferencesAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.workbench.action.edit_preferences_action.html#envisage.ui.workbench.action.edit_preferences_action.EditPreferencesAction.perform"><code class="docutils literal notranslate"><span class="pre">EditPreferencesAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="envisage.ui.workbench.action.exit_action.html">envisage.ui.workbench.action.exit_action module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="envisage.ui.workbench.action.exit_action.html#envisage.ui.workbench.action.exit_action.ExitAction"><code class="docutils literal notranslate"><span class="pre">ExitAction</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="envisage.ui.workbench.action.exit_action.html#envisage.ui.workbench.action.exit_action.ExitAction.perform"><code class="docutils literal notranslate"><span class="pre">ExitAction.perform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../api.html"
+                          title="previous chapter">API documentation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="envisage.api.html"
+                          title="next chapter">envisage.api module</a></p>
+  </div>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/api/envisage.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2007-2023, Enthought
+      </li>
+      <li>
+      Last updated on Apr 03, 2023.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
