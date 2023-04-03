@@ -128,7 +128,6 @@ def remove_existing_docs(docs_dir: pathlib.Path) -> None:
             if RELEASE_DOCS_DIR_MATCHER(child.name):
                 print(f"  Not removing release docs directory {child}")
             elif child.is_symlink() and child.name == LATEST:
-                # avoid removing the 'latest' symlink
                 print(f"  Not removing symlink {child}")
             else:
                 print(f"  Removing directory {child}")
@@ -190,7 +189,6 @@ def main() -> None:
     remove_existing_docs(target)
     copy_new_docs(args.source, target)
     if args.tag is not None:
-        # Update symlink if necessary on a release docs update.
         update_latest_symlink(args.target)
 
 
