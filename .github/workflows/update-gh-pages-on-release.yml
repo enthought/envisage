@@ -21,11 +21,11 @@ jobs:
         python -m pip install .
     - run: |
         python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
-    - name: Check out gh-pages-staging branch
+    - name: Check out gh-pages branch
       run: |
-        git fetch --depth=1 origin gh-pages-staging
-        git worktree add ../docs gh-pages-staging
-    - name: Update the docs on the gh-pages-staging branch
+        git fetch --depth=1 origin gh-pages
+        git worktree add ../docs gh-pages
+    - name: Update the docs on the gh-pages branch
       run: |
         python docs/update_gh_pages.py docs/build/html ../docs --tag ${{ GITHUB_REF_NAME }}
     - name: Configure Git
@@ -40,4 +40,4 @@ jobs:
         git diff-index --quiet --cached HEAD || git commit -m "Automated update of release branch documentation"
     - name: Push the changes upstream
       run: |
-        git push origin gh-pages-staging
+        git push origin gh-pages
