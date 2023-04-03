@@ -1,7 +1,7 @@
 name: Update gh-pages documentation on release
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   release:
     types: [published]
 
