@@ -37,12 +37,12 @@ In the examples below we assume that:
 Then to update the docs in the root directory of the gh-pages branch (for
 example after a push to the main branch), do:
 
-    python docs/graft_docs.py docs/build/html ../docs
+    python docs/update_gh_pages.py docs/build/html ../docs
 
 After releasing version 7.3.2 (for example) of the package, to update the
 docs in the 7.3/ subdirectory of the gh-pages branch, do:
 
-    python docs/graft_docs.py docs/build/html ../docs --tag 7.3.2
+    python docs/update_gh_pages.py docs/build/html ../docs --tag 7.3.2
 
 Note that for a bugfix release, the intention is that the docs for the bugfix
 release (e.g., 7.3.2) overwrite the docs for the previous release with the same
