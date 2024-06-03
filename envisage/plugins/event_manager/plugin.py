@@ -24,7 +24,11 @@ from envisage.api import Plugin, ServiceOffer
 class EventManagerPlugin(Plugin):
     """Plugin to add event manager to the application."""
 
+    #: The plugin's unique identifier.
     id = "envisage.event_manager"
+
+    #: The plugin's name (suitable for displaying to the user).
+    name = "Event Manager"
 
     SERVICE_OFFERS = "envisage.service_offers"
     service_offers = List(contributes_to=SERVICE_OFFERS)
