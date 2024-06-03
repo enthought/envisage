@@ -35,7 +35,6 @@ import enthought_sphinx_theme
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
-    "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
