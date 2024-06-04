@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2024 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -35,7 +35,6 @@ import enthought_sphinx_theme
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
-    "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
@@ -54,7 +53,7 @@ master_doc = "index"
 
 # General substitutions.
 project = "envisage"
-copyright = "2007-2023, Enthought"
+copyright = "2007-2024, Enthought"
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
