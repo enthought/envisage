@@ -107,7 +107,11 @@
 <div class="viewcode-block" id="EventManagerPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin">[docs]</a><span class="k">class</span> <span class="nc">EventManagerPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin to add event manager to the application.&quot;&quot;&quot;</span>
 
+    <span class="c1">#: The plugin&#39;s unique identifier.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;envisage.event_manager&quot;</span>
+
+    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Event Manager&quot;</span>
 
     <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
@@ -159,7 +163,7 @@
         &copy; Copyright 2007-2024, Enthought
       </li>
       <li>
-      Last updated on Jun 04, 2024.
+      Last updated on Jun 05, 2024.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
