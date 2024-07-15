@@ -38,7 +38,6 @@ class MyPreferences(PreferencesHelper):
 
 
 class MyPreferencesPane(PreferencesPane):
-
     model_factory = MyPreferences
 
     view = View(Item("color"))
