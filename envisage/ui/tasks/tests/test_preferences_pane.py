@@ -15,19 +15,23 @@ import unittest
 
 
 from apptools.preferences.api import (
+    IPreferences,
     Preferences,
     PreferencesHelper,
     ScopedPreferences,
 )
-from traits.api import Str
+from traits.api import Instance, Str
 from traitsui.api import Item, View
 
 from envisage.ui.tasks.api import PreferencesPane
 
 
 class MyPreferences(PreferencesHelper):
+    #: Redeclare preferences to force trait copying order.
+    preferences = Instance(IPreferences)
+
     #: The node that contains the preferences.
-    preferences_path = "app"
+    preferences_path = Str("app")
 
     #: The user's favourite colour
     color = Str()
@@ -37,9 +41,7 @@ class MyPreferencesPane(PreferencesPane):
 
     model_factory = MyPreferences
 
-    view = View(
-        Item("color"),
-    )
+    view = View(Item("color"))
 
 
 class TestPreferencesPane(unittest.TestCase):
@@ -57,8 +59,10 @@ class TestPreferencesPane(unittest.TestCase):
         self.assertIsNone(application_preferences.get("app.color"))
         pane = MyPreferencesPane(model=helper)
 
-        object_context = pane.trait_context()["object"]
+        # The trait_context method triggers the problematic clone_traits
+        # operation.
+        pane.trait_context()["object"]
 
         # At this point, the application preferences should still not
         # have an app.color setting
-        self.assertIsNone(object_context.color)
+        self.assertIsNone(application_preferences.get("app.color"))
