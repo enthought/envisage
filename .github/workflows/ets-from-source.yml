@@ -24,20 +24,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone the Envisage source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install packages for Qt support
         uses: ./.github/actions/install-qt-support
       - name: Cache EDM packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
       - name: Set up EDM
-        uses: enthought/setup-edm-action@v2
+        uses: enthought/setup-edm-action@v3
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Set up bootstrap Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'

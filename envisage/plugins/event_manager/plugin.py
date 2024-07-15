@@ -1,4 +1,4 @@
-# (C) Copyright 2007-2023 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2024 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
@@ -24,7 +24,11 @@ from envisage.api import Plugin, ServiceOffer
 class EventManagerPlugin(Plugin):
     """Plugin to add event manager to the application."""
 
+    #: The plugin's unique identifier.
     id = "envisage.event_manager"
+
+    #: The plugin's name (suitable for displaying to the user).
+    name = "Event Manager"
 
     SERVICE_OFFERS = "envisage.service_offers"
     service_offers = List(contributes_to=SERVICE_OFFERS)
