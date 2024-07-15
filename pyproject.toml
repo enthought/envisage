@@ -7,7 +7,7 @@ name = 'envisage'
 version = '7.0.3'
 description = 'Extensible application framework'
 readme = 'README.rst'
-requires-python = '>= 3.7'
+requires-python = '>= 3.8'
 license = {file = 'LICENSE.txt'}
 authors = [{name = 'Enthought', email = 'info@enthought.com'}]
 keywords = ['extensible', 'plugin', 'application', 'framework']
