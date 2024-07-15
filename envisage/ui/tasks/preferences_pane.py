@@ -64,7 +64,14 @@ class PreferencesPane(Controller):
             else:
                 raise ValueError("A preferences pane must have a model!")
 
-        self._model = self.model.clone_traits()
+        # Make sure that we don't clone the preferences trait, since that
+        # can lead to the preferences node being updated prematurely.
+        # xref: enthought/envisage#582
+        traits_to_clone = [
+            trait_name for trait_name in self.model.copyable_trait_names()
+            if trait_name != "preferences"
+        ]
+        self._model = self.model.clone_traits(traits_to_clone)
         self._model.preferences = None
         return {"object": self._model, "controller": self, "handler": self}
 
