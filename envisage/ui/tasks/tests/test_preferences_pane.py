@@ -10,9 +10,7 @@
 
 """Tests for the PreferencesPane."""
 
-
 import unittest
-
 
 from apptools.preferences.api import (
     IPreferences,
