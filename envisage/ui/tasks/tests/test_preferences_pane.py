@@ -24,7 +24,7 @@ from traitsui.api import Item, View
 from envisage.ui.tasks.api import PreferencesPane
 
 
-class MyPreferences(PreferencesHelper):
+class MyPreferencesHelper(PreferencesHelper):
     #: Redeclare preferences to force trait copying order.
     preferences = Instance(IPreferences)
 
@@ -36,7 +36,7 @@ class MyPreferences(PreferencesHelper):
 
 
 class MyPreferencesPane(PreferencesPane):
-    model_factory = MyPreferences
+    model_factory = MyPreferencesHelper
 
     view = View(Item("color"))
 
@@ -44,22 +44,23 @@ class MyPreferencesPane(PreferencesPane):
 class TestPreferencesPane(unittest.TestCase):
     def test_no_preference_changes_without_apply(self):
         # Regression test for https://github.com/enthought/envisage/issues/582
-        default_preferences = Preferences(name="default")
-        default_preferences.set("app.color", "red")
 
+        # Given scoped preferences where the default preferences layer has
+        # a value for app.color ...
+        default_preferences = Preferences(name="default")
         application_preferences = Preferences(name="application")
         preferences = ScopedPreferences(
             scopes=[application_preferences, default_preferences]
         )
+        default_preferences.set("app.color", "red")
 
-        helper = MyPreferences(preferences=preferences)
+        # When we create the preferences helper and pane, and trigger the
+        # trait_context method (which will usually be called as part of
+        # creating the TraitsUI UI).
+        helper = MyPreferencesHelper(preferences=preferences)
         self.assertIsNone(application_preferences.get("app.color"))
         pane = MyPreferencesPane(model=helper)
-
-        # The trait_context method (called as part of creating the TraitsUI UI)
-        # triggers the problematic clone_traits operation.
         pane.trait_context()["object"]
 
-        # At this point, the application preferences should still not
-        # have an app.color setting
+        # Then the application preferences should not have been changed.
         self.assertIsNone(application_preferences.get("app.color"))
