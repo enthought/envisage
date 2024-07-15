@@ -59,8 +59,8 @@ class TestPreferencesPane(unittest.TestCase):
         self.assertIsNone(application_preferences.get("app.color"))
         pane = MyPreferencesPane(model=helper)
 
-        # The trait_context method triggers the problematic clone_traits
-        # operation.
+        # The trait_context method (called as part of creating the TraitsUI UI)
+        # triggers the problematic clone_traits operation.
         pane.trait_context()["object"]
 
         # At this point, the application preferences should still not
