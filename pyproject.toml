@@ -28,8 +28,7 @@ classifiers = [
     'Topic :: Software Development :: User Interfaces',
 ]
 dependencies = [
-    'apptools',
-    'configobj',
+    'apptools[preferences]>=5.3',
     'pyface',
     'setuptools',
     'traits>=6.2',
