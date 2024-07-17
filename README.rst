@@ -33,7 +33,7 @@ framework. You are free to use:
 Prerequisites
 -------------
 
-The supported versions of Python are Python >= 3.7.  Envisage requires:
+The supported versions of Python are Python >= 3.8.  Envisage requires:
 
 * `apptools <https://pypi.org/project/apptools/>`_
 * `traits <https://pypi.org/project/traits/>`_
