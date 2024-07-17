@@ -104,6 +104,7 @@ supported_combinations = {
 
 dependencies = {
     "apptools",
+    "configobj",
     "coverage",
     "enthought_sphinx_theme",
     "pyface",
