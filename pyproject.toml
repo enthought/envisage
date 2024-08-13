@@ -29,7 +29,6 @@ classifiers = [
 ]
 dependencies = [
     'apptools[preferences]>=5.3',
-    'configobj',
     'pyface',
     'setuptools',
     'traits>=6.2',
