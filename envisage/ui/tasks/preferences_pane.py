@@ -68,7 +68,8 @@ class PreferencesPane(Controller):
         # can lead to the preferences node being updated prematurely.
         # xref: enthought/envisage#582
         traits_to_clone = [
-            trait_name for trait_name in self.model.copyable_trait_names()
+            trait_name
+            for trait_name in self.model.copyable_trait_names()
             if trait_name != "preferences"
         ]
         self._model = self.model.clone_traits(traits_to_clone)
