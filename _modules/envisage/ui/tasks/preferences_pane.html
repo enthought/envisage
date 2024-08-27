@@ -147,7 +147,15 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A preferences pane must have a model!&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clone_traits</span><span class="p">()</span>
+        <span class="c1"># Make sure that we don&#39;t clone the preferences trait, since that</span>
+        <span class="c1"># can lead to the preferences node being updated prematurely.</span>
+        <span class="c1"># xref: enthought/envisage#582</span>
+        <span class="n">traits_to_clone</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">trait_name</span>
+            <span class="k">for</span> <span class="n">trait_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">copyable_trait_names</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">trait_name</span> <span class="o">!=</span> <span class="s2">&quot;preferences&quot;</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clone_traits</span><span class="p">(</span><span class="n">traits_to_clone</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">preferences</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="s2">&quot;controller&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;handler&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">}</span></div>
 
@@ -208,7 +216,7 @@
         &copy; Copyright 2007-2024, Enthought
       </li>
       <li>
-      Last updated on Jul 17, 2024.
+      Last updated on Aug 27, 2024.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
