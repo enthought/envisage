@@ -11,7 +11,6 @@
 import os
 import pathlib
 import shutil
-import sys
 import tempfile
 import unittest
 
@@ -22,27 +21,9 @@ from pyface.i_gui import IGUI
 from traits.api import Event, HasTraits, provides
 
 from envisage.api import Plugin
-from envisage.tests.support import (
-    pyside6_available,
-    pyside6_version,
-    requires_gui,
-)
+from envisage.tests.support import requires_gui
 from envisage.ui.tasks.api import TasksApplication
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
-
-# There's a PySide6 end-of-process segfault on Linux that's
-# interfering with our CI runs, so we skip the relevant tests
-# when running under GitHub Actions CI.
-# xref: enthought/envisage#476
-skip_with_flaky_pyside = unittest.skipIf(
-    (
-        os.getenv("GITHUB_ACTIONS") == "true"
-        and sys.platform == "linux"
-        and pyside6_available
-        and pyside6_version < (6, 4, 3)
-    ),
-    "Skipping segfault-causing test on Linux. See enthought/envisage#476",
-)
 
 
 @provides(IGUI)
@@ -94,7 +75,6 @@ class TestTasksApplication(unittest.TestCase):
         self.tmpdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.tmpdir)
 
-    @skip_with_flaky_pyside
     def test_layout_save_with_protocol_3(self):
         # Test that the protocol can be overridden on a per-application basis.
         state_location = self.tmpdir
@@ -116,7 +96,6 @@ class TestTasksApplication(unittest.TestCase):
             protocol_bytes = f.read(2)
         self.assertEqual(protocol_bytes, b"\x80\x03")
 
-    @skip_with_flaky_pyside
     def test_layout_save_creates_directory(self):
         # Test that state can still be saved if the target directory
         # doesn't exist.
@@ -138,7 +117,6 @@ class TestTasksApplication(unittest.TestCase):
         self.assertTrue(state_location.exists())
         self.assertTrue(state_path.exists())
 
-    @skip_with_flaky_pyside
     def test_layout_load(self):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
@@ -160,7 +138,6 @@ class TestTasksApplication(unittest.TestCase):
         state = app._state
         self.assertEqual(state.previous_window_layouts[0].size, (492, 743))
 
-    @skip_with_flaky_pyside
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
@@ -191,13 +168,11 @@ class TestTasksApplication(unittest.TestCase):
         app = TasksApplication()
         app.gui = DummyGUI()
 
-    @skip_with_flaky_pyside
     def test_simple_lifecycle(self):
         app = TasksApplication(state_location=self.tmpdir)
         app.observe(lambda event: app.exit(), "application_initialized")
         app.run()
 
-    @skip_with_flaky_pyside
     def test_lifecycle_with_plugin(self):
         events = []
         plugin = LifecycleRecordingPlugin(record_to=events)
