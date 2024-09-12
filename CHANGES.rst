@@ -2,6 +2,34 @@
  Release history
 =================
 
+Version 7.0.4
+=============
+
+Release: 2023-09-06
+
+This is a bugfix release.
+
+Fixes
+-----
+* Fix a situation where preferences were incorrectly written by
+  the ``PreferencesPane`` before changes were approved. (#583)
+* Add a name attribute to the ``EventManagerPlugin``. (#571)
+
+Build
+-----
+* Update copyright header end years for 2024. (#572)
+* Add dependendabot config for GitHub Actions; bump individual
+  actions to their latest versions. (#573, #575, #576, #577, #579, #581)
+* Remove Slack notifications, which were using an outdated
+  and unmaintained GitHub Action. (#580)
+* Require apptools 5.3 or later and Python 3.8 or later. (#584)
+* Update black to version 24.3.0 to address a ReDoS
+  vulnerability in earlier versions. (#585)
+
+Documentation
+-------------
+* Remove the ``sphinx.ext.githubpages`` extension. (#566)
+
 Version 7.0.3
 =============
 
