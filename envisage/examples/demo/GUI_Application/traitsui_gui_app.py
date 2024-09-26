@@ -10,11 +10,12 @@
 
 """ A simple example of a GUIApplication which wraps a TraitsUI """
 
+from pyface.api import SplashScreen
 from traits.api import Enum, HasTraits, Instance, Int, on_trait_change, Str
-from traitsui.api import Item, OKCancelButtons, View
+from traitsui.api import Item, View
 
-from envisage.api import Plugin
-from envisage.ui.gui_application import GUIApplication
+from envisage.api import CorePlugin, Plugin
+from envisage.ui.api import GUIApplication, GUIPlugin
 
 
 class Person(HasTraits):
@@ -30,7 +31,6 @@ class Person(HasTraits):
         Item("name"),
         Item("age"),
         Item("gender"),
-        buttons=OKCancelButtons,
     )
 
 
@@ -51,15 +51,27 @@ class PersonViewPlugin(Plugin):
         person = Person()
 
         # keep a reference to the ui object to avoid garbage collection
-        self.ui = person.edit_traits()
+        self.ui = person.edit_traits(kind="live")
 
 
-# Application entry point.
-if __name__ == "__main__":
+def main():
+    """Main method of the traitsui gui app example"""
+
     # Create the application.
     application = GUIApplication(
-        id="person_view", plugins=[PersonViewPlugin()]
+        id="person_view",
+        plugins=[
+            CorePlugin(),
+            GUIPlugin(),
+            PersonViewPlugin(),
+        ],
+        splash_screen=SplashScreen(image="splash"),
     )
 
     # Run it!
     application.run()
+
+
+# Application entry point.
+if __name__ == "__main__":
+    main()
