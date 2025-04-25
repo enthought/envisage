@@ -5,7 +5,7 @@
 Version 7.0.4
 =============
 
-Release: 2023-09-06
+Release: 2025-04-25
 
 This is a bugfix release.
 
@@ -17,14 +17,18 @@ Fixes
 
 Build
 -----
-* Update copyright header end years for 2024. (#572)
+* Update copyright header end years for 2024, 2025. (#572, #589)
 * Add dependendabot config for GitHub Actions; bump individual
-  actions to their latest versions. (#573, #575, #576, #577, #579, #581)
+  actions to their latest versions. (#573, #575, #576, #577, #579, #581, #588)
 * Remove Slack notifications, which were using an outdated
   and unmaintained GitHub Action. (#580)
 * Require apptools 5.3 or later and Python 3.8 or later. (#584)
 * Update black to version 24.3.0 to address a ReDoS
   vulnerability in earlier versions. (#585)
+
+Tests
+-----
+* Remove skip decorator on some PySide6-related tests. (#587)
 
 Documentation
 -------------
