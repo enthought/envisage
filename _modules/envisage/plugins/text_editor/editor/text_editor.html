@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.text_editor.editor.text_editor</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,22 +94,22 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span>
 
-<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="n">FileDialog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="n">FileDialog</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="kn">import</span> <span class="n">TraitsUIEditor</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Code</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">observe</span>
-<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">CodeEditor</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">View</span>
-<span class="kn">from</span> <span class="nn">traitsui.key_bindings</span> <span class="kn">import</span> <span class="n">KeyBinding</span><span class="p">,</span> <span class="n">KeyBindings</span>
-<span class="kn">from</span> <span class="nn">traitsui.menu</span> <span class="kn">import</span> <span class="n">NoButtons</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraitsUIEditor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Code</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">observe</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CodeEditor</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">View</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.key_bindings</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeyBinding</span><span class="p">,</span> <span class="n">KeyBindings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.menu</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoButtons</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.text_editor_handler</span> <span class="kn">import</span> <span class="n">TextEditorHandler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.text_editor_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextEditorHandler</span>
 
 
-<span class="k">def</span> <span class="nf">_id_generator</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_id_generator</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A generator that returns the next number for untitled files.&quot;&quot;&quot;</span>
 
     <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
@@ -121,7 +121,7 @@
 <span class="n">_id_generator</span> <span class="o">=</span> <span class="n">_id_generator</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="TextEditor"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor">[docs]</a><span class="k">class</span> <span class="nc">TextEditor</span><span class="p">(</span><span class="n">TraitsUIEditor</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TextEditor</span><span class="p">(</span><span class="n">TraitsUIEditor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A text editor.&quot;&quot;&quot;</span>
 
     <span class="c1">#### &#39;TextEditor&#39; interface ###############################################</span>
@@ -136,7 +136,7 @@
     <span class="c1"># &#39;IEditor&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="TextEditor.save"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor.save"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves the text to disk.&quot;&quot;&quot;</span>
 
         <span class="c1"># If the file has not yet been saved then prompt for the file name.</span>
@@ -150,7 +150,7 @@
             <span class="c1"># We have just saved the file so we ain&#39;t dirty no more!</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="TextEditor.save_as"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as">[docs]</a>    <span class="k">def</span> <span class="nf">save_as</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor.save_as"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_as</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves the text to disk after prompting for the file name.&quot;&quot;&quot;</span>
 
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span>
@@ -174,7 +174,7 @@
     <span class="c1"># &#39;TraitsUIEditor&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="TextEditor.create_ui"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui">[docs]</a>    <span class="k">def</span> <span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor.create_ui"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the traits UI that represents the editor.&quot;&quot;&quot;</span>
 
         <span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span>
@@ -187,7 +187,7 @@
     <span class="c1"># &#39;TextEditor&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="TextEditor.run"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor.run"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the file as Python.&quot;&quot;&quot;</span>
 
         <span class="c1"># The file must be saved first!</span>
@@ -204,7 +204,7 @@
                     <span class="s1">&#39;exec(open(r&quot;</span><span class="si">%s</span><span class="s1">&quot;).read())&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span>
                 <span class="p">)</span></div>
 
-<div class="viewcode-block" id="TextEditor.select_line"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line">[docs]</a>    <span class="k">def</span> <span class="nf">select_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineno</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditor.select_line"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">select_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineno</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Selects the specified line.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">selected_line</span> <span class="o">=</span> <span class="n">lineno</span></div>
@@ -215,7 +215,7 @@
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
-    <span class="k">def</span> <span class="nf">_key_bindings_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_key_bindings_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">key_bindings</span> <span class="o">=</span> <span class="n">KeyBindings</span><span class="p">(</span>
@@ -236,7 +236,7 @@
     <span class="c1">#### Trait change handlers ################################################</span>
 
     <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;obj&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_handle_update_to_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_handle_update_to_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
         <span class="n">new</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="c1"># The path will be the empty string if we are editing a file that has</span>
@@ -253,14 +253,14 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
     <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_dirty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_dirty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">traits_inited</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;dirty&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
         <span class="n">dirty</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -272,7 +272,7 @@
 
     <span class="c1">#### Methods ##############################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_traits_ui_view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_traits_ui_view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the traits UI view used by the editor.</span>
 
 <span class="sd">        fixme: We create the view dynamically to allow the key bindings to be</span>
@@ -299,7 +299,7 @@
 
         <span class="k">return</span> <span class="n">view</span>
 
-    <span class="k">def</span> <span class="nf">_get_unique_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Untitled &quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_unique_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Untitled &quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a unique id for a new file.&quot;&quot;&quot;</span>
 
         <span class="nb">id</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">_id_generator</span><span class="p">))</span>
@@ -343,10 +343,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

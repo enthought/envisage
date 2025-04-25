@@ -118,22 +118,22 @@ and it even allows you to publish your own entries for free (unlike the “real�
 one)!</p>
 <p>In an Envisage application, the service registry is accessed through the
 following methods on the <a class="reference internal" href="../api/envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a> interface:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return at most one service that matches the specified query.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return the dictionary of properties associated with a service.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return all services that match the specified query.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Register a service.</span>
 
 <span class="sd">    Returns a service ID that can be used to retrieve any service</span>
@@ -141,7 +141,7 @@ following methods on the <a class="reference internal" href="../api/envisage.i_a
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Unregister a service.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -150,7 +150,7 @@ following methods on the <a class="reference internal" href="../api/envisage.i_a
 <p>The easiest way to explain the workings of these methods is to take a look at
 some examples, and so to continue our plumber theme, let’s assume we have the
 following interface and implementation</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IPlumber</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">IPlumber</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; What plumbers do! &quot;&quot;&quot;</span>
 
     <span class="c1">#: The plumber&#39;s name.</span>
@@ -162,12 +162,12 @@ following interface and implementation</p>
     <span class="c1">#: The price per hour (in say, Estonian Krooni ;^)</span>
     <span class="n">price</span> <span class="o">=</span> <span class="n">Int</span>
 
-    <span class="k">def</span> <span class="nf">fix_leaking_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipe</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix_leaking_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipe</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;</span>
 
 
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IPlumber</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Plumber</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Plumber</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An actual plumber implementation! &quot;&quot;&quot;</span>
 
     <span class="c1">#: The plumber&#39;s name.</span>
@@ -179,7 +179,7 @@ following interface and implementation</p>
     <span class="c1">#: The price per hour (in say, Estonian Krooni ;^)</span>
     <span class="n">price</span> <span class="o">=</span> <span class="n">Int</span>
 
-    <span class="k">def</span> <span class="nf">fix_leaking_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipe</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix_leaking_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipe</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Fix a leaking pipe! &quot;&quot;&quot;</span>
 
         <span class="c1"># code that actually fixes it!</span>
@@ -373,7 +373,7 @@ that the next time it is asked for it is simply returned as normal).</p>
 arguments. The first is the protocol (type) of the service being requested, and
 the second is the (possibly empty) dictionary of properties that were
 registered along with the factory, e.g.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wilma_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wilma_factory</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A service factory that creates wilma the plumber! &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">Plumber</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wilma&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;BH6&#39;</span><span class="p">)</span>
@@ -460,10 +460,10 @@ is called and the returned plumber object replaces the factory in the registry.<
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

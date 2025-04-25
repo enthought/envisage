@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.package_plugin_manager</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,19 +93,19 @@
 <span class="sd">&quot;&quot;&quot; A plugin manager that finds plugins in packages on the &#39;plugin_path&#39;. &quot;&quot;&quot;</span>
 
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">apptools.io</span> <span class="kn">import</span> <span class="n">File</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apptools.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">File</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span>
 
-<span class="kn">from</span> <span class="nn">.plugin_manager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plugin_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginManager</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="PackagePluginManager"><a class="viewcode-back" href="../../api/envisage.package_plugin_manager.html#envisage.package_plugin_manager.PackagePluginManager">[docs]</a><span class="k">class</span> <span class="nc">PackagePluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
+<div class="viewcode-block" id="PackagePluginManager"><a class="viewcode-back" href="../../api/envisage.package_plugin_manager.html#envisage.package_plugin_manager.PackagePluginManager">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PackagePluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A plugin manager that finds plugins in packages on the &#39;plugin_path&#39;.</span>
 
 <span class="sd">    All items in &#39;plugin_path&#39; are directory names and they are all added to</span>
@@ -122,7 +122,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="p">(</span>
                 <span class="s2">&quot;The PackagePluginManager is deprecated. The recommended &quot;</span>
@@ -143,13 +143,13 @@
     <span class="n">plugin_path</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Directory</span><span class="p">)</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;plugin_path[]&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_path_and_reset_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_path_and_reset_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_sys_dot_path</span><span class="p">(</span><span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_traits</span><span class="p">([</span><span class="s2">&quot;_plugins&quot;</span><span class="p">])</span>
 
     <span class="c1">#### Protected &#39;PluginManager&#39; protocol ###################################</span>
 
-    <span class="k">def</span> <span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span>
@@ -164,7 +164,7 @@
 
     <span class="c1">#### Private protocol #####################################################</span>
 
-    <span class="k">def</span> <span class="nf">_get_plugins_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_plugins_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Import &#39;plugins.py&#39; from the package with the given name.</span>
 
 <span class="sd">        If the package does not exist, or does not contain &#39;plugins.py&#39; then</span>
@@ -183,7 +183,7 @@
         <span class="k">return</span> <span class="n">module</span>
 
     <span class="c1"># smell: Looooong and ugly!</span>
-    <span class="k">def</span> <span class="nf">_harvest_plugins_in_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="n">package_dirname</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_harvest_plugins_in_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="n">package_dirname</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Harvest plugins found in the given package.&quot;&quot;&quot;</span>
 
         <span class="c1"># If the package contains a &#39;plugins.py&#39; module, then we import it and</span>
@@ -217,7 +217,7 @@
 
         <span class="k">return</span> <span class="n">plugins</span>
 
-    <span class="k">def</span> <span class="nf">_harvest_plugins_in_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_harvest_plugins_in_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Harvest plugins found in packages on the plugin path.&quot;&quot;&quot;</span>
 
         <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
@@ -232,7 +232,7 @@
 
         <span class="k">return</span> <span class="n">plugins</span>
 
-    <span class="k">def</span> <span class="nf">_update_sys_dot_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_sys_dot_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add/remove the given entries from sys.path.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
@@ -278,10 +278,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

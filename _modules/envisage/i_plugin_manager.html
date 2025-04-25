@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.i_plugin_manager</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,13 +94,13 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Interface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Interface</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.plugin_event</span> <span class="kn">import</span> <span class="n">PluginEvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plugin_event</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginEvent</span>
 
 
-<div class="viewcode-block" id="IPluginManager"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager">[docs]</a><span class="k">class</span> <span class="nc">IPluginManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IPluginManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The plugin manager interface.&quot;&quot;&quot;</span>
 
     <span class="c1">#### Events ####</span>
@@ -111,30 +111,30 @@
     <span class="c1">#: Fired when a plugin has been removed from the manager.</span>
     <span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over the manager&#39;s plugins.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IPluginManager.add_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.add_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.add_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.add_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a plugin to the manager.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.get_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.get_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.get_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the plugin with the specified Id.</span>
 
 <span class="sd">        Return None if no such plugin exists.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.remove_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.remove_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.remove_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.remove_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a plugin from the manager.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.start"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.start"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the plugin manager.</span>
 
 <span class="sd">        This starts all of the manager&#39;s plugins.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.start_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.start_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the specified plugin.</span>
 
 <span class="sd">        If a plugin is specified then start it.</span>
@@ -145,7 +145,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.stop"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.stop"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin manager.</span>
 
 <span class="sd">        This stop&#39;s all of the plugin manager&#39;s plugins (in the reverse order</span>
@@ -153,7 +153,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPluginManager.stop_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginManager.stop_plugin"><a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the specified plugin.</span>
 
 <span class="sd">        If a plugin is specified then stop it (the Id is ignored).</span>
@@ -199,10 +199,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

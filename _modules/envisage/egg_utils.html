@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.egg_utils</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,13 +94,13 @@
 
 
 <span class="c1"># 3rd party imports.</span>
-<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.util.toposort</span> <span class="kn">import</span> <span class="n">topological_sort</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.util.toposort</span><span class="w"> </span><span class="kn">import</span> <span class="n">topological_sort</span>
 
 
-<div class="viewcode-block" id="add_eggs_on_path"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.add_eggs_on_path">[docs]</a><span class="k">def</span> <span class="nf">add_eggs_on_path</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="add_eggs_on_path"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.add_eggs_on_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_eggs_on_path</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add all eggs found on the path to a working set.&quot;&quot;&quot;</span>
 
     <span class="n">environment</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -120,7 +120,7 @@
         <span class="n">working_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_entry_points_in_egg_order"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_entry_points_in_egg_order">[docs]</a><span class="k">def</span> <span class="nf">get_entry_points_in_egg_order</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">entry_point_name</span><span class="p">):</span>
+<div class="viewcode-block" id="get_entry_points_in_egg_order"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_entry_points_in_egg_order">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_entry_points_in_egg_order</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">entry_point_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return entry points in Egg dependency order.&quot;&quot;&quot;</span>
 
     <span class="c1"># Find all distributions that actually contain contributions to the</span>
@@ -140,7 +140,7 @@
     <span class="k">return</span> <span class="n">entry_points</span></div>
 
 
-<div class="viewcode-block" id="get_distributions_with_entry_point"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_distributions_with_entry_point">[docs]</a><span class="k">def</span> <span class="nf">get_distributions_with_entry_point</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">entry_point_name</span><span class="p">):</span>
+<div class="viewcode-block" id="get_distributions_with_entry_point"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_distributions_with_entry_point">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_distributions_with_entry_point</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">entry_point_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all distributions that contribute to an entry point.&quot;&quot;&quot;</span>
 
     <span class="n">distributions</span> <span class="o">=</span> <span class="p">[]</span>
@@ -151,7 +151,7 @@
     <span class="k">return</span> <span class="n">distributions</span></div>
 
 
-<div class="viewcode-block" id="get_distributions_in_egg_order"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_distributions_in_egg_order">[docs]</a><span class="k">def</span> <span class="nf">get_distributions_in_egg_order</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">distributions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_distributions_in_egg_order"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_distributions_in_egg_order">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_distributions_in_egg_order</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">distributions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all distributions in Egg dependency order.&quot;&quot;&quot;</span>
 
     <span class="c1"># If no specific list of distributions is specified then use all</span>
@@ -171,7 +171,7 @@
     <span class="k">return</span> <span class="n">distributions</span></div>
 
 
-<div class="viewcode-block" id="get_requires"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_requires">[docs]</a><span class="k">def</span> <span class="nf">get_requires</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">distribution</span><span class="p">):</span>
+<div class="viewcode-block" id="get_requires"><a class="viewcode-back" href="../../api/envisage.egg_utils.html#envisage.egg_utils.get_requires">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_requires</span><span class="p">(</span><span class="n">working_set</span><span class="p">,</span> <span class="n">distribution</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all of the other distributions that a distribution requires.&quot;&quot;&quot;</span>
 
     <span class="n">requires</span> <span class="o">=</span> <span class="p">[]</span>
@@ -219,10 +219,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

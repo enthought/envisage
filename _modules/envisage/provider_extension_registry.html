@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.provider_extension_registry</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,22 +94,22 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span><span class="p">,</span> <span class="n">provides</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.extension_registry</span> <span class="kn">import</span> <span class="n">ExtensionRegistry</span>
-<span class="kn">from</span> <span class="nn">.i_extension_provider</span> <span class="kn">import</span> <span class="n">IExtensionProvider</span>
-<span class="kn">from</span> <span class="nn">.i_provider_extension_registry</span> <span class="kn">import</span> <span class="n">IProviderExtensionRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.extension_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_extension_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">IExtensionProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_provider_extension_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">IProviderExtensionRegistry</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ProviderExtensionRegistry"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IProviderExtensionRegistry</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">ProviderExtensionRegistry</span><span class="p">(</span><span class="n">ExtensionRegistry</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProviderExtensionRegistry</span><span class="p">(</span><span class="n">ExtensionRegistry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An extension registry implementation with multiple providers.&quot;&quot;&quot;</span>
 
     <span class="c1">#### Protected &#39;ProviderExtensionRegistry&#39; interface ######################</span>
@@ -121,7 +121,7 @@
     <span class="c1"># &#39;IExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ProviderExtensionRegistry.set_extensions"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
+<div class="viewcode-block" id="ProviderExtensionRegistry.set_extensions"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.set_extensions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the extensions to an extension point.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;extension points cannot be set&quot;</span><span class="p">)</span></div>
@@ -130,7 +130,7 @@
     <span class="c1"># &#39;ProviderExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ProviderExtensionRegistry.add_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider">[docs]</a>    <span class="k">def</span> <span class="nf">add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<div class="viewcode-block" id="ProviderExtensionRegistry.add_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.add_provider">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an extension provider.&quot;&quot;&quot;</span>
 
         <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
@@ -138,12 +138,12 @@
         <span class="k">for</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="ow">in</span> <span class="n">events</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_call_listeners</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="p">[],</span> <span class="n">index</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ProviderExtensionRegistry.get_providers"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers">[docs]</a>    <span class="k">def</span> <span class="nf">get_providers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ProviderExtensionRegistry.get_providers"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.get_providers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_providers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all of the providers in the registry.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="p">[:]</span></div>
 
-<div class="viewcode-block" id="ProviderExtensionRegistry.remove_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider">[docs]</a>    <span class="k">def</span> <span class="nf">remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<div class="viewcode-block" id="ProviderExtensionRegistry.remove_provider"><a class="viewcode-back" href="../../api/envisage.provider_extension_registry.html#envisage.provider_extension_registry.ProviderExtensionRegistry.remove_provider">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an extension provider.</span>
 
 <span class="sd">        Raise a &#39;ValueError&#39; if the provider is not in the registry.</span>
@@ -159,7 +159,7 @@
     <span class="c1"># Protected &#39;ExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions for the given extension point.&quot;&quot;&quot;</span>
 
         <span class="c1"># If we don&#39;t know about the extension point then it sure ain&#39;t got</span>
@@ -200,7 +200,7 @@
     <span class="c1"># Protected &#39;ProviderExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new provider.&quot;&quot;&quot;</span>
 
         <span class="c1"># Add the provider&#39;s extension points.</span>
@@ -214,7 +214,7 @@
 
         <span class="k">return</span> <span class="n">events</span>
 
-    <span class="k">def</span> <span class="nf">_add_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a provider&#39;s extensions to the registry.&quot;&quot;&quot;</span>
 
         <span class="c1"># Each provider can contribute to multiple extension points, so we</span>
@@ -239,13 +239,13 @@
 
         <span class="k">return</span> <span class="n">events</span>
 
-    <span class="k">def</span> <span class="nf">_add_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a provider&#39;s extension points to the registry.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">extension_point</span> <span class="ow">in</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_extension_points</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">[</span><span class="n">extension_point</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">extension_point</span>
 
-    <span class="k">def</span> <span class="nf">_remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider.&quot;&quot;&quot;</span>
 
         <span class="c1"># Remove the provider&#39;s extensions.</span>
@@ -259,7 +259,7 @@
 
         <span class="k">return</span> <span class="n">events</span>
 
-    <span class="k">def</span> <span class="nf">_remove_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_provider_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider&#39;s extensions from the registry.&quot;&quot;&quot;</span>
 
         <span class="c1"># Each provider can contribute to multiple extension points, so we</span>
@@ -287,7 +287,7 @@
 
         <span class="k">return</span> <span class="n">events</span>
 
-    <span class="k">def</span> <span class="nf">_remove_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">,</span> <span class="n">events</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_provider_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">,</span> <span class="n">events</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a provider&#39;s extension points from the registry.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">extension_point</span> <span class="ow">in</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_extension_points</span><span class="p">():</span>
@@ -301,7 +301,7 @@
     <span class="c1">#### Trait change handlers ################################################</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;_providers:extension_point_changed&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_providers_extension_point_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_providers_extension_point_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;provider &lt;</span><span class="si">%s</span><span class="s2">&gt; extension point changed&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
@@ -351,7 +351,7 @@
 
     <span class="c1">#### Methods ##############################################################</span>
 
-    <span class="k">def</span> <span class="nf">_initialize_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the extensions to an extension point.&quot;&quot;&quot;</span>
 
         <span class="c1"># We store the extensions as a list of lists, with each inner list</span>
@@ -364,7 +364,7 @@
 
         <span class="k">return</span> <span class="n">extensions</span>
 
-    <span class="k">def</span> <span class="nf">_translate_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_translate_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate an event index by the given offset.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
@@ -412,10 +412,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

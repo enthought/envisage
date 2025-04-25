@@ -152,7 +152,7 @@ responsible for creating tasks and the windows that contain them, it expects to
 receive <em>factories</em> for creating <code class="docutils literal notranslate"><span class="pre">Task</span></code> instances rather than the instances
 themselves. The <code class="docutils literal notranslate"><span class="pre">TaskFactory</span></code> class fulfills this role.</p>
 <p>With this in mind, we can define a <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> for our application:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 
     <span class="c1">#### &#39;IPlugin&#39; interface ##############################################</span>
 
@@ -166,7 +166,7 @@ themselves. The <code class="docutils literal notranslate"><span class="pre">Tas
 
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.tasks.tasks&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tasks_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tasks_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">TaskFactory</span><span class="p">(</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;example.attractors.task_2d&#39;</span><span class="p">,</span>
@@ -190,7 +190,7 @@ tasks are attached to the window, which task is active in the window, and,
 optionally, the size and position of the window.</p>
 <p>The default application-level layout is defined inside our application class,
 which must inherit <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AttractorsApplication</span><span class="p">(</span><span class="n">TasksApplication</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AttractorsApplication</span><span class="p">(</span><span class="n">TasksApplication</span><span class="p">):</span>
 
     <span class="c1">#### &#39;IApplication&#39; interface #########################################</span>
 
@@ -279,13 +279,13 @@ application-level layout.</p>
 </pre></div>
 </div>
 <p>and contributing it to the Envisage core plugin:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
     <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://example.attractors/preferences.ini&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -296,10 +296,10 @@ the <code class="docutils literal notranslate"><span class="pre">example.attract
 preferences helper is a model-level class that makes accessing the keys in the
 preferences file convenient and type safe. The preferences pane, introduced
 above, exposes a Traits UI view for this helper object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">envisage.ui.tasks.api</span> <span class="kn">import</span> <span class="n">PreferencesPane</span><span class="p">,</span> <span class="n">TaskFactory</span>
-<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="kn">import</span> <span class="n">PreferencesHelper</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.tasks.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesPane</span><span class="p">,</span> <span class="n">TaskFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesHelper</span>
 
-<span class="k">class</span> <span class="nc">AttractorsPreferences</span><span class="p">(</span><span class="n">PreferencesHelper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AttractorsPreferences</span><span class="p">(</span><span class="n">PreferencesHelper</span><span class="p">):</span>
 
     <span class="c1">#### &#39;PreferencesHelper&#39; interface ####################################</span>
 
@@ -314,7 +314,7 @@ above, exposes a Traits UI view for this helper object:</p>
 
     <span class="n">always_use_default_layout</span> <span class="o">=</span> <span class="n">Bool</span>
 
-<span class="k">class</span> <span class="nc">AttractorsPreferencesPane</span><span class="p">(</span><span class="n">PreferencesPane</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AttractorsPreferencesPane</span><span class="p">(</span><span class="n">PreferencesPane</span><span class="p">):</span>
 
     <span class="c1">#### &#39;PreferencesPane&#39; interface ######################################</span>
 
@@ -340,7 +340,7 @@ above, exposes a Traits UI view for this helper object:</p>
         <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_task_map_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_task_map_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="p">(</span><span class="n">factory</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">factory</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">task_factories</span>
@@ -348,7 +348,7 @@ above, exposes a Traits UI view for this helper object:</p>
 </pre></div>
 </div>
 <p>Finally, we modify our application to make use of this new functionality:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AttractorsApplication</span><span class="p">(</span><span class="n">TasksApplication</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AttractorsApplication</span><span class="p">(</span><span class="n">TasksApplication</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -362,7 +362,7 @@ above, exposes a Traits UI view for this helper object:</p>
 
     <span class="n">preferences_helper</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">AttractorsPreferences</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_default_layout_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default_layout_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">active_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_helper</span><span class="o">.</span><span class="n">default_task</span>
         <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">factory</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_factories</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span>
@@ -373,15 +373,15 @@ above, exposes a Traits UI view for this helper object:</p>
             <span class="p">),</span>
         <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_get_always_use_default_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_always_use_default_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_helper</span><span class="o">.</span><span class="n">always_use_default_layout</span>
 
-    <span class="k">def</span> <span class="nf">_preferences_helper_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_helper_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">AttractorsPreferences</span><span class="p">(</span><span class="n">preferences</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and contribute the preferences pane to the Tasks plugin:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AttractorsPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -389,7 +389,7 @@ above, exposes a Traits UI view for this helper object:</p>
         <span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.tasks.preferences_panes&#39;</span>
     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_preferences_panes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_panes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
        <span class="k">return</span> <span class="p">[</span><span class="n">AttractorsPreferencesPane</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -575,10 +575,10 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

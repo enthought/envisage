@@ -124,15 +124,15 @@ constructed.</p>
 <span id="index-2"></span><h2>Defining a Task<a class="headerlink" href="#defining-a-task" title="Permalink to this heading">¶</a></h2>
 <p>Minimally, a task is defined by subclassing <code class="docutils literal notranslate"><span class="pre">Task</span></code> and providing a central
 pane. For example, we define a task for editing Python scripts:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">Task</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 
-<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.example_task&#39;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Python Script Editor&#39;</span>
 
-    <span class="k">def</span> <span class="nf">create_central_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_central_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">PythonEditorPane</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -142,11 +142,11 @@ common pattern in the Tasks framework.</p>
 <p id="index-4">All tasks must implement <code class="docutils literal notranslate"><span class="pre">create_central_pane()</span></code> and return a TaskPane
 instance. We might define the <code class="docutils literal notranslate"><span class="pre">PythonEditorPane</span></code> pane above as follows, making
 use of the <code class="docutils literal notranslate"><span class="pre">PythonEditor</span></code> available in Pyface:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">PythonEditor</span>
-<span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">TaskPane</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonEditor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskPane</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span>
 
-<span class="k">class</span> <span class="nc">PythonEditorPane</span><span class="p">(</span><span class="n">TaskPane</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PythonEditorPane</span><span class="p">(</span><span class="n">TaskPane</span><span class="p">):</span>
 
     <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;example.python_editor_pane&#39;</span>
 
@@ -154,11 +154,11 @@ use of the <code class="docutils literal notranslate"><span class="pre">PythonEd
 
     <span class="n">editor</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PythonEditor</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">PythonEditor</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">control</span>
 
-    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
@@ -181,11 +181,11 @@ toolkit-specific control for the file browser. But if we are familiar with
 Traits UI we see that it would be more convenient to use the Traits UI
 <code class="docutils literal notranslate"><span class="pre">FileEditor</span></code> for this purpose. The Tasks framework provides the
 <code class="docutils literal notranslate"><span class="pre">TraitsDockPane</span></code> class to facilitate this. We define the pane as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.api</span> <span class="kn">import</span> <span class="n">TraitsDockPane</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
-<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">View</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">FileEditor</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraitsDockPane</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">View</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">FileEditor</span>
 
-<span class="k">class</span> <span class="nc">FileBrowserPane</span><span class="p">(</span><span class="n">TraitsDockPane</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileBrowserPane</span><span class="p">(</span><span class="n">TraitsDockPane</span><span class="p">):</span>
 
     <span class="c1">#### TaskPane interface ###############################################</span>
 
@@ -228,11 +228,11 @@ referred to the Tasks API documentation for more information.</p>
 method. This method returns the list of dock pane instances associated with the
 task. We also define a method on our task for opening a file in the editor,
 which we connect to the dock pane’s <code class="docutils literal notranslate"><span class="pre">activated</span></code> event:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">create_dock_panes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_dock_panes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Create the file browser and connect to its double click event.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">browser</span> <span class="o">=</span> <span class="n">PythonScriptBrowserPane</span><span class="p">()</span>
@@ -240,7 +240,7 @@ which we connect to the dock pane’s <code class="docutils literal notranslate"
         <span class="n">browser</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s1">&#39;activated&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">browser</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Open the file with the specified path in the central pane.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">central_pane</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
@@ -286,7 +286,7 @@ provided, Tasks will use the dock pane’s toolkit-specific size hint to
 determine its size.</p>
 <p>Now we will provide our example task with a simple layout using the
 <code class="docutils literal notranslate"><span class="pre">default_layout</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">Task</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -381,10 +381,10 @@ concept, and similarly for other terms.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

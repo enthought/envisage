@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.gui_application</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -104,12 +104,12 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Supports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Supports</span>
 
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Application</span>
 
 
-<div class="viewcode-block" id="GUIApplication"><a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication">[docs]</a><span class="k">class</span> <span class="nc">GUIApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+<div class="viewcode-block" id="GUIApplication"><a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GUIApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The entry point for an Envisage GUI application.</span>
 
 <span class="sd">    This class handles the life-cycle of a Pyface GUI.  Plugins can</span>
@@ -140,7 +140,7 @@
     <span class="c1"># &#39;IApplication&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="GUIApplication.run"><a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GUIApplication.run"><a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the application.</span>
 
 <span class="sd">        Returns</span>
@@ -168,8 +168,8 @@
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
-    <span class="k">def</span> <span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">GUI</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">GUI</span>
 
         <span class="k">return</span> <span class="n">GUI</span><span class="p">(</span><span class="n">splash_screen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">splash_screen</span><span class="p">)</span></div>
 </pre></div>
@@ -208,10 +208,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

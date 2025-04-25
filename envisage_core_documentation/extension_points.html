@@ -123,7 +123,7 @@ by overriding the ‘get_extension_points’ method.</p>
 <p>In the MOTD example, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin needs to advertise an extension
 point that allows other plugins to contribute new messages. Using the
 <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a> trait type, the plugin would look like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
     <span class="o">...</span>
@@ -186,7 +186,7 @@ also be achieved programmatically - by overriding the ‘get_extensions’ metho
 similar to how we could define extension points programmatically by overriding
 the ‘get_extension_points’ method.</p>
 <p>The declarative version looks like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The software quotes plugin. &quot;&quot;&quot;</span>
 
     <span class="o">...</span>
@@ -195,12 +195,12 @@ the ‘get_extension_points’ method.</p>
     <span class="c1"># extension point that this trait contributes to.</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the default value for the ``messages`` trait. &quot;&quot;&quot;</span>
 
         <span class="c1"># It is good practise to only import your extensions when they</span>
         <span class="c1"># are actually required.</span>
-        <span class="kn">from</span> <span class="nn">.messages</span> <span class="kn">import</span> <span class="n">messages</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
 
         <span class="k">return</span> <span class="n">messages</span>
 
@@ -228,7 +228,7 @@ Another plugin (<a class="reference external" href="https://github.com/enthought
 some messages about software development. Now we need to know how to retrieve
 the contributed messages at runtime.</p>
 <p>In the MOTD example, the messages are retrieved by the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
     <span class="o">...</span>
@@ -245,11 +245,11 @@ the contributed messages at runtime.</p>
 
     <span class="o">...</span>
 
-    <span class="k">def</span> <span class="nf">_motd_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_motd_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the default value for the motd trait. &quot;&quot;&quot;</span>
 
         <span class="c1"># Only do imports when you need to!</span>
-        <span class="kn">from</span> <span class="nn">.motd</span> <span class="kn">import</span> <span class="n">MOTD</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.motd</span><span class="w"> </span><span class="kn">import</span> <span class="n">MOTD</span>
 
         <span class="k">return</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
     <span class="o">...</span>
@@ -263,7 +263,7 @@ implementations to create and initialize services (in this case, an instance of
 the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class).</p>
 <p>The extension registry can also be accessed through the following method on the
 <a class="reference internal" href="../api/envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a> interface:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return a list containing all contributions to an extension point.</span>
 
 <span class="sd">    Return an empty list if the extension point does not exist.</span>
@@ -346,10 +346,10 @@ events if extensions are added/removed to/from the extension point at runtime.</
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

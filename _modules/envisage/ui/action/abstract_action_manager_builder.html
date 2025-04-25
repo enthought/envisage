@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.action.abstract_action_manager_builder</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,18 +94,18 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">ActionManager</span><span class="p">,</span> <span class="n">MenuManager</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionManager</span><span class="p">,</span> <span class="n">MenuManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">provides</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.action_set</span> <span class="kn">import</span> <span class="n">ActionSet</span>
-<span class="kn">from</span> <span class="nn">.action_set_manager</span> <span class="kn">import</span> <span class="n">ActionSetManager</span>
-<span class="kn">from</span> <span class="nn">.group</span> <span class="kn">import</span> <span class="n">Group</span>
-<span class="kn">from</span> <span class="nn">.i_action_manager_builder</span> <span class="kn">import</span> <span class="n">IActionManagerBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.action_set</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.action_set_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionSetManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_action_manager_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">IActionManagerBuilder</span>
 
 
 <div class="viewcode-block" id="AbstractActionManagerBuilder"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IActionManagerBuilder</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">AbstractActionManagerBuilder</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AbstractActionManagerBuilder</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds menus, menu bars and tool bars from action sets.</span>
 
 <span class="sd">    This class *must* be subclassed, and the following methods implemented::</span>
@@ -129,7 +129,7 @@
     <span class="c1"># &#39;IActionManagerBuilder&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="AbstractActionManagerBuilder.create_menu_bar_manager"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_menu_bar_manager">[docs]</a>    <span class="k">def</span> <span class="nf">create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractActionManagerBuilder.create_menu_bar_manager"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_menu_bar_manager">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a menu bar manager from the builder&#39;s action sets.&quot;&quot;&quot;</span>
 
         <span class="n">menu_bar_manager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_menu_bar_manager</span><span class="p">()</span>
@@ -139,7 +139,7 @@
         <span class="k">return</span> <span class="n">menu_bar_manager</span></div>
 
     <span class="c1"># fixme: V3 refactor loooong (and confusing) method!</span>
-<div class="viewcode-block" id="AbstractActionManagerBuilder.create_tool_bar_managers"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_tool_bar_managers">[docs]</a>    <span class="k">def</span> <span class="nf">create_tool_bar_managers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractActionManagerBuilder.create_tool_bar_managers"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.create_tool_bar_managers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_tool_bar_managers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates all tool bar managers from the builder&#39;s action sets.&quot;&quot;&quot;</span>
 
         <span class="c1">########################################</span>
@@ -193,7 +193,7 @@
 
         <span class="c1"># We don&#39;t add the tool bar if it is empty!</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">.tool_bar</span> <span class="kn">import</span> <span class="n">ToolBar</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.tool_bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolBar</span>
 
             <span class="n">tool_bar_manager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_tool_bar_manager</span><span class="p">(</span>
                 <span class="n">ToolBar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Tool Bar&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">root</span><span class="p">,</span> <span class="n">_action_set_</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -210,7 +210,7 @@
 
         <span class="k">return</span> <span class="n">tool_bar_managers</span></div>
 
-<div class="viewcode-block" id="AbstractActionManagerBuilder.initialize_action_manager"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.initialize_action_manager">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_action_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractActionManagerBuilder.initialize_action_manager"><a class="viewcode-back" href="../../../../api/envisage.ui.action.abstract_action_manager_builder.html#envisage.ui.action.abstract_action_manager_builder.AbstractActionManagerBuilder.initialize_action_manager">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">initialize_action_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an action manager from the builder&#39;s action sets.&quot;&quot;&quot;</span>
 
         <span class="c1"># Get all of the groups and menus for the specified root (for toolbars</span>
@@ -231,27 +231,27 @@
     <span class="c1"># Protected &#39;AbstractActionManagerBuilder&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates an action implementation from a definition.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a group implementation from a definition.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager_definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager_definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a menu manager implementation from a definition.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a menu bar manager implementation.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_bar_definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_bar_definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a tool bar manager implementation from a definition.&quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
@@ -263,14 +263,14 @@
     <span class="c1">#### Trait change handler #################################################</span>
 
     <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;action_sets&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_action_sets_on_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_action_sets_on_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
         <span class="n">new</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_set_manager</span><span class="o">.</span><span class="n">action_sets</span> <span class="o">=</span> <span class="n">new</span>
 
     <span class="c1">#### Methods ##############################################################</span>
 
-    <span class="k">def</span> <span class="nf">_add_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">actions</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">actions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the specified actions to an action manager.&quot;&quot;&quot;</span>
 
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -299,7 +299,7 @@
             <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not place </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">actions</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_add_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an action to an action manager.</span>
 
 <span class="sd">        Return True if the action was added successfully.</span>
@@ -335,7 +335,7 @@
 
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">_add_groups_and_menus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">groups_and_menus</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_groups_and_menus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">groups_and_menus</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the specified groups and menus to an action manager.&quot;&quot;&quot;</span>
 
         <span class="c1"># The reason we put the groups and menus together is that as we iterate</span>
@@ -367,7 +367,7 @@
             <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not place </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">groups_and_menus</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_add_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a group to an action manager.</span>
 
 <span class="sd">        Return True if the group was added successfully.</span>
@@ -410,7 +410,7 @@
 
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">_add_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a menu manager to a errr, menu manager.</span>
 
 <span class="sd">        Return True if the menu was added successfully.</span>
@@ -453,7 +453,7 @@
 
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">_find_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the group with the specified ID.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -464,7 +464,7 @@
 
         <span class="k">return</span> <span class="n">group</span>
 
-    <span class="k">def</span> <span class="nf">_find_action_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_action_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_manager</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the action manager at the specified path.</span>
 
 <span class="sd">        Returns None if the action manager cannot be found.</span>
@@ -480,7 +480,7 @@
 
         <span class="k">return</span> <span class="n">action_manager</span>
 
-    <span class="k">def</span> <span class="nf">_make_submenus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_submenus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_manager</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Retutn the menu manager identified by the path.</span>
 
 <span class="sd">        Make any intermediate menu-managers that are missing.</span>
@@ -545,10 +545,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

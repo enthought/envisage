@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_editor_manager</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,17 +93,17 @@
 <span class="sd">&quot;&quot;&quot; An editor manager that uses contributed editors. &quot;&quot;&quot;</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="kn">import</span> <span class="n">EditorManager</span><span class="p">,</span> <span class="n">TraitsUIEditor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">EditorManager</span><span class="p">,</span> <span class="n">TraitsUIEditor</span>
 
 
-<div class="viewcode-block" id="WorkbenchEditorManager"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchEditorManager</span><span class="p">(</span><span class="n">EditorManager</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchEditorManager"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchEditorManager</span><span class="p">(</span><span class="n">EditorManager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An editor manager that uses contributed editors.&quot;&quot;&quot;</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;IEditorManager&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="WorkbenchEditorManager.create_editor"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager.create_editor">[docs]</a>    <span class="k">def</span> <span class="nf">create_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchEditorManager.create_editor"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager.create_editor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an editor for an object.</span>
 
 <span class="sd">        For now, the &#39;kind&#39; is actually a factory that produces editors. It</span>
@@ -125,7 +125,7 @@
     <span class="c1"># &#39;Protected&#39; &#39;EditorManager&#39;  interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_is_editing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">editor</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_editing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">editor</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the editor is editing the object.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -167,10 +167,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

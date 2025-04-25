@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_application</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,23 +94,23 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">AboutDialog</span><span class="p">,</span> <span class="n">Dialog</span><span class="p">,</span> <span class="n">GUI</span><span class="p">,</span> <span class="n">ImageResource</span><span class="p">,</span> <span class="n">SplashScreen</span>
-<span class="kn">from</span> <span class="nn">pyface.workbench.api</span> <span class="kn">import</span> <span class="n">IWorkbench</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">AboutDialog</span><span class="p">,</span> <span class="n">Dialog</span><span class="p">,</span> <span class="n">GUI</span><span class="p">,</span> <span class="n">ImageResource</span><span class="p">,</span> <span class="n">SplashScreen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">IWorkbench</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Application</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.workbench</span> <span class="kn">import</span> <span class="n">Workbench</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.workbench</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workbench</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="WorkbenchApplication"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchApplication"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The entry point for an Envisage Workbench application.</span>
 
 <span class="sd">    i.e. a GUI application whose user interface is provided by the workbench</span>
@@ -161,7 +161,7 @@
     <span class="c1"># &#39;IApplication&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="WorkbenchApplication.run"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchApplication.run"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the application.</span>
 
 <span class="sd">        This does the following (so you don&#39;t have to ;^):-</span>
@@ -201,24 +201,24 @@
 
     <span class="c1">#### Initializers #########################################################</span>
 
-    <span class="k">def</span> <span class="nf">_about_dialog_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_about_dialog_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">AboutDialog</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">ImageResource</span><span class="p">(</span><span class="s2">&quot;about&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gui_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">GUI</span><span class="p">(</span><span class="n">splash_screen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">splash_screen</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_workbench_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_workbench_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_workbench</span><span class="p">()</span>
 
     <span class="c1">#### Methods ##############################################################</span>
 
-<div class="viewcode-block" id="WorkbenchApplication.about"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.about">[docs]</a>    <span class="k">def</span> <span class="nf">about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchApplication.about"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.about">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the about dialog.&quot;&quot;&quot;</span>
 
         <span class="c1"># fixme: We really need to create a new &#39;about dialog&#39; every time so</span>
@@ -227,14 +227,14 @@
 
     <span class="c1"># fixme: Is this needed on the public API? Why can&#39;t we just do this in</span>
     <span class="c1"># the default initializer (_workbench_default)?</span>
-<div class="viewcode-block" id="WorkbenchApplication.create_workbench"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench">[docs]</a>    <span class="k">def</span> <span class="nf">create_workbench</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchApplication.create_workbench"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.create_workbench">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_workbench</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the workbench.&quot;&quot;&quot;</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;workbench factory </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench_factory</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench_factory</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WorkbenchApplication.exit"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchApplication.exit"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_application.html#envisage.ui.workbench.workbench_application.WorkbenchApplication.exit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the application.</span>
 
 <span class="sd">        This closes all open windows and hence exits the GUI event loop.</span>
@@ -247,7 +247,7 @@
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_on_workbench_exited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_workbench_exited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="c1"># We don&#39;t invoke &#39;stop&#39; directly because:-</span>
@@ -296,10 +296,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

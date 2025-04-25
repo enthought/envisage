@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.python_shell.i_python_shell</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,22 +94,22 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Interface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interface</span>
 
 
-<div class="viewcode-block" id="IPythonShell"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell">[docs]</a><span class="k">class</span> <span class="nc">IPythonShell</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IPythonShell"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IPythonShell</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple interface for the Python shell.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IPythonShell.bind"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.bind">[docs]</a>    <span class="k">def</span> <span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="IPythonShell.bind"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.bind">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Binds a name to a value in the interpreter&#39;s namespace.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPythonShell.execute_command"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command">[docs]</a>    <span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="IPythonShell.execute_command"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_command">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a command in the interpreter.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPythonShell.execute_file"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file">[docs]</a>    <span class="k">def</span> <span class="nf">execute_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="IPythonShell.execute_file"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.execute_file">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a file in the interpreter.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="IPythonShell.lookup"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="IPythonShell.lookup"><a class="viewcode-back" href="../../../../api/envisage.plugins.python_shell.i_python_shell.html#envisage.plugins.python_shell.i_python_shell.IPythonShell.lookup">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the value bound to a name in the interpreter&#39;s namespace.&quot;&quot;&quot;</span></div></div>
 </pre></div>
 
@@ -147,10 +147,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

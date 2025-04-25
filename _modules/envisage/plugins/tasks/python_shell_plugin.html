@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.tasks.python_shell_plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -98,15 +98,15 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">pyface.tasks.contrib.python_shell</span> <span class="kn">import</span> <span class="n">PythonShellTask</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.contrib.python_shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonShellTask</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Str</span>
 
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">IExtensionRegistry</span><span class="p">,</span> <span class="n">Plugin</span>
-<span class="kn">from</span> <span class="nn">envisage.ui.tasks.api</span> <span class="kn">import</span> <span class="n">TaskFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">IExtensionRegistry</span><span class="p">,</span> <span class="n">Plugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.tasks.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskFactory</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
 
@@ -114,7 +114,7 @@
 <span class="n">COMMANDS</span> <span class="o">=</span> <span class="s2">&quot;envisage.plugins.python_shell.commands&quot;</span>
 
 
-<div class="viewcode-block" id="EnvisagePythonShellTask"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask">[docs]</a><span class="k">class</span> <span class="nc">EnvisagePythonShellTask</span><span class="p">(</span><span class="n">PythonShellTask</span><span class="p">):</span>
+<div class="viewcode-block" id="EnvisagePythonShellTask"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.EnvisagePythonShellTask">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EnvisagePythonShellTask</span><span class="p">(</span><span class="n">PythonShellTask</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Subclass of PythonShellTask that gets its bindings and commands from</span>
 <span class="sd">    an Envisage ExtensionPoint</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -132,13 +132,13 @@
 
     <span class="c1"># property getter/setters</span>
 
-    <span class="k">def</span> <span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="PythonShellPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin">[docs]</a><span class="k">class</span> <span class="nc">PythonShellPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="PythonShellPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PythonShellPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A tasks plugin to display a simple Python shell to the user.&quot;&quot;&quot;</span>
 
     <span class="c1"># Extension point IDs.</span>
@@ -196,16 +196,16 @@
     <span class="c1"># Protected interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="PythonShellPlugin.start"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PythonShellPlugin.start"><a class="viewcode-back" href="../../../../api/envisage.plugins.tasks.python_shell_plugin.html#envisage.plugins.tasks.python_shell_plugin.PythonShellPlugin.start">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;started python shell plugin&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_contributed_bindings_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_contributed_bindings_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        By default, expose the Envisage application object to the namespace</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;application&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">}]</span>
 
-    <span class="k">def</span> <span class="nf">_tasks_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tasks_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">TaskFactory</span><span class="p">(</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;envisage.plugins.tasks.python_shell_task&quot;</span><span class="p">,</span>
@@ -249,10 +249,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

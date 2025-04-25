@@ -139,7 +139,7 @@ the <a class="reference external" href="https://github.com/enthought/envisage/tr
 <p>As you can see, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class simply contains a list of messages and
 when its motd() method is called, it returns a random choice from that list.</p>
 <p>An example of using our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class at the Python prompt might be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">acme.motd.api</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MOTD</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">acme.motd.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MOTD</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">motd</span> <span class="o">=</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39;Anon&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&quot; - </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -185,7 +185,7 @@ offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
 <h3>The ‘acme.motd’ plugin<a class="headerlink" href="#the-acme-motd-plugin" title="Permalink to this heading">¶</a></h3>
 <p>As shown above, the corresponding plugin implementation is in the
 <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">MOTDPlugin</a> class:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
 
 <span class="sd">    This plugin simply prints the &#39;Message of the Day&#39; to stdout.</span>
@@ -227,7 +227,7 @@ offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
 
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
 
         <span class="c1"># Register the protocol as a string containing the actual module path</span>
@@ -247,25 +247,25 @@ offered via the ‘envisage.plugins’ entry point in Python Eggs.</p>
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_motd_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_motd_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Factory method for the &#39;MOTD&#39; service. &quot;&quot;&quot;</span>
 
         <span class="c1"># Only do imports when you need to! This makes sure that the import</span>
         <span class="c1"># only happens when somebody needs an &#39;IMOTD&#39; service.</span>
 
-        <span class="kn">from</span> <span class="nn">.motd</span> <span class="kn">import</span> <span class="n">MOTD</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.motd</span><span class="w"> </span><span class="kn">import</span> <span class="n">MOTD</span>
 
         <span class="k">return</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
 
     <span class="c1"># This plugin does all of its work in this method which gets called when</span>
     <span class="c1"># the application has started all of its plugins.</span>
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:started&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_print_motd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_motd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Print the &#39;Message of the Day&#39; to stdout! &quot;&quot;&quot;</span>
 
         <span class="c1"># Note that we always offer the service via its name, but look it up</span>
         <span class="c1"># via the actual protocol.</span>
-        <span class="kn">from</span> <span class="nn">acme.motd.api</span> <span class="kn">import</span> <span class="n">IMOTD</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">acme.motd.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">IMOTD</span>
 
         <span class="c1"># Lookup the MOTD service.</span>
         <span class="n">motd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IMOTD</span><span class="p">)</span>
@@ -314,7 +314,7 @@ a simple module (‘messages.py’_) and add our <a class="reference external" h
 </div>
 <p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
 Envisage about the messages that we have just created:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Software Quotes&#39; plugin. &quot;&quot;&quot;</span>
 
     <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
@@ -334,11 +334,11 @@ Envisage about the messages that we have just created:</p>
     <span class="c1"># &#39;SoftwareQuotesPlugin&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
 
         <span class="c1"># Only do imports when you need to!</span>
-        <span class="kn">from</span> <span class="nn">.messages</span> <span class="kn">import</span> <span class="n">messages</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
 
         <span class="k">return</span> <span class="n">messages</span>
 </pre></div>
@@ -413,10 +413,10 @@ Envisage about the messages that we have just created:</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

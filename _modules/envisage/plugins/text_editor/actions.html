@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.text_editor.actions</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -90,19 +90,19 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">apptools.io.api</span> <span class="kn">import</span> <span class="n">File</span>
-<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">Action</span>
-<span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">OK</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apptools.io.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">File</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">OK</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">.editor.text_editor</span> <span class="kn">import</span> <span class="n">TextEditor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.editor.text_editor</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextEditor</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="NewFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction">[docs]</a><span class="k">class</span> <span class="nc">NewFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+<div class="viewcode-block" id="NewFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NewFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a new file in the text editor.&quot;&quot;&quot;</span>
 
     <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Create a new file for editing&quot;</span>
@@ -111,20 +111,20 @@
     <span class="c1"># The WorkbenchWindow the action is attached to.</span>
     <span class="n">window</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
 
-<div class="viewcode-block" id="NewFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="NewFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewFileAction.perform()&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span>
             <span class="n">File</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">,</span> <span class="n">use_existing</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="OpenFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction">[docs]</a><span class="k">class</span> <span class="nc">OpenFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OpenFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open an existing file in the text editor.&quot;&quot;&quot;</span>
 
     <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
     <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
 
-<div class="viewcode-block" id="OpenFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OpenFileAction.perform()&quot;</span><span class="p">)</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Open File&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
@@ -165,10 +165,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_action_set</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,13 +93,13 @@
 <span class="sd">&quot;&quot;&quot; An action set in a workbench window. &quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.ui.action.api</span> <span class="kn">import</span> <span class="n">ActionSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionSet</span>
 
 
-<div class="viewcode-block" id="WorkbenchActionSet"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchActionSet</span><span class="p">(</span><span class="n">ActionSet</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchActionSet"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchActionSet</span><span class="p">(</span><span class="n">ActionSet</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An action set in a workbench window.</span>
 
 <span class="sd">    This class adds a &#39;window&#39; trait which is the workbench window that the</span>
@@ -145,14 +145,14 @@
     <span class="c1"># &#39;ActionSet&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_enabled_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_enabled_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_tool_bars</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_actions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_visible_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_visible_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -163,7 +163,7 @@
     <span class="c1"># &#39;WorkbenchActionSet&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="WorkbenchActionSet.initialize"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchActionSet.initialize"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_set.html#envisage.ui.workbench.workbench_action_set.WorkbenchActionSet.initialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when the action set has been added to a window.</span>
 
 <span class="sd">        Use this method to hook up any listeners that you need to control</span>
@@ -188,7 +188,7 @@
 
     <span class="c1">#### Trait change handlers ################################################</span>
 
-    <span class="k">def</span> <span class="nf">_window_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_window_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="c1"># fixme: We put the code into an &#39;initialize&#39; method because it seems</span>
@@ -198,7 +198,7 @@
 
     <span class="c1">#### Methods ##############################################################</span>
 
-    <span class="k">def</span> <span class="nf">_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh the enabled/visible state of the action set.&quot;&quot;&quot;</span>
 
         <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span>
@@ -233,10 +233,10 @@
                 <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_part</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible_for_views</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_update_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the state of the tool bars in the action set.&quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">visitor</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">visitor</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Called when we visit each item in an action manager.&quot;&quot;&quot;</span>
 
             <span class="c1"># fixme: The &#39;additions&#39; group gets created by default and hence</span>
@@ -255,7 +255,7 @@
         <span class="k">for</span> <span class="n">tool_bar_manager</span> <span class="ow">in</span> <span class="n">window</span><span class="o">.</span><span class="n">tool_bar_managers</span><span class="p">:</span>
             <span class="n">tool_bar_manager</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_update_tool_bars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_tool_bars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the state of the tool bars in the action set.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">tool_bar_manager</span> <span class="ow">in</span> <span class="n">window</span><span class="o">.</span><span class="n">tool_bar_managers</span><span class="p">:</span>
@@ -297,10 +297,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

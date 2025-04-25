@@ -123,7 +123,7 @@ functionality work within Envisage.</p>
 this game to an Envisage application that lets users pick a game to play from
 a catalog of available games. You have a Tetris class that looks something
 like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Tetris</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 
     <span class="c1"># Basic colors</span>
     <span class="n">background_color</span> <span class="o">=</span> <span class="n">Color</span>
@@ -233,7 +233,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 <section id="complete-example">
 <h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this heading">¶</a></h2>
 <p>The complete plugin for the Tetris game might look like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -246,7 +246,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 
     <span class="n">my_shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_shapes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_shapes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;my_shapes&#39; contribution to this plugin&#39;s</span>
 <span class="sd">            own &#39;shapes&#39; extension point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -254,7 +254,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 
     <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
 <span class="sd">            plugin&#39;s &#39;games&#39; extension point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -269,7 +269,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 
     <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences&#39; contribution. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://acme.tetris.plugin/preferences.ini&#39;</span><span class="p">]</span>
 
@@ -277,16 +277,16 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
         <span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.workbench.preferences_pages&#39;</span>
     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences_pages&#39; contribution. &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">acme.tetris.plugin.preferences_pages</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">acme.tetris.plugin.preferences_pages</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">TetrisPreferencesPages</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">TetrisPreferencesPages</span><span class="p">]</span>
 
     <span class="n">services_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisages.service_offers&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;service_offers&#39; contribution. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">ServiceOffer</span><span class="p">(</span>
@@ -298,7 +298,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 
     <span class="c1">#### Private interface #################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_tetris_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_tetris_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Factory method for the Tetris service. &quot;&quot;&quot;</span>
         <span class="n">tetris</span> <span class="o">=</span> <span class="n">Tetris</span><span class="p">()</span> <span class="c1"># This creates the non-Envisage library object.</span>
 
@@ -314,7 +314,7 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">tetris</span>
 
-    <span class="k">def</span> <span class="nf">_start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Starts a Tetris game. &quot;&quot;&quot;</span>
         <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IGame</span><span class="p">,</span> <span class="s2">&quot;name == &#39;tetris&#39;&quot;</span><span class="p">)</span>
         <span class="n">game</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -399,10 +399,10 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.egg_basket_plugin_manager</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,22 +93,22 @@
 <span class="sd">&quot;&quot;&quot; A plugin manager that finds plugins in eggs on the &#39;plugin_path&#39;. &quot;&quot;&quot;</span>
 
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
 
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">on_trait_change</span>
 
-<span class="kn">from</span> <span class="nn">.egg_utils</span> <span class="kn">import</span> <span class="n">add_eggs_on_path</span><span class="p">,</span> <span class="n">get_entry_points_in_egg_order</span>
-<span class="kn">from</span> <span class="nn">.plugin_manager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.egg_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_eggs_on_path</span><span class="p">,</span> <span class="n">get_entry_points_in_egg_order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plugin_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginManager</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="EggBasketPluginManager"><a class="viewcode-back" href="../../api/envisage.egg_basket_plugin_manager.html#envisage.egg_basket_plugin_manager.EggBasketPluginManager">[docs]</a><span class="k">class</span> <span class="nc">EggBasketPluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
+<div class="viewcode-block" id="EggBasketPluginManager"><a class="viewcode-back" href="../../api/envisage.egg_basket_plugin_manager.html#envisage.egg_basket_plugin_manager.EggBasketPluginManager">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EggBasketPluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A plugin manager that finds plugins in eggs on the &#39;plugin_path&#39;.</span>
 
 <span class="sd">    To declare a plugin (or plugins) in your egg use an entry point in your</span>
@@ -126,7 +126,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="p">(</span>
                 <span class="s2">&quot;The EggBasketPluginManager is deprecated. The recommended &quot;</span>
@@ -147,8 +147,8 @@
     <span class="c1"># with the following arguments: entry_point, exception.</span>
     <span class="n">on_broken_plugin</span> <span class="o">=</span> <span class="n">Callable</span>
 
-    <span class="k">def</span> <span class="nf">_on_broken_plugin_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">handle_broken_plugin</span><span class="p">(</span><span class="n">entry_point</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_broken_plugin_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">handle_broken_plugin</span><span class="p">(</span><span class="n">entry_point</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">exc</span>
 
         <span class="k">return</span> <span class="n">handle_broken_plugin</span>
@@ -162,13 +162,13 @@
     <span class="n">plugin_path</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Directory</span><span class="p">)</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;plugin_path[]&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_path_and_reset_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_path_and_reset_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_sys_dot_path</span><span class="p">(</span><span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_traits</span><span class="p">([</span><span class="s2">&quot;_plugins&quot;</span><span class="p">])</span>
 
     <span class="c1"># Protected &#39;PluginManager&#39; protocol ######################################</span>
 
-    <span class="k">def</span> <span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__plugins_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_harvest_plugins_in_eggs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
@@ -179,7 +179,7 @@
 
     <span class="c1">#### Private protocol #####################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_plugin_from_entry_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_plugin_from_entry_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a plugin from an entry point.&quot;&quot;&quot;</span>
 
         <span class="n">klass</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -195,7 +195,7 @@
 
         <span class="k">return</span> <span class="n">plugin</span>
 
-    <span class="k">def</span> <span class="nf">_get_plugin_entry_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">working_set</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_plugin_entry_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">working_set</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all plugin entry points in the working set.&quot;&quot;&quot;</span>
 
         <span class="n">entry_points</span> <span class="o">=</span> <span class="n">get_entry_points_in_egg_order</span><span class="p">(</span>
@@ -204,7 +204,7 @@
 
         <span class="k">return</span> <span class="n">entry_points</span>
 
-    <span class="k">def</span> <span class="nf">_harvest_plugins_in_eggs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_harvest_plugins_in_eggs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Harvest plugins found in eggs on the plugin path.&quot;&quot;&quot;</span>
 
         <span class="c1"># We first add the eggs to a local working set so that when we get</span>
@@ -245,7 +245,7 @@
 
         <span class="k">return</span> <span class="n">plugins</span>
 
-    <span class="k">def</span> <span class="nf">_handle_broken_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_handle_broken_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error loading distributions: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_broken_distribution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot find eggs </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">errors</span><span class="p">)</span>
@@ -253,7 +253,7 @@
             <span class="k">for</span> <span class="n">dist</span><span class="p">,</span> <span class="n">exc</span> <span class="ow">in</span> <span class="n">errors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">on_broken_distribution</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_update_sys_dot_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_sys_dot_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add/remove the given entries from sys.path.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
@@ -299,10 +299,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

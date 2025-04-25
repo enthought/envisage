@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.tasks.preferences_pane</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -91,12 +91,12 @@
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">apptools.preferences.api</span> <span class="kn">import</span> <span class="n">PreferencesHelper</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span>
-<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesHelper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
 
 
-<div class="viewcode-block" id="PreferencesPane"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane">[docs]</a><span class="k">class</span> <span class="nc">PreferencesPane</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<div class="viewcode-block" id="PreferencesPane"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PreferencesPane</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A panel for configuring application preferences.&quot;&quot;&quot;</span>
 
     <span class="c1">#### &#39;Controller&#39; interface ###############################################</span>
@@ -136,7 +136,7 @@
     <span class="c1"># &#39;HasTraits&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="PreferencesPane.trait_context"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.trait_context">[docs]</a>    <span class="k">def</span> <span class="nf">trait_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PreferencesPane.trait_context"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.trait_context">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">trait_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Re-implemented to use a copy of the model that is not connected to</span>
 <span class="sd">        the preferences node.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -163,14 +163,14 @@
     <span class="c1"># &#39;Handler&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="PreferencesPane.apply"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PreferencesPane.apply"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.apply">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Handles the Apply button being clicked.&quot;&quot;&quot;</span>
         <span class="n">trait_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="nb">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_is_preference_trait</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">trait_names</span><span class="p">())</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">copy_traits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="n">trait_names</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PreferencesPane.close"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">):</span>
+<div class="viewcode-block" id="PreferencesPane.close"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.close">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles the user attempting to close a dialog-based user interface.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -213,10 +213,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

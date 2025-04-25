@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.event_manager.plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -98,13 +98,13 @@
 <span class="sd">of the application to the created event manager.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
 
 
-<div class="viewcode-block" id="EventManagerPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin">[docs]</a><span class="k">class</span> <span class="nc">EventManagerPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="EventManagerPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EventManagerPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin to add event manager to the application.&quot;&quot;&quot;</span>
 
     <span class="c1">#: The plugin&#39;s unique identifier.</span>
@@ -116,8 +116,8 @@
     <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">encore.events.api</span> <span class="kn">import</span> <span class="n">BaseEventManager</span><span class="p">,</span> <span class="n">get_event_manager</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">encore.events.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEventManager</span><span class="p">,</span> <span class="n">get_event_manager</span>
 
         <span class="n">evt_mgr_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
             <span class="n">protocol</span><span class="o">=</span><span class="n">BaseEventManager</span><span class="p">,</span>
@@ -160,10 +160,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

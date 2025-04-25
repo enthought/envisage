@@ -108,25 +108,25 @@ on <a class="reference internal" href="extensibility.html#extensibility"><span c
 shall define some menu items for opening and saving files. As in Traits UI and
 Pyface, individual menu items are instances of the <code class="docutils literal notranslate"><span class="pre">Action</span></code> class. We
 might define the ‘Open’ action as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">Action</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span>
 
-<span class="k">class</span> <span class="nc">OpenAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Open&#39;</span>
 
     <span class="n">accelerator</span> <span class="o">=</span> <span class="s1">&#39;Ctrl+O&#39;</span>
 
-    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Of course, we must also implement the <code class="docutils literal notranslate"><span class="pre">open()</span></code> method on our task:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">OK</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileDialog</span><span class="p">,</span> <span class="n">OK</span>
 
-<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Shows a dialog to open a file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span>
@@ -157,9 +157,9 @@ may or may not require separators from other groups.</p>
 <p>For convenience, these classes also have the abbreviated names <code class="docutils literal notranslate"><span class="pre">SMenuBar</span></code>,
 <code class="docutils literal notranslate"><span class="pre">SMenu</span></code>, and <code class="docutils literal notranslate"><span class="pre">SGroup</span></code>, respectively. We can implement the menu bar for our
 task using these abbreviations:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span>
 
-<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -177,9 +177,9 @@ task using these abbreviations:</p>
 that there is a predefined class for this purpose. We can use this
 <code class="docutils literal notranslate"><span class="pre">TaskAction</span></code> class to implement the above menu more simply, without having to
 define separately the <code class="docutils literal notranslate"><span class="pre">OpenAction</span></code> and <code class="docutils literal notranslate"><span class="pre">SaveAction</span></code> classes:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span><span class="p">,</span> <span class="n">TaskAction</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMenu</span><span class="p">,</span> <span class="n">SMenuBar</span><span class="p">,</span> <span class="n">TaskAction</span>
 
-<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -219,10 +219,10 @@ that may or may not require separators from other groups.</p>
 <p>As above, these classes are often abbreviated as <code class="docutils literal notranslate"><span class="pre">SToolBar</span></code> and <code class="docutils literal notranslate"><span class="pre">SGroup</span></code>,
 respectively. Let us now add a tool bar with buttons for opening and saving
 files to our script editing task:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyface.api</span> <span class="kn">import</span> <span class="n">ImageResource</span>
-<span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">SToolBar</span><span class="p">,</span> <span class="n">TaskAction</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageResource</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">SToolBar</span><span class="p">,</span> <span class="n">TaskAction</span>
 
-<span class="k">class</span> <span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
 
     <span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
 
@@ -306,10 +306,10 @@ files to our script editing task:</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2024 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,16 +93,16 @@
 <span class="sd">&quot;&quot;&quot; The Envisage workbench plugin. &quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
 
 <span class="c1"># This module&#39;s package.</span>
 <span class="n">PKG</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="WorkbenchPlugin"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchPlugin"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage workbench plugin.</span>
 
 <span class="sd">    The workbench plugin uses the Pyface workbench to provide the basis of an</span>
@@ -262,32 +262,32 @@
 
     <span class="n">my_action_sets</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">ACTION_SETS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">.default_action_set</span> <span class="kn">import</span> <span class="n">DefaultActionSet</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.default_action_set</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultActionSet</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">DefaultActionSet</span><span class="p">]</span>
 
     <span class="n">my_preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;pkgfile://envisage.ui.workbench/preferences.ini&quot;</span><span class="p">]</span>
 
     <span class="n">my_preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">.workbench_preferences_page</span> <span class="kn">import</span> <span class="n">WorkbenchPreferencesPage</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.workbench_preferences_page</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkbenchPreferencesPage</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">WorkbenchPreferencesPage</span><span class="p">]</span>
 
     <span class="n">my_service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">preferences_manager_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
@@ -307,10 +307,10 @@
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_preferences_manager_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_preferences_manager_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for the preferences manager service.&quot;&quot;&quot;</span>
 
-        <span class="kn">from</span> <span class="nn">apptools.preferences.ui.api</span> <span class="kn">import</span> <span class="n">PreferencesManager</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.ui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesManager</span>
 
         <span class="n">preferences_manager</span> <span class="o">=</span> <span class="n">PreferencesManager</span><span class="p">(</span>
             <span class="n">pages</span><span class="o">=</span><span class="p">[</span><span class="n">factory</span><span class="p">()</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_pages</span><span class="p">]</span>
@@ -318,7 +318,7 @@
 
         <span class="k">return</span> <span class="n">preferences_manager</span>
 
-    <span class="k">def</span> <span class="nf">_create_workbench_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_workbench_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for the workbench service.&quot;&quot;&quot;</span>
 
         <span class="c1"># We don&#39;t actually create the workbench here, we just return a</span>
@@ -365,10 +365,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

@@ -174,10 +174,10 @@ has been started.</p>
 the layout will be created and added to the window
 automatically. If not specified, the window will contain
 no tasks.</p></li>
-<li><p><strong>restore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default True</em><em>)</em>) – If set, the application will restore old size and
+<li><p><strong>restore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default True</em><em>)</em>) – If set, the application will restore old size and
 positions for the window and its panes, if possible. If a
 layout is not provided, this parameter has no effect.</p></li>
-<li><p><strong>**traits</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional parameters to pass to <code class="docutils literal notranslate"><span class="pre">window_factory()</span></code>
+<li><p><strong>**traits</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional parameters to pass to <code class="docutils literal notranslate"><span class="pre">window_factory()</span></code>
 when creating the TaskWindow.</p></li>
 </ul>
 </dd>
@@ -210,7 +210,7 @@ her window manager. It is only called via the File-&gt;Exit menu
 item. It can also, of course, be called programatically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If set, windows will receive no closing events and will be
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default False</em><em>)</em>) – If set, windows will receive no closing events and will be
 destroyed unconditionally. This can be useful for reliably
 tearing down regression tests, but should be used with
 caution.</p>
@@ -219,7 +219,7 @@ caution.</p>
 <dd class="field-even"><p>A boolean indicating whether the application exited.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -259,7 +259,7 @@ icons to have the same.</p>
 veto).</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -345,7 +345,7 @@ inspection; to instantiate a task, use the ‘create_task’ method.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="envisage.ui.tasks.tasks_application.TasksApplicationState">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.ui.tasks.tasks_application.</span></span><span class="sig-name descname"><span class="pre">TasksApplicationState</span></span><a class="reference internal" href="../_modules/envisage/ui/tasks/tasks_application.html#TasksApplicationState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.ui.tasks.tasks_application.TasksApplicationState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasStrictTraits" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStrictTraits</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasStrictTraits" title="(in traits v7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStrictTraits</span></code></a></p>
 <p>A class used internally by TasksApplication for saving and restoring
 application state.</p>
 <dl class="py method">
@@ -466,10 +466,10 @@ application state.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2024, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Sep 06, 2024.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
