@@ -33,7 +33,7 @@ jobs:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('etstool.py') }}
       - name: Set up EDM
-        uses: enthought/setup-edm-action@v3
+        uses: enthought/setup-edm-action@v4
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Set up bootstrap Python
