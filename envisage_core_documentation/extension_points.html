@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -111,7 +111,7 @@ developers to advertise the places where extension can occur (known as
 them.</p>
 <p>In Envisage, extension points and the extensions contributed to them are stored
 in the <em>extension registry</em>. To see how extension points actually work, let’s
-take a look at the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD">Message of the Day</a> example included in the Envisage
+take a look at the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD">Message of the Day</a> example included in the Envisage
 distribution. This example shows how to build a very simple application that
 prints a (hopefully witty, educational, or inspiring) “Message of the Day”
 chosen at random from a list of contributed messages.</p>
@@ -120,7 +120,7 @@ chosen at random from a list of contributed messages.</p>
 <p>Plugins declare the extension points declaratively - using the <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a>
 trait type. Note that extension points can also be defined programmatically -
 by overriding the ‘get_extension_points’ method.</p>
-<p>In the MOTD example, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin needs to advertise an extension
+<p>In the MOTD example, the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin needs to advertise an extension
 point that allows other plugins to contribute new messages. Using the
 <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a> trait type, the plugin would look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
@@ -145,20 +145,20 @@ point that allows other plugins to contribute new messages. Using the
 <ol class="arabic simple">
 <li><p>That the extension point is called “acme.motd.messages”</p></li>
 <li><p>That every item in a list of contributions to the extension point must
-implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface.</p></li>
+implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface.</p></li>
 <li><p>That the extension point allows you to contribute messages!</p></li>
 </ol>
 </section>
 <section id="making-contributions-to-an-extension-point">
 <h2>Making contributions to an Extension Point<a class="headerlink" href="#making-contributions-to-an-extension-point" title="Permalink to this heading">¶</a></h2>
-<p>The <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD">Message of the Day</a> example has a second plugin,
-<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> that contributes some pithy quotes about software
+<p>The <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD">Message of the Day</a> example has a second plugin,
+<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> that contributes some pithy quotes about software
 development to the application.</p>
 <p>First of all, we have to create the messages that we want to add. Remember that
-when the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin advertised the extension point, it told us that
-every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
-a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a>) and so we create
-a simple module (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/software_quotes/messages.py">message.py</a>) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
+when the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin advertised the extension point, it told us that
+every contribution had to implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. Happily, there is
+a class that does just that already defined for us (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a>) and so we create
+a simple module (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/software_quotes/messages.py">message.py</a>) and add our <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/message.py">Message</a> instances to it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
     <span class="n">Message</span><span class="p">(</span>
@@ -179,7 +179,7 @@ a simple module (<a class="reference external" href="https://github.com/enthough
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
+<p>Now we create a plugin for the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
 Envisage about the messages that we have just created. This can be done
 declaratively - using the ‘contributes_to’ trait metadata. Note that this can
 also be achieved programmatically - by overriding the ‘get_extensions’ method,
@@ -221,13 +221,13 @@ contributions to an extension point. To do this manually fire an
 </section>
 <section id="retrieving-the-contributions-to-an-extension-point">
 <h2>Retrieving the contributions to an Extension Point<a class="headerlink" href="#retrieving-the-contributions-to-an-extension-point" title="Permalink to this heading">¶</a></h2>
-<p>OK, here’s where we are so far: One plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a>) has advertised the fact
+<p>OK, here’s where we are so far: One plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a>) has advertised the fact
 that it has an extension point called “acme.motd.messages”, and that the
-contributions to the extension point must implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface.
-Another plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a>) has kindly offered to contribute
+contributions to the extension point must implement the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface.
+Another plugin (<a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a>) has kindly offered to contribute
 some messages about software development. Now we need to know how to retrieve
 the contributed messages at runtime.</p>
-<p>In the MOTD example, the messages are retrieved by the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin:</p>
+<p>In the MOTD example, the messages are retrieved by the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
 
@@ -256,11 +256,11 @@ the contributed messages at runtime.</p>
 </pre></div>
 </div>
 <p>As you can see, all we have to do is to access the <strong>messages</strong> extension point
-trait when we create our instance of the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class.</p>
+trait when we create our instance of the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class.</p>
 <p>This example demonstrates a common pattern in Envisage application development,
 in that contributions to extension points are most often used by plugin
 implementations to create and initialize services (in this case, an instance of
-the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class).</p>
+the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class).</p>
 <p>The extension registry can also be accessed through the following method on the
 <a class="reference internal" href="../api/envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a> interface:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
@@ -278,7 +278,7 @@ extension point you would use:</p>
 </div>
 <p>Note however, that using the <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a> trait type, adds the ability to
 validate the contributions – in this case, to make sure that they are all
-objects that implement (or can be adapted to) the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.3/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. It also
+objects that implement (or can be adapted to) the <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/MOTD/acme/motd/i_message.py">IMessage</a> interface. It also
 automatically connects the trait so that the plugin will receive trait change
 events if extensions are added/removed to/from the extension point at runtime.</p>
 </section>
