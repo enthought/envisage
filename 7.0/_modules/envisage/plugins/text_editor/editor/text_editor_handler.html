@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.text_editor.editor.text_editor_handler</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,10 +94,10 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traitsui.api</span> <span class="kn">import</span> <span class="n">Handler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traitsui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Handler</span>
 
 
-<div class="viewcode-block" id="TextEditorHandler"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler">[docs]</a><span class="k">class</span> <span class="nc">TextEditorHandler</span><span class="p">(</span><span class="n">Handler</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditorHandler"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TextEditorHandler</span><span class="p">(</span><span class="n">Handler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The traits UI handler for the text editor.&quot;&quot;&quot;</span>
 
     <span class="c1">###########################################################################</span>
@@ -107,12 +107,12 @@
     <span class="c1"># fixme: We need to work out how to create these &#39;dispatch&#39; methods</span>
     <span class="c1"># dynamically! Plugins will want to add bindings to the editor to bind</span>
     <span class="c1"># a key to an action.</span>
-<div class="viewcode-block" id="TextEditorHandler.run"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditorHandler.run"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the text as Python code.&quot;&quot;&quot;</span>
 
         <span class="n">info</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TextEditorHandler.save"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditorHandler.save"><a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor_handler.html#envisage.plugins.text_editor.editor.text_editor_handler.TextEditorHandler.save">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the text to disk.&quot;&quot;&quot;</span>
 
         <span class="n">info</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div></div>
@@ -152,10 +152,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

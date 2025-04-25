@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.action.action_set</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,25 +94,25 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
-<span class="kn">from</span> <span class="nn">traits.util.camel_case</span> <span class="kn">import</span> <span class="n">camel_case_to_words</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.util.camel_case</span><span class="w"> </span><span class="kn">import</span> <span class="n">camel_case_to_words</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.action</span> <span class="kn">import</span> <span class="n">Action</span>
-<span class="kn">from</span> <span class="nn">.group</span> <span class="kn">import</span> <span class="n">Group</span>
-<span class="kn">from</span> <span class="nn">.i_action_set</span> <span class="kn">import</span> <span class="n">IActionSet</span>
-<span class="kn">from</span> <span class="nn">.menu</span> <span class="kn">import</span> <span class="n">Menu</span>
-<span class="kn">from</span> <span class="nn">.tool_bar</span> <span class="kn">import</span> <span class="n">ToolBar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.action</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_action_set</span><span class="w"> </span><span class="kn">import</span> <span class="n">IActionSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.menu</span><span class="w"> </span><span class="kn">import</span> <span class="n">Menu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool_bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolBar</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ActionSet"><a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set.html#envisage.ui.action.action_set.ActionSet">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IActionSet</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">ActionSet</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ActionSet</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An action set is a collection of menus, groups, and actions.&quot;&quot;&quot;</span>
 
     <span class="c1"># The action set&#39;s globally unique identifier.</span>
@@ -178,7 +178,7 @@
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
-    <span class="k">def</span> <span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
@@ -186,7 +186,7 @@
 
         <span class="k">return</span> <span class="nb">id</span>
 
-    <span class="k">def</span> <span class="nf">_name_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_name_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">name</span> <span class="o">=</span> <span class="n">camel_case_to_words</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
@@ -229,10 +229,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

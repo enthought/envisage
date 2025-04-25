@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.action.tool_bar</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -93,15 +93,15 @@
 <span class="sd">&quot;&quot;&quot; The *definition* of a tool bar. &quot;&quot;&quot;</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.group</span> <span class="kn">import</span> <span class="n">Group</span>
-<span class="kn">from</span> <span class="nn">.location</span> <span class="kn">import</span> <span class="n">Location</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.location</span><span class="w"> </span><span class="kn">import</span> <span class="n">Location</span>
 
 
 <span class="c1"># fixme: Remove duplication (in menu.py too!)</span>
-<div class="viewcode-block" id="CGroup"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup">[docs]</a><span class="k">class</span> <span class="nc">CGroup</span><span class="p">(</span><span class="n">Instance</span><span class="p">):</span>
+<div class="viewcode-block" id="CGroup"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CGroup</span><span class="p">(</span><span class="n">Instance</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A trait type for a &#39;Group&#39; or anything that can be cast to a &#39;Group&#39;.</span>
 
 <span class="sd">    Currently, the only cast allowed is from string -&gt; Group using the</span>
@@ -113,7 +113,7 @@
     <span class="c1"># &#39;object&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">klass</span><span class="o">=</span><span class="n">Group</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
@@ -122,7 +122,7 @@
     <span class="c1"># &#39;TraitType&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="CGroup.validate"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="CGroup.validate"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup.validate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a value.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -131,7 +131,7 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ToolBar"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.ToolBar">[docs]</a><span class="k">class</span> <span class="nc">ToolBar</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
+<div class="viewcode-block" id="ToolBar"><a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.ToolBar">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ToolBar</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The *definition* of a menu in a menu bar or menu.&quot;&quot;&quot;</span>
 
     <span class="c1"># The tool bars&#39;s unique identifier (unique within the multi-toolbar</span>
@@ -152,7 +152,7 @@
     <span class="c1"># &#39;object&#39; interface</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the &#39;informal&#39; string representation of the object.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="s2">&quot;ToolBar(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
@@ -163,7 +163,7 @@
     <span class="c1"># &#39;Location&#39; interface</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_path_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_path_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="s2">&quot;ToolBar&quot;</span>
@@ -172,7 +172,7 @@
     <span class="c1"># &#39;ToolBar&#39; interface</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
@@ -212,10 +212,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

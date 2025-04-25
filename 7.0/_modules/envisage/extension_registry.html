@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.extension_registry</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,23 +94,23 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">types</span>
-<span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.extension_point_changed_event</span> <span class="kn">import</span> <span class="n">ExtensionPointChangedEvent</span>
-<span class="kn">from</span> <span class="nn">.i_extension_registry</span> <span class="kn">import</span> <span class="n">IExtensionRegistry</span>
-<span class="kn">from</span> <span class="nn">.unknown_extension_point</span> <span class="kn">import</span> <span class="n">UnknownExtensionPoint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.extension_point_changed_event</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPointChangedEvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_extension_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">IExtensionRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.unknown_extension_point</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnknownExtensionPoint</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_saferef</span><span class="p">(</span><span class="n">listener</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_saferef</span><span class="p">(</span><span class="n">listener</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Weak reference for a (possibly bound method) listener.</span>
 
@@ -144,7 +144,7 @@
 
 
 <div class="viewcode-block" id="ExtensionRegistry"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IExtensionRegistry</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">ExtensionRegistry</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtensionRegistry</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for extension registry implementation.&quot;&quot;&quot;</span>
 
     <span class="c1">###########################################################################</span>
@@ -174,34 +174,34 @@
     <span class="c1"># &#39;IExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ExtensionRegistry.add_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point_listener">[docs]</a>    <span class="k">def</span> <span class="nf">add_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.add_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point_listener">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a listener for extensions being added or removed.&quot;&quot;&quot;</span>
 
         <span class="n">listeners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_saferef</span><span class="p">(</span><span class="n">listener</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.add_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">add_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.add_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.add_extension_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an extension point.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">[</span><span class="n">extension_point</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">extension_point</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;extension point &lt;</span><span class="si">%s</span><span class="s2">&gt; added&quot;</span><span class="p">,</span> <span class="n">extension_point</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.get_extensions"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.get_extensions"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extensions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions contributed to an extension point.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extensions</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)[:]</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.get_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">get_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.get_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extension point with the specified Id.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.get_extension_points"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.get_extension_points"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.get_extension_points">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all extension points.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.remove_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point_listener">[docs]</a>    <span class="k">def</span> <span class="nf">remove_extension_point_listener</span><span class="p">(</span>
+<div class="viewcode-block" id="ExtensionRegistry.remove_extension_point_listener"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point_listener">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point_listener</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a listener for extensions being added or removed.&quot;&quot;&quot;</span>
@@ -209,7 +209,7 @@
         <span class="n">listeners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listeners</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">_saferef</span><span class="p">(</span><span class="n">listener</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.remove_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point">[docs]</a>    <span class="k">def</span> <span class="nf">remove_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.remove_extension_point"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.remove_extension_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an extension point.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_extension_point</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
@@ -230,7 +230,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;extension point &lt;</span><span class="si">%s</span><span class="s2">&gt; removed&quot;</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtensionRegistry.set_extensions"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.set_extensions">[docs]</a>    <span class="k">def</span> <span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionRegistry.set_extensions"><a class="viewcode-back" href="../../api/envisage.extension_registry.html#envisage.extension_registry.ExtensionRegistry.set_extensions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the extensions contributed to an extension point.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_extension_point</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
@@ -245,7 +245,7 @@
     <span class="c1"># Protected &#39;ExtensionRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_call_listeners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call_listeners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refs</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call listeners that are listening to an extension point.&quot;&quot;&quot;</span>
 
         <span class="n">event</span> <span class="o">=</span> <span class="n">ExtensionPointChangedEvent</span><span class="p">(</span>
@@ -260,7 +260,7 @@
             <span class="k">if</span> <span class="n">listener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_check_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check to see if the extension point exists.</span>
 
 <span class="sd">        Raise an &#39;UnknownExtensionPoint&#39; if it does not.</span>
@@ -270,12 +270,12 @@
         <span class="k">if</span> <span class="n">extension_point_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extension_points</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UnknownExtensionPoint</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions for the given extension point.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extensions</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="p">[])</span>
 
-    <span class="k">def</span> <span class="nf">_get_listener_refs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_listener_refs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get weak references to all listeners to an extension point.</span>
 
 <span class="sd">        Returns a list containing the weak references to those listeners that</span>
@@ -325,10 +325,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

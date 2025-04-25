@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugins.text_editor.text_editor_plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -95,16 +95,16 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">Plugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plugin</span>
 
 <span class="c1"># The plugin&#39;s globally unique identifier (also used as the prefix for all</span>
 <span class="c1"># identifiers defined in this module).</span>
 <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;envisage.plugins.text_editor&quot;</span>
 
 
-<div class="viewcode-block" id="TextEditorPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.text_editor_plugin.html#envisage.plugins.text_editor.text_editor_plugin.TextEditorPlugin">[docs]</a><span class="k">class</span> <span class="nc">TextEditorPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="TextEditorPlugin"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.text_editor_plugin.html#envisage.plugins.text_editor.text_editor_plugin.TextEditorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TextEditorPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Text Editor plugin for the Workbench UI.&quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Text Editor plugin&quot;</span>
@@ -114,8 +114,8 @@
     <span class="n">ACTION_SETS</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.workbench.action_sets&quot;</span>
     <span class="n">action_sets</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">ACTION_SETS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">envisage.plugins.text_editor.text_editor_action_set</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.plugins.text_editor.text_editor_action_set</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">TextEditorActionSet</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -156,10 +156,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

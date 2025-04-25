@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.plugin_extension_registry</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,14 +94,14 @@
 
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">on_trait_change</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">on_trait_change</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.i_plugin_manager</span> <span class="kn">import</span> <span class="n">IPluginManager</span>
-<span class="kn">from</span> <span class="nn">.provider_extension_registry</span> <span class="kn">import</span> <span class="n">ProviderExtensionRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.i_plugin_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">IPluginManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.provider_extension_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProviderExtensionRegistry</span>
 
 
-<div class="viewcode-block" id="PluginExtensionRegistry"><a class="viewcode-back" href="../../api/envisage.plugin_extension_registry.html#envisage.plugin_extension_registry.PluginExtensionRegistry">[docs]</a><span class="k">class</span> <span class="nc">PluginExtensionRegistry</span><span class="p">(</span><span class="n">ProviderExtensionRegistry</span><span class="p">):</span>
+<div class="viewcode-block" id="PluginExtensionRegistry"><a class="viewcode-back" href="../../api/envisage.plugin_extension_registry.html#envisage.plugin_extension_registry.PluginExtensionRegistry">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PluginExtensionRegistry</span><span class="p">(</span><span class="n">ProviderExtensionRegistry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An extension registry that uses plugins as extension providers.</span>
 
 <span class="sd">    The application&#39;s plugins are used as the registries providers so adding</span>
@@ -121,7 +121,7 @@
     <span class="c1">#### Trait change handlers ################################################</span>
 
     <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;plugin_manager&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_update_providers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_providers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
         <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
 
@@ -137,13 +137,13 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;plugin_manager:plugin_added&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_on_plugin_added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_plugin_added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">plugin</span><span class="p">)</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;plugin_manager:plugin_removed&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_on_plugin_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_plugin_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_provider</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">plugin</span><span class="p">)</span></div>
@@ -183,10 +183,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

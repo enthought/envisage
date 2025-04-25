@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.tasks.tasks_plugin</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -91,18 +91,18 @@
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.preferences_category</span> <span class="kn">import</span> <span class="n">PreferencesCategory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.preferences_category</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesCategory</span>
 
 <span class="c1"># Constants.</span>
 <span class="n">PKG</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="TasksPlugin"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin">[docs]</a><span class="k">class</span> <span class="nc">TasksPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="TasksPlugin"><a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TasksPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage Tasks plugin.</span>
 
 <span class="sd">    The Tasks plugin uses Pyface Tasks to provide an extensible framework for</span>
@@ -199,7 +199,7 @@
 
     <span class="n">my_service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">preferences_dialog_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
             <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;envisage.ui.tasks.preferences_dialog.PreferencesDialog&quot;</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_preferences_dialog_service</span><span class="p">,</span>
@@ -209,12 +209,12 @@
 
     <span class="n">my_task_extensions</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">TASK_EXTENSIONS</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_my_task_extensions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">pyface.tasks.action.api</span> <span class="kn">import</span> <span class="n">DockPaneToggleGroup</span><span class="p">,</span> <span class="n">SchemaAddition</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_my_task_extensions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.tasks.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockPaneToggleGroup</span><span class="p">,</span> <span class="n">SchemaAddition</span>
 
-        <span class="kn">from</span> <span class="nn">.action.exit_action</span> <span class="kn">import</span> <span class="n">ExitAction</span>
-        <span class="kn">from</span> <span class="nn">.action.preferences_action</span> <span class="kn">import</span> <span class="n">PreferencesGroup</span>
-        <span class="kn">from</span> <span class="nn">.task_extension</span> <span class="kn">import</span> <span class="n">TaskExtension</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.action.exit_action</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExitAction</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.action.preferences_action</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesGroup</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.task_extension</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskExtension</span>
 
         <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">SchemaAddition</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;Exit&quot;</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">ExitAction</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/File&quot;</span><span class="p">),</span>
@@ -234,9 +234,9 @@
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_preferences_dialog_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_preferences_dialog_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for preferences dialog service.&quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">.preferences_dialog</span> <span class="kn">import</span> <span class="n">PreferencesDialog</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.preferences_dialog</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesDialog</span>
 
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">PreferencesDialog</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">trait_set</span><span class="p">(</span>
@@ -282,10 +282,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

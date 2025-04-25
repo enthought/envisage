@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -97,8 +97,8 @@
 <p>The interface for extension registries.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="envisage.i_extension_registry.IExtensionRegistry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.i_extension_registry.</span></span><span class="sig-name descname"><span class="pre">IExtensionRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adaptee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default=&lt;class</span> <span class="pre">'traits.adaptation.adaptation_error.AdaptationError'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.i_extension_registry.</span></span><span class="sig-name descname"><span class="pre">IExtensionRegistry</span></span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a></p>
 <p>The interface for extension registries.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.i_extension_registry.IExtensionRegistry.add_extension_point">
@@ -113,7 +113,7 @@ replaced.</p>
 <span class="sig-name descname"><span class="pre">add_extension_point_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_extension_registry.html#IExtensionRegistry.add_extension_point_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_extension_registry.IExtensionRegistry.add_extension_point_listener" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a listener for extensions being added or removed.</p>
 <p>A listener is any Python callable with the following signature:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">listener</span><span class="p">(</span><span class="n">extension_registry</span><span class="p">,</span> <span class="n">extension_point_changed_event</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">listener</span><span class="p">(</span><span class="n">extension_registry</span><span class="p">,</span> <span class="n">extension_point_changed_event</span><span class="p">):</span>
 
       <span class="o">...</span>
 </pre></div>
@@ -244,10 +244,10 @@ with the specified Id.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

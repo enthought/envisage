@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_window</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,32 +94,32 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">import</span> <span class="nn">pyface.workbench.api</span> <span class="k">as</span> <span class="nn">pyface</span>
-<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">StatusBarManager</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Delegate</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusBarManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delegate</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span>
 
-<span class="kn">from</span> <span class="nn">envisage.api</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExtensionPoint</span><span class="p">,</span>
     <span class="n">IExtensionPointUser</span><span class="p">,</span>
     <span class="n">IExtensionRegistry</span><span class="p">,</span>
     <span class="n">IServiceRegistry</span><span class="p">,</span>
     <span class="n">ServiceRegistry</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">envisage.ui.action.api</span> <span class="kn">import</span> <span class="n">ActionSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionSet</span>
 
 <span class="c1"># Local imports.</span>
-<span class="kn">from</span> <span class="nn">.workbench_action_manager_builder</span> <span class="kn">import</span> <span class="n">WorkbenchActionManagerBuilder</span>
-<span class="kn">from</span> <span class="nn">.workbench_editor_manager</span> <span class="kn">import</span> <span class="n">WorkbenchEditorManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.workbench_action_manager_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkbenchActionManagerBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.workbench_editor_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkbenchEditorManager</span>
 
 <span class="c1"># Logging.</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="WorkbenchWindow"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IServiceRegistry</span><span class="p">,</span> <span class="n">IExtensionPointUser</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">WorkbenchWindow</span><span class="p">(</span><span class="n">pyface</span><span class="o">.</span><span class="n">WorkbenchWindow</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchWindow</span><span class="p">(</span><span class="n">pyface</span><span class="o">.</span><span class="n">WorkbenchWindow</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An extensible workbench window.&quot;&quot;&quot;</span>
 
     <span class="c1"># Extension point Ids.</span>
@@ -175,7 +175,7 @@
     <span class="c1"># &#39;IExtensionPointUser&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait property getter.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
@@ -186,29 +186,29 @@
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
-    <span class="k">def</span> <span class="nf">_menu_bar_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_menu_bar_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_manager_builder</span><span class="o">.</span><span class="n">create_menu_bar_manager</span><span class="p">(</span><span class="s2">&quot;MenuBar&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_status_bar_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_status_bar_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">StatusBarManager</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_tool_bar_managers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tool_bar_managers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_manager_builder</span><span class="o">.</span><span class="n">create_tool_bar_managers</span><span class="p">(</span><span class="s2">&quot;ToolBar&quot;</span><span class="p">)</span>
 
     <span class="c1">#### Trait change handlers ################################################</span>
 
-    <span class="k">def</span> <span class="nf">_opening_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_opening_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_register_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_offers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_closed_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_closed_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="p">)</span>
@@ -219,27 +219,27 @@
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
-    <span class="k">def</span> <span class="nf">_editor_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_editor_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">WorkbenchEditorManager</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_icon_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_icon_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">icon</span>
 
-    <span class="k">def</span> <span class="nf">_perspectives_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_perspectives_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">factory</span><span class="p">()</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perspectives</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_title_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_title_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">_views_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_views_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">factory</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_views</span><span class="p">]</span>
@@ -248,7 +248,7 @@
     <span class="c1"># &#39;WorkbenchWindow&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">factory</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_sets</span><span class="p">]</span>
@@ -257,7 +257,7 @@
     <span class="c1"># &#39;IServiceRegistry&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="WorkbenchWindow.get_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service">[docs]</a>    <span class="k">def</span> <span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.get_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return at most one service that matches the specified query.&quot;&quot;&quot;</span>
 
         <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span>
@@ -266,12 +266,12 @@
 
         <span class="k">return</span> <span class="n">service</span></div>
 
-<div class="viewcode-block" id="WorkbenchWindow.get_service_properties"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.get_service_properties"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_service_properties">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the dictionary of properties associated with a service.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service_properties</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WorkbenchWindow.get_services"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services">[docs]</a>    <span class="k">def</span> <span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.get_services"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.get_services">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all services that match the specified query.&quot;&quot;&quot;</span>
 
         <span class="n">services</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_services</span><span class="p">(</span>
@@ -280,7 +280,7 @@
 
         <span class="k">return</span> <span class="n">services</span></div>
 
-<div class="viewcode-block" id="WorkbenchWindow.register_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service">[docs]</a>    <span class="k">def</span> <span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.register_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.register_service">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service.&quot;&quot;&quot;</span>
 
         <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span>
@@ -289,12 +289,12 @@
 
         <span class="k">return</span> <span class="n">service_id</span></div>
 
-<div class="viewcode-block" id="WorkbenchWindow.set_service_properties"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties">[docs]</a>    <span class="k">def</span> <span class="nf">set_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.set_service_properties"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.set_service_properties">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the dictionary of properties associated with a service.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">set_service_properties</span><span class="p">(</span><span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WorkbenchWindow.unregister_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service">[docs]</a>    <span class="k">def</span> <span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchWindow.unregister_service"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_window.html#envisage.ui.workbench.workbench_window.WorkbenchWindow.unregister_service">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister a service.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
@@ -303,7 +303,7 @@
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">__action_manager_builder_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__action_manager_builder_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">action_manager_builder</span> <span class="o">=</span> <span class="n">WorkbenchActionManagerBuilder</span><span class="p">(</span>
@@ -312,12 +312,12 @@
 
         <span class="k">return</span> <span class="n">action_manager_builder</span>
 
-    <span class="k">def</span> <span class="nf">_register_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offers</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offers</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register all service offers.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_register_service_offer</span><span class="p">,</span> <span class="n">service_offers</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_register_service_offer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_service_offer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offer</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service offer.&quot;&quot;&quot;</span>
 
         <span class="c1"># Add the window to the service offer properties (this is so that it</span>
@@ -333,7 +333,7 @@
 
         <span class="k">return</span> <span class="n">service_id</span>
 
-    <span class="k">def</span> <span class="nf">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_ids</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_ids</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister all service offers.&quot;&quot;&quot;</span>
 
         <span class="c1"># Unregister the services in the reverse order that we registered</span>
@@ -379,10 +379,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

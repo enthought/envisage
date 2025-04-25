@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -102,14 +102,14 @@ started after the <code class="xref py py-meth docutils literal notranslate"><sp
 plugins to listen for the <a class="reference internal" href="#application_initialized" title="application_initialized"><code class="xref py py-attr docutils literal notranslate"><span class="pre">application_initialized</span></code></a> event to create UI
 components.  In particular, Traits UIs can be created in an event listener
 method by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">edit_traits()</span></code>, something like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyViewPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyViewPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">Instance</span>
 
     <span class="n">ui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;traitsui.ui.UI&#39;</span><span class="p">)</span>
 
     <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:application_initialized&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># we need to keep a reference to the ui object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">()</span>
 </pre></div>
@@ -203,10 +203,10 @@ the plugins are started.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

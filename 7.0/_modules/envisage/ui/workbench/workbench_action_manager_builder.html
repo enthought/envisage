@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -81,7 +81,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <h1>Source code for envisage.ui.workbench.workbench_action_manager_builder</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) Copyright 2007-2023 Enthought, Inc., Austin, TX</span>
+<span></span><span class="c1"># (C) Copyright 2007-2025 Enthought, Inc., Austin, TX</span>
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># This software is provided without warranty under the terms of the BSD</span>
@@ -94,17 +94,17 @@
 
 
 <span class="c1"># Standard library imports.</span>
-<span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
 
-<span class="kn">from</span> <span class="nn">pyface.action.api</span> <span class="kn">import</span> <span class="n">Action</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">MenuManager</span>
-<span class="kn">from</span> <span class="nn">pyface.workbench.action.api</span> <span class="kn">import</span> <span class="n">MenuBarManager</span><span class="p">,</span> <span class="n">ToolBarManager</span>
-<span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Instance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">MenuManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">MenuBarManager</span><span class="p">,</span> <span class="n">ToolBarManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Instance</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span> <span class="nn">envisage.ui.action.api</span> <span class="kn">import</span> <span class="n">AbstractActionManagerBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractActionManagerBuilder</span>
 
 
-<div class="viewcode-block" id="WorkbenchActionManagerBuilder"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_manager_builder.html#envisage.ui.workbench.workbench_action_manager_builder.WorkbenchActionManagerBuilder">[docs]</a><span class="k">class</span> <span class="nc">WorkbenchActionManagerBuilder</span><span class="p">(</span><span class="n">AbstractActionManagerBuilder</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkbenchActionManagerBuilder"><a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_manager_builder.html#envisage.ui.workbench.workbench_action_manager_builder.WorkbenchActionManagerBuilder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchActionManagerBuilder</span><span class="p">(</span><span class="n">AbstractActionManagerBuilder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The action manager builder used to build the workbench menu/tool bars.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -123,7 +123,7 @@
     <span class="c1"># Protected &#39;AbstractActionManagerBuilder&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an action implementation from an action definition.&quot;&quot;&quot;</span>
 
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
@@ -151,7 +151,7 @@
 
         <span class="k">return</span> <span class="n">action</span>
 
-    <span class="k">def</span> <span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a group implementation from a group definition.&quot;&quot;&quot;</span>
 
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{}</span>
@@ -175,7 +175,7 @@
 
         <span class="k">return</span> <span class="n">group</span>
 
-    <span class="k">def</span> <span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a menu manager implementation from a menu definition.&quot;&quot;&quot;</span>
 
         <span class="c1"># fixme: &#39;window&#39; is not actually a trait on &#39;MenuManager&#39;! We set</span>
@@ -211,12 +211,12 @@
 
         <span class="k">return</span> <span class="n">menu_manager</span>
 
-    <span class="k">def</span> <span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a menu bar manager from the builder&#39;s action sets.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">MenuBarManager</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a tool bar manager implementation from a definition.&quot;&quot;&quot;</span>
 
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="s2">&quot;show_tool_names&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
@@ -255,12 +255,12 @@
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span> <span class="nf">__actions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__actions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Import a symbol.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">symbol_path</span><span class="p">)</span></div>
@@ -300,10 +300,10 @@
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.

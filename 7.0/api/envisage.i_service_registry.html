@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '7.0.3',
+        VERSION:     '7.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -97,8 +97,8 @@
 <p>The service registry interface.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="envisage.i_service_registry.IServiceRegistry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.i_service_registry.</span></span><span class="sig-name descname"><span class="pre">IServiceRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adaptee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default=&lt;class</span> <span class="pre">'traits.adaptation.adaptation_error.AdaptationError'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v6.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.i_service_registry.</span></span><span class="sig-name descname"><span class="pre">IServiceRegistry</span></span><a class="reference internal" href="../_modules/envisage/i_service_registry.html#IServiceRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.i_service_registry.IServiceRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.Interface" title="(in traits v7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a></p>
 <p>The service registry interface.</p>
 <p>The service registry provides a ‘Yellow Pages’ style mechanism, in that
 services are published and looked up by protocol (meaning, <em>interface</em>,
@@ -164,7 +164,7 @@ class or interface in the form:</p>
 </div>
 <p>Which is turned into the equivalent of an import statement that
 looks like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">foo.bar</span> <span class="kn">import</span> <span class="n">baz</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">foo.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">baz</span>
 </pre></div>
 </div>
 <p>Return a service Id that can be used to unregister the service and to
@@ -264,10 +264,10 @@ be specified as a string which is used to import the callable.</p>
     <div class="row-fluid">
     <ul class="inline pull-left">
       <li>
-        &copy; Copyright 2007-2023, Enthought
+        &copy; Copyright 2007-2025, Enthought
       </li>
       <li>
-      Last updated on Apr 03, 2023.
+      Last updated on Apr 25, 2025.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
