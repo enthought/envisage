@@ -18,7 +18,7 @@ jobs:
         python -m pip install .
     - run: |
         python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: documentation
         path: |
