@@ -3,7 +3,7 @@ name: Run strict style checks
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  style:
+  strict-style:
     runs-on: 'ubuntu-latest'
 
     steps:
