@@ -1,4 +1,4 @@
-name: Run style checks
+name: Run strict style checks
 
 on: [pull_request, workflow_dispatch]
 
@@ -15,6 +15,5 @@ jobs:
         cache-dependency-path: '.github/workflows/style-requirements.txt'
     - run: python -m pip install -r .github/workflows/style-requirements.txt
     - run: |
-        python -m black --check --diff .
-        python -m isort --check --diff .
-        python -m flake8 --copyright-end-year 2025 .
+        # Just report on out-of-date copyright end years.
+        python -m flake8 --select H102 .
