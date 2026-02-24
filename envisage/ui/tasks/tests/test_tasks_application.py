@@ -8,14 +8,19 @@
 #
 # Thanks for using Enthought open source!
 
+# Standard library imports.
 import os
 import pathlib
 import shutil
 import tempfile
 import unittest
 
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
+# Enthought library imports.
 from pyface.gui import GUI
 from pyface.i_gui import IGUI
 from traits.api import Event, HasTraits, provides
@@ -121,8 +126,8 @@ class TestTasksApplication(unittest.TestCase):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
-        stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data"
+        stored_state_location = str(
+            files("envisage.ui.tasks.tests").joinpath("data")
         )
 
         state_location = self.tmpdir
@@ -141,8 +146,8 @@ class TestTasksApplication(unittest.TestCase):
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
-        stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data"
+        stored_state_location = str(
+            files("envisage.ui.tasks.tests").joinpath("data")
         )
 
         state_location = self.tmpdir

@@ -7,17 +7,19 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the core plugin. """
+"""Tests for the core plugin."""
 
 # Standard library imports.
 import unittest
 
-# Major package imports.
-from pkg_resources import resource_filename
-
-from traits.api import HasTraits, Interface, List, on_trait_change, Str
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 # Enthought library imports.
+from traits.api import HasTraits, Interface, List, on_trait_change, Str
+
 from envisage.api import CorePlugin, Plugin, ServiceOffer
 from envisage.tests.support import SimpleApplication
 
@@ -134,7 +136,9 @@ class CorePluginTestCase(unittest.TestCase):
             def _preferences_default(self):
                 """Trait initializer."""
 
-                return ["file://" + resource_filename(PKG, "preferences.ini")]
+                return [
+                    "file://" + str(files(PKG).joinpath("preferences.ini"))
+                ]
 
         core = CorePlugin()
         a = PluginA()
@@ -155,7 +159,9 @@ class CorePluginTestCase(unittest.TestCase):
             def _preferences_default(self):
                 """Trait initializer."""
 
-                return ["file://" + resource_filename(PKG, "preferences.ini")]
+                return [
+                    "file://" + str(files(PKG).joinpath("preferences.ini"))
+                ]
 
         core = CorePlugin()
         a = PluginA()

@@ -26,7 +26,7 @@ python -m pip install -e .
 ```
 
 Dependencies: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`,
-`traitsui`, `setuptools`.
+`traitsui`.
 
 ## Running Tests
 

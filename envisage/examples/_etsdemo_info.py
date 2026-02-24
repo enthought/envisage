@@ -8,11 +8,14 @@
 #
 # Thanks for using Enthought open source!
 
-""" This module provides functions to be advertised in the distribution
+"""This module provides functions to be advertised in the distribution
 entry points.
 """
 
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 
 def info(request):
@@ -30,5 +33,5 @@ def info(request):
     return dict(
         version=1,
         name="Envisage Examples",
-        root=(pkg_resources.resource_filename("envisage.examples", "demo")),
+        root=str(files("envisage.examples").joinpath("demo")),
     )
