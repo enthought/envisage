@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; An extensible, pluggable, application. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;An extensible, pluggable, application.&quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -538,12 +537,12 @@
     <span class="c1"># at construction time due to the fact that the plugin manager needs a</span>
     <span class="c1"># reference to the application and vice-versa, e.g. we can do</span>
     <span class="c1">#</span>
-    <span class="c1">#    application = Application(plugin_manager=EggPluginManager())</span>
+    <span class="c1">#    application = Application(plugin_manager=PluginManager())</span>
     <span class="c1">#</span>
     <span class="c1"># If we didn&#39;t have this then we would have to do this:-</span>
     <span class="c1">#</span>
     <span class="c1">#    application = Application()</span>
-    <span class="c1">#    application.plugin_manager = EggPluginManager(application=application)</span>
+    <span class="c1">#    application.plugin_manager = PluginManager(application=application)</span>
     <span class="c1">#</span>
     <span class="c1"># Of course, it would be better if the plugin manager didn&#39;t require a</span>
     <span class="c1"># reference to the application at all (it currently uses it to set the</span>

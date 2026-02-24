@@ -104,7 +104,7 @@ thought of as simply being “delivery trucks” – they rarely (if ever) do an
 </ol>
 <p>Plugins are located and managed by the <em>plugin manager</em>, and, whilst Envisage
 is designed such that you can write your own plugin manager, by default, it
-uses an implementation based on <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>.</p>
+uses the <a class="reference internal" href="../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager" title="envisage.plugin_manager.PluginManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">PluginManager</span></code></a> class, which accepts an explicit list of plugins.</p>
 <section id="creating-a-plugin">
 <h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this heading">¶</a></h2>
 <p>All plugins must implement the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface (an easy way to achieve this
@@ -170,10 +170,9 @@ two key lifecycle methods on the <a class="reference internal" href="../api/envi
 </div>
 <p>When Envisage starts up it calls the start() method of every plugin in the
 the same order that its iterator returns them in. This depends on the plugin
-manager being used, but by default this will be either a) the order of the list
-of plugins that was passed into the application or b) the order of the plugins
-based on egg dependencies. When the application stops, it calls the stop()
-method of each plugin in the reverse order that they were started in.</p>
+manager being used, but by default this will be the order of the list of plugins
+that was passed into the application. When the application stops, it calls the
+stop() method of each plugin in the reverse order that they were started in.</p>
 </section>
 </section>
 

@@ -24,9 +24,6 @@ envisage package
    envisage.application_event
    envisage.composite_plugin_manager
    envisage.core_plugin
-   envisage.egg_basket_plugin_manager
-   envisage.egg_plugin_manager
-   envisage.egg_utils
    envisage.extension_point
    envisage.extension_point_binding
    envisage.extension_point_changed_event
@@ -46,7 +43,6 @@ envisage package
    envisage.i_service_user
    envisage.ids
    envisage.import_manager
-   envisage.package_plugin_manager
    envisage.plugin
    envisage.plugin_activator
    envisage.plugin_event

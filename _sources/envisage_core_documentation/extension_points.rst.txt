@@ -203,6 +203,3 @@ validate the contributions -- in this case, to make sure that they are all
 objects that implement (or can be adapted to) the |IMessage| interface. It also
 automatically connects the trait so that the plugin will receive trait change
 events if extensions are added/removed to/from the extension point at runtime.
-
-
-.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
