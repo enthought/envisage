@@ -187,7 +187,7 @@ strings, `.format()` and f-strings are both acceptable.
 - Framework: `unittest.TestCase` (not bare pytest functions)
 - Test classes: `<Name>TestCase` (e.g., `ApplicationTestCase`)
 - Test methods: `test_<descriptive_name>` in snake_case
-- Assertions: `self.assertEqual(expected, actual)` — expected value first
+- Assertions: `self.assertEqual`, `self.assertTrue`, `self.assertIs`, etc.
 - Use `self.assertRaises` as context manager: `with self.assertRaises(ValueError):`
 - Define helper classes (interfaces, plugins) inside test methods as needed
 - Prefer `self.addCleanup(...)` for teardown where practical; `tearDown` methods are also acceptable when clearer
