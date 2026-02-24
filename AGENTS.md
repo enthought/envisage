@@ -187,7 +187,7 @@ strings, `.format()` and f-strings are both acceptable.
 - Assertions: `self.assertEqual(expected, actual)` — expected value first
 - Use `self.assertRaises` as context manager: `with self.assertRaises(ValueError):`
 - Define helper classes (interfaces, plugins) inside test methods as needed
-- Use `self.addCleanup(...)` for teardown rather than `tearDown` methods
+- Prefer `self.addCleanup(...)` for teardown where practical; `tearDown` methods are also acceptable when clearer
 - setUp docstring: `"""Prepares the test fixture before each test method is called."""`
 
 ## Pull Requests
