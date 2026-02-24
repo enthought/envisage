@@ -18,12 +18,9 @@ private to Envisage.
 
 import contextlib
 import pathlib
-import subprocess
 import sys
 import tempfile
 import unittest
-
-from pkg_resources import resource_filename, working_set
 
 from pyface.api import GUI
 from traits.api import Int, List
@@ -101,89 +98,6 @@ def restore_sys_modules():
     finally:
         for name in sys.modules.keys() - original_modules:
             del sys.modules[name]
-
-
-@contextlib.contextmanager
-def restore_pkg_resources_working_set():
-    """
-    Save and restore `pkg_resources.working_set` state.
-
-    On entering the associated context, this context manager saves the state of
-    `pkg_resources.working_set`. Within the context, code may then make changes
-    to that global state (for example by adding distributions to the working
-    set). On exiting the context, `pkg_resources.working_set` is restored to
-    its original state.
-    """
-    original_entries = working_set.entries[:]
-    original_entry_keys = set(working_set.entry_keys)
-    original_by_key = set(working_set.by_key)
-    # Older setuptools versions don't have this attribute; it appears to
-    # be new in setuptools ~ 62.
-    if hasattr(working_set, "normalized_to_canonical_keys"):
-        original_normalized = set(working_set.normalized_to_canonical_keys)
-    else:
-        original_normalized = None
-    try:
-        yield
-    finally:
-        if original_normalized is not None:
-            for key in (
-                working_set.normalized_to_canonical_keys.keys()
-                - original_normalized
-            ):
-                del working_set.normalized_to_canonical_keys[key]
-        for key in working_set.by_key.keys() - original_by_key:
-            del working_set.by_key[key]
-        for key in working_set.entry_keys.keys() - original_entry_keys:
-            del working_set.entry_keys[key]
-        working_set.entries[:] = original_entries
-
-
-# Egg and package-related functionality.
-
-
-def build_egg(package_dir, dist_dir):
-    """Helper function to build an egg.
-
-    Parameters
-    ----------
-    package_dir : pathlib.Path
-        Directory containing the Python package to be built. Should
-        contain a "setup.py" file that can be used with
-        "python setup.py bdist_egg" to build the package.
-    dist_dir : pathlib.Path
-        Directory to place the built egg in. The directory should
-        already exist.
-    """
-    subprocess.run(
-        [
-            sys.executable,
-            "setup.py",
-            "bdist_egg",
-            "--dist-dir",
-            dist_dir,
-        ],
-        cwd=package_dir,
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-
-# Packages containing plugins that are used for testing
-
-_PACKAGES_DIR = pathlib.Path(resource_filename("envisage.tests", "eggs"))
-PLUGIN_PACKAGES = [
-    _PACKAGES_DIR / "acme-bar",
-    _PACKAGES_DIR / "acme-baz",
-    _PACKAGES_DIR / "acme-foo",
-]
-
-# acme-bad contains a plugin that depends on a non-existent module.
-_BAD_PACKAGES_DIR = pathlib.Path(
-    resource_filename("envisage.tests", "bad_eggs")
-)
-BAD_PLUGIN_PACKAGES = [_BAD_PACKAGES_DIR / "acme-bad"]
 
 
 # Application class used in various tests.

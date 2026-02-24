@@ -97,9 +97,6 @@ In the |MOTD| example, we create the class in the |MOTD run| module as follows::
 In this case, we use the simplest way to tell Envisage which plugins make up
 the application by passing them in explicitly. Envisage applications allow you
 to completely configure how plugins are located by setting the plugin manager.
-Envisage ships with two plugin managers by default, one that simply takes a
-list of plugins as in the above example, and one that finds all plugins
-offered via the 'envisage.plugins' entry point in Python Eggs.
 
 The 'acme.motd' plugin
 ~~~~~~~~~~~~~~~~~~~~~~
