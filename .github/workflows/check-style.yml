@@ -17,4 +17,8 @@ jobs:
     - run: |
         python -m black --check --diff .
         python -m isort --check --diff .
-        python -m flake8 --copyright-end-year 2025 .
+        # We hard-code the year here to give us a buffer on CI failures when
+        # January 1st rolls around. Nevertheless, this year and the copyright
+        # headers should be updated as early as possible in each new year,
+        # and definitely before any release.
+        python -m flake8 --copyright-end-year 2026 .
