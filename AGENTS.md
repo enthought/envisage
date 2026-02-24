@@ -155,8 +155,10 @@ signatures or variables.
 - Trait initializers: `"""Trait initializer."""`
 - Trait property getters: `"""Trait property getter."""`
 - Trait change handlers: `"""Static trait change handler."""`
-- No formal parameter documentation (NumPy/Google style) in library code;
-  trait `#:` doc-comments are used instead
+- Functions and methods should use PEP 257 and the NumPy docstring standard,
+  including `Parameters` and `Returns` sections where appropriate
+- Class attributes (especially Traits) are documented with `#:` comments
+  above the declaration, not in docstrings
 
 ### Trait Documentation
 
