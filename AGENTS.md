@@ -212,3 +212,10 @@ strings, `.format()` and f-strings are both acceptable.
 - Define helper classes (interfaces, plugins) inside test methods as needed
 - Use `self.addCleanup(...)` for teardown rather than `tearDown` methods
 - setUp docstring: `"""Prepares the test fixture before each test method is called."""`
+
+## Pull Requests
+
+If a PR was created with agent assistance, the PR description must say so.
+For example, add a note at the end such as:
+
+> *This PR was created with the assistance of an AI coding agent.*
