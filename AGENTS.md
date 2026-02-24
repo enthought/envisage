@@ -158,44 +158,13 @@ signatures or variables.
 - No formal parameter documentation (NumPy/Google style) in library code;
   trait `#:` doc-comments are used instead
 
-### Trait Documentation and Class Organization
+### Trait Documentation
 
 Document traits with `#:` comments above the declaration:
 
 ```python
 #: The application's globally unique identifier.
 id = Str
-```
-
-Classes use comment banners to organize sections:
-
-```python
-class MyClass(HasTraits):
-
-    #### 'IMyInterface' interface ##########################################
-
-    #: Description of trait.
-    some_trait = Str
-
-    #### Private interface ##################################################
-
-    _internal = Dict
-
-    ###########################################################################
-    # 'IMyInterface' interface.
-    ###########################################################################
-
-    def public_method(self):
-        """Do something."""
-        ...
-
-    #### Trait initializers ################################################
-
-    def _some_trait_default(self):
-        """Trait initializer."""
-        return "default_value"
-
-    #### Trait change handlers #############################################
 ```
 
 ### Error Handling
