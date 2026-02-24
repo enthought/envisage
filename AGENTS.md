@@ -62,7 +62,13 @@ to run headless.
 
 ## Linting and Formatting
 
-Style is enforced by Black, isort, and flake8. Run all three:
+Style is enforced by Black, isort, and flake8. Install all required tools:
+
+```bash
+python -m pip install -r .github/workflows/style-requirements.txt
+```
+
+Run all three checks:
 
 ```bash
 python -m black --check --diff .
@@ -76,8 +82,6 @@ To auto-fix formatting:
 python -m black .
 python -m isort .
 ```
-
-Install style tools: `pip install "black~=24.3" flake8 flake8-ets isort`
 
 ### Key style settings
 
