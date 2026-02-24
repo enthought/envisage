@@ -40,7 +40,6 @@ Application, plugin and related classes
 ---------------------------------------
 - :class:`~.Application`
 - :class:`~.CorePlugin`
-- :class:`~.EggPluginManager`
 - :class:`~.ExtensionPoint`
 - :class:`~.ExtensionPointBinding`
 - :func:`~.bind_extension_point`
@@ -68,7 +67,6 @@ Exceptions
 
 from .application import Application
 from .core_plugin import CorePlugin
-from .egg_plugin_manager import EggPluginManager
 from .extension_point import ExtensionPoint
 from .extension_point_binding import (
     bind_extension_point,

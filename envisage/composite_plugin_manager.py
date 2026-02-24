@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A plugin manager composed of other plugin managers! """
-
+"""A plugin manager composed of other plugin managers!"""
 
 # Standard library imports.
 import logging
@@ -43,8 +42,8 @@ class CompositePluginManager(HasTraits):
 
         plugin_manager = CompositePluginManager(
              plugin_managers = [
-                 EggBasketPluginManager(...),
-                 PackagePluginManager(...),
+                 PluginManager(...),
+                 PluginManager(...),
              ]
         )
 

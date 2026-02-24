@@ -97,6 +97,7 @@ rst_epilog = """
 .. |IApplication| replace:: :class:`~envisage.i_application.IApplication`
 .. |ExtensionPoint| replace:: :class:`~envisage.extension_point.ExtensionPoint`
 .. |Plugin| replace:: :class:`~envisage.plugin.Plugin`
+.. |PluginManager| replace:: :class:`~envisage.plugin_manager.PluginManager`
 .. |IPlugin| replace:: :class:`~envisage.i_plugin.IPlugin`
 .. |envisage.api| replace:: :mod:`envisage.api`
 .. |envisage.ui.workbench| replace:: :mod:`envisage.ui.workbench.api`

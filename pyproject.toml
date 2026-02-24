@@ -63,19 +63,6 @@ include = ['envisage*']
 [tool.setuptools.package-data]
 'envisage.examples' = ['demo/**']
 'envisage.tests' = [
-    'bad_eggs/README.txt',
-    'bad_eggs/acme-bad/setup.py',
-    'bad_eggs/acme-bad/acme_bad/*.py',
-    'eggs/README.txt',
-    'eggs/acme-bar/setup.py',
-    'eggs/acme-bar/acme_bar/*.py',
-    'eggs/acme-baz/setup.py',
-    'eggs/acme-baz/acme_baz/*.py',
-    'eggs/acme-foo/setup.py',
-    'eggs/acme-foo/acme_foo/*.py',
-    'plugins/pear/*.py',
-    'plugins/banana/*.py',
-    'plugins/orange/*.py',
     'preferences.ini',
 ]
 'envisage.ui.tasks.tests' = ['data/*.pkl']

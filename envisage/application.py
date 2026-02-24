@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An extensible, pluggable, application. """
-
+"""An extensible, pluggable, application."""
 
 # Standard library imports.
 import logging
@@ -455,12 +454,12 @@ class Application(HasTraits):
     # at construction time due to the fact that the plugin manager needs a
     # reference to the application and vice-versa, e.g. we can do
     #
-    #    application = Application(plugin_manager=EggPluginManager())
+    #    application = Application(plugin_manager=PluginManager())
     #
     # If we didn't have this then we would have to do this:-
     #
     #    application = Application()
-    #    application.plugin_manager = EggPluginManager(application=application)
+    #    application.plugin_manager = PluginManager(application=application)
     #
     # Of course, it would be better if the plugin manager didn't require a
     # reference to the application at all (it currently uses it to set the

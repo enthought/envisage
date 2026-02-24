@@ -12,7 +12,7 @@ thought of as simply being "delivery trucks" -- they rarely (if ever) do any
 
 Plugins are located and managed by the *plugin manager*, and, whilst Envisage
 is designed such that you can write your own plugin manager, by default, it
-uses an implementation based on `Python Eggs`_.
+uses the |PluginManager| class, which accepts an explicit list of plugins.
 
 Creating a Plugin
 -----------------
@@ -83,12 +83,10 @@ two key lifecycle methods on the |IPlugin| interface::
 
 When Envisage starts up it calls the start() method of every plugin in the
 the same order that its iterator returns them in. This depends on the plugin
-manager being used, but by default this will be either a) the order of the list
-of plugins that was passed into the application or b) the order of the plugins
-based on egg dependencies. When the application stops, it calls the stop()
-method of each plugin in the reverse order that they were started in.
+manager being used, but by default this will be the order of the list of plugins
+that was passed into the application. When the application stops, it calls the
+stop() method of each plugin in the reverse order that they were started in.
 
 
 .. _`Extension Points`: extension_points.html
-.. _`Python Eggs`: http://peak.telecommunity.com/DevCenter/PythonEggs
 .. _Services: services.html

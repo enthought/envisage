@@ -2,6 +2,15 @@
  Release history
 =================
 
+Version 8.0.0
+=============
+
+Removals
+--------
+* Remove the deprecated ``EggPluginManager``, ``EggBasketPluginManager``
+  and ``PackagePluginManager`` classes, along with the supporting
+  ``egg_utils`` module and associated tests. (#548)
+
 Version 7.0.4
 =============
 
