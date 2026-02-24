@@ -10,11 +10,15 @@ jobs:
     - uses: actions/checkout@v6
     - uses: actions/setup-python@v6
       with:
-        python-version: '3.11'
+        python-version: '3.14'
         cache: 'pip'
         cache-dependency-path: '.github/workflows/style-requirements.txt'
     - run: python -m pip install -r .github/workflows/style-requirements.txt
     - run: |
         python -m black --check --diff .
         python -m isort --check --diff .
-        python -m flake8 .
+        # We hard-code the year here to give us a buffer on CI failures when
+        # January 1st rolls around. Nevertheless, this year and the copyright
+        # headers should be updated as early as possible in each new year,
+        # and definitely before any release.
+        python -m flake8 --copyright-end-year 2026 .
