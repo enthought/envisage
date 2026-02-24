@@ -151,8 +151,7 @@ signatures or variables.
 
 ### Docstrings
 
-- Module-level: `""" Description of the module. """` (space-padded, single line)
-- Classes/methods: imperative mood, concise (`"""Run the application."""`)
+- Modules/classes/methods: imperative mood, concise (`"""Run the application."""`)
 - Trait initializers: `"""Trait initializer."""`
 - Trait property getters: `"""Trait property getter."""`
 - Trait change handlers: `"""Static trait change handler."""`
