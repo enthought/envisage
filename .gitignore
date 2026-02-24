@@ -1,9 +1,6 @@
 # file types to ignore
 *.pyc
 
-# virtual environments
-.venv/
-
 # ignore the build directories
 *.egg-info/
 build/
