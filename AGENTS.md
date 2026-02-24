@@ -5,6 +5,20 @@ Python applications, part of the Enthought Tool Suite (ETS). It uses the
 Traits library for typed attributes and the Pyface/TraitsUI libraries for
 UI components.
 
+## Virtual Environment
+
+Before installing or running anything, create and activate an isolated
+virtual environment to avoid modifying the system Python:
+
+```bash
+uv venv --seed
+source .venv/bin/activate   # Linux/macOS
+# .venv\Scripts\activate    # Windows
+```
+
+`uv` is the recommended tool. If it is not available, `python -m venv .venv`
+works too.
+
 ## Build and Install
 
 ```bash
