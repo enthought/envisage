@@ -94,10 +94,11 @@ python -m isort .
 
 ### Copyright Header
 
-Every `.py` file must start with:
+Every `.py` file must start with the standard copyright header. Use whatever
+end year is present in the existing files (currently 2026):
 
 ```python
-# (C) Copyright 2007-2025 Enthought, Inc., Austin, TX
+# (C) Copyright 2007-2026 Enthought, Inc., Austin, TX
 # All rights reserved.
 #
 # This software is provided without warranty under the terms of the BSD
