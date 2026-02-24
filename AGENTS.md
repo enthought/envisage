@@ -191,7 +191,6 @@ strings, `.format()` and f-strings are both acceptable.
 - Use `self.assertRaises` as context manager: `with self.assertRaises(ValueError):`
 - Define helper classes (interfaces, plugins) inside test methods as needed
 - Prefer `self.addCleanup(...)` for teardown where practical; `tearDown` methods are also acceptable when clearer
-- setUp docstring: `"""Prepares the test fixture before each test method is called."""`
 
 ## Pull Requests
 
