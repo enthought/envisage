@@ -173,7 +173,8 @@ id = Str
 
 - Custom exceptions inherit from `Exception` directly
 - Use `logger.exception(...)` when catching and re-raising
-- The `# fixme:` comment tag (lowercase) is used for known issues
+- The `# fixme:` comment tag (lowercase) is used for known issues;
+  always include a reference to a GitHub issue
 
 ### String Formatting
 
