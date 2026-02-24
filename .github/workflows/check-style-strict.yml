@@ -1,0 +1,19 @@
+name: Run strict style checks
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  strict-style:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v6
+    - uses: actions/setup-python@v6
+      with:
+        python-version: '3.14'
+        cache: 'pip'
+        cache-dependency-path: '.github/workflows/style-requirements.txt'
+    - run: python -m pip install -r .github/workflows/style-requirements.txt
+    - run: |
+        # Just report on out-of-date copyright end years.
+        python -m flake8 --select H102 .
