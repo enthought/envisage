@@ -31,7 +31,11 @@ Dependencies: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`,
 ## Running Tests
 
 Tests use `unittest.TestCase` throughout. Both `pytest` and `unittest`
-runners are supported.
+runners are supported. Install `pytest` first if using that runner:
+
+```bash
+python -m pip install pytest
+```
 
 ```bash
 # Run the full test suite with pytest
