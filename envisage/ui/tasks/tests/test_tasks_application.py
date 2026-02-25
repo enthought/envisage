@@ -126,15 +126,13 @@ class TestTasksApplication(unittest.TestCase):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
-        stored_state_location = str(
-            files("envisage.ui.tasks.tests").joinpath("data")
+        stored_state_location = (
+            files("envisage.ui.tasks.tests")
+            / "data"
+            / "application_memento_v2.pkl"
         )
-
-        state_location = self.tmpdir
-        shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v2.pkl"),
-            os.path.join(state_location, DEFAULT_STATE_FILENAME),
-        )
+        state_location = pathlib.Path(self.tmpdir) / DEFAULT_STATE_FILENAME
+        state_location.write_bytes(stored_state_location.read_bytes())
 
         app = TasksApplication(state_location=state_location)
         app.on_trait_change(app.exit, "application_initialized")
@@ -146,15 +144,14 @@ class TestTasksApplication(unittest.TestCase):
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
-        stored_state_location = str(
-            files("envisage.ui.tasks.tests").joinpath("data")
+        stored_state_location = (
+            files("envisage.ui.tasks.tests")
+            / "data"
+            / "application_memento_v3.pkl"
         )
 
-        state_location = self.tmpdir
-        shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v3.pkl"),
-            os.path.join(state_location, "fancy_state.pkl"),
-        )
+        state_location = pathlib.Path(self.tmpdir) / "fancy_state.pkl"
+        state_location.write_bytes(stored_state_location.read_bytes())
 
         # Use a non-standard filename, to exercise that machinery.
         app = TasksApplication(
