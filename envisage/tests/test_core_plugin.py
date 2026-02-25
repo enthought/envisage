@@ -138,7 +138,7 @@ class CorePluginTestCase(unittest.TestCase):
                 def _preferences_default(self):
                     """Trait initializer."""
 
-                    return [preferences_file.as_uri()]
+                    return ["file://" + str(preferences_file)]
 
             core = CorePlugin()
             a = PluginA()
@@ -163,7 +163,7 @@ class CorePluginTestCase(unittest.TestCase):
                 def _preferences_default(self):
                     """Trait initializer."""
 
-                    return [preferences_file.as_uri()]
+                    return ["file://" + str(preferences_file)]
 
             core = CorePlugin()
             a = PluginA()
