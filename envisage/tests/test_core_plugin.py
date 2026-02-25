@@ -129,8 +129,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_preferences(self):
         """preferences"""
 
-        preferences_resource = files(PKG) / "preferences.ini"
-        with as_file(preferences_resource) as preferences_file:
+        with as_file(files(PKG) / "preferences.ini") as preferences_file:
 
             class PluginA(Plugin):
                 id = "A"
@@ -155,8 +154,7 @@ class CorePluginTestCase(unittest.TestCase):
     def test_dynamically_added_preferences(self):
         """dynamically added preferences"""
 
-        preferences_resource = files(PKG) / "preferences.ini"
-        with as_file(preferences_resource) as preferences_file:
+        with as_file(files(PKG) / "preferences.ini") as preferences_file:
 
             class PluginA(Plugin):
                 id = "A"
