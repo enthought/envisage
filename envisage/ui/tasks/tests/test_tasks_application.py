@@ -131,8 +131,10 @@ class TestTasksApplication(unittest.TestCase):
             / "data"
             / "application_memento_v2.pkl"
         )
-        state_location = pathlib.Path(self.tmpdir) / DEFAULT_STATE_FILENAME
-        state_location.write_bytes(stored_state_location.read_bytes())
+        state_location = pathlib.Path(self.tmpdir)
+        (state_location / DEFAULT_STATE_FILENAME).write_bytes(
+            stored_state_location.read_bytes()
+        )
 
         app = TasksApplication(state_location=state_location)
         app.on_trait_change(app.exit, "application_initialized")
@@ -150,8 +152,10 @@ class TestTasksApplication(unittest.TestCase):
             / "application_memento_v3.pkl"
         )
 
-        state_location = pathlib.Path(self.tmpdir) / "fancy_state.pkl"
-        state_location.write_bytes(stored_state_location.read_bytes())
+        state_location = pathlib.Path(self.tmpdir)
+        (state_location / "fancy_state.pkl").write_bytes(
+            stored_state_location.read_bytes()
+        )
 
         # Use a non-standard filename, to exercise that machinery.
         app = TasksApplication(
