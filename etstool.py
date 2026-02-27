@@ -117,7 +117,6 @@ dependencies = {
     "enthought_sphinx_theme",
     "pyface",
     "sphinx",
-    "sphinx_copybutton",
     "traits",
     "traitsui",
 }
@@ -130,6 +129,8 @@ pypi_dependencies = {
     "flake8",
     "flake8-ets",
     "isort",
+    # sphinx_copybutton is not available in EDM for all runtimes
+    "sphinx-copybutton",
 }
 
 # Dependencies we install from source for cron tests
