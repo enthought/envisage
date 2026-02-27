@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
-        python-version: ['3.8', '3.10', '3.11']
+        python-version: ['3.8', '3.10', '3.11', '3.12', '3.13', '3.14']
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -26,10 +26,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install packages needed for testing
         run: python -m pip install pytest
-      - name: Install toolkit
+      - name: Install toolkit (Python 3.8 and 3.10)
         # See https://github.com/enthought/envisage/issues/528 for restrictions
         run: python -m pip install 'pyside6<6.4'
-        if: matrix.python-version != '3.11'
+        if: contains(fromJson('["3.8", "3.10"]'), matrix.python-version)
+      - name: Install toolkit (Python 3.11+)
+        run: python -m pip install pyside6
+        if: contains(fromJson('["3.11", "3.12", "3.13", "3.14"]'), matrix.python-version)
       - name: Install package under test
         run: python -m pip install .
       - name: List installed packages
