@@ -229,9 +229,7 @@ def install(edm, runtime, toolkit, environment, editable, source):
     # On Linux, the EDM platform must be specified explicitly since the
     # default (rh8_x86_64) only supports newer runtimes.
     if sys.platform.startswith("linux") and runtime in linux_runtime_platform:
-        platform_flag = (
-            " --platform=" + linux_runtime_platform[runtime]
-        )
+        platform_flag = " --platform=" + linux_runtime_platform[runtime]
     else:
         platform_flag = ""
     # edm commands to setup the development environment
