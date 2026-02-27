@@ -7,17 +7,19 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the core plugin. """
+"""Tests for the core plugin."""
 
 # Standard library imports.
 import unittest
 
-# Major package imports.
-from pkg_resources import resource_filename
-
-from traits.api import HasTraits, Interface, List, on_trait_change, Str
+try:
+    from importlib.resources import as_file, files
+except ImportError:
+    from importlib_resources import as_file, files
 
 # Enthought library imports.
+from traits.api import HasTraits, Interface, List, on_trait_change, Str
+
 from envisage.api import CorePlugin, Plugin, ServiceOffer
 from envisage.tests.support import SimpleApplication
 
@@ -127,48 +129,56 @@ class CorePluginTestCase(unittest.TestCase):
     def test_preferences(self):
         """preferences"""
 
-        class PluginA(Plugin):
-            id = "A"
-            preferences = List(contributes_to="envisage.preferences")
+        with as_file(files(PKG) / "preferences.ini") as preferences_file:
 
-            def _preferences_default(self):
-                """Trait initializer."""
+            class PluginA(Plugin):
+                id = "A"
+                preferences = List(contributes_to="envisage.preferences")
 
-                return ["file://" + resource_filename(PKG, "preferences.ini")]
+                def _preferences_default(self):
+                    """Trait initializer."""
 
-        core = CorePlugin()
-        a = PluginA()
+                    return ["file://" + str(preferences_file)]
 
-        application = SimpleApplication(plugins=[core, a])
-        application.run()
+            core = CorePlugin()
+            a = PluginA()
 
-        # Make sure we can get one of the preferences.
-        self.assertEqual("42", application.preferences.get("enthought.test.x"))
+            application = SimpleApplication(plugins=[core, a])
+            application.run()
+
+            # Make sure we can get one of the preferences.
+            self.assertEqual(
+                "42", application.preferences.get("enthought.test.x")
+            )
 
     def test_dynamically_added_preferences(self):
         """dynamically added preferences"""
 
-        class PluginA(Plugin):
-            id = "A"
-            preferences = List(contributes_to="envisage.preferences")
+        with as_file(files(PKG) / "preferences.ini") as preferences_file:
 
-            def _preferences_default(self):
-                """Trait initializer."""
+            class PluginA(Plugin):
+                id = "A"
+                preferences = List(contributes_to="envisage.preferences")
 
-                return ["file://" + resource_filename(PKG, "preferences.ini")]
+                def _preferences_default(self):
+                    """Trait initializer."""
 
-        core = CorePlugin()
-        a = PluginA()
+                    return ["file://" + str(preferences_file)]
 
-        # Start with just the core plugin.
-        application = SimpleApplication(plugins=[core])
-        application.start()
+            core = CorePlugin()
+            a = PluginA()
 
-        # Now add a plugin that contains a preference.
-        application.add_plugin(a)
+            # Start with just the core plugin.
+            application = SimpleApplication(plugins=[core])
+            application.start()
 
-        # Make sure we can get one of the preferences.
-        self.assertEqual("42", application.preferences.get("enthought.test.x"))
+            # Now add a plugin that contains a preference.
+            application.add_plugin(a)
+
+            # Make sure we can get one of the preferences.
+            self.assertEqual(
+                "42", application.preferences.get("enthought.test.x")
+            )
 
     # regression test for enthought/envisage#251
     def test_unregister_service_offer(self):

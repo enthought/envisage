@@ -11,6 +11,13 @@ Removals
   and ``PackagePluginManager`` classes, along with the supporting
   ``egg_utils`` module and associated tests. (#548)
 
+Build
+-----
+* Remove all uses of ``pkg_resources`` and drop ``setuptools`` as a
+  runtime dependency. ``setuptools`` is retained as a build dependency.
+  ``importlib.resources`` (with ``importlib-resources`` as a backport
+  for Python 3.8) is used instead.
+
 Version 7.0.4
 =============
 

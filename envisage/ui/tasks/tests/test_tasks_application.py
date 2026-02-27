@@ -8,14 +8,19 @@
 #
 # Thanks for using Enthought open source!
 
+# Standard library imports.
 import os
 import pathlib
 import shutil
 import tempfile
 import unittest
 
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
+# Enthought library imports.
 from pyface.gui import GUI
 from pyface.i_gui import IGUI
 from traits.api import Event, HasTraits, provides
@@ -121,14 +126,10 @@ class TestTasksApplication(unittest.TestCase):
         # Check we can load a previously-created state. That previous state
         # has an main window size of (492, 743) (to allow us to check that
         # we're actually using the file).
-        stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data"
-        )
-
-        state_location = self.tmpdir
-        shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v2.pkl"),
-            os.path.join(state_location, DEFAULT_STATE_FILENAME),
+        stored_state_location = files("envisage.ui.tasks.tests") / "data"
+        state_location = pathlib.Path(self.tmpdir)
+        (state_location / DEFAULT_STATE_FILENAME).write_bytes(
+            (stored_state_location / "application_memento_v2.pkl").read_bytes()
         )
 
         app = TasksApplication(state_location=state_location)
@@ -141,14 +142,11 @@ class TestTasksApplication(unittest.TestCase):
     def test_layout_load_pickle_protocol_3(self):
         # Same as the above test, but using a state stored with pickle
         # protocol 3.
-        stored_state_location = pkg_resources.resource_filename(
-            "envisage.ui.tasks.tests", "data"
-        )
+        stored_state_location = files("envisage.ui.tasks.tests") / "data"
 
-        state_location = self.tmpdir
-        shutil.copyfile(
-            os.path.join(stored_state_location, "application_memento_v3.pkl"),
-            os.path.join(state_location, "fancy_state.pkl"),
+        state_location = pathlib.Path(self.tmpdir)
+        (state_location / "fancy_state.pkl").write_bytes(
+            (stored_state_location / "application_memento_v3.pkl").read_bytes()
         )
 
         # Use a non-standard filename, to exercise that machinery.

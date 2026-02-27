@@ -30,7 +30,6 @@ classifiers = [
 dependencies = [
     'apptools[preferences]>=5.3',
     'pyface',
-    'setuptools',
     'traits>=6.2',
     'traitsui',
     'importlib-resources>=1.1.0; python_version<"3.9"',
