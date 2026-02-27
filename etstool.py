@@ -85,7 +85,7 @@ from tempfile import mkdtemp
 import click
 
 # Python runtime versions supported by this tool.
-available_runtimes = ["3.8"]
+available_runtimes = ["3.8", "3.11"]
 
 # Python runtime used by default.
 default_runtime = "3.8"
@@ -100,6 +100,14 @@ default_toolkit = "null"
 
 supported_combinations = {
     "3.8": {"null", "pyqt6", "pyside6"},
+    "3.11": {"null", "pyqt6", "pyside6"},
+}
+
+# On Linux, EDM requires an explicit platform string that depends on the
+# runtime: Python 3.8 uses rh7_x86_64 and Python 3.11 uses rh8_x86_64.
+linux_runtime_platform = {
+    "3.8": "rh7_x86_64",
+    "3.11": "rh8_x86_64",
 }
 
 dependencies = {
@@ -109,7 +117,6 @@ dependencies = {
     "enthought_sphinx_theme",
     "pyface",
     "sphinx",
-    "sphinx_copybutton",
     "traits",
     "traitsui",
 }
@@ -122,6 +129,8 @@ pypi_dependencies = {
     "flake8",
     "flake8-ets",
     "isort",
+    # sphinx_copybutton is not available in EDM for all runtimes
+    "sphinx-copybutton",
 }
 
 # Dependencies we install from source for cron tests
@@ -218,9 +227,16 @@ def install(edm, runtime, toolkit, environment, editable, source):
         | toolkit_dependencies.get(toolkit, set())
         | runtime_dependencies.get(runtime, set())
     )
+    # On Linux, the EDM platform must be specified explicitly since the
+    # default (rh8_x86_64) only supports newer runtimes.
+    if sys.platform.startswith("linux") and runtime in linux_runtime_platform:
+        platform_flag = " --platform=" + linux_runtime_platform[runtime]
+    else:
+        platform_flag = ""
     # edm commands to setup the development environment
     commands = [
-        "{edm} environments create {environment} --force --version={runtime}",
+        "{edm} environments create {environment} --force --version={runtime}"
+        + platform_flag,
         "{edm} --config edm.yaml install -y -e {environment} " + packages,
     ]
     commands.extend(
