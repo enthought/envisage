@@ -14,8 +14,8 @@ envisage.ui.workbench.action package
 
 .. automodule:: envisage.ui.workbench.action
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

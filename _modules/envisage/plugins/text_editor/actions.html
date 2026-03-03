@@ -10,9 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
@@ -24,11 +24,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../../../../_static/img/favicon.png">
@@ -102,7 +102,9 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="NewFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NewFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+<div class="viewcode-block" id="NewFileAction">
+<a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NewFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a new file in the text editor.&quot;&quot;&quot;</span>
 
     <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Create a new file for editing&quot;</span>
@@ -111,24 +113,34 @@
     <span class="c1"># The WorkbenchWindow the action is attached to.</span>
     <span class="n">window</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
 
-<div class="viewcode-block" id="NewFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="NewFileAction.perform">
+<a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewFileAction.perform()&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span>
             <span class="n">File</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">,</span> <span class="n">use_existing</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="OpenFileAction"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OpenFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OpenFileAction">
+<a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open an existing file in the text editor.&quot;&quot;&quot;</span>
 
     <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
     <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
 
-<div class="viewcode-block" id="OpenFileAction.perform"><a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenFileAction.perform">
+<a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OpenFileAction.perform()&quot;</span><span class="p">)</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Open File&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
           </div>
@@ -139,7 +151,7 @@
             <p class="logo"><a href="../../../../index.html">
               <img class="logo" src="../../../../_static/img/e-logo.png" alt="Logo">
             </a></p>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../../search.html" method="get">
@@ -147,7 +159,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -171,7 +183,7 @@
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

@@ -3,5 +3,5 @@ envisage.ui.action.menu module
 
 .. automodule:: envisage.ui.action.menu
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

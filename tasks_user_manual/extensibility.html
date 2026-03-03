@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Extensibility &mdash; Envisage Documentation</title>
     
@@ -11,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -25,11 +25,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../_static/img/favicon.png">
@@ -92,7 +92,7 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="extensibility">
-<span id="id1"></span><h1>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Extensibility<a class="headerlink" href="#extensibility" title="Link to this heading">¶</a></h1>
 <p id="index-0">The foregoing sections have described those elements of the Tasks framework that
 belong to the Pyface project; as such, our imports have been from the
 <code class="docutils literal notranslate"><span class="pre">pyface.tasks</span></code> package. We now discuss how Tasks can be used in
@@ -103,7 +103,7 @@ package.</p>
 plugin framework is assumed. For more information about Envisage, the reader is
 referred to the <a class="reference internal" href="../envisage_core_documentation/index.html"><span class="doc">Envisage Core Documentation</span></a>.</p>
 <section id="the-tasks-plugin">
-<span id="tasks-plugin"></span><h2>The Tasks Plugin<a class="headerlink" href="#the-tasks-plugin" title="Permalink to this heading">¶</a></h2>
+<span id="tasks-plugin"></span><h2>The Tasks Plugin<a class="headerlink" href="#the-tasks-plugin" title="Link to this heading">¶</a></h2>
 <p>In creating an extensible Tasks application, we imagine two primary
 extensibility use cases:</p>
 <ol class="arabic">
@@ -138,9 +138,9 @@ is discussed in detail in the subsection on <a class="reference internal" href="
 <p>The Tasks plugin also provides two extensions points that permit the
 creation of extensible preferences dialogs. We defer discussion of this
 functionality to the subsection on <a class="reference internal" href="#creating-a-preferences-dialog"><span class="std std-ref">Creating a Preferences Dialog</span></a>.</p>
-<span class="target" id="tasks-applications"></span></section>
+</section>
 <section id="creating-a-tasks-application">
-<span id="index-3"></span><h2>Creating a Tasks Application<a class="headerlink" href="#creating-a-tasks-application" title="Permalink to this heading">¶</a></h2>
+<span id="index-3"></span><span id="tasks-applications"></span><h2>Creating a Tasks Application<a class="headerlink" href="#creating-a-tasks-application" title="Link to this heading">¶</a></h2>
 <p>Let us imagine that we are building a (slightly whimsical) application for
 visualizing <a class="reference external" href="http://en.wikipedia.org/wiki/Attractor">strange attractors</a>, in
 two and three dimensions <a class="footnote-reference brackets" href="#id7" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. We take for granted the existence of tasks
@@ -234,7 +234,7 @@ fundamentally application-specific. That said, we shall see in
 extensions for implementing common behaviors.</p>
 </section>
 <section id="creating-a-preferences-dialog">
-<span id="id3"></span><h2>Creating a Preferences Dialog<a class="headerlink" href="#creating-a-preferences-dialog" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h2>Creating a Preferences Dialog<a class="headerlink" href="#creating-a-preferences-dialog" title="Link to this heading">¶</a></h2>
 <p id="index-6">There are three extensions points associated with preferences. One of these
 extension points is built into the Envisage core plugin, while the other two
 belong to the Tasks plugin. Let us survey each of them in turn.</p>
@@ -395,7 +395,7 @@ above, exposes a Traits UI view for this helper object:</p>
 </div>
 </section>
 <section id="extending-an-existing-task">
-<span id="extending-a-task"></span><h2>Extending an Existing Task<a class="headerlink" href="#extending-an-existing-task" title="Permalink to this heading">¶</a></h2>
+<span id="extending-a-task"></span><h2>Extending an Existing Task<a class="headerlink" href="#extending-an-existing-task" title="Link to this heading">¶</a></h2>
 <p>Contributions are made to an existing task via the <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> class,
 which was briefly introduced above. <code class="docutils literal notranslate"><span class="pre">TaskExtension</span></code> is a simple class with
 three attributes:</p>
@@ -461,7 +461,7 @@ event that Tasks cannot, the menu order is undefined (although the insertions
 are guaranteed to made) and an error is logged.</p>
 </section>
 <section id="global-task-extensions">
-<span id="id6"></span><h2>Global Task Extensions<a class="headerlink" href="#global-task-extensions" title="Permalink to this heading">¶</a></h2>
+<span id="id6"></span><h2>Global Task Extensions<a class="headerlink" href="#global-task-extensions" title="Link to this heading">¶</a></h2>
 <p id="index-12">When creating an application with several tasks it is frequently the case that
 certain menu bar or tool bar actions should be present in all tasks. Such
 actions might include an “Exit” item in the “File” menu or an “About” item in
@@ -489,21 +489,21 @@ several other menu-related conveniences, can be found in
 <code class="docutils literal notranslate"><span class="pre">envisage.ui.tasks.action.api</span></code>.</p>
 <p class="rubric">Footnotes</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id7" role="note">
+<aside class="footnote brackets" id="id7" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
 <p>In this section, we shall be referencing–often with considerable
 simplification–the Attractors example code in the EnvisagePlugins
-package, available <a class="reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/plugins/tasks/attractors">online</a>
+package, available <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/7.0.4/envisage/examples/demo/plugins/tasks/attractors">online</a>
 and in the ETS distribution.</p>
 </aside>
-<aside class="footnote brackets" id="id8" role="note">
+<aside class="footnote brackets" id="id8" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
 <p>Although they are expanded into Pyface action items, schemas belong to a
 distinct API. It is beyond the scope of this document to describe the
 Pyface action API. For more complete documentation, the reader is
 referred to the <a class="reference external" href="https://docs.enthought.com/pyface/">Pyface documentation</a>.</p>
 </aside>
-<aside class="footnote brackets" id="id9" role="note">
+<aside class="footnote brackets" id="id9" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
 <p>Tasks differs from the Workbench in this regard.</p>
 </aside>
@@ -549,7 +549,7 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
     <a href="../_sources/tasks_user_manual/extensibility.rst.txt"
        rel="nofollow">Show Source</a>
   </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -557,7 +557,7 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -581,7 +581,7 @@ referred to the <a class="reference external" href="https://docs.enthought.com/p
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

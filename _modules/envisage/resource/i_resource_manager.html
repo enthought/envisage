@@ -10,9 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
@@ -24,11 +24,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../../../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../../../_static/img/favicon.png">
@@ -100,13 +100,17 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.i_resource_protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">IResourceProtocol</span>
 
 
-<div class="viewcode-block" id="IResourceManager"><a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IResourceManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IResourceManager">
+<a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IResourceManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The resource manager interface.&quot;&quot;&quot;</span>
 
     <span class="c1"># The protocols used by the manager to resolve resource URLs.</span>
     <span class="n">resource_protocols</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IResourceProtocol</span><span class="p">)</span>
 
-<div class="viewcode-block" id="IResourceManager.file"><a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager.file">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+<div class="viewcode-block" id="IResourceManager.file">
+<a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager.file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a readable file-like object for the specified url.</span>
 
 <span class="sd">        Raise a &#39;NoSuchResourceError&#39; if the resource does not exist.</span>
@@ -115,7 +119,9 @@
 
 <span class="sd">          manager.file(&#39;pkgfile://acme.ui.workbench/preferences.ini&#39;)</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</div>
+
 </pre></div>
 
           </div>
@@ -126,7 +132,7 @@
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/img/e-logo.png" alt="Logo">
             </a></p>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
@@ -134,7 +140,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -158,7 +164,7 @@
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

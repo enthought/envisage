@@ -14,5 +14,5 @@ envisage.examples package
 
 .. automodule:: envisage.examples
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

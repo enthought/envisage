@@ -14,8 +14,8 @@ envisage.plugins package
 
 .. automodule:: envisage.plugins
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

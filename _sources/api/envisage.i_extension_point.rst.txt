@@ -3,5 +3,5 @@ envisage.i\_extension\_point module
 
 .. automodule:: envisage.i_extension_point
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

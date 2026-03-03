@@ -14,8 +14,8 @@ envisage.ui.tasks.action package
 
 .. automodule:: envisage.ui.tasks.action
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

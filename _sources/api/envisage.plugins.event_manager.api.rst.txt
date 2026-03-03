@@ -3,5 +3,5 @@ envisage.plugins.event\_manager.api module
 
 .. automodule:: envisage.plugins.event_manager.api
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

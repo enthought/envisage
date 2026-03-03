@@ -3,5 +3,5 @@ envisage.plugins.python\_shell.api module
 
 .. automodule:: envisage.plugins.python_shell.api
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

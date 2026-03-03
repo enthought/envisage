@@ -14,8 +14,8 @@ envisage.plugins.python\_shell.view package
 
 .. automodule:: envisage.plugins.python_shell.view
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

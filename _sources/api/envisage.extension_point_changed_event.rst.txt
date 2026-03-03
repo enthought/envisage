@@ -3,5 +3,5 @@ envisage.extension\_point\_changed\_event module
 
 .. automodule:: envisage.extension_point_changed_event
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

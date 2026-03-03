@@ -3,5 +3,5 @@ envisage.ui.workbench.workbench\_application module
 
 .. automodule:: envisage.ui.workbench.workbench_application
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

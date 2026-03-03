@@ -14,8 +14,8 @@ envisage.plugins.text\_editor.editor package
 
 .. automodule:: envisage.plugins.text_editor.editor
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

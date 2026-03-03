@@ -3,5 +3,5 @@ envisage.plugins.text\_editor.actions module
 
 .. automodule:: envisage.plugins.text_editor.actions
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>envisage.application module &mdash; Envisage Documentation</title>
     
@@ -11,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -25,11 +25,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../_static/img/favicon.png">
@@ -93,97 +93,97 @@
           <div class="body" id="spc-section-body" role="main">
             
   <section id="module-envisage.application">
-<span id="envisage-application-module"></span><h1>envisage.application module<a class="headerlink" href="#module-envisage.application" title="Permalink to this heading">¶</a></h1>
+<span id="envisage-application-module"></span><h1>envisage.application module<a class="headerlink" href="#module-envisage.application" title="Link to this heading">¶</a></h1>
 <p>An extensible, pluggable, application.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="envisage.application.Application">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envisage.application.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application" title="Permalink to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">envisage.application.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">traits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.enthought.com/traits/traits_api_reference/has_traits.html#traits.has_traits.HasTraits" title="(in traits v7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTraits</span></code></a></p>
 <p>An extensible, pluggable, application.</p>
 <p>This class handles the common case for non-GUI applications, and it is
 intended to be subclassed to change start/stop behaviour etc.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.add_extension_point">
-<span class="sig-name descname"><span class="pre">add_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_extension_point" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_extension_point" title="Link to this definition">¶</a></dt>
 <dd><p>Add an extension point.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.add_extension_point_listener">
-<span class="sig-name descname"><span class="pre">add_extension_point_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_extension_point_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_extension_point_listener" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_extension_point_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_extension_point_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_extension_point_listener" title="Link to this definition">¶</a></dt>
 <dd><p>Add a listener for extensions being added/removed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.add_plugin">
-<span class="sig-name descname"><span class="pre">add_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_plugin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.add_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.add_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Add a plugin to the manager.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.extension_registry">
-<span class="sig-name descname"><span class="pre">extension_registry</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Instance(IExtensionRegistry)</span></em><a class="headerlink" href="#envisage.application.Application.extension_registry" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extension_registry</span></span><a class="headerlink" href="#envisage.application.Application.extension_registry" title="Link to this definition">¶</a></dt>
 <dd><p>The extension registry.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_extension_point">
-<span class="sig-name descname"><span class="pre">get_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extension_point" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extension_point" title="Link to this definition">¶</a></dt>
 <dd><p>Return the extension point with the specified Id.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_extension_points">
-<span class="sig-name descname"><span class="pre">get_extension_points</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extension_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extension_points" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extension_points</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extension_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extension_points" title="Link to this definition">¶</a></dt>
 <dd><p>Return all extension points that have been added to the registry.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_extensions">
-<span class="sig-name descname"><span class="pre">get_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extensions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_extensions" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list containing all contributions to an extension point.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_plugin">
-<span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_plugin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Return the plugin with the specified Id.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_required_service">
-<span class="sig-name descname"><span class="pre">get_required_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_required_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_required_service" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_required_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_required_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_required_service" title="Link to this definition">¶</a></dt>
 <dd><p>Return the service that matches the specified query.</p>
 <p>Raise a ‘NoSuchServiceError’ exception if no such service exists.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_service">
-<span class="sig-name descname"><span class="pre">get_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service" title="Link to this definition">¶</a></dt>
 <dd><p>Return at most one service that matches the specified query.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_service_from_id">
-<span class="sig-name descname"><span class="pre">get_service_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service_from_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service_from_id" title="Link to this definition">¶</a></dt>
 <dd><p>Return the service with the specified id.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_service_properties">
-<span class="sig-name descname"><span class="pre">get_service_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service_properties" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_service_properties" title="Link to this definition">¶</a></dt>
 <dd><p>Return the dictionary of properties associated with a service.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.get_services">
-<span class="sig-name descname"><span class="pre">get_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_services" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.get_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.get_services" title="Link to this definition">¶</a></dt>
 <dd><p>Return all services that match the specified query.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.home">
-<span class="sig-name descname"><span class="pre">home</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.application.Application.home" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">home</span></span><a class="headerlink" href="#envisage.application.Application.home" title="Link to this definition">¶</a></dt>
 <dd><p>The name of a directory (created for you) to which the application can
 read and write non-user accessible data, i.e. configuration information,
 preferences, etc.</p>
@@ -191,147 +191,147 @@ preferences, etc.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.application.Application.id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#envisage.application.Application.id" title="Link to this definition">¶</a></dt>
 <dd><p>The application’s globally unique identifier.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.import_symbol">
-<span class="sig-name descname"><span class="pre">import_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.import_symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.import_symbol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">import_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.import_symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.import_symbol" title="Link to this definition">¶</a></dt>
 <dd><p>Import the symbol defined by the specified symbol path.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.plugin_added">
-<span class="sig-name descname"><span class="pre">plugin_added</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Delegate(&quot;plugin_manager&quot;,</span> <span class="pre">modify=True)</span></em><a class="headerlink" href="#envisage.application.Application.plugin_added" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plugin_added</span></span><a class="headerlink" href="#envisage.application.Application.plugin_added" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been added.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.plugin_manager">
-<span class="sig-name descname"><span class="pre">plugin_manager</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Instance(IPluginManager)</span></em><a class="headerlink" href="#envisage.application.Application.plugin_manager" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plugin_manager</span></span><a class="headerlink" href="#envisage.application.Application.plugin_manager" title="Link to this definition">¶</a></dt>
 <dd><p>The plugin manager (starts and stops plugins etc).</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.plugin_removed">
-<span class="sig-name descname"><span class="pre">plugin_removed</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Delegate(&quot;plugin_manager&quot;,</span> <span class="pre">modify=True)</span></em><a class="headerlink" href="#envisage.application.Application.plugin_removed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plugin_removed</span></span><a class="headerlink" href="#envisage.application.Application.plugin_removed" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when a plugin has been removed.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.preferences">
-<span class="sig-name descname"><span class="pre">preferences</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Instance(IPreferences)</span></em><a class="headerlink" href="#envisage.application.Application.preferences" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">preferences</span></span><a class="headerlink" href="#envisage.application.Application.preferences" title="Link to this definition">¶</a></dt>
 <dd><p>The root preferences node.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.register_service">
-<span class="sig-name descname"><span class="pre">register_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.register_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.register_service" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">register_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.register_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.register_service" title="Link to this definition">¶</a></dt>
 <dd><p>Register a service.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.remove_extension_point">
-<span class="sig-name descname"><span class="pre">remove_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_extension_point" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_extension_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_extension_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_extension_point" title="Link to this definition">¶</a></dt>
 <dd><p>Remove an extension point.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.remove_extension_point_listener">
-<span class="sig-name descname"><span class="pre">remove_extension_point_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_extension_point_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_extension_point_listener" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_extension_point_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listener</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_extension_point_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_extension_point_listener" title="Link to this definition">¶</a></dt>
 <dd><p>Remove a listener for extensions being added/removed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.remove_plugin">
-<span class="sig-name descname"><span class="pre">remove_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_plugin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.remove_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.remove_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Remove a plugin from the manager.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.run" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.run" title="Link to this definition">¶</a></dt>
 <dd><p>Run the application.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.service_registry">
-<span class="sig-name descname"><span class="pre">service_registry</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Instance(IServiceRegistry)</span></em><a class="headerlink" href="#envisage.application.Application.service_registry" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">service_registry</span></span><a class="headerlink" href="#envisage.application.Application.service_registry" title="Link to this definition">¶</a></dt>
 <dd><p>The service registry.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.set_extensions">
-<span class="sig-name descname"><span class="pre">set_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.set_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.set_extensions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_extensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.set_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.set_extensions" title="Link to this definition">¶</a></dt>
 <dd><p>Set the extensions contributed to an extension point.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.set_service_properties">
-<span class="sig-name descname"><span class="pre">set_service_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.set_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.set_service_properties" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_service_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.set_service_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.set_service_properties" title="Link to this definition">¶</a></dt>
 <dd><p>Set the dictionary of properties associated with a service.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.start" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.start" title="Link to this definition">¶</a></dt>
 <dd><p>Start the plugin manager.</p>
 <p>Returns True unless the start was vetoed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.start_plugin">
-<span class="sig-name descname"><span class="pre">start_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.start_plugin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">start_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.start_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.start_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Start the specified plugin.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.started">
-<span class="sig-name descname"><span class="pre">started</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Event(ApplicationEvent)</span></em><a class="headerlink" href="#envisage.application.Application.started" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">started</span></span><a class="headerlink" href="#envisage.application.Application.started" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when all plugins have been started.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.starting">
-<span class="sig-name descname"><span class="pre">starting</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">VetoableEvent(ApplicationEvent)</span></em><a class="headerlink" href="#envisage.application.Application.starting" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">starting</span></span><a class="headerlink" href="#envisage.application.Application.starting" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when the application is starting.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.stop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.stop" title="Link to this definition">¶</a></dt>
 <dd><p>Stop the plugin manager.</p>
 <p>Returns True unless the stop was vetoed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.stop_plugin">
-<span class="sig-name descname"><span class="pre">stop_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.stop_plugin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stop_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.stop_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.stop_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Stop the specified plugin.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.stopped">
-<span class="sig-name descname"><span class="pre">stopped</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Event(ApplicationEvent)</span></em><a class="headerlink" href="#envisage.application.Application.stopped" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stopped</span></span><a class="headerlink" href="#envisage.application.Application.stopped" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when all plugins have been stopped.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.stopping">
-<span class="sig-name descname"><span class="pre">stopping</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">VetoableEvent(ApplicationEvent)</span></em><a class="headerlink" href="#envisage.application.Application.stopping" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stopping</span></span><a class="headerlink" href="#envisage.application.Application.stopping" title="Link to this definition">¶</a></dt>
 <dd><p>Fired when the application is stopping.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.application.Application.unregister_service">
-<span class="sig-name descname"><span class="pre">unregister_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.unregister_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.unregister_service" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unregister_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/application.html#Application.unregister_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.application.Application.unregister_service" title="Link to this definition">¶</a></dt>
 <dd><p>Unregister a service.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="envisage.application.Application.user_data">
-<span class="sig-name descname"><span class="pre">user_data</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Str</span></em><a class="headerlink" href="#envisage.application.Application.user_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">user_data</span></span><a class="headerlink" href="#envisage.application.Application.user_data" title="Link to this definition">¶</a></dt>
 <dd><p>The name of a directory (created for you upon access) to which the
 application can read and write user-accessible data, e.g. projects
 created by the user.</p>
@@ -415,7 +415,7 @@ created by the user.</p>
     <a href="../_sources/api/envisage.application.rst.txt"
        rel="nofollow">Show Source</a>
   </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -423,7 +423,7 @@ created by the user.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -447,7 +447,7 @@ created by the user.</p>
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

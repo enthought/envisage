@@ -3,5 +3,5 @@ envisage.ui.action.tool\_bar module
 
 .. automodule:: envisage.ui.action.tool_bar
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

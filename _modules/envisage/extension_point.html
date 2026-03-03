@@ -10,9 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -24,11 +24,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script src="../../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../../_static/img/favicon.png">
@@ -112,7 +112,9 @@
 
 <span class="c1"># Even though trait types do not themselves have traits, we can still</span>
 <span class="c1"># declare that we implement an interface.</span>
-<div class="viewcode-block" id="ExtensionPoint"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IExtensionPoint</span><span class="p">)</span>
+<div class="viewcode-block" id="ExtensionPoint">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint">[docs]</a>
+<span class="nd">@provides</span><span class="p">(</span><span class="n">IExtensionPoint</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExtensionPoint</span><span class="p">(</span><span class="n">TraitType</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A trait type used to declare and access extension points.</span>
 
@@ -125,19 +127,25 @@
     <span class="c1"># &#39;ExtensionPoint&#39; *CLASS* interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ExtensionPoint.connect_extension_point_traits"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect_extension_point_traits">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ExtensionPoint.connect_extension_point_traits">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect_extension_point_traits">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">connect_extension_point_traits</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect all of the &#39;ExtensionPoint&#39; traits on an object.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">__extension_point__</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtensionPoint.disconnect_extension_point_traits"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="ExtensionPoint.disconnect_extension_point_traits">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect_extension_point_traits">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">disconnect_extension_point_traits</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect all of the &#39;ExtensionPoint&#39; traits on an object.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">__extension_point__</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span></div>
+
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;object&#39; interface.</span>
@@ -187,7 +195,9 @@
     <span class="c1"># &#39;TraitType&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ExtensionPoint.get"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.get">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionPoint.get">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait type getter.&quot;&quot;&quot;</span>
 
         <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -198,7 +208,10 @@
         <span class="c1"># Make sure the contributions are of the appropriate type.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">extensions</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtensionPoint.set"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.set">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExtensionPoint.set">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.set">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait type setter.&quot;&quot;&quot;</span>
 
         <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -208,11 +221,14 @@
         <span class="c1"># for exxample ;^).</span>
         <span class="n">extension_registry</span><span class="o">.</span><span class="n">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
+
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;ExtensionPoint&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="ExtensionPoint.connect"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtensionPoint.connect">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.connect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect the extension point to a trait on an object.</span>
 
 <span class="sd">        This allows the object to react when contributions are added or</span>
@@ -251,7 +267,10 @@
         <span class="n">listeners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">listeners</span><span class="p">[</span><span class="n">trait_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">listener</span></div>
 
-<div class="viewcode-block" id="ExtensionPoint.disconnect"><a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExtensionPoint.disconnect">
+<a class="viewcode-back" href="../../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint.disconnect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect the extension point from a trait on an object.&quot;&quot;&quot;</span>
 
         <span class="n">extension_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extension_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -265,6 +284,7 @@
 
             <span class="c1"># Clean up.</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="p">[</span><span class="n">obj</span><span class="p">][</span><span class="n">trait_name</span><span class="p">]</span></div>
+
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
@@ -283,6 +303,7 @@
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">extension_registry</span></div>
+
 </pre></div>
 
           </div>
@@ -293,7 +314,7 @@
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/img/e-logo.png" alt="Logo">
             </a></p>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
@@ -301,7 +322,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -325,7 +346,7 @@
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

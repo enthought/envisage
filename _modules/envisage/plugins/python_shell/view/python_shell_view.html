@@ -10,9 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../../../../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../../_static/enthought.css" type="text/css" >
-    <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" >
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/enthought.css?v=1c73b1d4" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../../',
@@ -24,11 +24,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../../_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="../../../../../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
     <script type="text/javascript" src="../../../../../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../../../../../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../../../../../_static/img/favicon.png">
@@ -109,27 +109,44 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="PseudoFile"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PseudoFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PseudoFile">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PseudoFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulates a normal File object.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">write</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">write</span>
 
-<div class="viewcode-block" id="PseudoFile.readline"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">readline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PseudoFile.readline">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.readline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">readline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="PseudoFile.writelines"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">writelines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PseudoFile.writelines">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.writelines">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writelines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PseudoFile.flush"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PseudoFile.flush">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.flush">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="PseudoFile.isatty"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">isatty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">1</span></div></div>
+
+<div class="viewcode-block" id="PseudoFile.isatty">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PseudoFile.isatty">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isatty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PythonShellView"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView">[docs]</a><span class="nd">@provides</span><span class="p">(</span><span class="n">IPythonShell</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PythonShellView">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView">[docs]</a>
+<span class="nd">@provides</span><span class="p">(</span><span class="n">IPythonShell</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PythonShellView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A view containing an interactive Python shell.&quot;&quot;&quot;</span>
 
@@ -185,7 +202,9 @@
     <span class="c1"># &#39;View&#39; interface.</span>
     <span class="c1">###########################################################################</span>
 
-<div class="viewcode-block" id="PythonShellView.create_control"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<div class="viewcode-block" id="PythonShellView.create_control">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.create_control">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the toolkit-specific control that represents the view.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="o">=</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">PythonShell</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
@@ -220,7 +239,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">control</span></div>
 
-<div class="viewcode-block" id="PythonShellView.destroy_control"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">destroy_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PythonShellView.destroy_control">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.destroy_control">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">destroy_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Destroys the toolkit-specific control that represents the view.&quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">destroy_control</span><span class="p">()</span>
@@ -233,6 +255,7 @@
 
         <span class="c1"># Restore the original stdout.</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span></div>
+
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;PythonShellView&#39; interface.</span>
@@ -252,25 +275,37 @@
 
     <span class="c1">#### Methods ##############################################################</span>
 
-<div class="viewcode-block" id="PythonShellView.bind"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PythonShellView.bind">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.bind">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Binds a name to a value in the interpreter&#39;s namespace.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PythonShellView.execute_command"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PythonShellView.execute_command">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_command">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a command in the interpreter.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PythonShellView.execute_file"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PythonShellView.execute_file">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.execute_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a command in the interpreter.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">execute_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PythonShellView.lookup"><a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PythonShellView.lookup">
+<a class="viewcode-back" href="../../../../../api/envisage.plugins.python_shell.view.python_shell_view.html#envisage.plugins.python_shell.view.python_shell_view.PythonShellView.lookup">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the value bound to a name in the interpreter&#39;s namespace.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">interpreter</span><span class="p">()</span><span class="o">.</span><span class="n">locals</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
@@ -319,6 +354,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dynamic trait change handler.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
 </pre></div>
 
           </div>
@@ -329,7 +365,7 @@
             <p class="logo"><a href="../../../../../index.html">
               <img class="logo" src="../../../../../_static/img/e-logo.png" alt="Logo">
             </a></p>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../../../search.html" method="get">
@@ -337,7 +373,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -361,7 +397,7 @@
       Last updated on Mar 03, 2026.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 6.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
       </li>
     </ul>
     </div>

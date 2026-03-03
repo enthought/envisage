@@ -14,8 +14,8 @@ envisage.resource package
 
 .. automodule:: envisage.resource
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 .. toctree::
 

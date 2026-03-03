@@ -3,5 +3,5 @@ envisage.service\_offer module
 
 .. automodule:: envisage.service_offer
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

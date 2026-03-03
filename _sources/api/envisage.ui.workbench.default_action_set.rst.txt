@@ -3,5 +3,5 @@ envisage.ui.workbench.default\_action\_set module
 
 .. automodule:: envisage.ui.workbench.default_action_set
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

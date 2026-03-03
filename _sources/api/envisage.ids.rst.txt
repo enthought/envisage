@@ -3,5 +3,5 @@ envisage.ids module
 
 .. automodule:: envisage.ids
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

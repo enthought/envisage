@@ -3,5 +3,5 @@ envisage.ui.tasks.task\_window\_event module
 
 .. automodule:: envisage.ui.tasks.task_window_event
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
