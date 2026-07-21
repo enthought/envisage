@@ -1,4 +1,4 @@
 black ~= 24.3
 flake8
-flake8-ets
+flake8-ets >= 1.1.0
 isort
