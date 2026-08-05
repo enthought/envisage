@@ -13,9 +13,15 @@
 import unittest
 
 # Enthought library imports.
-from traits.api import HasTraits, Instance, Int, TraitError
+from traits.api import HasTraits, Instance, List, TraitError
 
-from envisage.api import Plugin, Service
+from envisage.api import (
+    CorePlugin,
+    Plugin,
+    Service,
+    SERVICE_OFFERS,
+    ServiceOffer,
+)
 from envisage.tests.support import SimpleApplication
 
 
@@ -29,38 +35,45 @@ class ServiceTestCase(unittest.TestCase):
             pass
 
         class PluginA(Plugin):
+            """A plugin that offers a service."""
+
             id = "A"
+
             foo = Instance(Foo, ())
 
-            # The Id of the service registered when the plugin started.
-            _service_id = Int()
+            service_offers = List(contributes_to=SERVICE_OFFERS)
 
-            def start(self):
-                self._service_id = self.application.register_service(
-                    Foo, self.foo
-                )
+            def _service_offers_default(self):
+                """Trait initializer."""
 
-            def stop(self):
-                self.application.unregister_service(self._service_id)
+                return [ServiceOffer(protocol=Foo, factory=self._foo_factory)]
+
+            def _foo_factory(self, **properties):
+                """Service factory."""
+
+                return self.foo
 
         class PluginB(Plugin):
+            """A plugin that uses the service."""
+
             id = "B"
+
             foo = Service(Foo)
 
         a = PluginA()
         b = PluginB()
 
-        application = SimpleApplication(plugins=[a, b])
+        application = SimpleApplication(plugins=[CorePlugin(), a, b])
         application.start()
 
-        # Make sure the services were registered.
-        self.assertEqual(a.foo, b.foo)
+        # The 'Service' trait finds the service that PluginA offers.
+        self.assertEqual(b.foo, a.foo)
 
         # Stop the application.
         application.stop()
 
-        # Make sure the service was unregistered.
-        self.assertEqual(None, b.foo)
+        # The 'Service' trait re-reads the registry, so the service has gone.
+        self.assertIsNone(b.foo)
 
         # You can't set service traits!
         with self.assertRaises(TraitError):
