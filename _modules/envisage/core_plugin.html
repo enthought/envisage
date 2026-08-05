@@ -215,6 +215,11 @@
 
     <span class="c1"># None.</span>
 
+    <span class="c1">#### Private interface ####################################################</span>
+
+    <span class="c1"># The Ids of the services that were registered when the plugin started.</span>
+    <span class="n">_service_ids</span> <span class="o">=</span> <span class="n">List</span>
+
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;IPlugin&#39; interface.</span>
     <span class="c1">###########################################################################</span>
@@ -227,12 +232,21 @@
         <span class="c1"># preferences node.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_preferences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
 
-        <span class="c1"># Register all service offers.</span>
-        <span class="c1">#</span>
-        <span class="c1"># These services are unregistered by the default plugin activation</span>
-        <span class="c1"># strategy (due to the fact that we store the service ids in this</span>
-        <span class="c1"># specific trait!).</span>
+        <span class="c1"># Register all service offers. These services are unregistered again</span>
+        <span class="c1"># when the plugin is stopped.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_register_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_offers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CorePlugin.stop">
+<a class="viewcode-back" href="../../api/envisage.core_plugin.html#envisage.core_plugin.CorePlugin.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Unregister all service offers.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="p">)</span>
+
+        <span class="c1"># Just in case the plugin is started again!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 
     <span class="c1">###########################################################################</span>
@@ -272,7 +286,21 @@
             <span class="n">properties</span><span class="o">=</span><span class="n">service_offer</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">service_id</span></div>
+        <span class="k">return</span> <span class="n">service_id</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_ids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister a list of service offers.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Unregister the services in the reverse order that we registered</span>
+        <span class="c1"># them.</span>
+        <span class="k">for</span> <span class="n">service_id</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">service_ids</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service_from_id</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c1"># the service may have already been individually unregistered</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
 
 </pre></div>
 

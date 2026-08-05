@@ -119,9 +119,6 @@
         <span class="c1"># will be notified if and when contributions are added or removed.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">connect_extension_point_traits</span><span class="p">()</span>
 
-        <span class="c1"># Register all services.</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">register_services</span><span class="p">()</span>
-
         <span class="c1"># Plugin specific start.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
@@ -133,9 +130,6 @@
 
         <span class="c1"># Plugin specific stop.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-
-        <span class="c1"># Unregister all service.</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">unregister_services</span><span class="p">()</span>
 
         <span class="c1"># Disconnect all of the plugin&#39;s extension point traits.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">()</span></div>

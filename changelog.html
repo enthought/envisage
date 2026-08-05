@@ -112,6 +112,13 @@ and <code class="docutils literal notranslate"><span class="pre">PackagePluginMa
 <li><p>Remove the deprecated <code class="docutils literal notranslate"><span class="pre">include</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude</span></code> traits of
 <code class="docutils literal notranslate"><span class="pre">PluginManager</span></code>, along with the associated plugin-filtering
 machinery and tests. (#547)</p></li>
+<li><p>Remove support for the long-deprecated <code class="docutils literal notranslate"><span class="pre">service=True</span></code> and
+<code class="docutils literal notranslate"><span class="pre">service_protocol</span></code> trait metadata, which registered a plugin’s trait
+as a service when the plugin was started. Use the
+<code class="docutils literal notranslate"><span class="pre">envisage.service_offers</span></code> extension point of the <code class="docutils literal notranslate"><span class="pre">CorePlugin</span></code>
+instead. The <code class="docutils literal notranslate"><span class="pre">Plugin.register_services</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Plugin.unregister_services</span></code> methods have been removed along with it,
+and the default <code class="docutils literal notranslate"><span class="pre">PluginActivator</span></code> no longer calls them. (#614)</p></li>
 </ul>
 </section>
 <section id="build">

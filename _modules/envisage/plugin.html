@@ -98,7 +98,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">exists</span><span class="p">,</span> <span class="n">join</span>
 
 <span class="c1"># Enthought library imports.</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.util.camel_case</span><span class="w"> </span><span class="kn">import</span> <span class="n">camel_case_to_words</span>
 
 <span class="c1"># Local imports.</span>
@@ -166,11 +166,6 @@
 
     <span class="c1">#: The service registry that the object&#39;s services are stored in.</span>
     <span class="n">service_registry</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">IServiceRegistry</span><span class="p">))</span>
-
-    <span class="c1">#### Private interface ####################################################</span>
-
-    <span class="c1"># The Ids of the services that were automatically registered.</span>
-    <span class="n">_service_ids</span> <span class="o">=</span> <span class="n">List</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;IExtensionPointUser&#39; interface.</span>
@@ -341,51 +336,6 @@
         <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Plugin.register_services">
-<a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.register_services">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">register_services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register the services offered by the plugin.&quot;&quot;&quot;</span>
-
-        <span class="k">for</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s1">&#39;DEPRECATED: Do not use the &quot;service=True&quot; metadata anymore. &#39;</span>
-                <span class="s2">&quot;Services should now be offered using the service &quot;</span>
-                <span class="s2">&quot;offer extension point (envisage.service_offers) &quot;</span>
-                <span class="s2">&quot;from the core plugin. &quot;</span>
-                <span class="s2">&quot;Plugin </span><span class="si">%s</span><span class="s2"> trait &lt;</span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
-            <span class="p">)</span>
-
-            <span class="c1"># Register a service factory for the trait.</span>
-            <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_register_service_factory</span><span class="p">(</span><span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span><span class="p">)</span>
-
-            <span class="c1"># We save the service Id so that so that we can unregister the</span>
-            <span class="c1"># service when the plugin is stopped.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Plugin.unregister_services">
-<a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.unregister_services">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">unregister_services</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister any service offered by the plugin.&quot;&quot;&quot;</span>
-
-        <span class="c1"># Unregister the services in the reverse order that we registered</span>
-        <span class="c1"># them.</span>
-        <span class="n">service_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="p">[:]</span>
-        <span class="n">service_ids</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">service_id</span> <span class="ow">in</span> <span class="n">service_ids</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service_from_id</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c1"># the service may have already been individually unregistered</span>
-                <span class="k">pass</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="n">service_id</span><span class="p">)</span>
-
-        <span class="c1"># Just in case the plugin is started again!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span> <span class="o">=</span> <span class="p">[]</span></div>
-
-
     <span class="c1">###########################################################################</span>
     <span class="c1"># Private interface.</span>
     <span class="c1">###########################################################################</span>
@@ -443,43 +393,6 @@
             <span class="k">raise</span>
 
         <span class="k">return</span> <span class="n">extensions</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_service_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine the protocol to register a service trait with.&quot;&quot;&quot;</span>
-
-        <span class="c1"># If a specific protocol was specified then use it.</span>
-        <span class="k">if</span> <span class="n">trait</span><span class="o">.</span><span class="n">service_protocol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">protocol</span> <span class="o">=</span> <span class="n">trait</span><span class="o">.</span><span class="n">service_protocol</span>
-
-        <span class="c1"># Otherwise, use the type of the objects that can be assigned to the</span>
-        <span class="c1"># trait.</span>
-        <span class="c1">#</span>
-        <span class="c1"># fixme: This works for &#39;Instance&#39; traits, but what about &#39;AdaptsTo&#39;</span>
-        <span class="c1"># and &#39;Supports&#39; traits?</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Note that in traits the protocol can be an actual class or</span>
-            <span class="c1"># interfacem or the *name* of a class or interface. This allows</span>
-            <span class="c1"># us to lazy load them!</span>
-            <span class="n">protocol</span> <span class="o">=</span> <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span><span class="o">.</span><span class="n">klass</span>
-
-        <span class="k">return</span> <span class="n">protocol</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_register_service_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">trait</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service factory for the specified trait.&quot;&quot;&quot;</span>
-
-        <span class="c1"># Determine the protocol that the service should be registered with.</span>
-        <span class="n">protocol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_service_protocol</span><span class="p">(</span><span class="n">trait</span><span class="p">)</span>
-
-        <span class="c1"># Register a factory for the service so that it will be lazily loaded</span>
-        <span class="c1"># the first time somebody asks for a service with the same protocol</span>
-        <span class="c1"># (this could obviously be a lambda function, but I thought it best to</span>
-        <span class="c1"># be more explicit 8^).</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;A service factory.&quot;&quot;&quot;</span>
-
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">factory</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;object&#39; interface.</span>
