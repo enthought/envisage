@@ -37,8 +37,7 @@ Removals
 Fixes
 -----
 * ``HTTPResourceProtocol.file`` now closes the ``HTTPError`` raised by
-  ``urlopen`` before converting it to a ``NoSuchResourceError``, rather
-  than leaving the error response for the garbage collector. (#615)
+  ``urlopen`` before converting it to a ``NoSuchResourceError``. (#615)
 * The ``NoSuchResourceError`` raised by ``HTTPResourceProtocol.file`` no
   longer reports a malformed ``"http:://"`` URL scheme. (#615)
 
@@ -55,10 +54,7 @@ Tests
   to ``SamplePlugin``, so that pytest no longer emits a
   ``PytestCollectionWarning`` for it. (#615)
 * The test suite no longer writes ``WARNING``-level log messages to
-  ``stderr``. The two messages involved -- an unknown extension point
-  being requested, and a plugin's contribution raising an exception -- now
-  have tests that assert them; the tests that provoked them only
-  incidentally suppress them instead. (#615)
+  ``stderr``. (#615)
 * pytest is now configured to turn warnings into errors, so that a new
   warning fails the test suite instead of passing unnoticed. TraitsUI's
   import-time ``ImportWarning`` about a missing numpy is ignored, as numpy
