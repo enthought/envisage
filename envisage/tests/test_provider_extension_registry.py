@@ -10,6 +10,7 @@
 """ Tests for the provider extension registry. """
 
 # Standard library imports.
+import logging
 import unittest
 
 from traits.api import Int, List
@@ -26,6 +27,9 @@ from envisage.tests.test_extension_registry_mixin import (
     ExtensionRegistryTestMixin,
 )
 
+# Logger used by the code under test.
+LOGGER_NAME = "envisage.provider_extension_registry"
+
 
 class ProviderExtensionRegistryTestCase(
     ExtensionRegistryTestMixin, unittest.TestCase
@@ -36,6 +40,28 @@ class ProviderExtensionRegistryTestCase(
         """Prepares the test fixture before each test method is called."""
 
         self.registry = ProviderExtensionRegistry()
+
+        # Several tests here and in the shared mixin provoke the unknown
+        # extension point warning incidentally; it's asserted directly in
+        # test_get_extensions_of_unknown_extension_point.
+        logger = logging.getLogger(LOGGER_NAME)
+        old_level = logger.level
+        logger.setLevel(logging.ERROR)
+        self.addCleanup(logger.setLevel, old_level)
+
+    def test_get_extensions_of_unknown_extension_point(self):
+        """getting extensions of an unknown extension point"""
+
+        registry = self.registry
+
+        # Asking for the extensions of an extension point that was never
+        # added gives an empty list, and warns.
+        with self.assertLogs(LOGGER_NAME, level="WARNING") as watcher:
+            extensions = registry.get_extensions("my.ep")
+
+        self.assertEqual(extensions, [])
+        self.assertEqual(len(watcher.records), 1)
+        self.assertIn("my.ep", watcher.records[0].getMessage())
 
     def test_providers(self):
         """providers"""

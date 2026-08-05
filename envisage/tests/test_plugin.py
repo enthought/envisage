@@ -23,7 +23,7 @@ from envisage.tests.ets_config_patcher import ETSConfigPatcher
 from envisage.tests.support import SimpleApplication
 
 
-class TestPlugin(Plugin):
+class SamplePlugin(Plugin):
     id = "test_plugin"
 
 
@@ -154,10 +154,16 @@ class PluginTestCase(unittest.TestCase):
 
         application = SimpleApplication(plugins=[a, b])
 
-        # We should get an when we try to get the contributions to the
+        # We should get an error when we try to get the contributions to the
         # extension point.
-        with self.assertRaises(ZeroDivisionError):
-            application.get_extensions("x")
+        with self.assertLogs("envisage.plugin", level="ERROR") as watcher:
+            with self.assertRaises(ZeroDivisionError):
+                application.get_extensions("x")
+
+        self.assertEqual(len(watcher.records), 1)
+        record = watcher.records[0]
+        self.assertIn("trait <x>", record.getMessage())
+        self.assertIsNotNone(record.exc_info)
 
     def test_contributes_to(self):
         """contributes to"""
@@ -304,7 +310,7 @@ class PluginTestCase(unittest.TestCase):
 
     def test_plugin_str_representation(self):
         """test the string representation of the plugin"""
-        plugin_repr = "TestPlugin(id={!r}, name={!r})"
-        plugin = TestPlugin(id="Fred", name="Wilma")
+        plugin_repr = "SamplePlugin(id={!r}, name={!r})"
+        plugin = SamplePlugin(id="Fred", name="Wilma")
         self.assertEqual(str(plugin), plugin_repr.format("Fred", "Wilma"))
         self.assertEqual(repr(plugin), plugin_repr.format("Fred", "Wilma"))

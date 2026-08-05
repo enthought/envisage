@@ -34,12 +34,27 @@ Removals
   ``Plugin.unregister_services`` methods have been removed along with it,
   and the default ``PluginActivator`` no longer calls them. (#614)
 
+Fixes
+-----
+* ``HTTPResourceProtocol.file`` now closes the ``HTTPError`` raised by
+  ``urlopen`` before converting it to a ``NoSuchResourceError``. (#615)
+* The ``NoSuchResourceError`` raised by ``HTTPResourceProtocol.file`` no
+  longer reports a malformed ``"http:://"`` URL scheme. (#615)
+
 Build
 -----
 * Remove all uses of ``pkg_resources`` and drop ``setuptools`` as a
   runtime dependency. ``setuptools`` is retained as a build dependency.
   ``importlib.resources`` (with ``importlib-resources`` as a backport
   for Python 3.8) is used instead.
+
+Tests
+-----
+* Rename the ``TestPlugin`` helper class in ``envisage.tests.test_plugin``
+  to ``SamplePlugin``, so that pytest no longer emits a
+  ``PytestCollectionWarning`` for it. (#615)
+* The test suite no longer writes ``WARNING``-level log messages to
+  ``stderr``. (#615)
 
 Version 7.0.4
 =============
