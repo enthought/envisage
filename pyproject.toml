@@ -1,5 +1,5 @@
 [build-system]
-requires = ['setuptools', 'wheel']
+requires = ['setuptools>=83']
 build-backend = 'setuptools.build_meta'
 
 [project]
@@ -8,14 +8,14 @@ version = '7.0.4'
 description = 'Extensible application framework'
 readme = 'README.rst'
 requires-python = '>= 3.10'
-license = {file = 'LICENSE.txt'}
+license = 'BSD-3-Clause'
+license-files = ['LICENSE.txt', 'image_LICENSE.txt', 'image_LICENSE_CP.txt']
 authors = [{name = 'Enthought', email = 'info@enthought.com'}]
 keywords = ['extensible', 'plugin', 'application', 'framework']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'Intended Audience :: Science/Research',
-    'License :: OSI Approved :: BSD License',
     'Operating System :: MacOS :: MacOS X',
     'Operating System :: Microsoft :: Windows',
     'Operating System :: POSIX :: Linux',

@@ -28,12 +28,7 @@ envisage/ui/workbench/action/images:
                            exit.png | CP
                     preferences.png | CP
 
-examples/workbench/AcmeLab/acme/acmelab/images:
-                          about.png | Public domain
-                        acmelab.ico | GV
-                         splash.jpg | CCL
-
-examples/workbench/AcmeLabUsingEggs/src/acme.acmelab/acme/acmelab/images:
+examples/legacy/workbench/AcmeLab/acme/acmelab/images:
                           about.png | Public domain
                         acmelab.ico | GV
                          splash.jpg | CCL
