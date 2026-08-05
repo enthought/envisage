@@ -140,6 +140,10 @@ runtime dependency. <code class="docutils literal notranslate"><span class="pre"
 <code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> is used instead.</p></li>
 <li><p>Drop the <code class="docutils literal notranslate"><span class="pre">importlib-resources</span></code> dependency, which was only needed for
 Python versions earlier than 3.9. (#616)</p></li>
+<li><p>Declare the license with the PEP 639 <code class="docutils literal notranslate"><span class="pre">license</span></code> and <code class="docutils literal notranslate"><span class="pre">license-files</span></code>
+fields in place of the deprecated <code class="docutils literal notranslate"><span class="pre">License</span> <span class="pre">::</span></code> classifier. (#625)</p></li>
+<li><p>Raise the build-time setuptools requirement to 83 or later, and drop
+<code class="docutils literal notranslate"><span class="pre">wheel</span></code> from the build requirements. (#625)</p></li>
 </ul>
 </section>
 <section id="tests">
