@@ -19,7 +19,7 @@ class IServiceRegistry(Interface):
 
     The service registry provides a 'Yellow Pages' style mechanism, in that
     services are published and looked up by protocol (meaning, *interface*,
-    *type*, or *class* (for old-style classes!). It is called a 'Yellow Pages'
+    *type*, or *class*). It is called a 'Yellow Pages'
     mechanism because it is just like looking up a telephone number in the
     'Yellow Pages' phone book. You use the 'Yellow Pages' instead of the
     'White Pages' when you don't know the *name* of the person you want to
