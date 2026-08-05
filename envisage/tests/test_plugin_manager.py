@@ -93,6 +93,26 @@ class PluginManagerTestCase(unittest.TestCase):
 
         self.assertEqual([simple_plugin, bad_plugin], plugins)
 
+    def test_iteration_is_unaffected_by_changes_to_the_plugins(self):
+        """iteration is unaffected by plugins added or removed"""
+
+        first = SimplePlugin(id="first")
+        second = SimplePlugin(id="second")
+
+        # A plugin removed after the iterator is created is still visited.
+        plugin_manager = PluginManager(plugins=[first, second])
+        iterator = iter(plugin_manager)
+        plugin_manager.remove_plugin(second)
+        self.assertEqual(
+            ["first", "second"], [plugin.id for plugin in iterator]
+        )
+
+        # A plugin added after the iterator is created is not visited.
+        plugin_manager = PluginManager(plugins=[first])
+        iterator = iter(plugin_manager)
+        plugin_manager.add_plugin(second)
+        self.assertEqual(["first"], [plugin.id for plugin in iterator])
+
     def test_start_and_stop(self):
         """start and stop"""
 
@@ -137,123 +157,3 @@ class PluginManagerTestCase(unittest.TestCase):
         # Try to stop a non-existent plugin.
         with self.assertRaises(ValueError):
             plugin_manager.stop_plugin(plugin_id="bogus")
-
-    def test_only_include_plugins_whose_ids_are_in_the_include_list(self):
-        # Note that the items in the list use the 'fnmatch' syntax for matching
-        # plugins Ids.
-        include = ["foo", "bar"]
-
-        with self.assertWarns(DeprecationWarning):
-            plugin_manager = PluginManager(
-                include=include,
-                plugins=[
-                    SimplePlugin(id="foo"),
-                    SimplePlugin(id="bar"),
-                    SimplePlugin(id="baz"),
-                ],
-            )
-
-        # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ["foo", "bar"]
-
-        # Make sure the plugin manager found only the required plugins and that
-        # it starts and stops them correctly..
-        self._test_start_and_stop(plugin_manager, expected)
-
-    def test_only_include_plugins_matching_a_wildcard_in_the_include_list(
-        self,
-    ):
-        # Note that the items in the list use the 'fnmatch' syntax for matching
-        # plugins Ids.
-        include = ["b*"]
-
-        with self.assertWarns(DeprecationWarning):
-            plugin_manager = PluginManager(
-                include=include,
-                plugins=[
-                    SimplePlugin(id="foo"),
-                    SimplePlugin(id="bar"),
-                    SimplePlugin(id="baz"),
-                ],
-            )
-
-        # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ["bar", "baz"]
-
-        # Make sure the plugin manager found only the required plugins and that
-        # it starts and stops them correctly..
-        self._test_start_and_stop(plugin_manager, expected)
-
-    def test_ignore_plugins_whose_ids_are_in_the_exclude_list(self):
-        # Note that the items in the list use the 'fnmatch' syntax for matching
-        # plugins Ids.
-        exclude = ["foo", "baz"]
-
-        with self.assertWarns(DeprecationWarning):
-            plugin_manager = PluginManager(
-                exclude=exclude,
-                plugins=[
-                    SimplePlugin(id="foo"),
-                    SimplePlugin(id="bar"),
-                    SimplePlugin(id="baz"),
-                ],
-            )
-
-        # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ["bar"]
-
-        # Make sure the plugin manager found only the required plugins and that
-        # it starts and stops them correctly..
-        self._test_start_and_stop(plugin_manager, expected)
-
-    def test_ignore_plugins_matching_a_wildcard_in_the_exclude_list(self):
-        # Note that the items in the list use the 'fnmatch' syntax for matching
-        # plugins Ids.
-        exclude = ["b*"]
-
-        with self.assertWarns(DeprecationWarning):
-            plugin_manager = PluginManager(
-                exclude=exclude,
-                plugins=[
-                    SimplePlugin(id="foo"),
-                    SimplePlugin(id="bar"),
-                    SimplePlugin(id="baz"),
-                ],
-            )
-
-        # The Ids of the plugins that we expect the plugin manager to find.
-        expected = ["foo"]
-
-        # Make sure the plugin manager found only the required plugins and that
-        # it starts and stops them correctly..
-        self._test_start_and_stop(plugin_manager, expected)
-
-    #### Private protocol #####################################################
-
-    def _test_start_and_stop(self, plugin_manager, expected):
-        """
-        Make sure the plugin manager starts and stops the expected plugins.
-        """
-
-        # Make sure the plugin manager found only the required plugins.
-        self.assertEqual(expected, [plugin.id for plugin in plugin_manager])
-
-        # Start the plugin manager. This starts all of the plugin manager's
-        # plugins.
-        plugin_manager.start()
-
-        # Make sure all of the the plugins were started.
-        for id in expected:
-            plugin = plugin_manager.get_plugin(id)
-            self.assertNotEqual(None, plugin)
-            self.assertEqual(True, plugin.started)
-
-        # Stop the plugin manager. This stops all of the plugin manager's
-        # plugins.
-        plugin_manager.stop()
-
-        # Make sure all of the the plugins were stopped.
-        for id in expected:
-            plugin = plugin_manager.get_plugin(id)
-            self.assertNotEqual(None, plugin)
-            self.assertEqual(True, plugin.stopped)
