@@ -15,8 +15,7 @@ Changes
   warnings and errors on ``stderr``. (#613)
 * Messages reporting that a default ``id`` or ``name`` has been used for
   a ``Plugin`` or an ``ActionSet`` are now logged at ``INFO`` level
-  rather than ``WARNING`` level. Defaulting those attributes is normal,
-  supported behaviour, so there's no action for the user to take. (#613)
+  rather than ``WARNING`` level. (#613)
 
 Removals
 --------
