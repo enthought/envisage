@@ -12,62 +12,77 @@ Changes
   ``logging.lastResort``, and so suppressed Envisage's warnings and
   errors in applications that hadn't configured logging themselves.
   Applications that don't configure logging will now see Envisage's
-  warnings and errors on ``stderr``. (#574)
+  warnings and errors on ``stderr``. (#613)
 * Messages reporting that a default ``id`` or ``name`` has been used for
   a ``Plugin`` or an ``ActionSet`` are now logged at ``INFO`` level
   rather than ``WARNING`` level. Defaulting those attributes is normal,
-  supported behaviour, so there's no action for the user to take. (#574)
+  supported behaviour, so there's no action for the user to take. (#613)
 
 Removals
 --------
 * Drop support for Python 3.8 and 3.9. Envisage now requires Python 3.10
-  or later. (#616)
+  or later. (#622)
 * Remove the deprecated ``EggPluginManager``, ``EggBasketPluginManager``
   and ``PackagePluginManager`` classes, along with the supporting
-  ``egg_utils`` module and associated tests. (#548)
+  ``egg_utils`` module and associated tests. (#599)
 * Remove the deprecated ``include`` and ``exclude`` traits of
   ``PluginManager``, along with the associated plugin-filtering
-  machinery and tests. (#547)
+  machinery and tests. (#612)
 * Remove support for the long-deprecated ``service=True`` and
   ``service_protocol`` trait metadata, which registered a plugin's trait
   as a service when the plugin was started. Use the
   ``envisage.service_offers`` extension point of the ``CorePlugin``
   instead. The ``Plugin.register_services`` and
   ``Plugin.unregister_services`` methods have been removed along with it,
-  and the default ``PluginActivator`` no longer calls them. (#614)
+  and the default ``PluginActivator`` no longer calls them. (#617)
 
 Fixes
 -----
 * ``HTTPResourceProtocol.file`` now closes the ``HTTPError`` raised by
-  ``urlopen`` before converting it to a ``NoSuchResourceError``. (#615)
+  ``urlopen`` before converting it to a ``NoSuchResourceError``. (#618)
 * The ``NoSuchResourceError`` raised by ``HTTPResourceProtocol.file`` no
-  longer reports a malformed ``"http:://"`` URL scheme. (#615)
+  longer reports a malformed ``"http:://"`` URL scheme. (#618)
 
 Build
 -----
 * Remove all uses of ``pkg_resources`` and drop ``setuptools`` as a
   runtime dependency. ``setuptools`` is retained as a build dependency.
-  ``importlib.resources`` is used instead.
+  ``importlib.resources`` is used instead. (#600)
 * Drop the ``importlib-resources`` dependency, which was only needed for
-  Python versions earlier than 3.9. (#616)
+  Python versions earlier than 3.9. (#622)
 * Declare the license with the PEP 639 ``license`` and ``license-files``
   fields in place of the deprecated ``License ::`` classifier. (#625)
 * Raise the build-time setuptools requirement to 83 or later, and drop
   ``wheel`` from the build requirements. (#625)
+* Publish to PyPI using trusted publishing (OIDC) rather than a
+  long-lived API token, and pin third-party GitHub Actions to commit
+  SHAs. (#604, #608)
+* Update copyright header end years to 2026. The style check now uses a
+  pinned end year, so it no longer starts failing when the year rolls
+  over; a separate non-blocking check reports out-of-date end years.
+  (#596, #597, #607)
+* Bump the GitHub Actions used by the CI workflows to their latest
+  versions. (#591, #592, #593, #594, #595, #602, #603, #605, #606, #609,
+  #610)
+* The CI test matrix now includes pre-release Python versions, so that
+  incompatibilities with upcoming Python releases are caught early.
+  (#601, #624)
+* Add ``AGENTS.md``, describing the build, test, lint and code style
+  workflows for the repository. (#598, #626)
 
 Tests
 -----
 * Rename the ``TestPlugin`` helper class in ``envisage.tests.test_plugin``
   to ``SamplePlugin``, so that pytest no longer emits a
-  ``PytestCollectionWarning`` for it. (#615)
+  ``PytestCollectionWarning`` for it. (#618)
 * The test suite no longer writes ``WARNING``-level log messages to
-  ``stderr``. (#615)
+  ``stderr``. (#618, #621)
 * pytest is now configured to turn warnings into errors, so that a new
-  warning fails the test suite instead of passing unnoticed. (#615)
+  warning fails the test suite instead of passing unnoticed. (#619)
 * The ``TasksApplication`` tests now include the ``TasksPlugin``, which
   declares the extension points that ``TasksApplication`` reads. Without
   it, those tests logged a warning about an unknown extension point.
-  (#615)
+  (#621)
 
 Version 7.0.4
 =============
