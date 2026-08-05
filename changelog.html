@@ -149,6 +149,10 @@ to <code class="docutils literal notranslate"><span class="pre">SamplePlugin</sp
 <code class="docutils literal notranslate"><span class="pre">stderr</span></code>. (#615)</p></li>
 <li><p>pytest is now configured to turn warnings into errors, so that a new
 warning fails the test suite instead of passing unnoticed. (#615)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code> tests now include the <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>, which
+declares the extension points that <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code> reads. Without
+it, those tests logged a warning about an unknown extension point.
+(#615)</p></li>
 </ul>
 </section>
 </section>
