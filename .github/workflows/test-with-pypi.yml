@@ -15,6 +15,10 @@ jobs:
         python-version: ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
 
     runs-on: ${{ matrix.os }}
+
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -24,18 +28,12 @@ jobs:
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
-      - name: Create a virtual environment
-        run: uv venv --python ${{ matrix.python-version }}
-      # uv ignores Requires-Python upper bounds, so no workaround is needed
-      # for PySide6 capping its supported Python versions below the newest
-      # entry in the matrix.
-      - name: Install the package under test and its test dependencies
-        run: uv pip install pytest pyside6 .
-      - name: List installed packages
-        run: uv pip list
+          cache-dependency-glob: 'pyproject.toml'
+      - name: List the packages under test
+        run: uv tree --group test
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run --no-project python -m pytest
+        run: xvfb-run -a uv run --group test -- python -m pytest
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
-        run: uv run --no-project python -m pytest
+        run: uv run --group test -- python -m pytest

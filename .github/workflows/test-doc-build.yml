@@ -15,12 +15,9 @@ jobs:
       uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:
         enable-cache: true
-        cache-dependency-glob: 'docs/requirements.txt'
+        cache-dependency-glob: 'pyproject.toml'
     - run: |
-        uv venv
-        uv pip install -r docs/requirements.txt .
-    - run: |
-        uv run --no-project python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
+        uv run --group docs -- python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: documentation

@@ -1,6 +1,10 @@
 # file types to ignore
 *.pyc
 
+# ignore environments and lock files created by uv
+.venv/
+uv.lock
+
 # ignore the build directories
 *.egg-info/
 build/

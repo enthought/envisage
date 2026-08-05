@@ -45,6 +45,29 @@ documentation = 'https://docs.enthought.com/envisage/'
 repository = 'https://github.com/enthought/envisage'
 issues = 'https://github.com/enthought/envisage/issues'
 
+[dependency-groups]
+docs = [
+    'Sphinx==9.1.0',
+    'enthought-sphinx-theme==0.7.4',
+    'sphinx-copybutton==0.5.2',
+]
+style = [
+    'black ~= 24.3',
+    'flake8',
+    'flake8-ets >= 1.1.0',
+    'isort',
+]
+test = [
+    'pytest',
+    'pyside6',
+]
+
+[tool.uv.dependency-groups]
+# The pinned Sphinx supports Python 3.12 or later, which is narrower than
+# the range Envisage itself supports. The documentation is only ever built
+# on the latest Python, so constrain the group rather than the project.
+docs = { requires-python = '>= 3.12' }
+
 [tool.black]
 line-length = 79
 

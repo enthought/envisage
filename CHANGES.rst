@@ -58,7 +58,9 @@ Build
   directly, so they no longer need a bootstrap Python environment.
   (#628)
 * The CI workflows that don't use EDM now use ``uv`` in place of ``pip``.
-  (#628)
+  The documentation, style and test requirements are declared as
+  dependency groups in ``pyproject.toml``, in place of the
+  ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
 
 Tests
 -----

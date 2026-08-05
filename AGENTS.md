@@ -62,25 +62,21 @@ to run headless.
 
 ## Linting and Formatting
 
-Style is enforced by Black, isort, and flake8. Install all required tools:
+Style is enforced by Black, isort, and flake8. Those tools are declared in
+the `style` dependency group in `pyproject.toml`, and `uv run` installs
+them on demand. Run all three checks:
 
 ```bash
-python -m pip install -r .github/workflows/style-requirements.txt
-```
-
-Run all three checks:
-
-```bash
-python -m black --check --diff .
-python -m isort --check --diff .
-python -m flake8 .
+uv run --only-group style -- python -m black --check --diff .
+uv run --only-group style -- python -m isort --check --diff .
+uv run --only-group style -- python -m flake8 .
 ```
 
 To auto-fix formatting:
 
 ```bash
-python -m black .
-python -m isort .
+uv run --only-group style -- python -m black .
+uv run --only-group style -- python -m isort .
 ```
 
 ### Key style settings

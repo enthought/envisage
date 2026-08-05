@@ -4,7 +4,6 @@ on: [pull_request, workflow_dispatch]
 
 env:
   UV_PYTHON: '3.14'
-  STYLE_REQUIREMENTS: .github/workflows/style-requirements.txt
 
 jobs:
   style:
@@ -16,8 +15,10 @@ jobs:
       uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:
         enable-cache: true
-        cache-dependency-glob: '.github/workflows/style-requirements.txt'
+        cache-dependency-glob: 'pyproject.toml'
+    # The style tools don't need Envisage itself, so the project isn't
+    # installed into the environment they run in.
     - run: |
-        uv run --no-project --with-requirements "$STYLE_REQUIREMENTS" -- python -m black --check --diff .
-        uv run --no-project --with-requirements "$STYLE_REQUIREMENTS" -- python -m isort --check --diff .
-        uv run --no-project --with-requirements "$STYLE_REQUIREMENTS" -- python -m flake8 .
+        uv run --only-group style -- python -m black --check --diff .
+        uv run --only-group style -- python -m isort --check --diff .
+        uv run --only-group style -- python -m flake8 .
