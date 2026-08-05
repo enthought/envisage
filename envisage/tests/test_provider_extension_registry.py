@@ -41,13 +41,9 @@ class ProviderExtensionRegistryTestCase(
 
         self.registry = ProviderExtensionRegistry()
 
-        # Several tests here and in the shared mixin ask for the extensions of
-        # an extension point that isn't in the registry, which logs a warning.
-        # That warning is the subject of
-        # test_get_extensions_of_unknown_extension_point; everywhere else it's
-        # incidental, so suppress it to keep the test output clean. Note that
-        # assertLogs overrides the level set here, so tests that do want to
-        # check for the warning still work.
+        # Several tests here and in the shared mixin provoke the unknown
+        # extension point warning incidentally; it's asserted directly in
+        # test_get_extensions_of_unknown_extension_point.
         logger = logging.getLogger(LOGGER_NAME)
         old_level = logger.level
         logger.setLevel(logging.ERROR)

@@ -154,7 +154,7 @@ class PluginTestCase(unittest.TestCase):
 
         application = SimpleApplication(plugins=[a, b])
 
-        # We should get an when we try to get the contributions to the
+        # We should get an error when we try to get the contributions to the
         # extension point.
         with self.assertLogs("envisage.plugin", level="ERROR") as watcher:
             with self.assertRaises(ZeroDivisionError):
