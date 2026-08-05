@@ -52,7 +52,7 @@ Build
   Python versions earlier than 3.9. (#616)
 * Declare the license with the PEP 639 ``license`` and ``license-files``
   fields in place of the deprecated ``License ::`` classifier. Building
-  Envisage now requires setuptools 77 or later. (#625)
+  Envisage now requires setuptools 83 or later. (#625)
 
 Tests
 -----
