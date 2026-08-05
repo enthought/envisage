@@ -16,9 +16,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    env:
-      UV_PYTHON: ${{ matrix.python-version }}
-
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -27,6 +24,7 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
+          python-version: ${{ matrix.python-version }}
           enable-cache: true
           cache-dependency-glob: 'pyproject.toml'
       - name: List the packages under test
