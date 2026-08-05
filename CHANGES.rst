@@ -56,9 +56,7 @@ Tests
 * The test suite no longer writes ``WARNING``-level log messages to
   ``stderr``. (#615)
 * pytest is now configured to turn warnings into errors, so that a new
-  warning fails the test suite instead of passing unnoticed. TraitsUI's
-  import-time ``ImportWarning`` about a missing numpy is ignored, as numpy
-  isn't part of Envisage's dependency closure. (#615)
+  warning fails the test suite instead of passing unnoticed. (#615)
 
 Version 7.0.4
 =============
