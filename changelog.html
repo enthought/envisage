@@ -92,58 +92,69 @@
 <h3>Changes<a class="headerlink" href="#changes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Envisage no longer adds a <code class="docutils literal notranslate"><span class="pre">NullHandler</span></code> to the <code class="docutils literal notranslate"><span class="pre">&quot;envisage&quot;</span></code> logger.
-The <code class="docutils literal notranslate"><span class="pre">NullHandler</span></code> prevented log records from reaching
-<code class="docutils literal notranslate"><span class="pre">logging.lastResort</span></code>, and so suppressed Envisage’s warnings and
-errors in applications that hadn’t configured logging themselves.
 Applications that don’t configure logging will now see Envisage’s
-warnings and errors on <code class="docutils literal notranslate"><span class="pre">stderr</span></code>. (#574)</p></li>
+warnings and errors on <code class="docutils literal notranslate"><span class="pre">stderr</span></code>. (#613)</p></li>
 <li><p>Messages reporting that a default <code class="docutils literal notranslate"><span class="pre">id</span></code> or <code class="docutils literal notranslate"><span class="pre">name</span></code> has been used for
 a <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> or an <code class="docutils literal notranslate"><span class="pre">ActionSet</span></code> are now logged at <code class="docutils literal notranslate"><span class="pre">INFO</span></code> level
-rather than <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> level. Defaulting those attributes is normal,
-supported behaviour, so there’s no action for the user to take. (#574)</p></li>
+rather than <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> level. (#613)</p></li>
 </ul>
 </section>
 <section id="removals">
 <h3>Removals<a class="headerlink" href="#removals" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Drop support for Python 3.8 and 3.9. Envisage now requires Python 3.10
-or later. (#616)</p></li>
+or later. (#622)</p></li>
 <li><p>Remove the deprecated <code class="docutils literal notranslate"><span class="pre">EggPluginManager</span></code>, <code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager</span></code>
 and <code class="docutils literal notranslate"><span class="pre">PackagePluginManager</span></code> classes, along with the supporting
-<code class="docutils literal notranslate"><span class="pre">egg_utils</span></code> module and associated tests. (#548)</p></li>
+<code class="docutils literal notranslate"><span class="pre">egg_utils</span></code> module and associated tests. (#599)</p></li>
 <li><p>Remove the deprecated <code class="docutils literal notranslate"><span class="pre">include</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude</span></code> traits of
 <code class="docutils literal notranslate"><span class="pre">PluginManager</span></code>, along with the associated plugin-filtering
-machinery and tests. (#547)</p></li>
+machinery and tests. (#612)</p></li>
 <li><p>Remove support for the long-deprecated <code class="docutils literal notranslate"><span class="pre">service=True</span></code> and
 <code class="docutils literal notranslate"><span class="pre">service_protocol</span></code> trait metadata, which registered a plugin’s trait
 as a service when the plugin was started. Use the
 <code class="docutils literal notranslate"><span class="pre">envisage.service_offers</span></code> extension point of the <code class="docutils literal notranslate"><span class="pre">CorePlugin</span></code>
 instead. The <code class="docutils literal notranslate"><span class="pre">Plugin.register_services</span></code> and
 <code class="docutils literal notranslate"><span class="pre">Plugin.unregister_services</span></code> methods have been removed along with it,
-and the default <code class="docutils literal notranslate"><span class="pre">PluginActivator</span></code> no longer calls them. (#614)</p></li>
+and the default <code class="docutils literal notranslate"><span class="pre">PluginActivator</span></code> no longer calls them. (#617)</p></li>
 </ul>
 </section>
 <section id="fixes">
 <h3>Fixes<a class="headerlink" href="#fixes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">HTTPResourceProtocol.file</span></code> now closes the <code class="docutils literal notranslate"><span class="pre">HTTPError</span></code> raised by
-<code class="docutils literal notranslate"><span class="pre">urlopen</span></code> before converting it to a <code class="docutils literal notranslate"><span class="pre">NoSuchResourceError</span></code>. (#615)</p></li>
+<code class="docutils literal notranslate"><span class="pre">urlopen</span></code> before converting it to a <code class="docutils literal notranslate"><span class="pre">NoSuchResourceError</span></code>. (#618)</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">NoSuchResourceError</span></code> raised by <code class="docutils literal notranslate"><span class="pre">HTTPResourceProtocol.file</span></code> no
-longer reports a malformed <code class="docutils literal notranslate"><span class="pre">&quot;http:://&quot;</span></code> URL scheme. (#615)</p></li>
+longer reports a malformed <code class="docutils literal notranslate"><span class="pre">&quot;http:://&quot;</span></code> URL scheme. (#618)</p></li>
 </ul>
 </section>
 <section id="build">
 <h3>Build<a class="headerlink" href="#build" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p>Remove all uses of <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> and drop <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> as a
-runtime dependency. <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is retained as a build dependency.
-<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> is used instead.</p></li>
+<li><p>Remove all uses of <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> in favour of
+<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code>, and drop <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> as a runtime
+dependency. <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is retained as a build dependency. (#600)</p></li>
 <li><p>Drop the <code class="docutils literal notranslate"><span class="pre">importlib-resources</span></code> dependency, which was only needed for
-Python versions earlier than 3.9. (#616)</p></li>
+Python versions earlier than 3.9. (#622)</p></li>
 <li><p>Declare the license with the PEP 639 <code class="docutils literal notranslate"><span class="pre">license</span></code> and <code class="docutils literal notranslate"><span class="pre">license-files</span></code>
 fields in place of the deprecated <code class="docutils literal notranslate"><span class="pre">License</span> <span class="pre">::</span></code> classifier. (#625)</p></li>
 <li><p>Raise the build-time setuptools requirement to 83 or later, and drop
 <code class="docutils literal notranslate"><span class="pre">wheel</span></code> from the build requirements. (#625)</p></li>
+<li><p>Publish to PyPI using trusted publishing (OIDC) rather than a
+long-lived API token. (#608)</p></li>
+<li><p>Update copyright header end years to 2026. The style check now uses a
+pinned end year, so it no longer starts failing when the year rolls
+over; a separate non-blocking check reports out-of-date end years.
+(#596, #597, #607)</p></li>
+<li><p>Pin third-party GitHub Actions to commit SHAs. (#604)</p></li>
+<li><p>Bump the GitHub Actions used by the CI workflows to their latest
+versions. (#591, #592, #593, #594, #595, #602, #603, #605, #606, #609,
+#610)</p></li>
+<li><p>The CI test matrix now includes pre-release Python versions, so that
+incompatibilities with upcoming Python releases are caught early.
+(#601, #624)</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code>, describing the build, test, lint and code style
+workflows for the repository. (#598, #626)</p></li>
 </ul>
 </section>
 <section id="tests">
@@ -151,15 +162,15 @@ fields in place of the deprecated <code class="docutils literal notranslate"><sp
 <ul class="simple">
 <li><p>Rename the <code class="docutils literal notranslate"><span class="pre">TestPlugin</span></code> helper class in <code class="docutils literal notranslate"><span class="pre">envisage.tests.test_plugin</span></code>
 to <code class="docutils literal notranslate"><span class="pre">SamplePlugin</span></code>, so that pytest no longer emits a
-<code class="docutils literal notranslate"><span class="pre">PytestCollectionWarning</span></code> for it. (#615)</p></li>
+<code class="docutils literal notranslate"><span class="pre">PytestCollectionWarning</span></code> for it. (#618)</p></li>
 <li><p>The test suite no longer writes <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>-level log messages to
-<code class="docutils literal notranslate"><span class="pre">stderr</span></code>. (#615)</p></li>
+<code class="docutils literal notranslate"><span class="pre">stderr</span></code>. (#618, #621)</p></li>
 <li><p>pytest is now configured to turn warnings into errors, so that a new
-warning fails the test suite instead of passing unnoticed. (#615)</p></li>
+warning fails the test suite instead of passing unnoticed. (#619)</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code> tests now include the <code class="docutils literal notranslate"><span class="pre">TasksPlugin</span></code>, which
 declares the extension points that <code class="docutils literal notranslate"><span class="pre">TasksApplication</span></code> reads. Without
 it, those tests logged a warning about an unknown extension point.
-(#615)</p></li>
+(#621)</p></li>
 </ul>
 </section>
 </section>
