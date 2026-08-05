@@ -41,9 +41,9 @@ Fixes
 
 Build
 -----
-* Remove all uses of ``pkg_resources`` and drop ``setuptools`` as a
-  runtime dependency. ``setuptools`` is retained as a build dependency.
-  ``importlib.resources`` is used instead. (#600)
+* Remove all uses of ``pkg_resources`` in favour of
+  ``importlib.resources``, and drop ``setuptools`` as a runtime
+  dependency. ``setuptools`` is retained as a build dependency. (#600)
 * Drop the ``importlib-resources`` dependency, which was only needed for
   Python versions earlier than 3.9. (#622)
 * Declare the license with the PEP 639 ``license`` and ``license-files``
