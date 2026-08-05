@@ -13,7 +13,7 @@
 import unittest
 
 # Enthought library imports.
-from traits.api import HasTraits, Instance, TraitError
+from traits.api import HasTraits, Instance, Int, TraitError
 
 from envisage.api import Plugin, Service
 from envisage.tests.support import SimpleApplication
@@ -30,7 +30,18 @@ class ServiceTestCase(unittest.TestCase):
 
         class PluginA(Plugin):
             id = "A"
-            foo = Instance(Foo, (), service=True)
+            foo = Instance(Foo, ())
+
+            # The Id of the service registered when the plugin started.
+            _service_id = Int()
+
+            def start(self):
+                self._service_id = self.application.register_service(
+                    Foo, self.foo
+                )
+
+            def stop(self):
+                self.application.unregister_service(self._service_id)
 
         class PluginB(Plugin):
             id = "B"

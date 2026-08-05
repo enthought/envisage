@@ -130,6 +130,11 @@ class CorePlugin(Plugin):
 
     # None.
 
+    #### Private interface ####################################################
+
+    # The Ids of the services that were registered when the plugin started.
+    _service_ids = List
+
     ###########################################################################
     # 'IPlugin' interface.
     ###########################################################################
@@ -140,12 +145,26 @@ class CorePlugin(Plugin):
         # preferences node.
         self._load_preferences(self.preferences)
 
-        # Register all service offers.
-        #
-        # These services are unregistered by the default plugin activation
-        # strategy (due to the fact that we store the service ids in this
-        # specific trait!).
+        # Register all service offers. These services are unregistered again
+        # when the plugin is stopped.
         self._service_ids = self._register_service_offers(self.service_offers)
+
+    def stop(self):
+        """Stop the plugin."""
+
+        # Unregister the services in the reverse order that we registered
+        # them.
+        for service_id in reversed(self._service_ids):
+            try:
+                self.application.get_service_from_id(service_id)
+            except ValueError:
+                # the service may have already been individually unregistered
+                pass
+            else:
+                self.application.unregister_service(service_id)
+
+        # Just in case the plugin is started again!
+        self._service_ids = []
 
     ###########################################################################
     # Private interface.

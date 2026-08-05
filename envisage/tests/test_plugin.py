@@ -15,7 +15,7 @@ import unittest
 # Standard library imports.
 from os.path import exists, join
 
-from traits.api import HasTraits, Instance, Int, Interface, List, provides
+from traits.api import HasTraits, Int, List, provides
 
 # Enthought library imports.
 from envisage.api import Application, ExtensionPoint, IPluginActivator, Plugin
@@ -108,77 +108,6 @@ class PluginTestCase(unittest.TestCase):
 
         # Make sure A's plugin activator was called.
         self.assertEqual(a, plugin_activator.stopped)
-
-    def test_service(self):
-        """service"""
-
-        class Foo(HasTraits):
-            pass
-
-        class Bar(HasTraits):
-            pass
-
-        class Baz(HasTraits):
-            pass
-
-        class PluginA(Plugin):
-            id = "A"
-            foo = Instance(Foo, (), service=True)
-            bar = Instance(Bar, (), service=True)
-            baz = Instance(Baz, (), service=True)
-
-        a = PluginA()
-
-        application = SimpleApplication(plugins=[a])
-        application.start()
-
-        # Make sure the services were registered.
-        self.assertNotEqual(None, application.get_service(Foo))
-        self.assertEqual(a.foo, application.get_service(Foo))
-
-        self.assertNotEqual(None, application.get_service(Bar))
-        self.assertEqual(a.bar, application.get_service(Bar))
-
-        self.assertNotEqual(None, application.get_service(Baz))
-        self.assertEqual(a.baz, application.get_service(Baz))
-
-        application.stop()
-
-        # Make sure the service was unregistered.
-        self.assertEqual(None, application.get_service(Foo))
-        self.assertEqual(None, application.get_service(Bar))
-        self.assertEqual(None, application.get_service(Baz))
-
-    def test_service_protocol(self):
-        """service protocol"""
-
-        class IFoo(Interface):
-            pass
-
-        class IBar(Interface):
-            pass
-
-        @provides(IFoo, IBar)
-        class Foo(HasTraits):
-            pass
-
-        class PluginA(Plugin):
-            id = "A"
-            foo = Instance(Foo, (), service=True, service_protocol=IBar)
-
-        a = PluginA()
-
-        application = SimpleApplication(plugins=[a])
-        application.start()
-
-        # Make sure the service was registered with the 'IBar' protocol.
-        self.assertNotEqual(None, application.get_service(IBar))
-        self.assertEqual(a.foo, application.get_service(IBar))
-
-        application.stop()
-
-        # Make sure the service was unregistered.
-        self.assertEqual(None, application.get_service(IBar))
 
     def test_multiple_trait_contributions(self):
         """multiple trait contributions"""
