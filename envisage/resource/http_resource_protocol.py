@@ -40,6 +40,6 @@ class HTTPResourceProtocol(HasTraits):
             # On Python 3.8 and 3.9, close() fails if the HTTPError has no fp.
             if exc.fp is not None:
                 exc.close()
-            raise NoSuchResourceError("http:://" + address)
+            raise NoSuchResourceError("http://" + address)
 
         return f

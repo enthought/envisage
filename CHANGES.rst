@@ -37,10 +37,10 @@ Removals
 Fixes
 -----
 * ``HTTPResourceProtocol.file`` now closes the ``HTTPError`` raised by
-  ``urlopen`` before converting it to a ``NoSuchResourceError``. An
-  ``HTTPError`` is itself a file-like object wrapping the error response,
-  so discarding it without closing left the underlying connection to be
-  reclaimed by the garbage collector. (#615)
+  ``urlopen`` before converting it to a ``NoSuchResourceError``, rather
+  than leaving the error response for the garbage collector. (#615)
+* The ``NoSuchResourceError`` raised by ``HTTPResourceProtocol.file`` no
+  longer reports a malformed ``"http:://"`` URL scheme. (#615)
 
 Build
 -----
