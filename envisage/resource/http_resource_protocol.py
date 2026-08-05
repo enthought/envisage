@@ -37,12 +37,7 @@ class HTTPResourceProtocol(HasTraits):
             f = urlopen("http://" + address)
 
         except HTTPError as exc:
-            # An HTTPError is itself a file-like object wrapping the error
-            # response, so close it rather than leaving the underlying
-            # connection to be reclaimed by the garbage collector. On Python
-            # 3.8 and 3.9, an HTTPError created with fp=None doesn't
-            # initialize its file-like base classes at all, and close() fails
-            # with a KeyError; there's nothing to close in that case anyway.
+            # On Python 3.8 and 3.9, close() fails if the HTTPError has no fp.
             if exc.fp is not None:
                 exc.close()
             raise NoSuchResourceError("http:://" + address)
