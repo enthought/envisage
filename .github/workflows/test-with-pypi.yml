@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
-        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -24,10 +24,13 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
       - name: Install packages needed for testing
         run: python -m pip install pytest
       - name: Install toolkit
-        run: python -m pip install pyside6
+        # PySide6 caps Requires-Python below the newest version in the
+        # matrix, but its abi3 wheels work there regardless.
+        run: python -m pip install --ignore-requires-python pyside6
       - name: Install package under test
         run: python -m pip install .
       - name: List installed packages
