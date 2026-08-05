@@ -26,6 +26,13 @@ Removals
 * Remove the deprecated ``include`` and ``exclude`` traits of
   ``PluginManager``, along with the associated plugin-filtering
   machinery and tests. (#547)
+* Remove support for the long-deprecated ``service=True`` and
+  ``service_protocol`` trait metadata, which registered a plugin's trait
+  as a service when the plugin was started. Use the
+  ``envisage.service_offers`` extension point of the ``CorePlugin``
+  instead. The ``Plugin.register_services`` and
+  ``Plugin.unregister_services`` methods have been removed along with it,
+  and the default ``PluginActivator`` no longer calls them. (#614)
 
 Build
 -----

@@ -15,7 +15,7 @@ import os
 from os.path import exists, join
 
 # Enthought library imports.
-from traits.api import Instance, List, Property, provides, Str
+from traits.api import Instance, Property, provides, Str
 from traits.util.camel_case import camel_case_to_words
 
 # Local imports.
@@ -81,11 +81,6 @@ class Plugin(ExtensionProvider):
 
     #: The service registry that the object's services are stored in.
     service_registry = Property(Instance(IServiceRegistry))
-
-    #### Private interface ####################################################
-
-    # The Ids of the services that were automatically registered.
-    _service_ids = List
 
     ###########################################################################
     # 'IExtensionPointUser' interface.
@@ -238,45 +233,6 @@ class Plugin(ExtensionProvider):
 
         ExtensionPoint.disconnect_extension_point_traits(self)
 
-    def register_services(self):
-        """Register the services offered by the plugin."""
-
-        for trait_name, trait in self.traits(service=True).items():
-            logger.warning(
-                'DEPRECATED: Do not use the "service=True" metadata anymore. '
-                "Services should now be offered using the service "
-                "offer extension point (envisage.service_offers) "
-                "from the core plugin. "
-                "Plugin %s trait <%s>" % (self, trait_name)
-            )
-
-            # Register a service factory for the trait.
-            service_id = self._register_service_factory(trait_name, trait)
-
-            # We save the service Id so that so that we can unregister the
-            # service when the plugin is stopped.
-            self._service_ids.append(service_id)
-
-    def unregister_services(self):
-        """Unregister any service offered by the plugin."""
-
-        # Unregister the services in the reverse order that we registered
-        # them.
-        service_ids = self._service_ids[:]
-        service_ids.reverse()
-
-        for service_id in service_ids:
-            try:
-                self.application.get_service_from_id(service_id)
-            except ValueError:
-                # the service may have already been individually unregistered
-                pass
-            else:
-                self.application.unregister_service(service_id)
-
-        # Just in case the plugin is started again!
-        self._service_ids = []
-
     ###########################################################################
     # Private interface.
     ###########################################################################
@@ -334,43 +290,6 @@ class Plugin(ExtensionProvider):
             raise
 
         return extensions
-
-    def _get_service_protocol(self, trait):
-        """Determine the protocol to register a service trait with."""
-
-        # If a specific protocol was specified then use it.
-        if trait.service_protocol is not None:
-            protocol = trait.service_protocol
-
-        # Otherwise, use the type of the objects that can be assigned to the
-        # trait.
-        #
-        # fixme: This works for 'Instance' traits, but what about 'AdaptsTo'
-        # and 'Supports' traits?
-        else:
-            # Note that in traits the protocol can be an actual class or
-            # interfacem or the *name* of a class or interface. This allows
-            # us to lazy load them!
-            protocol = trait.trait_type.klass
-
-        return protocol
-
-    def _register_service_factory(self, trait_name, trait):
-        """Register a service factory for the specified trait."""
-
-        # Determine the protocol that the service should be registered with.
-        protocol = self._get_service_protocol(trait)
-
-        # Register a factory for the service so that it will be lazily loaded
-        # the first time somebody asks for a service with the same protocol
-        # (this could obviously be a lambda function, but I thought it best to
-        # be more explicit 8^).
-        def factory(**properties):
-            """A service factory."""
-
-            return getattr(self, trait_name)
-
-        return self.application.register_service(protocol, factory)
 
     ###########################################################################
     # 'object' interface.
