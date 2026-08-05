@@ -7,35 +7,32 @@ UI components.
 
 ## Virtual Environment
 
-Before installing or running anything, create and activate an isolated
-virtual environment to avoid modifying the system Python:
+`uv sync` creates `.venv` and installs Envisage into it in editable mode,
+together with the `dev` dependency group, which uv includes by default:
 
 ```bash
-uv venv --seed
+uv sync
 source .venv/bin/activate   # Linux/macOS
 # .venv\Scripts\activate    # Windows
 ```
 
-`uv` is the recommended tool. If it is not available, `python -m venv .venv`
-works too.
+Activating is optional: prefixing any command with `uv run --` runs it in
+that environment, syncing first if needed.
 
-## Build and Install
+## Dependencies
 
-```bash
-python -m pip install -e .
-```
+Runtime: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`, `traitsui`.
 
-Dependencies: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`,
-`traitsui`.
+Development requirements are dependency groups in `pyproject.toml`. The
+`dev` group pulls in both `style` (Black, isort, flake8) and `test`
+(pytest, PySide6), so it covers everything except the `docs` group, which
+is kept separate because it also pins Sphinx.
 
 ## Running Tests
 
 Tests use `unittest.TestCase` throughout. Both `pytest` and `unittest`
-runners are supported. Install `pytest` first if using that runner:
-
-```bash
-python -m pip install pytest
-```
+runners are supported; the `dev` group provides pytest, so no separate
+install step is needed.
 
 ```bash
 # Run the full test suite with pytest
@@ -62,21 +59,20 @@ to run headless.
 
 ## Linting and Formatting
 
-Style is enforced by Black, isort, and flake8. Those tools are declared in
-the `style` dependency group in `pyproject.toml`, and `uv run` installs
-them on demand. Run all three checks:
+Style is enforced by Black, isort, and flake8, all provided by the `dev`
+group. Run all three checks:
 
 ```bash
-uv run --only-group style -- python -m black --check --diff .
-uv run --only-group style -- python -m isort --check --diff .
-uv run --only-group style -- python -m flake8 .
+python -m black --check --diff .
+python -m isort --check --diff .
+python -m flake8 .
 ```
 
 To auto-fix formatting:
 
 ```bash
-uv run --only-group style -- python -m black .
-uv run --only-group style -- python -m isort .
+python -m black .
+python -m isort .
 ```
 
 ### Key style settings

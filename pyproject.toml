@@ -61,6 +61,12 @@ test = [
     'pytest',
     'pyside6',
 ]
+# uv includes the 'dev' group by default, so a plain "uv run" gets
+# everything needed to test and style-check a local checkout.
+dev = [
+    {include-group = 'style'},
+    {include-group = 'test'},
+]
 
 [tool.uv.dependency-groups]
 # The pinned Sphinx supports Python 3.12 or later, which is narrower than
