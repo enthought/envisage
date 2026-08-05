@@ -152,16 +152,8 @@ class CorePlugin(Plugin):
     def stop(self):
         """Stop the plugin."""
 
-        # Unregister the services in the reverse order that we registered
-        # them.
-        for service_id in reversed(self._service_ids):
-            try:
-                self.application.get_service_from_id(service_id)
-            except ValueError:
-                # the service may have already been individually unregistered
-                pass
-            else:
-                self.application.unregister_service(service_id)
+        # Unregister all service offers.
+        self._unregister_service_offers(self._service_ids)
 
         # Just in case the plugin is started again!
         self._service_ids = []
@@ -204,3 +196,17 @@ class CorePlugin(Plugin):
         )
 
         return service_id
+
+    def _unregister_service_offers(self, service_ids):
+        """Unregister a list of service offers."""
+
+        # Unregister the services in the reverse order that we registered
+        # them.
+        for service_id in reversed(service_ids):
+            try:
+                self.application.get_service_from_id(service_id)
+            except ValueError:
+                # the service may have already been individually unregistered
+                pass
+            else:
+                self.application.unregister_service(service_id)
