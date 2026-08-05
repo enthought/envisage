@@ -77,7 +77,7 @@ class PluginManager(HasTraits):
 
         # Iterate over a copy, so that plugins added or removed during the
         # iteration don't affect it.
-        return iter(self._plugins[:])
+        return iter(self._plugins.copy())
 
     #### 'IPluginManager' protocol ############################################
 
