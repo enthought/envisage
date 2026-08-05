@@ -106,6 +106,8 @@ supported behaviour, so there’s no action for the user to take. (#574)</p></li
 <section id="removals">
 <h3>Removals<a class="headerlink" href="#removals" title="Link to this heading">¶</a></h3>
 <ul class="simple">
+<li><p>Drop support for Python 3.8 and 3.9. Envisage now requires Python 3.10
+or later. (#616)</p></li>
 <li><p>Remove the deprecated <code class="docutils literal notranslate"><span class="pre">EggPluginManager</span></code>, <code class="docutils literal notranslate"><span class="pre">EggBasketPluginManager</span></code>
 and <code class="docutils literal notranslate"><span class="pre">PackagePluginManager</span></code> classes, along with the supporting
 <code class="docutils literal notranslate"><span class="pre">egg_utils</span></code> module and associated tests. (#548)</p></li>
@@ -135,8 +137,9 @@ longer reports a malformed <code class="docutils literal notranslate"><span clas
 <ul class="simple">
 <li><p>Remove all uses of <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> and drop <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> as a
 runtime dependency. <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> is retained as a build dependency.
-<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> (with <code class="docutils literal notranslate"><span class="pre">importlib-resources</span></code> as a backport
-for Python 3.8) is used instead.</p></li>
+<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> is used instead.</p></li>
+<li><p>Drop the <code class="docutils literal notranslate"><span class="pre">importlib-resources</span></code> dependency, which was only needed for
+Python versions earlier than 3.9. (#616)</p></li>
 </ul>
 </section>
 <section id="tests">
