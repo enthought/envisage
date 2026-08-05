@@ -28,10 +28,10 @@ jobs:
           enable-cache: true
           cache-suffix: test
       - name: List the packages under test
-        run: uv tree --group test
+        run: uv tree
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run --group test -m pytest
+        run: xvfb-run -a uv run -m pytest
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
-        run: uv run --group test -m pytest
+        run: uv run -m pytest
