@@ -7,7 +7,7 @@ name = 'envisage'
 version = '7.0.4'
 description = 'Extensible application framework'
 readme = 'README.rst'
-requires-python = '>= 3.8'
+requires-python = '>= 3.10'
 license = {file = 'LICENSE.txt'}
 authors = [{name = 'Enthought', email = 'info@enthought.com'}]
 keywords = ['extensible', 'plugin', 'application', 'framework']
@@ -32,7 +32,6 @@ dependencies = [
     'pyface',
     'traits>=6.2',
     'traitsui',
-    'importlib-resources>=1.1.0; python_version<"3.9"',
 ]
 
 [project.entry-points.'envisage.plugins']

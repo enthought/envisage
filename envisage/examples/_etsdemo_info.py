@@ -12,10 +12,7 @@
 entry points.
 """
 
-try:
-    from importlib.resources import files
-except ImportError:
-    from importlib_resources import files
+from importlib.resources import files
 
 
 def info(request):

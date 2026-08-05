@@ -14,11 +14,7 @@ import pathlib
 import shutil
 import tempfile
 import unittest
-
-try:
-    from importlib.resources import files
-except ImportError:
-    from importlib_resources import files
+from importlib.resources import files
 
 # Enthought library imports.
 from pyface.gui import GUI
