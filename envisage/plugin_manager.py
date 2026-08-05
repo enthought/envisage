@@ -11,10 +11,8 @@
 
 
 import logging
-import warnings
-from fnmatch import fnmatch
 
-from traits.api import Event, HasTraits, Instance, List, observe, provides, Str
+from traits.api import Event, HasTraits, Instance, List, observe, provides
 
 from .i_application import IApplication
 from .i_plugin import IPlugin
@@ -57,19 +55,6 @@ class PluginManager(HasTraits):
 
         self._update_application_on_plugins([], self._plugins)
 
-    #: An optional list of the Ids of the plugins that are to be excluded by
-    #: the manager.
-    #:
-    #: Each item in the list is actually an 'fnmatch' expression.
-    exclude = List(Str)
-
-    #: An optional list of the Ids of the plugins that are to be included by
-    #: the manager (i.e. *only* plugins with Ids in this list will be added to
-    #: the manager).
-    #:
-    #: Each item in the list is actually an 'fnmatch' expression.
-    include = List(Str)
-
     #### 'object' protocol ####################################################
 
     def __init__(self, plugins=None, **traits):
@@ -82,15 +67,6 @@ class PluginManager(HasTraits):
         plugins use 'for plugin in plugin_manager'.
 
         """
-        if "include" in traits or "exclude" in traits:
-            warnings.warn(
-                "The 'include' and 'exclude' traits to PluginManager "
-                "are deprecated, and will be removed in a future version "
-                "of Envisage",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-
         super().__init__(**traits)
 
         if plugins is not None:
@@ -99,13 +75,7 @@ class PluginManager(HasTraits):
     def __iter__(self):
         """Return an iterator over the manager's plugins."""
 
-        plugins = [
-            plugin
-            for plugin in self._plugins
-            if self._include_plugin(plugin.id)
-        ]
-
-        return iter(plugins)
+        return iter(self._plugins)
 
     #### 'IPluginManager' protocol ############################################
 
@@ -120,9 +90,6 @@ class PluginManager(HasTraits):
 
         for plugin in self._plugins:
             if plugin_id == plugin.id:
-                if not self._include_plugin(plugin.id):
-                    plugin = None
-
                 break
 
         else:
@@ -193,55 +160,7 @@ class PluginManager(HasTraits):
 
         self._update_application_on_plugins(event.removed, event.added)
 
-    def _include_plugin(self, plugin_id):
-        """Return True if the plugin should be included.
-
-        This is just shorthand for:-
-
-        if self._is_included(plugin_id) and not self._is_excluded(plugin_id):
-            ...
-
-        """
-
-        return self._is_included(plugin_id) and not self._is_excluded(
-            plugin_id
-        )
-
     #### Private protocol #####################################################
-
-    def _is_excluded(self, plugin_id):
-        """Return True if the plugin Id is excluded.
-
-        If no 'exclude' patterns are specified then this method returns False
-        for all plugin Ids.
-
-        """
-
-        if len(self.exclude) == 0:
-            return False
-
-        for pattern in self.exclude:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
-
-    def _is_included(self, plugin_id):
-        """Return True if the plugin Id is included.
-
-        If no 'include' patterns are specified then this method returns True
-        for all plugin Ids.
-
-        """
-
-        if len(self.include) == 0:
-            return True
-
-        for pattern in self.include:
-            if fnmatch(plugin_id, pattern):
-                return True
-
-        return False
 
     def _update_application_on_plugins(self, removed, added):
         """Update the 'application' trait of plugins added/removed."""

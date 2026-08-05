@@ -10,6 +10,9 @@ Removals
 * Remove the deprecated ``EggPluginManager``, ``EggBasketPluginManager``
   and ``PackagePluginManager`` classes, along with the supporting
   ``egg_utils`` module and associated tests. (#548)
+* Remove the deprecated ``include`` and ``exclude`` traits of
+  ``PluginManager``, along with the associated plugin-filtering
+  machinery and tests. (#547)
 
 Build
 -----
