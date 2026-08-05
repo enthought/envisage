@@ -7,11 +7,3 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-
-# Per logging best practices, add a NullHandler to the root 'envisage'
-# logger.
-import logging
-
-logging.getLogger(__name__).addHandler(logging.NullHandler())
-
-del logging
