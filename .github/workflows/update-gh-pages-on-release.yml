@@ -16,7 +16,7 @@ jobs:
       with:
         python-version: '3.14'
         enable-cache: true
-        cache-dependency-glob: 'pyproject.toml'
+        cache-suffix: docs
     - run: |
         uv run --group docs -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - name: Check out gh-pages branch

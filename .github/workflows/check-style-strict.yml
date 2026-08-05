@@ -13,7 +13,7 @@ jobs:
       with:
         python-version: '3.14'
         enable-cache: true
-        cache-dependency-glob: 'pyproject.toml'
+        cache-suffix: style
     - name: Report on out-of-date copyright end years
       run: |
         uv run --only-group style -m flake8 --select H102 --copyright-end-year current .
