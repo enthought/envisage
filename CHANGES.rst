@@ -8,9 +8,6 @@ Version 8.0.0
 Changes
 -------
 * Envisage no longer adds a ``NullHandler`` to the ``"envisage"`` logger.
-  The ``NullHandler`` prevented log records from reaching
-  ``logging.lastResort``, and so suppressed Envisage's warnings and
-  errors in applications that hadn't configured logging themselves.
   Applications that don't configure logging will now see Envisage's
   warnings and errors on ``stderr``. (#613)
 * Messages reporting that a default ``id`` or ``name`` has been used for
