@@ -1,8 +1,7 @@
 # file types to ignore
 *.pyc
 
-# ignore environments and lock files created by uv
-.venv/
+# ignore the lock file created by uv
 uv.lock
 
 # ignore the build directories
