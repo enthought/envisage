@@ -51,8 +51,8 @@ Build
 * Drop the ``importlib-resources`` dependency, which was only needed for
   Python versions earlier than 3.9. (#616)
 * Declare the license with the PEP 639 ``license`` and ``license-files``
-  fields in place of the deprecated ``License ::`` classifier. This raises
-  the build-time setuptools requirement to 83 or later. (#625)
+  fields in place of the deprecated ``License ::`` classifier. (#625)
+* Raise the build-time setuptools requirement to 83 or later. (#625)
 
 Tests
 -----
