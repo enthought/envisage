@@ -119,27 +119,10 @@ e.g:</p>
 <dd><p>The application that the plugin manager is part of.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugin_manager.PluginManager.exclude">
-<span class="sig-name descname"><span class="pre">exclude</span></span><a class="headerlink" href="#envisage.plugin_manager.PluginManager.exclude" title="Link to this definition">¶</a></dt>
-<dd><p>An optional list of the Ids of the plugins that are to be excluded by
-the manager.</p>
-<p>Each item in the list is actually an ‘fnmatch’ expression.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.plugin_manager.PluginManager.get_plugin">
 <span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugin_manager.html#PluginManager.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugin_manager.PluginManager.get_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Return the plugin with the specified Id.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugin_manager.PluginManager.include">
-<span class="sig-name descname"><span class="pre">include</span></span><a class="headerlink" href="#envisage.plugin_manager.PluginManager.include" title="Link to this definition">¶</a></dt>
-<dd><p>An optional list of the Ids of the plugins that are to be included by
-the manager (i.e. <em>only</em> plugins with Ids in this list will be added to
-the manager).</p>
-<p>Each item in the list is actually an ‘fnmatch’ expression.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -204,9 +187,7 @@ the manager).</p>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager"><code class="docutils literal notranslate"><span class="pre">PluginManager</span></code></a><ul>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.add_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.add_plugin()</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.application"><code class="docutils literal notranslate"><span class="pre">PluginManager.application</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.exclude"><code class="docutils literal notranslate"><span class="pre">PluginManager.exclude</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.get_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.get_plugin()</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.include"><code class="docutils literal notranslate"><span class="pre">PluginManager.include</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.plugin_added"><code class="docutils literal notranslate"><span class="pre">PluginManager.plugin_added</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.plugin_removed"><code class="docutils literal notranslate"><span class="pre">PluginManager.plugin_removed</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugin_manager.PluginManager.remove_plugin"><code class="docutils literal notranslate"><span class="pre">PluginManager.remove_plugin()</span></code></a></li>
@@ -265,7 +246,7 @@ the manager).</p>
         &copy; Copyright 2007-2026, Enthought
       </li>
       <li>
-      Last updated on Jul 28, 2026.
+      Last updated on Aug 05, 2026.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.

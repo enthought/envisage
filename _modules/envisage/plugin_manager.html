@@ -94,10 +94,8 @@
 
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fnmatch</span><span class="w"> </span><span class="kn">import</span> <span class="n">fnmatch</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">provides</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.i_application</span><span class="w"> </span><span class="kn">import</span> <span class="n">IApplication</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.i_plugin</span><span class="w"> </span><span class="kn">import</span> <span class="n">IPlugin</span>
@@ -142,19 +140,6 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_application_on_plugins</span><span class="p">([],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">)</span>
 
-    <span class="c1">#: An optional list of the Ids of the plugins that are to be excluded by</span>
-    <span class="c1">#: the manager.</span>
-    <span class="c1">#:</span>
-    <span class="c1">#: Each item in the list is actually an &#39;fnmatch&#39; expression.</span>
-    <span class="n">exclude</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Str</span><span class="p">)</span>
-
-    <span class="c1">#: An optional list of the Ids of the plugins that are to be included by</span>
-    <span class="c1">#: the manager (i.e. *only* plugins with Ids in this list will be added to</span>
-    <span class="c1">#: the manager).</span>
-    <span class="c1">#:</span>
-    <span class="c1">#: Each item in the list is actually an &#39;fnmatch&#39; expression.</span>
-    <span class="n">include</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Str</span><span class="p">)</span>
-
     <span class="c1">#### &#39;object&#39; protocol ####################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
@@ -167,15 +152,6 @@
 <span class="sd">        plugins use &#39;for plugin in plugin_manager&#39;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;include&quot;</span> <span class="ow">in</span> <span class="n">traits</span> <span class="ow">or</span> <span class="s2">&quot;exclude&quot;</span> <span class="ow">in</span> <span class="n">traits</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;The &#39;include&#39; and &#39;exclude&#39; traits to PluginManager &quot;</span>
-                <span class="s2">&quot;are deprecated, and will be removed in a future version &quot;</span>
-                <span class="s2">&quot;of Envisage&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -184,13 +160,9 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over the manager&#39;s plugins.&quot;&quot;&quot;</span>
 
-        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">plugin</span>
-            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-        <span class="p">]</span>
-
-        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span>
+        <span class="c1"># Iterate over a copy, so that plugins added or removed during the</span>
+        <span class="c1"># iteration don&#39;t affect it.</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
     <span class="c1">#### &#39;IPluginManager&#39; protocol ############################################</span>
 
@@ -210,9 +182,6 @@
 
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">plugin_id</span> <span class="o">==</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
-                    <span class="n">plugin</span> <span class="o">=</span> <span class="kc">None</span>
-
                 <span class="k">break</span>
 
         <span class="k">else</span><span class="p">:</span>
@@ -299,55 +268,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_application_on_plugins</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">removed</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">added</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_include_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the plugin should be included.</span>
-
-<span class="sd">        This is just shorthand for:-</span>
-
-<span class="sd">        if self._is_included(plugin_id) and not self._is_excluded(plugin_id):</span>
-<span class="sd">            ...</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_included</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_excluded</span><span class="p">(</span>
-            <span class="n">plugin_id</span>
-        <span class="p">)</span>
-
     <span class="c1">#### Private protocol #####################################################</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_is_excluded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the plugin Id is excluded.</span>
-
-<span class="sd">        If no &#39;exclude&#39; patterns are specified then this method returns False</span>
-<span class="sd">        for all plugin Ids.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exclude</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">True</span>
-
-        <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_is_included</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the plugin Id is included.</span>
-
-<span class="sd">        If no &#39;include&#39; patterns are specified then this method returns True</span>
-<span class="sd">        for all plugin Ids.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
-
-        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">True</span>
-
-        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_application_on_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the &#39;application&#39; trait of plugins added/removed.&quot;&quot;&quot;</span>
@@ -397,7 +318,7 @@
         &copy; Copyright 2007-2026, Enthought
       </li>
       <li>
-      Last updated on Jul 28, 2026.
+      Last updated on Aug 05, 2026.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
