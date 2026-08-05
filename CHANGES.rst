@@ -52,11 +52,11 @@ Build
   ``wheel`` from the build requirements. (#625)
 * Publish to PyPI using trusted publishing (OIDC) rather than a
   long-lived API token. (#608)
-* Pin third-party GitHub Actions to commit SHAs. (#604)
 * Update copyright header end years to 2026. The style check now uses a
   pinned end year, so it no longer starts failing when the year rolls
   over; a separate non-blocking check reports out-of-date end years.
   (#596, #597, #607)
+* Pin third-party GitHub Actions to commit SHAs. (#604)
 * Bump the GitHub Actions used by the CI workflows to their latest
   versions. (#591, #592, #593, #594, #595, #602, #603, #605, #606, #609,
   #610)
