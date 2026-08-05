@@ -51,7 +51,7 @@ python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCas
 python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase::test_should_get_required_service
 
 # Run with unittest directly
-python -m unittest discover -v envisage
+python -m unittest discover -v -t . -s envisage
 
 # Run a single test via unittest
 python -m unittest envisage.tests.test_application.ApplicationTestCase.test_home

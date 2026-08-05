@@ -30,12 +30,6 @@ def listener(obj, trait_name, old, event):
     clone = TEST_LIST[:]
 
     added = event.added
-    # Backwards compatibility for Traits < 6.0, where event.added may
-    # be a list containing a list containing the added elements. This
-    # block can be removed once compatibility with Traits < 6.0 is no
-    # longer needed. Ref: enthought/traits#300.
-    if len(added) == 1 and isinstance(added[0], list):
-        added = added[0]
 
     # If nothing was added then this is a 'del' or 'remove' operation.
     if len(added) == 0:
@@ -43,10 +37,7 @@ def listener(obj, trait_name, old, event):
             del clone[event.index]
 
         else:
-            # workaroud for traits bug in Python 3
-            # https://github.com/enthought/traits/issues/334
-            index = event.index if event.index is not None else 0
-            del clone[index : index + len(event.removed)]
+            del clone[event.index : event.index + len(event.removed)]
 
     # If nothing was removed then it is an 'append', 'insert' or 'extend'
     # operation.
