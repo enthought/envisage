@@ -5,6 +5,19 @@
 Version 8.0.0
 =============
 
+Changes
+-------
+* Envisage no longer adds a ``NullHandler`` to the ``"envisage"`` logger.
+  The ``NullHandler`` prevented log records from reaching
+  ``logging.lastResort``, and so suppressed Envisage's warnings and
+  errors in applications that hadn't configured logging themselves.
+  Applications that don't configure logging will now see Envisage's
+  warnings and errors on ``stderr``. (#574)
+* Messages reporting that a default ``id`` or ``name`` has been used for
+  a ``Plugin`` or an ``ActionSet`` are now logged at ``INFO`` level
+  rather than ``WARNING`` level. Defaulting those attributes is normal,
+  supported behaviour, so there's no action for the user to take. (#574)
+
 Removals
 --------
 * Remove the deprecated ``EggPluginManager``, ``EggBasketPluginManager``

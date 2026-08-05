@@ -169,7 +169,7 @@ class Plugin(ExtensionProvider):
         """Trait initializer."""
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
-        logger.warning(
+        logger.info(
             "plugin {} has no Id - using <{}>".format(
                 object.__repr__(self), id
             )
@@ -181,7 +181,7 @@ class Plugin(ExtensionProvider):
         """Trait initializer."""
 
         name = camel_case_to_words(type(self).__name__)
-        logger.warning(
+        logger.info(
             "plugin {} has no name - using <{}>".format(
                 object.__repr__(self), name
             )
