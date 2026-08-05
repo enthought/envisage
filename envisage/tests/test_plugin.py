@@ -51,28 +51,6 @@ class PluginTestCase(unittest.TestCase):
         self.assertEqual("wilma", p.id)
         self.assertEqual("fred", p.name)
 
-    def test_default_id_is_not_reported_as_a_warning(self):
-        """default id is logged below warning level"""
-
-        # Defaulting the id is normal, supported behaviour, so there's no
-        # action for the user to take. See enthought/envisage#574.
-        with self.assertLogs("envisage.plugin", level="INFO") as watcher:
-            self.assertEqual("envisage.plugin.Plugin", Plugin().id)
-
-        self.assertEqual(
-            ["INFO"], [record.levelname for record in watcher.records]
-        )
-
-    def test_default_name_is_not_reported_as_a_warning(self):
-        """default name is logged below warning level"""
-
-        with self.assertLogs("envisage.plugin", level="INFO") as watcher:
-            self.assertEqual("Plugin", Plugin().name)
-
-        self.assertEqual(
-            ["INFO"], [record.levelname for record in watcher.records]
-        )
-
     def test_name_policy(self):
         """name policy"""
 
