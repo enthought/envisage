@@ -31,7 +31,7 @@ from envisage.ui.tasks.api import TasksApplication, TasksPlugin
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
 
 
-def create_tasks_application(plugins=(), **traits):
+def create_tasks_application(plugins=[], **traits):
     """
     Create a TasksApplication for testing.
 
