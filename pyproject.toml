@@ -61,13 +61,10 @@ style = [
     'flake8-ets >= 1.1.0',
     'isort',
 ]
-test = [
+dev = [
     'pytest',
     'pyside6',
-]
-dev = [
     {include-group = 'style'},
-    {include-group = 'test'},
 ]
 
 [tool.uv.dependency-groups]

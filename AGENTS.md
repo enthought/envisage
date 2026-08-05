@@ -24,9 +24,8 @@ uv sync
 Runtime: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`, `traitsui`.
 
 Development requirements are dependency groups in `pyproject.toml`. The
-`dev` group pulls in both `style` (Black, isort, flake8) and `test`
-(pytest, PySide6), so it covers everything except the `docs` group, which
-is kept separate because it also pins Sphinx.
+`dev` group provides pytest and PySide6 and includes the `style` group
+(Black, isort, flake8), so it covers everything except the `docs` group.
 
 ## Running Tests
 
