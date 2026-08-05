@@ -93,6 +93,26 @@ class PluginManagerTestCase(unittest.TestCase):
 
         self.assertEqual([simple_plugin, bad_plugin], plugins)
 
+    def test_iteration_is_unaffected_by_changes_to_the_plugins(self):
+        """iteration is unaffected by plugins added or removed"""
+
+        first = SimplePlugin(id="first")
+        second = SimplePlugin(id="second")
+
+        # A plugin removed after the iterator is created is still visited.
+        plugin_manager = PluginManager(plugins=[first, second])
+        iterator = iter(plugin_manager)
+        plugin_manager.remove_plugin(second)
+        self.assertEqual(
+            ["first", "second"], [plugin.id for plugin in iterator]
+        )
+
+        # A plugin added after the iterator is created is not visited.
+        plugin_manager = PluginManager(plugins=[first])
+        iterator = iter(plugin_manager)
+        plugin_manager.add_plugin(second)
+        self.assertEqual(["first"], [plugin.id for plugin in iterator])
+
     def test_start_and_stop(self):
         """start and stop"""
 

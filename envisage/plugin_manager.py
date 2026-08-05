@@ -75,7 +75,9 @@ class PluginManager(HasTraits):
     def __iter__(self):
         """Return an iterator over the manager's plugins."""
 
-        return iter(self._plugins)
+        # Iterate over a copy, so that plugins added or removed during the
+        # iteration don't affect it.
+        return iter(self._plugins[:])
 
     #### 'IPluginManager' protocol ############################################
 
