@@ -51,8 +51,8 @@ Build
 * Raise the build-time setuptools requirement to 83 or later, and drop
   ``wheel`` from the build requirements. (#625)
 * Publish to PyPI using trusted publishing (OIDC) rather than a
-  long-lived API token, and pin third-party GitHub Actions to commit
-  SHAs. (#604, #608)
+  long-lived API token. (#608)
+* Pin third-party GitHub Actions to commit SHAs. (#604)
 * Update copyright header end years to 2026. The style check now uses a
   pinned end year, so it no longer starts failing when the year rolls
   over; a separate non-blocking check reports out-of-date end years.
