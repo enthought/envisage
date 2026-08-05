@@ -18,18 +18,17 @@ class IServiceRegistry(Interface):
     """The service registry interface.
 
     The service registry provides a 'Yellow Pages' style mechanism, in that
-    services are published and looked up by protocol (meaning, *interface*,
-    *type*, or *class*). It is called a 'Yellow Pages'
-    mechanism because it is just like looking up a telephone number in the
-    'Yellow Pages' phone book. You use the 'Yellow Pages' instead of the
-    'White Pages' when you don't know the *name* of the person you want to
-    call but you do know what *kind* of service you require. For example, if
-    you have a leaking pipe, you know you need a plumber, so you pick up your
-    'Yellow Pages', go to the 'Plumbers' section and choose one that seems to
-    fit the bill based on price, location, certification, etc. The service
-    registry does exactly the same thing as the 'Yellow Pages', only with
-    objects, and it even allows you to publish your own entries for free
-    (unlike the *real* one)!
+    services are published and looked up by protocol (meaning, *interface* or
+    *class*). It is called a 'Yellow Pages' mechanism because it is just like
+    looking up a telephone number in the 'Yellow Pages' phone book. You use
+    the 'Yellow Pages' instead of the 'White Pages' when you don't know the
+    *name* of the person you want to call but you do know what *kind* of
+    service you require. For example, if you have a leaking pipe, you know you
+    need a plumber, so you pick up your 'Yellow Pages', go to the 'Plumbers'
+    section and choose one that seems to fit the bill based on price,
+    location, certification, etc. The service registry does exactly the same
+    thing as the 'Yellow Pages', only with objects, and it even allows you to
+    publish your own entries for free (unlike the *real* one)!
 
     """
 
