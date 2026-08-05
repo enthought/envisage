@@ -56,6 +56,13 @@ order_by_type = false
 sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'ENTHOUGHT', 'FIRSTPARTY', 'LOCALFOLDER']
 known_enthought = ['apptools', 'pyface', 'traits', 'traitsui']
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    'error',
+    # Ignore TraitsUI's import-time warning when numpy isn't installed.
+    'ignore:ArrayEditor is not available:ImportWarning',
+]
+
 [tool.setuptools.packages.find]
 include = ['envisage*']
 

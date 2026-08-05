@@ -55,6 +55,8 @@ Tests
   ``PytestCollectionWarning`` for it. (#615)
 * The test suite no longer writes ``WARNING``-level log messages to
   ``stderr``. (#615)
+* pytest is now configured to turn warnings into errors, so that a new
+  warning fails the test suite instead of passing unnoticed. (#615)
 
 Version 7.0.4
 =============
