@@ -14,9 +14,6 @@ env:
   # Dependencies needed to run the test suite, installed from EDM. The GUI
   # toolkit is installed separately, from the matrix entry.
   EDM_PACKAGES: apptools configobj pyface pytest traits traitsui
-  # ETS dependencies that are replaced with sources from GitHub, ordered from
-  # the package with the most dependencies to the one with the fewest.
-  ETS_PACKAGES: apptools traitsui pyface traits
 
 jobs:
 
@@ -54,20 +51,22 @@ jobs:
       - name: Install the GUI toolkit
         if: matrix.toolkit != 'null'
         run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ matrix.toolkit }}
-      # The EDM builds of the ETS dependencies are removed first, so that the
-      # sources from GitHub are what end up installed. The installs don't pass
-      # --no-dependencies, so that any new dependency on a main branch is
-      # picked up.
-      - name: Replace the ETS dependencies with sources from GitHub
-        shell: bash
-        run: |
-          for package in ${{ env.ETS_PACKAGES }}; do
-            edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force "$package"
-          done
-          for package in ${{ env.ETS_PACKAGES }}; do
-            edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install --force-reinstall \
-              "git+https://github.com/enthought/$package.git"
-          done
+      # EDM's builds are removed before the GitHub sources are installed over
+      # them, so that pip isn't overwriting files EDM owns. One step each: a
+      # multi-command run block only reports its last exit status under pwsh.
+      - name: Remove the EDM build of apptools
+        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force apptools
+      - name: Remove the EDM build of traitsui
+        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force traitsui
+      - name: Remove the EDM build of pyface
+        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force pyface
+      - name: Remove the EDM build of traits
+        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force traits
+      # Installed in one pip invocation so that the four resolve together.
+      # --no-dependencies is deliberately not passed, so that a new dependency
+      # on any of the main branches is picked up.
+      - name: Install the ETS dependencies from GitHub
+        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install --force-reinstall git+https://github.com/enthought/traits.git git+https://github.com/enthought/pyface.git git+https://github.com/enthought/traitsui.git git+https://github.com/enthought/apptools.git
       - name: Install the package under test
         run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install . --no-dependencies
       # The tests run from outside the source tree, so that they exercise the

@@ -14,9 +14,7 @@ jobs:
         python-version: '3.14'
         enable-cache: true
         cache-dependency-glob: 'pyproject.toml'
-    # The style tools don't need Envisage itself, so the project isn't
-    # installed into the environment they run in.
     - run: |
-        uv run --only-group style -- python -m black --check --diff .
-        uv run --only-group style -- python -m isort --check --diff .
-        uv run --only-group style -- python -m flake8 .
+        uv run --only-group style -m black --check --diff .
+        uv run --only-group style -m isort --check --diff .
+        uv run --only-group style -m flake8 .

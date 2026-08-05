@@ -31,7 +31,7 @@ jobs:
         run: uv tree --group test
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run --group test -- python -m pytest
+        run: xvfb-run -a uv run --group test -m pytest
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
-        run: uv run --group test -- python -m pytest
+        run: uv run --group test -m pytest
