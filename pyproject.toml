@@ -56,6 +56,14 @@ order_by_type = false
 sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'ENTHOUGHT', 'FIRSTPARTY', 'LOCALFOLDER']
 known_enthought = ['apptools', 'pyface', 'traits', 'traitsui']
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    'error',
+    # TraitsUI warns at import time if numpy isn't installed. numpy isn't in
+    # Envisage's dependency closure, so this fires in the PyPI test jobs.
+    'ignore:ArrayEditor is not available:ImportWarning',
+]
+
 [tool.setuptools.packages.find]
 include = ['envisage*']
 

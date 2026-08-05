@@ -59,6 +59,10 @@ Tests
   being requested, and a plugin's contribution raising an exception -- now
   have tests that assert them; the tests that provoked them only
   incidentally suppress them instead. (#615)
+* pytest is now configured to turn warnings into errors, so that a new
+  warning fails the test suite instead of passing unnoticed. TraitsUI's
+  import-time ``ImportWarning`` about a missing numpy is ignored, as numpy
+  isn't part of Envisage's dependency closure. (#615)
 
 Version 7.0.4
 =============
