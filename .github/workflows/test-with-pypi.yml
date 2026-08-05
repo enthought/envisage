@@ -27,7 +27,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
           cache-suffix: test
-      - name: List the packages under test
+      - name: Show the dependency tree
         run: uv tree
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
