@@ -57,6 +57,10 @@ Tests
   ``stderr``. (#615)
 * pytest is now configured to turn warnings into errors, so that a new
   warning fails the test suite instead of passing unnoticed. (#615)
+* The ``TasksApplication`` tests now include the ``TasksPlugin``, which
+  declares the extension points that ``TasksApplication`` reads. Without
+  it, those tests logged a warning about an unknown extension point.
+  (#615)
 
 Version 7.0.4
 =============

@@ -27,8 +27,18 @@ from traits.api import Event, HasTraits, provides
 
 from envisage.api import Plugin
 from envisage.tests.support import requires_gui
-from envisage.ui.tasks.api import TasksApplication
+from envisage.ui.tasks.api import TasksApplication, TasksPlugin
 from envisage.ui.tasks.tasks_application import DEFAULT_STATE_FILENAME
+
+
+def create_tasks_application(plugins=(), **traits):
+    """
+    Create a TasksApplication for testing.
+
+    The extension points that TasksApplication reads are declared by
+    TasksPlugin, so every Tasks application needs that plugin.
+    """
+    return TasksApplication(plugins=[TasksPlugin(), *plugins], **traits)
 
 
 @provides(IGUI)
@@ -85,7 +95,7 @@ class TestTasksApplication(unittest.TestCase):
         state_location = self.tmpdir
 
         # Create application, and set it up to exit as soon as it's launched.
-        app = TasksApplication(
+        app = create_tasks_application(
             state_location=state_location,
             layout_save_protocol=3,
         )
@@ -112,7 +122,7 @@ class TestTasksApplication(unittest.TestCase):
         self.assertFalse(state_path.exists())
 
         # Create application and set it up to exit as soon as it's launched.
-        app = TasksApplication(
+        app = create_tasks_application(
             state_location=state_location,
             state_filename=state_filename,
         )
@@ -132,7 +142,7 @@ class TestTasksApplication(unittest.TestCase):
             (stored_state_location / "application_memento_v2.pkl").read_bytes()
         )
 
-        app = TasksApplication(state_location=state_location)
+        app = create_tasks_application(state_location=state_location)
         app.on_trait_change(app.exit, "application_initialized")
         app.run()
 
@@ -150,7 +160,7 @@ class TestTasksApplication(unittest.TestCase):
         )
 
         # Use a non-standard filename, to exercise that machinery.
-        app = TasksApplication(
+        app = create_tasks_application(
             state_location=state_location,
             state_filename="fancy_state.pkl",
         )
@@ -163,11 +173,11 @@ class TestTasksApplication(unittest.TestCase):
     def test_gui_trait_expects_IGUI_interface(self):
         # Trivial test where we simply set the trait
         # and the test passes because no errors are raised.
-        app = TasksApplication()
+        app = create_tasks_application()
         app.gui = DummyGUI()
 
     def test_simple_lifecycle(self):
-        app = TasksApplication(state_location=self.tmpdir)
+        app = create_tasks_application(state_location=self.tmpdir)
         app.observe(lambda event: app.exit(), "application_initialized")
         app.run()
 
@@ -179,7 +189,7 @@ class TestTasksApplication(unittest.TestCase):
         gui = LifecycleRecordingGUI()
         gui.observe(events.append, "starting,stopped")
 
-        app = TasksApplication(
+        app = create_tasks_application(
             gui=gui, state_location=self.tmpdir, plugins=[plugin]
         )
         app.observe(events.append, "starting,started,stopping,stopped")
