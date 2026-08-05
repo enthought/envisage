@@ -54,6 +54,11 @@ Build
   fields in place of the deprecated ``License ::`` classifier. (#625)
 * Raise the build-time setuptools requirement to 83 or later, and drop
   ``wheel`` from the build requirements. (#625)
+* Remove ``etstool.py``. The EDM-based workflows now invoke ``edm``
+  directly, so they no longer need a bootstrap Python environment.
+  (#628)
+* The CI workflows that don't use EDM now use ``uv`` in place of ``pip``.
+  (#628)
 
 Tests
 -----

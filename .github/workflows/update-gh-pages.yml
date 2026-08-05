@@ -5,29 +5,32 @@ on:
   push:
     branches: [main]
 
+env:
+  UV_PYTHON: '3.14'
+
 jobs:
   update-docs:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+    - name: Set up uv
+      uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:
-        python-version: '3.14'
-        cache: 'pip'
-        cache-dependency-path: 'docs/requirements.txt'
+        enable-cache: true
+        cache-dependency-glob: 'docs/requirements.txt'
     - run: |
-        python -m pip install -r docs/requirements.txt
-        python -m pip install .
+        uv venv
+        uv pip install -r docs/requirements.txt .
     - run: |
-        python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
+        uv run --no-project python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - name: Check out gh-pages branch
       run: |
         git fetch --depth=1 origin gh-pages
         git worktree add ../docs gh-pages
     - name: Update the docs on the gh-pages branch
       run: |
-        python docs/update_gh_pages.py docs/build/html ../docs
+        uv run --no-project python docs/update_gh_pages.py docs/build/html ../docs
     - name: Configure Git
       run: |
         git config user.name "Documentation Bot"
