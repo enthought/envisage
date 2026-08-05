@@ -11,10 +11,7 @@
 
 
 # Standard library imports.
-try:
-    from importlib.resources import files
-except ImportError:
-    from importlib_resources import files
+from importlib.resources import files
 
 # Enthought library imports.
 from traits.api import HasTraits, provides

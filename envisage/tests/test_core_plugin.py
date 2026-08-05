@@ -11,11 +11,7 @@
 
 # Standard library imports.
 import unittest
-
-try:
-    from importlib.resources import as_file, files
-except ImportError:
-    from importlib_resources import as_file, files
+from importlib.resources import as_file, files
 
 # Enthought library imports.
 from traits.api import HasTraits, Interface, List, on_trait_change, Str

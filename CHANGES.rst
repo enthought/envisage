@@ -20,6 +20,8 @@ Changes
 
 Removals
 --------
+* Drop support for Python 3.8 and 3.9. Envisage now requires Python 3.10
+  or later. (#616)
 * Remove the deprecated ``EggPluginManager``, ``EggBasketPluginManager``
   and ``PackagePluginManager`` classes, along with the supporting
   ``egg_utils`` module and associated tests. (#548)
@@ -45,8 +47,9 @@ Build
 -----
 * Remove all uses of ``pkg_resources`` and drop ``setuptools`` as a
   runtime dependency. ``setuptools`` is retained as a build dependency.
-  ``importlib.resources`` (with ``importlib-resources`` as a backport
-  for Python 3.8) is used instead.
+  ``importlib.resources`` is used instead.
+* Drop the ``importlib-resources`` dependency, which was only needed for
+  Python versions earlier than 3.9. (#616)
 
 Tests
 -----

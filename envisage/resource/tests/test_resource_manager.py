@@ -13,14 +13,9 @@
 # Standard library imports.
 import unittest
 import urllib.request
+from importlib.resources import as_file, files
 from io import StringIO
 from urllib.error import HTTPError
-
-try:
-    from importlib.resources import as_file, files
-except ImportError:
-    from importlib_resources import as_file, files
-
 
 # Enthought library imports.
 from envisage.resource.api import NoSuchResourceError, ResourceManager
