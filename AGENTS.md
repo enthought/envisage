@@ -7,17 +7,17 @@ UI components.
 
 ## Virtual Environment
 
-`uv sync` creates `.venv` and installs Envisage into it in editable mode,
-together with the `dev` dependency group, which uv includes by default:
+The commands in this file all use `uv run`, which creates `.venv` on
+demand and syncs it with Envisage in editable mode plus the `dev`
+dependency group, which uv includes by default. There is no separate
+install step.
+
+Run `uv sync` if you want the environment created up front, for an editor
+or language server to point at:
 
 ```bash
 uv sync
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate    # Windows
 ```
-
-Activating is optional: prefixing any command with `uv run --` runs it in
-that environment, syncing first if needed.
 
 ## Dependencies
 
@@ -36,22 +36,22 @@ install step is needed.
 
 ```bash
 # Run the full test suite with pytest
-python -m pytest
+uv run -m pytest
 
 # Run a single test file
-python -m pytest envisage/tests/test_application.py
+uv run -m pytest envisage/tests/test_application.py
 
 # Run a single test class
-python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase
+uv run -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase
 
 # Run a single test method
-python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase::test_should_get_required_service
+uv run -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase::test_should_get_required_service
 
 # Run with unittest directly
-python -m unittest discover -v -t . -s envisage
+uv run -m unittest discover -v -t . -s envisage
 
 # Run a single test via unittest
-python -m unittest envisage.tests.test_application.ApplicationTestCase.test_home
+uv run -m unittest envisage.tests.test_application.ApplicationTestCase.test_home
 ```
 
 Some tests require a GUI toolkit (PySide6). On Linux, use `xvfb-run -a`
@@ -63,16 +63,16 @@ Style is enforced by Black, isort, and flake8, all provided by the `dev`
 group. Run all three checks:
 
 ```bash
-python -m black --check --diff .
-python -m isort --check --diff .
-python -m flake8 .
+uv run -m black --check --diff .
+uv run -m isort --check --diff .
+uv run -m flake8 .
 ```
 
 To auto-fix formatting:
 
 ```bash
-python -m black .
-python -m isort .
+uv run -m black .
+uv run -m isort .
 ```
 
 ### Key style settings
