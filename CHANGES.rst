@@ -16,6 +16,8 @@ Build
   The documentation, style and test requirements are declared as
   dependency groups in ``pyproject.toml``, in place of the
   ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
+* Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
+  nothing has referenced the file since. (#628)
 
 Version 8.0.0
 =============
