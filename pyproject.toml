@@ -57,10 +57,9 @@ docs = [
     {include-group = 'gui'},
 ]
 style = [
-    'black ~= 24.3',
-    'flake8',
-    'flake8-ets >= 1.1.0',
-    'isort',
+    # Upper-bounded: ruff confines formatting changes to minor releases, so
+    # allowing 0.17 would reformat the codebase from under us.
+    'ruff ~= 0.16.0',
 ]
 test = [
     'pytest',
@@ -71,22 +70,39 @@ dev = [
     {include-group = 'test'},
 ]
 
-[tool.black]
-line-length = 79
-
-[tool.isort]
-profile = 'black'
-line_length = 79
-order_by_type = false
-sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'ENTHOUGHT', 'FIRSTPARTY', 'LOCALFOLDER']
-known_enthought = ['apptools', 'pyface', 'traits', 'traitsui']
-
 [tool.pytest.ini_options]
 filterwarnings = [
     'error',
     # Ignore TraitsUI's import-time warning when numpy isn't installed.
     'ignore:ArrayEditor is not available:ImportWarning',
 ]
+
+[tool.ruff]
+extend = 'ruff-copyright.toml'
+line-length = 88
+
+[tool.ruff.lint]
+select = ['CPY001', 'E', 'F', 'I', 'W']
+
+[tool.ruff.lint.per-file-ignores]
+'*/api.py' = ['F401']
+
+[tool.ruff.lint.isort]
+order-by-type = false
+# Demo applications that are run from their own directory, so their absolute
+# imports aren't imports of Envisage itself.
+known-third-party = ['acme', 'attractors']
+section-order = [
+    'future',
+    'standard-library',
+    'third-party',
+    'enthought',
+    'first-party',
+    'local-folder',
+]
+
+[tool.ruff.lint.isort.sections]
+enthought = ['apptools', 'pyface', 'traits', 'traitsui']
 
 [tool.uv.dependency-groups]
 # The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.

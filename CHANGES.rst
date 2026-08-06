@@ -23,6 +23,11 @@ Build
 * The ``envisage`` package now lives in ``src/envisage`` in the repository,
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
+* Style checks now use ``ruff`` in place of ``black``, ``isort``, ``flake8``
+  and ``flake8-ets``. The copyright header check is ruff's ``CPY001`` rule,
+  configured with the header text in ``ruff-copyright.toml``, and a
+  ``check-copyright-year`` workflow checks that end year against the current
+  year. The line length is now ruff's default of 88 rather than 79. (#636)
 
 Version 8.0.0
 =============
