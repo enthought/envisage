@@ -235,7 +235,7 @@ intersphinx_mapping = {
 
 extlinks = {
     "github-demo": (
-        f"https://github.com/enthought/envisage/tree/{version}/envisage/examples/demo/%s",  # noqa: E501
+        f"https://github.com/enthought/envisage/tree/{version}/src/envisage/examples/demo/%s",  # noqa: E501
         "",
     )
 }
@@ -253,7 +253,7 @@ def run_apidoc(app, config):
 
     root = pathlib.Path(__file__).parent.parent.parent
     docs = root / "docs"
-    envisage = root / "envisage"
+    envisage = root / "src" / "envisage"
 
     apidoc_args = [
         "--separate",

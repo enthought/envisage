@@ -5,6 +5,13 @@ Python applications, part of the Enthought Tool Suite (ETS). It uses the
 Traits library for typed attributes and the Pyface/TraitsUI libraries for
 UI components.
 
+## Repository Layout
+
+The `envisage` package lives in `src/envisage`, with tests in `tests`
+subpackages alongside the code they exercise. `examples/legacy` holds an
+unmaintained example that isn't part of the package; the maintained demos
+are in `src/envisage/examples/demo`.
+
 ## Virtual Environment
 
 The commands in this file all use `uv run`, which creates `.venv` on

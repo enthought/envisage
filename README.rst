@@ -24,9 +24,9 @@ The Envisage project provides the basic machinery of the Envisage
 framework. You are free to use:
 
 - the envisage ``CorePlugin`` available through the
-  `envisage.api <https://github.com/enthought/envisage/blob/main/envisage/api.py>`__ module
+  `envisage.api <https://github.com/enthought/envisage/blob/main/src/envisage/api.py>`__ module
 - plug-ins from the envisage
-  `plugins <https://github.com/enthought/envisage/tree/main/envisage/plugins>`__ module
+  `plugins <https://github.com/enthought/envisage/tree/main/src/envisage/plugins>`__ module
 - plug-ins from other ETS projects that expose their functionality as plug-ins
 - plug-ins that you create yourself
 
