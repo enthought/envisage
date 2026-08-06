@@ -18,6 +18,10 @@ Build
   ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
 * Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
   nothing has referenced the file since. (#628)
+* Update the Read the Docs configuration, which installed the
+  ``docs/requirements.txt`` file that the move to dependency groups
+  removed. It now runs ``uv sync`` with the ``docs`` group, on Python
+  3.14 since that group requires Python 3.12 or later. (#628)
 * Add a tracked ``uv.lock``, and install from it with ``--locked`` in the
   CI workflows, so that a new upstream release can no longer break them.
   Dependabot keeps the lock up to date. (#628)
