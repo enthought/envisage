@@ -20,11 +20,11 @@ released under a 3 clause BSD license.
 
 Files and orginal authors:
 ----------------------------------------------------------------------------
-envisage/ui/workbench/images:
+src/envisage/ui/workbench/images:
                           about.png | PSF
                     application.ico | GV
 
-envisage/ui/workbench/action/images:
+src/envisage/ui/workbench/action/images:
                            exit.png | CP
                     preferences.png | CP
 

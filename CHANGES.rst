@@ -20,6 +20,9 @@ Build
   ``MANIFEST.in`` and the explicit ``package-data`` configuration are no
   longer needed. The source distribution no longer includes
   ``CHANGES.rst``. (#628)
+* The ``envisage`` package now lives in ``src/envisage`` in the repository,
+  so that an ``import envisage`` from the repository root can't accidentally
+  pick up an uninstalled source tree. The wheel is unchanged. (#635)
 
 Version 8.0.0
 =============
