@@ -30,7 +30,6 @@ jobs:
           python-version: '3.14'
           enable-cache: true
           cache-suffix: ets-from-source
-      # Only these four are re-locked, so pytest stays at its pinned version.
       - name: Point the ETS dependencies at their main branches
         run: >
           uv add --branch main
