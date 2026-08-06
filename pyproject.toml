@@ -1,6 +1,6 @@
 [build-system]
-requires = ['setuptools>=83']
-build-backend = 'setuptools.build_meta'
+requires = ['uv_build>=0.12.2,<0.13']
+build-backend = 'uv_build'
 
 [project]
 name = 'envisage'
@@ -90,19 +90,6 @@ filterwarnings = [
     'ignore:ArrayEditor is not available:ImportWarning',
 ]
 
-[tool.setuptools.packages.find]
-include = ['envisage*']
-
-[tool.setuptools.package-data]
-'envisage.examples' = ['demo/**']
-'envisage.tests' = [
-    'preferences.ini',
-]
-'envisage.ui.tasks.tests' = ['data/*.pkl']
-'envisage.ui.workbench' = [
-    'preferences.ini',
-    'images/*',
-]
-'envisage.ui.workbench.action' = [
-    'images/*',
-]
+[tool.uv.build-backend]
+module-root = ''
+source-include = ['CHANGES.rst']

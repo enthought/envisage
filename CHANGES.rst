@@ -18,6 +18,10 @@ Build
   ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
 * Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
   nothing has referenced the file since. (#628)
+* Build with the ``uv_build`` backend in place of ``setuptools``. Files
+  inside the package are now included in the wheel automatically, so the
+  explicit ``package-data`` configuration and ``MANIFEST.in`` are no
+  longer needed. (#628)
 
 Version 8.0.0
 =============
