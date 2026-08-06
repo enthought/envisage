@@ -4,7 +4,6 @@ on: [pull_request, workflow_dispatch]
 
 env:
   INSTALL_EDM_VERSION: 4.1.3
-  QT_MAC_WANTS_LAYER: 1
   PYTHONUNBUFFERED: 1
   # EDM's installer doesn't support extras, hence the explicit configobj.
   EDM_PACKAGES: apptools configobj pyface pytest traits traitsui
