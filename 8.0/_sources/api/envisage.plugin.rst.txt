@@ -1,0 +1,7 @@
+envisage.plugin module
+======================
+
+.. automodule:: envisage.plugin
+   :members:
+   :show-inheritance:
+   :undoc-members:
