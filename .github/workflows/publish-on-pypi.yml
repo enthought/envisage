@@ -24,8 +24,7 @@ jobs:
         cache-suffix: publish
     - name: Build sdist and wheel
       run: uv build
-    # --trusted-publishing always, rather than the default automatic, so that
-    # a missing OIDC token fails here instead of falling back to looking for
-    # credentials that this workflow doesn't have.
+    # Not uv publish: it doesn't generate the PEP 740 attestations that this
+    # action does, and 8.0.0 was published with them.
     - name: Publish to PyPI
-      run: uv publish --trusted-publishing always
+      uses: pypa/gh-action-pypi-publish@ba38be9e461d3875417946c167d0b5f3d385a247 # v1.14.1
