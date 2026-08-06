@@ -21,8 +21,8 @@ on ``stderr``.
 
 Thanks to:
 
-* Mark Dickinson
 * Joon-Yee Chuah
+* Mark Dickinson
 
 Changes
 -------
