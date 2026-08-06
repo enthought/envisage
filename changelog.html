@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.0.4',
+        VERSION:     '8.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         LINK_SUFFIX: '.html',
@@ -25,7 +25,7 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script src="_static/documentation_options.js?v=1394a4c8"></script>
+    <script src="_static/documentation_options.js?v=f663eb4a"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,6 +88,26 @@
 <h1>Release history<a class="headerlink" href="#release-history" title="Link to this heading">¶</a></h1>
 <section id="version-8-0-0">
 <h2>Version 8.0.0<a class="headerlink" href="#version-8-0-0" title="Link to this heading">¶</a></h2>
+<p>Released: 2026-08-06</p>
+<p>This is a major release aimed at restoring compatibility with current
+versions of setuptools, which no longer ship the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> package
+that earlier versions of Envisage depended on. Envisage now uses
+<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> instead, and no longer requires <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> at
+run time.</p>
+<p>The release also removes long-deprecated functionality: the egg-based
+plugin managers, the <code class="docutils literal notranslate"><span class="pre">include</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude</span></code> traits of
+<code class="docutils literal notranslate"><span class="pre">PluginManager</span></code>, and support for <code class="docutils literal notranslate"><span class="pre">service=True</span></code> trait metadata.
+Support for Python 3.8 and 3.9 has been dropped, so Envisage now requires
+Python 3.10 or later.</p>
+<p>One behaviour change is worth noting when upgrading: Envisage no longer
+installs a <code class="docutils literal notranslate"><span class="pre">NullHandler</span></code> on the <code class="docutils literal notranslate"><span class="pre">&quot;envisage&quot;</span></code> logger, so an application
+that doesn’t configure logging will now see Envisage’s warnings and errors
+on <code class="docutils literal notranslate"><span class="pre">stderr</span></code>.</p>
+<p>Thanks to:</p>
+<ul class="simple">
+<li><p>Joon-Yee Chuah</p></li>
+<li><p>Mark Dickinson</p></li>
+</ul>
 <section id="changes">
 <h3>Changes<a class="headerlink" href="#changes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -1177,7 +1197,7 @@ required by the application and provides documentation and test updates.</p>
         &copy; Copyright 2007-2026, Enthought
       </li>
       <li>
-      Last updated on Aug 05, 2026.
+      Last updated on Aug 06, 2026.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
