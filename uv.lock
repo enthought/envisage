@@ -251,6 +251,9 @@ style = [
     { name = "flake8-ets" },
     { name = "isort" },
 ]
+test = [
+    { name = "pytest" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -281,6 +284,7 @@ style = [
     { name = "flake8-ets", specifier = ">=1.1.0" },
     { name = "isort" },
 ]
+test = [{ name = "pytest" }]
 
 [[package]]
 name = "exceptiongroup"

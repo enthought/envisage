@@ -59,10 +59,13 @@ style = [
     'flake8-ets >= 1.1.0',
     'isort',
 ]
-dev = [
+test = [
     'pytest',
+]
+dev = [
     'pyside6',
     {include-group = 'style'},
+    {include-group = 'test'},
 ]
 
 [tool.black]

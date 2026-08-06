@@ -34,3 +34,21 @@ jobs:
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
         run: uv run --locked -m pytest
+
+  # A smoke test that Envisage doesn't depend on a GUI toolkit being
+  # installed, and that the tests needing one skip rather than fail. No
+  # toolkit, so no Qt support packages and no xvfb-run either.
+  test-without-toolkit:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: Clone the Envisage source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          python-version: '3.14'
+          enable-cache: true
+          cache-suffix: test-without-toolkit
+      - name: Run tests, reporting what was skipped
+        run: uv run --locked --no-default-groups --group test -m pytest -rs
