@@ -22,7 +22,7 @@ on ``stderr``.
 Thanks to:
 
 * Mark Dickinson
-* jychuah
+* Joon-Yee Chuah
 
 Changes
 -------
