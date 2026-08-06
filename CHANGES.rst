@@ -20,9 +20,7 @@ Build
   nothing has referenced the file since. (#628)
 * Add a tracked ``uv.lock``, and install from it with ``--locked`` in the
   CI workflows, so that a new upstream release can no longer break them.
-  Dependabot keeps the lock up to date, and a new weekly ``Test with the
-  latest releases`` workflow ignores the lock and resolves afresh, to give
-  early warning of a release that dependabot hasn't reached yet. (#628)
+  Dependabot keeps the lock up to date. (#628)
 * Build with the ``uv_build`` backend in place of ``setuptools``. Files
   inside the package are now included in the wheel automatically, so the
   explicit ``package-data`` configuration and ``MANIFEST.in`` are no
