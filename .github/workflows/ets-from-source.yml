@@ -1,11 +1,6 @@
 name: Test with ETS packages from source
 
-# Dependabot keeps uv.lock current with PyPI *releases*. This workflow is the
-# earlier signal: it installs the ETS dependencies from their main branches, so
-# that a change breaking Envisage is caught before it is released.
-
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
     # Every Friday at 00:00 UTC
@@ -13,8 +8,7 @@ on:
 
 env:
   PYTHONUNBUFFERED: 1
-  # Deliberately not the locked environment: the point is to resolve afresh
-  # against the ETS main branches.
+  # Set explicitly: the test steps run from a different directory.
   VIRTUAL_ENV: ${{ github.workspace }}/.venv
 
 jobs:
@@ -44,9 +38,8 @@ jobs:
       - name: Install the GUI toolkit
         if: matrix.toolkit != 'null'
         run: uv pip install ${{ matrix.toolkit }}
-      # One invocation, so that the four main branches and Envisage's own
-      # requirements resolve together. The apptools extra has to be spelled
-      # out: a bare git URL would drop it, and configobj with it.
+      # Split into separate installs, the PyPI releases win. The apptools
+      # extra must be explicit, or configobj is dropped.
       - name: Install Envisage and the ETS dependencies from GitHub
         run: >
           uv pip install
@@ -55,9 +48,8 @@ jobs:
           "traitsui @ git+https://github.com/enthought/traitsui.git"
           "apptools[preferences] @ git+https://github.com/enthought/apptools.git"
           pytest .
-      # A version number proves nothing here: the ETS main branches carry no
-      # .dev suffix, so a silent fall back to the PyPI release would look
-      # identical. uv pip freeze reports the git URL and commit.
+      # These branches carry no .dev suffix, so versions can't tell a git
+      # install from a PyPI one.
       - name: Check that the ETS packages came from git
         shell: bash
         run: |
@@ -68,9 +60,7 @@ jobs:
               exit 1
             fi
           done
-      # The tests run from outside the source tree, so that they exercise the
-      # installed package rather than the local copy. The pytest configuration
-      # is still taken from the repository.
+      # Run from outside the source tree, to exercise the installed package.
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         working-directory: ${{ runner.temp }}
