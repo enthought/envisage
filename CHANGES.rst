@@ -15,9 +15,9 @@ run time.
 
 The release also removes long-deprecated functionality: the egg-based
 plugin managers, the ``include`` and ``exclude`` traits of
-``PluginManager``, and support for ``service=True`` trait metadata are all
-gone. Support for Python 3.8 and 3.9 has been dropped, so Envisage now
-requires Python 3.10 or later.
+``PluginManager``, and support for ``service=True`` trait metadata.
+Support for Python 3.8 and 3.9 has been dropped, so Envisage now requires
+Python 3.10 or later.
 
 One behaviour change is worth noting when upgrading: Envisage no longer
 installs a ``NullHandler`` on the ``"envisage"`` logger, so an application
