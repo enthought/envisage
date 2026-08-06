@@ -34,28 +34,8 @@ stale lockfile.
 
 ## Running Tests
 
-Tests use `unittest.TestCase` throughout. Both `pytest` and `unittest`
-runners are supported; the `dev` group provides pytest, so no separate
-install step is needed.
-
 ```bash
-# Run the full test suite with pytest
 uv run -m pytest
-
-# Run a single test file
-uv run -m pytest envisage/tests/test_application.py
-
-# Run a single test class
-uv run -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase
-
-# Run a single test method
-uv run -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase::test_should_get_required_service
-
-# Run with unittest directly
-uv run -m unittest discover -v -t . -s envisage
-
-# Run a single test via unittest
-uv run -m unittest envisage.tests.test_application.ApplicationTestCase.test_home
 ```
 
 Some tests require a GUI toolkit (PySide6). On Linux, use `xvfb-run -a`
