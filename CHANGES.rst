@@ -7,10 +7,11 @@ Version 8.0.0
 
 Released: 2026-08-06
 
-This release restores compatibility with current versions of setuptools.
-Envisage previously relied on ``pkg_resources``, which setuptools no longer
-ships as of version 82; Envisage now uses ``importlib.resources`` instead,
-and no longer depends on ``setuptools`` at run time.
+This is a major release aimed at restoring compatibility with current
+versions of setuptools, which no longer ship the ``pkg_resources`` package
+that earlier versions of Envisage depended on. Envisage now uses
+``importlib.resources`` instead, and no longer requires ``setuptools`` at
+run time.
 
 The release also removes long-deprecated functionality: the egg-based
 plugin managers, the ``include`` and ``exclude`` traits of
