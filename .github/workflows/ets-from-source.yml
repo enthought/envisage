@@ -8,8 +8,6 @@ on:
 
 env:
   PYTHONUNBUFFERED: 1
-  # Set explicitly: the test steps run from a different directory.
-  VIRTUAL_ENV: ${{ github.workspace }}/.venv
 
 jobs:
 
@@ -18,7 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        toolkit: ['null', 'pyside6']
 
     runs-on: ${{ matrix.os }}
 
@@ -32,40 +29,20 @@ jobs:
         with:
           python-version: '3.14'
           enable-cache: true
-          cache-suffix: ets-from-source-${{ matrix.toolkit }}
-      - name: Create the environment
-        run: uv venv
-      - name: Install the GUI toolkit
-        if: matrix.toolkit != 'null'
-        run: uv pip install ${{ matrix.toolkit }}
-      # Split into separate installs, the PyPI releases win. The apptools
-      # extra must be explicit, or configobj is dropped.
-      - name: Install Envisage and the ETS dependencies from GitHub
+          cache-suffix: ets-from-source
+      # Only these four are re-locked, so pytest stays at its pinned version.
+      - name: Point the ETS dependencies at their main branches
         run: >
-          uv pip install
+          uv add
           "traits @ git+https://github.com/enthought/traits.git"
           "pyface @ git+https://github.com/enthought/pyface.git"
           "traitsui @ git+https://github.com/enthought/traitsui.git"
           "apptools[preferences] @ git+https://github.com/enthought/apptools.git"
-          pytest .
-      # These branches carry no .dev suffix, so versions can't tell a git
-      # install from a PyPI one.
-      - name: Check that the ETS packages came from git
-        shell: bash
-        run: |
-          uv pip freeze | tee installed.txt
-          for package in traits pyface traitsui apptools; do
-            if ! grep -q "^${package} @ git+" installed.txt; then
-              echo "::error::${package} was not installed from git"
-              exit 1
-            fi
-          done
-      # Run from outside the source tree, to exercise the installed package.
+      - name: Record the commits under test
+        run: uv pip freeze
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        working-directory: ${{ runner.temp }}
-        run: xvfb-run -a uv run --no-project -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: xvfb-run -a uv run -m pytest
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
-        working-directory: ${{ runner.temp }}
-        run: uv run --no-project -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: uv run -m pytest

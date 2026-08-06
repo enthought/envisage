@@ -19,10 +19,10 @@ Build
 * Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
   nothing has referenced the file since. (#628)
 * The workflow that tests against the ETS main branches now uses ``uv``
-  with git requirements, in place of EDM followed by four
-  ``edm plumbing remove-package`` calls. It also now fails if any of
-  those packages turns out to have come from PyPI rather than from git,
-  which previously would have passed unnoticed. (#628)
+  with git sources, in place of EDM followed by four
+  ``edm plumbing remove-package`` calls. Only those four packages are
+  re-resolved, so the test dependencies stay at their locked
+  versions. (#628)
 * Update the Read the Docs configuration, which installed the
   ``docs/requirements.txt`` file that the move to dependency groups
   removed. It now runs ``uv sync`` with the ``docs`` group, on Python
