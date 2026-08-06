@@ -1,5 +1,9 @@
 name: Test with ETS packages from source
 
+# Dependabot keeps uv.lock current with PyPI *releases*. This workflow is the
+# earlier signal: it installs the ETS dependencies from their main branches, so
+# that a change breaking Envisage is caught before it is released.
+
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -8,75 +12,70 @@ on:
     - cron:  '0 0 * * 5'
 
 env:
-  INSTALL_EDM_VERSION: 4.1.3
-  QT_MAC_WANTS_LAYER: 1
   PYTHONUNBUFFERED: 1
-  # Dependencies needed to run the test suite, installed from EDM. The GUI
-  # toolkit is installed separately, from the matrix entry.
-  EDM_PACKAGES: apptools configobj pyface pytest traits traitsui
+  # Deliberately not the locked environment: the point is to resolve afresh
+  # against the ETS main branches.
+  VIRTUAL_ENV: ${{ github.workspace }}/.venv
 
 jobs:
 
-  # Test against EDM packages
-  test-with-edm:
+  ets-from-source:
     strategy:
+      fail-fast: false
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        runtime: ['3.11']
         toolkit: ['null', 'pyside6']
 
     runs-on: ${{ matrix.os }}
-
-    env:
-      EDM_ENVIRONMENT: envisage-test-${{ matrix.runtime }}-${{ matrix.toolkit }}
 
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install packages for Qt support
         uses: ./.github/actions/install-qt-support
-      - name: Cache EDM packages
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
-          path: ~/.cache
-          key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('.github/workflows/ets-from-source.yml') }}
-      - name: Set up EDM
-        uses: enthought/setup-edm-action@e68a4e0282298d695020fb21b4d3e93c3ac3c11f # v4.2
-        with:
-          edm-version: ${{ env.INSTALL_EDM_VERSION }}
-      - name: Create the EDM environment
-        run: edm environments create ${{ env.EDM_ENVIRONMENT }} --force --version=${{ matrix.runtime }}
-      - name: Install dependencies
-        run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ env.EDM_PACKAGES }}
+          python-version: '3.14'
+          enable-cache: true
+          cache-suffix: ets-from-source
+      - name: Create the environment
+        run: uv venv
       - name: Install the GUI toolkit
         if: matrix.toolkit != 'null'
-        run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ matrix.toolkit }}
-      # EDM's builds are removed before the GitHub sources are installed over
-      # them, so that pip isn't overwriting files EDM owns. One step each: a
-      # multi-command run block only reports its last exit status under pwsh.
-      - name: Remove the EDM build of apptools
-        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force apptools
-      - name: Remove the EDM build of traitsui
-        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force traitsui
-      - name: Remove the EDM build of pyface
-        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force pyface
-      - name: Remove the EDM build of traits
-        run: edm plumbing remove-package --environment ${{ env.EDM_ENVIRONMENT }} --force traits
-      # Installed in one pip invocation so that the four resolve together.
-      # --no-dependencies is deliberately not passed, so that a new dependency
-      # on any of the main branches is picked up.
-      - name: Install the ETS dependencies from GitHub
-        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install --force-reinstall git+https://github.com/enthought/traits.git git+https://github.com/enthought/pyface.git git+https://github.com/enthought/traitsui.git git+https://github.com/enthought/apptools.git
-      - name: Install the package under test
-        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install . --no-dependencies
+        run: uv pip install ${{ matrix.toolkit }}
+      # One invocation, so that the four main branches and Envisage's own
+      # requirements resolve together. The apptools extra has to be spelled
+      # out: a bare git URL would drop it, and configobj with it.
+      - name: Install Envisage and the ETS dependencies from GitHub
+        run: >
+          uv pip install
+          "traits @ git+https://github.com/enthought/traits.git"
+          "pyface @ git+https://github.com/enthought/pyface.git"
+          "traitsui @ git+https://github.com/enthought/traitsui.git"
+          "apptools[preferences] @ git+https://github.com/enthought/apptools.git"
+          pytest .
+      # A version number proves nothing here: the ETS main branches carry no
+      # .dev suffix, so a silent fall back to the PyPI release would look
+      # identical. uv pip freeze reports the git URL and commit.
+      - name: Check that the ETS packages came from git
+        shell: bash
+        run: |
+          uv pip freeze | tee installed.txt
+          for package in traits pyface traitsui apptools; do
+            if ! grep -q "^${package} @ git+" installed.txt; then
+              echo "::error::${package} was not installed from git"
+              exit 1
+            fi
+          done
       # The tests run from outside the source tree, so that they exercise the
       # installed package rather than the local copy. The pytest configuration
       # is still taken from the repository.
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         working-directory: ${{ runner.temp }}
-        run: xvfb-run -a edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: xvfb-run -a uv run --no-project -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
         working-directory: ${{ runner.temp }}
-        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: uv run --no-project -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
