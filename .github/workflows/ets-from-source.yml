@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: '3.14'
           enable-cache: true
-          cache-suffix: ets-from-source
+          cache-suffix: ets-from-source-${{ matrix.toolkit }}
       - name: Create the environment
         run: uv venv
       - name: Install the GUI toolkit
