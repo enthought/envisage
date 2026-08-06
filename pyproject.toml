@@ -46,12 +46,15 @@ repository = 'https://github.com/enthought/envisage'
 issues = 'https://github.com/enthought/envisage/issues'
 
 [dependency-groups]
+gui = [
+    'pyside6',
+]
 docs = [
     'Sphinx==9.1.0',
     'enthought-sphinx-theme==0.7.4',
     'sphinx-copybutton==0.5.2',
     # A toolkit is needed for accurate API documentation from autodoc.
-    'pyside6',
+    {include-group = 'gui'},
 ]
 style = [
     'black ~= 24.3',
@@ -63,7 +66,7 @@ test = [
     'pytest',
 ]
 dev = [
-    'pyside6',
+    {include-group = 'gui'},
     {include-group = 'style'},
     {include-group = 'test'},
 ]

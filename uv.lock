@@ -245,6 +245,9 @@ docs = [
     { name = "sphinx", marker = "python_full_version >= '3.12'" },
     { name = "sphinx-copybutton", marker = "python_full_version >= '3.12'" },
 ]
+gui = [
+    { name = "pyside6" },
+]
 style = [
     { name = "black" },
     { name = "flake8" },
@@ -278,6 +281,7 @@ docs = [
     { name = "sphinx", marker = "python_full_version >= '3.12'", specifier = "==9.1.0" },
     { name = "sphinx-copybutton", marker = "python_full_version >= '3.12'", specifier = "==0.5.2" },
 ]
+gui = [{ name = "pyside6" }]
 style = [
     { name = "black", specifier = "~=24.3" },
     { name = "flake8" },
