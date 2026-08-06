@@ -57,8 +57,6 @@ docs = [
     {include-group = 'gui'},
 ]
 style = [
-    # Upper-bounded: ruff confines formatting changes to minor releases, so
-    # allowing 0.17 would reformat the codebase from under us.
     'ruff ~= 0.16.0',
 ]
 test = [
