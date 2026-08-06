@@ -23,9 +23,10 @@ uv sync
 
 Runtime: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`, `traitsui`.
 
-Development requirements are dependency groups in `pyproject.toml`. The
-`dev` group provides pytest and PySide6 and includes the `style` group
-(Black, isort, flake8), so it covers everything except the `docs` group.
+Development requirements are dependency groups in `pyproject.toml`:
+`test` (pytest), `gui` (PySide6), `style` (Black, isort, flake8) and
+`docs`. The default `dev` group includes the first three, so it covers
+everything but `docs`.
 
 Exact versions are pinned in the tracked `uv.lock`, which `uv run` and
 `uv sync` install from. After changing anything in `pyproject.toml`, run
