@@ -5,6 +5,8 @@
 Version 8.1.0
 =============
 
+Released: YYYY-MM-DD
+
 Build
 -----
 * Remove ``etstool.py``. The EDM-based workflows now invoke ``edm``
