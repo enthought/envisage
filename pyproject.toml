@@ -50,9 +50,7 @@ docs = [
     'Sphinx==9.1.0',
     'enthought-sphinx-theme==0.7.4',
     'sphinx-copybutton==0.5.2',
-    # A toolkit is needed for accurate API documentation: without one,
-    # autodoc resolves the toolkit-dependent Pyface base classes to
-    # 'Unimplemented' and reduces their signatures to (*args, **kwargs).
+    # A toolkit is needed for accurate API documentation from autodoc.
     'pyside6',
 ]
 style = [
@@ -68,9 +66,7 @@ dev = [
 ]
 
 [tool.uv.dependency-groups]
-# The pinned Sphinx supports Python 3.12 or later, which is narrower than
-# the range Envisage itself supports. The documentation is only ever built
-# on the latest Python, so constrain the group rather than the project.
+# The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.
 docs = { requires-python = '>= 3.12' }
 
 [tool.black]
