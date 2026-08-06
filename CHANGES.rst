@@ -19,7 +19,9 @@ Build
 * Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
   nothing has referenced the file since. (#628)
 * The EDM-based test workflow no longer runs on macOS, which EDM no
-  longer supports, and uses EDM 4.1.5 in place of 4.1.3. (#628)
+  longer supports, and uses EDM 4.1.5 in place of 4.1.3. The PyPI-based
+  workflow now runs on macOS and Windows as well as Linux, so macOS is
+  still covered. (#628)
 * The workflow that tests against the ETS main branches now uses ``uv``
   with git sources, in place of EDM followed by four
   ``edm plumbing remove-package`` calls. Only those four packages are
