@@ -1,5 +1,3 @@
-# This workflow targets stable released dependencies from EDM.
-
 name: Test with EDM
 
 on: [pull_request, workflow_dispatch]
@@ -8,13 +6,10 @@ env:
   INSTALL_EDM_VERSION: 4.1.3
   QT_MAC_WANTS_LAYER: 1
   PYTHONUNBUFFERED: 1
-  # Dependencies needed to run the test suite, installed from EDM. The GUI
-  # toolkit is installed separately, from the matrix entry.
   EDM_PACKAGES: apptools configobj pyface pytest traits traitsui
 
 jobs:
 
-  # Test against EDM packages
   test-with-edm:
     strategy:
       matrix:
@@ -50,9 +45,7 @@ jobs:
         run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ matrix.toolkit }}
       - name: Install the package under test
         run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install . --no-dependencies
-      # The tests run from outside the source tree, so that they exercise the
-      # installed package rather than the local copy. The pytest configuration
-      # is still taken from the repository.
+      # Run from outside the source tree, to exercise the installed package.
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         working-directory: ${{ runner.temp }}

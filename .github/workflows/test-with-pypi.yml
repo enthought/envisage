@@ -7,7 +7,6 @@ env:
 
 jobs:
 
-  # Test against PyPI packages, using pytest
   test-with-pypi:
     strategy:
       matrix:
