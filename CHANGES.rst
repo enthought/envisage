@@ -9,34 +9,14 @@ Released: YYYY-MM-DD
 
 Build
 -----
-* Remove ``etstool.py``. The EDM-based workflows now invoke ``edm``
-  directly, so they no longer need a bootstrap Python environment.
-  (#628)
-* The CI workflows that don't use EDM now use ``uv`` in place of ``pip``.
-  The documentation, style and test requirements are declared as
-  dependency groups in ``pyproject.toml``, in place of the
-  ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
-* Remove ``.coveragerc``. CI stopped reporting coverage in #288, and
-  nothing has referenced the file since. (#628)
-* The EDM-based test workflow no longer runs on macOS, which EDM no
-  longer supports, and uses EDM 4.1.5 in place of 4.1.3. The PyPI-based
-  workflow now runs on macOS and Windows as well as Linux, so macOS is
-  still covered. (#628)
-* The workflow that tests against the ETS main branches now uses ``uv``
-  with git sources, in place of EDM followed by four
-  ``edm plumbing remove-package`` calls. Only those four packages are
-  re-resolved, so the test dependencies stay at their locked
-  versions. (#628)
-* Update the Read the Docs configuration, which installed the
-  ``docs/requirements.txt`` file that the move to dependency groups
-  removed. It now runs ``uv sync`` with the ``docs`` group, on Python
-  3.14 since that group requires Python 3.12 or later. (#628)
-* Add a tracked ``uv.lock``, and install from it with ``--locked`` in the
-  CI workflows, so that a new upstream release can no longer break them.
-  Dependabot keeps the lock up to date. (#628)
+* Development and CI now use ``uv``. ``etstool.py`` is gone, the
+  documentation, style and test requirements are dependency groups in
+  ``pyproject.toml`` in place of the ``docs/requirements.txt`` and
+  ``style-requirements.txt`` files, and a tracked ``uv.lock`` pins what
+  CI installs. Run ``uv lock`` after changing dependencies. (#628)
 * Build with the ``uv_build`` backend in place of ``setuptools``. Files
-  inside the package are now included in the wheel automatically, so the
-  explicit ``package-data`` configuration and ``MANIFEST.in`` are no
+  inside the package are included in the wheel automatically, so
+  ``MANIFEST.in`` and the explicit ``package-data`` configuration are no
   longer needed. The source distribution no longer includes
   ``CHANGES.rst``. (#628)
 
