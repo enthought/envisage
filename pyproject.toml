@@ -57,7 +57,7 @@ docs = [
     {include-group = 'gui'},
 ]
 style = [
-    'black ~= 24.3',
+    'black>=24.3,<27.0',
     'flake8',
     'flake8-ets >= 1.1.0',
     'isort',
