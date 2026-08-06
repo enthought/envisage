@@ -2,6 +2,19 @@
  Release history
 =================
 
+Version 8.1.0
+=============
+
+Build
+-----
+* Remove ``etstool.py``. The EDM-based workflows now invoke ``edm``
+  directly, so they no longer need a bootstrap Python environment.
+  (#628)
+* The CI workflows that don't use EDM now use ``uv`` in place of ``pip``.
+  The documentation, style and test requirements are declared as
+  dependency groups in ``pyproject.toml``, in place of the
+  ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
+
 Version 8.0.0
 =============
 
@@ -89,13 +102,6 @@ Build
   (#601, #624)
 * Add ``AGENTS.md``, describing the build, test, lint and code style
   workflows for the repository. (#598, #626)
-* Remove ``etstool.py``. The EDM-based workflows now invoke ``edm``
-  directly, so they no longer need a bootstrap Python environment.
-  (#628)
-* The CI workflows that don't use EDM now use ``uv`` in place of ``pip``.
-  The documentation, style and test requirements are declared as
-  dependency groups in ``pyproject.toml``, in place of the
-  ``docs/requirements.txt`` and ``style-requirements.txt`` files. (#628)
 
 Tests
 -----
