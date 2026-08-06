@@ -7,12 +7,16 @@ Version 8.0.0
 
 Released: 2026-08-06
 
-This is a major release focused on removing long-deprecated functionality.
-The egg-based plugin managers, the ``include`` and ``exclude`` traits of
-``PluginManager``, and support for ``service=True`` trait metadata have all
-been removed, along with the last uses of ``pkg_resources``. Support for
-Python 3.8 and 3.9 has been dropped; Envisage now requires Python 3.10 or
-later.
+This release restores compatibility with current versions of setuptools.
+Envisage previously relied on ``pkg_resources``, which setuptools no longer
+ships as of version 82; Envisage now uses ``importlib.resources`` instead,
+and no longer depends on ``setuptools`` at run time.
+
+The release also removes long-deprecated functionality: the egg-based
+plugin managers, the ``include`` and ``exclude`` traits of
+``PluginManager``, and support for ``service=True`` trait metadata are all
+gone. Support for Python 3.8 and 3.9 has been dropped, so Envisage now
+requires Python 3.10 or later.
 
 One behaviour change is worth noting when upgrading: Envisage no longer
 installs a ``NullHandler`` on the ``"envisage"`` logger, so an application
