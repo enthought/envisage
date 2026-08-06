@@ -12,8 +12,9 @@ Build
 * Development and CI now use ``uv``. ``etstool.py`` is gone, the
   documentation, style and test requirements are dependency groups in
   ``pyproject.toml`` in place of the ``docs/requirements.txt`` and
-  ``style-requirements.txt`` files, and a tracked ``uv.lock`` pins what
-  CI installs. Run ``uv lock`` after changing dependencies. (#628)
+  ``.github/workflows/style-requirements.txt`` files, and a tracked
+  ``uv.lock`` pins what CI installs. Run ``uv lock`` after changing
+  dependencies. (#628)
 * Build with the ``uv_build`` backend in place of ``setuptools``. Files
   inside the package are included in the wheel automatically, so
   ``MANIFEST.in`` and the explicit ``package-data`` configuration are no
