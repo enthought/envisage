@@ -84,7 +84,6 @@ filterwarnings = [
 
 [tool.uv.build-backend]
 module-root = ''
-source-include = ['CHANGES.rst']
 
 [tool.uv.dependency-groups]
 # The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.

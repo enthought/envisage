@@ -24,7 +24,8 @@ Build
 * Build with the ``uv_build`` backend in place of ``setuptools``. Files
   inside the package are now included in the wheel automatically, so the
   explicit ``package-data`` configuration and ``MANIFEST.in`` are no
-  longer needed. (#628)
+  longer needed. The source distribution no longer includes
+  ``CHANGES.rst``. (#628)
 
 Version 8.0.0
 =============
