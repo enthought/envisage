@@ -33,13 +33,11 @@ jobs:
       # Only these four are re-locked, so pytest stays at its pinned version.
       - name: Point the ETS dependencies at their main branches
         run: >
-          uv add
+          uv add --branch main
           "traits @ git+https://github.com/enthought/traits.git"
           "pyface @ git+https://github.com/enthought/pyface.git"
           "traitsui @ git+https://github.com/enthought/traitsui.git"
           "apptools[preferences] @ git+https://github.com/enthought/apptools.git"
-      - name: Record the commits under test
-        run: uv pip freeze
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: xvfb-run -a uv run -m pytest
