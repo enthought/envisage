@@ -7,54 +7,36 @@ UI components.
 
 ## Virtual Environment
 
-Before installing or running anything, create and activate an isolated
-virtual environment to avoid modifying the system Python:
+The commands in this file all use `uv run`, which creates `.venv` on
+demand and syncs it with Envisage in editable mode plus the `dev`
+dependency group, which uv includes by default. There is no separate
+install step.
+
+Run `uv sync` if you want the environment created up front, for an editor
+or language server to point at:
 
 ```bash
-uv venv --seed
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate    # Windows
+uv sync
 ```
 
-`uv` is the recommended tool. If it is not available, `python -m venv .venv`
-works too.
+## Dependencies
 
-## Build and Install
+Runtime: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`, `traitsui`.
 
-```bash
-python -m pip install -e .
-```
+Development requirements are dependency groups in `pyproject.toml`:
+`test` (pytest), `gui` (PySide6), `style` (Black, isort, flake8) and
+`docs`. The default `dev` group includes the first three, so it covers
+everything but `docs`.
 
-Dependencies: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`,
-`traitsui`.
+Exact versions are pinned in the tracked `uv.lock`, which `uv run` and
+`uv sync` install from. After changing anything in `pyproject.toml`, run
+`uv lock` and commit the result — CI passes `--locked`, which fails on a
+stale lockfile.
 
 ## Running Tests
 
-Tests use `unittest.TestCase` throughout. Both `pytest` and `unittest`
-runners are supported. Install `pytest` first if using that runner:
-
 ```bash
-python -m pip install pytest
-```
-
-```bash
-# Run the full test suite with pytest
-python -m pytest
-
-# Run a single test file
-python -m pytest envisage/tests/test_application.py
-
-# Run a single test class
-python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase
-
-# Run a single test method
-python -m pytest envisage/tests/test_service_registry.py::ServiceRegistryTestCase::test_should_get_required_service
-
-# Run with unittest directly
-python -m unittest discover -v -t . -s envisage
-
-# Run a single test via unittest
-python -m unittest envisage.tests.test_application.ApplicationTestCase.test_home
+uv run -m pytest
 ```
 
 Some tests require a GUI toolkit (PySide6). On Linux, use `xvfb-run -a`
@@ -62,25 +44,20 @@ to run headless.
 
 ## Linting and Formatting
 
-Style is enforced by Black, isort, and flake8. Install all required tools:
+Style is enforced by Black, isort, and flake8, all provided by the `dev`
+group. Run all three checks:
 
 ```bash
-python -m pip install -r .github/workflows/style-requirements.txt
-```
-
-Run all three checks:
-
-```bash
-python -m black --check --diff .
-python -m isort --check --diff .
-python -m flake8 .
+uv run -m black --check --diff .
+uv run -m isort --check --diff .
+uv run -m flake8 .
 ```
 
 To auto-fix formatting:
 
 ```bash
-python -m black .
-python -m isort .
+uv run -m black .
+uv run -m isort .
 ```
 
 ### Key style settings

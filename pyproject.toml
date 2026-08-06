@@ -1,6 +1,6 @@
 [build-system]
-requires = ['setuptools>=83']
-build-backend = 'setuptools.build_meta'
+requires = ['uv_build>=0.12.2,<0.13']
+build-backend = 'uv_build'
 
 [project]
 name = 'envisage'
@@ -45,6 +45,32 @@ documentation = 'https://docs.enthought.com/envisage/'
 repository = 'https://github.com/enthought/envisage'
 issues = 'https://github.com/enthought/envisage/issues'
 
+[dependency-groups]
+gui = [
+    'pyside6',
+]
+docs = [
+    'Sphinx==9.1.0',
+    'enthought-sphinx-theme==0.7.4',
+    'sphinx-copybutton==0.5.2',
+    # A toolkit is needed for accurate API documentation from autodoc.
+    {include-group = 'gui'},
+]
+style = [
+    'black ~= 24.3',
+    'flake8',
+    'flake8-ets >= 1.1.0',
+    'isort',
+]
+test = [
+    'pytest',
+]
+dev = [
+    {include-group = 'gui'},
+    {include-group = 'style'},
+    {include-group = 'test'},
+]
+
 [tool.black]
 line-length = 79
 
@@ -62,19 +88,9 @@ filterwarnings = [
     'ignore:ArrayEditor is not available:ImportWarning',
 ]
 
-[tool.setuptools.packages.find]
-include = ['envisage*']
+[tool.uv.build-backend]
+module-root = ''
 
-[tool.setuptools.package-data]
-'envisage.examples' = ['demo/**']
-'envisage.tests' = [
-    'preferences.ini',
-]
-'envisage.ui.tasks.tests' = ['data/*.pkl']
-'envisage.ui.workbench' = [
-    'preferences.ini',
-    'images/*',
-]
-'envisage.ui.workbench.action' = [
-    'images/*',
-]
+[tool.uv.dependency-groups]
+# The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.
+docs = { requires-python = '>= 3.12' }
