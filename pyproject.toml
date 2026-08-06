@@ -65,10 +65,6 @@ dev = [
     {include-group = 'style'},
 ]
 
-[tool.uv.dependency-groups]
-# The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.
-docs = { requires-python = '>= 3.12' }
-
 [tool.black]
 line-length = 79
 
@@ -89,3 +85,7 @@ filterwarnings = [
 [tool.uv.build-backend]
 module-root = ''
 source-include = ['CHANGES.rst']
+
+[tool.uv.dependency-groups]
+# The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.
+docs = { requires-python = '>= 3.12' }
