@@ -19,9 +19,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    env:
-      EDM_ENVIRONMENT: envisage-test-${{ matrix.runtime }}-${{ matrix.toolkit }}
-
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -37,20 +34,20 @@ jobs:
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Create the EDM environment
-        run: edm environments create ${{ env.EDM_ENVIRONMENT }} --force --version=${{ matrix.runtime }}
+        run: edm environments create envisage --force --version=${{ matrix.runtime }}
       - name: Install dependencies
-        run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ env.EDM_PACKAGES }}
+        run: edm --config edm.yaml install -y -e envisage ${{ env.EDM_PACKAGES }}
       - name: Install the GUI toolkit
         if: matrix.toolkit != 'null'
-        run: edm --config edm.yaml install -y -e ${{ env.EDM_ENVIRONMENT }} ${{ matrix.toolkit }}
+        run: edm --config edm.yaml install -y -e envisage ${{ matrix.toolkit }}
       - name: Install the package under test
-        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pip install . --no-dependencies
+        run: edm run -e envisage -- python -m pip install . --no-dependencies
       # Run from outside the source tree, to exercise the installed package.
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         working-directory: ${{ runner.temp }}
-        run: xvfb-run -a edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: xvfb-run -a edm run -e envisage -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
         working-directory: ${{ runner.temp }}
-        run: edm run -e ${{ env.EDM_ENVIRONMENT }} -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
+        run: edm run -e envisage -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
