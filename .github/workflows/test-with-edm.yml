@@ -36,10 +36,10 @@ jobs:
       - name: Create the EDM environment
         run: edm environments create envisage --force --version=${{ matrix.runtime }}
       - name: Install dependencies
-        run: edm --config edm.yaml install -y -e envisage ${{ env.EDM_PACKAGES }}
+        run: edm --config .github/edm.yaml install -y -e envisage ${{ env.EDM_PACKAGES }}
       - name: Install the GUI toolkit
         if: matrix.toolkit != 'null'
-        run: edm --config edm.yaml install -y -e envisage ${{ matrix.toolkit }}
+        run: edm --config .github/edm.yaml install -y -e envisage ${{ matrix.toolkit }}
       - name: Install the package under test
         run: edm run -e envisage -- python -m pip install . --no-dependencies
       # Run from outside the source tree, to exercise the installed package.
