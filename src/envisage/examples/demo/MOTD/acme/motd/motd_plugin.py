@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The 'Message of the Day' plugin """
+"""The 'Message of the Day' plugin"""
 
 
 # In the interest of lazy loading you should only import from the following
@@ -18,7 +18,6 @@
 # - traits
 #
 # Eveything else should be imported when it is actually required.
-
 
 from traits.api import Instance, List, on_trait_change
 

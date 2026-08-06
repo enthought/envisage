@@ -64,9 +64,7 @@ class TaskWindowToggleGroup(Group):
     #### 'TaskWindowToggleGroup' interface ####################################
 
     # The application that contains the group.
-    application = Instance(
-        "envisage.ui.tasks.tasks_application." "TasksApplication"
-    )
+    application = Instance("envisage.ui.tasks.tasks_application.TasksApplication")
 
     # The ActionManager to which the group belongs.
     manager = Any
@@ -110,9 +108,7 @@ class TaskWindowToggleGroup(Group):
         return self.manager.controller.task.window.application
 
     def _items_default(self):
-        self.application.on_trait_change(
-            self._rebuild, "window_opened, window_closed"
-        )
+        self.application.on_trait_change(self._rebuild, "window_opened, window_closed")
         return self._get_items()
 
     def _manager_default(self):

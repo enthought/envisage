@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A view containing the contents of a Python shell namespace. """
+"""A view containing the contents of a Python shell namespace."""
 
 # Enthought library imports.
 
@@ -159,9 +159,7 @@ class NamespaceView(View):
             module = Str
 
         data = [
-            item(
-                name=name, type=type_to_str(value), module=module_to_str(value)
-            )
+            item(name=name, type=type_to_str(value), module=module_to_str(value))
             for name, value in self.shell_view.namespace.items()
         ]
 

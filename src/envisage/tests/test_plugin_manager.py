@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the plugin manager. """
-
+"""Tests for the plugin manager."""
 
 # Standard library imports.
 import unittest
@@ -103,9 +102,7 @@ class PluginManagerTestCase(unittest.TestCase):
         plugin_manager = PluginManager(plugins=[first, second])
         iterator = iter(plugin_manager)
         plugin_manager.remove_plugin(second)
-        self.assertEqual(
-            ["first", "second"], [plugin.id for plugin in iterator]
-        )
+        self.assertEqual(["first", "second"], [plugin.id for plugin in iterator])
 
         # A plugin added after the iterator is created is not visited.
         plugin_manager = PluginManager(plugins=[first])

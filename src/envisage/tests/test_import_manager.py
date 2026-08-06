@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the import manager. """
+"""Tests for the import manager."""
 
 # Standard library imports.
 import unittest
@@ -45,7 +45,5 @@ class ImportManagerTestCase(unittest.TestCase):
     def test_import_dotted_module(self):
         """import dotted module"""
 
-        symbol = self.import_manager.import_symbol(
-            "envisage.api:ImportManager"
-        )
+        symbol = self.import_manager.import_symbol("envisage.api:ImportManager")
         self.assertEqual(symbol, ImportManager)

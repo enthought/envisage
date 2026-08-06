@@ -175,9 +175,7 @@ class Application(HasTraits):
         """Trait initializer."""
 
         return ScopedPreferences(
-            application_preferences_filename=os.path.join(
-                self.home, "preferences.ini"
-            )
+            application_preferences_filename=os.path.join(self.home, "preferences.ini")
         )
 
     #### Methods ##############################################################
@@ -219,9 +217,7 @@ class Application(HasTraits):
 
         return self.extension_registry.get_extension_points()
 
-    def remove_extension_point_listener(
-        self, listener, extension_point_id=None
-    ):
+    def remove_extension_point_listener(self, listener, extension_point_id=None):
         """Remove a listener for extensions being added/removed."""
 
         self.extension_registry.remove_extension_point_listener(
@@ -346,9 +342,7 @@ class Application(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
-    def get_required_service(
-        self, protocol, query="", minimize="", maximize=""
-    ):
+    def get_required_service(self, protocol, query="", minimize="", maximize=""):
         """Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.
@@ -364,9 +358,7 @@ class Application(HasTraits):
     def get_service(self, protocol, query="", minimize="", maximize=""):
         """Return at most one service that matches the specified query."""
 
-        service = self.service_registry.get_service(
-            protocol, query, minimize, maximize
-        )
+        service = self.service_registry.get_service(protocol, query, minimize, maximize)
 
         return service
 
@@ -392,9 +384,7 @@ class Application(HasTraits):
     def register_service(self, protocol, obj, properties=None):
         """Register a service."""
 
-        service_id = self.service_registry.register_service(
-            protocol, obj, properties
-        )
+        service_id = self.service_registry.register_service(protocol, obj, properties)
 
         return service_id
 

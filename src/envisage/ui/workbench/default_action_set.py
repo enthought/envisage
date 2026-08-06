@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The default workbench action set. """
-
+"""The default workbench action set."""
 
 # Enthought library imports.
 from envisage.ui.action.api import Action, ActionSet, Group, Menu

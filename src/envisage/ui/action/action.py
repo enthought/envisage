@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The *definition* of an action in a tool bar or menu. """
-
+"""The *definition* of an action in a tool bar or menu."""
 
 # Enthought library imports.
 from traits.api import Str

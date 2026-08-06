@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" A view containing a blue panel! """
-
+"""A view containing a blue panel!"""
 
 # Local imports.
 from .color_view import ColorView

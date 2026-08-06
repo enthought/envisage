@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The 'Software Quotes' plugin """
-
+"""The 'Software Quotes' plugin"""
 
 from traits.api import List
 

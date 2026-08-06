@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for applications and plugins. """
-
+"""Tests for applications and plugins."""
 
 # Standard library imports.
 import os
@@ -464,9 +463,7 @@ class ApplicationTestCase(unittest.TestCase):
         c = PluginC()
 
         # Start off with just two of the plugins.
-        application = SimpleApplication(
-            plugin_manager=PluginManager(plugins=[a, b, c])
-        )
+        application = SimpleApplication(plugin_manager=PluginManager(plugins=[a, b, c]))
         application.start()
 
         # Make sure we can get the plugins.

@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An editor manager that uses contributed editors. """
+"""An editor manager that uses contributed editors."""
 
 # Enthought library imports.
 from pyface.workbench.api import EditorManager, TraitsUIEditor

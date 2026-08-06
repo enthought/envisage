@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An application event. """
-
+"""An application event."""
 
 # Enthought library imports.
 from traits.api import Instance, Vetoable

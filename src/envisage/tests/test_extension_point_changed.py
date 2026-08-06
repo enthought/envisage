@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the events fired when extension points are changed. """
+"""Tests for the events fired when extension points are changed."""
 
 # Standard library imports.
 import unittest

@@ -78,9 +78,7 @@ def subdir_from_tagname(version: str) -> str:
     """
     subdir = ".".join(version.split(".")[:2])
     if not RELEASE_DOCS_DIR_MATCHER(subdir):
-        raise RuntimeError(
-            f"tagname {version} does not have the expected form"
-        )
+        raise RuntimeError(f"tagname {version} does not have the expected form")
     return subdir
 
 

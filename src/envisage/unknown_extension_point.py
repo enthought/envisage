@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The exception raised when an unknown extension point is referenced. """
+"""The exception raised when an unknown extension point is referenced."""
 
 
 class UnknownExtensionPoint(Exception):

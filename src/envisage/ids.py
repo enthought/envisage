@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" This module redefines the Extension Point IDs and Service IDs defined on
+"""This module redefines the Extension Point IDs and Service IDs defined on
 Plugins provided by Envisage. Note that this module does not contain IDs
 defined by all of the Plugins available in Envisage.
 

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A simple plugin manager implementation. """
-
+"""A simple plugin manager implementation."""
 
 import logging
 

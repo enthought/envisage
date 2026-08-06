@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" Run the AcmeLab example application. """
-
+"""Run the AcmeLab example application."""
 
 # Standard library imports.
 import logging
@@ -35,9 +34,7 @@ def main():
     """Run the application."""
 
     # Create an application with the specified plugins.
-    acmelab = Acmelab(
-        plugins=[CorePlugin(), WorkbenchPlugin(), AcmeWorkbenchPlugin()]
-    )
+    acmelab = Acmelab(plugins=[CorePlugin(), WorkbenchPlugin(), AcmeWorkbenchPlugin()])
 
     # Run it! This starts the application, starts the GUI event loop, and when
     # that terminates, stops the application.

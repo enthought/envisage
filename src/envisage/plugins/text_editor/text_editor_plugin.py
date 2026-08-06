@@ -7,9 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Text Editor plugin for the Workbench UI.
-"""
-
+"""Text Editor plugin for the Workbench UI."""
 
 # Enthought library imports.
 from traits.api import List

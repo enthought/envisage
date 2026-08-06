@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for extension points. """
+"""Tests for extension points."""
 
 # Standard library imports.
 import unittest
