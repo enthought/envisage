@@ -16,4 +16,4 @@ jobs:
         cache-suffix: style
     - name: Report on out-of-date copyright end years
       run: |
-        uv run --only-group style -m flake8 --select H102 --copyright-end-year current .
+        uv run --locked --only-group style -m flake8 --select H102 --copyright-end-year current .

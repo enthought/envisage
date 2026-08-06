@@ -1,15 +1,24 @@
-name: Test with PyPI
+name: Test with the latest releases
 
-on: [pull_request, workflow_dispatch]
+# The other test workflows install from uv.lock, so a new upstream release
+# can't break them. This one ignores the lock and resolves afresh, to find
+# out about such a release before a lock update pulls it in.
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    # Every Friday at 00:00 UTC
+    - cron:  '0 0 * * 5'
 
 env:
   PYTHONUNBUFFERED: 1
 
 jobs:
 
-  # Test against PyPI packages, using pytest
-  test-with-pypi:
+  test-with-latest:
     strategy:
+      fail-fast: false
       matrix:
         os: ['ubuntu-latest']
         python-version: ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
@@ -26,12 +35,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
-          cache-suffix: test
+          cache-suffix: latest
       - name: Show the dependency tree
-        run: uv tree --locked
+        run: uv tree --upgrade
       - name: Run tests (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run --locked -m pytest
+        run: xvfb-run -a uv run --upgrade -m pytest
       - name: Run tests (not Ubuntu)
         if: matrix.os != 'ubuntu-latest'
-        run: uv run --locked -m pytest
+        run: uv run --upgrade -m pytest

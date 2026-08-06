@@ -18,14 +18,14 @@ jobs:
         enable-cache: true
         cache-suffix: docs
     - run: |
-        uv run --no-default-groups --group docs -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
+        uv run --locked --no-default-groups --group docs -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
     - name: Check out gh-pages branch
       run: |
         git fetch --depth=1 origin gh-pages
         git worktree add ../docs gh-pages
     - name: Update the docs on the gh-pages branch
       run: |
-        uv run --no-default-groups --group docs docs/update_gh_pages.py docs/build/html ../docs
+        uv run --locked --no-default-groups --group docs docs/update_gh_pages.py docs/build/html ../docs
     - name: Configure Git
       run: |
         git config user.name "Documentation Bot"

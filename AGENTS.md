@@ -27,6 +27,11 @@ Development requirements are dependency groups in `pyproject.toml`. The
 `dev` group provides pytest and PySide6 and includes the `style` group
 (Black, isort, flake8), so it covers everything except the `docs` group.
 
+Exact versions are pinned in the tracked `uv.lock`, which `uv run` and
+`uv sync` install from. After changing anything in `pyproject.toml`, run
+`uv lock` and commit the result — CI passes `--locked`, which fails on a
+stale lockfile.
+
 ## Running Tests
 
 Tests use `unittest.TestCase` throughout. Both `pytest` and `unittest`
