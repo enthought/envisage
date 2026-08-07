@@ -80,6 +80,13 @@
 <section id="fixes">
 <h3>Fixes<a class="headerlink" href="#fixes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
+<li><p>The Python shell view opens again. Pyface 8.0 split widget construction in
+two, and <code class="docutils literal notranslate"><span class="pre">PythonShellView.create_control</span></code> never made the second call, so
+it went on to read the interpreter’s namespace off a shell that had none
+yet. What reached the user was an error from the clean-up rather than that
+one: Pyface calls <code class="docutils literal notranslate"><span class="pre">destroy_control</span></code> when <code class="docutils literal notranslate"><span class="pre">create_control</span></code> raises, and
+it undid work <code class="docutils literal notranslate"><span class="pre">create_control</span></code> had not got to. It now unregisters the
+service and restores <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> only if they were ever set. (#639)</p></li>
 <li><p>The documentation builds where there’s no display, so Read the Docs
 publishes again. Importing Pyface’s toolkit constructs a <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>,
 which aborts the process when no Qt platform plugin can be initialized, so
@@ -129,6 +136,10 @@ unavailable without it. It’s now installed alongside the toolkit, and
 missing. (#641)</p></li>
 <li><p>A test fails, rather than skipping quietly, when a GUI toolkit is installed
 but Pyface still falls back to its null toolkit. (#648)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">python_shell</span></code> plugin has tests, covering the view’s control from
+creation through to tear-down. They are the first tests to import
+<code class="docutils literal notranslate"><span class="pre">pyface.workbench</span></code>, whose import-time <code class="docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code> the
+pytest configuration therefore has to allow. (#639)</p></li>
 </ul>
 </section>
 </section>

@@ -86,7 +86,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonShell</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">View</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">Str</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">IExtensionRegistry</span>
@@ -176,6 +176,12 @@
     <span class="c1"># Commands.</span>
     <span class="n">_commands</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;envisage.plugins.python_shell.commands&quot;</span><span class="p">)</span>
 
+    <span class="c1">#: The id &#39;create_control&#39; registered this view under, if it got that far.</span>
+    <span class="n">_service_id</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
+
+    <span class="c1">#: Whether &#39;create_control&#39; got as far as redirecting sys.stdout.</span>
+    <span class="n">_stdout_redirected</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
     <span class="c1">###########################################################################</span>
     <span class="c1"># &#39;IExtensionPointUser&#39; interface.</span>
     <span class="c1">###########################################################################</span>
@@ -195,6 +201,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the toolkit-specific control that represents the view.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="o">=</span> <span class="n">shell</span> <span class="o">=</span> <span class="n">PythonShell</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="n">control</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Pyface 8.0 split widget construction in two; before that the</span>
+            <span class="c1"># control was built by the constructor.</span>
+            <span class="n">shell</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
         <span class="n">shell</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_key_pressed</span><span class="p">,</span> <span class="s2">&quot;key_pressed&quot;</span><span class="p">)</span>
         <span class="n">shell</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_command_executed</span><span class="p">,</span> <span class="s2">&quot;command_executed&quot;</span><span class="p">)</span>
 
@@ -202,6 +212,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_write_stdout</span><span class="p">,</span> <span class="s2">&quot;stdout_text&quot;</span><span class="p">,</span> <span class="n">dispatch</span><span class="o">=</span><span class="s2">&quot;ui&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">PseudoFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_write_stdout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stdout_redirected</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="c1"># Namespace contributions.</span>
         <span class="k">for</span> <span class="n">bindings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bindings</span><span class="p">:</span>
@@ -232,14 +243,23 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">destroy_control</span><span class="p">()</span>
 
+        <span class="c1"># &#39;create_control&#39; does these last, and Pyface&#39;s &#39;add_view&#39; calls this</span>
+        <span class="c1"># from the except branch that handles a &#39;create_control&#39; which raised:</span>
+        <span class="c1"># undoing what never happened would replace the error that explains the</span>
+        <span class="c1"># failure with an error from the clean-up after it.</span>
+
         <span class="c1"># Unregister the view as a service.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_service_id</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Remove the sys.stdout handlers.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_write_stdout</span><span class="p">,</span> <span class="s2">&quot;stdout_text&quot;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Restore the original stdout.</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stdout_redirected</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stdout_redirected</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
     <span class="c1">###########################################################################</span>
