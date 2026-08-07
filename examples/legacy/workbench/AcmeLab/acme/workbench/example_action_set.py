@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" A test action set. """
-
+"""A test action set."""
 
 # Enthought library imports.
 from envisage.ui.action.api import Action, Group, Menu, ToolBar

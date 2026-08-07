@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Manages a collection of action sets. """
-
+"""Manages a collection of action sets."""
 
 # Enthought library imports.
 from traits.api import HasTraits, List

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Builds menus, menu bars and tool bars from action sets. """
-
+"""Builds menus, menu bars and tool bars from action sets."""
 
 # Enthought library imports.
 from pyface.action.api import ActionManager, MenuManager

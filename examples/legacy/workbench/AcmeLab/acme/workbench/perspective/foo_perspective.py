@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" An example perspective. """
-
+"""An example perspective."""
 
 # Enthought library imports.
 from pyface.workbench.api import Perspective, PerspectiveItem

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An action that shows the 'About' dialog. """
-
+"""An action that shows the 'About' dialog."""
 
 # Enthought library imports.
 from pyface.action.api import Action

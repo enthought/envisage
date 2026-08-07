@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the provider extension registry. """
+"""Tests for the provider extension registry."""
 
 # Standard library imports.
 import logging
@@ -31,9 +31,7 @@ from envisage.tests.test_extension_registry_mixin import (
 LOGGER_NAME = "envisage.provider_extension_registry"
 
 
-class ProviderExtensionRegistryTestCase(
-    ExtensionRegistryTestMixin, unittest.TestCase
-):
+class ProviderExtensionRegistryTestCase(ExtensionRegistryTestMixin, unittest.TestCase):
     """Tests for the provider extension registry."""
 
     def setUp(self):

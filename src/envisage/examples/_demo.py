@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Utilities for supporting Envisage's demo examples.
-"""
+"""Utilities for supporting Envisage's demo examples."""
 
 import contextlib
 import os

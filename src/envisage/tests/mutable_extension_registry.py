@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A mutable, manually populated extension registry used for testing. """
-
+"""A mutable, manually populated extension registry used for testing."""
 
 # Enthought library imports.
 from envisage.api import ExtensionRegistry, UnknownExtension

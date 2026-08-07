@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the action manager builder. """
+"""Tests for the action manager builder."""
 
 # Standard library imports.
 import unittest
@@ -28,9 +28,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         action_sets = [
             ActionSet(
                 actions=[
-                    Action(
-                        class_name="Exit", path="MenuBar/File", group="Bogus"
-                    ),
+                    Action(class_name="Exit", path="MenuBar/File", group="Bogus"),
                 ]
             ),
         ]
@@ -69,9 +67,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
 
         action_sets = [
             ActionSet(
-                groups=[
-                    Group(id="FileMenuGroup", path="MenuBar", before="Bogus")
-                ]
+                groups=[Group(id="FileMenuGroup", path="MenuBar", before="Bogus")]
             )
         ]
 
@@ -86,9 +82,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         """menu with non-existent sibling"""
 
         action_sets = [
-            ActionSet(
-                menus=[Menu(name="&File", path="MenuBar", before="Bogus")]
-            )
+            ActionSet(menus=[Menu(name="&File", path="MenuBar", before="Bogus")])
         ]
 
         # Create a builder containing the action set.
@@ -139,9 +133,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
     def test_single_top_level_group(self):
         """single top level group"""
 
-        action_sets = [
-            ActionSet(groups=[Group(id="FileMenuGroup", path="MenuBar")])
-        ]
+        action_sets = [ActionSet(groups=[Group(id="FileMenuGroup", path="MenuBar")])]
 
         # Create a builder containing the action set.
         builder = DummyActionManagerBuilder(action_sets=action_sets)
@@ -449,12 +441,8 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
             ActionSet(
                 groups=[
                     Group(id="ExitGroup", path="MenuBar/File"),
-                    Group(
-                        id="SaveGroup", path="MenuBar/File", after="NewGroup"
-                    ),
-                    Group(
-                        id="NewGroup", path="MenuBar/File", before="ExitGroup"
-                    ),
+                    Group(id="SaveGroup", path="MenuBar/File", after="NewGroup"),
+                    Group(id="NewGroup", path="MenuBar/File", before="ExitGroup"),
                 ]
             ),
         ]
@@ -479,9 +467,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(4, len(menu.groups))
 
         ids = [group.id for group in menu.groups]
-        self.assertEqual(
-            ["NewGroup", "SaveGroup", "ExitGroup", "additions"], ids
-        )
+        self.assertEqual(["NewGroup", "SaveGroup", "ExitGroup", "additions"], ids)
 
         # Make sure the 'New' sub-menu got added to the 'NewGroup' group
         # of the 'File' menu.
@@ -622,9 +608,7 @@ class ActionManagerBuilderTestCase(unittest.TestCase):
         self.assertEqual(4, len(menu.groups))
 
         ids = [group.id for group in menu.groups]
-        self.assertEqual(
-            ["NewGroup", "ExitGroup", "ExtraGroup", "additions"], ids
-        )
+        self.assertEqual(["NewGroup", "ExitGroup", "ExtraGroup", "additions"], ids)
 
     def test_duplicate_group(self):
         """duplicate group"""

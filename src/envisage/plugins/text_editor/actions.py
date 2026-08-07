@@ -30,9 +30,7 @@ class NewFileAction(Action):
 
     def perform(self, event=None):
         logger.info("NewFileAction.perform()")
-        self.window.workbench.edit(
-            File(""), kind=TextEditor, use_existing=False
-        )
+        self.window.workbench.edit(File(""), kind=TextEditor, use_existing=False)
 
 
 class OpenFileAction(Action):

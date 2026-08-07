@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The interface for extension registries. """
-
+"""The interface for extension registries."""
 
 # Enthought library imports.
 from traits.api import Interface
@@ -65,9 +64,7 @@ class IExtensionRegistry(Interface):
     def get_extension_points(self):
         """Return all extension points that have been added to the registry."""
 
-    def remove_extension_point_listener(
-        self, listener, extension_point_id=None
-    ):
+    def remove_extension_point_listener(self, listener, extension_point_id=None):
         """Remove a listener for extensions being added or removed.
 
         Raise a 'ValueError' if the listener does not exist.

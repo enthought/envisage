@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The action manager builder used to build the workbench menu/tool bars. """
-
+"""The action manager builder used to build the workbench menu/tool bars."""
 
 # Standard library imports.
 import weakref

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A trait type used to access services. """
-
+"""A trait type used to access services."""
 
 # Standard library imports.
 import logging
@@ -32,9 +31,7 @@ class Service(TraitType):
     # 'object' interface.
     ###########################################################################
 
-    def __init__(
-        self, protocol=None, query="", minimize="", maximize="", **metadata
-    ):
+    def __init__(self, protocol=None, query="", minimize="", maximize="", **metadata):
         """Constructor."""
 
         super().__init__(**metadata)

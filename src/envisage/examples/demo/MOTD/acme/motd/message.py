@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The default implementation of the 'IMessage' interface. """
-
+"""The default implementation of the 'IMessage' interface."""
 
 # Local imports.
 from acme.motd.i_message import IMessage

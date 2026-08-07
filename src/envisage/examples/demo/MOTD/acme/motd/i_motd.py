@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The 'Message of the Day' interface. """
-
+"""The 'Message of the Day' interface."""
 
 # Enthought library imports.
 from traits.api import Interface

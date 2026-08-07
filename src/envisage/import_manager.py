@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The default import manager implementation. """
+"""The default import manager implementation."""
 
 import importlib
 
@@ -47,9 +47,7 @@ class ImportManager(HasTraits):
             module_name = ".".join(components[:-1])
             symbol_name = components[-1]
 
-            module = __import__(
-                module_name, globals(), locals(), [symbol_name]
-            )
+            module = __import__(module_name, globals(), locals(), [symbol_name])
 
             symbol = getattr(module, symbol_name)
 

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An offer to provide a service. """
-
+"""An offer to provide a service."""
 
 # Enthought library imports.
 from traits.api import Callable, Dict, HasTraits, Str, Type, Union

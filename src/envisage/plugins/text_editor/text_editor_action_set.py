@@ -14,9 +14,7 @@ from envisage.ui.action.api import Action, ActionSet, Group
 class TextEditorActionSet(ActionSet):
     """The default action set for the Text Editor plugin."""
 
-    groups = [
-        Group(id="TextFileGroup", path="MenuBar/File", before="ExitGroup")
-    ]
+    groups = [Group(id="TextFileGroup", path="MenuBar/File", before="ExitGroup")]
 
     actions = [
         Action(
