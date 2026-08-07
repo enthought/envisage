@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The location of a group, menu, or action, within an action hierarchy. """
-
+"""The location of a group, menu, or action, within an action hierarchy."""
 
 # Enthought library imports.
 from traits.api import HasTraits, Str

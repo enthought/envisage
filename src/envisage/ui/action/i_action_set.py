@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The action set interface. """
-
+"""The action set interface."""
 
 # Enthought library imports.
 from traits.api import Dict, Interface, List, Str

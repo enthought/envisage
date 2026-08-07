@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Used to track events in tests. """
-
+"""Used to track events in tests."""
 
 # Enthought library imports.
 from traits.api import HasTraits, List, Str, Tuple

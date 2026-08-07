@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A simple interface for the Python shell. """
-
+"""A simple interface for the Python shell."""
 
 # Enthought library imports.
 from traits.api import Interface

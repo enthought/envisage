@@ -40,9 +40,7 @@ class Lorenz(HasTraits):
     #### 'IModel3d' interface #################################################
 
     name = Str("Lorenz Attractor")
-    points = Property(
-        Array, observe="prandtl, rayleigh, beta, initial_point, times"
-    )
+    points = Property(Array, observe="prandtl, rayleigh, beta, initial_point, times")
 
     #### 'Lorenz' interface ###################################################
 

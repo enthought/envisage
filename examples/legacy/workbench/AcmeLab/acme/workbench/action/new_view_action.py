@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" An action that dynamically creates and adds a view. """
-
+"""An action that dynamically creates and adds a view."""
 
 # Enthought library imports.
 from pyface.action.api import Action

@@ -8,6 +8,9 @@ on:
 
 env:
   PYTHONUNBUFFERED: 1
+  # Importing Pyface's toolkit creates a QApplication, so the tests need a Qt
+  # platform plugin that works without a display.
+  QT_QPA_PLATFORM: offscreen
 
 jobs:
 
@@ -36,9 +39,5 @@ jobs:
           "pyface @ git+https://github.com/enthought/pyface.git"
           "traitsui @ git+https://github.com/enthought/traitsui.git"
           "apptools[preferences] @ git+https://github.com/enthought/apptools.git"
-      - name: Run tests (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run -m pytest
-      - name: Run tests (not Ubuntu)
-        if: matrix.os != 'ubuntu-latest'
+      - name: Run tests
         run: uv run -m pytest

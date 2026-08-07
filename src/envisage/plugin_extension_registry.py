@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An extension registry that uses plugins as extension providers. """
-
+"""An extension registry that uses plugins as extension providers."""
 
 # Enthought library imports.
 from traits.api import Instance, observe, on_trait_change

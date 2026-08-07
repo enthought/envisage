@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The 'Message of the Day' implementation! """
-
+"""The 'Message of the Day' implementation!"""
 
 # Standard library imports.
 from random import choice

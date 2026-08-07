@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The *definition* of a tool bar. """
+"""The *definition* of a tool bar."""
 
 # Enthought library imports.
 from traits.api import Instance, List, Str

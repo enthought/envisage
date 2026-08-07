@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the base extension registry. """
+"""Tests for the base extension registry."""
 
 # Standard library imports.
 import contextlib

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A resource protocol for a local file system. """
-
+"""A resource protocol for a local file system."""
 
 # Standard library imports.
 import errno

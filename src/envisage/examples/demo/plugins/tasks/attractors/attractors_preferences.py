@@ -55,9 +55,7 @@ class AttractorsPreferencesPane(PreferencesPane):
             ),
             HGroup(
                 Label("Default active task:"),
-                Item(
-                    "default_task", editor=EnumEditor(name="handler.task_map")
-                ),
+                Item("default_task", editor=EnumEditor(name="handler.task_map")),
                 enabled_when="always_use_default_layout",
                 show_labels=False,
             ),

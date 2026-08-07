@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The interface for action manager builders. """
-
+"""The interface for action manager builders."""
 
 # Enthought library imports.
 from traits.api import Interface, List

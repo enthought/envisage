@@ -7,6 +7,16 @@ Version 8.1.0
 
 Released: YYYY-MM-DD
 
+Fixes
+-----
+* The documentation builds where there's no display, so Read the Docs
+  publishes again. Importing Pyface's toolkit constructs a ``QApplication``,
+  which aborts the process when no Qt platform plugin can be initialized, so
+  the Sphinx configuration asks for the ``offscreen`` one. (#645)
+* The API documentation for ``PythonShellView`` and ``NamespaceView``
+  describes the real Qt-backed classes, in place of the placeholders Pyface
+  substitutes when no toolkit is available. (#648)
+
 Build
 -----
 * Development and CI now use ``uv``. ``etstool.py`` is gone, the
@@ -23,6 +33,24 @@ Build
 * The ``envisage`` package now lives in ``src/envisage`` in the repository,
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
+* Style checks now use ``ruff`` in place of ``black``, ``isort``, ``flake8``
+  and ``flake8-ets``. (#637)
+* ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
+  imports it so that Claude Code picks it up. (#644)
+* The test and documentation workflows set ``QT_QPA_PLATFORM=offscreen`` in
+  place of ``xvfb-run``, and the ``install-qt-support`` action installs only
+  the two packages needed to import Qt rather than the eight more that the
+  xcb platform plugin needed. The separate Ubuntu and non-Ubuntu test steps
+  have collapsed into one. (#645, #648)
+
+Tests
+-----
+* The GUI tests need Pygments, because Pyface's ``PythonShell`` is
+  unavailable without it. It's now installed alongside the toolkit, and
+  ``requires_gui`` skips rather than letting the import fail when it's
+  missing. (#641)
+* A test fails, rather than skipping quietly, when a GUI toolkit is installed
+  but Pyface still falls back to its null toolkit. (#648)
 
 Version 8.0.0
 =============

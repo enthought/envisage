@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A view containing an interactive Python shell. """
-
+"""A view containing an interactive Python shell."""
 
 # Standard library imports.
 import logging
@@ -117,9 +116,7 @@ class PythonShellView(View):
         shell.on_trait_change(self._on_command_executed, "command_executed")
 
         # Write application standard out to this shell instead of to DOS window
-        self.on_trait_change(
-            self._on_write_stdout, "stdout_text", dispatch="ui"
-        )
+        self.on_trait_change(self._on_write_stdout, "stdout_text", dispatch="ui")
         self.original_stdout = sys.stdout
         sys.stdout = PseudoFile(self._write_stdout)
 

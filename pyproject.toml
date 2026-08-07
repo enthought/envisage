@@ -47,6 +47,8 @@ issues = 'https://github.com/enthought/envisage/issues'
 
 [dependency-groups]
 gui = [
+    # Needed for Pyface's PythonShell, used by the python_shell plugin.
+    'pygments',
     'pyside6',
 ]
 docs = [
@@ -57,10 +59,7 @@ docs = [
     {include-group = 'gui'},
 ]
 style = [
-    'black ~= 24.3',
-    'flake8',
-    'flake8-ets >= 1.1.0',
-    'isort',
+    'ruff ~= 0.16.0',
 ]
 test = [
     'pytest',
@@ -71,16 +70,6 @@ dev = [
     {include-group = 'test'},
 ]
 
-[tool.black]
-line-length = 79
-
-[tool.isort]
-profile = 'black'
-line_length = 79
-order_by_type = false
-sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'ENTHOUGHT', 'FIRSTPARTY', 'LOCALFOLDER']
-known_enthought = ['apptools', 'pyface', 'traits', 'traitsui']
-
 [tool.pytest.ini_options]
 filterwarnings = [
     'error',
@@ -90,6 +79,50 @@ filterwarnings = [
     # on it; there is nowhere for it to move to until the code follows.
     'ignore:Workbench will be moved from pyface:PendingDeprecationWarning',
 ]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ['CPY001', 'E', 'F', 'I', 'W']
+
+[tool.ruff.lint.per-file-ignores]
+'*/api.py' = ['F401']
+
+[tool.ruff.lint.flake8-copyright]
+# Empty files don't need a copyright header.
+min-file-size = 1
+# The copyright header, as a regular expression: hence the escaped parentheses
+# and periods, and the leading \A anchoring the match to the start of the file.
+# The end year here is the single source of truth: CPY001 holds every source
+# file to it, and the check-copyright-year workflow holds it to the current
+# year.
+notice-rgx = '''\A# \(C\) Copyright 2007-2026 Enthought, Inc\., Austin, TX
+# All rights reserved\.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE\.txt and may be redistributed only under
+# the conditions described in the aforementioned license\. The license
+# is also available online at http://www\.enthought\.com/licenses/BSD\.txt
+#
+# Thanks for using Enthought open source!'''
+
+[tool.ruff.lint.isort]
+order-by-type = false
+# Demo applications that are run from their own directory, so their absolute
+# imports aren't imports of Envisage itself.
+known-third-party = ['acme', 'attractors']
+section-order = [
+    'future',
+    'standard-library',
+    'third-party',
+    'enthought',
+    'first-party',
+    'local-folder',
+]
+
+[tool.ruff.lint.isort.sections]
+enthought = ['apptools', 'pyface', 'traits', 'traitsui']
 
 [tool.uv.dependency-groups]
 # The pinned Sphinx needs 3.12+; docs are only ever built on the latest Python.

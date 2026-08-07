@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A test class used to test adapters. """
-
+"""A test class used to test adapters."""
 
 # Enthought library imports.
 from traits.api import Interface

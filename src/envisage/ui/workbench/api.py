@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Envisage package Copyright 2003, 2004, 2005 Enthought, Inc. """
-
+"""Envisage package Copyright 2003, 2004, 2005 Enthought, Inc."""
 
 from .workbench import Workbench
 from .workbench_action_set import WorkbenchActionSet

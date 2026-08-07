@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The traits UI handler for the text editor. """
-
+"""The traits UI handler for the text editor."""
 
 # Enthought library imports.
 from traitsui.api import Handler

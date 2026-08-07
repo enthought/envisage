@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the composite plugin manager. """
+"""Tests for the composite plugin manager."""
 
 import unittest
 
@@ -123,9 +123,7 @@ class CompositePluginManagerTestCase(unittest.TestCase):
         a = PluginManager()
         b = PluginManager()
 
-        composite_plugin_manager = CompositePluginManager(
-            plugin_managers=[a, b]
-        )
+        composite_plugin_manager = CompositePluginManager(plugin_managers=[a, b])
         composite_plugin_manager._plugins
 
         def added(obj, trait_name, old, new):

@@ -4,6 +4,9 @@ on: [pull_request, workflow_dispatch]
 
 env:
   PYTHONUNBUFFERED: 1
+  # Importing Pyface's toolkit creates a QApplication, so the tests need a Qt
+  # platform plugin that works without a display.
+  QT_QPA_PLATFORM: offscreen
 
 jobs:
 
@@ -28,16 +31,11 @@ jobs:
           cache-suffix: test
       - name: Show the dependency tree
         run: uv tree --locked
-      - name: Run tests (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: xvfb-run -a uv run --locked -m pytest
-      - name: Run tests (not Ubuntu)
-        if: matrix.os != 'ubuntu-latest'
+      - name: Run tests
         run: uv run --locked -m pytest
 
   # A smoke test that Envisage doesn't depend on a GUI toolkit being
-  # installed, and that the tests needing one skip rather than fail. No
-  # toolkit, so no Qt support packages and no xvfb-run either.
+  # installed, and that the tests needing one skip rather than fail.
   test-without-toolkit:
     runs-on: 'ubuntu-latest'
 

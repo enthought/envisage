@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" Run the MOTD example application. """
+"""Run the MOTD example application."""
 
 # Enthought library imports.
 from envisage.api import Application, CorePlugin

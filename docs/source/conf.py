@@ -19,8 +19,14 @@
 # serve to show the default value.
 
 import importlib.metadata
+import os
 
 import enthought_sphinx_theme
+
+# Importing Pyface's toolkit creates a QApplication, which aborts the build if
+# no Qt platform plugin can be initialized. Docs builds are headless, so ask
+# for the offscreen platform unless the environment already chose one.
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
