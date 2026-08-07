@@ -10,14 +10,11 @@
 
 """Tests for the test support utilities themselves."""
 
+import importlib.util
 import os
 import unittest
 
-from envisage.tests.support import (
-    gui_available,
-    gui_skip_reason,
-    pyside6_available,
-)
+from envisage.tests.support import gui_available, gui_skip_reason
 
 
 class GuiAvailableTestCase(unittest.TestCase):
@@ -26,7 +23,10 @@ class GuiAvailableTestCase(unittest.TestCase):
         # which makes every GUI test skip without anything failing. That's
         # usually a missing system library rather than a deliberate choice,
         # so treat it as an error instead of letting the skips pass unnoticed.
-        if not pyside6_available:
+        #
+        # Look for the package without importing it. Importing would make
+        # this test skip in one of the cases it exists to catch.
+        if importlib.util.find_spec("PySide6") is None:
             self.skipTest("PySide6 is not installed")
         if os.environ.get("ETS_TOOLKIT") == "null":
             self.skipTest("The null toolkit was requested explicitly")

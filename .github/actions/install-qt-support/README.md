@@ -3,12 +3,15 @@
 This action uses `apt-get` to install the OS packages needed to import Qt on
 Linux. It does nothing on non-Linux runners.
 
-It installs `libegl1` and nothing else. That's enough to make PySide6
-importable; the packages that the xcb platform plugin needs are deliberately
-not installed, because workflows use `QT_QPA_PLATFORM=offscreen` in place of a
-display. Without `libegl1` the failure is silent rather than loud — Pyface
-falls back to its null toolkit, so GUI tests skip and autodoc documents
-placeholder classes, with everything still reporting success.
+It installs two packages, and only two: `libegl1`, a link-time dependency of
+`libQt6Gui`, and `libopengl0`, which EDM's PySide6 build needs though the PyPI
+wheel doesn't. Together they're what makes PySide6 importable. The packages
+that the xcb platform plugin needs are deliberately not installed, because
+workflows use `QT_QPA_PLATFORM=offscreen` in place of a display.
+
+Without these, the failure is silent rather than loud — Pyface falls back to
+its null toolkit, so GUI tests skip and autodoc documents placeholder classes,
+with everything still reporting success.
 
 ## Inputs
 
