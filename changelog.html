@@ -96,6 +96,11 @@
 Importing Pyface’s toolkit constructs a <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>, which aborts the
 process when no platform plugin can be initialized, so the documentation
 build failed wherever there was no display. (#645)</p></li>
+<li><p>The documentation workflows install <code class="docutils literal notranslate"><span class="pre">libegl1</span></code>, so that autodoc documents
+the real Qt-backed classes. Without it PySide6 can’t be imported, Pyface
+falls back to its null toolkit, and the API documentation for
+<code class="docutils literal notranslate"><span class="pre">PythonShellView</span></code> and <code class="docutils literal notranslate"><span class="pre">NamespaceView</span></code> described placeholder classes.
+(#648)</p></li>
 </ul>
 </section>
 <section id="build">
@@ -123,6 +128,10 @@ imports it so that Claude Code picks it up. (#644)</p></li>
 <code class="docutils literal notranslate"><span class="pre">xvfb-run</span></code> and the X11 support packages that the <code class="docutils literal notranslate"><span class="pre">install-qt-support</span></code>
 action installed with <code class="docutils literal notranslate"><span class="pre">apt-get</span></code>. That action is gone, and the separate
 Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">install-qt-support</span></code> action is back, installing <code class="docutils literal notranslate"><span class="pre">libegl1</span></code> and
+nothing else. Without it PySide6 can’t be imported at all, so the GUI tests
+were skipping on Linux rather than running. The packages the xcb platform
+plugin needs stay uninstalled. (#648)</p></li>
 </ul>
 </section>
 <section id="tests">
@@ -132,6 +141,8 @@ Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)</p></li>
 unavailable without it. It’s now installed alongside the toolkit, and
 <code class="docutils literal notranslate"><span class="pre">requires_gui</span></code> skips rather than letting the import fail when it’s
 missing. (#641)</p></li>
+<li><p>A test fails, rather than skipping quietly, when a GUI toolkit is installed
+but Pyface still falls back to its null toolkit. (#648)</p></li>
 </ul>
 </section>
 </section>
