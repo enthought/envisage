@@ -103,6 +103,11 @@ inside the package are included in the wheel automatically, so
 <code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> and the explicit <code class="docutils literal notranslate"><span class="pre">package-data</span></code> configuration are no
 longer needed. The source distribution no longer includes
 <code class="docutils literal notranslate"><span class="pre">CHANGES.rst</span></code>. (#628)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">envisage</span></code> package now lives in <code class="docutils literal notranslate"><span class="pre">src/envisage</span></code> in the repository,
+so that an <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">envisage</span></code> from the repository root can’t accidentally
+pick up an uninstalled source tree. The wheel is unchanged. (#635)</p></li>
+<li><p>Style checks now use <code class="docutils literal notranslate"><span class="pre">ruff</span></code> in place of <code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">isort</span></code>, <code class="docutils literal notranslate"><span class="pre">flake8</span></code>
+and <code class="docutils literal notranslate"><span class="pre">flake8-ets</span></code>. (#636)</p></li>
 </ul>
 </section>
 </section>
@@ -1221,7 +1226,7 @@ required by the application and provides documentation and test updates.</p>
         &copy; Copyright 2007-2026, Enthought
       </li>
       <li>
-      Last updated on Aug 06, 2026.
+      Last updated on Aug 07, 2026.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
