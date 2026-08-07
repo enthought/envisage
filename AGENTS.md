@@ -179,6 +179,13 @@ strings, `.format()` and f-strings are both acceptable.
 - Define helper classes (interfaces, plugins) inside test methods as needed
 - Prefer `self.addCleanup(...)` for teardown where practical; `tearDown` methods are also acceptable when clearer
 
+## Changelog
+
+Add an entry to `CHANGES.rst` under the in-development section at the top,
+grouped under a heading such as `Fixes`, `Tests` or `Build`. End it with the
+number of the **pull request**, not the issue it closes — `(#635)`, or
+`(#618, #621)` for a change spread over several PRs.
+
 ## Pull Requests
 
 If a PR was created with agent assistance, the PR description must say so.

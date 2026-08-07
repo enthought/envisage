@@ -24,7 +24,7 @@ Build
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
 * Style checks now use ``ruff`` in place of ``black``, ``isort``, ``flake8``
-  and ``flake8-ets``. (#636)
+  and ``flake8-ets``. (#637)
 
 Version 8.0.0
 =============
