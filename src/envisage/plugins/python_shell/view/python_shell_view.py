@@ -15,7 +15,7 @@ import sys
 
 from pyface.api import PythonShell
 from pyface.workbench.api import View
-from traits.api import Any, Dict, Event, Instance, Property, provides, Str
+from traits.api import Any, Bool, Dict, Event, Instance, Property, provides, Str
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint, IExtensionRegistry
@@ -91,6 +91,9 @@ class PythonShellView(View):
     #: The id 'create_control' registered this view under, if it got that far.
     _service_id = Any()
 
+    #: Whether 'create_control' got as far as redirecting sys.stdout.
+    _stdout_redirected = Bool(False)
+
     ###########################################################################
     # 'IExtensionPointUser' interface.
     ###########################################################################
@@ -119,6 +122,7 @@ class PythonShellView(View):
         self.on_trait_change(self._on_write_stdout, "stdout_text", dispatch="ui")
         self.original_stdout = sys.stdout
         sys.stdout = PseudoFile(self._write_stdout)
+        self._stdout_redirected = True
 
         # Namespace contributions.
         for bindings in self._bindings:
@@ -160,9 +164,9 @@ class PythonShellView(View):
         self.on_trait_change(self._on_write_stdout, "stdout_text", remove=True)
 
         # Restore the original stdout.
-        if self.original_stdout is not None:
+        if self._stdout_redirected:
             sys.stdout = self.original_stdout
-            self.original_stdout = None
+            self._stdout_redirected = False
 
     ###########################################################################
     # 'PythonShellView' interface.

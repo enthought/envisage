@@ -74,6 +74,21 @@ class PythonShellViewTestCase(unittest.TestCase):
         """
         self.create_view().destroy_control()
 
+    def test_destroy_control_restores_a_stdout_of_none(self):
+        """A 'sys.stdout' of None is a value to restore, not a missing one.
+
+        That is what pythonw.exe gives a GUI application, so 'original_stdout'
+        alone cannot tell 'create_control' never got to the redirect from it
+        having saved a None.
+        """
+        view = self.create_view()
+        sys.stdout = None
+
+        view.create_control(None)
+        view.destroy_control()
+
+        self.assertIsNone(sys.stdout)
+
     def test_destroy_control_is_repeatable(self):
         """A second 'destroy_control' has nothing left to undo."""
         view = self.create_view()
