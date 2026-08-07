@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/enthought.css?v=1c73b1d4" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <script src="_static/documentation_options.js?v=f663eb4a"></script>
+    <script src="_static/documentation_options.js?v=521b6f53"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,9 +74,23 @@
             
   <section id="release-history">
 <h1>Release history<a class="headerlink" href="#release-history" title="Link to this heading">¶</a></h1>
-<section id="version-8-1-0">
-<h2>Version 8.1.0<a class="headerlink" href="#version-8-1-0" title="Link to this heading">¶</a></h2>
-<p>Released: YYYY-MM-DD</p>
+<section id="version-8-0-1">
+<h2>Version 8.0.1<a class="headerlink" href="#version-8-0-1" title="Link to this heading">¶</a></h2>
+<p>Released: 2026-08-07</p>
+<p>This is a bugfix release aimed at making the Python shell view usable again.
+A change in the way Pyface constructs widgets stopped the view opening at
+all, so <code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">-&gt;</span> <span class="pre">Other...</span> <span class="pre">-&gt;</span> <span class="pre">Python</span></code> failed in Envisage-based applications
+such as Mayavi.</p>
+<p>The release also restores the Envisage documentation on Read the Docs, whose
+builds had been failing, and fixes several smaller problems in the generated
+documentation.</p>
+<p>Building from the source distribution now uses the <code class="docutils literal notranslate"><span class="pre">uv_build</span></code> backend in
+place of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
+<p>Thanks to:</p>
+<ul class="simple">
+<li><p>Mark Dickinson</p></li>
+<li><p>Eric Larson</p></li>
+</ul>
 <section id="fixes">
 <h3>Fixes<a class="headerlink" href="#fixes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -111,13 +125,18 @@ dependencies. (#628)</p></li>
 <li><p>Build with the <code class="docutils literal notranslate"><span class="pre">uv_build</span></code> backend in place of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>. Files
 inside the package are included in the wheel automatically, so
 <code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> and the explicit <code class="docutils literal notranslate"><span class="pre">package-data</span></code> configuration are no
-longer needed. The source distribution no longer includes
-<code class="docutils literal notranslate"><span class="pre">CHANGES.rst</span></code>. (#628)</p></li>
+longer needed. The source distribution no longer includes <code class="docutils literal notranslate"><span class="pre">CHANGES.rst</span></code>,
+and a build that disables build isolation needs <code class="docutils literal notranslate"><span class="pre">uv_build</span></code> among its
+build requirements in place of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>. (#628)</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">envisage</span></code> package now lives in <code class="docutils literal notranslate"><span class="pre">src/envisage</span></code> in the repository,
 so that an <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">envisage</span></code> from the repository root can’t accidentally
 pick up an uninstalled source tree. The wheel is unchanged. (#635)</p></li>
 <li><p>Style checks now use <code class="docutils literal notranslate"><span class="pre">ruff</span></code> in place of <code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">isort</span></code>, <code class="docutils literal notranslate"><span class="pre">flake8</span></code>
-and <code class="docutils literal notranslate"><span class="pre">flake8-ets</span></code>. (#637)</p></li>
+and <code class="docutils literal notranslate"><span class="pre">flake8-ets</span></code>, and the codebase is formatted to <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">format</span></code>’s 88
+columns in place of <code class="docutils literal notranslate"><span class="pre">black</span></code>’s 79. (#637, #642)</p></li>
+<li><p>The EDM environment specification lives in <code class="docutils literal notranslate"><span class="pre">.github</span></code>, beside the workflow
+that reads it. (#634)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pypa/gh-action-pypi-publish</span></code> is updated to 1.14.2. (#633)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code> describes the changelog conventions, and a <code class="docutils literal notranslate"><span class="pre">CLAUDE.md</span></code>
 imports it so that Claude Code picks it up. (#644)</p></li>
 <li><p>The test and documentation workflows set <code class="docutils literal notranslate"><span class="pre">QT_QPA_PLATFORM=offscreen</span></code> in
@@ -1072,7 +1091,7 @@ required by the application and provides documentation and test updates.</p>
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Release history</a><ul>
-<li><a class="reference internal" href="#version-8-1-0">Version 8.1.0</a><ul>
+<li><a class="reference internal" href="#version-8-0-1">Version 8.0.1</a><ul>
 <li><a class="reference internal" href="#fixes">Fixes</a></li>
 <li><a class="reference internal" href="#build">Build</a></li>
 <li><a class="reference internal" href="#tests">Tests</a></li>
