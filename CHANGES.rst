@@ -23,6 +23,9 @@ Fixes
 * The API documentation for ``PythonShellView`` and ``NamespaceView``
   describes the real Qt-backed classes, in place of the placeholders Pyface
   substitutes when no toolkit is available. (#648)
+* Documentation search results show a snippet of surrounding context under
+  each hit again, and long dotted names in API signatures wrap again. Both
+  come from the upgrade to Enthought Sphinx theme 0.7.5. (#652)
 
 Build
 -----

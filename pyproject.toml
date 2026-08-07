@@ -53,7 +53,7 @@ gui = [
 ]
 docs = [
     'Sphinx==9.1.0',
-    'enthought-sphinx-theme==0.7.4',
+    'enthought-sphinx-theme==0.7.5',
     'sphinx-copybutton==0.5.2',
     # A toolkit is needed for accurate API documentation from autodoc.
     {include-group = 'gui'},
