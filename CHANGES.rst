@@ -17,9 +17,7 @@ builds had been failing, and fixes several smaller problems in the generated
 documentation.
 
 Building from the source distribution now uses the ``uv_build`` backend in
-place of ``setuptools``. Build frontends install it themselves, so ``pip
-install envisage`` is unaffected; only a build that disables build isolation,
-as some packaging recipes do, needs its build requirements updated to match.
+place of ``setuptools``.
 
 Thanks to:
 
