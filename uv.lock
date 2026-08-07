@@ -186,17 +186,20 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "pygments" },
     { name = "pyside6" },
     { name = "pytest" },
     { name = "ruff" },
 ]
 docs = [
     { name = "enthought-sphinx-theme", marker = "python_full_version >= '3.12'" },
+    { name = "pygments", marker = "python_full_version >= '3.12'" },
     { name = "pyside6", marker = "python_full_version >= '3.12'" },
     { name = "sphinx", marker = "python_full_version >= '3.12'" },
     { name = "sphinx-copybutton", marker = "python_full_version >= '3.12'" },
 ]
 gui = [
+    { name = "pygments" },
     { name = "pyside6" },
 ]
 style = [
@@ -216,17 +219,22 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "pygments" },
     { name = "pyside6" },
     { name = "pytest" },
     { name = "ruff", specifier = "~=0.16.0" },
 ]
 docs = [
     { name = "enthought-sphinx-theme", marker = "python_full_version >= '3.12'", specifier = "==0.7.4" },
+    { name = "pygments", marker = "python_full_version >= '3.12'" },
     { name = "pyside6", marker = "python_full_version >= '3.12'" },
     { name = "sphinx", marker = "python_full_version >= '3.12'", specifier = "==9.1.0" },
     { name = "sphinx-copybutton", marker = "python_full_version >= '3.12'", specifier = "==0.5.2" },
 ]
-gui = [{ name = "pyside6" }]
+gui = [
+    { name = "pygments" },
+    { name = "pyside6" },
+]
 style = [{ name = "ruff", specifier = "~=0.16.0" }]
 test = [{ name = "pytest" }]
 

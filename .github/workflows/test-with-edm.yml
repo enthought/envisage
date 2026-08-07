@@ -6,7 +6,7 @@ env:
   INSTALL_EDM_VERSION: 4.1.5
   PYTHONUNBUFFERED: 1
   # EDM's installer doesn't support extras, hence the explicit configobj.
-  EDM_PACKAGES: apptools configobj pyface pytest traits traitsui
+  EDM_PACKAGES: apptools configobj pyface pygments pytest traits traitsui
 
 jobs:
 

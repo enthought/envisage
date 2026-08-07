@@ -28,6 +28,13 @@ Build
 * ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
   imports it so that Claude Code picks it up. (#644)
 
+Tests
+-----
+* The GUI tests need Pygments, because Pyface's ``PythonShell`` is
+  unavailable without it. It's now installed alongside the toolkit, and
+  ``requires_gui`` skips rather than letting the import fail when it's
+  missing. (#641)
+
 Version 8.0.0
 =============
 
