@@ -9,15 +9,13 @@ Released: YYYY-MM-DD
 
 Fixes
 -----
-* The Sphinx configuration asks for Qt's ``offscreen`` platform plugin.
-  Importing Pyface's toolkit constructs a ``QApplication``, which aborts the
-  process when no platform plugin can be initialized, so the documentation
-  build failed wherever there was no display. (#645)
-* The documentation workflows install ``libegl1``, so that autodoc documents
-  the real Qt-backed classes. Without it PySide6 can't be imported, Pyface
-  falls back to its null toolkit, and the API documentation for
-  ``PythonShellView`` and ``NamespaceView`` described placeholder classes.
-  (#648)
+* The documentation builds where there's no display, so Read the Docs
+  publishes again. Importing Pyface's toolkit constructs a ``QApplication``,
+  which aborts the process when no Qt platform plugin can be initialized, so
+  the Sphinx configuration asks for the ``offscreen`` one. (#645)
+* The API documentation for ``PythonShellView`` and ``NamespaceView``
+  describes the real Qt-backed classes, in place of the placeholders Pyface
+  substitutes when no toolkit is available. (#648)
 
 Build
 -----
@@ -39,14 +37,11 @@ Build
   and ``flake8-ets``. (#637)
 * ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
   imports it so that Claude Code picks it up. (#644)
-* The test workflows set ``QT_QPA_PLATFORM=offscreen`` in place of
-  ``xvfb-run`` and the X11 support packages that the ``install-qt-support``
-  action installed with ``apt-get``. That action is gone, and the separate
-  Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)
-* The ``install-qt-support`` action is back, installing ``libegl1`` and
-  nothing else. Without it PySide6 can't be imported at all, so the GUI tests
-  were skipping on Linux rather than running. The packages the xcb platform
-  plugin needs stay uninstalled. (#648)
+* The test and documentation workflows set ``QT_QPA_PLATFORM=offscreen`` in
+  place of ``xvfb-run``, and the ``install-qt-support`` action installs only
+  the two packages needed to import Qt rather than the eight more that the
+  xcb platform plugin needed. The separate Ubuntu and non-Ubuntu test steps
+  have collapsed into one. (#645, #648)
 
 Tests
 -----
