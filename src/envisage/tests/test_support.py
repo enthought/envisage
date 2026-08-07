@@ -31,9 +31,14 @@ class GuiAvailableTestCase(unittest.TestCase):
         if os.environ.get("ETS_TOOLKIT") == "null":
             self.skipTest("The null toolkit was requested explicitly")
 
+        # Report the underlying error, which names the missing library.
+        try:
+            from pyface.qt import QtGui  # noqa: F401
+        except ImportError as exc:
+            self.fail(f"PySide6 is installed, but importing Qt failed: {exc}")
+
         self.assertTrue(
             gui_available,
-            "PySide6 is installed, but Pyface fell back to the null toolkit "
-            "({}). A system library needed to import Qt is probably "
-            "missing.".format(gui_skip_reason),
+            "PySide6 is installed and Qt imports, but Pyface still fell back "
+            f"to the null toolkit ({gui_skip_reason}).",
         )
