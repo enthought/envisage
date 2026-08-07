@@ -7,6 +7,9 @@ env:
   PYTHONUNBUFFERED: 1
   # EDM's installer doesn't support extras, hence the explicit configobj.
   EDM_PACKAGES: apptools configobj pyface pygments pytest traits traitsui
+  # Importing Pyface's toolkit creates a QApplication, so the tests need a Qt
+  # platform plugin that works without a display.
+  QT_QPA_PLATFORM: offscreen
 
 jobs:
 
@@ -22,8 +25,6 @@ jobs:
     steps:
       - name: Clone the Envisage source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Install packages for Qt support
-        uses: ./.github/actions/install-qt-support
       - name: Cache EDM packages
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -43,11 +44,6 @@ jobs:
       - name: Install the package under test
         run: edm run -e envisage -- python -m pip install . --no-dependencies
       # Run from outside the source tree, to exercise the installed package.
-      - name: Run tests (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        working-directory: ${{ runner.temp }}
-        run: xvfb-run -a edm run -e envisage -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
-      - name: Run tests (not Ubuntu)
-        if: matrix.os != 'ubuntu-latest'
+      - name: Run tests
         working-directory: ${{ runner.temp }}
         run: edm run -e envisage -- python -m pytest -c ${{ github.workspace }}/pyproject.toml --pyargs envisage
