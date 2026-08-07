@@ -1,0 +1,21 @@
+name: Check copyright end year
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  copyright-year:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Compare the configured copyright end year with the current year
+      run: |
+        current=$(date --utc +%Y)
+        configured=$(grep -o 'Copyright 2007-[0-9]\{4\}' pyproject.toml \
+                     | grep -o '[0-9]\{4\}$')
+        echo "Configured end year: ${configured:-none}; current year: ${current}"
+        if [ "${configured}" != "${current}" ]; then
+          echo "::error::Copyright end year is ${configured:-unreadable}, but the current year is ${current}."
+          echo "Update the end year in pyproject.toml and in every source file header."
+          exit 1
+        fi
