@@ -25,6 +25,8 @@ Build
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
 * Style checks now use ``ruff`` in place of ``black``, ``isort``, ``flake8``
   and ``flake8-ets``. (#637)
+* ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
+  imports it so that Claude Code picks it up. (#644)
 
 Version 8.0.0
 =============
