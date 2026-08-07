@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The Envisage core plugin. """
+"""The Envisage core plugin."""
 
 from contextlib import closing
 

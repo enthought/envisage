@@ -15,6 +15,5 @@ jobs:
         enable-cache: true
         cache-suffix: style
     - run: |
-        uv run --locked --only-group style -m black --check --diff .
-        uv run --locked --only-group style -m isort --check --diff .
-        uv run --locked --only-group style -m flake8 .
+        uv run --locked --only-group style -m ruff check .
+        uv run --locked --only-group style -m ruff format --check --diff .

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The service registry. """
-
+"""The service registry."""
 
 # Standard library imports.
 import logging
@@ -65,9 +64,7 @@ class ServiceRegistry(HasTraits):
     # 'IServiceRegistry' interface.
     ###########################################################################
 
-    def get_required_service(
-        self, protocol, query="", minimize="", maximize=""
-    ):
+    def get_required_service(self, protocol, query="", minimize="", maximize=""):
         """Return the service that matches the specified query.
 
         Raise a 'NoSuchServiceError' exception if no such service exists.

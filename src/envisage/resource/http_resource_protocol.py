@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A resource protocol for HTTP documents. """
+"""A resource protocol for HTTP documents."""
 
 # Enthought library imports.
 from traits.api import HasTraits, provides

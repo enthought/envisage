@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A trait type used to declare and access extension points. """
-
+"""A trait type used to declare and access extension points."""
 
 # Standard library imports.
 import inspect
@@ -176,9 +175,7 @@ class ExtensionPoint(TraitType):
         listener = self._obj_to_listeners_map[obj].get(trait_name)
         if listener is not None:
             # Remove the listener from the extension registry.
-            extension_registry.remove_extension_point_listener(
-                listener, self.id
-            )
+            extension_registry.remove_extension_point_listener(listener, self.id)
 
             # Clean up.
             del self._obj_to_listeners_map[obj][trait_name]

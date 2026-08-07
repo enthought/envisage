@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The plugin interface. """
-
+"""The plugin interface."""
 
 # Enthought library imports.
 from traits.api import Instance, Interface, Str

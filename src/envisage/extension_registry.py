@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A base class for extension registry implementation. """
-
+"""A base class for extension registry implementation."""
 
 # Standard library imports.
 import logging
@@ -118,9 +117,7 @@ class ExtensionRegistry(HasTraits):
 
         return list(self._extension_points.values())
 
-    def remove_extension_point_listener(
-        self, listener, extension_point_id=None
-    ):
+    def remove_extension_point_listener(self, listener, extension_point_id=None):
         """Remove a listener for extensions being added or removed."""
 
         listeners = self._listeners.setdefault(extension_point_id, [])

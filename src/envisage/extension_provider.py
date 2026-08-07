@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The default base class for extension providers. """
-
+"""The default base class for extension providers."""
 
 # Enthought library imports.
 from traits.api import Event, HasTraits, provides
@@ -41,9 +40,7 @@ class ExtensionProvider(HasTraits):
 
     ##### Protected 'ExtensionProvider' interface #############################
 
-    def _fire_extension_point_changed(
-        self, extension_point_id, added, removed, index
-    ):
+    def _fire_extension_point_changed(self, extension_point_id, added, removed, index):
         """Fire an extension point changed event."""
 
         self.extension_point_changed = ExtensionPointChangedEvent(

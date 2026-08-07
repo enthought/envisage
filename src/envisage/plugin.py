@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The default implementation of the 'IPlugin' interface. """
+"""The default implementation of the 'IPlugin' interface."""
 
 # Standard library imports.
 import logging
@@ -108,8 +108,7 @@ class Plugin(ExtensionProvider):
         """Return the extension points offered by the provider."""
 
         extension_points = [
-            trait.trait_type
-            for trait in self.traits(__extension_point__=True).values()
+            trait.trait_type for trait in self.traits(__extension_point__=True).values()
         ]
 
         return extension_points
@@ -165,9 +164,7 @@ class Plugin(ExtensionProvider):
 
         id = "%s.%s" % (type(self).__module__, type(self).__name__)
         logger.info(
-            "plugin {} has no Id - using <{}>".format(
-                object.__repr__(self), id
-            )
+            "plugin {} has no Id - using <{}>".format(object.__repr__(self), id)
         )
 
         return id
@@ -177,9 +174,7 @@ class Plugin(ExtensionProvider):
 
         name = camel_case_to_words(type(self).__name__)
         logger.info(
-            "plugin {} has no name - using <{}>".format(
-                object.__repr__(self), name
-            )
+            "plugin {} has no name - using <{}>".format(object.__repr__(self), name)
         )
 
         return name

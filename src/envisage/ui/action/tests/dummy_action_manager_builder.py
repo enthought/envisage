@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A menu builder that doesn't build real actions! """
+"""A menu builder that doesn't build real actions!"""
 
 from pyface.action.api import Action, Group, MenuBarManager, MenuManager
 

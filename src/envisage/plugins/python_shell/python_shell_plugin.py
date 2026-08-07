@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The interactive Python shell plugin. """
-
+"""The interactive Python shell plugin."""
 
 from traits.api import Dict, List, Str
 

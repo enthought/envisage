@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An extensible workbench window. """
-
+"""An extensible workbench window."""
 
 # Standard library imports.
 import logging
@@ -177,9 +176,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def get_service(self, protocol, query="", minimize="", maximize=""):
         """Return at most one service that matches the specified query."""
 
-        service = self.service_registry.get_service(
-            protocol, query, minimize, maximize
-        )
+        service = self.service_registry.get_service(protocol, query, minimize, maximize)
 
         return service
 
@@ -200,9 +197,7 @@ class WorkbenchWindow(pyface.WorkbenchWindow):
     def register_service(self, protocol, obj, properties=None):
         """Register a service."""
 
-        service_id = self.service_registry.register_service(
-            protocol, obj, properties
-        )
+        service_id = self.service_registry.register_service(protocol, obj, properties)
 
         return service_id
 

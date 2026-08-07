@@ -31,9 +31,8 @@ uv sync
 Runtime: `traits>=6.2`, `apptools[preferences]>=5.3`, `pyface`, `traitsui`.
 
 Development requirements are dependency groups in `pyproject.toml`:
-`test` (pytest), `gui` (PySide6), `style` (Black, isort, flake8) and
-`docs`. The default `dev` group includes the first three, so it covers
-everything but `docs`.
+`test` (pytest), `gui` (PySide6), `style` (ruff) and `docs`. The default
+`dev` group includes the first three, so it covers everything but `docs`.
 
 Exact versions are pinned in the tracked `uv.lock`, which `uv run` and
 `uv sync` install from. After changing anything in `pyproject.toml`, run
@@ -51,35 +50,38 @@ to run headless.
 
 ## Linting and Formatting
 
-Style is enforced by Black, isort, and flake8, all provided by the `dev`
-group. Run all three checks:
+Style is enforced by ruff, provided by the `dev` group. Run both checks:
 
 ```bash
-uv run -m black --check --diff .
-uv run -m isort --check --diff .
-uv run -m flake8 .
+uv run -m ruff check .
+uv run -m ruff format --check --diff .
 ```
 
-To auto-fix formatting:
+To auto-fix:
 
 ```bash
-uv run -m black .
-uv run -m isort .
+uv run -m ruff check --fix .
+uv run -m ruff format .
 ```
 
 ### Key style settings
 
-- **Line length**: 79 (Black, isort, flake8 all configured to 79)
-- **Black**: default settings with `line-length = 79`
-- **isort**: `profile = "black"`, custom `ENTHOUGHT` import section
-- **flake8**: ignores `E203`, `E266`, `W503`; `F401` suppressed in `*/api.py`
+- **Line length**: 88, ruff's default
+- **Lint rules**: `CPY001` (copyright header), `E`, `F`, `I`, `W`;
+  `F401` suppressed in `*/api.py`
+- **Import sorting**: ruff's `I` rules, with a custom `enthought` section
+- **ruff version**: upper-bounded to `~= 0.16.0`, because ruff changes
+  formatting in minor releases. Raising the bound means reformatting the
+  codebase in the same change.
 
 ## Code Style Guidelines
 
 ### Copyright Header
 
-Every `.py` file must start with the standard copyright header. Use whatever
-end year is present in the existing files (currently 2026):
+Every non-empty `.py` file must start with the standard copyright header,
+enforced by ruff's `CPY001` rule. The authoritative text, including the year
+range, is the `notice-rgx` setting in `pyproject.toml`; that copy is a regular
+expression, so unescape it rather than pasting it verbatim:
 
 ```python
 # (C) Copyright 2007-2026 Enthought, Inc., Austin, TX
@@ -95,7 +97,7 @@ end year is present in the existing files (currently 2026):
 
 ### Import Ordering
 
-Imports are sorted by isort into six sections with labeled comment headers:
+Imports are sorted by ruff into six sections with labeled comment headers:
 
 ```python
 # Standard library imports.
@@ -110,12 +112,13 @@ from .extension_point import ExtensionPoint
 from .i_application import IApplication
 ```
 
-The sections are: `FUTURE`, `STDLIB`, `THIRDPARTY`, `ENTHOUGHT`
-(apptools, pyface, traits, traitsui), `FIRSTPARTY` (envisage), `LOCALFOLDER`
-(relative imports). Always import from `.api` submodules for Enthought
-packages (e.g., `from traits.api import ...`, not `from traits.has_traits
-import ...`). Use relative imports for intra-package references in library
-code; use absolute imports (`from envisage.xxx`) in tests.
+The sections are: `future`, `standard-library`, `third-party`, `enthought`
+(apptools, pyface, traits, traitsui), `first-party` (envisage) and
+`local-folder` (relative imports). Always import from `.api` submodules for
+Enthought packages (e.g., `from traits.api import ...`, not `from
+traits.has_traits import ...`). Use relative imports for intra-package
+references in library code; use absolute imports (`from envisage.xxx`) in
+tests.
 
 ### Type System
 

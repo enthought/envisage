@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The preferences for the Acme workbench. """
-
+"""The preferences for the Acme workbench."""
 
 # Enthought library imports.
 from apptools.preferences.ui.api import PreferencesPage

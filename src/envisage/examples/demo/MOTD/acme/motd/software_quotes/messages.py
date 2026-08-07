@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" Some messages! """
+"""Some messages!"""
 
 from acme.motd.api import Message
 
@@ -31,8 +31,7 @@ messages = [
     ),
     Message(
         author="Tom Gilb",
-        text="If you don't know what you're doing, don't do it on a large"
-        " scale.",
+        text="If you don't know what you're doing, don't do it on a large scale.",
     ),
     Message(
         author="Arthur Norman",

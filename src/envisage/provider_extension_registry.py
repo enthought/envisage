@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An extension registry implementation with multiple providers. """
-
+"""An extension registry implementation with multiple providers."""
 
 # Standard library imports.
 import logging
@@ -285,9 +284,7 @@ class ProviderExtensionRegistry(ExtensionRegistry):
         """Translate an event index by the given offset."""
 
         if isinstance(index, slice):
-            index = slice(
-                index.start + offset, index.stop + offset, index.step
-            )
+            index = slice(index.start + offset, index.stop + offset, index.step)
 
         else:
             index = index + offset

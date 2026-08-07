@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The Envisage version of the old chestnut. """
+"""The Envisage version of the old chestnut."""
 
 from traits.api import List, Str
 

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A resource protocol for package resources. """
-
+"""A resource protocol for package resources."""
 
 # Standard library imports.
 from importlib.resources import files

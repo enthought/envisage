@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An action that exits the workbench. """
-
+"""An action that exits the workbench."""
 
 from pyface.action.api import Action
 

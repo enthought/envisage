@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An action set in a workbench window. """
-
+"""An action set in a workbench window."""
 
 from traits.api import Instance, List, Str
 
@@ -124,16 +123,14 @@ class WorkbenchActionSet(ActionSet):
             self.enabled = (
                 window is not None
                 and window.active_perspective is not None
-                and window.active_perspective.id
-                in self.enabled_for_perspectives
+                and window.active_perspective.id in self.enabled_for_perspectives
             )
 
         if len(self.visible_for_perspectives) > 0:
             self.visible = (
                 window is not None
                 and window.active_perspective is not None
-                and window.active_perspective.id
-                in self.visible_for_perspectives
+                and window.active_perspective.id in self.visible_for_perspectives
             )
 
         if len(self.enabled_for_views) > 0:

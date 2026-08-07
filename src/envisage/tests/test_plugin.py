@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for plugins. """
-
+"""Tests for plugins."""
 
 import unittest
 

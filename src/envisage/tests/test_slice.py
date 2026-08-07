@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests to help find out how trait list events work.
+"""Tests to help find out how trait list events work.
 
 These tests exist because when we are using the 'ExtensionPoint' trait type
 we try to mimic trait list events when extensions are added or removed.

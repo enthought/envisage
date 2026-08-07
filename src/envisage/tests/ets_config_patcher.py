@@ -33,14 +33,10 @@ class ETSConfigPatcher(object):
         tmpdir = self.tmpdir = tempfile.mkdtemp()
 
         self.old_application_data = self.etsconfig._application_data
-        self.etsconfig._application_data = os.path.join(
-            tmpdir, "application_data"
-        )
+        self.etsconfig._application_data = os.path.join(tmpdir, "application_data")
 
         self.old_application_home = self.etsconfig._application_home
-        self.etsconfig._application_home = os.path.join(
-            tmpdir, "application_home"
-        )
+        self.etsconfig._application_home = os.path.join(tmpdir, "application_home")
 
         self.old_user_data = self.etsconfig._user_data
         self.etsconfig._user_data = os.path.join(tmpdir, "user_home")
