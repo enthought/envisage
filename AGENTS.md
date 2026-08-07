@@ -80,8 +80,8 @@ uv run -m ruff format .
 
 Every non-empty `.py` file must start with the standard copyright header,
 enforced by ruff's `CPY001` rule. The authoritative text, including the year
-range, is in `ruff-copyright.toml`; copy it from there rather than from a
-neighbouring file:
+range, is the `notice-rgx` setting in `pyproject.toml`; that copy is a regular
+expression, so unescape it rather than pasting it verbatim:
 
 ```python
 # (C) Copyright 2007-2026 Enthought, Inc., Austin, TX

@@ -11,11 +11,11 @@ jobs:
     - name: Compare the configured copyright end year with the current year
       run: |
         current=$(date --utc +%Y)
-        configured=$(grep -o 'Copyright 2007-[0-9]\{4\}' ruff-copyright.toml \
+        configured=$(grep -o 'Copyright 2007-[0-9]\{4\}' pyproject.toml \
                      | grep -o '[0-9]\{4\}$')
         echo "Configured end year: ${configured:-none}; current year: ${current}"
         if [ "${configured}" != "${current}" ]; then
           echo "::error::Copyright end year is ${configured:-unreadable}, but the current year is ${current}."
-          echo "Update the end year in ruff-copyright.toml and in every source file header."
+          echo "Update the end year in pyproject.toml and in every source file header."
           exit 1
         fi
