@@ -2,10 +2,24 @@
  Release history
 =================
 
-Version 8.1.0
+Version 8.0.1
 =============
 
-Released: YYYY-MM-DD
+Released: 2026-08-07
+
+This is a bugfix release aimed at making the Python shell view usable again.
+A change in the way Pyface constructs widgets stopped the view opening at
+all, so ``View -> Other... -> Python`` failed in Envisage-based applications
+such as Mayavi.
+
+The release also restores the Envisage documentation on Read the Docs, whose
+builds had been failing, and fixes several smaller problems in the generated
+documentation.
+
+Thanks to:
+
+* Mark Dickinson
+* Eric Larson
 
 Fixes
 -----
@@ -44,7 +58,11 @@ Build
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
 * Style checks now use ``ruff`` in place of ``black``, ``isort``, ``flake8``
-  and ``flake8-ets``. (#637)
+  and ``flake8-ets``, and the codebase is formatted to ``ruff format``'s 88
+  columns in place of ``black``'s 79. (#637, #642)
+* The EDM environment specification lives in ``.github``, beside the workflow
+  that reads it. (#634)
+* ``pypa/gh-action-pypi-publish`` is updated to 1.14.2. (#633)
 * ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
   imports it so that Claude Code picks it up. (#644)
 * The test and documentation workflows set ``QT_QPA_PLATFORM=offscreen`` in
