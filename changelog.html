@@ -92,15 +92,13 @@
 <section id="fixes">
 <h3>Fixes<a class="headerlink" href="#fixes" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p>The Sphinx configuration asks for Qt’s <code class="docutils literal notranslate"><span class="pre">offscreen</span></code> platform plugin.
-Importing Pyface’s toolkit constructs a <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>, which aborts the
-process when no platform plugin can be initialized, so the documentation
-build failed wherever there was no display. (#645)</p></li>
-<li><p>The documentation workflows install <code class="docutils literal notranslate"><span class="pre">libegl1</span></code>, so that autodoc documents
-the real Qt-backed classes. Without it PySide6 can’t be imported, Pyface
-falls back to its null toolkit, and the API documentation for
-<code class="docutils literal notranslate"><span class="pre">PythonShellView</span></code> and <code class="docutils literal notranslate"><span class="pre">NamespaceView</span></code> described placeholder classes.
-(#648)</p></li>
+<li><p>The documentation builds where there’s no display, so Read the Docs
+publishes again. Importing Pyface’s toolkit constructs a <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>,
+which aborts the process when no Qt platform plugin can be initialized, so
+the Sphinx configuration asks for the <code class="docutils literal notranslate"><span class="pre">offscreen</span></code> one. (#645)</p></li>
+<li><p>The API documentation for <code class="docutils literal notranslate"><span class="pre">PythonShellView</span></code> and <code class="docutils literal notranslate"><span class="pre">NamespaceView</span></code>
+describes the real Qt-backed classes, in place of the placeholders Pyface
+substitutes when no toolkit is available. (#648)</p></li>
 </ul>
 </section>
 <section id="build">
@@ -124,14 +122,11 @@ pick up an uninstalled source tree. The wheel is unchanged. (#635)</p></li>
 and <code class="docutils literal notranslate"><span class="pre">flake8-ets</span></code>. (#637)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code> describes the changelog conventions, and a <code class="docutils literal notranslate"><span class="pre">CLAUDE.md</span></code>
 imports it so that Claude Code picks it up. (#644)</p></li>
-<li><p>The test workflows set <code class="docutils literal notranslate"><span class="pre">QT_QPA_PLATFORM=offscreen</span></code> in place of
-<code class="docutils literal notranslate"><span class="pre">xvfb-run</span></code> and the X11 support packages that the <code class="docutils literal notranslate"><span class="pre">install-qt-support</span></code>
-action installed with <code class="docutils literal notranslate"><span class="pre">apt-get</span></code>. That action is gone, and the separate
-Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">install-qt-support</span></code> action is back, installing <code class="docutils literal notranslate"><span class="pre">libegl1</span></code> and
-nothing else. Without it PySide6 can’t be imported at all, so the GUI tests
-were skipping on Linux rather than running. The packages the xcb platform
-plugin needs stay uninstalled. (#648)</p></li>
+<li><p>The test and documentation workflows set <code class="docutils literal notranslate"><span class="pre">QT_QPA_PLATFORM=offscreen</span></code> in
+place of <code class="docutils literal notranslate"><span class="pre">xvfb-run</span></code>, and the <code class="docutils literal notranslate"><span class="pre">install-qt-support</span></code> action installs only
+the two packages needed to import Qt rather than the eight more that the
+xcb platform plugin needed. The separate Ubuntu and non-Ubuntu test steps
+have collapsed into one. (#645, #648)</p></li>
 </ul>
 </section>
 <section id="tests">
