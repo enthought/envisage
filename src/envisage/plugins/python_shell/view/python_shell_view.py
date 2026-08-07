@@ -15,7 +15,7 @@ import sys
 
 from pyface.api import PythonShell
 from pyface.workbench.api import View
-from traits.api import Any, Dict, Event, Instance, Property, provides, Str
+from traits.api import Any, Bool, Dict, Event, Instance, Property, provides, Str
 
 # Enthought library imports.
 from envisage.api import ExtensionPoint, IExtensionRegistry
@@ -88,6 +88,12 @@ class PythonShellView(View):
     # Commands.
     _commands = ExtensionPoint(id="envisage.plugins.python_shell.commands")
 
+    #: The id 'create_control' registered this view under, if it got that far.
+    _service_id = Any()
+
+    #: Whether 'create_control' got as far as redirecting sys.stdout.
+    _stdout_redirected = Bool(False)
+
     ###########################################################################
     # 'IExtensionPointUser' interface.
     ###########################################################################
@@ -105,6 +111,10 @@ class PythonShellView(View):
         """Creates the toolkit-specific control that represents the view."""
 
         self.shell = shell = PythonShell(parent)
+        if shell.control is None:
+            # Pyface 8.0 split widget construction in two; before that the
+            # control was built by the constructor.
+            shell.create()
         shell.on_trait_change(self._on_key_pressed, "key_pressed")
         shell.on_trait_change(self._on_command_executed, "command_executed")
 
@@ -112,6 +122,7 @@ class PythonShellView(View):
         self.on_trait_change(self._on_write_stdout, "stdout_text", dispatch="ui")
         self.original_stdout = sys.stdout
         sys.stdout = PseudoFile(self._write_stdout)
+        self._stdout_redirected = True
 
         # Namespace contributions.
         for bindings in self._bindings:
@@ -139,14 +150,23 @@ class PythonShellView(View):
 
         super().destroy_control()
 
+        # 'create_control' does these last, and Pyface's 'add_view' calls this
+        # from the except branch that handles a 'create_control' which raised:
+        # undoing what never happened would replace the error that explains the
+        # failure with an error from the clean-up after it.
+
         # Unregister the view as a service.
-        self.window.application.unregister_service(self._service_id)
+        if self._service_id is not None:
+            self.window.application.unregister_service(self._service_id)
+            self._service_id = None
 
         # Remove the sys.stdout handlers.
         self.on_trait_change(self._on_write_stdout, "stdout_text", remove=True)
 
         # Restore the original stdout.
-        sys.stdout = self.original_stdout
+        if self._stdout_redirected:
+            sys.stdout = self.original_stdout
+            self._stdout_redirected = False
 
     ###########################################################################
     # 'PythonShellView' interface.
