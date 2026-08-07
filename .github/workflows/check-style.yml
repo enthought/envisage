@@ -16,3 +16,4 @@ jobs:
         cache-suffix: style
     - run: |
         uv run --locked --only-group style -m ruff check .
+        uv run --locked --only-group style -m ruff format --check --diff .
