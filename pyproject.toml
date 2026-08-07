@@ -86,6 +86,9 @@ filterwarnings = [
     'error',
     # Ignore TraitsUI's import-time warning when numpy isn't installed.
     'ignore:ArrayEditor is not available:ImportWarning',
+    # Pyface announces the move on import, and envisage.ui.workbench is built
+    # on it; there is nowhere for it to move to until the code follows.
+    'ignore:Workbench will be moved from pyface:PendingDeprecationWarning',
 ]
 
 [tool.uv.dependency-groups]
