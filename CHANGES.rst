@@ -24,6 +24,13 @@ Build
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
 
+Tests
+-----
+* The GUI tests need Pygments, because Pyface's ``PythonShell`` is
+  unavailable without it. It's now installed alongside the toolkit, and
+  ``requires_gui`` skips rather than letting the import fail when it's
+  missing. (#641)
+
 Version 8.0.0
 =============
 
