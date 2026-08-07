@@ -9,6 +9,13 @@ Released: YYYY-MM-DD
 
 Fixes
 -----
+* The Python shell view opens again. Pyface 8.0 split widget construction in
+  two, and ``PythonShellView.create_control`` never made the second call, so
+  it went on to read the interpreter's namespace off a shell that had none
+  yet. What reached the user was an error from the clean-up rather than that
+  one: Pyface calls ``destroy_control`` when ``create_control`` raises, and
+  it undid work ``create_control`` had not got to. It now unregisters the
+  service and restores ``sys.stdout`` only if they were ever set. (#639)
 * The documentation builds where there's no display, so Read the Docs
   publishes again. Importing Pyface's toolkit constructs a ``QApplication``,
   which aborts the process when no Qt platform plugin can be initialized, so
@@ -51,6 +58,10 @@ Tests
   missing. (#641)
 * A test fails, rather than skipping quietly, when a GUI toolkit is installed
   but Pyface still falls back to its null toolkit. (#648)
+* The ``python_shell`` plugin has tests, covering the view's control from
+  creation through to tear-down. They are the first tests to import
+  ``pyface.workbench``, whose import-time ``PendingDeprecationWarning`` the
+  pytest configuration therefore has to allow. (#639)
 
 Version 8.0.0
 =============

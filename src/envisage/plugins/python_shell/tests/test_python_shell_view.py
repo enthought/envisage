@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the Python shell view. """
+"""Tests for the Python shell view."""
 
 # Standard library imports.
 import sys
@@ -27,9 +27,7 @@ def create_window():
     'WorkbenchWindow.application' delegates to the workbench, so it is the
     workbench that has to carry it.
     """
-    return WorkbenchWindow(
-        workbench=Workbench(application=Application(id="test"))
-    )
+    return WorkbenchWindow(workbench=Workbench(application=Application(id="test")))
 
 
 @requires_gui
