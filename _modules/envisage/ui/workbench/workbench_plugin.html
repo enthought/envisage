@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; The Envisage workbench plugin. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;The Envisage workbench plugin.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 
@@ -293,8 +292,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="n">preferences_manager_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;apptools.preferences.ui.preferences_manager&quot;</span>
-            <span class="s2">&quot;.PreferencesManager&quot;</span><span class="p">,</span>
+            <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;apptools.preferences.ui.preferences_manager.PreferencesManager&quot;</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_preferences_manager_service</span><span class="p">,</span>
         <span class="p">)</span>
 

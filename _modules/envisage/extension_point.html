@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; A trait type used to declare and access extension points. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;A trait type used to declare and access extension points.&quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -278,9 +277,7 @@
         <span class="n">listener</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trait_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">listener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Remove the listener from the extension registry.</span>
-            <span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span>
-                <span class="n">listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
-            <span class="p">)</span>
+            <span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
             <span class="c1"># Clean up.</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_to_listeners_map</span><span class="p">[</span><span class="n">obj</span><span class="p">][</span><span class="n">trait_name</span><span class="p">]</span></div>

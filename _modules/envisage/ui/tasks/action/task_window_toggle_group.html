@@ -155,9 +155,7 @@
     <span class="c1">#### &#39;TaskWindowToggleGroup&#39; interface ####################################</span>
 
     <span class="c1"># The application that contains the group.</span>
-    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span>
-        <span class="s2">&quot;envisage.ui.tasks.tasks_application.&quot;</span> <span class="s2">&quot;TasksApplication&quot;</span>
-    <span class="p">)</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.tasks_application.TasksApplication&quot;</span><span class="p">)</span>
 
     <span class="c1"># The ActionManager to which the group belongs.</span>
     <span class="n">manager</span> <span class="o">=</span> <span class="n">Any</span>
@@ -204,9 +202,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_items_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">&quot;window_opened, window_closed&quot;</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">&quot;window_opened, window_closed&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

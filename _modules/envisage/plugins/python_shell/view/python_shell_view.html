@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; A view containing an interactive Python shell. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;A view containing an interactive Python shell.&quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -212,9 +211,7 @@
         <span class="n">shell</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_command_executed</span><span class="p">,</span> <span class="s2">&quot;command_executed&quot;</span><span class="p">)</span>
 
         <span class="c1"># Write application standard out to this shell instead of to DOS window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_on_write_stdout</span><span class="p">,</span> <span class="s2">&quot;stdout_text&quot;</span><span class="p">,</span> <span class="n">dispatch</span><span class="o">=</span><span class="s2">&quot;ui&quot;</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_write_stdout</span><span class="p">,</span> <span class="s2">&quot;stdout_text&quot;</span><span class="p">,</span> <span class="n">dispatch</span><span class="o">=</span><span class="s2">&quot;ui&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">PseudoFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_write_stdout</span><span class="p">)</span>
 

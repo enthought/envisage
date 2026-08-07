@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; An extension registry implementation with multiple providers. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;An extension registry implementation with multiple providers.&quot;&quot;&quot;</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -382,9 +381,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate an event index by the given offset.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span>
-                <span class="n">index</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span>
-            <span class="p">)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">offset</span>

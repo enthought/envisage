@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; An action set in a workbench window. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;An action set in a workbench window.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
 
@@ -212,16 +211,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span><span class="o">.</span><span class="n">id</span>
-                <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled_for_perspectives</span>
+                <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled_for_perspectives</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visible_for_perspectives</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span><span class="o">.</span><span class="n">id</span>
-                <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible_for_perspectives</span>
+                <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">active_perspective</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible_for_perspectives</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">enabled_for_views</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>

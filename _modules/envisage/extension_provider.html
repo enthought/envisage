@@ -90,8 +90,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot; The default base class for extension providers. &quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;The default base class for extension providers.&quot;&quot;&quot;</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
@@ -132,9 +131,7 @@
 
     <span class="c1">##### Protected &#39;ExtensionProvider&#39; interface #############################</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_fire_extension_point_changed</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fire_extension_point_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">added</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fire an extension point changed event.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">extension_point_changed</span> <span class="o">=</span> <span class="n">ExtensionPointChangedEvent</span><span class="p">(</span>

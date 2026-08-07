@@ -243,9 +243,7 @@
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">PreferencesDialog</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">trait_set</span><span class="p">(</span>
             <span class="n">categories</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences_categories</span><span class="p">,</span>
-            <span class="n">panes</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">factory</span><span class="p">(</span><span class="n">dialog</span><span class="o">=</span><span class="n">dialog</span><span class="p">)</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_panes</span>
-            <span class="p">],</span>
+            <span class="n">panes</span><span class="o">=</span><span class="p">[</span><span class="n">factory</span><span class="p">(</span><span class="n">dialog</span><span class="o">=</span><span class="n">dialog</span><span class="p">)</span> <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences_panes</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">dialog</span></div>
 

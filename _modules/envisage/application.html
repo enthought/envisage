@@ -260,9 +260,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">ScopedPreferences</span><span class="p">(</span>
-            <span class="n">application_preferences_filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;preferences.ini&quot;</span>
-            <span class="p">)</span>
+            <span class="n">application_preferences_filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;preferences.ini&quot;</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="c1">#### Methods ##############################################################</span>
@@ -324,9 +322,7 @@
 
 <div class="viewcode-block" id="Application.remove_extension_point_listener">
 <a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.remove_extension_point_listener">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point_listener</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a listener for extensions being added/removed.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">extension_registry</span><span class="o">.</span><span class="n">remove_extension_point_listener</span><span class="p">(</span>
@@ -484,9 +480,7 @@
 
 <div class="viewcode-block" id="Application.get_required_service">
 <a class="viewcode-back" href="../../api/envisage.application.html#envisage.application.Application.get_required_service">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_required_service</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_required_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the service that matches the specified query.</span>
 
 <span class="sd">        Raise a &#39;NoSuchServiceError&#39; exception if no such service exists.</span>
@@ -505,9 +499,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return at most one service that matches the specified query.&quot;&quot;&quot;</span>
 
-        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span>
-        <span class="p">)</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">maximize</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">service</span></div>
 
@@ -545,9 +537,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service.&quot;&quot;&quot;</span>
 
-        <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span>
-        <span class="p">)</span>
+        <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_registry</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">service_id</span></div>
 
