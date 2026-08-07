@@ -7,6 +7,13 @@ Version 8.1.0
 
 Released: YYYY-MM-DD
 
+Fixes
+-----
+* The Sphinx configuration asks for Qt's ``offscreen`` platform plugin.
+  Importing Pyface's toolkit constructs a ``QApplication``, which aborts the
+  process when no platform plugin can be initialized, so the documentation
+  build failed wherever there was no display. (#645)
+
 Build
 -----
 * Development and CI now use ``uv``. ``etstool.py`` is gone, the
@@ -27,6 +34,10 @@ Build
   and ``flake8-ets``. (#637)
 * ``AGENTS.md`` describes the changelog conventions, and a ``CLAUDE.md``
   imports it so that Claude Code picks it up. (#644)
+* The test workflows set ``QT_QPA_PLATFORM=offscreen`` in place of
+  ``xvfb-run`` and the X11 support packages that the ``install-qt-support``
+  action installed with ``apt-get``. That action is gone, and the separate
+  Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)
 
 Tests
 -----
