@@ -16,6 +16,11 @@ The release also restores the Envisage documentation on Read the Docs, whose
 builds had been failing, and fixes several smaller problems in the generated
 documentation.
 
+Building from the source distribution now uses the ``uv_build`` backend in
+place of ``setuptools``. Build frontends install it themselves, so ``pip
+install envisage`` is unaffected; only a build that disables build isolation,
+as some packaging recipes do, needs its build requirements updated to match.
+
 Thanks to:
 
 * Mark Dickinson
@@ -52,8 +57,9 @@ Build
 * Build with the ``uv_build`` backend in place of ``setuptools``. Files
   inside the package are included in the wheel automatically, so
   ``MANIFEST.in`` and the explicit ``package-data`` configuration are no
-  longer needed. The source distribution no longer includes
-  ``CHANGES.rst``. (#628)
+  longer needed. The source distribution no longer includes ``CHANGES.rst``,
+  and a build that disables build isolation needs ``uv_build`` among its
+  build requirements in place of ``setuptools``. (#628)
 * The ``envisage`` package now lives in ``src/envisage`` in the repository,
   so that an ``import envisage`` from the repository root can't accidentally
   pick up an uninstalled source tree. The wheel is unchanged. (#635)
