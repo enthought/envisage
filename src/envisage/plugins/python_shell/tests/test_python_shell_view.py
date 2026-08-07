@@ -34,26 +34,38 @@ def create_window():
 
 @requires_gui
 class PythonShellViewTestCase(unittest.TestCase):
+    def create_view(self):
+        """A shell view that cleans up after itself however the test ends.
+
+        'create_control' redirects sys.stdout into the shell, and it is a
+        'create_control' that raises part way through -- leaving the redirect
+        in place and no control to undo it -- that these tests are about.  So
+        the tear-down cannot hang off the test reaching its own last line: it
+        would leak the redirect into every test after it.
+        """
+        view = PythonShellView(window=create_window())
+        # LIFO, so the redirect is undone after the view has had its go at it
+        self.addCleanup(setattr, sys, "stdout", sys.stdout)
+        self.addCleanup(view.destroy_control)
+        return view
+
     def test_create_control(self):
         """The view builds its shell and registers itself as a service."""
-        window = create_window()
-        view = PythonShellView(window=window)
+        view = self.create_view()
         stdout = sys.stdout
 
         control = view.create_control(None)
-        try:
-            self.assertIsNotNone(control)
-            self.assertIsNotNone(
-                view.window.application.get_service(IPythonShell)
-            )
-            # reaches the interpreter behind the 'namespace' property
-            view.bind("answer", 42)
-            self.assertEqual(view.namespace["answer"], 42)
-        finally:
-            view.destroy_control()
+
+        self.assertIsNotNone(control)
+        self.assertIsNotNone(view.window.application.get_service(IPythonShell))
+        # reaches the interpreter behind the 'namespace' property
+        view.bind("answer", 42)
+        self.assertEqual(view.namespace["answer"], 42)
+
+        view.destroy_control()
 
         self.assertIs(sys.stdout, stdout)
-        self.assertIsNone(window.application.get_service(IPythonShell))
+        self.assertIsNone(view.window.application.get_service(IPythonShell))
 
     def test_destroy_control_without_create_control(self):
         """Tearing down a view whose 'create_control' never ran is quiet.
@@ -62,11 +74,11 @@ class PythonShellViewTestCase(unittest.TestCase):
         'create_control' raises, so anything raised here replaces the error
         that explains the failure.
         """
-        PythonShellView(window=create_window()).destroy_control()
+        self.create_view().destroy_control()
 
     def test_destroy_control_is_repeatable(self):
         """A second 'destroy_control' has nothing left to undo."""
-        view = PythonShellView(window=create_window())
+        view = self.create_view()
         view.create_control(None)
         view.destroy_control()
         stdout = sys.stdout
