@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,23 +14,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/enthought.css?v=1c73b1d4" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '8.0.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '.html',
-        SOURCELINK_SUFFIX: '.txt',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script src="../_static/documentation_options.js?v=f663eb4a"></script>
+    <script src="../_static/documentation_options.js?v=521b6f53"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
     <link rel="shortcut icon" href="../_static/img/favicon.png">
     <link rel="index" title="Index" href="../genindex.html" >
@@ -100,50 +88,15 @@
 <p>A view containing the contents of a Python shell namespace.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">envisage.plugins.python_shell.view.namespace_view.</span></span><span class="sig-name descname"><span class="pre">NamespaceView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/namespace_view.html#NamespaceView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Unimplemented</span></code></p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">envisage.plugins.python_shell.view.namespace_view.</span></span><span class="sig-name descname"><span class="pre">NamespaceView</span></span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/namespace_view.html#NamespaceView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code></p>
 <p>A view containing the contents of the Python shell namespace.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.bindings">
-<span class="sig-name descname"><span class="pre">bindings</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;traits.traits.ForwardProperty</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.bindings" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.create_control">
 <span class="sig-name descname"><span class="pre">create_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/envisage/plugins/python_shell/view/namespace_view.html#NamespaceView.create_control"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.create_control" title="Link to this definition">¶</a></dt>
 <dd><p>Creates the toolkit-specific control that represents the view.</p>
 <p>‘parent’ is the toolkit-specific control that is the view’s parent.</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.id">
-<span class="sig-name descname"><span class="pre">id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'enthought.plugins.python_shell.view.namespace_view'</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.id" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Namespace'</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.namespace">
-<span class="sig-name descname"><span class="pre">namespace</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;traits.trait_types.DelegatesTo</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.namespace" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.position">
-<span class="sig-name descname"><span class="pre">position</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'left'</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.position" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.shell_view">
-<span class="sig-name descname"><span class="pre">shell_view</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;traits.trait_types.Instance</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.shell_view" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="envisage.plugins.python_shell.view.namespace_view.NamespaceView.traits_view">
-<span class="sig-name descname"><span class="pre">traits_view</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(</span> <span class="pre">VGroup(</span>&#160;&#160;&#160;&#160; <span class="pre">Item(</span> <span class="pre">'bindings'</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">id</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'table',</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">object</span>&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'object',</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">style</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'simple',</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">show_label</span> <span class="pre">=</span> <span class="pre">False</span>&#160;&#160;&#160;&#160; <span class="pre">),</span>&#160;&#160;&#160;&#160; <span class="pre">show_border</span> <span class="pre">=</span> <span class="pre">True,</span>&#160;&#160;&#160;&#160; <span class="pre">show_labels</span> <span class="pre">=</span> <span class="pre">False,</span>&#160;&#160;&#160;&#160; <span class="pre">object</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'object',</span>&#160;&#160;&#160;&#160; <span class="pre">style</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">'simple'</span> <span class="pre">)</span> <span class="pre">)</span></span><a class="headerlink" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.traits_view" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -176,14 +129,7 @@ an empty string if there is no such attribute.</p>
     <ul>
 <li><a class="reference internal" href="#">envisage.plugins.python_shell.view.namespace_view module</a><ul>
 <li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView"><code class="docutils literal notranslate"><span class="pre">NamespaceView</span></code></a><ul>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.bindings"><code class="docutils literal notranslate"><span class="pre">NamespaceView.bindings</span></code></a></li>
 <li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.create_control"><code class="docutils literal notranslate"><span class="pre">NamespaceView.create_control()</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.id"><code class="docutils literal notranslate"><span class="pre">NamespaceView.id</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.name"><code class="docutils literal notranslate"><span class="pre">NamespaceView.name</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.namespace"><code class="docutils literal notranslate"><span class="pre">NamespaceView.namespace</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.position"><code class="docutils literal notranslate"><span class="pre">NamespaceView.position</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.shell_view"><code class="docutils literal notranslate"><span class="pre">NamespaceView.shell_view</span></code></a></li>
-<li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.NamespaceView.traits_view"><code class="docutils literal notranslate"><span class="pre">NamespaceView.traits_view</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#envisage.plugins.python_shell.view.namespace_view.module_to_str"><code class="docutils literal notranslate"><span class="pre">module_to_str()</span></code></a></li>
@@ -237,7 +183,7 @@ an empty string if there is no such attribute.</p>
         &copy; Copyright 2007-2026, Enthought
       </li>
       <li>
-      Last updated on Aug 06, 2026.
+      Last updated on Aug 07, 2026.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
