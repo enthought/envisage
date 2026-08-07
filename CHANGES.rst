@@ -16,6 +16,13 @@ Fixes
 * The API documentation for ``PythonShellView`` and ``NamespaceView``
   describes the real Qt-backed classes, in place of the placeholders Pyface
   substitutes when no toolkit is available. (#648)
+* Documentation search results show a snippet of surrounding context under
+  each hit again. The Enthought Sphinx theme emitted its own
+  ``DOCUMENTATION_OPTIONS`` object, which kept Sphinx's own copy from
+  loading, and its ``<html>`` element omitted the content root marker that
+  Sphinx uses to find the page a result came from. Both are fixed in theme
+  version 0.7.5, which the documentation dependencies now pin. Long dotted
+  names in API signatures wrap again too. (#652)
 
 Build
 -----

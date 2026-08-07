@@ -166,11 +166,11 @@ wheels = [
 
 [[package]]
 name = "enthought-sphinx-theme"
-version = "0.7.4"
+version = "0.7.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/26/c8/24c178aa2c55a77c808cd54b4facce995fc031c72c85650f8f37af6ea8e2/enthought_sphinx_theme-0.7.4.tar.gz", hash = "sha256:b396db8638b3167409f6a3a4076087711d9f7c6d59d8fa590836a37ba1373936", size = 255843, upload-time = "2026-02-16T08:55:33.064Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fe/4c/a4567ece4fc0e59c40296975a81e1d471003d7b827b020d8c1b4d3c9e419/enthought_sphinx_theme-0.7.5.tar.gz", hash = "sha256:da8a66ffc315e9eabfbcb3d260499dc7f9a8f9583a544af979d028e09b2026ad", size = 254979, upload-time = "2026-08-07T13:46:34.447Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/20/24/b5c880e604292150c30286290cb9e24e0c10ecb641c0ffc1f1111aee584e/enthought_sphinx_theme-0.7.4-py3-none-any.whl", hash = "sha256:6989e6fe857295abab14d8a9316d39a42bbe28e778ff31f9cd9c3e42f982e63f", size = 217851, upload-time = "2026-02-16T08:55:30.831Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/c7/2084112cbbca8d6065bd5a88ec728cf07926b0957fad3e1b2059e6a32b5a/enthought_sphinx_theme-0.7.5-py3-none-any.whl", hash = "sha256:7e429101f123b26160f8edba6bf0784f63bf3bdba8fc9e08823872c9c0188b60", size = 216662, upload-time = "2026-08-07T13:46:33.28Z" },
 ]
 
 [[package]]
@@ -225,7 +225,7 @@ dev = [
     { name = "ruff", specifier = "~=0.16.0" },
 ]
 docs = [
-    { name = "enthought-sphinx-theme", marker = "python_full_version >= '3.12'", specifier = "==0.7.4" },
+    { name = "enthought-sphinx-theme", marker = "python_full_version >= '3.12'", specifier = "==0.7.5" },
     { name = "pygments", marker = "python_full_version >= '3.12'" },
     { name = "pyside6", marker = "python_full_version >= '3.12'" },
     { name = "sphinx", marker = "python_full_version >= '3.12'", specifier = "==9.1.0" },
