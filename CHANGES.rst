@@ -13,6 +13,11 @@ Fixes
   Importing Pyface's toolkit constructs a ``QApplication``, which aborts the
   process when no platform plugin can be initialized, so the documentation
   build failed wherever there was no display. (#645)
+* The documentation workflows install ``libegl1``, so that autodoc documents
+  the real Qt-backed classes. Without it PySide6 can't be imported, Pyface
+  falls back to its null toolkit, and the API documentation for
+  ``PythonShellView`` and ``NamespaceView`` described placeholder classes.
+  (#648)
 
 Build
 -----
@@ -38,6 +43,10 @@ Build
   ``xvfb-run`` and the X11 support packages that the ``install-qt-support``
   action installed with ``apt-get``. That action is gone, and the separate
   Ubuntu and non-Ubuntu test steps have collapsed into one. (#645)
+* The ``install-qt-support`` action is back, installing ``libegl1`` and
+  nothing else. Without it PySide6 can't be imported at all, so the GUI tests
+  were skipping on Linux rather than running. The packages the xcb platform
+  plugin needs stay uninstalled. (#648)
 
 Tests
 -----
@@ -45,6 +54,8 @@ Tests
   unavailable without it. It's now installed alongside the toolkit, and
   ``requires_gui`` skips rather than letting the import fail when it's
   missing. (#641)
+* A test fails, rather than skipping quietly, when a GUI toolkit is installed
+  but Pyface still falls back to its null toolkit. (#648)
 
 Version 8.0.0
 =============
