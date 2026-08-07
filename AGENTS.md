@@ -45,8 +45,14 @@ stale lockfile.
 uv run -m pytest
 ```
 
-Some tests require a GUI toolkit (PySide6). On Linux, use `xvfb-run -a`
-to run headless.
+Some tests require a GUI toolkit (PySide6). Importing Pyface's toolkit
+constructs a `QApplication`, so where no display is available those tests
+abort the whole run rather than failing or skipping. Run headless with Qt's
+offscreen platform plugin, as CI does on every platform:
+
+```bash
+QT_QPA_PLATFORM=offscreen uv run -m pytest
+```
 
 ## Linting and Formatting
 
