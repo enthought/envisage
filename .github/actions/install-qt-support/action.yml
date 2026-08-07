@@ -6,11 +6,7 @@ runs:
   - name: Install Linux packages for Qt
     if: runner.os == 'Linux'
     # These are the libraries needed to *import* Qt: libEGL is a link-time
-    # dependency of libQt6Gui, and EDM's PySide6 also wants libOpenGL. That
-    # failure is silent: Pyface falls back to the null toolkit, the GUI tests
-    # skip and autodoc documents placeholder classes. The packages the xcb
-    # platform plugin needs are deliberately absent --
-    # QT_QPA_PLATFORM=offscreen replaces them.
+    # dependency of libQt6Gui, and EDM's PySide6 also wants libOpenGL.
     #
     # libopengl0 is the workaround for
     # https://bugreports.qt.io/browse/PYSIDE-1547
