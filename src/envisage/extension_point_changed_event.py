@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An event fired when an extension point's extensions have changed. """
-
+"""An event fired when an extension point's extensions have changed."""
 
 # Enthought library imports.
 from traits.api import TraitListEvent

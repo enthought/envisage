@@ -41,9 +41,7 @@ class CorePluginTestCase(unittest.TestCase):
                 """Trait initializer."""
 
                 service_offers = [
-                    ServiceOffer(
-                        protocol=IMyService, factory=self._my_service_factory
-                    )
+                    ServiceOffer(protocol=IMyService, factory=self._my_service_factory)
                 ]
 
                 return service_offers
@@ -83,9 +81,7 @@ class CorePluginTestCase(unittest.TestCase):
                 """Trait initializer."""
 
                 service_offers = [
-                    ServiceOffer(
-                        protocol=IMyService, factory=self._my_service_factory
-                    )
+                    ServiceOffer(protocol=IMyService, factory=self._my_service_factory)
                 ]
 
                 return service_offers
@@ -143,9 +139,7 @@ class CorePluginTestCase(unittest.TestCase):
             application.run()
 
             # Make sure we can get one of the preferences.
-            self.assertEqual(
-                "42", application.preferences.get("enthought.test.x")
-            )
+            self.assertEqual("42", application.preferences.get("enthought.test.x"))
 
     def test_dynamically_added_preferences(self):
         """dynamically added preferences"""
@@ -172,9 +166,7 @@ class CorePluginTestCase(unittest.TestCase):
             application.add_plugin(a)
 
             # Make sure we can get one of the preferences.
-            self.assertEqual(
-                "42", application.preferences.get("enthought.test.x")
-            )
+            self.assertEqual("42", application.preferences.get("enthought.test.x"))
 
     # regression test for enthought/envisage#251
     def test_unregister_service_offer(self):

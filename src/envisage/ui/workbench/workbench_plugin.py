@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The Envisage workbench plugin. """
-
+"""The Envisage workbench plugin."""
 
 from traits.api import Callable, List
 
@@ -208,8 +207,7 @@ class WorkbenchPlugin(Plugin):
         """Trait initializer."""
 
         preferences_manager_service_offer = ServiceOffer(
-            protocol="apptools.preferences.ui.preferences_manager"
-            ".PreferencesManager",
+            protocol="apptools.preferences.ui.preferences_manager.PreferencesManager",
             factory=self._create_preferences_manager_service,
         )
 

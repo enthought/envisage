@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The exception raised when an unknown extension is referenced. """
+"""The exception raised when an unknown extension is referenced."""
 
 
 class UnknownExtension(Exception):

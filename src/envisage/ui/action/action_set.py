@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" An action set is a collection of menus, groups, and actions. """
-
+"""An action set is a collection of menus, groups, and actions."""
 
 # Standard library imports.
 import logging

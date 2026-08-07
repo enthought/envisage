@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The service registry interface. """
-
+"""The service registry interface."""
 
 # Enthought library imports.
 from traits.api import Event, Interface

@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The plugin activator interface. """
-
+"""The plugin activator interface."""
 
 # Enthought library imports.
 from traits.api import Interface

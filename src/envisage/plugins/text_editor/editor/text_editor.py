@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A text editor. """
-
+"""A text editor."""
 
 # Standard library imports.
 from os.path import basename
@@ -112,9 +111,7 @@ class TextEditor(TraitsUIEditor):
 
         # Execute the code.
         if len(self.obj.path) > 0:
-            view = self.window.get_view_by_id(
-                "envisage.plugins.python_shell_view"
-            )
+            view = self.window.get_view_by_id("envisage.plugins.python_shell_view")
 
             if view is not None:
                 view.execute_command(
@@ -200,9 +197,7 @@ class TextEditor(TraitsUIEditor):
 
         view = View(
             Group(
-                Item(
-                    "text", editor=CodeEditor(key_bindings=self.key_bindings)
-                ),
+                Item("text", editor=CodeEditor(key_bindings=self.key_bindings)),
                 show_labels=False,
             ),
             id="envisage.editor.text_editor",

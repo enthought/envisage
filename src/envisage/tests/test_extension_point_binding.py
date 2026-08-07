@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for extension point bindings. """
+"""Tests for extension point bindings."""
 
 # Standard library imports.
 import unittest
@@ -203,9 +203,7 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
 
         # Add 2 extension points.
         registry.add_extension_point(self._create_extension_point("my.ep"))
-        registry.add_extension_point(
-            self._create_extension_point("another.ep")
-        )
+        registry.add_extension_point(self._create_extension_point("another.ep"))
 
         # Declare a class that consumes both of the extension points.
         class Foo(HasTraits):
@@ -256,18 +254,14 @@ class ExtensionPointBindingTestCase(unittest.TestCase):
         extension_point = self._create_extension_point("my.ep")
         self.extension_registry.add_extension_point(extension_point)
         target = BindingTarget()
-        bind_extension_point(
-            target, "target", "my.ep", self.extension_registry
-        )
+        bind_extension_point(target, "target", "my.ep", self.extension_registry)
 
         # Use a weakref finalizer to keep track of whether 'target' still
         # has references keeping it alive.
         target_monitor = weakref.finalize(target, lambda: None)
 
         # When we unbind and delete the target object
-        unbind_extension_point(
-            target, "target", "my.ep", self.extension_registry
-        )
+        unbind_extension_point(target, "target", "my.ep", self.extension_registry)
         del target
 
         # Then 'target' should no longer be alive.

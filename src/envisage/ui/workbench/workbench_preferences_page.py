@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The main preferences page for the workbench. """
-
+"""The main preferences page for the workbench."""
 
 # Enthought library imports.
 from apptools.preferences.ui.api import PreferencesPage

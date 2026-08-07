@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The exception raised when trying to open a non-existent resource. """
+"""The exception raised when trying to open a non-existent resource."""
 
 
 class NoSuchResourceError(Exception):

@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" A view containing a colored panel! """
-
+"""A view containing a colored panel!"""
 
 from pyface.workbench.api import View
 

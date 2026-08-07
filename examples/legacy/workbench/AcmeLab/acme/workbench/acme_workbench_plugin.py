@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The AcmeLab Workbench plugin. """
-
+"""The AcmeLab Workbench plugin."""
 
 from traits.api import List
 

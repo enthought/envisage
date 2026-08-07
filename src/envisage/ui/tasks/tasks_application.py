@@ -97,9 +97,7 @@ class TasksApplication(Application):
 
     #: The default layout for the application. If not specified, a single
     #: window will be created with the first available task factory.
-    default_layout = List(
-        Instance("pyface.tasks.task_window_layout.TaskWindowLayout")
-    )
+    default_layout = List(Instance("pyface.tasks.task_window_layout.TaskWindowLayout"))
 
     #: Whether to always apply the default *application level* layout when the
     #: application is started. Even if this is True, the layout state of
@@ -148,9 +146,7 @@ class TasksApplication(Application):
     _explicit_exit = Bool(False)
 
     # Application state.
-    _state = Instance(
-        "envisage.ui.tasks.tasks_application.TasksApplicationState"
-    )
+    _state = Instance("envisage.ui.tasks.tasks_application.TasksApplicationState")
 
     ###########################################################################
     # 'IApplication' interface.
@@ -200,9 +196,7 @@ class TasksApplication(Application):
 
         # Create the task using suitable task extensions.
         extensions = [
-            ext
-            for ext in self.task_extensions
-            if ext.task_id == id or not ext.task_id
+            ext for ext in self.task_extensions if ext.task_id == id or not ext.task_id
         ]
         task = factory.create_with_extensions(extensions)
         task.id = factory.id
@@ -257,9 +251,7 @@ class TasksApplication(Application):
                 if task:
                     window.add_task(task)
                 else:
-                    logger.error(
-                        "Missing factory for task with ID %r", task_id
-                    )
+                    logger.error("Missing factory for task with ID %r", task_id)
 
             # Apply a suitable layout.
             if restore:
@@ -324,10 +316,7 @@ class TasksApplication(Application):
         """
         # Build a list of TaskWindowLayouts.
         self._load_state()
-        if (
-            self.always_use_default_layout
-            or not self._state.previous_window_layouts
-        ):
+        if self.always_use_default_layout or not self._state.previous_window_layouts:
             window_layouts = self.default_layout
         else:
             # Choose the stored TaskWindowLayouts, but only if all the task IDs
@@ -482,9 +471,7 @@ class TasksApplication(Application):
         from .task_window_event import VetoableTaskWindowEvent
 
         # Event notification.
-        self.window_opening = window_event = VetoableTaskWindowEvent(
-            window=window
-        )
+        self.window_opening = window_event = VetoableTaskWindowEvent(window=window)
 
         if window_event.veto:
             event.veto = True
@@ -501,9 +488,7 @@ class TasksApplication(Application):
         from .task_window_event import VetoableTaskWindowEvent
 
         # Event notification.
-        self.window_closing = window_event = VetoableTaskWindowEvent(
-            window=window
-        )
+        self.window_closing = window_event = VetoableTaskWindowEvent(window=window)
 
         if window_event.veto:
             event.veto = True
@@ -543,9 +528,7 @@ class TasksApplicationState(HasStrictTraits):
 
     # A list of TaskWindowLayouts accumulated throughout the application's
     # lifecycle.
-    window_layouts = List(
-        Instance("pyface.tasks.task_window_layout.TaskWindowLayout")
-    )
+    window_layouts = List(Instance("pyface.tasks.task_window_layout.TaskWindowLayout"))
 
     # The "version" for the state data. This should be incremented whenever a
     # backwards incompatible change is made to this class or any of the layout

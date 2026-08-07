@@ -8,8 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" The Acme Lab application. """
-
+"""The Acme Lab application."""
 
 # Standard library imports.
 from logging import DEBUG

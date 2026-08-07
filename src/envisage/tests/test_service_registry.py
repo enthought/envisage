@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the service registry. """
-
+"""Tests for the service registry."""
 
 # Standard library imports.
 import sys
@@ -113,9 +112,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
             return Foo(**properties)
 
         # Register a service factory.
-        self.service_registry.register_service(
-            IFoo, foo_factory, {"price": 100}
-        )
+        self.service_registry.register_service(IFoo, foo_factory, {"price": 100})
 
         # Create a query that matches the registered object.
         service = self.service_registry.get_service(IFoo, "price <= 100")
@@ -387,9 +384,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
 
         # This one has properties.
         goo = Foo(price=10)
-        goo_id = self.service_registry.register_service(
-            IFoo, goo, {"price": 200}
-        )
+        goo_id = self.service_registry.register_service(IFoo, goo, {"price": 200})
 
         # Get the properties.
         foo_properties = self.service_registry.get_service_properties(foo_id)
@@ -441,9 +436,7 @@ class ServiceRegistryTestCase(unittest.TestCase):
         # This one shows how properties can be specified that *take precedence*
         # over the object's attributes when evaluating a query.
         goo = Foo(price=10)
-        goo_id = self.service_registry.register_service(
-            IFoo, goo, {"price": 200}
-        )
+        goo_id = self.service_registry.register_service(IFoo, goo, {"price": 200})
 
         # Create a query that doesn't match any registered object.
         service = self.service_registry.get_service(IFoo, "price < 100")

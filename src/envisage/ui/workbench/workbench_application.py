@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The entry point for an Envisage Workbench application. """
-
+"""The entry point for an Envisage Workbench application."""
 
 # Standard library imports.
 import logging

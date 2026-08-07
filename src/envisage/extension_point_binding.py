@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" A binding between a trait on an object and an extension point. """
-
+"""A binding between a trait on an object and an extension point."""
 
 # Enthought library imports.
 from traits.api import Any, HasTraits, Instance, Str, Undefined
@@ -122,9 +121,7 @@ class ExtensionPointBinding(HasTraits):
             remove=True,
         )
 
-        self.obj.on_trait_change(
-            self._on_trait_changed, self.trait_name, remove=True
-        )
+        self.obj.on_trait_change(self._on_trait_changed, self.trait_name, remove=True)
 
     def _set_trait(self, notify):
         """Set the object's trait to the value of the extension point."""
@@ -139,22 +136,16 @@ class ExtensionPointBinding(HasTraits):
 
         self._set_trait(notify=False)
 
-        self.obj.trait_property_changed(
-            self.trait_name + "_items", Undefined, event
-        )
+        self.obj.trait_property_changed(self.trait_name + "_items", Undefined, event)
 
     def _set_extensions(self, extensions):
         """Set the extensions to an extension point."""
 
-        self.extension_registry.set_extensions(
-            self.extension_point_id, extensions
-        )
+        self.extension_registry.set_extensions(self.extension_point_id, extensions)
 
 
 # Factory function for creating bindings.
-def bind_extension_point(
-    obj, trait_name, extension_point_id, extension_registry
-):
+def bind_extension_point(obj, trait_name, extension_point_id, extension_registry):
     """Create a binding to an extension point.
 
     The returned ExtensionPointBinding object is also stored in a (private)
@@ -194,9 +185,7 @@ def bind_extension_point(
     return binding
 
 
-def unbind_extension_point(
-    obj, trait_name, extension_point_id, extension_registry
-):
+def unbind_extension_point(obj, trait_name, extension_point_id, extension_registry):
     """
     Remove an extension point binding.
 

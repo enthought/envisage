@@ -8,7 +8,7 @@
 #
 # Thanks for using Enthought open source!
 
-""" A simple example of a GUIApplication which wraps a TraitsUI """
+"""A simple example of a GUIApplication which wraps a TraitsUI"""
 
 from traits.api import Enum, HasTraits, Instance, Int, on_trait_change, Str
 from traitsui.api import Item, OKCancelButtons, View
@@ -57,9 +57,7 @@ class PersonViewPlugin(Plugin):
 # Application entry point.
 if __name__ == "__main__":
     # Create the application.
-    application = GUIApplication(
-        id="person_view", plugins=[PersonViewPlugin()]
-    )
+    application = GUIApplication(id="person_view", plugins=[PersonViewPlugin()])
 
     # Run it!
     application.run()

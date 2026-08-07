@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" Tests for the resource manager. """
-
+"""Tests for the resource manager."""
 
 # Standard library imports.
 import unittest

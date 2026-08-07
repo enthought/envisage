@@ -7,7 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" This module provides a plugin which adds an EventManager to application.
+"""This module provides a plugin which adds an EventManager to application.
 
 If the application does not already have an evt_mgr attribute which is an
 instance of EventManager, the plugin creates a new EventManager instance,

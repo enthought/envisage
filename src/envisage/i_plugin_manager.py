@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The plugin manager interface. """
-
+"""The plugin manager interface."""
 
 # Enthought library imports.
 from traits.api import Event, Interface

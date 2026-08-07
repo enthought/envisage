@@ -7,8 +7,7 @@
 # is also available online at http://www.enthought.com/licenses/BSD.txt
 #
 # Thanks for using Enthought open source!
-""" The provider extension registry interface. """
-
+"""The provider extension registry interface."""
 
 # Local imports.
 from .i_extension_registry import IExtensionRegistry

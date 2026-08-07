@@ -10,4 +10,5 @@
 """
 - :class:`~.EventManagerPlugin`
 """
+
 from envisage.plugins.event_manager.plugin import EventManagerPlugin

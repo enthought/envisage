@@ -21,6 +21,7 @@
 - :class:`~.TasksApplicationState`
 - :class:`~.TasksPlugin`
 """
+
 from .preferences_category import PreferencesCategory
 from .preferences_dialog import PreferencesDialog, PreferencesTab
 from .preferences_pane import PreferencesPane
