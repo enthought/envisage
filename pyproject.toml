@@ -47,6 +47,8 @@ issues = 'https://github.com/enthought/envisage/issues'
 
 [dependency-groups]
 gui = [
+    # Needed for Pyface's PythonShell, used by the python_shell plugin.
+    'pygments',
     'pyside6',
 ]
 docs = [

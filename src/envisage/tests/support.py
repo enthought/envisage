@@ -27,7 +27,7 @@ from traits.api import Int, List
 
 from envisage.api import Application, ExtensionPoint, Plugin
 
-# Skip decorator for tests that require a working GUI instance.
+# Test for a working GUI instance.
 try:
     GUI()
 except NotImplementedError:
@@ -35,8 +35,29 @@ except NotImplementedError:
 else:
     gui_available = True
 
+
+# Test for Pygments being installed. Pyface's PythonShell and PythonEditor
+# are unavailable without it.
+try:
+    import pygments
+except ImportError:
+    pygments_available = False
+else:
+    pygments_available = True
+    del pygments
+
+
+# Skip decorator for tests that require a working GUI instance. Only a few
+# of those need Pygments, but the distinction isn't worth a second decorator.
+if not gui_available:
+    gui_skip_reason = "Test requires a non-null GUI backend"
+elif not pygments_available:
+    gui_skip_reason = "Test requires Pygments"
+else:
+    gui_skip_reason = ""
+
 requires_gui = unittest.skipUnless(
-    gui_available, "Test requires a non-null GUI backend"
+    gui_available and pygments_available, gui_skip_reason
 )
 
 
