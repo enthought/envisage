@@ -8,6 +8,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    # Without this, PySide6 can't be imported, Sphinx quietly falls back to
+    # Pyface's null toolkit and autodoc documents placeholder classes. Note
+    # that QT_QPA_PLATFORM is deliberately not set here: the documentation
+    # build has to work on Read the Docs, where nothing sets it, so this job
+    # exercises the same fallback that docs/source/conf.py provides.
+    - name: Install packages for Qt support
+      uses: ./.github/actions/install-qt-support
     - name: Set up uv
       uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:

@@ -1,0 +1,16 @@
+name: install-qt-support
+description: 'Install supporting OS packages for Qt-using code'
+runs:
+  using: composite
+  steps:
+  - name: Install Linux packages for Qt
+    if: runner.os == 'Linux'
+    # These are the libraries needed to *import* Qt: libEGL is a link-time
+    # dependency of libQt6Gui, and EDM's PySide6 also wants libOpenGL.
+    #
+    # libopengl0 is the workaround for
+    # https://bugreports.qt.io/browse/PYSIDE-1547
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y libegl1 libopengl0
+    shell: bash
