@@ -89,14 +89,14 @@
 <div class="viewcode-block" id="TaskWindowLaunchAction">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskWindowLaunchAction</span><span class="p">(</span><span class="n">TaskAction</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An Action that creates a task window with a single task.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An Action that creates a task window with a single task."""</span>
 
-    <span class="c1">#### &#39;TaskWindowLaunchAction&#39; interface ###################################</span>
+    <span class="c1">#### 'TaskWindowLaunchAction' interface ###################################</span>
 
     <span class="n">task_id</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Action&#39; interface.</span>
+    <span class="c1"># 'Action' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TaskWindowLaunchAction.perform">
@@ -113,12 +113,12 @@
 
     <span class="c1">#### Trait change handlers ################################################</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;task&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"task"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name the action (unless a name has already been assigned).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Name the action (unless a name has already been assigned)."""</span>
         <span class="n">task</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="k">if</span> <span class="n">task</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">""</span>
             <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">task_factories</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">factory</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_id</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">name</span>
@@ -130,11 +130,11 @@
 <div class="viewcode-block" id="TaskWindowLaunchGroup">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.task_window_launch_group.html#envisage.ui.tasks.action.task_window_launch_group.TaskWindowLaunchGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskWindowLaunchGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Group for creating task windows with a single task.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A Group for creating task windows with a single task."""</span>
 
-    <span class="c1">#### &#39;Group&#39; interface ####################################################</span>
+    <span class="c1">#### 'Group' interface ####################################################</span>
 
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;TaskWindowLaunchGroup&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"TaskWindowLaunchGroup"</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">List</span>
 
     <span class="c1">###########################################################################</span>

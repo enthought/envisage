@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The default implementation of the &#39;IPlugin&#39; interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The default implementation of the 'IPlugin' interface."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -109,13 +109,13 @@
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">,</span> <span class="n">IExtensionPointUser</span><span class="p">,</span> <span class="n">IServiceUser</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Plugin</span><span class="p">(</span><span class="n">ExtensionProvider</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The default implementation of the &#39;IPlugin&#39; interface.</span>
+<span class="w">    </span><span class="sd">"""The default implementation of the 'IPlugin' interface.</span>
 
 <span class="sd">    This class is intended to be subclassed for each plugin that you create.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
     <span class="c1">#: The activator used to start and stop the plugin.</span>
     <span class="c1">#:</span>
@@ -130,57 +130,57 @@
     <span class="c1">#: write to at will.</span>
     <span class="n">home</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1">#: The plugin&#39;s unique identifier.</span>
+    <span class="c1">#: The plugin's unique identifier.</span>
     <span class="c1">#:</span>
     <span class="c1">#: If no identifier is specified then the module and class name of the</span>
-    <span class="c1">#: plugin are used to create an Id with the form &#39;module_name.class_name&#39;.</span>
+    <span class="c1">#: plugin are used to create an Id with the form 'module_name.class_name'.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
+    <span class="c1">#: The plugin's name (suitable for displaying to the user).</span>
     <span class="c1">#:</span>
-    <span class="c1">#: If no name is specified then the plugin&#39;s class name is used with an</span>
+    <span class="c1">#: If no name is specified then the plugin's class name is used with an</span>
     <span class="c1">#: attempt made to turn camel-case class names into words separated by</span>
-    <span class="c1">#: spaces (e.g. if the class name is &#39;MyPlugin&#39; then the name would be</span>
-    <span class="c1">#: &#39;My Plugin&#39;). Of course, if you really care about the actual name, then</span>
+    <span class="c1">#: spaces (e.g. if the class name is 'MyPlugin' then the name would be</span>
+    <span class="c1">#: 'My Plugin'). Of course, if you really care about the actual name, then</span>
     <span class="c1">#: just set it!</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1">#### &#39;IExtensionPointUser&#39; interface ######################################</span>
+    <span class="c1">#### 'IExtensionPointUser' interface ######################################</span>
 
-    <span class="c1">#: The extension registry that the object&#39;s extension points are stored in.</span>
+    <span class="c1">#: The extension registry that the object's extension points are stored in.</span>
     <span class="n">extension_registry</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">IExtensionRegistry</span><span class="p">))</span>
 
-    <span class="c1">#### &#39;IServiceUser&#39; interface #############################################</span>
+    <span class="c1">#### 'IServiceUser' interface #############################################</span>
 
-    <span class="c1">#: The service registry that the object&#39;s services are stored in.</span>
+    <span class="c1">#: The service registry that the object's services are stored in.</span>
     <span class="n">service_registry</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">IServiceRegistry</span><span class="p">))</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IExtensionPointUser&#39; interface.</span>
+    <span class="c1"># 'IExtensionPointUser' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_extension_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait property getter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait property getter."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IServiceUser&#39; interface.</span>
+    <span class="c1"># 'IServiceUser' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_service_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait property getter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait property getter."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IExtensionProvider&#39; interface.</span>
+    <span class="c1"># 'IExtensionProvider' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="Plugin.get_extension_points">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.get_extension_points">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extension points offered by the provider.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the extension points offered by the provider."""</span>
 
         <span class="n">extension_points</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">trait</span><span class="o">.</span><span class="n">trait_type</span> <span class="k">for</span> <span class="n">trait</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">traits</span><span class="p">(</span><span class="n">__extension_point__</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
@@ -192,13 +192,13 @@
 <div class="viewcode-block" id="Plugin.get_extensions">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.get_extensions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the provider&#39;s extensions to an extension point.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the provider's extensions to an extension point."""</span>
 
         <span class="c1"># Each class can have at most *one* trait that contributes to a</span>
         <span class="c1"># particular extension point.</span>
         <span class="c1">#</span>
         <span class="c1"># fixme: We make this restriction in case that in future we can wire up</span>
-        <span class="c1"># the list traits directly. If we don&#39;t end up doing that then it is</span>
+        <span class="c1"># the list traits directly. If we don't end up doing that then it is</span>
         <span class="c1"># fine to allow mutiple traits!</span>
         <span class="n">trait_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_names</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">extension_point_id</span><span class="p">)</span>
 
@@ -215,23 +215,23 @@
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IPlugin&#39; interface.</span>
+    <span class="c1"># 'IPlugin' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="c1">#### Trait initializers ###################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_home_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
-        <span class="c1"># Each plugin gets a sub-directory of a &#39;plugins&#39; directory in</span>
-        <span class="c1"># &#39;application.home&#39;.</span>
+        <span class="c1"># Each plugin gets a sub-directory of a 'plugins' directory in</span>
+        <span class="c1"># 'application.home'.</span>
         <span class="c1">#</span>
         <span class="c1"># i.e. .../my.application.id/plugins/</span>
-        <span class="n">plugins_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">)</span>
+        <span class="n">plugins_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="s2">"plugins"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">plugins_dir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">plugins_dir</span><span class="p">)</span>
 
-        <span class="c1"># Now create the &#39;home&#39; directory of this plugin.</span>
+        <span class="c1"># Now create the 'home' directory of this plugin.</span>
         <span class="n">home_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">plugins_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">home_dir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">home_dir</span><span class="p">)</span>
@@ -239,21 +239,21 @@
         <span class="k">return</span> <span class="n">home_dir</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
-        <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;plugin </span><span class="si">{}</span><span class="s2"> has no Id - using &lt;</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">id</span><span class="p">)</span>
+            <span class="s2">"plugin </span><span class="si">{}</span><span class="s2"> has no Id - using &lt;</span><span class="si">{}</span><span class="s2">&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">id</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">id</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_name_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="n">name</span> <span class="o">=</span> <span class="n">camel_case_to_words</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;plugin </span><span class="si">{}</span><span class="s2"> has no name - using &lt;</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+            <span class="s2">"plugin </span><span class="si">{}</span><span class="s2"> has no name - using &lt;</span><span class="si">{}</span><span class="s2">&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">name</span>
@@ -263,16 +263,16 @@
 <div class="viewcode-block" id="Plugin.start">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the plugin.</span>
+<span class="w">        </span><span class="sd">"""Start the plugin.</span>
 
 <span class="sd">        This method will *always* be empty so that you never have to call</span>
-<span class="sd">        &#39;super().start()&#39; if you provide an implementation in a</span>
+<span class="sd">        'super().start()' if you provide an implementation in a</span>
 <span class="sd">        derived class.</span>
 
 <span class="sd">        The framework does what it needs to do when it starts a plugin by means</span>
-<span class="sd">        of the plugin&#39;s activator.</span>
+<span class="sd">        of the plugin's activator.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">pass</span></div>
 
@@ -280,33 +280,33 @@
 <div class="viewcode-block" id="Plugin.stop">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin.</span>
+<span class="w">        </span><span class="sd">"""Stop the plugin.</span>
 
 <span class="sd">        This method will *always* be empty so that you never have to call</span>
-<span class="sd">        &#39;super().stop()&#39; if you provide an implementation in a</span>
+<span class="sd">        'super().stop()' if you provide an implementation in a</span>
 <span class="sd">        derived class.</span>
 
 <span class="sd">        The framework does what it needs to do when it stops a plugin by means</span>
-<span class="sd">        of the plugin&#39;s activator.</span>
+<span class="sd">        of the plugin's activator.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">pass</span></div>
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Plugin&#39; interface.</span>
+    <span class="c1"># 'Plugin' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="Plugin.connect_extension_point_traits">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.connect_extension_point_traits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">connect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect all of the plugin&#39;s extension points.</span>
+<span class="w">        </span><span class="sd">"""Connect all of the plugin's extension points.</span>
 
 <span class="sd">        This means that the plugin will be notified if and when contributions</span>
 <span class="sd">        are add or removed.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">connect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
@@ -314,7 +314,7 @@
 <div class="viewcode-block" id="Plugin.disconnect_extension_point_traits">
 <a class="viewcode-back" href="../../api/envisage.plugin.html#envisage.plugin.Plugin.disconnect_extension_point_traits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect all of the plugin&#39;s extension points.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Disconnect all of the plugin's extension points."""</span>
 
         <span class="n">ExtensionPoint</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
@@ -326,17 +326,17 @@
     <span class="c1">#### Trait change handlers ################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_anytrait_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
 
-        <span class="c1"># Ignore the &#39;_items&#39; part of the trait name (if it is there!), and get</span>
+        <span class="c1"># Ignore the '_items' part of the trait name (if it is there!), and get</span>
         <span class="c1"># the actual trait.</span>
-        <span class="n">base_trait_name</span> <span class="o">=</span> <span class="n">trait_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_items&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">base_trait_name</span> <span class="o">=</span> <span class="n">trait_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_items"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">trait</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait</span><span class="p">(</span><span class="n">base_trait_name</span><span class="p">)</span>
 
         <span class="c1"># If the trait is one that contributes to an extension point then fire</span>
-        <span class="c1"># an appropriate &#39;extension point changed&#39; event.</span>
+        <span class="c1"># an appropriate 'extension point changed' event.</span>
         <span class="k">if</span> <span class="n">trait</span><span class="o">.</span><span class="n">contributes_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">trait_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_items&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">trait_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_items"</span><span class="p">):</span>
                 <span class="n">added</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">added</span>
                 <span class="n">removed</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">removed</span>
                 <span class="n">index</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">index</span>
@@ -354,36 +354,36 @@
     <span class="c1">#### Methods ##############################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_multiple_traits_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the exception raised when multiple traits are found.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create the exception raised when multiple traits are found."""</span>
 
         <span class="n">exception</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;multiple traits for extension point &lt;</span><span class="si">%s</span><span class="s2">&gt; in plugin &lt;</span><span class="si">%s</span><span class="s2">&gt;&quot;</span>
+            <span class="s2">"multiple traits for extension point &lt;</span><span class="si">%s</span><span class="s2">&gt; in plugin &lt;</span><span class="si">%s</span><span class="s2">&gt;"</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">exception</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_extensions_from_trait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions contributed via the specified trait.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the extensions contributed via the specified trait."""</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">extensions</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                <span class="s2">&quot;getting extensions from </span><span class="si">%s</span><span class="s2">, trait &lt;</span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
+                <span class="s2">"getting extensions from </span><span class="si">%s</span><span class="s2">, trait &lt;</span><span class="si">%s</span><span class="s2">&gt;"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">raise</span>
 
         <span class="k">return</span> <span class="n">extensions</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1"># 'object' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of a Plugin object&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">!r}</span><span class="s2">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">)&quot;</span></div>
+<span class="w">        </span><span class="sd">"""String representation of a Plugin object"""</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">!r}</span><span class="s2">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">)"</span></div>
 
 </pre></div>
 

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The action manager builder used to build the workbench menu/tool bars.&quot;&quot;&quot;</span>
+<span class="sd">"""The action manager builder used to build the workbench menu/tool bars."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
@@ -94,14 +94,14 @@
 <div class="viewcode-block" id="WorkbenchActionManagerBuilder">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_action_manager_builder.html#envisage.ui.workbench.workbench_action_manager_builder.WorkbenchActionManagerBuilder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchActionManagerBuilder</span><span class="p">(</span><span class="n">AbstractActionManagerBuilder</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The action manager builder used to build the workbench menu/tool bars.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;WorkbenchActionManagerBuilder&#39; interface ############################</span>
+    <span class="c1">#### 'WorkbenchActionManagerBuilder' interface ############################</span>
 
     <span class="c1"># The workbench window that we build the menu and tool bars for.</span>
-    <span class="n">window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.workbench.api.WorkbenchWindow&quot;</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.workbench.api.WorkbenchWindow"</span><span class="p">)</span>
 
     <span class="c1">#### Private interface ####################################################</span>
 
@@ -109,17 +109,17 @@
     <span class="n">_actions</span> <span class="o">=</span> <span class="n">Any</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># Protected &#39;AbstractActionManagerBuilder&#39; interface.</span>
+    <span class="c1"># Protected 'AbstractActionManagerBuilder' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an action implementation from an action definition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create an action implementation from an action definition."""</span>
 
-        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"window"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
 
         <span class="c1"># Override any traits that can be set in the definition.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
@@ -141,13 +141,13 @@
         <span class="k">return</span> <span class="n">action</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a group implementation from a group definition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a group implementation from a group definition."""</span>
 
         <span class="n">traits</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Override any traits that can be set in the definition.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
@@ -165,20 +165,20 @@
         <span class="k">return</span> <span class="n">group</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a menu manager implementation from a menu definition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a menu manager implementation from a menu definition."""</span>
 
-        <span class="c1"># fixme: &#39;window&#39; is not actually a trait on &#39;MenuManager&#39;! We set</span>
-        <span class="c1"># it here to allow the &#39;View&#39; menu to be created. However, it seems</span>
+        <span class="c1"># fixme: 'window' is not actually a trait on 'MenuManager'! We set</span>
+        <span class="c1"># it here to allow the 'View' menu to be created. However, it seems</span>
         <span class="c1"># that menus and actions etc should *always* have a reference to</span>
         <span class="c1"># the window that they are in?!?</span>
-        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"window"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">}</span>
 
         <span class="c1"># Override any traits that can be set in the definition.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
@@ -201,29 +201,29 @@
         <span class="k">return</span> <span class="n">menu_manager</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_menu_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a menu bar manager from the builder&#39;s action sets.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a menu bar manager from the builder's action sets."""</span>
 
         <span class="k">return</span> <span class="n">MenuBarManager</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_tool_bar_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a tool bar manager implementation from a definition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a tool bar manager implementation from a definition."""</span>
 
-        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="s2">&quot;show_tool_names&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="n">traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"window"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="s2">"show_tool_names"</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
 
         <span class="c1"># Override any traits that can be set in the definition.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">id</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">traits</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">traits</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span><span class="o">.</span><span class="n">name</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">klass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_symbol</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">klass</span> <span class="o">=</span> <span class="n">ToolBarManager</span>
 
-        <span class="c1"># fixme: &#39;window&#39; is not actually a trait on &#39;ToolBarManager&#39;! We</span>
-        <span class="c1"># set it here because it is set on the &#39;MenuManager&#39;! However, it</span>
+        <span class="c1"># fixme: 'window' is not actually a trait on 'ToolBarManager'! We</span>
+        <span class="c1"># set it here because it is set on the 'MenuManager'! However, it</span>
         <span class="c1"># seems that menus and actions etc should *always* have a reference</span>
         <span class="c1"># to the window that they are in?!?</span>
         <span class="n">tool_bar_manager</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
@@ -245,12 +245,12 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__actions_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="k">return</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import a symbol.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Import a symbol."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">import_symbol</span><span class="p">(</span><span class="n">symbol_path</span><span class="p">)</span></div>
 

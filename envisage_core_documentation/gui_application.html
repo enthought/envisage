@@ -94,9 +94,9 @@ method by calling <code class="xref py py-meth docutils literal notranslate"><sp
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">Instance</span>
 
-    <span class="n">ui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;traitsui.ui.UI&#39;</span><span class="p">)</span>
+    <span class="n">ui</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s1">'traitsui.ui.UI'</span><span class="p">)</span>
 
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:application_initialized&#39;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">'application:application_initialized'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># we need to keep a reference to the ui object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">()</span>

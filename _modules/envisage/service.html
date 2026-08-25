@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A trait type used to access services.&quot;&quot;&quot;</span>
+<span class="sd">"""A trait type used to access services."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -93,19 +93,19 @@
 <div class="viewcode-block" id="Service">
 <a class="viewcode-back" href="../../api/envisage.service.html#envisage.service.Service">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Service</span><span class="p">(</span><span class="n">TraitType</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A trait type used to access services.</span>
+<span class="w">    </span><span class="sd">"""A trait type used to access services.</span>
 
 <span class="sd">    Note that this is a trait *type* and hence does *NOT* have traits itself</span>
-<span class="sd">    (i.e. it does *not* inherit from &#39;HasTraits&#39;).</span>
+<span class="sd">    (i.e. it does *not* inherit from 'HasTraits').</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1"># 'object' interface.</span>
     <span class="c1">###########################################################################</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Constructor."""</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
 
@@ -122,17 +122,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_maximize</span> <span class="o">=</span> <span class="n">maximize</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of a Service object&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;Service(protocol=</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_protocol</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""String representation of a Service object"""</span>
+        <span class="k">return</span> <span class="s2">"Service(protocol=</span><span class="si">{!r}</span><span class="s2">)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_protocol</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;TraitType&#39; interface.</span>
+    <span class="c1"># 'TraitType' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="Service.get">
 <a class="viewcode-back" href="../../api/envisage.service.html#envisage.service.Service.get">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait type getter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait type getter."""</span>
 
         <span class="n">service_registry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_service_registry</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
@@ -146,9 +146,9 @@
 <div class="viewcode-block" id="Service.set">
 <a class="viewcode-back" href="../../api/envisage.service.html#envisage.service.Service.set">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait type setter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait type setter."""</span>
 
-        <span class="k">raise</span> <span class="n">TraitError</span><span class="p">(</span><span class="s2">&quot;Service traits cannot be set&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">TraitError</span><span class="p">(</span><span class="s2">"Service traits cannot be set"</span><span class="p">)</span></div>
 
 
     <span class="c1">###########################################################################</span>
@@ -156,15 +156,15 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_service_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the service registry in effect for an object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the service registry in effect for an object."""</span>
 
-        <span class="n">service_registry</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;service_registry&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">service_registry</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"service_registry"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">service_registry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;The &quot;Service&quot; trait type can only be used within objects &#39;</span>
-                <span class="s2">&quot;that have a reference to a service registry via their &quot;</span>
-                <span class="s1">&#39;&quot;service_registry&quot; trait. </span><span class="se">\n</span><span class="s1">&#39;</span>
-                <span class="s2">&quot;Object </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Service protocol </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_protocol</span><span class="p">)</span>
+                <span class="s1">'The "Service" trait type can only be used within objects '</span>
+                <span class="s2">"that have a reference to a service registry via their "</span>
+                <span class="s1">'"service_registry" trait. </span><span class="se">\n</span><span class="s1">'</span>
+                <span class="s2">"Object </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Service protocol </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_protocol</span><span class="p">)</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">service_registry</span></div>

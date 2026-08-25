@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The resource manager interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The resource manager interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Interface</span>
@@ -90,7 +90,7 @@
 <div class="viewcode-block" id="IResourceManager">
 <a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IResourceManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The resource manager interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The resource manager interface."""</span>
 
     <span class="c1"># The protocols used by the manager to resolve resource URLs.</span>
     <span class="n">resource_protocols</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IResourceProtocol</span><span class="p">)</span>
@@ -98,15 +98,15 @@
 <div class="viewcode-block" id="IResourceManager.file">
 <a class="viewcode-back" href="../../../api/envisage.resource.i_resource_manager.html#envisage.resource.i_resource_manager.IResourceManager.file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a readable file-like object for the specified url.</span>
+<span class="w">        </span><span class="sd">"""Return a readable file-like object for the specified url.</span>
 
-<span class="sd">        Raise a &#39;NoSuchResourceError&#39; if the resource does not exist.</span>
+<span class="sd">        Raise a 'NoSuchResourceError' if the resource does not exist.</span>
 
 <span class="sd">        e.g.::</span>
 
-<span class="sd">          manager.file(&#39;pkgfile://acme.ui.workbench/preferences.ini&#39;)</span>
+<span class="sd">          manager.file('pkgfile://acme.ui.workbench/preferences.ini')</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 </div>
 
 </pre></div>

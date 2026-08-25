@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;An action that displays the preferences dialog.&quot;&quot;&quot;</span>
+<span class="sd">"""An action that displays the preferences dialog."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span>
 
@@ -89,38 +89,38 @@
 <div class="viewcode-block" id="EditPreferencesAction">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.workbench.action.edit_preferences_action.html#envisage.ui.workbench.action.edit_preferences_action.EditPreferencesAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EditPreferencesAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An action that displays the preferences dialog.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An action that displays the preferences dialog."""</span>
 
-    <span class="c1">#### &#39;Action&#39; interface ###################################################</span>
+    <span class="c1">#### 'Action' interface ###################################################</span>
 
     <span class="c1"># A longer description of the action.</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Manage Preferences&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">"Manage Preferences"</span>
 
-    <span class="c1"># The action&#39;s image (displayed on tool bar tools etc).</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ImageResource</span><span class="p">(</span><span class="s2">&quot;preferences&quot;</span><span class="p">)</span>
+    <span class="c1"># The action's image (displayed on tool bar tools etc).</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ImageResource</span><span class="p">(</span><span class="s2">"preferences"</span><span class="p">)</span>
 
-    <span class="c1"># The action&#39;s name (displayed on menus/tool bar tools etc).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Preferences&quot;</span>
+    <span class="c1"># The action's name (displayed on menus/tool bar tools etc).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Preferences"</span>
 
     <span class="c1"># A short description of the action used for tooltip text etc.</span>
-    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Manage Preferences&quot;</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">"Manage Preferences"</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Action&#39; interface.</span>
+    <span class="c1"># 'Action' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="EditPreferencesAction.perform">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.workbench.action.edit_preferences_action.html#envisage.ui.workbench.action.edit_preferences_action.EditPreferencesAction.perform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs the action.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Performs the action."""</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.ui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesManager</span>
 
         <span class="c1"># Lookup the preferences manager service.</span>
         <span class="n">manager</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">PreferencesManager</span><span class="p">)</span>
-        <span class="n">ui</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;modal&quot;</span><span class="p">)</span>
+        <span class="n">ui</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"modal"</span><span class="p">)</span>
 
-        <span class="c1"># If the user hit the &quot;Ok&quot; button, then save the preferences in case</span>
+        <span class="c1"># If the user hit the "Ok" button, then save the preferences in case</span>
         <span class="c1"># application crashes before it exits!</span>
         <span class="k">if</span> <span class="n">ui</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The Envisage core plugin.&quot;&quot;&quot;</span>
+<span class="sd">"""The Envisage core plugin."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">closing</span>
 
@@ -93,7 +93,7 @@
 <div class="viewcode-block" id="CorePlugin">
 <a class="viewcode-back" href="../../api/envisage.core_plugin.html#envisage.core_plugin.CorePlugin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CorePlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage core plugin.</span>
+<span class="w">    </span><span class="sd">"""The Envisage core plugin.</span>
 
 <span class="sd">    The core plugin offers facilities that are generally useful when building</span>
 <span class="sd">    extensible applications such as adapters and hooks etc. It does</span>
@@ -102,21 +102,21 @@
 <span class="sd">    The core plugin should be started before any other plugin. It is up to</span>
 <span class="sd">    the plugin manager to do this.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">#: Extension point ID for preferences</span>
-    <span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s2">&quot;envisage.preferences&quot;</span>
+    <span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s2">"envisage.preferences"</span>
 
     <span class="c1">#: Extension point ID for service offers</span>
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">"envisage.service_offers"</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
-    <span class="c1">#: The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;envisage.core&quot;</span>
+    <span class="c1">#: The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"envisage.core"</span>
 
-    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Core&quot;</span>
+    <span class="c1">#: The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Core"</span>
 
     <span class="c1">#### Extension points offered by this plugin ##############################</span>
 
@@ -124,7 +124,7 @@
     <span class="n">preferences</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Str</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        Preferences files allow plugins to contribute default values for</span>
 <span class="s2">        user preferences. Each contributed string must be the URL of a</span>
@@ -132,35 +132,35 @@
 
 <span class="s2">        e.g.</span>
 
-<span class="s2">        &#39;pkgfile://envisage/preferences.ini&#39;</span>
+<span class="s2">        'pkgfile://envisage/preferences.ini'</span>
 
-<span class="s2">        - this looks for the &#39;preferences.ini&#39; file in the &#39;envisage&#39;</span>
+<span class="s2">        - this looks for the 'preferences.ini' file in the 'envisage'</span>
 <span class="s2">        package.</span>
 
-<span class="s2">        &#39;file://C:/tmp/preferences.ini&#39;</span>
+<span class="s2">        'file://C:/tmp/preferences.ini'</span>
 
-<span class="s2">        - this looks for the &#39;preferences.ini&#39; file in &#39;C:/tmp&#39;</span>
+<span class="s2">        - this looks for the 'preferences.ini' file in 'C:/tmp'</span>
 
-<span class="s2">        &#39;http://some.website/preferences.ini&#39;</span>
+<span class="s2">        'http://some.website/preferences.ini'</span>
 
-<span class="s2">        - this looks for the &#39;preferences.ini&#39; document on the &#39;some.website&#39;</span>
+<span class="s2">        - this looks for the 'preferences.ini' document on the 'some.website'</span>
 <span class="s2">        web site!</span>
 
-<span class="s2">        The files themselves are parsed using the excellent &#39;ConfigObj&#39;</span>
+<span class="s2">        The files themselves are parsed using the excellent 'ConfigObj'</span>
 <span class="s2">        package. For detailed documentation please go to:-</span>
 
 <span class="s2">        http://www.voidspace.org.uk/python/configobj.html</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;preferences_items&quot;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">"preferences_items"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_preferences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;React to new preferencess being *added*.</span>
+<span class="w">        </span><span class="sd">"""React to new preferencess being *added*.</span>
 
-<span class="sd">        Note that we don&#39;t currently do anything if preferences are *removed*.</span>
+<span class="sd">        Note that we don't currently do anything if preferences are *removed*.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_preferences</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">added</span><span class="p">)</span>
 
@@ -168,34 +168,34 @@
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">ServiceOffer</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        Services are simply objects that a plugin wants to make available to</span>
 <span class="s2">        other plugins. This extension point allows you to offer services</span>
-<span class="s2">        that are created &#39;on-demand&#39;.</span>
+<span class="s2">        that are created 'on-demand'.</span>
 
 <span class="s2">        e.g.</span>
 
 <span class="s2">        my_service_offer = ServiceOffer(</span>
-<span class="s2">            protocol   = &#39;acme.IMyService&#39;,</span>
+<span class="s2">            protocol   = 'acme.IMyService',</span>
 <span class="s2">            factory    = an_object_or_a_callable_that_creates_one,</span>
-<span class="s2">            properties = {&#39;a dictionary&#39; : &#39;that is passed to the factory&#39;}</span>
+<span class="s2">            properties = {'a dictionary' : 'that is passed to the factory'}</span>
 <span class="s2">        )</span>
 
-<span class="s2">        See the documentation for &#39;ServiceOffer&#39; for more details.</span>
+<span class="s2">        See the documentation for 'ServiceOffer' for more details.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;service_offers_items&quot;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">"service_offers_items"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_register_new_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;React to new service offers being *added*.</span>
+<span class="w">        </span><span class="sd">"""React to new service offers being *added*.</span>
 
-<span class="sd">        Note that we don&#39;t currently do anything if services are *removed* as</span>
+<span class="sd">        Note that we don't currently do anything if services are *removed* as</span>
 <span class="sd">        we have no facility to let users of the service know that the offer</span>
 <span class="sd">        has been retracted.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">added</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_register_service_offer</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
 
@@ -209,14 +209,14 @@
     <span class="n">_service_ids</span> <span class="o">=</span> <span class="n">List</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IPlugin&#39; interface.</span>
+    <span class="c1"># 'IPlugin' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="CorePlugin.start">
 <a class="viewcode-back" href="../../api/envisage.core_plugin.html#envisage.core_plugin.CorePlugin.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the plugin.&quot;&quot;&quot;</span>
-        <span class="c1"># Load all contributed preferences files into the application&#39;s root</span>
+<span class="w">        </span><span class="sd">"""Start the plugin."""</span>
+        <span class="c1"># Load all contributed preferences files into the application's root</span>
         <span class="c1"># preferences node.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_preferences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">)</span>
 
@@ -228,7 +228,7 @@
 <div class="viewcode-block" id="CorePlugin.stop">
 <a class="viewcode-back" href="../../api/envisage.core_plugin.html#envisage.core_plugin.CorePlugin.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the plugin."""</span>
 
         <span class="c1"># Unregister all service offers.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service_ids</span><span class="p">)</span>
@@ -242,7 +242,7 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_preferences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preferences</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all contributed preferences into a preferences node.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Load all contributed preferences into a preferences node."""</span>
 
         <span class="c1"># Enthought library imports.</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.resource.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceManager</span>
@@ -252,7 +252,7 @@
         <span class="c1"># save the actual default plugin preference values. They will only get</span>
         <span class="c1"># saved if a value has been set in another (persistent) scope - which</span>
         <span class="c1"># is exactly what happens in the preferences UI.</span>
-        <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="s2">&quot;default/&quot;</span><span class="p">)</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="s2">"default/"</span><span class="p">)</span>
 
         <span class="c1"># The resource manager is used to find the preferences files.</span>
         <span class="n">resource_manager</span> <span class="o">=</span> <span class="n">ResourceManager</span><span class="p">()</span>
@@ -261,12 +261,12 @@
                 <span class="n">default</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_register_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offers</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a list of service offers.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Register a list of service offers."""</span>
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_register_service_offer</span><span class="p">,</span> <span class="n">service_offers</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_register_service_offer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_offer</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service offer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Register a service offer."""</span>
 
         <span class="n">service_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">register_service</span><span class="p">(</span>
             <span class="n">protocol</span><span class="o">=</span><span class="n">service_offer</span><span class="o">.</span><span class="n">protocol</span><span class="p">,</span>
@@ -277,7 +277,7 @@
         <span class="k">return</span> <span class="n">service_id</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_unregister_service_offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_ids</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister a list of service offers.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Unregister a list of service offers."""</span>
 
         <span class="c1"># Unregister the services in the reverse order that we registered</span>
         <span class="c1"># them.</span>

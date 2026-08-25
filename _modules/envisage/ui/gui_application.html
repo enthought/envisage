@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Envisage GUI Application</span>
 <span class="sd">------------------------</span>
 
@@ -90,7 +90,7 @@
 
 <span class="sd">More sophisticated applications should use Tasks.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Supports</span>
 
@@ -100,7 +100,7 @@
 <div class="viewcode-block" id="GUIApplication">
 <a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GUIApplication</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The entry point for an Envisage GUI application.</span>
+<span class="w">    </span><span class="sd">"""The entry point for an Envisage GUI application.</span>
 
 <span class="sd">    This class handles the life-cycle of a Pyface GUI.  Plugins can</span>
 <span class="sd">    display windows via mechinisms such as edit_traits().</span>
@@ -110,16 +110,16 @@
 
 <span class="sd">    More sophisticated applications should use Tasks.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;GUIApplication&#39; interface #########################################</span>
+    <span class="c1">#### 'GUIApplication' interface #########################################</span>
 
     <span class="c1">#: The Pyface GUI for the application.</span>
-    <span class="n">gui</span> <span class="o">=</span> <span class="n">Supports</span><span class="p">(</span><span class="s2">&quot;pyface.i_gui.IGUI&quot;</span><span class="p">)</span>
+    <span class="n">gui</span> <span class="o">=</span> <span class="n">Supports</span><span class="p">(</span><span class="s2">"pyface.i_gui.IGUI"</span><span class="p">)</span>
 
     <span class="c1">#: The splash screen for the application. By default, there is no splash</span>
     <span class="c1">#: screen.</span>
-    <span class="n">splash_screen</span> <span class="o">=</span> <span class="n">Supports</span><span class="p">(</span><span class="s2">&quot;pyface.i_splash_screen.ISplashScreen&quot;</span><span class="p">)</span>
+    <span class="n">splash_screen</span> <span class="o">=</span> <span class="n">Supports</span><span class="p">(</span><span class="s2">"pyface.i_splash_screen.ISplashScreen"</span><span class="p">)</span>
 
     <span class="c1">#### Application lifecycle events #########################################</span>
 
@@ -127,13 +127,13 @@
     <span class="n">application_initialized</span> <span class="o">=</span> <span class="n">Event</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IApplication&#39; interface.</span>
+    <span class="c1"># 'IApplication' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="GUIApplication.run">
 <a class="viewcode-back" href="../../../api/envisage.ui.gui_application.html#envisage.ui.gui_application.GUIApplication.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the application.</span>
+<span class="w">        </span><span class="sd">"""Run the application.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -141,7 +141,7 @@
 <span class="sd">            Whether the application started successfully (i.e., without a</span>
 <span class="sd">            veto).</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Make sure the GUI has been created (so that, if required, the splash</span>
         <span class="c1"># screen is shown).</span>
@@ -149,7 +149,7 @@
 
         <span class="n">started</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">started</span><span class="p">:</span>
-            <span class="n">gui</span><span class="o">.</span><span class="n">set_trait_later</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;application_initialized&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="n">gui</span><span class="o">.</span><span class="n">set_trait_later</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"application_initialized"</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
             <span class="c1"># Start the GUI event loop.  The application will block here.</span>
             <span class="n">gui</span><span class="o">.</span><span class="n">start_event_loop</span><span class="p">()</span>
 

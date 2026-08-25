@@ -128,10 +128,10 @@ the <a class="extlink-github-demo reference external" href="https://github.com/e
 when its motd() method is called, it returns a random choice from that list.</p>
 <p>An example of using our <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> class at the Python prompt might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">acme.motd.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MOTD</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">motd</span> <span class="o">=</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">&#39;Anon&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motd</span> <span class="o">=</span> <span class="n">MOTD</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s1">'Anon'</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">'Hello World!'</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&quot; - </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="go">&quot;Hello World!&quot; - Anon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">" - </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="go">"Hello World!" - Anon</span>
 </pre></div>
 </div>
 <p>Well, we had to get “Hello World” in there somewhere!</p>
@@ -151,7 +151,7 @@ interface, but is usually either an instance of the default <a class="reference 
 or one derived from it.</p>
 <p>In the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/motd.py">MOTD</a> example, we create the class in the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/run.py">run.py</a> module as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span> <span class="o">=</span> <span class="n">Application</span><span class="p">(</span>
-    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.motd&#39;</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s1">'acme.motd'</span><span class="p">,</span>
     <span class="n">plugins</span><span class="o">=</span><span class="p">[</span>
         <span class="n">CorePlugin</span><span class="p">(),</span>
         <span class="n">MOTDPlugin</span><span class="p">(),</span>
@@ -171,41 +171,41 @@ to completely configure how plugins are located by setting the plugin manager.</
 <p>As shown above, the corresponding plugin implementation is in the
 <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">MOTDPlugin</a> class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
+<span class="w">    </span><span class="sd">""" The 'Message of the Day' plugin.</span>
 
-<span class="sd">    This plugin simply prints the &#39;Message of the Day&#39; to stdout.</span>
+<span class="sd">    This plugin simply prints the 'Message of the Day' to stdout.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># The IDs of the extension points that this plugin offers.</span>
-    <span class="n">MESSAGES</span> <span class="o">=</span> <span class="s1">&#39;acme.motd.messages&#39;</span>
+    <span class="n">MESSAGES</span> <span class="o">=</span> <span class="s1">'acme.motd.messages'</span>
 
     <span class="c1"># The IDs of the extension points that this plugin contributes to.</span>
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s1">&#39;envisage.service_offers&#39;</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s1">'envisage.service_offers'</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
-    <span class="c1"># The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd&#39;</span>
+    <span class="c1"># The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">'acme.motd'</span>
 
-    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MOTD&#39;</span>
+    <span class="c1"># The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">'MOTD'</span>
 
     <span class="c1">#### Extension points offered by this plugin ##############################</span>
 
     <span class="c1"># The messages extension point.</span>
     <span class="c1">#</span>
-    <span class="c1"># Notice that we use the string name of the &#39;IMessage&#39; interface rather</span>
+    <span class="c1"># Notice that we use the string name of the 'IMessage' interface rather</span>
     <span class="c1"># than actually importing it. This makes sure that the import only happens</span>
     <span class="c1"># when somebody actually gets the contributions to the extension point.</span>
 
     <span class="n">messages</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
-        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s1">&#39;acme.motd.api.IMessage&#39;</span><span class="p">)),</span> <span class="nb">id</span><span class="o">=</span><span class="n">MESSAGES</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s1">'acme.motd.api.IMessage'</span><span class="p">)),</span> <span class="nb">id</span><span class="o">=</span><span class="n">MESSAGES</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
-<span class="s2">        This extension point allows you to contribute messages to the &#39;Message</span>
-<span class="s2">        Of The Day&#39;.</span>
+<span class="s2">        This extension point allows you to contribute messages to the 'Message</span>
+<span class="s2">        Of The Day'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
     <span class="p">)</span>
 
     <span class="c1">#### Contributions to extension points made by this plugin ################</span>
@@ -213,16 +213,16 @@ to completely configure how plugins are located by setting the plugin manager.</
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer. """</span>
 
         <span class="c1"># Register the protocol as a string containing the actual module path</span>
-        <span class="c1"># (do not use a module path that goes via an &#39;api.py&#39; file as this does</span>
+        <span class="c1"># (do not use a module path that goes via an 'api.py' file as this does</span>
         <span class="c1"># not match what Python thinks the module is!). This allows the service</span>
         <span class="c1"># to be looked up by passing either the exact same string, or the</span>
         <span class="c1"># actual protocol object itself.</span>
 
         <span class="n">motd_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="o">=</span><span class="s1">&#39;acme.motd.i_motd.IMOTD&#39;</span><span class="p">,</span>
+            <span class="n">protocol</span><span class="o">=</span><span class="s1">'acme.motd.i_motd.IMOTD'</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_motd_service</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -233,10 +233,10 @@ to completely configure how plugins are located by setting the plugin manager.</
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_motd_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Factory method for the &#39;MOTD&#39; service. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Factory method for the 'MOTD' service. """</span>
 
         <span class="c1"># Only do imports when you need to! This makes sure that the import</span>
-        <span class="c1"># only happens when somebody needs an &#39;IMOTD&#39; service.</span>
+        <span class="c1"># only happens when somebody needs an 'IMOTD' service.</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.motd</span><span class="w"> </span><span class="kn">import</span> <span class="n">MOTD</span>
 
@@ -244,9 +244,9 @@ to completely configure how plugins are located by setting the plugin manager.</
 
     <span class="c1"># This plugin does all of its work in this method which gets called when</span>
     <span class="c1"># the application has started all of its plugins.</span>
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">&#39;application:started&#39;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s1">'application:started'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_print_motd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Print the &#39;Message of the Day&#39; to stdout! &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Print the 'Message of the Day' to stdout! """</span>
 
         <span class="c1"># Note that we always offer the service via its name, but look it up</span>
         <span class="c1"># via the actual protocol.</span>
@@ -259,7 +259,7 @@ to completely configure how plugins are located by setting the plugin manager.</
         <span class="n">message</span> <span class="o">=</span> <span class="n">motd</span><span class="o">.</span><span class="n">motd</span><span class="p">()</span>
 
         <span class="c1"># ... and print it.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&quot;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n\n</span><span class="s1">- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">"</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">"</span><span class="se">\n\n</span><span class="s1">- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
         <span class="k">return</span>
 </pre></div>
@@ -280,17 +280,17 @@ a simple module (‘messages.py’_) and add our <a class="extlink-github-demo r
     <span class="o">...</span>
 
     <span class="n">Message</span><span class="p">(</span>
-        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Martin Fowler&quot;</span><span class="p">,</span>
+        <span class="n">author</span><span class="o">=</span><span class="s2">"Martin Fowler"</span><span class="p">,</span>
         <span class="n">text</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Any fool can write code that a computer can understand. Good&quot;</span>
-            <span class="s2">&quot; programmers write code that humans can understand.&quot;</span>
+            <span class="s2">"Any fool can write code that a computer can understand. Good"</span>
+            <span class="s2">" programmers write code that humans can understand."</span>
         <span class="p">),</span>
     <span class="p">),</span>
     <span class="n">Message</span><span class="p">(</span>
-        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Chet Hendrickson&quot;</span><span class="p">,</span>
+        <span class="n">author</span><span class="o">=</span><span class="s2">"Chet Hendrickson"</span><span class="p">,</span>
         <span class="n">text</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The rule is, &#39;Do the simplest thing that could possibly&quot;</span>
-            <span class="s2">&quot; work&#39;, not the most stupid.&quot;</span>
+            <span class="s2">"The rule is, 'Do the simplest thing that could possibly"</span>
+            <span class="s2">" work', not the most stupid."</span>
         <span class="p">),</span>
     <span class="p">),</span>
     <span class="o">...</span>
@@ -300,27 +300,27 @@ a simple module (‘messages.py’_) and add our <a class="extlink-github-demo r
 <p>Now we create a plugin for the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/software_quotes/software_quotes_plugin.py">acme.motd.software_quotes</a> package and tell
 Envisage about the messages that we have just created:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Software Quotes&#39; plugin. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">""" The 'Software Quotes' plugin. """</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
-    <span class="c1"># The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd.software_quotes&#39;</span>
+    <span class="c1"># The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">'acme.motd.software_quotes'</span>
 
-    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Software Quotes&#39;</span>
+    <span class="c1"># The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">'Software Quotes'</span>
 
     <span class="c1">#### Contributions to extension points made by this plugin ################</span>
 
-    <span class="c1"># Messages for the &#39;Message Of The Day&#39;.</span>
-    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
+    <span class="c1"># Messages for the 'Message Of The Day'.</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'acme.motd.messages'</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;SoftwareQuotesPlugin&#39; interface.</span>
+    <span class="c1"># 'SoftwareQuotesPlugin' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer. """</span>
 
         <span class="c1"># Only do imports when you need to!</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>

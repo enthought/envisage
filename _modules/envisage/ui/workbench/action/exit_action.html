@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;An action that exits the workbench.&quot;&quot;&quot;</span>
+<span class="sd">"""An action that exits the workbench."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span>
 
@@ -89,30 +89,30 @@
 <div class="viewcode-block" id="ExitAction">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.workbench.action.exit_action.html#envisage.ui.workbench.action.exit_action.ExitAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExitAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An action that exits the workbench.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An action that exits the workbench."""</span>
 
-    <span class="c1">#### &#39;Action&#39; interface ###################################################</span>
+    <span class="c1">#### 'Action' interface ###################################################</span>
 
     <span class="c1"># A longer description of the action.</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Exit the application&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">"Exit the application"</span>
 
-    <span class="c1"># The action&#39;s image (displayed on tool bar tools etc).</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ImageResource</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
+    <span class="c1"># The action's image (displayed on tool bar tools etc).</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ImageResource</span><span class="p">(</span><span class="s2">"exit"</span><span class="p">)</span>
 
-    <span class="c1"># The action&#39;s name (displayed on menus/tool bar tools etc).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Exit&quot;</span>
+    <span class="c1"># The action's name (displayed on menus/tool bar tools etc).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Exit"</span>
 
     <span class="c1"># A short description of the action used for tooltip text etc.</span>
-    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Exit the application&quot;</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">"Exit the application"</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Action&#39; interface.</span>
+    <span class="c1"># 'Action' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="ExitAction.perform">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.workbench.action.exit_action.html#envisage.ui.workbench.action.exit_action.ExitAction.perform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the action.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Perform the action."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div>
 </div>

@@ -78,28 +78,28 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;Text Editor plugin for the Workbench UI.&quot;&quot;&quot;</span>
+<span class="sd">"""Text Editor plugin for the Workbench UI."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plugin</span>
 
-<span class="c1"># The plugin&#39;s globally unique identifier (also used as the prefix for all</span>
+<span class="c1"># The plugin's globally unique identifier (also used as the prefix for all</span>
 <span class="c1"># identifiers defined in this module).</span>
-<span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;envisage.plugins.text_editor&quot;</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="s2">"envisage.plugins.text_editor"</span>
 
 
 <div class="viewcode-block" id="TextEditorPlugin">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.text_editor_plugin.html#envisage.plugins.text_editor.text_editor_plugin.TextEditorPlugin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TextEditorPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Text Editor plugin for the Workbench UI.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Text Editor plugin for the Workbench UI."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Text Editor plugin&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Text Editor plugin"</span>
 
     <span class="c1">#### Contributions made by this plugin ####################################</span>
 
-    <span class="n">ACTION_SETS</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.workbench.action_sets&quot;</span>
+    <span class="n">ACTION_SETS</span> <span class="o">=</span> <span class="s2">"envisage.ui.workbench.action_sets"</span>
     <span class="n">action_sets</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">ACTION_SETS</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A simple plugin manager implementation.&quot;&quot;&quot;</span>
+<span class="sd">"""A simple plugin manager implementation."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -96,7 +96,7 @@
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IPluginManager</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginManager</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple plugin manager implementation.</span>
+<span class="w">    </span><span class="sd">"""A simple plugin manager implementation.</span>
 
 <span class="sd">    This implementation manages an explicit collection of plugin instances,</span>
 <span class="sd">    e.g::</span>
@@ -104,11 +104,11 @@
 <span class="sd">        plugin_manager = PluginManager(plugins=[MyPlugin(), YourPlugin()])</span>
 
 <span class="sd">    Plugins can be added and removed after construction time via the methods</span>
-<span class="sd">    &#39;add_plugin&#39; and &#39;remove_plugin&#39;.</span>
+<span class="sd">    'add_plugin' and 'remove_plugin'.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;IPluginManager&#39; protocol ############################################</span>
+    <span class="c1">#### 'IPluginManager' protocol ############################################</span>
 
     <span class="c1">#: Fired when a plugin has been added to the manager.</span>
     <span class="n">plugin_added</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
@@ -116,47 +116,47 @@
     <span class="c1">#: Fired when a plugin has been removed from the manager.</span>
     <span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
 
-    <span class="c1">#### &#39;PluginManager&#39; protocol #############################################</span>
+    <span class="c1">#### 'PluginManager' protocol #############################################</span>
 
     <span class="c1">#: The application that the plugin manager is part of.</span>
     <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IApplication</span><span class="p">)</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;application&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"application"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_new_application_on_all_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_application_on_plugins</span><span class="p">([],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">)</span>
 
-    <span class="c1">#### &#39;object&#39; protocol ####################################################</span>
+    <span class="c1">#### 'object' protocol ####################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.</span>
+<span class="w">        </span><span class="sd">"""Constructor.</span>
 
 <span class="sd">        We allow the caller to specify an initial list of plugins, but the</span>
 <span class="sd">        list itself is not part of the public API. To add and remove plugins</span>
-<span class="sd">        after construction, use the &#39;add_plugin&#39; and &#39;remove_plugin&#39; methods</span>
+<span class="sd">        after construction, use the 'add_plugin' and 'remove_plugin' methods</span>
 <span class="sd">        respectively. The manager is also iterable, so to iterate over the</span>
-<span class="sd">        plugins use &#39;for plugin in plugin_manager&#39;.</span>
+<span class="sd">        plugins use 'for plugin in plugin_manager'.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span> <span class="o">=</span> <span class="n">plugins</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over the manager&#39;s plugins.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return an iterator over the manager's plugins."""</span>
 
         <span class="c1"># Iterate over a copy, so that plugins added or removed during the</span>
-        <span class="c1"># iteration don&#39;t affect it.</span>
+        <span class="c1"># iteration don't affect it.</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
-    <span class="c1">#### &#39;IPluginManager&#39; protocol ############################################</span>
+    <span class="c1">#### 'IPluginManager' protocol ############################################</span>
 
 <div class="viewcode-block" id="PluginManager.add_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.add_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a plugin to the manager.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add a plugin to the manager."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plugin_added</span> <span class="o">=</span> <span class="n">PluginEvent</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span></div>
@@ -165,7 +165,7 @@
 <div class="viewcode-block" id="PluginManager.get_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.get_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the plugin with the specified Id.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the plugin with the specified Id."""</span>
 
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">plugin_id</span> <span class="o">==</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
@@ -180,7 +180,7 @@
 <div class="viewcode-block" id="PluginManager.remove_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.remove_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a plugin from the manager.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove a plugin from the manager."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">PluginEvent</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">)</span></div>
@@ -189,7 +189,7 @@
 <div class="viewcode-block" id="PluginManager.start">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the plugin manager.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Start the plugin manager."""</span>
 
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span></div>
@@ -198,22 +198,22 @@
 <div class="viewcode-block" id="PluginManager.start_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.start_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the specified plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Start the specified plugin."""</span>
 
         <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;plugin </span><span class="si">%s</span><span class="s2"> starting&quot;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"plugin </span><span class="si">%s</span><span class="s2"> starting"</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="n">plugin</span><span class="o">.</span><span class="n">activator</span><span class="o">.</span><span class="n">start_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;plugin </span><span class="si">%s</span><span class="s2"> started&quot;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"plugin </span><span class="si">%s</span><span class="s2"> started"</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;no such plugin </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"no such plugin </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PluginManager.stop">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin manager.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the plugin manager."""</span>
 
         <span class="c1"># We stop the plugins in the reverse order that they were started.</span>
         <span class="n">stop_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span><span class="p">[:]</span>
@@ -226,39 +226,39 @@
 <div class="viewcode-block" id="PluginManager.stop_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_manager.html#envisage.plugin_manager.PluginManager.stop_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the specified plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the specified plugin."""</span>
 
         <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_id</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;plugin </span><span class="si">%s</span><span class="s2"> stopping&quot;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"plugin </span><span class="si">%s</span><span class="s2"> stopping"</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="n">plugin</span><span class="o">.</span><span class="n">activator</span><span class="o">.</span><span class="n">stop_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;plugin </span><span class="si">%s</span><span class="s2"> stopped&quot;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"plugin </span><span class="si">%s</span><span class="s2"> stopped"</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;no such plugin </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"no such plugin </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">plugin_id</span><span class="p">)</span></div>
 
 
-    <span class="c1">#### Protected &#39;PluginManager&#39; ############################################</span>
+    <span class="c1">#### Protected 'PluginManager' ############################################</span>
 
     <span class="c1"># The plugins that the manager manages!</span>
     <span class="n">_plugins</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">)</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;_plugins&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"_plugins"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_application_on_all_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
         <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_application_on_plugins</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;_plugins:items&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"_plugins:items"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_application_on_changed_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_application_on_plugins</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">removed</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">added</span><span class="p">)</span>
 
     <span class="c1">#### Private protocol #####################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_application_on_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the &#39;application&#39; trait of plugins added/removed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update the 'application' trait of plugins added/removed."""</span>
 
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
             <span class="n">plugin</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="kc">None</span>

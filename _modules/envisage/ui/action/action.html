@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The *definition* of an action in a tool bar or menu.&quot;&quot;&quot;</span>
+<span class="sd">"""The *definition* of an action in a tool bar or menu."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Str</span>
@@ -90,24 +90,24 @@
 <div class="viewcode-block" id="Action">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action.html#envisage.ui.action.action.Action">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The *definition* of an action in a tool bar or menu.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The *definition* of an action in a tool bar or menu."""</span>
 
     <span class="c1">#### Action implementation ################################################</span>
 
-    <span class="c1"># The action&#39;s name (appears on menus and toolbars etc).</span>
+    <span class="c1"># The action's name (appears on menus and toolbars etc).</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1"># The name of the class that implements the action.</span>
     <span class="n">class_name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface</span>
+    <span class="c1"># 'object' interface</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the &#39;informal&#39; string representation of the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the 'informal' string representation of the object."""</span>
 
-        <span class="k">return</span> <span class="s2">&quot;Action(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="s2">"Action(</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
 

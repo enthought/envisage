@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The default plugin activator.&quot;&quot;&quot;</span>
+<span class="sd">"""The default plugin activator."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
@@ -91,18 +91,18 @@
 <a class="viewcode-back" href="../../api/envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IPluginActivator</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginActivator</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The default plugin activator.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The default plugin activator."""</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IPluginActivator&#39; interface.</span>
+    <span class="c1"># 'IPluginActivator' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="PluginActivator.start_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator.start_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the specified plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Start the specified plugin."""</span>
 
-        <span class="c1"># Connect all of the plugin&#39;s extension point traits so that the plugin</span>
+        <span class="c1"># Connect all of the plugin's extension point traits so that the plugin</span>
         <span class="c1"># will be notified if and when contributions are added or removed.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">connect_extension_point_traits</span><span class="p">()</span>
 
@@ -113,12 +113,12 @@
 <div class="viewcode-block" id="PluginActivator.stop_plugin">
 <a class="viewcode-back" href="../../api/envisage.plugin_activator.html#envisage.plugin_activator.PluginActivator.stop_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the specified plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the specified plugin."""</span>
 
         <span class="c1"># Plugin specific stop.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
-        <span class="c1"># Disconnect all of the plugin&#39;s extension point traits.</span>
+        <span class="c1"># Disconnect all of the plugin's extension point traits.</span>
         <span class="n">plugin</span><span class="o">.</span><span class="n">disconnect_extension_point_traits</span><span class="p">()</span></div>
 </div>
 

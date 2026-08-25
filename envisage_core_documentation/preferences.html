@@ -83,8 +83,8 @@
   <section id="preferences-with-envisage">
 <h1>Preferences with Envisage<a class="headerlink" href="#preferences-with-envisage" title="Link to this heading">¶</a></h1>
 <p>Envisage presents preferences with two different extension points:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s1">&#39;envisage.preferences&#39;</span>
-<span class="n">PREFERENCES_PAGES</span> <span class="o">=</span> <span class="s1">&#39;envisage.ui.workbench.preferences_pages&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s1">'envisage.preferences'</span>
+<span class="n">PREFERENCES_PAGES</span> <span class="o">=</span> <span class="s1">'envisage.ui.workbench.preferences_pages'</span>
 </pre></div>
 </div>
 <p>The first one is only model-related and is for programmatic access to
@@ -94,7 +94,7 @@ the workbench plugin.</p>
 <h2>Preferences<a class="headerlink" href="#preferences" title="Link to this heading">¶</a></h2>
 <p>The contribution point is simply a list of URLs to the preference file, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
-    <span class="p">[</span><span class="s1">&#39;pkgfile://acme.acmelab/preferences.ini&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">'pkgfile://acme.acmelab/preferences.ini'</span><span class="p">],</span>
     <span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -113,7 +113,7 @@ contributed to the workbench, as in:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Trait initializer. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">""" Trait initializer. """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">acme.preference_pages</span><span class="w"> </span><span class="kn">import</span> <span class="n">ACMEPreferencePages</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">ACMEPreferencePages</span><span class="p">]</span>

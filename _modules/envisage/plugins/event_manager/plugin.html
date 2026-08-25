@@ -78,13 +78,13 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;This module provides a plugin which adds an EventManager to application.</span>
+<span class="sd">"""This module provides a plugin which adds an EventManager to application.</span>
 
 <span class="sd">If the application does not already have an evt_mgr attribute which is an</span>
 <span class="sd">instance of EventManager, the plugin creates a new EventManager instance,</span>
 <span class="sd">creates a service to offer the event manager and sets the evt_mgr instance</span>
 <span class="sd">of the application to the created event manager.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
@@ -95,15 +95,15 @@
 <div class="viewcode-block" id="EventManagerPlugin">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.event_manager.plugin.html#envisage.plugins.event_manager.plugin.EventManagerPlugin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EventManagerPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin to add event manager to the application.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Plugin to add event manager to the application."""</span>
 
-    <span class="c1">#: The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;envisage.event_manager&quot;</span>
+    <span class="c1">#: The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"envisage.event_manager"</span>
 
-    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Event Manager&quot;</span>
+    <span class="c1">#: The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Event Manager"</span>
 
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">"envisage.service_offers"</span>
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

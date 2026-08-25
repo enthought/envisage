@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The application interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The application interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">IPreferences</span>
@@ -98,9 +98,9 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">IApplication</span><span class="p">(</span>
     <span class="n">IExtensionRegistry</span><span class="p">,</span> <span class="n">IImportManager</span><span class="p">,</span> <span class="n">IPluginManager</span><span class="p">,</span> <span class="n">IServiceRegistry</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The application interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The application interface."""</span>
 
-    <span class="c1">#: The application&#39;s globally unique identifier.</span>
+    <span class="c1">#: The application's globally unique identifier.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">#: The name of a directory (created for you) to which the application can</span>
@@ -119,14 +119,14 @@
     <span class="c1">#### Events ####</span>
 
     <span class="c1">#: Fired when the application is starting. This is the first thing that</span>
-    <span class="c1">#: happens when the &#39;start&#39; method is called.</span>
+    <span class="c1">#: happens when the 'start' method is called.</span>
     <span class="n">starting</span> <span class="o">=</span> <span class="n">VetoableEvent</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
 
     <span class="c1">#: Fired when all plugins have been started.</span>
     <span class="n">started</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
 
     <span class="c1">#: Fired when the plugin manager is stopping. This is the first thing that</span>
-    <span class="c1">#: happens when the &#39;stop&#39; method is called.</span>
+    <span class="c1">#: happens when the 'stop' method is called.</span>
     <span class="n">stopping</span> <span class="o">=</span> <span class="n">VetoableEvent</span><span class="p">(</span><span class="n">ApplicationEvent</span><span class="p">)</span>
 
     <span class="c1">#: Fired when all plugins have been stopped.</span>
@@ -135,14 +135,14 @@
 <div class="viewcode-block" id="IApplication.run">
 <a class="viewcode-back" href="../../api/envisage.i_application.html#envisage.i_application.IApplication.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the application.</span>
+<span class="w">        </span><span class="sd">"""Run the application.</span>
 
 <span class="sd">        The same as::</span>
 
 <span class="sd">          if application.start():</span>
 <span class="sd">              application.stop()</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 </div>
 
 </pre></div>

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The interface for import managers.&quot;&quot;&quot;</span>
+<span class="sd">"""The interface for import managers."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interface</span>
@@ -87,45 +87,45 @@
 <div class="viewcode-block" id="IImportManager">
 <a class="viewcode-back" href="../../api/envisage.i_import_manager.html#envisage.i_import_manager.IImportManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IImportManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The interface for import managers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The interface for import managers."""</span>
 
 <div class="viewcode-block" id="IImportManager.import_symbol">
 <a class="viewcode-back" href="../../api/envisage.i_import_manager.html#envisage.i_import_manager.IImportManager.import_symbol">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">import_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol_path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import the symbol defined by the specified symbol path.</span>
+<span class="w">        </span><span class="sd">"""Import the symbol defined by the specified symbol path.</span>
 
-<span class="sd">        &#39;symbol_path&#39; is a string containing the path to a symbol through the</span>
+<span class="sd">        'symbol_path' is a string containing the path to a symbol through the</span>
 <span class="sd">        Python package namespace.</span>
 
 <span class="sd">        It can be in one of two forms:</span>
 
-<span class="sd">        1) &#39;foo.bar.baz&#39;</span>
+<span class="sd">        1) 'foo.bar.baz'</span>
 
 <span class="sd">           Which is turned into the equivalent of an import statement that</span>
 <span class="sd">           looks like::</span>
 
 <span class="sd">             from foo.bar import baz</span>
 
-<span class="sd">           With the value of &#39;baz&#39; being returned.</span>
+<span class="sd">           With the value of 'baz' being returned.</span>
 
-<span class="sd">        2) &#39;foo.bar:baz&#39; (i.e. a &#39;:&#39; separating the module from the symbol)</span>
+<span class="sd">        2) 'foo.bar:baz' (i.e. a ':' separating the module from the symbol)</span>
 
 <span class="sd">           Which is turned into the equivalent of::</span>
 
 <span class="sd">             from foo import bar</span>
-<span class="sd">             eval(&#39;baz&#39;, bar.__dict__)</span>
+<span class="sd">             eval('baz', bar.__dict__)</span>
 
-<span class="sd">           With the result of the &#39;eval&#39; being returned.</span>
+<span class="sd">           With the result of the 'eval' being returned.</span>
 
 <span class="sd">        The second form is recommended as it allows for nested symbols to be</span>
-<span class="sd">        retreived, e.g. the symbol path &#39;foo.bar:baz.bling&#39; becomes::</span>
+<span class="sd">        retreived, e.g. the symbol path 'foo.bar:baz.bling' becomes::</span>
 
 <span class="sd">            from foo import bar</span>
-<span class="sd">            eval(&#39;baz.bling&#39;, bar.__dict__)</span>
+<span class="sd">            eval('baz.bling', bar.__dict__)</span>
 
 <span class="sd">        The first form is retained for backwards compatability.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 </div>
 
 </pre></div>

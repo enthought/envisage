@@ -87,20 +87,20 @@
 <div class="viewcode-block" id="PreferencesPane">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreferencesPane</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A panel for configuring application preferences.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A panel for configuring application preferences."""</span>
 
-    <span class="c1">#### &#39;Controller&#39; interface ###############################################</span>
+    <span class="c1">#### 'Controller' interface ###############################################</span>
 
     <span class="c1">#: The preferences helper for which this pane is a view.</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PreferencesHelper</span><span class="p">)</span>
 
-    <span class="c1">#### &#39;PreferencesPane&#39; interface ##########################################</span>
+    <span class="c1">#### 'PreferencesPane' interface ##########################################</span>
 
     <span class="c1">#: An identifier for the pane (unique within a category).</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">#: The ID of the category in which to place the pane.</span>
-    <span class="n">category</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="s2">&quot;General&quot;</span><span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="s2">"General"</span><span class="p">)</span>
 
     <span class="c1">#: The pane appears after the pane with this ID.</span>
     <span class="n">before</span> <span class="o">=</span> <span class="n">Str</span>
@@ -109,7 +109,7 @@
     <span class="n">after</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">#: The preferences dialog to which the pane belongs. Set by the framework.</span>
-    <span class="n">dialog</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.preferences_dialog.PreferencesDialog&quot;</span><span class="p">)</span>
+    <span class="n">dialog</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.tasks.preferences_dialog.PreferencesDialog"</span><span class="p">)</span>
 
     <span class="c1">#: The factory to use for creating the preferences model object, of form:</span>
     <span class="c1">#:</span>
@@ -123,43 +123,43 @@
     <span class="n">_model</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">PreferencesHelper</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;HasTraits&#39; interface.</span>
+    <span class="c1"># 'HasTraits' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="PreferencesPane.trait_context">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.trait_context">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">trait_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Re-implemented to use a copy of the model that is not connected to</span>
+<span class="w">        </span><span class="sd">"""Re-implemented to use a copy of the model that is not connected to</span>
 <span class="sd">        the preferences node.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">preferences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">preferences</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_factory</span><span class="p">(</span><span class="n">preferences</span><span class="o">=</span><span class="n">preferences</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A preferences pane must have a model!&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"A preferences pane must have a model!"</span><span class="p">)</span>
 
-        <span class="c1"># Make sure that we don&#39;t clone the preferences trait, since that</span>
+        <span class="c1"># Make sure that we don't clone the preferences trait, since that</span>
         <span class="c1"># can lead to the preferences node being updated prematurely.</span>
         <span class="c1"># xref: enthought/envisage#582</span>
         <span class="n">traits_to_clone</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">trait_name</span>
             <span class="k">for</span> <span class="n">trait_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">copyable_trait_names</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">trait_name</span> <span class="o">!=</span> <span class="s2">&quot;preferences&quot;</span>
+            <span class="k">if</span> <span class="n">trait_name</span> <span class="o">!=</span> <span class="s2">"preferences"</span>
         <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">clone_traits</span><span class="p">(</span><span class="n">traits_to_clone</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">preferences</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="s2">&quot;controller&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;handler&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"object"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="s2">"controller"</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span> <span class="s2">"handler"</span><span class="p">:</span> <span class="bp">self</span><span class="p">}</span></div>
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Handler&#39; interface.</span>
+    <span class="c1"># 'Handler' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="PreferencesPane.apply">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.apply">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handles the Apply button being clicked.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Handles the Apply button being clicked."""</span>
         <span class="n">trait_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="nb">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_is_preference_trait</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">trait_names</span><span class="p">())</span>
         <span class="p">)</span>
@@ -169,9 +169,9 @@
 <div class="viewcode-block" id="PreferencesPane.close">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.preferences_pane.html#envisage.ui.tasks.preferences_pane.PreferencesPane.close">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Handles the user attempting to close a dialog-based user interface.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">is_ok</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">is_ok</span><span class="p">)</span></div>

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The Envisage workbench.&quot;&quot;&quot;</span>
+<span class="sd">"""The Envisage workbench."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyface</span>
@@ -95,25 +95,25 @@
 <div class="viewcode-block" id="Workbench">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench.html#envisage.ui.workbench.workbench.Workbench">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Workbench</span><span class="p">(</span><span class="n">pyface</span><span class="o">.</span><span class="n">Workbench</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage workbench.</span>
+<span class="w">    </span><span class="sd">"""The Envisage workbench.</span>
 
 <span class="sd">    There is (usually) exactly *one* workbench per application. The workbench</span>
 <span class="sd">    can create any number of workbench windows.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;pyface.Workbench&#39; interface #########################################</span>
+    <span class="c1">#### 'pyface.Workbench' interface #########################################</span>
 
     <span class="c1"># The factory that is used to create workbench windows.</span>
     <span class="n">window_factory</span> <span class="o">=</span> <span class="n">WorkbenchWindow</span>
 
-    <span class="c1">#### &#39;Workbench&#39; interface ################################################</span>
+    <span class="c1">#### 'Workbench' interface ################################################</span>
 
     <span class="c1"># The application that the workbench is part of.</span>
     <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">IApplication</span><span class="p">)</span>
 
     <span class="c1"># Should the user be prompted before exiting the workbench?</span>
-    <span class="n">prompt_on_exit</span> <span class="o">=</span> <span class="n">Delegate</span><span class="p">(</span><span class="s2">&quot;_preferences&quot;</span><span class="p">)</span>
+    <span class="n">prompt_on_exit</span> <span class="o">=</span> <span class="n">Delegate</span><span class="p">(</span><span class="s2">"_preferences"</span><span class="p">)</span>
 
     <span class="c1">#### Private interface ####################################################</span>
 
@@ -125,11 +125,11 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_exiting_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when the workbench is exiting.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called when the workbench is exiting."""</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompt_on_exit</span><span class="p">:</span>
             <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_window</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span>
-                <span class="s2">&quot;Exit </span><span class="si">%s</span><span class="s2">?&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_window</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">&quot;Confirm Exit&quot;</span>
+                <span class="s2">"Exit </span><span class="si">%s</span><span class="s2">?"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_window</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">"Confirm Exit"</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">answer</span> <span class="o">!=</span> <span class="n">YES</span><span class="p">:</span>
                 <span class="n">event</span><span class="o">.</span><span class="n">veto</span> <span class="o">=</span> <span class="kc">True</span></div>

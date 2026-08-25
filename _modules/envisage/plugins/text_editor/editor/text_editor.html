@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A text editor.&quot;&quot;&quot;</span>
+<span class="sd">"""A text editor."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span>
@@ -97,7 +97,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_id_generator</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A generator that returns the next number for untitled files.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A generator that returns the next number for untitled files."""</span>
 
     <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -111,9 +111,9 @@
 <div class="viewcode-block" id="TextEditor">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TextEditor</span><span class="p">(</span><span class="n">TraitsUIEditor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A text editor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A text editor."""</span>
 
-    <span class="c1">#### &#39;TextEditor&#39; interface ###############################################</span>
+    <span class="c1">#### 'TextEditor' interface ###############################################</span>
 
     <span class="c1"># The key bindings used by the editor.</span>
     <span class="n">key_bindings</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">KeyBindings</span><span class="p">)</span>
@@ -122,34 +122,34 @@
     <span class="n">text</span> <span class="o">=</span> <span class="n">Code</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IEditor&#39; interface.</span>
+    <span class="c1"># 'IEditor' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TextEditor.save">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves the text to disk.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Saves the text to disk."""</span>
 
         <span class="c1"># If the file has not yet been saved then prompt for the file name.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_as</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 
-            <span class="c1"># We have just saved the file so we ain&#39;t dirty no more!</span>
+            <span class="c1"># We have just saved the file so we ain't dirty no more!</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="TextEditor.save_as">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.save_as">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_as</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves the text to disk after prompting for the file name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Saves the text to disk after prompting for the file name."""</span>
 
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span>
             <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
-            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;save as&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">"save as"</span><span class="p">,</span>
             <span class="n">default_filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">wildcard</span><span class="o">=</span><span class="n">FileDialog</span><span class="o">.</span><span class="n">WILDCARD_PY</span><span class="p">,</span>
         <span class="p">)</span>
@@ -166,47 +166,47 @@
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;TraitsUIEditor&#39; interface.</span>
+    <span class="c1"># 'TraitsUIEditor' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TextEditor.create_ui">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.create_ui">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the traits UI that represents the editor.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Creates the traits UI that represents the editor."""</span>
 
         <span class="n">ui</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span>
-            <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_traits_ui_view</span><span class="p">(),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;subpanel&quot;</span>
+            <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_traits_ui_view</span><span class="p">(),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"subpanel"</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ui</span></div>
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;TextEditor&#39; interface.</span>
+    <span class="c1"># 'TextEditor' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TextEditor.run">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the file as Python.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Runs the file as Python."""</span>
 
         <span class="c1"># The file must be saved first!</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
         <span class="c1"># Execute the code.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">get_view_by_id</span><span class="p">(</span><span class="s2">&quot;envisage.plugins.python_shell_view&quot;</span><span class="p">)</span>
+            <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">get_view_by_id</span><span class="p">(</span><span class="s2">"envisage.plugins.python_shell_view"</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">view</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">view</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span>
-                    <span class="s1">&#39;exec(open(r&quot;</span><span class="si">%s</span><span class="s1">&quot;).read())&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="s1">'exec(open(r"</span><span class="si">%s</span><span class="s1">").read())'</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span>
                 <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TextEditor.select_line">
 <a class="viewcode-back" href="../../../../../api/envisage.plugins.text_editor.editor.text_editor.html#envisage.plugins.text_editor.editor.text_editor.TextEditor.select_line">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">select_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineno</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selects the specified line.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Selects the specified line."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">selected_line</span> <span class="o">=</span> <span class="n">lineno</span></div>
 
@@ -218,18 +218,18 @@
     <span class="c1">#### Trait initializers ###################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_key_bindings_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="n">key_bindings</span> <span class="o">=</span> <span class="n">KeyBindings</span><span class="p">(</span>
             <span class="n">KeyBinding</span><span class="p">(</span>
-                <span class="n">binding1</span><span class="o">=</span><span class="s2">&quot;Ctrl-s&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Save the file&quot;</span><span class="p">,</span>
-                <span class="n">method_name</span><span class="o">=</span><span class="s2">&quot;save&quot;</span><span class="p">,</span>
+                <span class="n">binding1</span><span class="o">=</span><span class="s2">"Ctrl-s"</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">"Save the file"</span><span class="p">,</span>
+                <span class="n">method_name</span><span class="o">=</span><span class="s2">"save"</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">KeyBinding</span><span class="p">(</span>
-                <span class="n">binding1</span><span class="o">=</span><span class="s2">&quot;Ctrl-r&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run the file&quot;</span><span class="p">,</span>
-                <span class="n">method_name</span><span class="o">=</span><span class="s2">&quot;run&quot;</span><span class="p">,</span>
+                <span class="n">binding1</span><span class="o">=</span><span class="s2">"Ctrl-r"</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">"Run the file"</span><span class="p">,</span>
+                <span class="n">method_name</span><span class="o">=</span><span class="s2">"run"</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
@@ -237,9 +237,9 @@
 
     <span class="c1">#### Trait change handlers ################################################</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;obj&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"obj"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_update_to_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
         <span class="n">new</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="c1"># The path will be the empty string if we are editing a file that has</span>
         <span class="c1"># not yet been saved.</span>
@@ -251,23 +251,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">new</span><span class="o">.</span><span class="n">path</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_dirty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">traits_inited</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dirty</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nd">@observe</span><span class="p">(</span><span class="s2">&quot;dirty&quot;</span><span class="p">)</span>
+    <span class="nd">@observe</span><span class="p">(</span><span class="s2">"dirty"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static trait change handler.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Static trait change handler."""</span>
         <span class="n">dirty</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">new</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dirty</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"*"</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
@@ -275,22 +275,22 @@
     <span class="c1">#### Methods ##############################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_traits_ui_view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the traits UI view used by the editor.</span>
+<span class="w">        </span><span class="sd">"""Create the traits UI view used by the editor.</span>
 
 <span class="sd">        fixme: We create the view dynamically to allow the key bindings to be</span>
-<span class="sd">        created dynamically (we don&#39;t use this just yet, but obviously plugins</span>
+<span class="sd">        created dynamically (we don't use this just yet, but obviously plugins</span>
 <span class="sd">        need to be able to contribute new bindings).</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
             <span class="n">Group</span><span class="p">(</span>
-                <span class="n">Item</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">editor</span><span class="o">=</span><span class="n">CodeEditor</span><span class="p">(</span><span class="n">key_bindings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key_bindings</span><span class="p">)),</span>
+                <span class="n">Item</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">editor</span><span class="o">=</span><span class="n">CodeEditor</span><span class="p">(</span><span class="n">key_bindings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key_bindings</span><span class="p">)),</span>
                 <span class="n">show_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;envisage.editor.text_editor&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">"envisage.editor.text_editor"</span><span class="p">,</span>
             <span class="n">handler</span><span class="o">=</span><span class="n">TextEditorHandler</span><span class="p">(),</span>
-            <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;live&quot;</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s2">"live"</span><span class="p">,</span>
             <span class="n">resizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
             <span class="n">height</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
@@ -299,8 +299,8 @@
 
         <span class="k">return</span> <span class="n">view</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_unique_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Untitled &quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a unique id for a new file.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_unique_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"Untitled "</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return a unique id for a new file."""</span>
 
         <span class="nb">id</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">_id_generator</span><span class="p">))</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">get_editor_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

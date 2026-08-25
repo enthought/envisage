@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A resource protocol for package resources.&quot;&quot;&quot;</span>
+<span class="sd">"""A resource protocol for package resources."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
@@ -95,35 +95,35 @@
 <a class="viewcode-back" href="../../../api/envisage.resource.package_resource_protocol.html#envisage.resource.package_resource_protocol.PackageResourceProtocol">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IResourceProtocol</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PackageResourceProtocol</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A resource protocol for package resources.</span>
+<span class="w">    </span><span class="sd">"""A resource protocol for package resources.</span>
 
-<span class="sd">    This protocol uses &#39;importlib.resources&#39; to find and access resources.</span>
+<span class="sd">    This protocol uses 'importlib.resources' to find and access resources.</span>
 
 <span class="sd">    An address for this protocol is a string in the form::</span>
 
-<span class="sd">        &#39;package/resource&#39;</span>
+<span class="sd">        'package/resource'</span>
 
 <span class="sd">    e.g::</span>
 
-<span class="sd">        &#39;acme.ui.workbench/preferences.ini&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        'acme.ui.workbench/preferences.ini'</span>
+<span class="sd">    """</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IResourceProtocol&#39; interface.</span>
+    <span class="c1"># 'IResourceProtocol' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="PackageResourceProtocol.file">
 <a class="viewcode-back" href="../../../api/envisage.resource.package_resource_protocol.html#envisage.resource.package_resource_protocol.PackageResourceProtocol.file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a readable file-like object for the specified address.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a readable file-like object for the specified address."""</span>
 
-        <span class="n">package</span><span class="p">,</span> <span class="o">*</span><span class="n">resource_path</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">package</span><span class="p">,</span> <span class="o">*</span><span class="n">resource_path</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">package</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">resource_path</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoSuchResourceError</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="n">package</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="o">*</span><span class="n">resource_path</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="n">package</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="o">*</span><span class="n">resource_path</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"rb"</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span>
             <span class="ne">ModuleNotFoundError</span><span class="p">,</span>
             <span class="ne">TypeError</span><span class="p">,</span>  <span class="c1"># TypeError is raised if package is a module</span>

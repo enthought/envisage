@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A resource protocol for HTTP documents.&quot;&quot;&quot;</span>
+<span class="sd">"""A resource protocol for HTTP documents."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">provides</span>
@@ -92,28 +92,28 @@
 <a class="viewcode-back" href="../../../api/envisage.resource.http_resource_protocol.html#envisage.resource.http_resource_protocol.HTTPResourceProtocol">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IResourceProtocol</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HTTPResourceProtocol</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A resource protocol for HTTP documents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A resource protocol for HTTP documents."""</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IResourceProtocol&#39; interface.</span>
+    <span class="c1"># 'IResourceProtocol' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="HTTPResourceProtocol.file">
 <a class="viewcode-back" href="../../../api/envisage.resource.http_resource_protocol.html#envisage.resource.http_resource_protocol.HTTPResourceProtocol.file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a readable file-like object for the specified address.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a readable file-like object for the specified address."""</span>
 
-        <span class="c1"># Do the imports here &#39;cos I&#39;m not sure how much this will actually</span>
+        <span class="c1"># Do the imports here 'cos I'm not sure how much this will actually</span>
         <span class="c1"># be used.</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.error</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPError</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlopen</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">address</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s2">"http://"</span> <span class="o">+</span> <span class="n">address</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="n">HTTPError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">exc</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="k">raise</span> <span class="n">NoSuchResourceError</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">address</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NoSuchResourceError</span><span class="p">(</span><span class="s2">"http://"</span> <span class="o">+</span> <span class="n">address</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">f</span></div>
 </div>

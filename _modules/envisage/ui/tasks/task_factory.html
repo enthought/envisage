@@ -85,13 +85,13 @@
 <div class="viewcode-block" id="TaskFactory">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskFactory</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A factory for creating a Task with some additional metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A factory for creating a Task with some additional metadata."""</span>
 
-    <span class="c1">#: The task factory&#39;s unique identifier. This ID is assigned to all tasks</span>
+    <span class="c1">#: The task factory's unique identifier. This ID is assigned to all tasks</span>
     <span class="c1">#: created by the factory.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1">#: The task factory&#39;s user-visible name.</span>
+    <span class="c1">#: The task factory's user-visible name.</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">#: A callable with the following signature:</span>
@@ -104,17 +104,17 @@
 <div class="viewcode-block" id="TaskFactory.create">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the Task.</span>
+<span class="w">        </span><span class="sd">"""Creates the Task.</span>
 
-<span class="sd">        The default implementation simply calls the &#39;factory&#39; attribute.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        The default implementation simply calls the 'factory' attribute.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TaskFactory.create_with_extensions">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.task_factory.html#envisage.ui.tasks.task_factory.TaskFactory.create_with_extensions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_with_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extensions</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the Task using the specified TaskExtensions.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Creates the Task using the specified TaskExtensions."""</span>
         <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">traits</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
             <span class="n">task</span><span class="o">.</span><span class="n">extra_actions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extension</span><span class="o">.</span><span class="n">actions</span><span class="p">)</span>

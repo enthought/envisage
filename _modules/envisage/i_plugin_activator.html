@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The plugin activator interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The plugin activator interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interface</span>
@@ -87,31 +87,31 @@
 <div class="viewcode-block" id="IPluginActivator">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IPluginActivator</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The plugin activator interface.</span>
+<span class="w">    </span><span class="sd">"""The plugin activator interface.</span>
 
 <span class="sd">    A plugin activator is really just a collection of two strategies - one</span>
 <span class="sd">    to start the plugin and one to stop it.</span>
 
 <span class="sd">    We use an activator so that the framework can implement default start and</span>
-<span class="sd">    stop strategies without forcing the plugin writer to call &#39;super&#39; if they</span>
-<span class="sd">    override the &#39;start&#39; and &#39;stop&#39; methods on &#39;IPlugin&#39;.</span>
+<span class="sd">    stop strategies without forcing the plugin writer to call 'super' if they</span>
+<span class="sd">    override the 'start' and 'stop' methods on 'IPlugin'.</span>
 
-<span class="sd">    I&#39;m not sure that having to call &#39;super&#39; is such a burden, but some people</span>
+<span class="sd">    I'm not sure that having to call 'super' is such a burden, but some people</span>
 <span class="sd">    seem to like it this way, and it does mean one less thing for a plugin</span>
 <span class="sd">    writer to have to remember to do!</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="IPluginActivator.start_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator.start_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the specified plugin.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Start the specified plugin."""</span></div>
 
 
 <div class="viewcode-block" id="IPluginActivator.stop_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_activator.html#envisage.i_plugin_activator.IPluginActivator.stop_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the specified plugin.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Stop the specified plugin."""</span></div>
 </div>
 
 </pre></div>

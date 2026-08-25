@@ -112,18 +112,18 @@ by overriding the ‘get_extension_points’ method.</p>
 point that allows other plugins to contribute new messages. Using the
 <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a> trait type, the plugin would look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="sd">""" The MOTD Plugin. """</span><span class="s2">"</span>
 
     <span class="o">...</span>
 
     <span class="c1">#: The messages extension point.</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
-        <span class="n">List</span><span class="p">(</span><span class="n">IMessage</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">IMessage</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">'acme.motd.messages'</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">"""</span>
 
-<span class="s2">        This extension point allows you to contribute messages to the &#39;Message</span>
-<span class="s2">        Of The Day&#39;.</span>
+<span class="s2">        This extension point allows you to contribute messages to the 'Message</span>
+<span class="s2">        Of The Day'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
     <span class="p">)</span>
 
     <span class="o">...</span>
@@ -150,17 +150,17 @@ a simple module (<a class="extlink-github-demo reference external" href="https:/
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
     <span class="n">Message</span><span class="p">(</span>
-        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Martin Fowler&quot;</span><span class="p">,</span>
+        <span class="n">author</span><span class="o">=</span><span class="s2">"Martin Fowler"</span><span class="p">,</span>
         <span class="n">text</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Any fool can write code that a computer can understand. Good&quot;</span>
-            <span class="s2">&quot; programmers write code that humans can understand.&quot;</span>
+            <span class="s2">"Any fool can write code that a computer can understand. Good"</span>
+            <span class="s2">" programmers write code that humans can understand."</span>
         <span class="p">),</span>
     <span class="p">),</span>
     <span class="n">Message</span><span class="p">(</span>
-        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Chet Hendrickson&quot;</span><span class="p">,</span>
+        <span class="n">author</span><span class="o">=</span><span class="s2">"Chet Hendrickson"</span><span class="p">,</span>
         <span class="n">text</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The rule is, &#39;Do the simplest thing that could possibly&quot;</span>
-            <span class="s2">&quot; work&#39;, not the most stupid.&quot;</span>
+            <span class="s2">"The rule is, 'Do the simplest thing that could possibly"</span>
+            <span class="s2">" work', not the most stupid."</span>
         <span class="p">),</span>
     <span class="p">),</span>
     <span class="o">...</span>
@@ -175,16 +175,16 @@ similar to how we could define extension points programmatically by overriding
 the ‘get_extension_points’ method.</p>
 <p>The declarative version looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SoftwareQuotesPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The software quotes plugin. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">""" The software quotes plugin. """</span>
 
     <span class="o">...</span>
 
-    <span class="c1"># The &#39;contributes_to&#39; trait metadata tells Envisage the ID of the</span>
+    <span class="c1"># The 'contributes_to' trait metadata tells Envisage the ID of the</span>
     <span class="c1"># extension point that this trait contributes to.</span>
-    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'acme.motd.messages'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_messages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the default value for the ``messages`` trait. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Returns the default value for the ``messages`` trait. """</span>
 
         <span class="c1"># It is good practise to only import your extensions when they</span>
         <span class="c1"># are actually required.</span>
@@ -217,24 +217,24 @@ some messages about software development. Now we need to know how to retrieve
 the contributed messages at runtime.</p>
 <p>In the MOTD example, the messages are retrieved by the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The MOTD Plugin. &quot;&quot;&quot;</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="sd">""" The MOTD Plugin. """</span><span class="s2">"</span>
 
     <span class="o">...</span>
 
     <span class="c1"># The messages extension point.</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
-        <span class="n">List</span><span class="p">(</span><span class="n">IMessage</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">IMessage</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">'acme.motd.messages'</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s2">"""</span>
 
-<span class="s2">        This extension point allows you to contribute messages to the &#39;Message</span>
-<span class="s2">        Of The Day&#39;.</span>
+<span class="s2">        This extension point allows you to contribute messages to the 'Message</span>
+<span class="s2">        Of The Day'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
     <span class="p">)</span>
 
     <span class="o">...</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_motd_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the default value for the motd trait. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Returns the default value for the motd trait. """</span>
 
         <span class="c1"># Only do imports when you need to!</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.motd</span><span class="w"> </span><span class="kn">import</span> <span class="n">MOTD</span>
@@ -252,16 +252,16 @@ the <a class="extlink-github-demo reference external" href="https://github.com/e
 <p>The extension registry can also be accessed through the following method on the
 <a class="reference internal" href="../api/envisage.i_application.html#envisage.i_application.IApplication" title="envisage.i_application.IApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">IApplication</span></code></a> interface:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Return a list containing all contributions to an extension point.</span>
+<span class="w">    </span><span class="sd">""" Return a list containing all contributions to an extension point.</span>
 
 <span class="sd">    Return an empty list if the extension point does not exist.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 <p>For example, to get the messages contributed to the “acme.motd.messages”
 extension point you would use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="s1">&#39;acme.motd.messages&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">(</span><span class="s1">'acme.motd.messages'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note however, that using the <a class="reference internal" href="../api/envisage.extension_point.html#envisage.extension_point.ExtensionPoint" title="envisage.extension_point.ExtensionPoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtensionPoint</span></code></a> trait type, adds the ability to

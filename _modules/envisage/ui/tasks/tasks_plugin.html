@@ -87,34 +87,34 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.preferences_category</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesCategory</span>
 
 <span class="c1"># Constants.</span>
-<span class="n">PKG</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">PKG</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="TasksPlugin">
 <a class="viewcode-back" href="../../../../api/envisage.ui.tasks.tasks_plugin.html#envisage.ui.tasks.tasks_plugin.TasksPlugin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TasksPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage Tasks plugin.</span>
+<span class="w">    </span><span class="sd">"""The Envisage Tasks plugin.</span>
 
 <span class="sd">    The Tasks plugin uses Pyface Tasks to provide an extensible framework for</span>
 <span class="sd">    building user interfaces. For more information, see the Tasks User Manual.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># The IDs of the extension point that this plugin offers.</span>
-    <span class="n">PREFERENCES_CATEGORIES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.preferences_categories&quot;</span>
-    <span class="n">PREFERENCES_PANES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.preferences_panes&quot;</span>
-    <span class="n">TASKS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.tasks&quot;</span>
-    <span class="n">TASK_EXTENSIONS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.task_extensions&quot;</span>
+    <span class="n">PREFERENCES_CATEGORIES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".preferences_categories"</span>
+    <span class="n">PREFERENCES_PANES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".preferences_panes"</span>
+    <span class="n">TASKS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".tasks"</span>
+    <span class="n">TASK_EXTENSIONS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".task_extensions"</span>
 
     <span class="c1"># The IDs of the extension points that this plugin contributes to.</span>
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">"envisage.service_offers"</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
-    <span class="c1">#: The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.tasks&quot;</span>
+    <span class="c1">#: The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"envisage.ui.tasks"</span>
 
-    <span class="c1">#: The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tasks&quot;</span>
+    <span class="c1">#: The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Tasks"</span>
 
     <span class="c1">#### Extension points offered by this plugin ##############################</span>
 
@@ -125,13 +125,13 @@
     <span class="n">preferences_categories</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">PreferencesCategory</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES_CATEGORIES</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        This extension point makes preference categories available to the</span>
 <span class="s2">        application. Note that preference categories will be created</span>
 <span class="s2">        automatically if necessary; this extension point is useful when one</span>
 <span class="s2">        wants to ensure that a category is inserted at a specific location.</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1">#: Contributed preference pane factories. Each contribution to this</span>
@@ -140,49 +140,49 @@
     <span class="n">preferences_panes</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES_PANES</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        A preferences pane appears in the preferences dialog to allow the user</span>
 <span class="s2">        manipulate certain preference values.</span>
 
 <span class="s2">        Each contribution to this extension point must be a factory that</span>
-<span class="s2">        creates a preferences pane, where &#39;factory&#39; means any callable with the</span>
+<span class="s2">        creates a preferences pane, where 'factory' means any callable with the</span>
 <span class="s2">        following signature::</span>
 
 <span class="s2">          callable(**traits) -&gt; PreferencesPane</span>
 
 <span class="s2">        The easiest way to contribute such a factory is to create a class</span>
-<span class="s2">        that derives from &#39;envisage.ui.tasks.api.PreferencesPane&#39;.</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        that derives from 'envisage.ui.tasks.api.PreferencesPane'.</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1">#: Contributed task factories. Contributions to this extension point</span>
     <span class="c1">#: must have type ``TaskFactory``.</span>
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
-        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_factory.TaskFactory&quot;</span><span class="p">)),</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.tasks.task_factory.TaskFactory"</span><span class="p">)),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">TASKS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        This extension point makes tasks avaiable to the application.</span>
 
 <span class="s2">        Each contribution to the extension point must be an instance of</span>
-<span class="s2">        &#39;envisage.tasks.api.TaskFactory.</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        'envisage.tasks.api.TaskFactory.</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1">#: Contributed task extensions. Contributions to this extension point</span>
     <span class="c1">#: must have type ``TaskExtension``.</span>
     <span class="n">task_extensions</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
-        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_extension.TaskExtension&quot;</span><span class="p">)),</span>
+        <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.tasks.task_extension.TaskExtension"</span><span class="p">)),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">TASK_EXTENSIONS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        This extension point permits the contribution of new actions and panes</span>
 <span class="s2">        to existing tasks (without creating a new task).</span>
 
 <span class="s2">        Each contribution to the extension point must be an instance of</span>
-<span class="s2">        &#39;envisage.tasks.api.TaskExtension&#39;.</span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        'envisage.tasks.api.TaskExtension'.</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1">#### Contributions to extension points made by this plugin ################</span>
@@ -191,7 +191,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">preferences_dialog_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;envisage.ui.tasks.preferences_dialog.PreferencesDialog&quot;</span><span class="p">,</span>
+            <span class="n">protocol</span><span class="o">=</span><span class="s2">"envisage.ui.tasks.preferences_dialog.PreferencesDialog"</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_preferences_dialog_service</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -207,14 +207,14 @@
         <span class="kn">from</span><span class="w"> </span><span class="nn">.task_extension</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskExtension</span>
 
         <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">SchemaAddition</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;Exit&quot;</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">ExitAction</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/File&quot;</span><span class="p">),</span>
+            <span class="n">SchemaAddition</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"Exit"</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">ExitAction</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/File"</span><span class="p">),</span>
             <span class="n">SchemaAddition</span><span class="p">(</span>
-                <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;Preferences&quot;</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">PreferencesGroup</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/Edit&quot;</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s2">"Preferences"</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">PreferencesGroup</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/Edit"</span>
             <span class="p">),</span>
             <span class="n">SchemaAddition</span><span class="p">(</span>
-                <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;DockPaneToggleGroup&quot;</span><span class="p">,</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s2">"DockPaneToggleGroup"</span><span class="p">,</span>
                 <span class="n">factory</span><span class="o">=</span><span class="n">DockPaneToggleGroup</span><span class="p">,</span>
-                <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/View&quot;</span><span class="p">,</span>
+                <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/View"</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">]</span>
 
@@ -225,7 +225,7 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_preferences_dialog_service</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for preferences dialog service.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Factory method for preferences dialog service."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.preferences_dialog</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesDialog</span>
 
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">PreferencesDialog</span><span class="p">(</span><span class="n">application</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">)</span>

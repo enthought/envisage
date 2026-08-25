@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The *definition* of a tool bar.&quot;&quot;&quot;</span>
+<span class="sd">"""The *definition* of a tool bar."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
@@ -92,30 +92,30 @@
 <div class="viewcode-block" id="CGroup">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CGroup</span><span class="p">(</span><span class="n">Instance</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A trait type for a &#39;Group&#39; or anything that can be cast to a &#39;Group&#39;.</span>
+<span class="w">    </span><span class="sd">"""A trait type for a 'Group' or anything that can be cast to a 'Group'.</span>
 
 <span class="sd">    Currently, the only cast allowed is from string -&gt; Group using the</span>
-<span class="sd">    string as the group&#39;s ID.</span>
+<span class="sd">    string as the group's ID.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1"># 'object' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Constructor."""</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">klass</span><span class="o">=</span><span class="n">Group</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;TraitType&#39; interface.</span>
+    <span class="c1"># 'TraitType' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="CGroup.validate">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.CGroup.validate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a value.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Validate a value."""</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
@@ -128,13 +128,13 @@
 <div class="viewcode-block" id="ToolBar">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.tool_bar.html#envisage.ui.action.tool_bar.ToolBar">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ToolBar</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The *definition* of a menu in a menu bar or menu.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The *definition* of a menu in a menu bar or menu."""</span>
 
-    <span class="c1"># The tool bars&#39;s unique identifier (unique within the multi-toolbar</span>
+    <span class="c1"># The tool bars's unique identifier (unique within the multi-toolbar</span>
     <span class="c1"># that the tool bar is to be added to).</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1"># The tool bar name (appears when the tool bar is &#39;undocked&#39;).</span>
+    <span class="c1"># The tool bar name (appears when the tool bar is 'undocked').</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1"># The groups in the tool bar.</span>
@@ -145,31 +145,31 @@
     <span class="n">class_name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface</span>
+    <span class="c1"># 'object' interface</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the &#39;informal&#39; string representation of the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the 'informal' string representation of the object."""</span>
 
-        <span class="k">return</span> <span class="s2">&quot;ToolBar(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="s2">"ToolBar(</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Location&#39; interface</span>
+    <span class="c1"># 'Location' interface</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_path_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
-        <span class="k">return</span> <span class="s2">&quot;ToolBar&quot;</span>
+        <span class="k">return</span> <span class="s2">"ToolBar"</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;ToolBar&#39; interface</span>
+    <span class="c1"># 'ToolBar' interface</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_id_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;Manages a collection of action sets.&quot;&quot;&quot;</span>
+<span class="sd">"""Manages a collection of action sets."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasTraits</span><span class="p">,</span> <span class="n">List</span>
@@ -90,61 +90,61 @@
 <div class="viewcode-block" id="ActionSetManager">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ActionSetManager</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages a collection of action sets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Manages a collection of action sets."""</span>
 
-    <span class="c1">#### &#39;ActionSetManager&#39; interface #########################################</span>
+    <span class="c1">#### 'ActionSetManager' interface #########################################</span>
 
     <span class="c1"># The action sets that this manager manages.</span>
     <span class="n">action_sets</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">ActionSet</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;ActionSetManager&#39; interface.</span>
+    <span class="c1"># 'ActionSetManager' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="ActionSetManager.get_actions">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_actions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all action definitions for a root.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return all action definitions for a root."""</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">&quot;actions&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">"actions"</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ActionSetManager.get_groups">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_groups">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all group definitions for a root.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return all group definitions for a root."""</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">&quot;groups&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">"groups"</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ActionSetManager.get_menus">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_menus">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_menus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all menu definitions for a root.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return all menu definitions for a root."""</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">&quot;menus&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">"menus"</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ActionSetManager.get_tool_bars">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.action_set_manager.html#envisage.ui.action.action_set_manager.ActionSetManager.get_tool_bars">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_tool_bars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all tool bar definitions for a root.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return all tool bar definitions for a root."""</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">&quot;tool_bars&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_sets</span><span class="p">,</span> <span class="s2">"tool_bars"</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span></div>
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Private&#39; interface.</span>
+    <span class="c1"># 'Private' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_sets</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all actions, groups or menus for a particular root.</span>
+<span class="w">        </span><span class="sd">"""Return all actions, groups or menus for a particular root.</span>
 
 <span class="sd">        e.g. To get all of the groups::</span>
 
-<span class="sd">            self._get_items(action_sets, &#39;groups&#39;, root)</span>
+<span class="sd">            self._get_items(action_sets, 'groups', root)</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">action_set</span> <span class="ow">in</span> <span class="n">action_sets</span><span class="p">:</span>
@@ -158,48 +158,48 @@
 
                     <span class="c1"># fixme: Even hackier if this is a menu then we need to</span>
                     <span class="c1"># tag the action set onto all of the groups.</span>
-                    <span class="k">if</span> <span class="n">attribute_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;menus&quot;</span><span class="p">,</span> <span class="s2">&quot;toolbars&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">attribute_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"menus"</span><span class="p">,</span> <span class="s2">"toolbars"</span><span class="p">]:</span>
                         <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
                             <span class="n">group</span><span class="o">.</span><span class="n">_action_set_</span> <span class="o">=</span> <span class="n">action_set</span>
 
         <span class="k">return</span> <span class="n">items</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">aliases</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the effective root for a path.</span>
+<span class="w">        </span><span class="sd">"""Return the effective root for a path.</span>
 
 <span class="sd">        If the first component of the path matches an alias, then we return</span>
 <span class="sd">        the value of the alias.</span>
 
 <span class="sd">        e.g. If the aliases are::</span>
 
-<span class="sd">            {&#39;MenuBar&#39; : &#39;envisage.ui.workbench.menubar&#39;}</span>
+<span class="sd">            {'MenuBar' : 'envisage.ui.workbench.menubar'}</span>
 
 <span class="sd">        and the path is::</span>
 
-<span class="sd">           &#39;MenuBar/File/New&#39;</span>
+<span class="sd">           'MenuBar/File/New'</span>
 
 <span class="sd">        Then the effective root is::</span>
 
-<span class="sd">            &#39;envisage.ui.workbench.menubar&#39;</span>
+<span class="sd">            'envisage.ui.workbench.menubar'</span>
 
 <span class="sd">        If the first component of the path does *not* match an alias, then it</span>
 <span class="sd">        is returned as is.</span>
 
 <span class="sd">        e.g. If the aliases are::</span>
 
-<span class="sd">            {&#39;ToolBar&#39; : &#39;envisage.ui.workbench.toolbar&#39;}</span>
+<span class="sd">            {'ToolBar' : 'envisage.ui.workbench.toolbar'}</span>
 
 <span class="sd">        and the path is::</span>
 
-<span class="sd">           &#39;MenuBar/File/New&#39;</span>
+<span class="sd">           'MenuBar/File/New'</span>
 
 <span class="sd">        Then the effective root is::</span>
 
-<span class="sd">            &#39;MenuBar&#39;</span>
+<span class="sd">            'MenuBar'</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="n">components</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">:</span>
             <span class="n">root</span> <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 

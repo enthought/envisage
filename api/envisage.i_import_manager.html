@@ -107,7 +107,7 @@ looks like:</p>
 <li><p>‘foo.bar:baz’ (i.e. a ‘:’ separating the module from the symbol)</p>
 <p>Which is turned into the equivalent of:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">foo</span><span class="w"> </span><span class="kn">import</span> <span class="n">bar</span>
-<span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+<span class="nb">eval</span><span class="p">(</span><span class="s1">'baz'</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With the result of the ‘eval’ being returned.</p>
@@ -116,7 +116,7 @@ looks like:</p>
 <p>The second form is recommended as it allows for nested symbols to be
 retreived, e.g. the symbol path ‘foo.bar:baz.bling’ becomes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">foo</span><span class="w"> </span><span class="kn">import</span> <span class="n">bar</span>
-<span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;baz.bling&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+<span class="nb">eval</span><span class="p">(</span><span class="s1">'baz.bling'</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The first form is retained for backwards compatability.</p>

@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;An event fired when an extension point&#39;s extensions have changed.&quot;&quot;&quot;</span>
+<span class="sd">"""An event fired when an extension point's extensions have changed."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraitListEvent</span>
@@ -87,12 +87,12 @@
 <div class="viewcode-block" id="ExtensionPointChangedEvent">
 <a class="viewcode-back" href="../../api/envisage.extension_point_changed_event.html#envisage.extension_point_changed_event.ExtensionPointChangedEvent">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExtensionPointChangedEvent</span><span class="p">(</span><span class="n">TraitListEvent</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An event fired when an extension point&#39;s extensions have changed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An event fired when an extension point's extensions have changed."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Constructor."""</span>
 
-        <span class="c1"># The base class has the &#39;index&#39;, &#39;removed&#39; and &#39;added&#39; attributes.</span>
+        <span class="c1"># The base class has the 'index', 'removed' and 'added' attributes.</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
         <span class="c1"># We add the extension point Id.</span>
@@ -100,8 +100,8 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;ExtensionPointChangedEvent(extension_point_id=</span><span class="si">{!r}</span><span class="s2">, &quot;</span>
-            <span class="s2">&quot;index=</span><span class="si">{!r}</span><span class="s2">, removed=</span><span class="si">{!r}</span><span class="s2">, added=</span><span class="si">{!r}</span><span class="s2">)&quot;</span>
+            <span class="s2">"ExtensionPointChangedEvent(extension_point_id=</span><span class="si">{!r}</span><span class="s2">, "</span>
+            <span class="s2">"index=</span><span class="si">{!r}</span><span class="s2">, removed=</span><span class="si">{!r}</span><span class="s2">, added=</span><span class="si">{!r}</span><span class="s2">)"</span>
         <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extension_point_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">removed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">added</span><span class="p">)</span></div>
 
 </pre></div>

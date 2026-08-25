@@ -78,58 +78,58 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The Envisage workbench plugin.&quot;&quot;&quot;</span>
+<span class="sd">"""The Envisage workbench plugin."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtensionPoint</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">ServiceOffer</span>
 
-<span class="c1"># This module&#39;s package.</span>
-<span class="n">PKG</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># This module's package.</span>
+<span class="n">PKG</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="WorkbenchPlugin">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_plugin.html#envisage.ui.workbench.workbench_plugin.WorkbenchPlugin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Envisage workbench plugin.</span>
+<span class="w">    </span><span class="sd">"""The Envisage workbench plugin.</span>
 
 <span class="sd">    The workbench plugin uses the Pyface workbench to provide the basis of an</span>
 <span class="sd">    IDE-like user interface. The interface is made up of perspectives, views</span>
 <span class="sd">    and editors.</span>
 
-<span class="sd">    Note that this is not intended to be a &#39;general-purpose&#39; plugin for user</span>
+<span class="sd">    Note that this is not intended to be a 'general-purpose' plugin for user</span>
 <span class="sd">    interfaces - it provides an IDE-like style and that is all. If your</span>
 <span class="sd">    application requires another style of interface then write another plugin</span>
 <span class="sd">    (you can still re-use all the menu, group and action contribution stuff!).</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># The Ids of the extension points that this plugin offers.</span>
-    <span class="n">ACTION_SETS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.action_sets&quot;</span>
-    <span class="n">PERSPECTIVES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.perspectives&quot;</span>
-    <span class="n">PREFERENCES_PAGES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.preferences_pages&quot;</span>
-    <span class="n">WORKBENCH_SERVICE_OFFERS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.service_offers&quot;</span>
-    <span class="n">VIEWS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.views&quot;</span>
+    <span class="n">ACTION_SETS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".action_sets"</span>
+    <span class="n">PERSPECTIVES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".perspectives"</span>
+    <span class="n">PREFERENCES_PAGES</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".preferences_pages"</span>
+    <span class="n">WORKBENCH_SERVICE_OFFERS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".service_offers"</span>
+    <span class="n">VIEWS</span> <span class="o">=</span> <span class="n">PKG</span> <span class="o">+</span> <span class="s2">".views"</span>
 
     <span class="c1"># The Ids of the extension points that this plugin contributes to.</span>
-    <span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s2">&quot;envisage.preferences&quot;</span>
-    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">&quot;envisage.service_offers&quot;</span>
+    <span class="n">PREFERENCES</span> <span class="o">=</span> <span class="s2">"envisage.preferences"</span>
+    <span class="n">SERVICE_OFFERS</span> <span class="o">=</span> <span class="s2">"envisage.service_offers"</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##################################################</span>
+    <span class="c1">#### 'IPlugin' interface ##################################################</span>
 
-    <span class="c1"># The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;envisage.ui.workbench&quot;</span>
+    <span class="c1"># The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"envisage.ui.workbench"</span>
 
-    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Workbench&quot;</span>
+    <span class="c1"># The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Workbench"</span>
 
     <span class="c1">#### Extension points offered by this plugin ##############################</span>
 
     <span class="n">action_sets</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">ACTION_SETS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        An action set contains the toobars, menus, groups and actions that you</span>
 <span class="s2">        would like to add to top-level workbench windows (i.e. the main</span>
@@ -137,65 +137,65 @@
 <span class="s2">        and/or add to existing ones.</span>
 
 <span class="s2">        Each contribution to this extension point must be a factory that</span>
-<span class="s2">        creates an action set, where &#39;factory&#39; means any callable with the</span>
+<span class="s2">        creates an action set, where 'factory' means any callable with the</span>
 <span class="s2">        following signature::</span>
 
 <span class="s2">          callable(**traits) -&gt; IActionSet</span>
 
 <span class="s2">        The easiest way to contribute such a factory is to create a class</span>
-<span class="s2">        that derives from &#39;envisage.ui.action.api.ActionSet&#39;.</span>
+<span class="s2">        that derives from 'envisage.ui.action.api.ActionSet'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">perspectives</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">PERSPECTIVES</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        A perspective is simply an arrangment of views around the (optionally</span>
 <span class="s2">        hidden) editor area.</span>
 
 <span class="s2">        Each contribution to this extension point must be a factory that</span>
-<span class="s2">        creates a perspective, where &#39;factory&#39; means any callable with the</span>
+<span class="s2">        creates a perspective, where 'factory' means any callable with the</span>
 <span class="s2">        following signature::</span>
 
 <span class="s2">          callable(**traits) -&gt; IPerspective</span>
 
 <span class="s2">        The easiest way to contribute such a factory is to create a class</span>
-<span class="s2">        that derives from &#39;pyface.workbench.api.IPerspective&#39;.</span>
+<span class="s2">        that derives from 'pyface.workbench.api.IPerspective'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        A preferences page appears in the preferences dialog to allow the user</span>
 <span class="s2">        to manipulate some preference values.</span>
 
 <span class="s2">        Each contribution to this extension point must be a factory that</span>
-<span class="s2">        creates a preferences page, where &#39;factory&#39; means any callable with the</span>
+<span class="s2">        creates a preferences page, where 'factory' means any callable with the</span>
 <span class="s2">        following signature::</span>
 
 <span class="s2">          callable(**traits) -&gt; IPreferencesPage</span>
 
 <span class="s2">        The easiest way to contribute such a factory is to create a class</span>
-<span class="s2">        that derives from &#39;apptools.preferences.ui.api.IPreferencesPage&#39;.</span>
+<span class="s2">        that derives from 'apptools.preferences.ui.api.IPreferencesPage'.</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">service_offers</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">ServiceOffer</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">WORKBENCH_SERVICE_OFFERS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        Services are simply objects that a plugin wants to make available to</span>
-<span class="s2">        other plugins. This extension point allows you to offer &#39;per</span>
-<span class="s2">        window&#39; services that are created &#39;on-demand&#39; (where &#39;on demand&#39; means</span>
+<span class="s2">        other plugins. This extension point allows you to offer 'per</span>
+<span class="s2">        window' services that are created 'on-demand' (where 'on demand' means</span>
 <span class="s2">        the first time somebody looks up a service of the appropriate</span>
 <span class="s2">        protocol).</span>
 <span class="s2">        .</span>
@@ -203,9 +203,9 @@
 <span class="s2">        e.g.</span>
 
 <span class="s2">        my_service_offer = ServiceOffer(</span>
-<span class="s2">            protocol   = &#39;acme.IMyService&#39;,</span>
+<span class="s2">            protocol   = 'acme.IMyService',</span>
 <span class="s2">            factory    = an_object_or_a_callable_that_creates_one,</span>
-<span class="s2">            properties = {&#39;a dictionary&#39; : &#39;that is passed to the factory&#39;}</span>
+<span class="s2">            properties = {'a dictionary' : 'that is passed to the factory'}</span>
 <span class="s2">        )</span>
 
 <span class="s2">        Any properties specified are passed as keywrod arguments to the</span>
@@ -213,13 +213,13 @@
 
 <span class="s2">          callable(**properties)</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">views</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span>
         <span class="n">List</span><span class="p">(</span><span class="n">Callable</span><span class="p">),</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">VIEWS</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"""</span>
 
 <span class="s2">        A view provides information to the user to support their current</span>
 <span class="s2">        task. Views can contain anything you like(!) and are arranged around</span>
@@ -227,24 +227,24 @@
 <span class="s2">        he/she sees fit.</span>
 
 <span class="s2">        Each contribution to this extension point must be a factory that</span>
-<span class="s2">        creates a view, where &#39;factory&#39; means any callable with the following</span>
+<span class="s2">        creates a view, where 'factory' means any callable with the following</span>
 <span class="s2">        signature::</span>
 
 <span class="s2">          callable(**traits) -&gt; IView</span>
 
 <span class="s2">        The easiest way to contribute such a factory is to create a class</span>
-<span class="s2">        that derives from &#39;pyface.workbench.api.View&#39;.</span>
+<span class="s2">        that derives from 'pyface.workbench.api.View'.</span>
 
 <span class="s2">        It is also common to use a simple function (especially when a view</span>
 <span class="s2">        is a representation of a service) e.g::</span>
 
 <span class="s2">            def foo_view_factory(**traits):</span>
-<span class="s2">                &#39; Create a view that is a representation of a service. &#39;</span>
-<span class="s2">                foo = self.application.get_service(&#39;IFoo&#39;)</span>
+<span class="s2">                ' Create a view that is a representation of a service. '</span>
+<span class="s2">                foo = self.application.get_service('IFoo')</span>
 
 <span class="s2">                return FooView(foo=foo, **traits)</span>
 
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">        """</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1">#### Contributions to extension points made by this plugin ################</span>
@@ -252,7 +252,7 @@
     <span class="n">my_action_sets</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">ACTION_SETS</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_action_sets_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.default_action_set</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultActionSet</span>
 
@@ -261,14 +261,14 @@
     <span class="n">my_preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;pkgfile://envisage.ui.workbench/preferences.ini&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">"pkgfile://envisage.ui.workbench/preferences.ini"</span><span class="p">]</span>
 
     <span class="n">my_preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">PREFERENCES_PAGES</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.workbench_preferences_page</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkbenchPreferencesPage</span>
 
@@ -277,15 +277,15 @@
     <span class="n">my_service_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="n">SERVICE_OFFERS</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trait initializer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Trait initializer."""</span>
 
         <span class="n">preferences_manager_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;apptools.preferences.ui.preferences_manager.PreferencesManager&quot;</span><span class="p">,</span>
+            <span class="n">protocol</span><span class="o">=</span><span class="s2">"apptools.preferences.ui.preferences_manager.PreferencesManager"</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_preferences_manager_service</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">workbench_service_offer</span> <span class="o">=</span> <span class="n">ServiceOffer</span><span class="p">(</span>
-            <span class="n">protocol</span><span class="o">=</span><span class="s2">&quot;envisage.ui.workbench.workbench.Workbench&quot;</span><span class="p">,</span>
+            <span class="n">protocol</span><span class="o">=</span><span class="s2">"envisage.ui.workbench.workbench.Workbench"</span><span class="p">,</span>
             <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_workbench_service</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -296,7 +296,7 @@
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_preferences_manager_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for the preferences manager service.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Factory method for the preferences manager service."""</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">apptools.preferences.ui.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreferencesManager</span>
 
@@ -307,16 +307,16 @@
         <span class="k">return</span> <span class="n">preferences_manager</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_workbench_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Factory method for the workbench service.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Factory method for the workbench service."""</span>
 
-        <span class="c1"># We don&#39;t actually create the workbench here, we just return a</span>
+        <span class="c1"># We don't actually create the workbench here, we just return a</span>
         <span class="c1"># reference to it.</span>
         <span class="c1">#</span>
         <span class="c1"># fixme: This guard is really just for testing when we have the</span>
         <span class="c1"># workbench plugin as a source egg (i.e. if the egg is on our path</span>
         <span class="c1"># then we get the plugin for any egg-based application, even if it is</span>
         <span class="c1"># not a workbench application!).</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">,</span> <span class="s2">&quot;workbench&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">,</span> <span class="s2">"workbench"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
 </pre></div>
 

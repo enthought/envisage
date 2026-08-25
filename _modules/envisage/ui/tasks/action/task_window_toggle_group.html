@@ -86,20 +86,20 @@
 <div class="viewcode-block" id="TaskWindowToggleAction">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskWindowToggleAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An action for activating an application window.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An action for activating an application window."""</span>
 
-    <span class="c1">#### &#39;Action&#39; interface ###################################################</span>
+    <span class="c1">#### 'Action' interface ###################################################</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">observe</span><span class="o">=</span><span class="s2">&quot;window.active_task.name&quot;</span><span class="p">)</span>
-    <span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;toggle&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">observe</span><span class="o">=</span><span class="s2">"window.active_task.name"</span><span class="p">)</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="s2">"toggle"</span>
 
-    <span class="c1">#### &#39;TaskWindowToggleAction&#39; interface ###################################</span>
+    <span class="c1">#### 'TaskWindowToggleAction' interface ###################################</span>
 
     <span class="c1"># The window to use for this action.</span>
-    <span class="n">window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.task_window.TaskWindow&quot;</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.tasks.task_window.TaskWindow"</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Action&#39; interface.</span>
+    <span class="c1"># 'Action' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TaskWindowToggleAction.perform">
@@ -116,13 +116,13 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">active_task</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">active_task</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">""</span>
 
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;window:activated&quot;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">"window:activated"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_window_activated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checked</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">&quot;window:deactivated&quot;</span><span class="p">)</span>
+    <span class="nd">@on_trait_change</span><span class="p">(</span><span class="s2">"window:deactivated"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_window_deactivated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checked</span> <span class="o">=</span> <span class="kc">False</span></div>
 
@@ -131,35 +131,35 @@
 <div class="viewcode-block" id="TaskWindowToggleGroup">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskWindowToggleGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A Group for toggling the activation state of an application&#39;s windows.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A Group for toggling the activation state of an application's windows.</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;Group&#39; interface ####################################################</span>
+    <span class="c1">#### 'Group' interface ####################################################</span>
 
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;TaskWindowToggleGroup&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"TaskWindowToggleGroup"</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">List</span>
 
-    <span class="c1">#### &#39;TaskWindowToggleGroup&#39; interface ####################################</span>
+    <span class="c1">#### 'TaskWindowToggleGroup' interface ####################################</span>
 
     <span class="c1"># The application that contains the group.</span>
-    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">&quot;envisage.ui.tasks.tasks_application.TasksApplication&quot;</span><span class="p">)</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="s2">"envisage.ui.tasks.tasks_application.TasksApplication"</span><span class="p">)</span>
 
     <span class="c1"># The ActionManager to which the group belongs.</span>
     <span class="n">manager</span> <span class="o">=</span> <span class="n">Any</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Group&#39; interface.</span>
+    <span class="c1"># 'Group' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="TaskWindowToggleGroup.destroy">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.task_window_toggle_group.html#envisage.ui.tasks.action.task_window_toggle_group.TaskWindowToggleGroup.destroy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when the group is no longer required.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called when the group is no longer required."""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">&quot;window_opened, window_closed&quot;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">"window_opened, window_closed"</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span></div>
 
 
@@ -190,7 +190,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">application</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_items_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">&quot;window_opened, window_closed&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rebuild</span><span class="p">,</span> <span class="s2">"window_opened, window_closed"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_items</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_manager_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

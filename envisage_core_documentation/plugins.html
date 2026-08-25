@@ -115,19 +115,19 @@ domain name notation is probably a good idea!</p>
 </ul>
 <p>Here is a snippet from the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD/acme/motd/motd_plugin.py">acme.motd</a> plugin that is part of the <a class="extlink-github-demo reference external" href="https://github.com/enthought/envisage/tree/8.0.1/src/envisage/examples/demo/MOTD">Message of the Day</a> example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MOTDPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The &#39;Message of the Day&#39; plugin.</span>
+<span class="w">    </span><span class="sd">""" The 'Message of the Day' plugin.</span>
 
-<span class="sd">    When this plugin is started it prints the &#39;Message of the Day&#39; to stdout.</span>
+<span class="sd">    When this plugin is started it prints the 'Message of the Day' to stdout.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1">#### &#39;IPlugin&#39; interface ##############################################</span>
+    <span class="c1">#### 'IPlugin' interface ##############################################</span>
 
-    <span class="c1"># The plugin&#39;s unique identifier.</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;acme.motd&#39;</span>
+    <span class="c1"># The plugin's unique identifier.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s1">'acme.motd'</span>
 
-    <span class="c1"># The plugin&#39;s name (suitable for displaying to the user).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MOTD&#39;</span>
+    <span class="c1"># The plugin's name (suitable for displaying to the user).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">'MOTD'</span>
 </pre></div>
 </div>
 </section>
@@ -136,24 +136,24 @@ domain name notation is probably a good idea!</p>
 <p>Plugins have a lifecycle in the context of an application. There are currently
 two key lifecycle methods on the <a class="reference internal" href="../api/envisage.i_plugin.html#envisage.i_plugin.IPlugin" title="envisage.i_plugin.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPlugin</span></code></a> interface:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Start the plugin.</span>
+<span class="w">    </span><span class="sd">""" Start the plugin.</span>
 
 <span class="sd">    This method is called by the framework when the application is starting</span>
 <span class="sd">    up. If you want to start a plugin manually use::</span>
 
 <span class="sd">        application.start_plugin(plugin)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Stop the plugin.</span>
+<span class="w">    </span><span class="sd">""" Stop the plugin.</span>
 
 <span class="sd">    This method is called by the framework when the application is</span>
 <span class="sd">    stopping. If you want to stop a plugin manually use::</span>
 
 <span class="sd">        application.stop_plugin(plugin)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 <p>When Envisage starts up it calls the start() method of every plugin in the

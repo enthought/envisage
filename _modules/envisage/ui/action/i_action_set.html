@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The action set interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The action set interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Str</span>
@@ -93,16 +93,16 @@
 <div class="viewcode-block" id="IActionSet">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.i_action_set.html#envisage.ui.action.i_action_set.IActionSet">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IActionSet</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The action set interface.</span>
+<span class="w">    </span><span class="sd">"""The action set interface.</span>
 
 <span class="sd">    An action set is a collection of menus, groups, and actions.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1"># The action set&#39;s globally unique identifier.</span>
+    <span class="c1"># The action set's globally unique identifier.</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
-    <span class="c1"># The action set&#39;s name.</span>
+    <span class="c1"># The action set's name.</span>
     <span class="c1">#</span>
     <span class="c1"># fixme: This is not currently used, but in future it will be the name that</span>
     <span class="c1"># is shown to the user when they are customizing perspectives by adding or</span>
@@ -127,7 +127,7 @@
     <span class="c1"># (i.e., the **path** trait of a **Location** instance).</span>
     <span class="c1">#</span>
     <span class="c1"># When the path is intepreted, the first component (i.e., the first item</span>
-    <span class="c1"># before any &#39;/&#39;) is checked to see if it is in the mapping, and if so it</span>
+    <span class="c1"># before any '/') is checked to see if it is in the mapping, and if so it</span>
     <span class="c1"># is replaced with the value in the map.</span>
     <span class="c1">#</span>
     <span class="c1"># This technique allows paths to start with human readable names, as</span>
@@ -136,19 +136,19 @@
     <span class="c1">#</span>
     <span class="c1"># For example, in the Envisage workbench, the menu bar ID is:</span>
     <span class="c1">#</span>
-    <span class="c1"># ``&#39;envisage.workbench.menubar&#39;``</span>
+    <span class="c1"># ``'envisage.workbench.menubar'``</span>
     <span class="c1">#</span>
     <span class="c1"># Without aliases, you must specify a location like this:</span>
     <span class="c1">#</span>
-    <span class="c1"># ``Location(path=&#39;envisage.workbench.menubar/ASubMenu/AGroup&#39;)``</span>
+    <span class="c1"># ``Location(path='envisage.workbench.menubar/ASubMenu/AGroup')``</span>
     <span class="c1">#</span>
     <span class="c1"># This is a bit long-winded! Instead, you can define an alias:</span>
     <span class="c1">#</span>
-    <span class="c1">#     ``aliases = { &#39;MenuBar&#39; : &#39;envisage.workbench.menubar&#39; }``</span>
+    <span class="c1">#     ``aliases = { 'MenuBar' : 'envisage.workbench.menubar' }``</span>
     <span class="c1">#</span>
     <span class="c1"># In that case, you can specify a location like this:</span>
     <span class="c1">#</span>
-    <span class="c1">#     ``Location(path=&#39;MenuBar/ASubMenu/AGroup&#39;)``</span>
+    <span class="c1">#     ``Location(path='MenuBar/ASubMenu/AGroup')``</span>
     <span class="c1">#</span>
     <span class="n">aliases</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">Str</span><span class="p">)</span></div>
 

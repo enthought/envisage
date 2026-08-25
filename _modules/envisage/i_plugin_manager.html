@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The plugin manager interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The plugin manager interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Interface</span>
@@ -90,7 +90,7 @@
 <div class="viewcode-block" id="IPluginManager">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IPluginManager</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The plugin manager interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The plugin manager interface."""</span>
 
     <span class="c1">#### Events ####</span>
 
@@ -101,77 +101,77 @@
     <span class="n">plugin_removed</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span><span class="n">PluginEvent</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over the manager&#39;s plugins.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return an iterator over the manager's plugins."""</span>
 
 <div class="viewcode-block" id="IPluginManager.add_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.add_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a plugin to the manager.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Add a plugin to the manager."""</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.get_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.get_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the plugin with the specified Id.</span>
+<span class="w">        </span><span class="sd">"""Return the plugin with the specified Id.</span>
 
 <span class="sd">        Return None if no such plugin exists.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.remove_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.remove_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a plugin from the manager.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Remove a plugin from the manager."""</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.start">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the plugin manager.</span>
+<span class="w">        </span><span class="sd">"""Start the plugin manager.</span>
 
-<span class="sd">        This starts all of the manager&#39;s plugins.</span>
+<span class="sd">        This starts all of the manager's plugins.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.start_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.start_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the specified plugin.</span>
+<span class="w">        </span><span class="sd">"""Start the specified plugin.</span>
 
 <span class="sd">        If a plugin is specified then start it.</span>
 
 <span class="sd">        If no plugin is specified then the Id is used to look up the plugin</span>
-<span class="sd">        and then start it. If no such plugin exists then a &#39;ValueError&#39;</span>
+<span class="sd">        and then start it. If no such plugin exists then a 'ValueError'</span>
 <span class="sd">        exception is raised.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.stop">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the plugin manager.</span>
+<span class="w">        </span><span class="sd">"""Stop the plugin manager.</span>
 
-<span class="sd">        This stop&#39;s all of the plugin manager&#39;s plugins (in the reverse order</span>
+<span class="sd">        This stop's all of the plugin manager's plugins (in the reverse order</span>
 <span class="sd">        that they were started).</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IPluginManager.stop_plugin">
 <a class="viewcode-back" href="../../api/envisage.i_plugin_manager.html#envisage.i_plugin_manager.IPluginManager.stop_plugin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the specified plugin.</span>
+<span class="w">        </span><span class="sd">"""Stop the specified plugin.</span>
 
 <span class="sd">        If a plugin is specified then stop it (the Id is ignored).</span>
 
 <span class="sd">        If no plugin is specified then the Id is used to look up the plugin and</span>
-<span class="sd">        then stop it. If no such plugin exists then a &#39;ValueError&#39; exception</span>
+<span class="sd">        then stop it. If no such plugin exists then a 'ValueError' exception</span>
 <span class="sd">        is raised.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 </div>
 
 </pre></div>

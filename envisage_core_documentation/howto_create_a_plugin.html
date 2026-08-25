@@ -222,89 +222,89 @@ service offered by the Tetris plugin is a way to accomplish that.</p>
 <h2>Complete Example<a class="headerlink" href="#complete-example" title="Link to this heading">¶</a></h2>
 <p>The complete plugin for the Tetris game might look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TetrisPlugin</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Plugin to make the Tetris library available in Envisage.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">""" Plugin to make the Tetris library available in Envisage.</span>
+<span class="sd">    """</span>
 
     <span class="c1">### Extension points offered by the plugin</span>
 
     <span class="c1">#: Shapes to be used in the game</span>
-    <span class="n">shape</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="n">List</span><span class="p">(</span><span class="n">IShape</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">ExtensionPoint</span><span class="p">(</span><span class="n">List</span><span class="p">(</span><span class="n">IShape</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">'acme.tetris.shapes'</span><span class="p">)</span>
 
     <span class="c1">### Contributions to extension points</span>
 
-    <span class="n">my_shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
+    <span class="n">my_shapes</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'acme.tetris.shapes'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_my_shapes_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;my_shapes&#39; contribution to this plugin&#39;s</span>
-<span class="sd">            own &#39;shapes&#39; extension point.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer for 'my_shapes' contribution to this plugin's</span>
+<span class="sd">            own 'shapes' extension point.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Shape1</span><span class="p">(),</span> <span class="n">Shape2</span><span class="p">(),</span> <span class="n">Shape3</span><span class="p">()]</span>
 
-    <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;acme.game_player.game_infos&#39;</span><span class="p">)</span>
+    <span class="n">games</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'acme.game_player.game_infos'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_games_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;games&#39; contribution to the application</span>
-<span class="sd">            plugin&#39;s &#39;games&#39; extension point.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer for 'games' contribution to the application</span>
+<span class="sd">            plugin's 'games' extension point.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">GameInfo</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Tetris&#39;</span><span class="p">,</span>
-                <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;tetris.png&#39;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Classic shape-fitting puzzle game&#39;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">'Tetris'</span><span class="p">,</span>
+                <span class="n">icon</span><span class="o">=</span><span class="s1">'tetris.png'</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s1">'Classic shape-fitting puzzle game'</span><span class="p">,</span>
                 <span class="n">entry_point</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_game</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">]</span>
 
-    <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.preferences&#39;</span><span class="p">)</span>
+    <span class="n">preferences</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'envisage.preferences'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences&#39; contribution. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;pkgfile://acme.tetris.plugin/preferences.ini&#39;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">""" Trait initializer for 'preferences' contribution. """</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'pkgfile://acme.tetris.plugin/preferences.ini'</span><span class="p">]</span>
 
     <span class="n">preferences_pages</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
-        <span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisage.ui.workbench.preferences_pages&#39;</span>
+        <span class="n">contributes_to</span><span class="o">=</span><span class="s1">'envisage.ui.workbench.preferences_pages'</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_preferences_pages_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;preferences_pages&#39; contribution. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer for 'preferences_pages' contribution. """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">acme.tetris.plugin.preferences_pages</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">TetrisPreferencesPages</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">TetrisPreferencesPages</span><span class="p">]</span>
 
-    <span class="n">services_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">&#39;envisages.service_offers&#39;</span><span class="p">)</span>
+    <span class="n">services_offers</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">contributes_to</span><span class="o">=</span><span class="s1">'envisages.service_offers'</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_service_offers_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Trait initializer for &#39;service_offers&#39; contribution. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Trait initializer for 'service_offers' contribution. """</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">ServiceOffer</span><span class="p">(</span>
                 <span class="n">protocol</span><span class="o">=</span><span class="n">IGame</span><span class="p">,</span>
                 <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_tetris_service</span><span class="p">,</span>
-                <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;tetris&#39;</span><span class="p">},</span>
+                <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s1">'name'</span><span class="p">:</span><span class="s1">'tetris'</span><span class="p">},</span>
             <span class="p">),</span>
         <span class="p">]</span>
 
     <span class="c1">#### Private interface #################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_tetris_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Factory method for the Tetris service. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">""" Factory method for the Tetris service. """</span>
         <span class="n">tetris</span> <span class="o">=</span> <span class="n">Tetris</span><span class="p">()</span> <span class="c1"># This creates the non-Envisage library object.</span>
 
         <span class="c1"># Hook up the extension point contributions to the library object trait.</span>
-        <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;shapes&#39;</span><span class="p">,</span> <span class="s1">&#39;acme.tetris.shapes&#39;</span><span class="p">)</span>
+        <span class="n">bind_extension_point</span><span class="p">(</span><span class="n">tetris</span><span class="p">,</span> <span class="s1">'shapes'</span><span class="p">,</span> <span class="s1">'acme.tetris.shapes'</span><span class="p">)</span>
 
         <span class="c1"># Hook up the preferences to the library object traits.</span>
         <span class="n">bind_preference</span><span class="p">(</span>
-            <span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;background_color&#39;</span><span class="p">,</span> <span class="s1">&#39;acme.tetris.background_color&#39;</span>
+            <span class="n">tetris</span><span class="p">,</span> <span class="s1">'background_color'</span><span class="p">,</span> <span class="s1">'acme.tetris.background_color'</span>
         <span class="p">)</span>
         <span class="n">bind_preference</span><span class="p">(</span>
-            <span class="n">tetris</span><span class="p">,</span> <span class="s1">&#39;foreground_color&#39;</span><span class="p">,</span> <span class="s1">&#39;acme.tetris.foreground_color&#39;</span>
+            <span class="n">tetris</span><span class="p">,</span> <span class="s1">'foreground_color'</span><span class="p">,</span> <span class="s1">'acme.tetris.foreground_color'</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">tetris</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Starts a Tetris game. &quot;&quot;&quot;</span>
-        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IGame</span><span class="p">,</span> <span class="s2">&quot;name == &#39;tetris&#39;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">""" Starts a Tetris game. """</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">IGame</span><span class="p">,</span> <span class="s2">"name == 'tetris'"</span><span class="p">)</span>
         <span class="n">game</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>

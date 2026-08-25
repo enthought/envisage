@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The interface for extension registries.&quot;&quot;&quot;</span>
+<span class="sd">"""The interface for extension registries."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interface</span>
@@ -87,12 +87,12 @@
 <div class="viewcode-block" id="IExtensionRegistry">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IExtensionRegistry</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The interface for extension registries.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The interface for extension registries."""</span>
 
 <div class="viewcode-block" id="IExtensionRegistry.add_extension_point_listener">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.add_extension_point_listener">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a listener for extensions being added or removed.</span>
+<span class="w">        </span><span class="sd">"""Add a listener for extensions being added or removed.</span>
 
 <span class="sd">        A listener is any Python callable with the following signature::</span>
 
@@ -112,71 +112,71 @@
 <span class="sd">        first (in arbitrary order), followed by all non-specific listeners</span>
 <span class="sd">        (again, in arbitrary order).</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.add_extension_point">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.add_extension_point">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an extension point.</span>
+<span class="w">        </span><span class="sd">"""Add an extension point.</span>
 
 <span class="sd">        If an extension point already exists with this Id then it is simply</span>
 <span class="sd">        replaced.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.get_extensions">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extensions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extensions contributed to an extension point.</span>
+<span class="w">        </span><span class="sd">"""Return the extensions contributed to an extension point.</span>
 
 <span class="sd">        Return an empty list if the extension point does not exist.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.get_extension_point">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extension_point">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the extension point with the specified Id.</span>
+<span class="w">        </span><span class="sd">"""Return the extension point with the specified Id.</span>
 
 <span class="sd">        Return None if no such extension point exists.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.get_extension_points">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.get_extension_points">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_extension_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all extension points that have been added to the registry.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Return all extension points that have been added to the registry."""</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.remove_extension_point_listener">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point_listener">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a listener for extensions being added or removed.</span>
+<span class="w">        </span><span class="sd">"""Remove a listener for extensions being added or removed.</span>
 
-<span class="sd">        Raise a &#39;ValueError&#39; if the listener does not exist.</span>
+<span class="sd">        Raise a 'ValueError' if the listener does not exist.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.remove_extension_point">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.remove_extension_point">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_extension_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an extension point.</span>
+<span class="w">        </span><span class="sd">"""Remove an extension point.</span>
 
-<span class="sd">        Raise an &#39;UnknownExtensionPoint&#39; exception if no extension point exists</span>
+<span class="sd">        Raise an 'UnknownExtensionPoint' exception if no extension point exists</span>
 <span class="sd">        with the specified Id.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IExtensionRegistry.set_extensions">
 <a class="viewcode-back" href="../../api/envisage.i_extension_registry.html#envisage.i_extension_registry.IExtensionRegistry.set_extensions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_point_id</span><span class="p">,</span> <span class="n">extensions</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the extensions contributed to an extension point.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Set the extensions contributed to an extension point."""</span></div>
 </div>
 
 </pre></div>

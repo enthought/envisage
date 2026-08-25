@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;A resource protocol for a local file system.&quot;&quot;&quot;</span>
+<span class="sd">"""A resource protocol for a local file system."""</span>
 
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">errno</span>
@@ -95,21 +95,21 @@
 <a class="viewcode-back" href="../../../api/envisage.resource.file_resource_protocol.html#envisage.resource.file_resource_protocol.FileResourceProtocol">[docs]</a>
 <span class="nd">@provides</span><span class="p">(</span><span class="n">IResourceProtocol</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FileResourceProtocol</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A resource protocol for a local file system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A resource protocol for a local file system."""</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IResourceProtocol&#39; interface.</span>
+    <span class="c1"># 'IResourceProtocol' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="FileResourceProtocol.file">
 <a class="viewcode-back" href="../../../api/envisage.resource.file_resource_protocol.html#envisage.resource.file_resource_protocol.FileResourceProtocol.file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a readable file-like object for the specified address.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a readable file-like object for the specified address."""</span>
 
         <span class="c1"># Opened in binary mode to be consistent with package resources. This</span>
         <span class="c1"># means, for example, that line-endings will not be converted.</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">:</span>

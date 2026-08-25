@@ -93,10 +93,10 @@
 <div class="viewcode-block" id="NewFileAction">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NewFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a new file in the text editor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Open a new file in the text editor."""</span>
 
-    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Create a new file for editing&quot;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Create a new file for editing&quot;</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">"Create a new file for editing"</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">"Create a new file for editing"</span>
 
     <span class="c1"># The WorkbenchWindow the action is attached to.</span>
     <span class="n">window</span> <span class="o">=</span> <span class="n">Any</span><span class="p">()</span>
@@ -104,8 +104,8 @@
 <div class="viewcode-block" id="NewFileAction.perform">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.NewFileAction.perform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewFileAction.perform()&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">,</span> <span class="n">use_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"NewFileAction.perform()"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="s2">""</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">,</span> <span class="n">use_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 </div>
 
 
@@ -113,16 +113,16 @@
 <div class="viewcode-block" id="OpenFileAction">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OpenFileAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open an existing file in the text editor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Open an existing file in the text editor."""</span>
 
-    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Open a file for editing&quot;</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">"Open a file for editing"</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">"Open a file for editing"</span>
 
 <div class="viewcode-block" id="OpenFileAction.perform">
 <a class="viewcode-back" href="../../../../api/envisage.plugins.text_editor.actions.html#envisage.plugins.text_editor.actions.OpenFileAction.perform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OpenFileAction.perform()&quot;</span><span class="p">)</span>
-        <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Open File&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"OpenFileAction.perform()"</span><span class="p">)</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">FileDialog</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Open File"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dialog</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">workbench</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">dialog</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="n">TextEditor</span><span class="p">)</span></div>
 </div>

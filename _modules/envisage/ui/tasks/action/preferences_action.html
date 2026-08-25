@@ -85,21 +85,21 @@
 <div class="viewcode-block" id="PreferencesAction">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreferencesAction</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An action that displays the preferences dialog.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An action that displays the preferences dialog."""</span>
 
-    <span class="c1">#### &#39;Action&#39; interface ###################################################</span>
+    <span class="c1">#### 'Action' interface ###################################################</span>
 
     <span class="c1"># A longer description of the action.</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Open the preferences dialog&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">"Open the preferences dialog"</span>
 
-    <span class="c1"># The action&#39;s name (displayed on menus/tool bar tools etc).</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Prefere&amp;nces...&quot;</span>
+    <span class="c1"># The action's name (displayed on menus/tool bar tools etc).</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"Prefere&amp;nces..."</span>
 
     <span class="c1"># A short description of the action used for tooltip text etc.</span>
-    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">&quot;Open the preferences dialog&quot;</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="s2">"Open the preferences dialog"</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Action&#39; interface.</span>
+    <span class="c1"># 'Action' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="PreferencesAction.perform">
@@ -109,7 +109,7 @@
 
         <span class="n">window</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">window</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">get_service</span><span class="p">(</span><span class="n">PreferencesDialog</span><span class="p">)</span>
-        <span class="n">ui</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;livemodal&quot;</span><span class="p">)</span>
+        <span class="n">ui</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">edit_traits</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">window</span><span class="o">.</span><span class="n">control</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"livemodal"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ui</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
             <span class="n">window</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
@@ -120,15 +120,15 @@
 <div class="viewcode-block" id="PreferencesGroup">
 <a class="viewcode-back" href="../../../../../api/envisage.ui.tasks.action.preferences_action.html#envisage.ui.tasks.action.preferences_action.PreferencesGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreferencesGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A group that contains the preferences action.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A group that contains the preferences action."""</span>
 
-    <span class="c1">#### &#39;Action&#39; interface ###################################################</span>
+    <span class="c1">#### 'Action' interface ###################################################</span>
 
-    <span class="c1"># The group&#39;s identifier (unique within action manager).</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;PreferencesGroup&quot;</span>
+    <span class="c1"># The group's identifier (unique within action manager).</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="s2">"PreferencesGroup"</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface.</span>
+    <span class="c1"># 'object' interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">traits</span><span class="p">):</span>

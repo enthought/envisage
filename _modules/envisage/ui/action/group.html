@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The *definition* of a group in a tool bar or menu.&quot;&quot;&quot;</span>
+<span class="sd">"""The *definition* of a group in a tool bar or menu."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Str</span>
@@ -90,9 +90,9 @@
 <div class="viewcode-block" id="Group">
 <a class="viewcode-back" href="../../../../api/envisage.ui.action.group.html#envisage.ui.action.group.Group">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Group</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The *definition* of a group in a tool bar or menu.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The *definition* of a group in a tool bar or menu."""</span>
 
-    <span class="c1"># The group&#39;s unique identifier (unique within the tool bar, menu bar or</span>
+    <span class="c1"># The group's unique identifier (unique within the tool bar, menu bar or</span>
     <span class="c1"># menu that the group is to be added to).</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Str</span>
 
@@ -104,13 +104,13 @@
     <span class="n">class_name</span> <span class="o">=</span> <span class="n">Str</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;object&#39; interface</span>
+    <span class="c1"># 'object' interface</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the &#39;informal&#39; string representation of the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the 'informal' string representation of the object."""</span>
 
-        <span class="k">return</span> <span class="s2">&quot;Group(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="s2">"Group(</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
 
     <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
 

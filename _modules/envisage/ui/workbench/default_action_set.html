@@ -78,58 +78,58 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The default workbench action set.&quot;&quot;&quot;</span>
+<span class="sd">"""The default workbench action set."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">envisage.ui.action.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Action</span><span class="p">,</span> <span class="n">ActionSet</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">Menu</span>
 
-<span class="c1"># This module&#39;s package.</span>
-<span class="n">PKG</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># This module's package.</span>
+<span class="n">PKG</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="DefaultActionSet">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.default_action_set.html#envisage.ui.workbench.default_action_set.DefaultActionSet">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DefaultActionSet</span><span class="p">(</span><span class="n">ActionSet</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The default workbench action set.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The default workbench action set."""</span>
 
     <span class="n">menus</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Menu</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&amp;File&quot;</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"&amp;File"</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar"</span><span class="p">,</span>
             <span class="n">groups</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;OpenGroup&quot;</span><span class="p">),</span>
-                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SaveGroup&quot;</span><span class="p">),</span>
-                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;ImportGroup&quot;</span><span class="p">),</span>
-                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;ExitGroup&quot;</span><span class="p">),</span>
+                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"OpenGroup"</span><span class="p">),</span>
+                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"SaveGroup"</span><span class="p">),</span>
+                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"ImportGroup"</span><span class="p">),</span>
+                <span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"ExitGroup"</span><span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Menu</span><span class="p">(</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar&quot;</span><span class="p">,</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;pyface.workbench.action.api:ViewMenuManager&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar"</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="s2">"pyface.workbench.action.api:ViewMenuManager"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Menu</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&amp;Tools&quot;</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar&quot;</span><span class="p">,</span>
-            <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;PreferencesGroup&quot;</span><span class="p">)],</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"&amp;Tools"</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar"</span><span class="p">,</span>
+            <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"PreferencesGroup"</span><span class="p">)],</span>
         <span class="p">),</span>
-        <span class="n">Menu</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;&amp;Help&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar&quot;</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;AboutGroup&quot;</span><span class="p">)]),</span>
+        <span class="n">Menu</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"&amp;Help"</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar"</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="n">Group</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"AboutGroup"</span><span class="p">)]),</span>
     <span class="p">]</span>
 
     <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Action</span><span class="p">(</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/File&quot;</span><span class="p">,</span>
-            <span class="n">group</span><span class="o">=</span><span class="s2">&quot;ExitGroup&quot;</span><span class="p">,</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.action.api:ExitAction&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/File"</span><span class="p">,</span>
+            <span class="n">group</span><span class="o">=</span><span class="s2">"ExitGroup"</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">".action.api:ExitAction"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Action</span><span class="p">(</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/Tools&quot;</span><span class="p">,</span>
-            <span class="n">group</span><span class="o">=</span><span class="s2">&quot;PreferencesGroup&quot;</span><span class="p">,</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.action.api:EditPreferencesAction&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/Tools"</span><span class="p">,</span>
+            <span class="n">group</span><span class="o">=</span><span class="s2">"PreferencesGroup"</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">".action.api:EditPreferencesAction"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Action</span><span class="p">(</span>
-            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;MenuBar/Help&quot;</span><span class="p">,</span>
-            <span class="n">group</span><span class="o">=</span><span class="s2">&quot;AboutGroup&quot;</span><span class="p">,</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">&quot;.action.api:AboutAction&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">"MenuBar/Help"</span><span class="p">,</span>
+            <span class="n">group</span><span class="o">=</span><span class="s2">"AboutGroup"</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="n">PKG</span> <span class="o">+</span> <span class="s2">".action.api:AboutAction"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span></div>
 

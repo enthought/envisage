@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;An editor manager that uses contributed editors.&quot;&quot;&quot;</span>
+<span class="sd">"""An editor manager that uses contributed editors."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyface.workbench.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">EditorManager</span><span class="p">,</span> <span class="n">TraitsUIEditor</span>
@@ -87,22 +87,22 @@
 <div class="viewcode-block" id="WorkbenchEditorManager">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WorkbenchEditorManager</span><span class="p">(</span><span class="n">EditorManager</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An editor manager that uses contributed editors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An editor manager that uses contributed editors."""</span>
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;IEditorManager&#39; interface.</span>
+    <span class="c1"># 'IEditorManager' interface.</span>
     <span class="c1">###########################################################################</span>
 
 <div class="viewcode-block" id="WorkbenchEditorManager.create_editor">
 <a class="viewcode-back" href="../../../../api/envisage.ui.workbench.workbench_editor_manager.html#envisage.ui.workbench.workbench_editor_manager.WorkbenchEditorManager.create_editor">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_editor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an editor for an object.</span>
+<span class="w">        </span><span class="sd">"""Create an editor for an object.</span>
 
-<span class="sd">        For now, the &#39;kind&#39; is actually a factory that produces editors. It</span>
+<span class="sd">        For now, the 'kind' is actually a factory that produces editors. It</span>
 <span class="sd">        should be a callable with the following signature::</span>
 
 <span class="sd">            callable(window=window, obj=obj) -&gt; IEditor</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">kind</span> <span class="o">=</span> <span class="n">TraitsUIEditor</span>
@@ -115,11 +115,11 @@
 
 
     <span class="c1">###########################################################################</span>
-    <span class="c1"># &#39;Protected&#39; &#39;EditorManager&#39;  interface.</span>
+    <span class="c1"># 'Protected' 'EditorManager'  interface.</span>
     <span class="c1">###########################################################################</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_is_editing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">editor</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the editor is editing the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return True if the editor is editing the object."""</span>
 
         <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">kind</span> <span class="o">=</span> <span class="n">TraitsUIEditor</span>

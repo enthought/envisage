@@ -78,7 +78,7 @@
 <span class="c1"># is also available online at http://www.enthought.com/licenses/BSD.txt</span>
 <span class="c1">#</span>
 <span class="c1"># Thanks for using Enthought open source!</span>
-<span class="sd">&quot;&quot;&quot;The service registry interface.&quot;&quot;&quot;</span>
+<span class="sd">"""The service registry interface."""</span>
 
 <span class="c1"># Enthought library imports.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">traits.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Interface</span>
@@ -87,22 +87,22 @@
 <div class="viewcode-block" id="IServiceRegistry">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IServiceRegistry</span><span class="p">(</span><span class="n">Interface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The service registry interface.</span>
+<span class="w">    </span><span class="sd">"""The service registry interface.</span>
 
-<span class="sd">    The service registry provides a &#39;Yellow Pages&#39; style mechanism, in that</span>
+<span class="sd">    The service registry provides a 'Yellow Pages' style mechanism, in that</span>
 <span class="sd">    services are published and looked up by protocol (meaning, *interface* or</span>
-<span class="sd">    *class*). It is called a &#39;Yellow Pages&#39; mechanism because it is just like</span>
-<span class="sd">    looking up a telephone number in the &#39;Yellow Pages&#39; phone book. You use</span>
-<span class="sd">    the &#39;Yellow Pages&#39; instead of the &#39;White Pages&#39; when you don&#39;t know the</span>
+<span class="sd">    *class*). It is called a 'Yellow Pages' mechanism because it is just like</span>
+<span class="sd">    looking up a telephone number in the 'Yellow Pages' phone book. You use</span>
+<span class="sd">    the 'Yellow Pages' instead of the 'White Pages' when you don't know the</span>
 <span class="sd">    *name* of the person you want to call but you do know what *kind* of</span>
 <span class="sd">    service you require. For example, if you have a leaking pipe, you know you</span>
-<span class="sd">    need a plumber, so you pick up your &#39;Yellow Pages&#39;, go to the &#39;Plumbers&#39;</span>
+<span class="sd">    need a plumber, so you pick up your 'Yellow Pages', go to the 'Plumbers'</span>
 <span class="sd">    section and choose one that seems to fit the bill based on price,</span>
 <span class="sd">    location, certification, etc. The service registry does exactly the same</span>
-<span class="sd">    thing as the &#39;Yellow Pages&#39;, only with objects, and it even allows you to</span>
+<span class="sd">    thing as the 'Yellow Pages', only with objects, and it even allows you to</span>
 <span class="sd">    publish your own entries for free (unlike the *real* one)!</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># An event that is fired when a service is registered.</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="n">Event</span>
@@ -112,11 +112,11 @@
 
 <div class="viewcode-block" id="IServiceRegistry.get_service">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return at most one service that matches the specified query.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return at most one service that matches the specified query.</span>
 
 <span class="sd">        The protocol can be an actual class or interface, or the *name* of a</span>
-<span class="sd">        class or interface in the form &#39;&lt;module_name&gt;.&lt;class_name&gt;&#39;.</span>
+<span class="sd">        class or interface in the form '&lt;module_name&gt;.&lt;class_name&gt;'.</span>
 
 <span class="sd">        Return None if no such service is found.</span>
 
@@ -124,59 +124,59 @@
 <span class="sd">        protocol is returned (if one exists).</span>
 
 <span class="sd">        NOTE: If more than one service exists that match the criteria then</span>
-<span class="sd">        Don&#39;t try to guess *which* one it will return - it is random!</span>
+<span class="sd">        Don't try to guess *which* one it will return - it is random!</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.get_service_from_id">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service_from_id">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_service_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the service with the specified id.</span>
+<span class="w">        </span><span class="sd">"""Return the service with the specified id.</span>
 
-<span class="sd">        If no such service exists a &#39;ValueError&#39; exception is raised.</span>
+<span class="sd">        If no such service exists a 'ValueError' exception is raised.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.get_services">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_services">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all services that match the specified query.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return all services that match the specified query.</span>
 
 <span class="sd">        The protocol can be an actual class or interface, or the *name* of a</span>
-<span class="sd">        class or interface in the form &#39;&lt;module_name&gt;.&lt;class_name&gt;&#39;.</span>
+<span class="sd">        class or interface in the form '&lt;module_name&gt;.&lt;class_name&gt;'.</span>
 
 <span class="sd">        If no services match the query, then an empty list is returned.</span>
 
 <span class="sd">        If no query is specified then all services that provide the specified</span>
 <span class="sd">        protocol are returned (if any exist).</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.get_service_properties">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.get_service_properties">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the dictionary of properties associated with a service.</span>
+<span class="w">        </span><span class="sd">"""Return the dictionary of properties associated with a service.</span>
 
-<span class="sd">        If no such service exists a &#39;ValueError&#39; exception is raised.</span>
+<span class="sd">        If no such service exists a 'ValueError' exception is raised.</span>
 
-<span class="sd">        The properties returned are &#39;live&#39; i.e. changing them immediately</span>
+<span class="sd">        The properties returned are 'live' i.e. changing them immediately</span>
 <span class="sd">        changes the service registration.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.register_service">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.register_service">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">register_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a service.</span>
+<span class="w">        </span><span class="sd">"""Register a service.</span>
 
 <span class="sd">        The protocol can be an actual class or interface, or the *name* of a</span>
 <span class="sd">        class or interface in the form::</span>
 
-<span class="sd">            &#39;foo.bar.baz&#39;</span>
+<span class="sd">            'foo.bar.baz'</span>
 
 <span class="sd">        Which is turned into the equivalent of an import statement that</span>
 <span class="sd">        looks like::</span>
@@ -186,34 +186,34 @@
 <span class="sd">        Return a service Id that can be used to unregister the service and to</span>
 <span class="sd">        get/set any service properties.</span>
 
-<span class="sd">        If &#39;obj&#39; does not implement the specified protocol then it is treated</span>
-<span class="sd">        as a &#39;service factory&#39; that will be called the first time a service of</span>
-<span class="sd">        the appropriate type is requested. A &#39;service factory&#39; is simply a</span>
+<span class="sd">        If 'obj' does not implement the specified protocol then it is treated</span>
+<span class="sd">        as a 'service factory' that will be called the first time a service of</span>
+<span class="sd">        the appropriate type is requested. A 'service factory' is simply a</span>
 <span class="sd">        callable that takes the properties specified here as keyword arguments</span>
 <span class="sd">        and returns an object. For *really* lazy loading, the factory can also</span>
 <span class="sd">        be specified as a string which is used to import the callable.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.set_service_properties">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.set_service_properties">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_service_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the dictionary of properties associated with a service.</span>
+<span class="w">        </span><span class="sd">"""Set the dictionary of properties associated with a service.</span>
 
-<span class="sd">        If no such service exists a &#39;ValueError&#39; exception is raised.</span>
+<span class="sd">        If no such service exists a 'ValueError' exception is raised.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="IServiceRegistry.unregister_service">
 <a class="viewcode-back" href="../../api/envisage.i_service_registry.html#envisage.i_service_registry.IServiceRegistry.unregister_service">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">unregister_service</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister a service.</span>
+<span class="w">        </span><span class="sd">"""Unregister a service.</span>
 
-<span class="sd">        If no such service exists a &#39;ValueError&#39; exception is raised.</span>
+<span class="sd">        If no such service exists a 'ValueError' exception is raised.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 </div>
 
 </pre></div>
