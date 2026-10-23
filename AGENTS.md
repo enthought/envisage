@@ -76,7 +76,7 @@ uv run -m ruff format .
 - **Lint rules**: `CPY001` (copyright header), `E`, `F`, `I`, `W`;
   `F401` suppressed in `*/api.py`
 - **Import sorting**: ruff's `I` rules, with a custom `enthought` section
-- **ruff version**: upper-bounded to `~= 0.16.0`, because ruff changes
+- **ruff version**: upper-bounded to `~= 0.17.0`, because ruff changes
   formatting in minor releases. Raising the bound means reformatting the
   codebase in the same change.
 

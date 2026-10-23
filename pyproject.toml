@@ -59,7 +59,7 @@ docs = [
     {include-group = 'gui'},
 ]
 style = [
-    'ruff ~= 0.16.0',
+    'ruff ~= 0.17.0',
 ]
 test = [
     'pytest',
