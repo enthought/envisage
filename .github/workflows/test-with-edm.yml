@@ -33,7 +33,7 @@ jobs:
           path: ~/.cache
           key: ${{ runner.os }}-${{ matrix.runtime }}-${{ matrix.toolkit }}-${{ hashFiles('.github/workflows/test-with-edm.yml') }}
       - name: Set up EDM
-        uses: enthought/setup-edm-action@e68a4e0282298d695020fb21b4d3e93c3ac3c11f # v4.2
+        uses: enthought/setup-edm-action@1e8e9b1d87180b38da1607d3ea52b3930ccdf25f # v4.3
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Create the EDM environment
